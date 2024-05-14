@@ -1,0 +1,497 @@
+rec 711-2B_111.4dfp.img  Fri Jan 29 01:21:39 1999  avi
+t4imgs_4dfp 711-2B.lst 711-2B_111 -O/data/petsun4/data1/solaris/111h 
+$Id: t4imgs_4dfp.c,v 1.13 1999/01/28 22:23:39 avi Exp $
+sub
+p2498mri/424-2   t4=424-2_to_711-2B_t4
+p2503mri/427-2   t4=427-2_to_711-2B_t4
+p2504mri/711-2   t4=711-2_to_711-2B_t4
+p2514mri/345-2   t4=345-2_to_711-2B_t4
+p2518mri/425-3   t4=425-3_to_711-2B_t4
+p2520mri/428-2   t4=428-2_to_711-2B_t4
+p2523mri/426-2   t4=426-2_to_711-2B_t4
+p2525mri/va273-2 t4=va273-2_to_711-2B_t4
+p2526mri/647-2   t4=647-2_to_711-2B_t4
+p2537mri/va319-2 t4=va319-2_to_711-2B_t4
+p2539mri/693-2   t4=693-2_to_711-2B_t4
+p2550mri/692-2   t4=692-2_to_711-2B_t4
+endsub
+t4
+product transform 424-2_to_711-2B_t4
+product=[424-2_to_424-2_ecat_t4][temp29676]
+t4
+ -0.029899 -0.978894  0.135330  -12.8657
+ -0.020235  0.131822  0.828229   24.6098
+ -0.918647  0.031257 -0.017617    1.3609
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.146512
+rec 424-2.4dfp.img Thu Jan 28 01:29:55 CST 1999 avi
+imato4dfp -0h -v 424 2 2 424-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		424
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University     
+model:			MAGNETOM VISION
+          
+study_date:		1994:12:9
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg     
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr     
+
+endrec
+t4
+product transform 427-2_to_711-2B_t4
+product=[427-2_to_427-2_ecat_t4][temp29676]
+t4
+  0.039989 -1.014104  0.171112  -11.8258
+ -0.017981  0.125979  0.906364   27.6172
+ -0.952412 -0.060457 -0.014005   -1.2384
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.213548
+rec 427-2.4dfp.img Thu Jan 28 02:14:31 CST 1999 avi
+imato4dfp -0h -v 427 2 2 427-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		427
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University     
+model:			MAGNETOM VISION
+          
+study_date:		1994:12:6
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg     
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr     
+
+endrec
+t4
+product transform 711-2_to_711-2B_t4
+product=[711-2_to_711-2_ecat_t4][temp29676]
+t4
+  0.018823 -0.953730  0.291258   -0.1275
+  0.035799  0.284638  0.866986   22.7557
+ -0.914035 -0.008044  0.051048    0.0478
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.173924
+rec 711-2.4dfp.img Thu Jan 28 01:57:57 CST 1999 avi
+imato4dfp -0h -v 711 2 2 711-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		711
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+
+study_date:		1995:2:24
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform 345-2_to_711-2B_t4
+product=[345-2_to_345-2_ecat_t4][temp29676]
+t4
+  0.051425 -0.995345  0.224889  -31.4041
+ -0.082244  0.217355  0.909667    8.9435
+ -0.925605 -0.061867 -0.062850    1.3268
+  0.000000  0.000000  0.000000    1.0000
+scale:     10.183440
+rec 345-2.4dfp.img Thu Jan 28 02:47:01 CST 1999 avi
+imato4dfp -0h -v 345 2 2 345-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		345
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			0.937500
+ypix:			0.937500
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University     
+model:			MAGNETOM VISION           
+study_date:		1993:11:23
+parameter_file_name:	/usr/appl/proto/016/head/old_mprage.prg                         
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_5b130.wkb                          
+sequence_description:	mpr     
+
+endrec
+t4
+product transform 425-3_to_711-2B_t4
+product=[425-3_to_425-3_ecat_t4][temp29676]
+t4
+  0.049253 -0.977422  0.150111  -10.9513
+  0.053626  0.079646  0.959088   29.8209
+ -0.960872  0.002144  0.053397   -0.9574
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.133904
+rec 425-3.4dfp.img Thu Jan 28 03:09:25 CST 1999 avi
+imato4dfp -0h -v 425 3 3 425-3
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		425
+first_study:		3
+last_study:		3
+start_image_id:		132
+end_image_id:		259
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University     
+model:			MAGNETOM VISION
+          
+study_date:		1994:12:13
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg     
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr     
+
+endrec
+t4
+product transform 428-2_to_711-2B_t4
+product=[428-2_to_428-2_ecat_t4][temp29676]
+t4
+  0.021328 -0.956442  0.117168  -12.1391
+  0.011269  0.065594  0.918926   28.0385
+ -0.943032 -0.062715  0.040506   -1.8052
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.228012
+rec 428-2.4dfp.img Thu Jan 28 18:46:10 CST 1999 avi
+imato4dfp -0h -v 428 2 2 428-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		428
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University     
+model:			MAGNETOM VISION
+          
+study_date:		1994:12:16
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg     
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr     
+
+endrec
+t4
+product transform 426-2_to_711-2B_t4
+product=[426-2_to_426-2_ecat_t4][temp29676]
+t4
+ -0.047087 -0.919800  0.356146   -1.6956
+  0.020599  0.334316  0.880064   24.4008
+ -0.910660  0.008165  0.038313    0.2559
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.243068
+rec 426-2.4dfp.img Thu Jan 28 19:12:52 CST 1999 avi
+imato4dfp -0h -v 426 2 2 426-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		426
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University     
+model:			MAGNETOM VISION
+          
+study_date:		1994:12:9
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg     
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr     
+
+endrec
+t4
+product transform va273-2_to_711-2B_t4
+product=[va273-2_to_va273-2_ecat_t4][temp29676]
+t4
+  0.015391 -1.061337  0.016769  -15.3104
+ -0.045779  0.011882  0.947191   25.2135
+ -1.025643 -0.042303 -0.037074   -0.1338
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.191160
+rec va273-2.4dfp.img Thu Jan 28 19:13:22 CST 1999 avi
+imato4dfp -0h -v va273 2 2 va273-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		va273
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+
+study_date:		1994:12:16
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform 647-2_to_711-2B_t4
+product=[647-2_to_647-2_ecat_t4][temp29676]
+t4
+ -0.032108 -0.971269  0.099219  -15.9852
+  0.048541  0.073370  0.894844   14.3481
+ -0.897285  0.001475  0.058177   -0.2426
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.237612
+rec 647-2.4dfp.img Thu Jan 28 19:13:55 CST 1999 avi
+imato4dfp -0h -v 647 2 2 647-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		647
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+
+study_date:		1995:2:16
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform va319-2_to_711-2B_t4
+product=[va319-2_to_va319-2_ecat_t4][temp29676]
+t4
+ -0.031193 -1.042774  0.115196   -4.5469
+  0.011052  0.109054  0.987133   28.9374
+ -0.985856  0.013923  0.020265    0.6208
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.172732
+rec va319-2.4dfp.img Thu Jan 28 19:14:26 CST 1999 avi
+imato4dfp -0h -v va319 2 2 va319-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		va319
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+
+study_date:		1995:2:9
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform 693-2_to_711-2B_t4
+product=[693-2_to_693-2_ecat_t4][temp29676]
+t4
+ -0.018636 -1.063332  0.164867  -11.5236
+ -0.082342  0.121489  0.943770   24.9502
+ -0.982102 -0.006963 -0.068188    2.2816
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.126924
+rec 693-2.4dfp.img Thu Jan 28 19:14:57 CST 1999 avi
+imato4dfp -0h -v 693 2 2 693-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		693
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+
+study_date:		1995:2:23
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform 692-2_to_711-2B_t4
+product=[692-2_to_692-2_ecat_t4][temp29676]
+t4
+  0.005817 -0.902854  0.315796   -6.2791
+ -0.021262  0.260345  0.847588   17.3865
+ -0.941457 -0.030444 -0.018552    0.4897
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.161952
+rec 692-2.4dfp.img Thu Jan 28 19:15:27 CST 1999 avi
+imato4dfp -0h -v 692 2 2 692-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		692
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+
+study_date:		1995:2:23
+parameter_file_name:	/usr/appl/proto/016/c/head/Peterson_PET/MPRAGE_Sagittal.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Fri Jan 29 01:32:40 1999  avi

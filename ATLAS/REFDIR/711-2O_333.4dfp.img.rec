@@ -1,0 +1,2476 @@
+rec 711-2O_333.4dfp.img  Tue May  5 19:29:30 2009  avi@petsun59 SunOS 5.9 sun4u
+t4imgs_4dfp atrophy_avg.lst 711-2O_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+vc604_mpr_n3_111_t88_gfc	t4=vc604_mpr_n3_111_t88_to_atrophy_t4	mask=vc604_mpr_n3_111_t88_gfc
+vc626_mpr_n4_111_t88_gfc	t4=vc626_mpr_n4_111_t88_to_atrophy_t4	mask=vc626_mpr_n4_111_t88_gfc
+vc660_mpr_n4_111_t88_gfc	t4=vc660_mpr_n4_111_t88_to_atrophy_t4	mask=vc660_mpr_n4_111_t88_gfc
+vc665_mpr_n4_111_t88_gfc	t4=vc665_mpr_n4_111_t88_to_atrophy_t4	mask=vc665_mpr_n4_111_t88_gfc
+vc722_mpr_n3_111_t88_gfc	t4=vc722_mpr_n3_111_t88_to_atrophy_t4	mask=vc722_mpr_n3_111_t88_gfc
+vc756_mpr_n4_111_t88_gfc	t4=vc756_mpr_n4_111_t88_to_atrophy_t4	mask=vc756_mpr_n4_111_t88_gfc
+vc792_mpr_n4_111_t88_gfc	t4=vc792_mpr_n4_111_t88_to_atrophy_t4	mask=vc792_mpr_n4_111_t88_gfc
+vc922_mpr_n4_111_t88_gfc	t4=vc922_mpr_n4_111_t88_to_atrophy_t4	mask=vc922_mpr_n4_111_t88_gfc
+vc1149_mpr_n3_111_t88_gfc	t4=vc1149_mpr_n3_111_t88_to_atrophy_t4	mask=vc1149_mpr_n3_111_t88_gfc
+vc1168_mpr_n4_111_t88_gfc	t4=vc1168_mpr_n4_111_t88_to_atrophy_t4	mask=vc1168_mpr_n4_111_t88_gfc
+vc1172_mpr_n4_111_t88_gfc	t4=vc1172_mpr_n4_111_t88_to_atrophy_t4	mask=vc1172_mpr_n4_111_t88_gfc
+vc1249_mpr_n4_111_t88_gfc	t4=vc1249_mpr_n4_111_t88_to_atrophy_t4	mask=vc1249_mpr_n4_111_t88_gfc
+endsub
+t4
+product transform temp_t4
+product=[vc604_mpr_n3_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.010105 -0.015884  0.008483   -0.2465
+  0.009878  1.038064 -0.001347    1.4342
+ -0.010016  0.007096  1.042379   -0.8729
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.058275
+rec vc604_mpr_n3/vc604_mpr_n3_111_t88_gfc.4dfp.img  Mon Dec 13 15:56:31 1999  avi
+analyzeto4dfp vc604_mpr_n3/vc604_mpr_n3_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc604_mpr_n3_111_t88_gfc.img  Fri Dec 10 20:31:42 1999  avi
+partitiond_gfc vc604_mpr_n3_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc604_mpr_n3_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1111  0.0311 -0.0712 -0.0132 -0.2215 -0.1764 -0.0690 -0.0470 -0.0721 -0.0773
+region   voxels      mean      s.d.   ix   iy   iz
+1        868956    273.54   87.1782  101   99  161
+2        784350    723.13  100.6380   41  140   22
+3        507715   1283.50   98.6555   43  124   97
+4         26854    984.60   56.2379   89   92   31
+5         14642    251.37   65.5190   84  136   86
+6          9387    671.85   80.2621  132   40   14
+7          9112    552.49   75.2779   84  196  107
+8          8715   1281.34  100.4087   45   42    4
+9          8169    807.35   93.8585  106   32  126
+10         7279    566.29   71.2384  106   66  158
+11         6062    245.33   47.4730   52  174   40
+12         5847    964.59   73.2529  125  100  126
+13         5682    967.00   74.0634   72  106  150
+14         5245    236.75   47.5196  124  180   52
+15         3954   2345.69   96.8821   20  138   31
+16         3187    892.79   82.9008   65   56  141
+17         2685   2437.61   99.9627  154  145   30
+18         2632    814.88   90.9578   64   51  150
+19         2539    250.79   39.1762   88   18   14
+20         2489    549.88   67.2104  130  130  147
+21         2487    909.04   84.1194  123   56  132
+22         2330   1916.83  102.9952   31  119   11
+23         2182   2665.43   90.2849   41  175    3
+24         1894   1944.96   91.2602  142  116    3
+rec vc604_mpr_n3_111_t88.4dint.img  Tue Sep 14 03:25:04 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc604_mpr_n3_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc604_mpr_n3_111_t88.4dfp.img  Fri Feb  5 01:30:04 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc604_mpr_n3_atl.lst vc604_mpr_n3_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.13 1999/01/28 22:23:39 avi Exp $
+sub
+vc604_3302-2	t4=vc604_3302-2_to_711-2B_t4
+vc604_3302-15	t4=vc604_3302-15_to_711-2B_t4
+vc604_3302-16	t4=vc604_3302-16_to_711-2B_t4
+endsub
+t4
+product transform vc604_3302-2_to_711-2B_t4
+product=[vc604_3302-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.026313 -0.903708  0.280990   -2.7629
+ -0.069702  0.321385  0.807603   -3.5965
+ -1.012496 -0.028749 -0.075030    1.1696
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.988755
+rec vc604_3302-2.4dfp.img Fri Feb  5 01:04:52 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc604/TEST1/RAW/3302 2 2 vc604_3302-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc604/TEST1/RAW/3302
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:11:2
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc604_3302-15_to_711-2B_t4
+product=[vc604_3302-15_to_vc604_3302-2_t4][vc604_3302-2_to_711-2B_t4]
+t4
+ -0.019770 -0.904347  0.281142   -1.4547
+ -0.077647  0.320882  0.808097   -2.2046
+ -1.012471 -0.037058 -0.079510    0.8320
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.846046
+rec vc604_3302-15.4dfp.img Fri Feb  5 01:06:14 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc604/TEST1/RAW/3302 15 15 vc604_3302-15
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc604/TEST1/RAW/3302
+first_study:		15
+last_study:		15
+start_image_id:		144
+end_image_id:		271
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:11:2
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc604_3302-16_to_711-2B_t4
+product=[vc604_3302-16_to_vc604_3302-2_t4][vc604_3302-2_to_711-2B_t4]
+t4
+ -0.018218 -0.904019  0.281942   -1.6650
+ -0.080404  0.321489  0.807540   -2.8906
+ -1.012042 -0.039375 -0.081259    0.8557
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.854323
+rec vc604_3302-16.4dfp.img Fri Feb  5 01:07:39 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc604/TEST1/RAW/3302 16 16 vc604_3302-16
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc604/TEST1/RAW/3302
+first_study:		16
+last_study:		16
+start_image_id:		272
+end_image_id:		399
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:11:2
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Fri Feb  5 01:33:04 1999  amy
+endrec Tue Sep 14 03:25:04 1999  randy
+endrec Fri Dec 10 20:31:42 1999  avi
+endrec Mon Dec 13 15:56:31 1999  avi
+t4
+product transform temp_t4
+product=[vc626_mpr_n4_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.010656 -0.005092  0.009018   -0.1038
+  0.021582  1.032107 -0.010855    0.2168
+ -0.018038 -0.003267  1.024515   -1.0127
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.040843
+rec vc626_mpr_n4/vc626_mpr_n4_111_t88_gfc.4dfp.img  Mon Dec 13 15:56:41 1999  avi
+analyzeto4dfp vc626_mpr_n4/vc626_mpr_n4_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc626_mpr_n4_111_t88_gfc.img  Fri Dec 10 20:47:27 1999  avi
+partitiond_gfc vc626_mpr_n4_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc626_mpr_n4_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1412  0.1057  0.0248  0.0087 -0.3545 -0.1445 -0.0166  0.0200 -0.0047 -0.0484
+region   voxels      mean      s.d.   ix   iy   iz
+1        902229    738.15  104.0605   66  122   55
+2        573886   1177.20   93.7018   61   99   92
+3        353020    368.41   95.2583  134   84   24
+4         50710   1256.89  104.5312   59   41  123
+5         49064   2644.48   89.9853  135   92  149
+6         39505   1717.51  106.3179  103   19   19
+7         28100   1223.09   96.3416  115   40  124
+8         22060   2659.75  110.3485  162  125   43
+9         21978    231.13   66.5649   83  103   98
+10        21308   2558.13  114.3622   18  134   21
+11        20397    250.47   74.5273   10   74  123
+12        16229   1575.77   85.2039   57  192   88
+13        14145    233.76   67.0919  172  126   60
+14        13040    651.51   96.4767  102   24   10
+15        11738   2591.19   95.9792  149   42   75
+16        10148   2050.60   92.8839   76   19   30
+17         7062   1436.48   97.0449  144   98    2
+18         6165   2311.41   92.7108  153  128   22
+19         5410    805.25   95.5697  126  186   51
+20         5245    240.02   47.5256   51  177   39
+21         4823   2918.56  102.6133   21  169   23
+22         4602   1359.66  106.8681   29  100    6
+23         4143    225.59   42.9591  122  171   48
+24         4011   3063.08  108.0950  143  174    7
+rec vc626_mpr_n4_111_t88.4dint.img  Tue Sep 14 03:54:44 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc626_mpr_n4_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc626_mpr_n4_111_t88.4dfp.img  Fri Feb 12 16:03:27 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc626_mpr_n4_atl.lst vc626_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.15 1999/02/10 07:57:32 avi Exp $
+sub
+vc626_3518-2	t4=vc626_3518-2_to_711-2B_t4
+vc626_3518-6	t4=vc626_3518-6_to_711-2B_t4
+vc626_3518-7	t4=vc626_3518-7_to_711-2B_t4
+vc626_3518-8	t4=vc626_3518-8_to_711-2B_t4
+endsub
+t4
+product transform vc626_3518-2_to_711-2B_t4
+product=[vc626_3518-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+  0.042503 -0.873529  0.255113   -2.6459
+ -0.003508  0.242446  0.833729   -8.4998
+ -0.908708 -0.047581 -0.005591    2.7589
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.054158
+rec vc626_3518-2.4dfp.img Fri Feb 12 15:39:55 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc626/RAW/3518 2 2 vc626_3518-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc626/RAW/3518
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:11:13
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc626_3518-6_to_711-2B_t4
+product=[vc626_3518-6_to_vc626_3518-2_t4][vc626_3518-2_to_711-2B_t4]
+t4
+  0.036635 -0.870729  0.267568   -2.1431
+  0.023712  0.256730  0.830390   -8.4619
+ -0.908280 -0.034143  0.018092    3.0337
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.758083
+rec vc626_3518-6.4dfp.img Fri Feb 12 15:41:16 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc626/RAW/3518 6 6 vc626_3518-6
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc626/RAW/3518
+first_study:		6
+last_study:		6
+start_image_id:		135
+end_image_id:		262
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:11:13
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc626_3518-7_to_711-2B_t4
+product=[vc626_3518-7_to_vc626_3518-2_t4][vc626_3518-2_to_711-2B_t4]
+t4
+  0.038122 -0.871106  0.265364   -2.2177
+  0.025519  0.254678  0.831332   -8.6271
+ -0.908215 -0.035157  0.020104    2.9757
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.762208
+rec vc626_3518-7.4dfp.img Fri Feb 12 15:42:39 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc626/RAW/3518 7 7 vc626_3518-7
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc626/RAW/3518
+first_study:		7
+last_study:		7
+start_image_id:		263
+end_image_id:		390
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:11:13
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc626_3518-8_to_711-2B_t4
+product=[vc626_3518-8_to_vc626_3518-2_t4][vc626_3518-2_to_711-2B_t4]
+t4
+  0.037682 -0.872320  0.263775   -2.3051
+  0.028464  0.252829  0.831594   -8.8590
+ -0.908273 -0.033969  0.022609    3.0442
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.751668
+rec vc626_3518-8.4dfp.img Fri Feb 12 15:43:57 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc626/RAW/3518 8 8 vc626_3518-8
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc626/RAW/3518
+first_study:		8
+last_study:		8
+start_image_id:		391
+end_image_id:		518
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:11:13
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Fri Feb 12 16:06:24 1999  amy
+endrec Tue Sep 14 03:54:44 1999  randy
+endrec Fri Dec 10 20:47:28 1999  avi
+endrec Mon Dec 13 15:56:42 1999  avi
+t4
+product transform temp_t4
+product=[vc660_mpr_n4_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.002607  0.001799 -0.001196    0.1438
+ -0.006783  1.020280 -0.001883    1.0805
+ -0.008835 -0.021996  1.005288   -0.0134
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.040460
+rec vc660_mpr_n4/vc660_mpr_n4_111_t88_gfc.4dfp.img  Mon Dec 13 15:56:51 1999  avi
+analyzeto4dfp vc660_mpr_n4/vc660_mpr_n4_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc660_mpr_n4_111_t88_gfc.img  Fri Dec 10 21:00:28 1999  avi
+partitiond_gfc vc660_mpr_n4_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc660_mpr_n4_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1433  0.0003 -0.0696 -0.0461 -0.3259 -0.0998 -0.0633  0.0835 -0.0216 -0.0971
+region   voxels      mean      s.d.   ix   iy   iz
+1        687010    849.16  101.8274   57   43   32
+2        613368    302.61   94.6575   46   51   26
+3        431343   1295.83   99.0886  133   98  119
+4         26207    576.44   65.6706   20   99  109
+5         17425    581.27   62.6275   92  169   10
+6         13575   2179.96  101.1628  130   36    9
+7          7456   1334.72   97.3883  149  104   11
+8          7012   1205.18   87.3807   41   98    8
+9          6621   2471.28   81.3623   43   38   16
+10         6272    586.79   70.6610  152  109  124
+11         6038    975.34   94.9784   63  191  104
+12         5232    874.44  109.7639   83   22    3
+13         4574    193.65   22.3170   75   11  148
+14         4515   1121.77   79.5317  142  129  128
+15         4502    236.81   43.1285   54  165   40
+16         4486   2420.29   94.1365   64   81  167
+17         4200    237.76   38.6338  120  174   39
+18         4188   3029.99   95.9374   32  159    6
+19         3458    603.75   71.1851   29  146   94
+20         3407    574.80   59.9636   87  107  152
+21         3160    259.39   44.3201   97  122  172
+22         3141    894.59   96.2012   55  185   48
+23         2883    586.30   68.1501   39   97  147
+24         2854   1099.11   84.4634  118  178  116
+rec vc660_mpr_n4_111_t88.4dint.img  Tue Sep 14 04:03:02 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc660_mpr_n4_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc660_mpr_n4_111_t88.4dfp.img  Tue Feb  9 01:45:40 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc660_mpr_n4_atl.lst vc660_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.14 1999/02/06 01:05:13 avi Exp $
+sub
+vc660_3735-2	t4=vc660_3735-2_to_711-2B_t4
+vc660_3744-1	t4=vc660_3744-1_to_711-2B_t4
+vc660_3744-2	t4=vc660_3744-2_to_711-2B_t4
+vc660_3744-3	t4=vc660_3744-3_to_711-2B_t4
+endsub
+t4
+product transform vc660_3735-2_to_711-2B_t4
+product=[vc660_3735-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+  0.031609 -0.942209  0.193674  -14.9184
+  0.028522  0.149432  0.876772    9.0361
+ -0.987820 -0.076219  0.027805    1.3888
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.884766
+rec vc660_3735-2.4dfp.img Tue Feb  9 01:16:29 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc660/RAW/3735 2 2 vc660_3735-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc660/RAW/3735
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:12:4
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc660_3744-1_to_711-2B_t4
+product=[vc660_3744-1_to_vc660_3735-2_t4][vc660_3735-2_to_711-2B_t4]
+t4
+  0.038433 -0.935099  0.226242  -15.4134
+  0.058496  0.187214  0.867416    9.2858
+ -0.985595 -0.075775  0.056530    2.2241
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.953554
+rec vc660_3744-1.4dfp.img Tue Feb  9 01:18:04 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc660/RAW/3744 1 1 vc660_3744-1
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc660/RAW/3744
+first_study:		1
+last_study:		1
+start_image_id:		1
+end_image_id:		128
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:12:4
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc660_3744-2_to_711-2B_t4
+product=[vc660_3744-2_to_vc660_3735-2_t4][vc660_3735-2_to_711-2B_t4]
+t4
+  0.039716 -0.938516  0.210186  -15.3471
+  0.067681  0.170704  0.871245    9.0750
+ -0.985242 -0.076574  0.064525    2.1334
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.946854
+rec vc660_3744-2.4dfp.img Tue Feb  9 01:19:29 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc660/RAW/3744 2 2 vc660_3744-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc660/RAW/3744
+first_study:		2
+last_study:		2
+start_image_id:		129
+end_image_id:		256
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:12:4
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc660_3744-3_to_711-2B_t4
+product=[vc660_3744-3_to_vc660_3735-2_t4][vc660_3735-2_to_711-2B_t4]
+t4
+  0.029534 -0.938193  0.213729  -15.2368
+  0.071207  0.174185  0.870370    9.2246
+ -0.985423 -0.066039  0.065502    2.3085
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.950539
+rec vc660_3744-3.4dfp.img Tue Feb  9 01:21:01 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc660/RAW/3744 3 3 vc660_3744-3
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc660/RAW/3744
+first_study:		3
+last_study:		3
+start_image_id:		257
+end_image_id:		384
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:12:4
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Tue Feb  9 01:48:41 1999  amy
+endrec Tue Sep 14 04:03:02 1999  randy
+endrec Fri Dec 10 21:00:29 1999  avi
+endrec Mon Dec 13 15:56:51 1999  avi
+t4
+product transform temp_t4
+product=[vc665_mpr_n4_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.001657  0.004432  0.004115    0.3279
+  0.016650  1.071682 -0.052820    2.7237
+ -0.004773 -0.003804  1.025704   -2.1534
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.071608
+rec vc665_mpr_n4/vc665_mpr_n4_111_t88_gfc.4dfp.img  Mon Dec 13 15:57:01 1999  avi
+analyzeto4dfp vc665_mpr_n4/vc665_mpr_n4_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc665_mpr_n4_111_t88_gfc.img  Sat Dec 11 19:15:45 1999  avi
+partitiond_gfc vc665_mpr_n4_111_t88.4dint -n -l30 -i1.25 -e0.0001 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc665_mpr_n4_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1759  0.2771 -0.0195  0.0075 -0.2543 -0.2841 -0.0794 -0.0531 -0.0329 -0.1234
+region   voxels      mean      s.d.   ix   iy   iz
+1        673187    870.50  107.1640   85   59   35
+2        502514    320.14   97.7153   93  145   46
+3        439990   1262.52   87.8355   98   63  127
+4        125039    207.72   51.9656  120  206   32
+5         16256    640.81   80.9618   86  164    6
+6         13884   1232.26  100.8003   37   55   21
+7         12686    545.77   74.1561   43   34    9
+8         10852    599.84   70.0611   96   71   62
+9          6606    585.40   70.9542   35   51  100
+10         5901    602.11   65.9672   32  142   45
+11         5808    277.77   50.5741   45  194   43
+12         5710    252.14   45.2330  116  185   43
+13         5542    580.94   67.7611   97   99  150
+14         5405    624.28   90.0747   98  103  160
+15         4559   2818.00  103.7309  151  152   34
+16         4510   1175.36   75.3975   30  133    7
+17         4468    594.81   72.3865   52  108   47
+18         4258    579.25   75.0424   63   55   51
+19         4065   1627.42  106.9693   35   51   31
+20         3850   2800.42  103.0914   21  150   39
+21         3843   2101.81  106.0852   18  147   15
+22         3185   1913.25  115.0715  149  121   12
+23         2513   2556.34  102.1164  121  169   29
+24         2488   1070.50   96.4933   60  196   35
+rec vc665_mpr_n4_111_t88.4dint.img  Tue Sep 14 04:14:09 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc665_mpr_n4_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc665_mpr_n4_111_t88.4dfp.img  Tue Feb  9 04:10:14 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc665_mpr_n4_atl.lst vc665_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.14 1999/02/06 01:05:13 avi Exp $
+sub
+vc665_3811-2	t4=vc665_3811-2_to_711-2B_t4
+vc665_3820-1	t4=vc665_3820-1_to_711-2B_t4
+vc665_3820-2	t4=vc665_3820-2_to_711-2B_t4
+vc665_3820-3	t4=vc665_3820-3_to_711-2B_t4
+endsub
+t4
+product transform vc665_3811-2_to_711-2B_t4
+product=[vc665_3811-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+  0.028905 -0.873631  0.315269   -2.9071
+ -0.066581  0.294540  0.962413  -21.8621
+ -1.032871  0.032924 -0.068161    0.4722
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.147907
+rec vc665_3811-2.4dfp.img Tue Feb  9 03:47:41 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc665/RAW/3811 2 2 vc665_3811-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc665/RAW/3811
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:12:8
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc665_3820-1_to_711-2B_t4
+product=[vc665_3820-1_to_vc665_3811-2_t4][vc665_3811-2_to_711-2B_t4]
+t4
+  0.026754 -0.869603  0.325278   -2.3809
+ -0.059874  0.303990  0.960242  -21.5433
+ -1.032143  0.036147 -0.061971    0.9224
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.962276
+rec vc665_3820-1.4dfp.img Tue Feb  9 03:48:39 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc665/RAW/3820 1 1 vc665_3820-1
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc665/RAW/3820
+first_study:		1
+last_study:		1
+start_image_id:		1
+end_image_id:		128
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:12:8
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc665_3820-2_to_711-2B_t4
+product=[vc665_3820-2_to_vc665_3811-2_t4][vc665_3811-2_to_711-2B_t4]
+t4
+  0.022699 -0.869314  0.325375   -2.2549
+ -0.066727  0.304606  0.959804  -21.4637
+ -1.031953  0.037538 -0.069582    0.6171
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.960679
+rec vc665_3820-2.4dfp.img Tue Feb  9 03:49:34 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc665/RAW/3820 2 2 vc665_3820-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc665/RAW/3820
+first_study:		2
+last_study:		2
+start_image_id:		129
+end_image_id:		256
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:12:8
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc665_3820-3_to_711-2B_t4
+product=[vc665_3820-3_to_vc665_3811-2_t4][vc665_3811-2_to_711-2B_t4]
+t4
+  0.023734 -0.868544  0.328219   -2.3740
+ -0.069868  0.307144  0.958470  -21.1397
+ -1.031967  0.035600 -0.072068    0.7814
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.958424
+rec vc665_3820-3.4dfp.img Tue Feb  9 03:50:33 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc665/RAW/3820 3 3 vc665_3820-3
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc665/RAW/3820
+first_study:		3
+last_study:		3
+start_image_id:		257
+end_image_id:		384
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1998:12:8
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Tue Feb  9 04:12:55 1999  amy
+endrec Tue Sep 14 04:14:09 1999  randy
+endrec Sat Dec 11 19:15:45 1999  avi
+endrec Mon Dec 13 15:57:01 1999  avi
+t4
+product transform temp_t4
+product=[vc722_mpr_n3_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.008077 -0.009288  0.014020   -0.2326
+ -0.000374  1.034001  0.013527    1.1510
+  0.000429 -0.034693  1.018808   -0.7145
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.027436
+rec vc722_mpr_n3/vc722_mpr_n3_111_t88_gfc.4dfp.img  Mon Dec 13 15:57:11 1999  avi
+analyzeto4dfp vc722_mpr_n3/vc722_mpr_n3_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc722_mpr_n3_111_t88_gfc.img  Fri Dec 10 21:25:18 1999  avi
+partitiond_gfc vc722_mpr_n3_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc722_mpr_n3_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.0788  0.0312 -0.0477  0.0277 -0.1669 -0.1685 -0.0442  0.0173  0.0077 -0.0006
+region   voxels      mean      s.d.   ix   iy   iz
+1       1214186    221.94   35.3224  126  204  112
+2        675471    328.49   90.2015   99  156  142
+3        490600    829.85   97.5657  110   59   42
+4        409028   1357.56   97.7150   59  139  115
+5         27572   1578.92  113.4151   59    8   10
+6         25731    664.81   86.6769   80  183   18
+7         16791   1988.86  110.6829   36   27   18
+8         15171    890.44   85.5608   75   26   10
+9         13692    738.53   96.3996  127    8    5
+10         7452   2473.84  119.1903   57   11   43
+11         5051    632.98   76.4484   77   98  163
+12         4800    257.84   46.0039  128  175   32
+13         4729    270.83   47.6080   56  188   42
+14         4212    629.34   90.8861   95   92   21
+15         3993    608.09   75.6535  146   82  133
+16         3643   2801.00   92.0848   38   77  147
+17         3243    865.24  103.5886  113  190   23
+18         3037   2915.77   86.4444  157  132   33
+19         3003   2702.52   85.1708   23   59   99
+20         2907   2617.03   87.6406   66  181  133
+21         2545   3083.48   82.8410   22  135   38
+22         2532   2424.05  108.9180  145   41   33
+23         2504   1819.76  100.5987   89   36    2
+24         2234   2482.17  106.5739  129  166   26
+rec vc722_mpr_n3_111_t88.4dint.img  Tue Sep 14 04:57:04 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc722_mpr_n3_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc722_mpr_n3_111_t88.4dfp.img  Tue Feb  9 22:01:55 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc722_mpr_n3_atl.lst vc722_mpr_n3_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.14 1999/02/06 01:05:13 avi Exp $
+sub
+vc722_4363-2	t4=vc722_4363-2_to_711-2B_t4
+vc722_4363-6	t4=vc722_4363-6_to_711-2B_t4
+vc722_4363-7	t4=vc722_4363-7_to_711-2B_t4
+endsub
+t4
+product transform vc722_4363-2_to_711-2B_t4
+product=[vc722_4363-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.058118 -0.870959  0.516592  -11.6230
+  0.070944  0.493012  0.747636   19.8687
+ -1.031925  0.045946  0.007621    0.7290
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.904252
+rec vc722_4363-2.4dfp.img Tue Feb  9 21:16:00 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc722/RAW/4363 2 2 vc722_4363-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc722/RAW/4363
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:1:14
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc722_4363-6_to_711-2B_t4
+product=[vc722_4363-6_to_vc722_4363-2_t4][vc722_4363-2_to_711-2B_t4]
+t4
+ -0.047118 -0.863110  0.528826  -11.4457
+  0.064811  0.508190  0.739885   19.8365
+ -1.031166  0.034162  0.007516    0.6613
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.059021
+rec vc722_4363-6.4dfp.img Tue Feb  9 21:20:12 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc722/RAW/4363 6 6 vc722_4363-6
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc722/RAW/4363
+first_study:		6
+last_study:		6
+start_image_id:		135
+end_image_id:		262
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:1:14
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc722_4363-7_to_711-2B_t4
+product=[vc722_4363-7_to_vc722_4363-2_t4][vc722_4363-2_to_711-2B_t4]
+t4
+ -0.048386 -0.860062  0.533819  -11.8738
+  0.066655  0.513469  0.736053   19.8127
+ -1.030938  0.036328  0.007771    0.9946
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.064232
+rec vc722_4363-7.4dfp.img Tue Feb  9 21:23:14 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc722/RAW/4363 7 7 vc722_4363-7
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc722/RAW/4363
+first_study:		7
+last_study:		7
+start_image_id:		263
+end_image_id:		390
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:1:14
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Tue Feb  9 22:07:48 1999  amy
+endrec Tue Sep 14 04:57:04 1999  randy
+endrec Fri Dec 10 21:25:18 1999  avi
+endrec Mon Dec 13 15:57:11 1999  avi
+t4
+product transform temp_t4
+product=[vc756_mpr_n4_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.008076 -0.008878  0.011123    0.0083
+  0.006281  1.050936 -0.020119    0.6661
+ -0.019356  0.003257  0.991042   -1.0112
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.022815
+rec vc756_mpr_n4/vc756_mpr_n4_111_t88_gfc.4dfp.img  Mon Dec 13 15:57:21 1999  avi
+analyzeto4dfp vc756_mpr_n4/vc756_mpr_n4_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc756_mpr_n4_111_t88_gfc.img  Fri Dec 10 21:50:51 1999  avi
+partitiond_gfc vc756_mpr_n4_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc756_mpr_n4_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1354  0.2472 -0.0175  0.0047 -0.1425 -0.2838 -0.1419 -0.0184 -0.0094 -0.0357
+region   voxels      mean      s.d.   ix   iy   iz
+1        695059    868.91  105.0853  108   31   22
+2        529289    348.57  105.2627   99  106   42
+3        460513   1261.93   92.6701   57  105  103
+4         72335    214.03   58.9402   62  191    2
+5         33374    226.35   51.9061  117  196    8
+6         28814    705.13   94.3732   89  159   46
+7         23251   1477.19   99.8416  117   25   21
+8         15192    603.38   69.0241   65   50   53
+9          9007    679.22   92.1467   91  192  112
+10         7825    657.12   84.3220   38   83  142
+11         7101    605.64   67.5736  140  123  138
+12         5546    245.42   47.0652  121  179   49
+13         5463    280.77   50.3734   53  180   43
+14         5021    607.60   68.0316  129   34   88
+15         4940   1203.74   98.6181   26  100   12
+16         4416    964.96  100.1300   80  108  161
+17         3461   2908.10  111.5113   22  150   17
+18         3367    742.07  101.9952  125  104  149
+19         3083    949.09   99.8732   52  171   51
+20         3069    882.75   98.4904  124  191   41
+21         2922   2363.47  101.4554   26  112    8
+22         2731    618.41   68.0812  148  142   96
+23         2453   1153.65   72.4609  145   91    2
+24         2036   1146.93  104.1624   87  199   22
+rec vc756_mpr_n4_111_t88.4dint.img  Tue Sep 14 06:04:58 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc756_mpr_n4_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc756_mpr_n4_111_t88.4dfp.img  Wed Feb 10 16:12:27 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc756_mpr_n4_atl.lst vc756_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.15 1999/02/10 07:57:32 avi Exp $
+sub
+vc756_4681-2	t4=vc756_4681-2_to_711-2B_t4
+vc756_4681-6	t4=vc756_4681-6_to_711-2B_t4
+vc756_4681-7	t4=vc756_4681-7_to_711-2B_t4
+vc756_4681-8	t4=vc756_4681-8_to_711-2B_t4
+endsub
+t4
+product transform vc756_4681-2_to_711-2B_t4
+product=[vc756_4681-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+  0.098989 -0.835767  0.431012   -5.2450
+ -0.014593  0.406432  0.794302   -6.9599
+ -0.972150 -0.107195  0.016773    0.0264
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.029714
+rec vc756_4681-2.4dfp.img Wed Feb 10 15:52:57 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc756/RAW/4681 2 2 vc756_4681-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc756/RAW/4681
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:1:25
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc756_4681-6_to_711-2B_t4
+product=[vc756_4681-6_to_vc756_4681-2_t4][vc756_4681-2_to_711-2B_t4]
+t4
+  0.098892 -0.834682  0.434110   -3.5246
+ -0.011966  0.408942  0.791009   -5.3673
+ -0.971190 -0.105760  0.019129    0.1065
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.947655
+rec vc756_4681-6.4dfp.img Wed Feb 10 15:53:27 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc756/RAW/4681 6 6 vc756_4681-6
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc756/RAW/4681
+first_study:		6
+last_study:		6
+start_image_id:		135
+end_image_id:		262
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:1:25
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc756_4681-7_to_711-2B_t4
+product=[vc756_4681-7_to_vc756_4681-2_t4][vc756_4681-2_to_711-2B_t4]
+t4
+  0.098715 -0.833463  0.436229   -3.5477
+ -0.017765  0.411025  0.790703   -5.7569
+ -0.971138 -0.107986  0.014578    0.0604
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.949869
+rec vc756_4681-7.4dfp.img Wed Feb 10 15:53:59 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc756/RAW/4681 7 7 vc756_4681-7
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc756/RAW/4681
+first_study:		7
+last_study:		7
+start_image_id:		263
+end_image_id:		390
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:1:25
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc756_4681-8_to_711-2B_t4
+product=[vc756_4681-8_to_vc756_4681-2_t4][vc756_4681-2_to_711-2B_t4]
+t4
+  0.101611 -0.832493  0.438156   -3.4369
+ -0.015021  0.413569  0.790224   -5.6089
+ -0.971394 -0.109254  0.018318    0.1186
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.951675
+rec vc756_4681-8.4dfp.img Wed Feb 10 15:54:29 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc756/RAW/4681 8 8 vc756_4681-8
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc756/RAW/4681
+first_study:		8
+last_study:		8
+start_image_id:		391
+end_image_id:		518
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:1:25
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Wed Feb 10 16:15:03 1999  amy
+endrec Tue Sep 14 06:04:58 1999  randy
+endrec Fri Dec 10 21:50:52 1999  avi
+endrec Mon Dec 13 15:57:21 1999  avi
+t4
+product transform temp_t4
+product=[vc792_mpr_n4_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.020775 -0.007468  0.008314   -0.0695
+  0.009247  1.038641 -0.006554    1.1563
+ -0.014032 -0.010102  1.030715   -1.0694
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.049648
+rec vc792_mpr_n4/vc792_mpr_n4_111_t88_gfc.4dfp.img  Mon Dec 13 15:57:31 1999  avi
+analyzeto4dfp vc792_mpr_n4/vc792_mpr_n4_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc792_mpr_n4_111_t88_gfc.img  Fri Dec 10 20:38:32 1999  avi
+partitiond_gfc vc792_mpr_n4_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc792_mpr_n4_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1158  0.1100 -0.0359  0.0460 -0.2388 -0.2418 -0.0738  0.0217 -0.0332 -0.0390
+region   voxels      mean      s.d.   ix   iy   iz
+1        706318    819.00  103.7608   83   42    3
+2        538383    362.86  108.2727  128  183   81
+3        490119   1258.84  101.5247  107  126  108
+4         16327    691.17   84.2303   87  166   15
+5         12504    253.32   80.4466  145  147  128
+6         12459    694.89   76.4079   96   20   24
+7          5485    244.41   40.8442   51  171   38
+8          5191    232.68   40.6632  117  176   35
+9          4486    628.20   69.8846   28  119  129
+10         4276    671.13  109.8809  161   87   56
+11         3994   2309.45   95.8196   26  152   17
+12         3942    787.97   97.8390  119  187   49
+13         3602    849.88   99.8978   62  179   30
+14         3499   2378.24  102.2094  151  140   11
+15         3444    715.08   81.1166   81   54  152
+16         2944    594.68   62.6795  144  169   93
+17         2931   2261.35   98.3001  123  160   37
+18         2930   1138.93   85.5574   30  106   18
+19         2437   1186.58   96.3701   97   61  150
+20         2429   2326.67  104.3688   52  159   34
+21         2238   1151.14   94.4227  156  137   88
+22         2221   1838.66   92.2658  111   83  164
+23         1959   1136.63   90.7052  141  120    2
+24         1784   2603.33   85.5226   28  146   35
+rec vc792_mpr_n4_111_t88.4dint.img  Tue Sep 14 06:56:56 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc792_mpr_n4_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc792_mpr_n4_111_t88.4dfp.img  Fri Feb 12 12:46:37 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc792_mpr_n4_atl.lst vc792_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.15 1999/02/10 07:57:32 avi Exp $
+sub
+vc792_5009-2	t4=vc792_5009-2_to_711-2B_t4
+vc792_5009-6	t4=vc792_5009-6_to_711-2B_t4
+vc792_5009-7	t4=vc792_5009-7_to_711-2B_t4
+vc792_5009-8	t4=vc792_5009-8_to_711-2B_t4
+endsub
+t4
+product transform vc792_5009-2_to_711-2B_t4
+product=[vc792_5009-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.060223 -0.889347  0.321603   -3.3194
+ -0.017183  0.308663  0.842245   -0.9345
+ -0.961944  0.024334 -0.041972    2.4886
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.089822
+rec vc792_5009-2.4dfp.img Fri Feb 12 12:23:18 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc792/RAW/5009 2 2 vc792_5009-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc792/RAW/5009
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:2:10
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc792_5009-6_to_711-2B_t4
+product=[vc792_5009-6_to_vc792_5009-2_t4][vc792_5009-2_to_711-2B_t4]
+t4
+ -0.064742 -0.888212  0.326501   -1.4824
+  0.011862  0.312993  0.841948    0.7460
+ -0.960930  0.037677 -0.018352    2.9938
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.798017
+rec vc792_5009-6.4dfp.img Fri Feb 12 12:24:26 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc792/RAW/5009 6 6 vc792_5009-6
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc792/RAW/5009
+first_study:		6
+last_study:		6
+start_image_id:		135
+end_image_id:		262
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:2:10
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc792_5009-7_to_711-2B_t4
+product=[vc792_5009-7_to_vc792_5009-2_t4][vc792_5009-2_to_711-2B_t4]
+t4
+ -0.064522 -0.887053  0.327725   -1.3305
+ -0.008026  0.315080  0.840399    0.6721
+ -0.960733  0.030993 -0.035743    2.6306
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.798278
+rec vc792_5009-7.4dfp.img Fri Feb 12 12:25:16 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc792/RAW/5009 7 7 vc792_5009-7
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc792/RAW/5009
+first_study:		7
+last_study:		7
+start_image_id:		263
+end_image_id:		390
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:2:10
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc792_5009-8_to_711-2B_t4
+product=[vc792_5009-8_to_vc792_5009-2_t4][vc792_5009-2_to_711-2B_t4]
+t4
+ -0.060203 -0.887531  0.327835   -1.3253
+ -0.015124  0.315244  0.840551    0.6248
+ -0.960528  0.024674 -0.040426    2.4524
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.795558
+rec vc792_5009-8.4dfp.img Fri Feb 12 12:26:03 CST 1999 amy
+imato4dfp -0h /data/iac3/space1/cnl/users/sanders/ADRC/vc792/RAW/5009 8 8 vc792_5009-8
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac3/space1/cnl/users/sanders/ADRC/vc792/RAW/5009
+first_study:		8
+last_study:		8
+start_image_id:		391
+end_image_id:		518
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:2:10
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Fri Feb 12 12:48:59 1999  amy
+endrec Tue Sep 14 06:56:56 1999  randy
+endrec Fri Dec 10 20:38:32 1999  avi
+endrec Mon Dec 13 15:57:31 1999  avi
+t4
+product transform temp_t4
+product=[vc922_mpr_n4_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.047540  0.002240  0.006520   -0.0068
+  0.016716  1.037918 -0.009758    1.4312
+ -0.016813 -0.025999  1.007811   -1.1436
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.074646
+rec vc922_mpr_n4/vc922_mpr_n4_111_t88_gfc.4dfp.img  Mon Dec 13 15:57:41 1999  avi
+analyzeto4dfp vc922_mpr_n4/vc922_mpr_n4_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc922_mpr_n4_111_t88_gfc.img  Fri Dec 10 20:56:05 1999  avi
+partitiond_gfc vc922_mpr_n4_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc922_mpr_n4_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1073  0.1273 -0.0200 -0.0073 -0.2511 -0.1246 -0.0155 -0.0332 -0.0094 -0.0087
+region   voxels      mean      s.d.   ix   iy   iz
+1        727597    346.09  102.7443  132  164  107
+2        627250    790.91   99.9837   24  138   56
+3        511370   1260.46   94.6508  123  109  125
+4         63335    240.88   64.5758   39  189   14
+5         24944   1614.56  111.5995  106   21   18
+6         17368    248.73   72.3666  169  129   70
+7         16188   2363.14   89.0196  116  115  160
+8         11455    716.39   94.4771  100   16   13
+9         10298   1206.28   88.8116  143  123   12
+10         9253   1186.61   94.4499   24  100    5
+11         7752   2459.66  111.9012   18  146   33
+12         6903   1986.20  100.1002   90   17   37
+13         6171   2702.03  108.3728  155  152   25
+14         6115    257.26   49.8881  119  170   37
+15         6115   2057.38  101.3087   21  137   13
+16         6064   2529.48   86.9597   69  202   81
+17         6046    264.34   53.5395   46  176   48
+18         3913    940.78   63.3387   78   98   81
+19         3269   1573.09   91.5269   80   49    5
+20         3129    244.62   61.5339   78   97  174
+21         2921   2272.43  106.6298  152  119   20
+22         2873   2560.89   96.2709   82   15   99
+23         2542   2114.33   90.4851  157   77  118
+24         2463   1992.76   90.6634   78  114  166
+rec vc922_mpr_n4_111_t88.4dint.img  Tue Sep 14 10:44:05 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc922_mpr_n4_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc922_mpr_n4_111_t88.4dfp.img  Wed Apr  7 12:23:29 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc922_mpr_n4_atl.lst vc922_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.15 1999/02/10 07:57:32 avi Exp $
+sub
+vc922_6085-2	t4=vc922_6085-2_to_711-2B_t4
+vc922_6085-6	t4=vc922_6085-6_to_711-2B_t4
+vc922_6085-7	t4=vc922_6085-7_to_711-2B_t4
+vc922_6085-8	t4=vc922_6085-8_to_711-2B_t4
+endsub
+t4
+product transform vc922_6085-2_to_711-2B_t4
+product=[vc922_6085-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+  0.030115 -0.944840  0.268765   -2.4421
+ -0.061753  0.246044  0.860020   -7.4927
+ -0.921664 -0.025327 -0.089790    3.0863
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.867008
+rec vc922_6085-2.4dfp.img Wed Apr  7 11:57:12 CDT 1999 amy
+imato4dfp -0h /data/iac9/space1/users/sanders/ADRC2/vc922/RAW/6085 2 2 vc922_6085-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space1/users/sanders/ADRC2/vc922/RAW/6085
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:4:5
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc922_6085-6_to_711-2B_t4
+product=[vc922_6085-6_to_vc922_6085-2_t4][vc922_6085-2_to_711-2B_t4]
+t4
+  0.020160 -0.943902  0.268938   -1.3729
+ -0.064167  0.247549  0.859511   -7.0917
+ -0.921515 -0.015871 -0.094837    3.2686
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.920027
+rec vc922_6085-6.4dfp.img Wed Apr  7 11:59:22 CDT 1999 amy
+imato4dfp -0h /data/iac9/space1/users/sanders/ADRC2/vc922/RAW/6085 6 6 vc922_6085-6
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space1/users/sanders/ADRC2/vc922/RAW/6085
+first_study:		6
+last_study:		6
+start_image_id:		135
+end_image_id:		262
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:4:5
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc922_6085-7_to_711-2B_t4
+product=[vc922_6085-7_to_vc922_6085-2_t4][vc922_6085-2_to_711-2B_t4]
+t4
+  0.034730 -0.945640  0.264082   -0.7979
+ -0.058596  0.240587  0.861481   -6.8875
+ -0.921656 -0.028944 -0.085795    2.6204
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.917086
+rec vc922_6085-7.4dfp.img Wed Apr  7 12:00:58 CDT 1999 amy
+imato4dfp -0h /data/iac9/space1/users/sanders/ADRC2/vc922/RAW/6085 7 7 vc922_6085-7
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space1/users/sanders/ADRC2/vc922/RAW/6085
+first_study:		7
+last_study:		7
+start_image_id:		263
+end_image_id:		390
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:4:5
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc922_6085-8_to_711-2B_t4
+product=[vc922_6085-8_to_vc922_6085-2_t4][vc922_6085-2_to_711-2B_t4]
+t4
+  0.037795 -0.943836  0.271746   -0.8794
+ -0.057929  0.248607  0.859485   -6.7830
+ -0.921013 -0.032295 -0.083795    2.5889
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.917253
+rec vc922_6085-8.4dfp.img Wed Apr  7 12:02:42 CDT 1999 amy
+imato4dfp -0h /data/iac9/space1/users/sanders/ADRC2/vc922/RAW/6085 8 8 vc922_6085-8
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space1/users/sanders/ADRC2/vc922/RAW/6085
+first_study:		8
+last_study:		8
+start_image_id:		391
+end_image_id:		518
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:4:5
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Wed Apr  7 12:25:51 1999  amy
+endrec Tue Sep 14 10:44:05 1999  randy
+endrec Fri Dec 10 20:56:05 1999  avi
+endrec Mon Dec 13 15:57:41 1999  avi
+t4
+product transform temp_t4
+product=[vc1149_mpr_n3_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.046069 -0.007498  0.007499   -0.0520
+  0.004109  1.061899 -0.021439    0.0365
+ -0.007540  0.002000  1.075943   -0.3877
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.147545
+rec vc1149_mpr_n3/vc1149_mpr_n3_111_t88_gfc.4dfp.img  Mon Dec 13 15:57:51 1999  avi
+analyzeto4dfp vc1149_mpr_n3/vc1149_mpr_n3_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1149_mpr_n3_111_t88_gfc.img  Sun Dec 12 01:12:02 1999  avi
+partitiond_gfc vc1149_mpr_n3_111_t88.4dint -n -l0 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc1149_mpr_n3_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.2474  0.0782  0.0634 -0.0072 -0.3518 -0.1686 -0.2433 -0.0071  0.0045 -0.2808
+region   voxels      mean      s.d.   ix   iy   iz
+1        712360    730.31   88.4858   65  107  140
+2        510417   1084.96   85.9073   75   96  128
+3        307758    291.77   83.4144   81  165   48
+4         22612    462.13   55.5784   49   24    3
+5         11897    235.35   47.5140  120  198   39
+6          8785   1108.06   78.0333  114   54  140
+7          4887    242.35   44.6067   52  174   47
+8          4758    240.57   45.0081  123  179   32
+9          3912    790.03   72.0310  151   99   80
+10         3360    269.06   48.3182   65    2   74
+11         3203   1902.86   77.5136   66  168   30
+12         3072   1915.17   76.8573  116  165   34
+13         2761    652.96  105.0183   28  133   91
+14         2258    391.48   74.7039  121   21   69
+15         2209    218.81   45.5139  104  101  170
+16         1768   1286.65   80.5632   93  107   26
+17         1751   2313.82   82.5509  152  147   31
+18         1511   2317.66   82.4029   22  138   43
+19         1506   1213.62   68.3269   80   14   88
+20         1433   1210.78   66.1081   74   64  150
+21         1428   1899.87   84.5310   18  139   14
+22         1424    969.31   57.6439   36  135    9
+23         1414   1090.49   74.9717   95   65    2
+24         1377    217.28   37.2232   92   14  111
+rec vc1149_mpr_n3_111_t88.4dint.img  Tue Sep 14 12:14:19 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc1149_mpr_n3_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1191_mpr_n3_111_t88.4dfp.img  Thu Jul 22 17:43:36 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc1191_mpr_n3_atl.lst vc1191_mpr_n3_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.15 1999/02/10 07:57:32 avi Exp $
+sub
+vc1191_1008-2	t4=vc1191_1008-2_to_711-2B_t4
+vc1191_1008-6	t4=vc1191_1008-6_to_711-2B_t4
+vc1191_1008-7	t4=vc1191_1008-7_to_711-2B_t4
+endsub
+t4
+product transform vc1191_1008-2_to_711-2B_t4
+product=[vc1191_1008-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.022189 -0.907232  0.419876   -7.4298
+ -0.019215  0.427757  0.863499  -15.6794
+ -0.988393  0.030069 -0.009386    1.1901
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.877821
+rec vc1191_1008-2.4dfp.img Thu Jul 22 17:24:06 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1191/RAW/1008 2 2 vc1191_1008-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1191/RAW/1008
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:22
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1191_1008-6_to_711-2B_t4
+product=[vc1191_1008-6_to_vc1191_1008-2_t4][vc1191_1008-2_to_711-2B_t4]
+t4
+ -0.036439 -0.907768  0.419250   -6.9198
+  0.005455  0.426500  0.865519  -14.5414
+ -0.988821  0.053830  0.006160    1.5663
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.800253
+rec vc1191_1008-6.4dfp.img Thu Jul 22 17:25:58 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1191/RAW/1008 6 6 vc1191_1008-6
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1191/RAW/1008
+first_study:		6
+last_study:		6
+start_image_id:		135
+end_image_id:		262
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:22
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1191_1008-7_to_711-2B_t4
+product=[vc1191_1008-7_to_vc1191_1008-2_t4][vc1191_1008-2_to_711-2B_t4]
+t4
+ -0.041277 -0.900379  0.432766   -6.6495
+  0.002344  0.440922  0.858585  -14.2840
+ -0.988542  0.056684  0.000801    1.4637
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.802609
+rec vc1191_1008-7.4dfp.img Thu Jul 22 17:27:53 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1191/RAW/1008 7 7 vc1191_1008-7
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1191/RAW/1008
+first_study:		7
+last_study:		7
+start_image_id:		263
+end_image_id:		390
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:22
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Thu Jul 22 17:45:23 1999  amy
+endrec Tue Sep 14 12:14:19 1999  randy
+endrec Sun Dec 12 01:12:02 1999  avi
+endrec Mon Dec 13 15:57:51 1999  avi
+t4
+product transform temp_t4
+product=[vc1168_mpr_n4_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.059206 -0.004221  0.009643   -0.1466
+  0.009106  1.044790 -0.015285    1.1384
+ -0.011008 -0.004033  1.007416   -1.5310
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.089117
+rec vc1168_mpr_n4/vc1168_mpr_n4_111_t88_gfc.4dfp.img  Mon Dec 13 15:58:01 1999  avi
+analyzeto4dfp vc1168_mpr_n4/vc1168_mpr_n4_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1168_mpr_n4_111_t88_gfc.img  Sun Dec 12 01:38:04 1999  avi
+partitiond_gfc vc1168_mpr_n4_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc1168_mpr_n4_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1597  0.1411  0.0289 -0.0190 -0.2185 -0.0842 -0.0980 -0.0240  0.0041 -0.1759
+region   voxels      mean      s.d.   ix   iy   iz
+1        989522    756.92  105.7607   60   49    4
+2        560048   1156.22   86.8026  123  130  103
+3        482982    341.46  103.7852   79   80    6
+4         45422   2568.71   95.8619   76  141  162
+5         43590   1149.76  107.3846  144   48   13
+6         16223   1501.31   99.2177  114   21   29
+7         14603   2468.61  109.0551  163  141   42
+8         10771   2303.11  112.8361    7  123   56
+9          9672   1922.17  117.7660   80   15   41
+10         8666   1067.47   95.3463  143  103  139
+11         8608   2016.36  114.3919  159  133   20
+12         8203   1079.96   86.8124   27  109    3
+13         8176   1118.92  100.6983   96  110   34
+14         7573   2157.12  101.5603   49  167   28
+15         6597    411.61   69.5534  101   10    2
+16         6544    223.69   67.0407  109   76   85
+17         6260   2160.72  100.1109  130  174   50
+18         5965    239.83   52.6273  130  198   17
+19         5935    243.48   54.9036   50  197   10
+20         5886    978.99   84.0666   25  113  125
+21         5809   1686.10  118.4795   16  122   13
+22         5559   1093.40   97.0339   35  148  118
+23         4620    201.72   37.3704   82  129  175
+24         4164    214.52   53.1273   93   68  174
+rec vc1168_mpr_n4_111_t88.4dint.img  Tue Sep 14 12:23:09 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc1168_mpr_n4_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1168_mpr_n4_111_t88.4dfp.img  Thu Jul 29 17:29:10 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc1168_mpr_n4_atl.lst vc1168_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.15 1999/02/10 07:57:32 avi Exp $
+sub
+vc1168_1170-2	t4=vc1168_1170-2_to_711-2B_t4
+vc1168_1170-6	t4=vc1168_1170-6_to_711-2B_t4
+vc1168_1170-7	t4=vc1168_1170-7_to_711-2B_t4
+vc1168_1170-8	t4=vc1168_1170-8_to_711-2B_t4
+endsub
+t4
+product transform vc1168_1170-2_to_711-2B_t4
+product=[vc1168_1170-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.018800 -0.963046  0.180057   -8.2246
+ -0.046958  0.206708  0.867054  -21.4511
+ -0.943569 -0.053608 -0.047797    1.2161
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.868488
+rec vc1168_1170-2.4dfp.img Thu Jul 29 17:03:52 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1168/RAW/1170 2 2 vc1168_1170-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1168/RAW/1170
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:29
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1168_1170-6_to_711-2B_t4
+product=[vc1168_1170-6_to_vc1168_1170-2_t4][vc1168_1170-2_to_711-2B_t4]
+t4
+ -0.012975 -0.963456  0.179866   -7.3268
+ -0.038787  0.206479  0.867237  -20.7239
+ -0.943467 -0.057707 -0.039162    1.2058
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.832317
+rec vc1168_1170-6.4dfp.img Thu Jul 29 17:05:46 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1168/RAW/1170 6 6 vc1168_1170-6
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1168/RAW/1170
+first_study:		6
+last_study:		6
+start_image_id:		135
+end_image_id:		262
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:29
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1168_1170-7_to_711-2B_t4
+product=[vc1168_1170-7_to_vc1168_1170-2_t4][vc1168_1170-2_to_711-2B_t4]
+t4
+ -0.015616 -0.964373  0.174498   -7.1533
+ -0.037560  0.201071  0.869376  -20.6802
+ -0.943721 -0.054497 -0.038463    1.2710
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.829611
+rec vc1168_1170-7.4dfp.img Thu Jul 29 17:07:36 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1168/RAW/1170 7 7 vc1168_1170-7
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1168/RAW/1170
+first_study:		7
+last_study:		7
+start_image_id:		263
+end_image_id:		390
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:29
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1168_1170-8_to_711-2B_t4
+product=[vc1168_1170-8_to_vc1168_1170-2_t4][vc1168_1170-2_to_711-2B_t4]
+t4
+ -0.015521 -0.964365  0.175682   -7.2986
+ -0.033193  0.202444  0.868755  -20.7848
+ -0.944169 -0.053739 -0.034472    1.5411
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.834714
+rec vc1168_1170-8.4dfp.img Thu Jul 29 17:09:22 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1168/RAW/1170 8 8 vc1168_1170-8
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1168/RAW/1170
+first_study:		8
+last_study:		8
+start_image_id:		391
+end_image_id:		518
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:29
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Thu Jul 29 17:31:37 1999  amy
+endrec Tue Sep 14 12:23:09 1999  randy
+endrec Sun Dec 12 01:38:04 1999  avi
+endrec Mon Dec 13 15:58:01 1999  avi
+t4
+product transform temp_t4
+product=[vc1172_mpr_n4_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.072923 -0.004992  0.006289    0.1960
+ -0.002793  1.044814 -0.022908    0.4679
+ -0.011956  0.010627  1.016357   -1.2769
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.110463
+rec vc1172_mpr_n4/vc1172_mpr_n4_111_t88_gfc.4dfp.img  Mon Dec 13 15:58:10 1999  avi
+analyzeto4dfp vc1172_mpr_n4/vc1172_mpr_n4_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1172_mpr_n4_111_t88_gfc.img  Sun Dec 12 01:59:20 1999  avi
+partitiond_gfc vc1172_mpr_n4_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc1172_mpr_n4_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1732  0.0650  0.0648 -0.0004 -0.2080 -0.0705 -0.1673 -0.0015  0.0670 -0.2411
+region   voxels      mean      s.d.   ix   iy   iz
+1       1041202    726.38  107.7793   92  105   74
+2        523905    337.13   96.3522   50  115  130
+3        488609   1202.09   91.6645  141  116   95
+4         50492   2758.07   95.1244  118   20  109
+5         27382   1077.80   98.7170  142   47   28
+6         16653   1206.20  102.4990   85   99  168
+7         16194    247.60   67.2296  165  130  114
+8         11655   1990.22   94.9106   90  191  120
+9          9388   1448.42  103.2797   99   10   44
+10         8142   1055.27   85.9006   39  104   11
+11         6625    226.37   41.7820   48  171  142
+12         6391    419.52   59.1519   76   21    9
+13         6161    264.38   86.5020  113   77   79
+14         5750   1057.13   86.8832  135   97   10
+15         5045   2289.79  110.2333   14  142   15
+16         4568   1887.04  115.7466   20   53   47
+17         4514    211.54   41.0744  128  185   53
+18         4472    215.62   34.8668   43  176   48
+19         3657   1964.48   92.1437  128  171   61
+20         3372   2274.12  101.7990   23   44   72
+21         3202   2107.93  109.8262  159  141    5
+22         3151    991.16   28.7917   64   69   34
+23         2659    991.35   30.7744  111   67   38
+24         2640   2039.33  105.4161   50  163   43
+rec vc1172_mpr_n4_111_t88.4dint.img  Tue Sep 14 12:30:43 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc1172_mpr_n4_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1172_mpr_n4_111_t88.4dfp.img  Fri Jul 30 17:56:16 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc1172_mpr_n4_atl.lst vc1172_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.15 1999/02/10 07:57:32 avi Exp $
+sub
+vc1172_1197-2	t4=vc1172_1197-2_to_711-2B_t4
+vc1172_1197-6	t4=vc1172_1197-6_to_711-2B_t4
+vc1172_1197-7	t4=vc1172_1197-7_to_711-2B_t4
+vc1172_1197-8	t4=vc1172_1197-8_to_711-2B_t4
+endsub
+t4
+product transform vc1172_1197-2_to_711-2B_t4
+product=[vc1172_1197-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.030529 -0.895745  0.320172  -15.8529
+ -0.004930  0.295415  0.767576  -22.5944
+ -0.933966  0.021100 -0.030404    1.6863
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.869500
+rec vc1172_1197-2.4dfp.img Fri Jul 30 17:31:47 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1172/RAW/1197 2 2 vc1172_1197-2
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1172/RAW/1197
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:30
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1172_1197-6_to_711-2B_t4
+product=[vc1172_1197-6_to_vc1172_1197-2_t4][vc1172_1197-2_to_711-2B_t4]
+t4
+ -0.035386 -0.892694  0.327967  -14.6342
+ -0.009631  0.304967  0.764551  -21.3174
+ -0.933843  0.024057 -0.036193    1.4700
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.759996
+rec vc1172_1197-6.4dfp.img Fri Jul 30 17:33:27 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1172/RAW/1197 6 6 vc1172_1197-6
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1172/RAW/1197
+first_study:		6
+last_study:		6
+start_image_id:		135
+end_image_id:		262
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:30
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1172_1197-7_to_711-2B_t4
+product=[vc1172_1197-7_to_vc1172_1197-2_t4][vc1172_1197-2_to_711-2B_t4]
+t4
+ -0.033166 -0.894563  0.322971  -14.4900
+ -0.008282  0.299290  0.767323  -21.1871
+ -0.933983  0.022506 -0.034150    1.2560
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.759130
+rec vc1172_1197-7.4dfp.img Fri Jul 30 17:34:36 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1172/RAW/1197 7 7 vc1172_1197-7
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1172/RAW/1197
+first_study:		7
+last_study:		7
+start_image_id:		263
+end_image_id:		390
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:30
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1172_1197-8_to_711-2B_t4
+product=[vc1172_1197-8_to_vc1172_1197-2_t4][vc1172_1197-2_to_711-2B_t4]
+t4
+ -0.030214 -0.894999  0.322558  -14.4253
+ -0.002234  0.298481  0.767747  -21.1992
+ -0.933579  0.021602 -0.028136    1.0083
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.760426
+rec vc1172_1197-8.4dfp.img Fri Jul 30 17:35:36 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1172/RAW/1197 8 8 vc1172_1197-8
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.38 1996/07/29 20:08:29 yang Exp yang $
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1172/RAW/1197
+first_study:		8
+last_study:		8
+start_image_id:		391
+end_image_id:		518
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:7:30
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Fri Jul 30 17:58:43 1999  amy
+endrec Tue Sep 14 12:30:43 1999  randy
+endrec Sun Dec 12 01:59:20 1999  avi
+endrec Mon Dec 13 15:58:11 1999  avi
+t4
+product transform temp_t4
+product=[vc1249_mpr_n4_111_t88_to_atrophy_t4][atrophy_to_711-2B_t4]
+t4
+  1.063786 -0.000232  0.010940    0.1388
+ -0.007275  1.053548 -0.020838    0.7684
+ -0.014895 -0.013449  1.024763   -1.4930
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.111959
+rec vc1249_mpr_n4/vc1249_mpr_n4_111_t88_gfc.4dfp.img  Mon Dec 13 15:58:20 1999  avi
+analyzeto4dfp vc1249_mpr_n4/vc1249_mpr_n4_111_t88_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1249_mpr_n4_111_t88_gfc.img  Sun Dec 12 02:28:50 1999  avi
+partitiond_gfc vc1249_mpr_n4_111_t88.4dint -n -l30 -i1.25 
+$Id: partitiond_gfc.c,v 1.13 1999/12/08 23:06:58 avi Exp avi $
+vc1249_mpr_n4_111_t88.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.2091  0.0697  0.0616 -0.0069 -0.2420 -0.1342 -0.2111 -0.0009  0.0298 -0.2723
+region   voxels      mean      s.d.   ix   iy   iz
+1        730124    905.19  108.8430   59  126   63
+2        579235    289.33   92.8843  104  173   18
+3        376168   1263.14   83.4082  103   96  133
+4        131015    600.92   77.9251   87  174   14
+5        126660    235.50   52.7535   43  205   16
+6         68314   2858.68   97.0077  109  154  155
+7         28857   1267.75  102.1487   40   41    6
+8         13989    396.66   76.2484  131   25    9
+9         10283    573.59   77.6380  138   86  137
+10         8953   1644.07  101.4285   73   17   40
+11         8624    214.59   32.6005  154   81  164
+12         7313   1218.07   83.9819  130   97    3
+13         7052   2735.26  115.3667   18  135   46
+14         6709    265.46   56.4332   57  172   43
+15         6453    245.08   50.7561  117  175   36
+16         6358    600.60   74.7538  108  124   37
+17         5101   2368.85   97.8168   14  135   39
+18         4851    587.89   67.0510  103  136   60
+19         4740    578.93   83.5314  106   19    5
+20         4121   1694.55   99.7024  123  191   88
+21         3919    217.75   38.8223   70  139  173
+22         3897   2295.90   99.3057   48  162   51
+23         3768   1644.88   96.2284   84   89  164
+24         3380    975.55  100.8236  114  180   30
+rec vc1249_mpr_n4_111_t88.4dint.img  Tue Sep 14 12:39:48 1999  randy
+/home/iac3/nil-tools/4dfptoanalyze vc1249_mpr_n4_111_t88 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1249_mpr_n4_111_t88.4dfp.img  Thu Sep  2 18:07:16 1999  amy
+/home/iac3/nil-tools/t4imgs_4dfp vc1249_mpr_n4_atl.lst vc1249_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.15 1999/02/10 07:57:32 avi Exp $
+sub
+vc1249_1743-2	t4=vc1249_1743-2_to_711-2B_t4
+vc1249_1743-6	t4=vc1249_1743-6_to_711-2B_t4
+vc1249_1743-7	t4=vc1249_1743-7_to_711-2B_t4
+vc1249_1743-8	t4=vc1249_1743-8_to_711-2B_t4
+endsub
+t4
+product transform vc1249_1743-2_to_711-2B_t4
+product=[vc1249_1743-2_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.048647 -0.849642  0.369038   -2.3427
+ -0.024352  0.400438  0.786229   -8.1909
+ -0.927675  0.024541 -0.058645    2.9064
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.904307
+rec vc1249_1743-2.4dfp.img Thu Sep  2 17:42:21 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1249/RAW/1743 2 2 vc1249_1743-2
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1249/RAW/1743
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:9:2
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1249_1743-6_to_711-2B_t4
+product=[vc1249_1743-6_to_vc1249_1743-2_t4][vc1249_1743-2_to_711-2B_t4]
+t4
+ -0.051853 -0.847455  0.372922   -1.3372
+ -0.035679  0.405044  0.783260   -6.6668
+ -0.926593  0.022280 -0.069640    1.6363
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.911747
+rec vc1249_1743-6.4dfp.img Thu Sep  2 17:43:51 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1249/RAW/1743 6 6 vc1249_1743-6
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1249/RAW/1743
+first_study:		6
+last_study:		6
+start_image_id:		135
+end_image_id:		262
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:9:2
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1249_1743-7_to_711-2B_t4
+product=[vc1249_1743-7_to_vc1249_1743-2_t4][vc1249_1743-2_to_711-2B_t4]
+t4
+ -0.059712 -0.842221  0.382899   -1.3634
+ -0.037098  0.416646  0.778725   -6.5005
+ -0.926071  0.028029 -0.074426    1.7336
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.915232
+rec vc1249_1743-7.4dfp.img Thu Sep  2 17:45:30 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1249/RAW/1743 7 7 vc1249_1743-7
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1249/RAW/1743
+first_study:		7
+last_study:		7
+start_image_id:		263
+end_image_id:		390
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:9:2
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform vc1249_1743-8_to_711-2B_t4
+product=[vc1249_1743-8_to_vc1249_1743-2_t4][vc1249_1743-2_to_711-2B_t4]
+t4
+ -0.060584 -0.842694  0.380924   -1.2669
+ -0.027673  0.414607  0.780546   -6.5682
+ -0.926227  0.033191 -0.066786    1.9928
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.909344
+rec vc1249_1743-8.4dfp.img Thu Sep  2 17:46:51 CDT 1999 amy
+imato4dfp -0h /data/iac9/space2/users/sanders/ADRC3/vc1249/RAW/1743 8 8 vc1249_1743-8
+
+patient_id:		/data/iac9/space2/users/sanders/ADRC3/vc1249/RAW/1743
+first_study:		8
+last_study:		8
+start_image_id:		391
+end_image_id:		518
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		1999:9:2
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Thu Sep  2 18:09:39 1999  amy
+endrec Tue Sep 14 12:39:48 1999  randy
+endrec Sun Dec 12 02:28:51 1999  avi
+endrec Mon Dec 13 15:58:20 1999  avi
+endrec Tue May  5 19:29:37 2009  avi

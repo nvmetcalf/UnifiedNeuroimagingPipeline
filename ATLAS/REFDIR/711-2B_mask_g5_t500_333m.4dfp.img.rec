@@ -1,0 +1,1803 @@
+rec 711-2B_mask_g5_t500_333m.4dfp.img  Fri Sep  4 18:29:37 2009  russ@bruckner Linux 2.6.27.24-170.2.68.fc10.x86_64 x86_64
+maskimg_4dfp 711-2B_mask_g5_t500_333.4dfp.img np751_n22_CTRL_t2w_avg_t88_333_inv_clus 711-2B_mask_g5_t500_333m -t-700 
+$Id: maskimg_4dfp.c,v 1.15 2006/09/25 02:33:24 avi Exp $
+bigendian
+np751_n22_CTRL_t2w_avg_t88_333_inv_clus threshold=-700.000000
+rec 711-2B_mask_g5_t500_333.4dfp.img Fri Sep 12 14:44:52 CDT 2008 russ
+t4img_4dfp none 711-2B_mask_g5_t500.4dfp.img 711-2B_mask_g5_t500_333 -O333 -n
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec 711-2B_mask_g5_t500_333.4dfp.img  Fri Sep 12 14:44:51 2008  russ@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp 711-2B_mask_g5_t500_333.lst 711-2B_mask_g5_t500_333 -O333 -n 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by nearest-neighbor interpolation
+sub
+711-2B_mask_g5_t500	t4=
+endsub
+rec 711-2B_mask_g5_t500.4dfp.img  Wed May 19 14:50:03 2004  russ
+zero_lt_4dfp 500 711-2B_mask_g5.4dfp.img 711-2B_mask_g5_t500 
+$Id: zero_lt_4dfp.c,v 1.8 2001/08/02 01:11:51 avi Exp $
+rec 711-2B_mask_g5.4dfp.img  Sun Feb 21 02:24:51 1999  avi
+gauss_4dfp 711-2B_mask 0.5 
+$Id: gauss_4dfp.c,v 1.8 1999/01/18 03:23:54 avi Exp $
+rec 711-2B_mask.4dfp.img  Sun Feb 21 02:21:18 1999  avi
+maskimg_4dfp 711-2B_imgm_ANALYZE 711-2B_imgm_ANALYZE 711-2B_mask -v1000 
+$Id: maskimg_4dfp.c,v 1.6 1999/02/21 08:17:26 avi Exp $
+rec 711-2B_imgm_ANALYZE.4dfp.img  Fri Feb  5 21:23:56 1999  avi
+analyzeto4dfp 711-2B_imgm_ANALYZE 
+$Id: analyzeto4dfp.c,v 1.1 1998/05/14 18:33:45 tscull Exp $
+711-2B_imgm_ANALYZE.img.rec not found
+endrec Fri Feb  5 21:23:56 1999  avi
+rec 711-2B_imgm_ANALYZE.4dfp.img  Fri Feb  5 21:23:56 1999  avi
+analyzeto4dfp 711-2B_imgm_ANALYZE 
+$Id: analyzeto4dfp.c,v 1.1 1998/05/14 18:33:45 tscull Exp $
+711-2B_imgm_ANALYZE.img.rec not found
+endrec Fri Feb  5 21:23:56 1999  avi
+endrec Sun Feb 21 02:21:18 1999  avi
+endrec Sun Feb 21 02:24:51 1999  avi
+endrec Wed May 19 14:50:03 2004  russ
+endrec Fri Sep 12 14:44:52 2008  russ
+endrec Fri Sep 12 14:44:52 CDT 2008 russ
+rec np751_n22_CTRL_t2w_avg_t88_333_inv_clus.4dfp.img  Fri Sep  4 18:28:25 2009  russ@bruckner Linux 2.6.27.24-170.2.68.fc10.x86_64 x86_64
+cluster_4dfp np751_n22_CTRL_t2w_avg_t88_333_inv -At700 -n5 
+$Id: cluster_4dfp.c,v 1.7 2009/08/06 01:37:42 avi Exp $
+littleendian
+Threshold = 700.0000 applied to absolute value
+Starting number of clusters = 153
+Cluster size criterion = 5 voxels
+108 clusters zeroed
+rec np751_n22_CTRL_t2w_avg_t88_333_inv.4dfp.img  Fri Sep  4 18:18:57 2009  russ@bruckner Linux 2.6.27.24-170.2.68.fc10.x86_64 x86_64
+scale_4dfp np751_n22_CTRL_t2w_avg_t88_333.4dfp.img -1 -ainv 
+$Id: scale_4dfp.c,v 1.14 2007/07/05 05:01:52 avi Exp $
+littleendian
+Scaled by -1.000000
+rec np751_n22_CTRL_t2w_avg_t88_333.4dfp.img  Fri Sep  4 17:26:11 2009  russ@bruckner Linux 2.6.27.24-170.2.68.fc10.x86_64 x86_64
+t4imgs_4dfp /data/nil-bluearc/raichle/gusnard/np751/func_conn/np751_n22_CTRL_t2w.lst np751_n22_CTRL_t2w_avg_t88_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.31 2009/07/21 04:34:03 avi Exp $
+littleendian
+resampling by 3D linear interpolation
+sub
+/data/nil-bluearc/raichle/gusnard/np751/TC26851/atlas/TC26851_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC26851/atlas/TC26851_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC26977/atlas/TC26977_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC26977/atlas/TC26977_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC27023/atlas/TC27023_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC27023/atlas/TC27023_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC27088/atlas/TC27088_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC27088/atlas/TC27088_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC27182/atlas/TC27182_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC27182/atlas/TC27182_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC27444/atlas/TC27444_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC27444/atlas/TC27444_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC27502/atlas/TC27502_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC27502/atlas/TC27502_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC27734/atlas/TC27734_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC27734/atlas/TC27734_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC27817/atlas/TC27817_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC27817/atlas/TC27817_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC27833/atlas/TC27833_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC27833/atlas/TC27833_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC27836/atlas/TC27836_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC27836/atlas/TC27836_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC28086/atlas/TC28086_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC28086/atlas/TC28086_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC28087/atlas/TC28087_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC28087/atlas/TC28087_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC28094/atlas/TC28094_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC28094/atlas/TC28094_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC28097/atlas/TC28097_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC28097/atlas/TC28097_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC28244/atlas/TC28244_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC28244/atlas/TC28244_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC28245/atlas/TC28245_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC28245/atlas/TC28245_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC28514/atlas/TC28514_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC28514/atlas/TC28514_t2w_to_TRIO_Y_NDC_t4
+/data/nil-bluearc/raichle/gusnard/np751/TC29035/atlas/TC29035_t2w.4dfp.img	t4=/data/nil-bluearc/raichle/gusnard/np751/TC29035/atlas/TC29035_t2w_to_TRIO_Y_NDC_t4
+endsub
+t4
+#t4_mul TC26851_t2w_to_TC26851_mpr1_t4 TC26851_mpr1_to_TRIO_Y_NDC_t4 TC26851_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC26851_t2w_to_TC26851_mpr1_t4][TC26851_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.991454  0.021463  0.022094    0.0181
+ -0.013502  1.016334 -0.093646   10.8752
+  0.005506  0.076825  0.928225   -6.5493
+  0.000000  0.000000  0.000000    1.0000
+rec TC26851_t2w.4dfp.img  Tue Jun  2 07:27:39 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC26851_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.10.2008.03.20.13.02.49.500000.68277071.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.11.2008.03.20.13.02.49.500000.68277377.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.1.2008.03.20.13.02.49.500000.68277287.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.12.2008.03.20.13.02.49.500000.68277089.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.13.2008.03.20.13.02.49.500000.68277395.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.14.2008.03.20.13.02.49.500000.68277107.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.15.2008.03.20.13.02.49.500000.68277413.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.16.2008.03.20.13.02.49.500000.68277125.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.17.2008.03.20.13.02.49.500000.68277431.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.18.2008.03.20.13.02.49.500000.68277143.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.19.2008.03.20.13.02.49.500000.68277449.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.20.2008.03.20.13.02.49.500000.68277161.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.21.2008.03.20.13.02.49.500000.68277467.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.2.2008.03.20.13.02.49.500000.68276999.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.22.2008.03.20.13.02.49.500000.68277179.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.23.2008.03.20.13.02.49.500000.68277485.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.24.2008.03.20.13.02.49.500000.68277197.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.25.2008.03.20.13.02.49.500000.68277503.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.26.2008.03.20.13.02.49.500000.68277215.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.27.2008.03.20.13.02.49.500000.68277521.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.28.2008.03.20.13.02.49.500000.68277233.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.29.2008.03.20.13.02.49.500000.68277539.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.30.2008.03.20.13.02.49.500000.68277251.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.31.2008.03.20.13.02.49.500000.68277557.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.3.2008.03.20.13.02.49.500000.68277305.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.32.2008.03.20.13.02.49.500000.68277269.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.4.2008.03.20.13.02.49.500000.68277017.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.5.2008.03.20.13.02.49.500000.68277323.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.6.2008.03.20.13.02.49.500000.68277035.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.7.2008.03.20.13.02.49.500000.68277341.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.8.2008.03.20.13.02.49.500000.68277053.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.9.2008.03.20.13.02.49.500000.68277359.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	141050.765000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.1.2008.03.20.13.02.49.500000.68277287.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.2.2008.03.20.13.02.49.500000.68276999.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.3.2008.03.20.13.02.49.500000.68277305.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.4.2008.03.20.13.02.49.500000.68277017.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.5.2008.03.20.13.02.49.500000.68277323.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.6.2008.03.20.13.02.49.500000.68277035.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.7.2008.03.20.13.02.49.500000.68277341.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.8.2008.03.20.13.02.49.500000.68277053.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.9.2008.03.20.13.02.49.500000.68277359.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.10.2008.03.20.13.02.49.500000.68277071.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.11.2008.03.20.13.02.49.500000.68277377.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.12.2008.03.20.13.02.49.500000.68277089.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.13.2008.03.20.13.02.49.500000.68277395.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.14.2008.03.20.13.02.49.500000.68277107.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.15.2008.03.20.13.02.49.500000.68277413.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.16.2008.03.20.13.02.49.500000.68277125.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.17.2008.03.20.13.02.49.500000.68277431.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.18.2008.03.20.13.02.49.500000.68277143.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.19.2008.03.20.13.02.49.500000.68277449.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.20.2008.03.20.13.02.49.500000.68277161.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.21.2008.03.20.13.02.49.500000.68277467.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.22.2008.03.20.13.02.49.500000.68277179.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.23.2008.03.20.13.02.49.500000.68277485.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.24.2008.03.20.13.02.49.500000.68277197.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.25.2008.03.20.13.02.49.500000.68277503.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.26.2008.03.20.13.02.49.500000.68277215.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.27.2008.03.20.13.02.49.500000.68277521.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.28.2008.03.20.13.02.49.500000.68277233.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.29.2008.03.20.13.02.49.500000.68277539.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.30.2008.03.20.13.02.49.500000.68277251.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.31.2008.03.20.13.02.49.500000.68277557.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC26851/siem_im_2//TC26851.MR.HEAD_GUSNARD.5.32.2008.03.20.13.02.49.500000.68277269.IMA
+endrec Tue Jun  2 07:27:39 2009  gandera
+t4
+#t4_mul TC26977_t2w_to_TC26977_mpr1_t4 TC26977_mpr1_to_TRIO_Y_NDC_t4 TC26977_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC26977_t2w_to_TC26977_mpr1_t4][TC26977_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.969239  0.020922  0.014542   -0.9004
+ -0.013368  0.977779 -0.153261    7.9579
+  0.008544  0.109005  0.885785   -6.3114
+  0.000000  0.000000  0.000000    1.0000
+rec TC26977_t2w.4dfp.img Wed Jun  3 11:10:07 2009  ferraral
+dcm_to_4dfp -b TC26977_t2w 
+$Id: dcm_to_4dfp.c,v 1.24 2004/04/22 19:55:26 jon Exp jon $
+
+Patient_Name:		TC26977
+Patient_ID:		TC26977
+Institution:		Washington University
+ID Study Date:		20080331
+dcm_to_4dfp text:	120746.546000
+Orientation:		Transverse
+ID Sequence Name:	*tse2d1_17
+ACQ Protocol Name:	tse_p3
+ACQ Sequence Description	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):     32  Thickness (mm):    4.00000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     1872
+
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.1.2008.03.31.13.54.23.609375.71881873.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.2.2008.03.31.13.54.23.609375.71881585.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.3.2008.03.31.13.54.23.609375.71881891.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.4.2008.03.31.13.54.23.609375.71881603.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.5.2008.03.31.13.54.23.609375.71881909.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.6.2008.03.31.13.54.23.609375.71881621.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.7.2008.03.31.13.54.23.609375.71881927.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.8.2008.03.31.13.54.23.609375.71881639.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.9.2008.03.31.13.54.23.609375.71881945.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.10.2008.03.31.13.54.23.609375.71881657.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.11.2008.03.31.13.54.23.609375.71881963.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.12.2008.03.31.13.54.23.609375.71881675.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.13.2008.03.31.13.54.23.609375.71881981.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.14.2008.03.31.13.54.23.609375.71881693.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.15.2008.03.31.13.54.23.609375.71881999.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.16.2008.03.31.13.54.23.609375.71881711.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.17.2008.03.31.13.54.23.609375.71882017.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.18.2008.03.31.13.54.23.609375.71881729.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.19.2008.03.31.13.54.23.609375.71882035.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.20.2008.03.31.13.54.23.609375.71881747.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.21.2008.03.31.13.54.23.609375.71882053.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.22.2008.03.31.13.54.23.609375.71881765.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.23.2008.03.31.13.54.23.609375.71882071.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.24.2008.03.31.13.54.23.609375.71881783.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.25.2008.03.31.13.54.23.609375.71882089.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.26.2008.03.31.13.54.23.609375.71881801.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.27.2008.03.31.13.54.23.609375.71882107.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.28.2008.03.31.13.54.23.609375.71881819.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.29.2008.03.31.13.54.23.609375.71882125.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.30.2008.03.31.13.54.23.609375.71881837.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.31.2008.03.31.13.54.23.609375.71882143.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC26977/siem_im//TC26977.MR.HEAD_GUSNARD.5.32.2008.03.31.13.54.23.609375.71881855.IMA
+endrec Wed Jun  3 11:10:07 2009  ferraral
+t4
+#t4_mul TC27023_t2w_to_TC27023_mpr1_t4 TC27023_mpr1_to_TRIO_Y_NDC_t4 TC27023_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC27023_t2w_to_TC27023_mpr1_t4][TC27023_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.980519  0.014257  0.020818   -0.5274
+ -0.028262  1.031424 -0.117145    9.2048
+ -0.007865  0.108486  0.919295   -7.8829
+  0.000000  0.000000  0.000000    1.0000
+rec TC27023_t2w.4dfp.img  Tue Jun  2 09:00:10 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC27023_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.10.2008.04.05.17.04.18.390625.73562633.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.11.2008.04.05.17.04.18.390625.73562939.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.1.2008.04.05.17.04.18.390625.73562849.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.12.2008.04.05.17.04.18.390625.73562651.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.13.2008.04.05.17.04.18.390625.73562957.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.14.2008.04.05.17.04.18.390625.73562669.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.15.2008.04.05.17.04.18.390625.73562975.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.16.2008.04.05.17.04.18.390625.73562687.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.17.2008.04.05.17.04.18.390625.73562993.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.18.2008.04.05.17.04.18.390625.73562705.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.19.2008.04.05.17.04.18.390625.73563011.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.20.2008.04.05.17.04.18.390625.73562723.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.21.2008.04.05.17.04.18.390625.73563029.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.2.2008.04.05.17.04.18.390625.73562561.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.22.2008.04.05.17.04.18.390625.73562741.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.23.2008.04.05.17.04.18.390625.73563047.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.24.2008.04.05.17.04.18.390625.73562759.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.25.2008.04.05.17.04.18.390625.73563065.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.26.2008.04.05.17.04.18.390625.73562777.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.27.2008.04.05.17.04.18.390625.73563083.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.28.2008.04.05.17.04.18.390625.73562795.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.29.2008.04.05.17.04.18.390625.73563101.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.30.2008.04.05.17.04.18.390625.73562813.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.31.2008.04.05.17.04.18.390625.73563119.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.3.2008.04.05.17.04.18.390625.73562867.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.32.2008.04.05.17.04.18.390625.73562831.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.4.2008.04.05.17.04.18.390625.73562579.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.5.2008.04.05.17.04.18.390625.73562885.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.6.2008.04.05.17.04.18.390625.73562597.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.7.2008.04.05.17.04.18.390625.73562903.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.8.2008.04.05.17.04.18.390625.73562615.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.9.2008.04.05.17.04.18.390625.73562921.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	153936.000000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.1.2008.04.05.17.04.18.390625.73562849.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.2.2008.04.05.17.04.18.390625.73562561.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.3.2008.04.05.17.04.18.390625.73562867.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.4.2008.04.05.17.04.18.390625.73562579.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.5.2008.04.05.17.04.18.390625.73562885.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.6.2008.04.05.17.04.18.390625.73562597.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.7.2008.04.05.17.04.18.390625.73562903.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.8.2008.04.05.17.04.18.390625.73562615.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.9.2008.04.05.17.04.18.390625.73562921.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.10.2008.04.05.17.04.18.390625.73562633.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.11.2008.04.05.17.04.18.390625.73562939.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.12.2008.04.05.17.04.18.390625.73562651.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.13.2008.04.05.17.04.18.390625.73562957.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.14.2008.04.05.17.04.18.390625.73562669.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.15.2008.04.05.17.04.18.390625.73562975.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.16.2008.04.05.17.04.18.390625.73562687.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.17.2008.04.05.17.04.18.390625.73562993.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.18.2008.04.05.17.04.18.390625.73562705.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.19.2008.04.05.17.04.18.390625.73563011.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.20.2008.04.05.17.04.18.390625.73562723.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.21.2008.04.05.17.04.18.390625.73563029.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.22.2008.04.05.17.04.18.390625.73562741.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.23.2008.04.05.17.04.18.390625.73563047.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.24.2008.04.05.17.04.18.390625.73562759.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.25.2008.04.05.17.04.18.390625.73563065.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.26.2008.04.05.17.04.18.390625.73562777.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.27.2008.04.05.17.04.18.390625.73563083.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.28.2008.04.05.17.04.18.390625.73562795.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.29.2008.04.05.17.04.18.390625.73563101.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.30.2008.04.05.17.04.18.390625.73562813.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.31.2008.04.05.17.04.18.390625.73563119.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC27023/siem_im//TC27023.MR.HEAD_GUSNARD.5.32.2008.04.05.17.04.18.390625.73562831.IMA
+endrec Tue Jun  2 09:00:10 2009  gandera
+t4
+#t4_mul TC27088_t2w_to_TC27088_mpr1_t4 TC27088_mpr1_to_TRIO_Y_NDC_t4 TC27088_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC27088_t2w_to_TC27088_mpr1_t4][TC27088_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.897072  0.039424  0.024535   -1.0553
+ -0.023604  0.947208 -0.152882    6.5884
+ -0.004426  0.126028  0.924748   -5.6723
+  0.000000  0.000000  0.000000    1.0000
+rec TC27088_t2w.4dfp.img  Tue Jun  2 09:50:43 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC27088_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.10.2008.04.11.17.53.01.171875.75857061.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.11.2008.04.11.17.53.01.171875.75857367.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.1.2008.04.11.17.53.01.171875.75857277.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.12.2008.04.11.17.53.01.171875.75857079.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.13.2008.04.11.17.53.01.171875.75857385.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.14.2008.04.11.17.53.01.171875.75857097.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.15.2008.04.11.17.53.01.171875.75857403.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.16.2008.04.11.17.53.01.171875.75857115.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.17.2008.04.11.17.53.01.171875.75857421.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.18.2008.04.11.17.53.01.171875.75857133.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.19.2008.04.11.17.53.01.171875.75857439.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.20.2008.04.11.17.53.01.171875.75857151.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.21.2008.04.11.17.53.01.171875.75857457.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.2.2008.04.11.17.53.01.171875.75856989.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.22.2008.04.11.17.53.01.171875.75857169.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.23.2008.04.11.17.53.01.171875.75857475.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.24.2008.04.11.17.53.01.171875.75857187.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.25.2008.04.11.17.53.01.171875.75857493.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.26.2008.04.11.17.53.01.171875.75857205.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.27.2008.04.11.17.53.01.171875.75857511.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.28.2008.04.11.17.53.01.171875.75857223.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.29.2008.04.11.17.53.01.171875.75857529.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.30.2008.04.11.17.53.01.171875.75857241.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.31.2008.04.11.17.53.01.171875.75857547.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.3.2008.04.11.17.53.01.171875.75857295.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.32.2008.04.11.17.53.01.171875.75857259.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.4.2008.04.11.17.53.01.171875.75857007.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.5.2008.04.11.17.53.01.171875.75857313.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.6.2008.04.11.17.53.01.171875.75857025.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.7.2008.04.11.17.53.01.171875.75857331.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.8.2008.04.11.17.53.01.171875.75857043.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.9.2008.04.11.17.53.01.171875.75857349.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	155824.828000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.1.2008.04.11.17.53.01.171875.75857277.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.2.2008.04.11.17.53.01.171875.75856989.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.3.2008.04.11.17.53.01.171875.75857295.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.4.2008.04.11.17.53.01.171875.75857007.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.5.2008.04.11.17.53.01.171875.75857313.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.6.2008.04.11.17.53.01.171875.75857025.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.7.2008.04.11.17.53.01.171875.75857331.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.8.2008.04.11.17.53.01.171875.75857043.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.9.2008.04.11.17.53.01.171875.75857349.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.10.2008.04.11.17.53.01.171875.75857061.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.11.2008.04.11.17.53.01.171875.75857367.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.12.2008.04.11.17.53.01.171875.75857079.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.13.2008.04.11.17.53.01.171875.75857385.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.14.2008.04.11.17.53.01.171875.75857097.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.15.2008.04.11.17.53.01.171875.75857403.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.16.2008.04.11.17.53.01.171875.75857115.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.17.2008.04.11.17.53.01.171875.75857421.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.18.2008.04.11.17.53.01.171875.75857133.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.19.2008.04.11.17.53.01.171875.75857439.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.20.2008.04.11.17.53.01.171875.75857151.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.21.2008.04.11.17.53.01.171875.75857457.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.22.2008.04.11.17.53.01.171875.75857169.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.23.2008.04.11.17.53.01.171875.75857475.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.24.2008.04.11.17.53.01.171875.75857187.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.25.2008.04.11.17.53.01.171875.75857493.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.26.2008.04.11.17.53.01.171875.75857205.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.27.2008.04.11.17.53.01.171875.75857511.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.28.2008.04.11.17.53.01.171875.75857223.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.29.2008.04.11.17.53.01.171875.75857529.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.30.2008.04.11.17.53.01.171875.75857241.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.31.2008.04.11.17.53.01.171875.75857547.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC27088/siem_im//TC27088.MR.HEAD_GUSNARD.5.32.2008.04.11.17.53.01.171875.75857259.IMA
+endrec Tue Jun  2 09:50:43 2009  gandera
+t4
+#t4_mul TC27182_t2w_to_TC27182_mpr1_t4 TC27182_mpr1_to_TRIO_Y_NDC_t4 TC27182_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC27182_t2w_to_TC27182_mpr1_t4][TC27182_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.962129  0.018939  0.021587   -0.8954
+ -0.019361  0.965794 -0.124405    7.7553
+ -0.015913  0.127681  0.861796   -5.7528
+  0.000000  0.000000  0.000000    1.0000
+rec TC27182_t2w.4dfp.img  Tue Jun  2 10:09:23 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC27182_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.10.2008.04.24.14.42.19.578125.80746739.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.11.2008.04.24.14.42.19.578125.80747045.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.1.2008.04.24.14.42.19.578125.80746955.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.12.2008.04.24.14.42.19.578125.80746757.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.13.2008.04.24.14.42.19.578125.80747063.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.14.2008.04.24.14.42.19.578125.80746775.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.15.2008.04.24.14.42.19.578125.80747081.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.16.2008.04.24.14.42.19.578125.80746793.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.17.2008.04.24.14.42.19.578125.80747099.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.18.2008.04.24.14.42.19.578125.80746811.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.19.2008.04.24.14.42.19.578125.80747117.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.20.2008.04.24.14.42.19.578125.80746829.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.21.2008.04.24.14.42.19.578125.80747135.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.2.2008.04.24.14.42.19.578125.80746667.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.22.2008.04.24.14.42.19.578125.80746847.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.23.2008.04.24.14.42.19.578125.80747153.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.24.2008.04.24.14.42.19.578125.80746865.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.25.2008.04.24.14.42.19.578125.80747171.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.26.2008.04.24.14.42.19.578125.80746883.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.27.2008.04.24.14.42.19.578125.80747189.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.28.2008.04.24.14.42.19.578125.80746901.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.29.2008.04.24.14.42.19.578125.80747207.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.30.2008.04.24.14.42.19.578125.80746919.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.31.2008.04.24.14.42.19.578125.80747225.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.3.2008.04.24.14.42.19.578125.80746973.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.32.2008.04.24.14.42.19.578125.80746937.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.4.2008.04.24.14.42.19.578125.80746685.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.5.2008.04.24.14.42.19.578125.80746991.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.6.2008.04.24.14.42.19.578125.80746703.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.7.2008.04.24.14.42.19.578125.80747009.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.8.2008.04.24.14.42.19.578125.80746721.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.9.2008.04.24.14.42.19.578125.80747027.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	131158.671000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.1.2008.04.24.14.42.19.578125.80746955.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.2.2008.04.24.14.42.19.578125.80746667.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.3.2008.04.24.14.42.19.578125.80746973.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.4.2008.04.24.14.42.19.578125.80746685.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.5.2008.04.24.14.42.19.578125.80746991.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.6.2008.04.24.14.42.19.578125.80746703.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.7.2008.04.24.14.42.19.578125.80747009.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.8.2008.04.24.14.42.19.578125.80746721.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.9.2008.04.24.14.42.19.578125.80747027.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.10.2008.04.24.14.42.19.578125.80746739.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.11.2008.04.24.14.42.19.578125.80747045.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.12.2008.04.24.14.42.19.578125.80746757.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.13.2008.04.24.14.42.19.578125.80747063.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.14.2008.04.24.14.42.19.578125.80746775.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.15.2008.04.24.14.42.19.578125.80747081.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.16.2008.04.24.14.42.19.578125.80746793.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.17.2008.04.24.14.42.19.578125.80747099.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.18.2008.04.24.14.42.19.578125.80746811.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.19.2008.04.24.14.42.19.578125.80747117.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.20.2008.04.24.14.42.19.578125.80746829.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.21.2008.04.24.14.42.19.578125.80747135.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.22.2008.04.24.14.42.19.578125.80746847.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.23.2008.04.24.14.42.19.578125.80747153.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.24.2008.04.24.14.42.19.578125.80746865.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.25.2008.04.24.14.42.19.578125.80747171.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.26.2008.04.24.14.42.19.578125.80746883.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.27.2008.04.24.14.42.19.578125.80747189.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.28.2008.04.24.14.42.19.578125.80746901.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.29.2008.04.24.14.42.19.578125.80747207.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.30.2008.04.24.14.42.19.578125.80746919.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.31.2008.04.24.14.42.19.578125.80747225.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC27182/siem_im//TC27182.MR.HEAD_GUSNARD.5.32.2008.04.24.14.42.19.578125.80746937.IMA
+endrec Tue Jun  2 10:09:23 2009  gandera
+t4
+#t4_mul TC27444_t2w_to_TC27444_mpr1_t4 TC27444_mpr1_to_TRIO_Y_NDC_t4 TC27444_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC27444_t2w_to_TC27444_mpr1_t4][TC27444_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.919597  0.028583  0.014445   -0.3103
+ -0.025085  0.952663 -0.117224    7.1130
+ -0.019596  0.066326  0.876763   -8.2716
+  0.000000  0.000000  0.000000    1.0000
+rec TC27444_t2w.4dfp.img  Wed Jun  3 04:11:39 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC27444_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.10.2008.05.29.17.10.09.406250.92309159.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.11.2008.05.29.17.10.09.406250.92309465.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.1.2008.05.29.17.10.09.406250.92309375.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.12.2008.05.29.17.10.09.406250.92309177.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.13.2008.05.29.17.10.09.406250.92309483.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.14.2008.05.29.17.10.09.406250.92309195.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.15.2008.05.29.17.10.09.406250.92309501.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.16.2008.05.29.17.10.09.406250.92309213.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.17.2008.05.29.17.10.09.406250.92309519.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.18.2008.05.29.17.10.09.406250.92309231.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.19.2008.05.29.17.10.09.406250.92309537.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.20.2008.05.29.17.10.09.406250.92309249.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.21.2008.05.29.17.10.09.406250.92309555.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.2.2008.05.29.17.10.09.406250.92309087.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.22.2008.05.29.17.10.09.406250.92309267.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.23.2008.05.29.17.10.09.406250.92309573.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.24.2008.05.29.17.10.09.406250.92309285.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.25.2008.05.29.17.10.09.406250.92309591.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.26.2008.05.29.17.10.09.406250.92309303.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.27.2008.05.29.17.10.09.406250.92309609.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.28.2008.05.29.17.10.09.406250.92309321.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.29.2008.05.29.17.10.09.406250.92309627.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.30.2008.05.29.17.10.09.406250.92309339.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.31.2008.05.29.17.10.09.406250.92309645.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.3.2008.05.29.17.10.09.406250.92309393.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.32.2008.05.29.17.10.09.406250.92309357.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.4.2008.05.29.17.10.09.406250.92309105.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.5.2008.05.29.17.10.09.406250.92309411.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.6.2008.05.29.17.10.09.406250.92309123.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.7.2008.05.29.17.10.09.406250.92309429.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.8.2008.05.29.17.10.09.406250.92309141.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.9.2008.05.29.17.10.09.406250.92309447.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	152043.828000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.1.2008.05.29.17.10.09.406250.92309375.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.2.2008.05.29.17.10.09.406250.92309087.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.3.2008.05.29.17.10.09.406250.92309393.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.4.2008.05.29.17.10.09.406250.92309105.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.5.2008.05.29.17.10.09.406250.92309411.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.6.2008.05.29.17.10.09.406250.92309123.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.7.2008.05.29.17.10.09.406250.92309429.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.8.2008.05.29.17.10.09.406250.92309141.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.9.2008.05.29.17.10.09.406250.92309447.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.10.2008.05.29.17.10.09.406250.92309159.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.11.2008.05.29.17.10.09.406250.92309465.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.12.2008.05.29.17.10.09.406250.92309177.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.13.2008.05.29.17.10.09.406250.92309483.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.14.2008.05.29.17.10.09.406250.92309195.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.15.2008.05.29.17.10.09.406250.92309501.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.16.2008.05.29.17.10.09.406250.92309213.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.17.2008.05.29.17.10.09.406250.92309519.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.18.2008.05.29.17.10.09.406250.92309231.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.19.2008.05.29.17.10.09.406250.92309537.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.20.2008.05.29.17.10.09.406250.92309249.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.21.2008.05.29.17.10.09.406250.92309555.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.22.2008.05.29.17.10.09.406250.92309267.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.23.2008.05.29.17.10.09.406250.92309573.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.24.2008.05.29.17.10.09.406250.92309285.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.25.2008.05.29.17.10.09.406250.92309591.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.26.2008.05.29.17.10.09.406250.92309303.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.27.2008.05.29.17.10.09.406250.92309609.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.28.2008.05.29.17.10.09.406250.92309321.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.29.2008.05.29.17.10.09.406250.92309627.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.30.2008.05.29.17.10.09.406250.92309339.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.31.2008.05.29.17.10.09.406250.92309645.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC27444/siem_im_1//TC27444.MR.HEAD_GUSNARD.5.32.2008.05.29.17.10.09.406250.92309357.IMA
+endrec Wed Jun  3 04:11:39 2009  gandera
+t4
+#t4_mul TC27502_t2w_to_TC27502_mpr1_t4 TC27502_mpr1_to_TRIO_Y_NDC_t4 TC27502_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC27502_t2w_to_TC27502_mpr1_t4][TC27502_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.928902  0.024038  0.034927   -0.5247
+ -0.012546  0.991128 -0.107325    8.4667
+ -0.022345  0.110469  0.874979   -5.9034
+  0.000000  0.000000  0.000000    1.0000
+rec TC27502_t2w.4dfp.img  Wed Jun  3 04:29:41 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC27502_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.10.2008.06.05.21.03.24.468750.94699791.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.11.2008.06.05.21.03.24.468750.94700097.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.1.2008.06.05.21.03.24.468750.94700007.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.12.2008.06.05.21.03.24.468750.94699809.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.13.2008.06.05.21.03.24.468750.94700115.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.14.2008.06.05.21.03.24.468750.94699827.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.15.2008.06.05.21.03.24.468750.94700133.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.16.2008.06.05.21.03.24.468750.94699845.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.17.2008.06.05.21.03.24.468750.94700151.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.18.2008.06.05.21.03.24.468750.94699863.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.19.2008.06.05.21.03.24.468750.94700169.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.20.2008.06.05.21.03.24.468750.94699881.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.21.2008.06.05.21.03.24.468750.94700187.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.2.2008.06.05.21.03.24.468750.94699719.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.22.2008.06.05.21.03.24.468750.94699899.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.23.2008.06.05.21.03.24.468750.94700205.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.24.2008.06.05.21.03.24.468750.94699917.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.25.2008.06.05.21.03.24.468750.94700223.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.26.2008.06.05.21.03.24.468750.94699935.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.27.2008.06.05.21.03.24.468750.94700241.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.28.2008.06.05.21.03.24.468750.94699953.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.29.2008.06.05.21.03.24.468750.94700259.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.30.2008.06.05.21.03.24.468750.94699971.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.31.2008.06.05.21.03.24.468750.94700277.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.3.2008.06.05.21.03.24.468750.94700025.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.32.2008.06.05.21.03.24.468750.94699989.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.4.2008.06.05.21.03.24.468750.94699737.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.5.2008.06.05.21.03.24.468750.94700043.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.6.2008.06.05.21.03.24.468750.94699755.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.7.2008.06.05.21.03.24.468750.94700061.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.8.2008.06.05.21.03.24.468750.94699773.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.9.2008.06.05.21.03.24.468750.94700079.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	190250.062000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.1.2008.06.05.21.03.24.468750.94700007.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.2.2008.06.05.21.03.24.468750.94699719.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.3.2008.06.05.21.03.24.468750.94700025.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.4.2008.06.05.21.03.24.468750.94699737.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.5.2008.06.05.21.03.24.468750.94700043.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.6.2008.06.05.21.03.24.468750.94699755.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.7.2008.06.05.21.03.24.468750.94700061.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.8.2008.06.05.21.03.24.468750.94699773.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.9.2008.06.05.21.03.24.468750.94700079.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.10.2008.06.05.21.03.24.468750.94699791.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.11.2008.06.05.21.03.24.468750.94700097.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.12.2008.06.05.21.03.24.468750.94699809.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.13.2008.06.05.21.03.24.468750.94700115.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.14.2008.06.05.21.03.24.468750.94699827.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.15.2008.06.05.21.03.24.468750.94700133.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.16.2008.06.05.21.03.24.468750.94699845.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.17.2008.06.05.21.03.24.468750.94700151.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.18.2008.06.05.21.03.24.468750.94699863.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.19.2008.06.05.21.03.24.468750.94700169.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.20.2008.06.05.21.03.24.468750.94699881.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.21.2008.06.05.21.03.24.468750.94700187.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.22.2008.06.05.21.03.24.468750.94699899.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.23.2008.06.05.21.03.24.468750.94700205.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.24.2008.06.05.21.03.24.468750.94699917.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.25.2008.06.05.21.03.24.468750.94700223.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.26.2008.06.05.21.03.24.468750.94699935.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.27.2008.06.05.21.03.24.468750.94700241.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.28.2008.06.05.21.03.24.468750.94699953.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.29.2008.06.05.21.03.24.468750.94700259.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.30.2008.06.05.21.03.24.468750.94699971.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.31.2008.06.05.21.03.24.468750.94700277.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC27502/siem_im_1//TC27502.MR.HEAD_GUSNARD.5.32.2008.06.05.21.03.24.468750.94699989.IMA
+endrec Wed Jun  3 04:29:41 2009  gandera
+t4
+#t4_mul TC27734_t2w_to_TC27734_mpr1_t4 TC27734_mpr1_to_TRIO_Y_NDC_t4 TC27734_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC27734_t2w_to_TC27734_mpr1_t4][TC27734_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.942749  0.049884  0.014804    0.5553
+ -0.029500  0.956378 -0.116365    7.9890
+ -0.015047  0.111805  0.886107    0.7891
+  0.000000  0.000000  0.000000    1.0000
+rec TC27734_t2w.4dfp.img  Wed Jun  3 05:06:55 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC27734_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.10.2008.07.08.16.07.09.359375.104168937.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.11.2008.07.08.16.07.09.359375.104169243.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.1.2008.07.08.16.07.09.359375.104169153.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.12.2008.07.08.16.07.09.359375.104168955.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.13.2008.07.08.16.07.09.359375.104169261.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.14.2008.07.08.16.07.09.359375.104168973.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.15.2008.07.08.16.07.09.359375.104169279.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.16.2008.07.08.16.07.09.359375.104168991.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.17.2008.07.08.16.07.09.359375.104169297.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.18.2008.07.08.16.07.09.359375.104169009.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.19.2008.07.08.16.07.09.359375.104169315.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.20.2008.07.08.16.07.09.359375.104169027.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.21.2008.07.08.16.07.09.359375.104169333.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.2.2008.07.08.16.07.09.359375.104168865.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.22.2008.07.08.16.07.09.359375.104169045.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.23.2008.07.08.16.07.09.359375.104169351.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.24.2008.07.08.16.07.09.359375.104169063.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.25.2008.07.08.16.07.09.359375.104169369.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.26.2008.07.08.16.07.09.359375.104169081.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.27.2008.07.08.16.07.09.359375.104169387.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.28.2008.07.08.16.07.09.359375.104169099.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.29.2008.07.08.16.07.09.359375.104169405.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.30.2008.07.08.16.07.09.359375.104169117.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.31.2008.07.08.16.07.09.359375.104169423.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.3.2008.07.08.16.07.09.359375.104169171.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.32.2008.07.08.16.07.09.359375.104169135.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.4.2008.07.08.16.07.09.359375.104168883.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.5.2008.07.08.16.07.09.359375.104169189.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.6.2008.07.08.16.07.09.359375.104168901.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.7.2008.07.08.16.07.09.359375.104169207.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.8.2008.07.08.16.07.09.359375.104168919.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.9.2008.07.08.16.07.09.359375.104169225.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	142110.234000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.1.2008.07.08.16.07.09.359375.104169153.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.2.2008.07.08.16.07.09.359375.104168865.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.3.2008.07.08.16.07.09.359375.104169171.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.4.2008.07.08.16.07.09.359375.104168883.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.5.2008.07.08.16.07.09.359375.104169189.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.6.2008.07.08.16.07.09.359375.104168901.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.7.2008.07.08.16.07.09.359375.104169207.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.8.2008.07.08.16.07.09.359375.104168919.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.9.2008.07.08.16.07.09.359375.104169225.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.10.2008.07.08.16.07.09.359375.104168937.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.11.2008.07.08.16.07.09.359375.104169243.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.12.2008.07.08.16.07.09.359375.104168955.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.13.2008.07.08.16.07.09.359375.104169261.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.14.2008.07.08.16.07.09.359375.104168973.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.15.2008.07.08.16.07.09.359375.104169279.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.16.2008.07.08.16.07.09.359375.104168991.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.17.2008.07.08.16.07.09.359375.104169297.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.18.2008.07.08.16.07.09.359375.104169009.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.19.2008.07.08.16.07.09.359375.104169315.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.20.2008.07.08.16.07.09.359375.104169027.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.21.2008.07.08.16.07.09.359375.104169333.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.22.2008.07.08.16.07.09.359375.104169045.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.23.2008.07.08.16.07.09.359375.104169351.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.24.2008.07.08.16.07.09.359375.104169063.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.25.2008.07.08.16.07.09.359375.104169369.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.26.2008.07.08.16.07.09.359375.104169081.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.27.2008.07.08.16.07.09.359375.104169387.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.28.2008.07.08.16.07.09.359375.104169099.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.29.2008.07.08.16.07.09.359375.104169405.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.30.2008.07.08.16.07.09.359375.104169117.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.31.2008.07.08.16.07.09.359375.104169423.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC27734/siem_im_1//TC27734.MR.HEAD_GUSNARD.5.32.2008.07.08.16.07.09.359375.104169135.IMA
+endrec Wed Jun  3 05:06:55 2009  gandera
+t4
+#t4_mul TC27817_t2w_to_TC27817_mpr1_t4 TC27817_mpr1_to_TRIO_Y_NDC_t4 TC27817_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC27817_t2w_to_TC27817_mpr1_t4][TC27817_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  1.001943  0.039507  0.019169   -0.8504
+  0.018418  0.933707 -0.111635    6.5231
+ -0.034756  0.141350  0.823857   -4.3467
+  0.000000  0.000000  0.000000    1.0000
+rec TC27817_t2w.4dfp.img  Wed Jun  3 05:25:37 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC27817_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.10.2008.07.17.10.34.14.781250.106769793.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.11.2008.07.17.10.34.14.781250.106770099.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.1.2008.07.17.10.34.14.781250.106770009.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.12.2008.07.17.10.34.14.781250.106769811.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.13.2008.07.17.10.34.14.781250.106770117.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.14.2008.07.17.10.34.14.781250.106769829.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.15.2008.07.17.10.34.14.781250.106770135.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.16.2008.07.17.10.34.14.781250.106769847.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.17.2008.07.17.10.34.14.781250.106770153.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.18.2008.07.17.10.34.14.781250.106769865.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.19.2008.07.17.10.34.14.781250.106770171.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.20.2008.07.17.10.34.14.781250.106769883.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.21.2008.07.17.10.34.14.781250.106770189.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.2.2008.07.17.10.34.14.781250.106769721.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.22.2008.07.17.10.34.14.781250.106769901.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.23.2008.07.17.10.34.14.781250.106770207.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.24.2008.07.17.10.34.14.781250.106769919.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.25.2008.07.17.10.34.14.781250.106770225.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.26.2008.07.17.10.34.14.781250.106769937.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.27.2008.07.17.10.34.14.781250.106770243.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.28.2008.07.17.10.34.14.781250.106769955.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.29.2008.07.17.10.34.14.781250.106770261.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.30.2008.07.17.10.34.14.781250.106769973.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.31.2008.07.17.10.34.14.781250.106770279.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.3.2008.07.17.10.34.14.781250.106770027.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.32.2008.07.17.10.34.14.781250.106769991.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.4.2008.07.17.10.34.14.781250.106769739.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.5.2008.07.17.10.34.14.781250.106770045.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.6.2008.07.17.10.34.14.781250.106769757.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.7.2008.07.17.10.34.14.781250.106770063.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.8.2008.07.17.10.34.14.781250.106769775.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.9.2008.07.17.10.34.14.781250.106770081.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	091812.500000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.1.2008.07.17.10.34.14.781250.106770009.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.2.2008.07.17.10.34.14.781250.106769721.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.3.2008.07.17.10.34.14.781250.106770027.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.4.2008.07.17.10.34.14.781250.106769739.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.5.2008.07.17.10.34.14.781250.106770045.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.6.2008.07.17.10.34.14.781250.106769757.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.7.2008.07.17.10.34.14.781250.106770063.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.8.2008.07.17.10.34.14.781250.106769775.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.9.2008.07.17.10.34.14.781250.106770081.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.10.2008.07.17.10.34.14.781250.106769793.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.11.2008.07.17.10.34.14.781250.106770099.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.12.2008.07.17.10.34.14.781250.106769811.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.13.2008.07.17.10.34.14.781250.106770117.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.14.2008.07.17.10.34.14.781250.106769829.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.15.2008.07.17.10.34.14.781250.106770135.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.16.2008.07.17.10.34.14.781250.106769847.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.17.2008.07.17.10.34.14.781250.106770153.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.18.2008.07.17.10.34.14.781250.106769865.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.19.2008.07.17.10.34.14.781250.106770171.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.20.2008.07.17.10.34.14.781250.106769883.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.21.2008.07.17.10.34.14.781250.106770189.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.22.2008.07.17.10.34.14.781250.106769901.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.23.2008.07.17.10.34.14.781250.106770207.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.24.2008.07.17.10.34.14.781250.106769919.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.25.2008.07.17.10.34.14.781250.106770225.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.26.2008.07.17.10.34.14.781250.106769937.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.27.2008.07.17.10.34.14.781250.106770243.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.28.2008.07.17.10.34.14.781250.106769955.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.29.2008.07.17.10.34.14.781250.106770261.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.30.2008.07.17.10.34.14.781250.106769973.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.31.2008.07.17.10.34.14.781250.106770279.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC27817/siem_im_1//TC27817.MR.HEAD_GUSNARD.5.32.2008.07.17.10.34.14.781250.106769991.IMA
+endrec Wed Jun  3 05:25:37 2009  gandera
+t4
+#t4_mul TC27833_t2w_to_TC27833_mpr1_t4 TC27833_mpr1_to_TRIO_Y_NDC_t4 TC27833_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC27833_t2w_to_TC27833_mpr1_t4][TC27833_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.944038  0.002347  0.017187   -2.1668
+  0.029344  0.989448 -0.130730    6.7046
+ -0.003890  0.064566  0.921616   -7.2893
+  0.000000  0.000000  0.000000    1.0000
+rec TC27833_t2w.4dfp.img  Wed Jun  3 05:44:40 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC27833_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.10.2008.07.26.11.47.52.625000.109407305.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.11.2008.07.26.11.47.52.625000.109407611.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.1.2008.07.26.11.47.52.625000.109407521.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.12.2008.07.26.11.47.52.625000.109407323.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.13.2008.07.26.11.47.52.625000.109407629.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.14.2008.07.26.11.47.52.625000.109407341.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.15.2008.07.26.11.47.52.625000.109407647.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.16.2008.07.26.11.47.52.625000.109407359.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.17.2008.07.26.11.47.52.625000.109407665.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.18.2008.07.26.11.47.52.625000.109407377.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.19.2008.07.26.11.47.52.625000.109407683.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.20.2008.07.26.11.47.52.625000.109407395.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.21.2008.07.26.11.47.52.625000.109407701.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.2.2008.07.26.11.47.52.625000.109407233.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.22.2008.07.26.11.47.52.625000.109407413.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.23.2008.07.26.11.47.52.625000.109407719.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.24.2008.07.26.11.47.52.625000.109407431.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.25.2008.07.26.11.47.52.625000.109407737.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.26.2008.07.26.11.47.52.625000.109407449.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.27.2008.07.26.11.47.52.625000.109407755.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.28.2008.07.26.11.47.52.625000.109407467.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.29.2008.07.26.11.47.52.625000.109407773.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.30.2008.07.26.11.47.52.625000.109407485.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.31.2008.07.26.11.47.52.625000.109407791.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.3.2008.07.26.11.47.52.625000.109407539.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.32.2008.07.26.11.47.52.625000.109407503.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.4.2008.07.26.11.47.52.625000.109407251.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.5.2008.07.26.11.47.52.625000.109407557.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.6.2008.07.26.11.47.52.625000.109407269.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.7.2008.07.26.11.47.52.625000.109407575.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.8.2008.07.26.11.47.52.625000.109407287.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.9.2008.07.26.11.47.52.625000.109407593.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	101200.937000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.1.2008.07.26.11.47.52.625000.109407521.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.2.2008.07.26.11.47.52.625000.109407233.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.3.2008.07.26.11.47.52.625000.109407539.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.4.2008.07.26.11.47.52.625000.109407251.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.5.2008.07.26.11.47.52.625000.109407557.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.6.2008.07.26.11.47.52.625000.109407269.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.7.2008.07.26.11.47.52.625000.109407575.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.8.2008.07.26.11.47.52.625000.109407287.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.9.2008.07.26.11.47.52.625000.109407593.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.10.2008.07.26.11.47.52.625000.109407305.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.11.2008.07.26.11.47.52.625000.109407611.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.12.2008.07.26.11.47.52.625000.109407323.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.13.2008.07.26.11.47.52.625000.109407629.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.14.2008.07.26.11.47.52.625000.109407341.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.15.2008.07.26.11.47.52.625000.109407647.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.16.2008.07.26.11.47.52.625000.109407359.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.17.2008.07.26.11.47.52.625000.109407665.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.18.2008.07.26.11.47.52.625000.109407377.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.19.2008.07.26.11.47.52.625000.109407683.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.20.2008.07.26.11.47.52.625000.109407395.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.21.2008.07.26.11.47.52.625000.109407701.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.22.2008.07.26.11.47.52.625000.109407413.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.23.2008.07.26.11.47.52.625000.109407719.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.24.2008.07.26.11.47.52.625000.109407431.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.25.2008.07.26.11.47.52.625000.109407737.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.26.2008.07.26.11.47.52.625000.109407449.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.27.2008.07.26.11.47.52.625000.109407755.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.28.2008.07.26.11.47.52.625000.109407467.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.29.2008.07.26.11.47.52.625000.109407773.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.30.2008.07.26.11.47.52.625000.109407485.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.31.2008.07.26.11.47.52.625000.109407791.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC27833/siem_im_1//TC27833.MR.HEAD_GUSNARD.5.32.2008.07.26.11.47.52.625000.109407503.IMA
+endrec Wed Jun  3 05:44:40 2009  gandera
+t4
+#t4_mul TC27836_t2w_to_TC27836_mpr1_t4 TC27836_mpr1_to_TRIO_Y_NDC_t4 TC27836_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC27836_t2w_to_TC27836_mpr1_t4][TC27836_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.938889  0.012674  0.000781   -0.4735
+ -0.024734  0.980680 -0.166149    7.7976
+  0.012681  0.125051  0.835997   -2.1153
+  0.000000  0.000000  0.000000    1.0000
+rec TC27836_t2w.4dfp.img  Wed Jun  3 06:04:04 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC27836_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.10.2008.07.20.18.41.23.140625.107604515.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.11.2008.07.20.18.41.23.140625.107604821.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.1.2008.07.20.18.41.23.140625.107604731.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.12.2008.07.20.18.41.23.140625.107604533.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.13.2008.07.20.18.41.23.140625.107604839.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.14.2008.07.20.18.41.23.140625.107604551.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.15.2008.07.20.18.41.23.140625.107604857.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.16.2008.07.20.18.41.23.140625.107604569.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.17.2008.07.20.18.41.23.140625.107604875.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.18.2008.07.20.18.41.23.140625.107604587.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.19.2008.07.20.18.41.23.140625.107604893.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.20.2008.07.20.18.41.23.140625.107604605.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.21.2008.07.20.18.41.23.140625.107604911.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.2.2008.07.20.18.41.23.140625.107604443.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.22.2008.07.20.18.41.23.140625.107604623.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.23.2008.07.20.18.41.23.140625.107604929.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.24.2008.07.20.18.41.23.140625.107604641.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.25.2008.07.20.18.41.23.140625.107604947.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.26.2008.07.20.18.41.23.140625.107604659.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.27.2008.07.20.18.41.23.140625.107604965.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.28.2008.07.20.18.41.23.140625.107604677.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.29.2008.07.20.18.41.23.140625.107604983.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.30.2008.07.20.18.41.23.140625.107604695.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.31.2008.07.20.18.41.23.140625.107605001.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.3.2008.07.20.18.41.23.140625.107604749.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.32.2008.07.20.18.41.23.140625.107604713.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.4.2008.07.20.18.41.23.140625.107604461.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.5.2008.07.20.18.41.23.140625.107604767.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.6.2008.07.20.18.41.23.140625.107604479.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.7.2008.07.20.18.41.23.140625.107604785.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.8.2008.07.20.18.41.23.140625.107604497.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.9.2008.07.20.18.41.23.140625.107604803.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	165230.250000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.1.2008.07.20.18.41.23.140625.107604731.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.2.2008.07.20.18.41.23.140625.107604443.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.3.2008.07.20.18.41.23.140625.107604749.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.4.2008.07.20.18.41.23.140625.107604461.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.5.2008.07.20.18.41.23.140625.107604767.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.6.2008.07.20.18.41.23.140625.107604479.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.7.2008.07.20.18.41.23.140625.107604785.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.8.2008.07.20.18.41.23.140625.107604497.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.9.2008.07.20.18.41.23.140625.107604803.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.10.2008.07.20.18.41.23.140625.107604515.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.11.2008.07.20.18.41.23.140625.107604821.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.12.2008.07.20.18.41.23.140625.107604533.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.13.2008.07.20.18.41.23.140625.107604839.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.14.2008.07.20.18.41.23.140625.107604551.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.15.2008.07.20.18.41.23.140625.107604857.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.16.2008.07.20.18.41.23.140625.107604569.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.17.2008.07.20.18.41.23.140625.107604875.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.18.2008.07.20.18.41.23.140625.107604587.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.19.2008.07.20.18.41.23.140625.107604893.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.20.2008.07.20.18.41.23.140625.107604605.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.21.2008.07.20.18.41.23.140625.107604911.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.22.2008.07.20.18.41.23.140625.107604623.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.23.2008.07.20.18.41.23.140625.107604929.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.24.2008.07.20.18.41.23.140625.107604641.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.25.2008.07.20.18.41.23.140625.107604947.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.26.2008.07.20.18.41.23.140625.107604659.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.27.2008.07.20.18.41.23.140625.107604965.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.28.2008.07.20.18.41.23.140625.107604677.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.29.2008.07.20.18.41.23.140625.107604983.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.30.2008.07.20.18.41.23.140625.107604695.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.31.2008.07.20.18.41.23.140625.107605001.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC27836/siem_im_1//TC27836.MR.HEAD_GUSNARD.5.32.2008.07.20.18.41.23.140625.107604713.IMA
+endrec Wed Jun  3 06:04:04 2009  gandera
+t4
+#t4_mul TC28086_t2w_to_TC28086_mpr1_t4 TC28086_mpr1_to_TRIO_Y_NDC_t4 TC28086_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC28086_t2w_to_TC28086_mpr1_t4][TC28086_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.934106  0.017832  0.018797   -0.8179
+  0.010014  0.933369 -0.140973    6.7660
+ -0.026280  0.130263  0.819589   -0.0812
+  0.000000  0.000000  0.000000    1.0000
+rec TC28086_t2w.4dfp.img  Wed Jun  3 06:22:21 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC28086_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.10.2008.08.21.17.14.55.687500.117698547.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.11.2008.08.21.17.14.55.687500.117698853.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.1.2008.08.21.17.14.55.687500.117698763.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.12.2008.08.21.17.14.55.687500.117698565.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.13.2008.08.21.17.14.55.687500.117698871.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.14.2008.08.21.17.14.55.687500.117698583.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.15.2008.08.21.17.14.55.687500.117698889.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.16.2008.08.21.17.14.55.687500.117698601.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.17.2008.08.21.17.14.55.687500.117698907.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.18.2008.08.21.17.14.55.687500.117698619.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.19.2008.08.21.17.14.55.687500.117698925.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.20.2008.08.21.17.14.55.687500.117698637.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.21.2008.08.21.17.14.55.687500.117698943.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.2.2008.08.21.17.14.55.687500.117698475.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.22.2008.08.21.17.14.55.687500.117698655.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.23.2008.08.21.17.14.55.687500.117698961.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.24.2008.08.21.17.14.55.687500.117698673.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.25.2008.08.21.17.14.55.687500.117698979.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.26.2008.08.21.17.14.55.687500.117698691.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.27.2008.08.21.17.14.55.687500.117698997.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.28.2008.08.21.17.14.55.687500.117698709.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.29.2008.08.21.17.14.55.687500.117699015.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.30.2008.08.21.17.14.55.687500.117698727.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.31.2008.08.21.17.14.55.687500.117699033.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.3.2008.08.21.17.14.55.687500.117698781.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.32.2008.08.21.17.14.55.687500.117698745.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.4.2008.08.21.17.14.55.687500.117698493.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.5.2008.08.21.17.14.55.687500.117698799.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.6.2008.08.21.17.14.55.687500.117698511.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.7.2008.08.21.17.14.55.687500.117698817.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.8.2008.08.21.17.14.55.687500.117698529.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.9.2008.08.21.17.14.55.687500.117698835.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	153255.859000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.1.2008.08.21.17.14.55.687500.117698763.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.2.2008.08.21.17.14.55.687500.117698475.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.3.2008.08.21.17.14.55.687500.117698781.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.4.2008.08.21.17.14.55.687500.117698493.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.5.2008.08.21.17.14.55.687500.117698799.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.6.2008.08.21.17.14.55.687500.117698511.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.7.2008.08.21.17.14.55.687500.117698817.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.8.2008.08.21.17.14.55.687500.117698529.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.9.2008.08.21.17.14.55.687500.117698835.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.10.2008.08.21.17.14.55.687500.117698547.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.11.2008.08.21.17.14.55.687500.117698853.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.12.2008.08.21.17.14.55.687500.117698565.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.13.2008.08.21.17.14.55.687500.117698871.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.14.2008.08.21.17.14.55.687500.117698583.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.15.2008.08.21.17.14.55.687500.117698889.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.16.2008.08.21.17.14.55.687500.117698601.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.17.2008.08.21.17.14.55.687500.117698907.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.18.2008.08.21.17.14.55.687500.117698619.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.19.2008.08.21.17.14.55.687500.117698925.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.20.2008.08.21.17.14.55.687500.117698637.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.21.2008.08.21.17.14.55.687500.117698943.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.22.2008.08.21.17.14.55.687500.117698655.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.23.2008.08.21.17.14.55.687500.117698961.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.24.2008.08.21.17.14.55.687500.117698673.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.25.2008.08.21.17.14.55.687500.117698979.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.26.2008.08.21.17.14.55.687500.117698691.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.27.2008.08.21.17.14.55.687500.117698997.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.28.2008.08.21.17.14.55.687500.117698709.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.29.2008.08.21.17.14.55.687500.117699015.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.30.2008.08.21.17.14.55.687500.117698727.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.31.2008.08.21.17.14.55.687500.117699033.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC28086/siem_im_1//TC28086.MR.HEAD_GUSNARD.6.32.2008.08.21.17.14.55.687500.117698745.IMA
+endrec Wed Jun  3 06:22:21 2009  gandera
+t4
+#t4_mul TC28087_t2w_to_TC28087_mpr1_t4 TC28087_mpr1_to_TRIO_Y_NDC_t4 TC28087_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC28087_t2w_to_TC28087_mpr1_t4][TC28087_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.934974  0.036247  0.007624    0.9101
+ -0.032000  0.988556 -0.060943   14.8089
+  0.005605  0.067934  0.937516   -6.0417
+  0.000000  0.000000  0.000000    1.0000
+rec TC28087_t2w.4dfp.img  Wed Jun  3 06:40:36 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC28087_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.10.2008.08.22.10.41.18.218750.117956929.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.11.2008.08.22.10.41.18.218750.117957235.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.1.2008.08.22.10.41.18.218750.117957145.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.12.2008.08.22.10.41.18.218750.117956947.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.13.2008.08.22.10.41.18.218750.117957253.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.14.2008.08.22.10.41.18.218750.117956965.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.15.2008.08.22.10.41.18.218750.117957271.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.16.2008.08.22.10.41.18.218750.117956983.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.17.2008.08.22.10.41.18.218750.117957289.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.18.2008.08.22.10.41.18.218750.117957001.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.19.2008.08.22.10.41.18.218750.117957307.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.20.2008.08.22.10.41.18.218750.117957019.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.21.2008.08.22.10.41.18.218750.117957325.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.2.2008.08.22.10.41.18.218750.117956857.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.22.2008.08.22.10.41.18.218750.117957037.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.23.2008.08.22.10.41.18.218750.117957343.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.24.2008.08.22.10.41.18.218750.117957055.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.25.2008.08.22.10.41.18.218750.117957361.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.26.2008.08.22.10.41.18.218750.117957073.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.27.2008.08.22.10.41.18.218750.117957379.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.28.2008.08.22.10.41.18.218750.117957091.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.29.2008.08.22.10.41.18.218750.117957397.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.30.2008.08.22.10.41.18.218750.117957109.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.31.2008.08.22.10.41.18.218750.117957415.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.3.2008.08.22.10.41.18.218750.117957163.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.32.2008.08.22.10.41.18.218750.117957127.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.4.2008.08.22.10.41.18.218750.117956875.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.5.2008.08.22.10.41.18.218750.117957181.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.6.2008.08.22.10.41.18.218750.117956893.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.7.2008.08.22.10.41.18.218750.117957199.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.8.2008.08.22.10.41.18.218750.117956911.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.9.2008.08.22.10.41.18.218750.117957217.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	090053.796000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.1.2008.08.22.10.41.18.218750.117957145.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.2.2008.08.22.10.41.18.218750.117956857.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.3.2008.08.22.10.41.18.218750.117957163.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.4.2008.08.22.10.41.18.218750.117956875.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.5.2008.08.22.10.41.18.218750.117957181.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.6.2008.08.22.10.41.18.218750.117956893.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.7.2008.08.22.10.41.18.218750.117957199.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.8.2008.08.22.10.41.18.218750.117956911.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.9.2008.08.22.10.41.18.218750.117957217.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.10.2008.08.22.10.41.18.218750.117956929.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.11.2008.08.22.10.41.18.218750.117957235.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.12.2008.08.22.10.41.18.218750.117956947.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.13.2008.08.22.10.41.18.218750.117957253.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.14.2008.08.22.10.41.18.218750.117956965.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.15.2008.08.22.10.41.18.218750.117957271.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.16.2008.08.22.10.41.18.218750.117956983.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.17.2008.08.22.10.41.18.218750.117957289.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.18.2008.08.22.10.41.18.218750.117957001.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.19.2008.08.22.10.41.18.218750.117957307.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.20.2008.08.22.10.41.18.218750.117957019.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.21.2008.08.22.10.41.18.218750.117957325.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.22.2008.08.22.10.41.18.218750.117957037.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.23.2008.08.22.10.41.18.218750.117957343.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.24.2008.08.22.10.41.18.218750.117957055.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.25.2008.08.22.10.41.18.218750.117957361.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.26.2008.08.22.10.41.18.218750.117957073.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.27.2008.08.22.10.41.18.218750.117957379.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.28.2008.08.22.10.41.18.218750.117957091.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.29.2008.08.22.10.41.18.218750.117957397.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.30.2008.08.22.10.41.18.218750.117957109.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.31.2008.08.22.10.41.18.218750.117957415.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC28087/siem_im_1//TC28087.MR.HEAD_GUSNARD.5.32.2008.08.22.10.41.18.218750.117957127.IMA
+endrec Wed Jun  3 06:40:36 2009  gandera
+t4
+#t4_mul TC28094_t2w_to_TC28094_mpr1_t4 TC28094_mpr1_to_TRIO_Y_NDC_t4 TC28094_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC28094_t2w_to_TC28094_mpr1_t4][TC28094_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.959475  0.026733  0.008931    0.1452
+ -0.003711  0.959531 -0.130393   18.2648
+ -0.000721  0.122602  0.835968   -2.4656
+  0.000000  0.000000  0.000000    1.0000
+rec TC28094_t2w.4dfp.img  Wed Jun  3 07:00:17 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC28094_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.10.2008.08.23.17.13.38.812500.118378487.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.11.2008.08.23.17.13.38.812500.118378793.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.1.2008.08.23.17.13.38.812500.118378703.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.12.2008.08.23.17.13.38.812500.118378505.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.13.2008.08.23.17.13.38.812500.118378811.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.14.2008.08.23.17.13.38.812500.118378523.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.15.2008.08.23.17.13.38.812500.118378829.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.16.2008.08.23.17.13.38.812500.118378541.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.17.2008.08.23.17.13.38.812500.118378847.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.18.2008.08.23.17.13.38.812500.118378559.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.19.2008.08.23.17.13.38.812500.118378865.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.20.2008.08.23.17.13.38.812500.118378577.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.21.2008.08.23.17.13.38.812500.118378883.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.2.2008.08.23.17.13.38.812500.118378415.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.22.2008.08.23.17.13.38.812500.118378595.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.23.2008.08.23.17.13.38.812500.118378901.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.24.2008.08.23.17.13.38.812500.118378613.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.25.2008.08.23.17.13.38.812500.118378919.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.26.2008.08.23.17.13.38.812500.118378631.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.27.2008.08.23.17.13.38.812500.118378937.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.28.2008.08.23.17.13.38.812500.118378649.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.29.2008.08.23.17.13.38.812500.118378955.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.30.2008.08.23.17.13.38.812500.118378667.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.31.2008.08.23.17.13.38.812500.118378973.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.3.2008.08.23.17.13.38.812500.118378721.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.32.2008.08.23.17.13.38.812500.118378685.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.4.2008.08.23.17.13.38.812500.118378433.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.5.2008.08.23.17.13.38.812500.118378739.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.6.2008.08.23.17.13.38.812500.118378451.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.7.2008.08.23.17.13.38.812500.118378757.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.8.2008.08.23.17.13.38.812500.118378469.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.9.2008.08.23.17.13.38.812500.118378775.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	152133.015000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.1.2008.08.23.17.13.38.812500.118378703.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.2.2008.08.23.17.13.38.812500.118378415.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.3.2008.08.23.17.13.38.812500.118378721.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.4.2008.08.23.17.13.38.812500.118378433.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.5.2008.08.23.17.13.38.812500.118378739.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.6.2008.08.23.17.13.38.812500.118378451.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.7.2008.08.23.17.13.38.812500.118378757.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.8.2008.08.23.17.13.38.812500.118378469.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.9.2008.08.23.17.13.38.812500.118378775.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.10.2008.08.23.17.13.38.812500.118378487.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.11.2008.08.23.17.13.38.812500.118378793.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.12.2008.08.23.17.13.38.812500.118378505.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.13.2008.08.23.17.13.38.812500.118378811.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.14.2008.08.23.17.13.38.812500.118378523.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.15.2008.08.23.17.13.38.812500.118378829.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.16.2008.08.23.17.13.38.812500.118378541.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.17.2008.08.23.17.13.38.812500.118378847.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.18.2008.08.23.17.13.38.812500.118378559.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.19.2008.08.23.17.13.38.812500.118378865.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.20.2008.08.23.17.13.38.812500.118378577.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.21.2008.08.23.17.13.38.812500.118378883.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.22.2008.08.23.17.13.38.812500.118378595.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.23.2008.08.23.17.13.38.812500.118378901.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.24.2008.08.23.17.13.38.812500.118378613.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.25.2008.08.23.17.13.38.812500.118378919.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.26.2008.08.23.17.13.38.812500.118378631.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.27.2008.08.23.17.13.38.812500.118378937.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.28.2008.08.23.17.13.38.812500.118378649.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.29.2008.08.23.17.13.38.812500.118378955.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.30.2008.08.23.17.13.38.812500.118378667.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.31.2008.08.23.17.13.38.812500.118378973.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC28094/siem_im_1//TC28094.MR.HEAD_GUSNARD.5.32.2008.08.23.17.13.38.812500.118378685.IMA
+endrec Wed Jun  3 07:00:17 2009  gandera
+t4
+#t4_mul TC28097_t2w_to_TC28097_mpr1_t4 TC28097_mpr1_to_TRIO_Y_NDC_t4 TC28097_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC28097_t2w_to_TC28097_mpr1_t4][TC28097_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.974723  0.018768  0.000733   -1.2651
+ -0.007396  0.985404 -0.080263   16.5267
+  0.022009  0.083427  0.927145   -3.7716
+  0.000000  0.000000  0.000000    1.0000
+rec TC28097_t2w.4dfp.img  Wed Jun  3 07:18:58 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC28097_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.10.2008.08.25.11.14.39.703125.118683983.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.11.2008.08.25.11.14.39.703125.118684289.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.1.2008.08.25.11.14.39.703125.118684199.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.12.2008.08.25.11.14.39.703125.118684001.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.13.2008.08.25.11.14.39.703125.118684307.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.14.2008.08.25.11.14.39.703125.118684019.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.15.2008.08.25.11.14.39.703125.118684325.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.16.2008.08.25.11.14.39.703125.118684037.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.17.2008.08.25.11.14.39.703125.118684343.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.18.2008.08.25.11.14.39.703125.118684055.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.19.2008.08.25.11.14.39.703125.118684361.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.20.2008.08.25.11.14.39.703125.118684073.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.21.2008.08.25.11.14.39.703125.118684379.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.2.2008.08.25.11.14.39.703125.118683911.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.22.2008.08.25.11.14.39.703125.118684091.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.23.2008.08.25.11.14.39.703125.118684397.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.24.2008.08.25.11.14.39.703125.118684109.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.25.2008.08.25.11.14.39.703125.118684415.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.26.2008.08.25.11.14.39.703125.118684127.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.27.2008.08.25.11.14.39.703125.118684433.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.28.2008.08.25.11.14.39.703125.118684145.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.29.2008.08.25.11.14.39.703125.118684451.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.30.2008.08.25.11.14.39.703125.118684163.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.31.2008.08.25.11.14.39.703125.118684469.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.3.2008.08.25.11.14.39.703125.118684217.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.32.2008.08.25.11.14.39.703125.118684181.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.4.2008.08.25.11.14.39.703125.118683929.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.5.2008.08.25.11.14.39.703125.118684235.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.6.2008.08.25.11.14.39.703125.118683947.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.7.2008.08.25.11.14.39.703125.118684253.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.8.2008.08.25.11.14.39.703125.118683965.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.9.2008.08.25.11.14.39.703125.118684271.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	093052.015000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.1.2008.08.25.11.14.39.703125.118684199.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.2.2008.08.25.11.14.39.703125.118683911.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.3.2008.08.25.11.14.39.703125.118684217.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.4.2008.08.25.11.14.39.703125.118683929.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.5.2008.08.25.11.14.39.703125.118684235.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.6.2008.08.25.11.14.39.703125.118683947.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.7.2008.08.25.11.14.39.703125.118684253.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.8.2008.08.25.11.14.39.703125.118683965.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.9.2008.08.25.11.14.39.703125.118684271.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.10.2008.08.25.11.14.39.703125.118683983.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.11.2008.08.25.11.14.39.703125.118684289.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.12.2008.08.25.11.14.39.703125.118684001.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.13.2008.08.25.11.14.39.703125.118684307.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.14.2008.08.25.11.14.39.703125.118684019.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.15.2008.08.25.11.14.39.703125.118684325.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.16.2008.08.25.11.14.39.703125.118684037.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.17.2008.08.25.11.14.39.703125.118684343.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.18.2008.08.25.11.14.39.703125.118684055.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.19.2008.08.25.11.14.39.703125.118684361.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.20.2008.08.25.11.14.39.703125.118684073.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.21.2008.08.25.11.14.39.703125.118684379.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.22.2008.08.25.11.14.39.703125.118684091.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.23.2008.08.25.11.14.39.703125.118684397.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.24.2008.08.25.11.14.39.703125.118684109.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.25.2008.08.25.11.14.39.703125.118684415.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.26.2008.08.25.11.14.39.703125.118684127.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.27.2008.08.25.11.14.39.703125.118684433.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.28.2008.08.25.11.14.39.703125.118684145.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.29.2008.08.25.11.14.39.703125.118684451.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.30.2008.08.25.11.14.39.703125.118684163.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.31.2008.08.25.11.14.39.703125.118684469.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC28097/siem_im_1//TC28097.MR.HEAD_GUSNARD.5.32.2008.08.25.11.14.39.703125.118684181.IMA
+endrec Wed Jun  3 07:18:58 2009  gandera
+t4
+#t4_mul TC28244_t2w_to_TC28244_mpr1_t4 TC28244_mpr1_to_TRIO_Y_NDC_t4 TC28244_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC28244_t2w_to_TC28244_mpr1_t4][TC28244_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  1.004176  0.009251  0.022352   -0.5585
+ -0.018921  1.036160 -0.107579   12.0026
+ -0.028569  0.062762  0.892313   -9.1056
+  0.000000  0.000000  0.000000    1.0000
+rec TC28244_t2w.4dfp.img  Wed Jun  3 07:39:04 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC28244_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.10.2008.09.17.12.34.34.500000.124257275.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.11.2008.09.17.12.34.34.500000.124257581.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.1.2008.09.17.12.34.34.500000.124257491.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.12.2008.09.17.12.34.34.500000.124257293.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.13.2008.09.17.12.34.34.500000.124257599.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.14.2008.09.17.12.34.34.500000.124257311.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.15.2008.09.17.12.34.34.500000.124257617.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.16.2008.09.17.12.34.34.500000.124257329.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.17.2008.09.17.12.34.34.500000.124257635.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.18.2008.09.17.12.34.34.500000.124257347.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.19.2008.09.17.12.34.34.500000.124257653.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.20.2008.09.17.12.34.34.500000.124257365.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.21.2008.09.17.12.34.34.500000.124257671.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.2.2008.09.17.12.34.34.500000.124257203.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.22.2008.09.17.12.34.34.500000.124257383.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.23.2008.09.17.12.34.34.500000.124257689.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.24.2008.09.17.12.34.34.500000.124257401.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.25.2008.09.17.12.34.34.500000.124257707.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.26.2008.09.17.12.34.34.500000.124257419.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.27.2008.09.17.12.34.34.500000.124257725.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.28.2008.09.17.12.34.34.500000.124257437.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.29.2008.09.17.12.34.34.500000.124257743.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.30.2008.09.17.12.34.34.500000.124257455.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.31.2008.09.17.12.34.34.500000.124257761.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.3.2008.09.17.12.34.34.500000.124257509.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.32.2008.09.17.12.34.34.500000.124257473.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.4.2008.09.17.12.34.34.500000.124257221.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.5.2008.09.17.12.34.34.500000.124257527.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.6.2008.09.17.12.34.34.500000.124257239.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.7.2008.09.17.12.34.34.500000.124257545.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.8.2008.09.17.12.34.34.500000.124257257.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.9.2008.09.17.12.34.34.500000.124257563.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	164649.937000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.1.2008.09.17.12.34.34.500000.124257491.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.2.2008.09.17.12.34.34.500000.124257203.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.3.2008.09.17.12.34.34.500000.124257509.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.4.2008.09.17.12.34.34.500000.124257221.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.5.2008.09.17.12.34.34.500000.124257527.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.6.2008.09.17.12.34.34.500000.124257239.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.7.2008.09.17.12.34.34.500000.124257545.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.8.2008.09.17.12.34.34.500000.124257257.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.9.2008.09.17.12.34.34.500000.124257563.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.10.2008.09.17.12.34.34.500000.124257275.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.11.2008.09.17.12.34.34.500000.124257581.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.12.2008.09.17.12.34.34.500000.124257293.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.13.2008.09.17.12.34.34.500000.124257599.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.14.2008.09.17.12.34.34.500000.124257311.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.15.2008.09.17.12.34.34.500000.124257617.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.16.2008.09.17.12.34.34.500000.124257329.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.17.2008.09.17.12.34.34.500000.124257635.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.18.2008.09.17.12.34.34.500000.124257347.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.19.2008.09.17.12.34.34.500000.124257653.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.20.2008.09.17.12.34.34.500000.124257365.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.21.2008.09.17.12.34.34.500000.124257671.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.22.2008.09.17.12.34.34.500000.124257383.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.23.2008.09.17.12.34.34.500000.124257689.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.24.2008.09.17.12.34.34.500000.124257401.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.25.2008.09.17.12.34.34.500000.124257707.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.26.2008.09.17.12.34.34.500000.124257419.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.27.2008.09.17.12.34.34.500000.124257725.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.28.2008.09.17.12.34.34.500000.124257437.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.29.2008.09.17.12.34.34.500000.124257743.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.30.2008.09.17.12.34.34.500000.124257455.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.31.2008.09.17.12.34.34.500000.124257761.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC28244/siem_im_1//TC28244.MR.HEAD_GUSNARD.5.32.2008.09.17.12.34.34.500000.124257473.IMA
+endrec Wed Jun  3 07:39:04 2009  gandera
+t4
+#t4_mul TC28245_t2w_to_TC28245_mpr1_t4 TC28245_mpr1_to_TRIO_Y_NDC_t4 TC28245_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC28245_t2w_to_TC28245_mpr1_t4][TC28245_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.934776  0.036396  0.020418   -0.2705
+ -0.047861  0.956315 -0.176695   12.2752
+ -0.014697  0.108894  0.858003   -4.7952
+  0.000000  0.000000  0.000000    1.0000
+rec TC28245_t2w.4dfp.img  Wed Jun  3 07:59:38 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC28245_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.10.2008.09.14.20.59.00.875000.124343393.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.11.2008.09.14.20.59.00.875000.124343699.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.1.2008.09.14.20.59.00.875000.124343609.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.12.2008.09.14.20.59.00.875000.124343411.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.13.2008.09.14.20.59.00.875000.124343717.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.14.2008.09.14.20.59.00.875000.124343429.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.15.2008.09.14.20.59.00.875000.124343735.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.16.2008.09.14.20.59.00.875000.124343447.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.17.2008.09.14.20.59.00.875000.124343753.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.18.2008.09.14.20.59.00.875000.124343465.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.19.2008.09.14.20.59.00.875000.124343771.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.20.2008.09.14.20.59.00.875000.124343483.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.21.2008.09.14.20.59.00.875000.124343789.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.2.2008.09.14.20.59.00.875000.124343321.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.22.2008.09.14.20.59.00.875000.124343501.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.23.2008.09.14.20.59.00.875000.124343807.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.24.2008.09.14.20.59.00.875000.124343519.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.25.2008.09.14.20.59.00.875000.124343825.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.26.2008.09.14.20.59.00.875000.124343537.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.27.2008.09.14.20.59.00.875000.124343843.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.28.2008.09.14.20.59.00.875000.124343555.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.29.2008.09.14.20.59.00.875000.124343861.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.30.2008.09.14.20.59.00.875000.124343573.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.31.2008.09.14.20.59.00.875000.124343879.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.3.2008.09.14.20.59.00.875000.124343627.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.32.2008.09.14.20.59.00.875000.124343591.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.4.2008.09.14.20.59.00.875000.124343339.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.5.2008.09.14.20.59.00.875000.124343645.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.6.2008.09.14.20.59.00.875000.124343357.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.7.2008.09.14.20.59.00.875000.124343663.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.8.2008.09.14.20.59.00.875000.124343375.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.9.2008.09.14.20.59.00.875000.124343681.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	192329.609000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.1.2008.09.14.20.59.00.875000.124343609.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.2.2008.09.14.20.59.00.875000.124343321.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.3.2008.09.14.20.59.00.875000.124343627.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.4.2008.09.14.20.59.00.875000.124343339.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.5.2008.09.14.20.59.00.875000.124343645.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.6.2008.09.14.20.59.00.875000.124343357.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.7.2008.09.14.20.59.00.875000.124343663.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.8.2008.09.14.20.59.00.875000.124343375.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.9.2008.09.14.20.59.00.875000.124343681.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.10.2008.09.14.20.59.00.875000.124343393.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.11.2008.09.14.20.59.00.875000.124343699.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.12.2008.09.14.20.59.00.875000.124343411.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.13.2008.09.14.20.59.00.875000.124343717.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.14.2008.09.14.20.59.00.875000.124343429.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.15.2008.09.14.20.59.00.875000.124343735.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.16.2008.09.14.20.59.00.875000.124343447.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.17.2008.09.14.20.59.00.875000.124343753.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.18.2008.09.14.20.59.00.875000.124343465.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.19.2008.09.14.20.59.00.875000.124343771.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.20.2008.09.14.20.59.00.875000.124343483.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.21.2008.09.14.20.59.00.875000.124343789.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.22.2008.09.14.20.59.00.875000.124343501.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.23.2008.09.14.20.59.00.875000.124343807.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.24.2008.09.14.20.59.00.875000.124343519.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.25.2008.09.14.20.59.00.875000.124343825.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.26.2008.09.14.20.59.00.875000.124343537.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.27.2008.09.14.20.59.00.875000.124343843.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.28.2008.09.14.20.59.00.875000.124343555.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.29.2008.09.14.20.59.00.875000.124343861.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.30.2008.09.14.20.59.00.875000.124343573.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.31.2008.09.14.20.59.00.875000.124343879.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC28245/siem_im_1//TC28245.MR.HEAD_GUSNARD.5.32.2008.09.14.20.59.00.875000.124343591.IMA
+endrec Wed Jun  3 07:59:38 2009  gandera
+t4
+#t4_mul TC28514_t2w_to_TC28514_mpr1_t4 TC28514_mpr1_to_TRIO_Y_NDC_t4 TC28514_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC28514_t2w_to_TC28514_mpr1_t4][TC28514_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.901139  0.029252  0.007364    0.6955
+ -0.037374  0.952258 -0.068638   13.5032
+ -0.009651  0.093691  0.869793   -1.6875
+  0.000000  0.000000  0.000000    1.0000
+rec TC28514_t2w.4dfp.img  Wed Jun  3 08:18:33 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC28514_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.10.2008.10.18.17.48.25.546875.134270559.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.11.2008.10.18.17.48.25.546875.134270865.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.1.2008.10.18.17.48.25.546875.134270775.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.12.2008.10.18.17.48.25.546875.134270577.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.13.2008.10.18.17.48.25.546875.134270883.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.14.2008.10.18.17.48.25.546875.134270595.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.15.2008.10.18.17.48.25.546875.134270901.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.16.2008.10.18.17.48.25.546875.134270613.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.17.2008.10.18.17.48.25.546875.134270919.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.18.2008.10.18.17.48.25.546875.134270631.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.19.2008.10.18.17.48.25.546875.134270937.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.20.2008.10.18.17.48.25.546875.134270649.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.21.2008.10.18.17.48.25.546875.134270955.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.2.2008.10.18.17.48.25.546875.134270487.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.22.2008.10.18.17.48.25.546875.134270667.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.23.2008.10.18.17.48.25.546875.134270973.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.24.2008.10.18.17.48.25.546875.134270685.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.25.2008.10.18.17.48.25.546875.134270991.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.26.2008.10.18.17.48.25.546875.134270703.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.27.2008.10.18.17.48.25.546875.134271009.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.28.2008.10.18.17.48.25.546875.134270721.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.29.2008.10.18.17.48.25.546875.134271027.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.30.2008.10.18.17.48.25.546875.134270739.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.31.2008.10.18.17.48.25.546875.134271045.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.3.2008.10.18.17.48.25.546875.134270793.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.32.2008.10.18.17.48.25.546875.134270757.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.4.2008.10.18.17.48.25.546875.134270505.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.5.2008.10.18.17.48.25.546875.134270811.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.6.2008.10.18.17.48.25.546875.134270523.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.7.2008.10.18.17.48.25.546875.134270829.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.8.2008.10.18.17.48.25.546875.134270541.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.9.2008.10.18.17.48.25.546875.134270847.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	160000.359000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.1.2008.10.18.17.48.25.546875.134270775.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.2.2008.10.18.17.48.25.546875.134270487.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.3.2008.10.18.17.48.25.546875.134270793.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.4.2008.10.18.17.48.25.546875.134270505.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.5.2008.10.18.17.48.25.546875.134270811.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.6.2008.10.18.17.48.25.546875.134270523.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.7.2008.10.18.17.48.25.546875.134270829.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.8.2008.10.18.17.48.25.546875.134270541.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.9.2008.10.18.17.48.25.546875.134270847.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.10.2008.10.18.17.48.25.546875.134270559.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.11.2008.10.18.17.48.25.546875.134270865.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.12.2008.10.18.17.48.25.546875.134270577.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.13.2008.10.18.17.48.25.546875.134270883.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.14.2008.10.18.17.48.25.546875.134270595.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.15.2008.10.18.17.48.25.546875.134270901.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.16.2008.10.18.17.48.25.546875.134270613.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.17.2008.10.18.17.48.25.546875.134270919.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.18.2008.10.18.17.48.25.546875.134270631.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.19.2008.10.18.17.48.25.546875.134270937.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.20.2008.10.18.17.48.25.546875.134270649.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.21.2008.10.18.17.48.25.546875.134270955.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.22.2008.10.18.17.48.25.546875.134270667.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.23.2008.10.18.17.48.25.546875.134270973.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.24.2008.10.18.17.48.25.546875.134270685.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.25.2008.10.18.17.48.25.546875.134270991.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.26.2008.10.18.17.48.25.546875.134270703.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.27.2008.10.18.17.48.25.546875.134271009.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.28.2008.10.18.17.48.25.546875.134270721.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.29.2008.10.18.17.48.25.546875.134271027.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.30.2008.10.18.17.48.25.546875.134270739.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.31.2008.10.18.17.48.25.546875.134271045.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC28514/siem_im_1//TC28514.MR.HEAD_GUSNARD.5.32.2008.10.18.17.48.25.546875.134270757.IMA
+endrec Wed Jun  3 08:18:33 2009  gandera
+t4
+#t4_mul TC29035_t2w_to_TC29035_mpr1_t4 TC29035_mpr1_to_TRIO_Y_NDC_t4 TC29035_t2w_to_TRIO_Y_NDC_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[TC29035_t2w_to_TC29035_mpr1_t4][TC29035_mpr1_to_TRIO_Y_NDC_t4]
+t4
+  0.949315  0.033745 -0.004450    0.6207
+ -0.012480  1.056606 -0.131349    9.8143
+ -0.009564  0.102645  0.935069   -7.5486
+  0.000000  0.000000  0.000000    1.0000
+rec TC29035_t2w.4dfp.img  Wed Jun  3 08:37:48 2009  gandera@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	TC29035_t2w	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.10.2009.01.08.17.16.10.640625.156778005.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.11.2009.01.08.17.16.10.640625.156778311.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.1.2009.01.08.17.16.10.640625.156778221.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.12.2009.01.08.17.16.10.640625.156778023.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.13.2009.01.08.17.16.10.640625.156778329.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.14.2009.01.08.17.16.10.640625.156778041.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.15.2009.01.08.17.16.10.640625.156778347.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.16.2009.01.08.17.16.10.640625.156778059.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.17.2009.01.08.17.16.10.640625.156778365.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.18.2009.01.08.17.16.10.640625.156778077.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.19.2009.01.08.17.16.10.640625.156778383.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.20.2009.01.08.17.16.10.640625.156778095.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.21.2009.01.08.17.16.10.640625.156778401.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.2.2009.01.08.17.16.10.640625.156777933.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.22.2009.01.08.17.16.10.640625.156778113.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.23.2009.01.08.17.16.10.640625.156778419.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.24.2009.01.08.17.16.10.640625.156778131.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.25.2009.01.08.17.16.10.640625.156778437.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.26.2009.01.08.17.16.10.640625.156778149.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.27.2009.01.08.17.16.10.640625.156778455.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.28.2009.01.08.17.16.10.640625.156778167.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.29.2009.01.08.17.16.10.640625.156778473.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.30.2009.01.08.17.16.10.640625.156778185.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.31.2009.01.08.17.16.10.640625.156778491.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.3.2009.01.08.17.16.10.640625.156778239.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.32.2009.01.08.17.16.10.640625.156778203.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.4.2009.01.08.17.16.10.640625.156777951.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.5.2009.01.08.17.16.10.640625.156778257.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.6.2009.01.08.17.16.10.640625.156777969.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.7.2009.01.08.17.16.10.640625.156778275.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.8.2009.01.08.17.16.10.640625.156777987.IMA	\
+	/data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.9.2009.01.08.17.16.10.640625.156778293.IMA
+$Id: dcm_to_4dfp.c,v 1.9 2006/11/09 17:18:45 karchie Exp $
+littleendian
+littleendian
+dcm_to_4dfp text:        	160059.812000
+Orientation:             	Transverse
+ID Sequence Name:        	*tse2d1_17
+ACQ Protocol Name:        	tse_p3
+ACQ Sequence Description:	tse_p3
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):      32  Thickness (mm):    4.00000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.1.2009.01.08.17.16.10.640625.156778221.IMA
+FileName 2 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.2.2009.01.08.17.16.10.640625.156777933.IMA
+FileName 3 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.3.2009.01.08.17.16.10.640625.156778239.IMA
+FileName 4 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.4.2009.01.08.17.16.10.640625.156777951.IMA
+FileName 5 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.5.2009.01.08.17.16.10.640625.156778257.IMA
+FileName 6 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.6.2009.01.08.17.16.10.640625.156777969.IMA
+FileName 7 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.7.2009.01.08.17.16.10.640625.156778275.IMA
+FileName 8 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.8.2009.01.08.17.16.10.640625.156777987.IMA
+FileName 9 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.9.2009.01.08.17.16.10.640625.156778293.IMA
+FileName 10 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.10.2009.01.08.17.16.10.640625.156778005.IMA
+FileName 11 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.11.2009.01.08.17.16.10.640625.156778311.IMA
+FileName 12 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.12.2009.01.08.17.16.10.640625.156778023.IMA
+FileName 13 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.13.2009.01.08.17.16.10.640625.156778329.IMA
+FileName 14 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.14.2009.01.08.17.16.10.640625.156778041.IMA
+FileName 15 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.15.2009.01.08.17.16.10.640625.156778347.IMA
+FileName 16 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.16.2009.01.08.17.16.10.640625.156778059.IMA
+FileName 17 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.17.2009.01.08.17.16.10.640625.156778365.IMA
+FileName 18 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.18.2009.01.08.17.16.10.640625.156778077.IMA
+FileName 19 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.19.2009.01.08.17.16.10.640625.156778383.IMA
+FileName 20 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.20.2009.01.08.17.16.10.640625.156778095.IMA
+FileName 21 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.21.2009.01.08.17.16.10.640625.156778401.IMA
+FileName 22 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.22.2009.01.08.17.16.10.640625.156778113.IMA
+FileName 23 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.23.2009.01.08.17.16.10.640625.156778419.IMA
+FileName 24 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.24.2009.01.08.17.16.10.640625.156778131.IMA
+FileName 25 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.25.2009.01.08.17.16.10.640625.156778437.IMA
+FileName 26 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.26.2009.01.08.17.16.10.640625.156778149.IMA
+FileName 27 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.27.2009.01.08.17.16.10.640625.156778455.IMA
+FileName 28 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.28.2009.01.08.17.16.10.640625.156778167.IMA
+FileName 29 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.29.2009.01.08.17.16.10.640625.156778473.IMA
+FileName 30 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.30.2009.01.08.17.16.10.640625.156778185.IMA
+FileName 31 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.31.2009.01.08.17.16.10.640625.156778491.IMA
+FileName 32 = /data/nil-bluearc/raichle/gusnard/np751/TC29035/siem_im_1//TC29035.MR.HEAD_GUSNARD.5.32.2009.01.08.17.16.10.640625.156778203.IMA
+endrec Wed Jun  3 08:37:48 2009  gandera
+endrec Fri Sep  4 17:26:12 2009  russ
+endrec Fri Sep  4 18:18:57 2009  russ
+endrec Fri Sep  4 18:28:25 2009  russ
+endrec Fri Sep  4 18:29:37 2009  russ

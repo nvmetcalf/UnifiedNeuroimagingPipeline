@@ -1,0 +1,33 @@
+rec 711-2B_mask_g3_111.4dfp.img Tue Aug 7 14:14:45 CDT 2012 avi
+t4img_4dfp none 711-2B_mask_g3 711-2B_mask_g3_111 -O111
+$Id: t4img_4dfp,v 1.9 2009/03/05 04:30:54 avi Exp $
+rec 711-2B_mask_g3_111.4dfp.img  Tue Aug  7 14:14:38 2012  avi@bruckner Linux 2.6.27.24-170.2.68.fc10.x86_64 x86_64
+t4imgs_4dfp 711-2B_mask_g3_111.lst 711-2B_mask_g3_111 -O111 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+littleendian
+resampling by 3D linear interpolation
+sub
+711-2B_mask_g3	t4=
+endsub
+rec 711-2B_mask_g3.4dfp.img  Tue Aug  7 14:14:13 2012  avi@bruckner Linux 2.6.27.24-170.2.68.fc10.x86_64 x86_64
+gauss_4dfp 711-2B_mask 0.3 
+$Id: gauss_4dfp.c,v 1.16 2007/05/04 01:26:56 avi Exp $
+bigendian
+rec 711-2B_mask.4dfp.img  Thu Oct 16 14:20:43 2003  avi
+maskimg_4dfp 711-2B_imgm_ANALYZE 711-2B_imgm_ANALYZE 711-2B_mask -v1000 
+$Id: maskimg_4dfp.c,v 1.11 2003/10/05 21:09:40 avi Exp $
+711-2B_imgm_ANALYZE threshold=0.000000
+rec 711-2B_imgm_ANALYZE.4dfp.img  Thu Oct 16 14:18:39 2003  avi
+analyzeto4dfp 711-2B_imgm_ANALYZE 
+$Id: analyzeto4dfp.c,v 1.6 2003/07/03 19:35:08 avi Exp $
+711-2B_imgm_ANALYZE.img.rec not found
+endrec Thu Oct 16 14:18:39 2003  avi
+rec 711-2B_imgm_ANALYZE.4dfp.img  Thu Oct 16 14:18:39 2003  avi
+analyzeto4dfp 711-2B_imgm_ANALYZE 
+$Id: analyzeto4dfp.c,v 1.6 2003/07/03 19:35:08 avi Exp $
+711-2B_imgm_ANALYZE.img.rec not found
+endrec Thu Oct 16 14:18:39 2003  avi
+endrec Thu Oct 16 14:20:44 2003  avi
+endrec Tue Aug  7 14:14:13 2012  avi
+endrec Tue Aug  7 14:14:45 2012  avi
+endrec Tue Aug 7 14:14:45 CDT 2012 avi

@@ -1,0 +1,7 @@
+rec /data/nil-bluearc/mintunf/mintun/NP872_EV/EV001/TOF2MPR/weiner_test/filter/711-2B_222_brain.4dfp.img  Fri Jul 31 14:15:43 2009  larsc@cbisun01 SunOS 5.8 sun4u
+	/home/usr/larsc/bin/img2txt_4dfp	\
+	/data/nil-bluearc/mintunf/mintun/NP872_EV/EV001/TOF2MPR/weiner_test/filter/711-2B_222_brain	\
+	/data/nil-bluearc/mintunf/mintun/NP872_EV/EV001/TOF2MPR/weiner_test/filter/711-2B_222_brain.txt
+$Id$
+littleendian
+endrec Fri Jul 31 14:15:43 2009  larsc

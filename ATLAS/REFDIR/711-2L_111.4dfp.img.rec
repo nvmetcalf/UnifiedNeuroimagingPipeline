@@ -1,0 +1,1022 @@
+rec 711-2L_111.4dfp.img  Sun Sep 14 22:19:02 2003  avi
+t4imgs_4dfp /data/petsun9/data2/petmri/789yo/711-2L.lst 711-2L_111 -O111 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+/data/cn/data14/schlaggar/789yo_atlas/vc6660_1089-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc6660_1089-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc5332_1153-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc5332_1153-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc6864_1843-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc6864_1843-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc8595_1461-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc8595_1461-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc4987_161-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc4987_161-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc5843_2795-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc5843_2795-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc5511_1764-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc5511_1764-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc6431_328-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc6431_328-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc4134_1309-2	t4=/data/cn/data14/schlaggar/789yo_atlas/vc4134_1309-2_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc5167_729-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc5167_729-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc5168_756-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc5168_756-3_to_789yo_atlas_t4
+/data/cn/data14/schlaggar/789yo_atlas/vc6099_3621-3	t4=/data/cn/data14/schlaggar/789yo_atlas/vc6099_3621-3_to_789yo_atlas_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc1547_3802-7	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc1547_3802-7_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc1592_4174-3	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc1592_4174-3_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc1604_103-3	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc1604_103-3_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc1619_176-3	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc1619_176-3_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc1642_248-3	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc1642_248-3_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc1647_303-3	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc1647_303-3_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc1654_370-3	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc1654_370-3_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc1661_435-5	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc1661_435-5_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc1667_495-4	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc1667_495-4_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc4459_2461-4	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc4459_2461-4_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc5119_486-3	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc5119_486-3_to_adult_t4
+/data/emotion/data5/melanie/adult/NOT_GFC/vc5132_558-3	t4=/data/emotion/data5/melanie/adult/NOT_GFC/vc5132_558-3_to_adult_t4
+endsub
+t4
+product transform temp_t4
+product=[vc6660_1089-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+ -0.105368 -0.940504  0.025302   -5.2694
+ -0.188424 -0.029262  0.942955  -23.6841
+ -0.885518  0.082868 -0.211370   -3.7774
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.516436
+rec vc6660_1089-3.4dfp.img Wed Apr 18 15:00:24 CDT 2001 chris
+imato4dfp -0h /data/cn/data4/christine/atlas/kids/vc6660/raw_data/1089 3 3 vc6660_1089-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data4/christine/atlas/kids/vc6660/raw_data/1089
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2001:4:16
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc5332_1153-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+  0.012721 -0.953048  0.012101   -0.4445
+ -0.082660 -0.060274  0.954871   -9.3823
+ -0.927442 -0.032064 -0.086224   -0.9855
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.539419
+rec vc5332_1153-3.4dfp.img Mon Oct  2 09:47:14 CDT 2000 bradley
+imato4dfp -0h /data/cn/data14/schlaggar/atlas/kids/vc5332/raw_data/1153 3 3 vc5332_1153-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data14/schlaggar/atlas/kids/vc5332/raw_data/1153
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:10:1
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc6864_1843-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+ -0.065229 -0.946742  0.033074    5.0527
+ -0.113649 -0.012117  0.936542  -21.4771
+ -0.908515  0.050976 -0.130358   -1.0381
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.508432
+rec vc6864_1843-3.4dfp.img Thu Mar 28 05:54:39 CST 2002 heatherl
+imato4dfp -0h /data/cn/data2/schlaggar/language/Kids_normal/vc6864/raw_data/1843 3 3 vc6864_1843-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data2/schlaggar/language/Kids_normal/vc6864/raw_data/1843
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2001:5:19
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc8595_1461-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+  0.045312 -0.942978  0.211846    8.7696
+ -0.031660  0.167609  0.934225  -12.2728
+ -0.981481 -0.082245 -0.023446   -5.0006
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.525157
+rec vc8595_1461-3.4dfp.img Fri Mar 29 02:31:57 CST 2002 heatherl
+imato4dfp -0h /data/cn/data2/schlaggar/language/Kids_normal/vc8595/raw_data/1461 3 3 vc8595_1461-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data2/schlaggar/language/Kids_normal/vc8595/raw_data/1461
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2002:2:16
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc4987_161-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+ -0.030237 -1.022493  0.000844   -6.7812
+ -0.080066 -0.030743  0.963197   -2.6935
+ -0.983967  0.019236 -0.095874   -1.7215
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.502145
+rec vc4987_161-3.4dfp.img Wed Mar 27 18:58:50 CST 2002 heatherl
+imato4dfp -0h /data/cn/data2/schlaggar/language/Kids_normal/vc4987/raw_data/161 3 3 vc4987_161-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data2/schlaggar/language/Kids_normal/vc4987/raw_data/161
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:8:25
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc5843_2795-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+ -0.129397 -0.978298  0.133821    1.9276
+ -0.052836  0.060490  0.902428  -24.3689
+ -0.921672  0.084569 -0.083037   -0.7688
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.537843
+rec vc5843_2795-3.4dfp.img Fri Apr  5 16:38:45 CST 2002 becky
+imato4dfp -0h /data/cn/data2/schlaggar/language/Kids_normal/vc5843/raw_data/2795 3 3 vc5843_2795-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data2/schlaggar/language/Kids_normal/vc5843/raw_data/2795
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:12:9
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc5511_1764-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+  0.004346 -1.013371 -0.025327   -7.6398
+ -0.108345 -0.097972  0.981570   -4.1753
+ -0.936870  0.022109 -0.133914    3.4573
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.518118
+rec vc5511_1764-3.4dfp.img Mon Oct 23 10:10:24 CDT 2000 darcy
+imato4dfp -0h /data/cn/data14/schlaggar/atlas/kids/vc5511/raw_data/1764 3 3 vc5511_1764-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data14/schlaggar/atlas/kids/vc5511/raw_data/1764
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:10:22
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc6431_328-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+  0.058979 -0.960179  0.052966   -2.2961
+ -0.092805 -0.024303  0.909104  -13.8153
+ -0.925235 -0.080239 -0.079013  -10.9854
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.537550
+rec vc6431_328-3.4dfp.img Mon Mar 19 16:33:19 CST 2001 chris
+imato4dfp -0h /data/cn/data4/christine/atlas/kids/vc6431/raw_data/328 3 3 vc6431_328-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data4/christine/atlas/kids/vc6431/raw_data/328
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2001:3:17
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc4134_1309-2_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+ -0.065017 -1.004884  0.189091   -1.2702
+  0.036958  0.165161  0.954937    1.3364
+ -0.966711  0.047676  0.010917    5.9229
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.529979
+rec vc4134_1309-2.4dfp.img Fri Mar 29 07:10:54 CST 2002 heatherl
+imato4dfp -0h /data/cn/data2/schlaggar/language/Kids_normal/vc4134_correct_71200/raw_data/1309 2 2 vc4134_1309-2
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data2/schlaggar/language/Kids_normal/vc4134_correct_71200/raw_data/1309
+first_study:		2
+last_study:		2
+start_image_id:		4
+end_image_id:		131
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:4:9
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc5167_729-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+  0.012941 -0.972748 -0.014599    0.2695
+ -0.039807 -0.053664  0.946626  -15.7164
+ -0.988949 -0.049533 -0.037571   -0.6892
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.502138
+rec vc5167_729-3.4dfp.img Wed Mar 27 02:54:35 CST 2002 heatherl
+imato4dfp -0h /data/cn/data2/schlaggar/language/Kids_normal/vc5167/raw_data/729 3 3 vc5167_729-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data2/schlaggar/language/Kids_normal/vc5167/raw_data/729
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:9:12
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc5168_756-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+  0.041326 -0.997014  0.101428   -4.9082
+ -0.140979  0.074467  0.992067   -8.4196
+ -0.975982 -0.080865 -0.154241    1.4616
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.509552
+rec vc5168_756-3.4dfp.img Wed Mar 27 18:06:07 CST 2002 heatherl
+imato4dfp -0h /data/cn/data2/schlaggar/language/Kids_normal/vc5168/raw_data/756 3 3 vc5168_756-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data2/schlaggar/language/Kids_normal/vc5168/raw_data/756
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:9:13
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc6099_3621-3_to_789yo_atlas_t4][789yo_atlas_to_711-2B_t4]
+t4
+ -0.067925 -0.962426  0.167097  -10.6946
+ -0.052492  0.109085  0.895456   -5.4610
+ -0.908847  0.059836 -0.090544    1.6805
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.546753
+rec vc6099_3621-3.4dfp.img Wed Mar 27 15:21:54 CST 2002 heatherl
+imato4dfp -0h /data/cn/data2/schlaggar/language/Kids_normal/vc6099/raw_data/3621 3 3 vc6099_3621-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/cn/data2/schlaggar/language/Kids_normal/vc6099/raw_data/3621
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2001:1:29
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/hiRes_mprage.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc1547_3802-7_to_adult_t4][adult_to_711-2B_t4]
+t4
+ -0.051281 -0.895397  0.259512  -20.8021
+ -0.013312  0.283053  0.863565  -12.0334
+ -0.915332  0.010413 -0.036357   -6.3852
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.003671
+rec vc1547_3802-7.4dfp.img  Wed Jan 19 20:16:30 2000  marc
+scale_4dfp vc1547_3802-7 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1547_3802-7.4dfp.img Wed Jan 19 20:16:03 CST 2000 marc
+imato4dfp -0h /data/petsun29/data1/sub2/siem_im/scout/3802 7 7 vc1547_3802-7
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub2/siem_im/scout/3802
+first_study:		7
+last_study:		7
+start_image_id:		250
+end_image_id:		377
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:1:10
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec
+t4
+product transform temp_t4
+product=[vc1592_4174-3_to_adult_t4][adult_to_711-2B_t4]
+t4
+ -0.000668 -1.107972  0.203464  -12.5049
+ -0.058964  0.083897  0.960387   19.1910
+ -1.009162 -0.003904 -0.070883   -1.2136
+  0.000000  0.000000  0.000000    1.0000
+scale:     10.175244
+rec vc1592_4174-3.4dfp.img Wed Feb  2 12:11:57 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub5/siem_im/scout/4174 3 3 vc1592_4174-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub5/siem_im/scout/4174
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:1:27
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+t4
+product transform temp_t4
+product=[vc1604_103-3_to_adult_t4][adult_to_711-2B_t4]
+t4
+ -0.013267 -1.018773  0.100803  -19.0936
+  0.006223  0.021483  0.932810    4.9280
+ -1.013772  0.004945 -0.019561    7.3731
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.052382
+rec vc1604_103-3.4dfp.img  Thu Feb  3 20:49:23 2000  gusnard
+scale_4dfp vc1604_103-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1604_103-3.4dfp.img Thu Feb  3 20:48:04 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub6/siem_im/scout/103 3 3 vc1604_103-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub6/siem_im/scout/103
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:3
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec
+t4
+product transform temp_t4
+product=[vc1619_176-3_to_adult_t4][adult_to_711-2B_t4]
+t4
+  0.043828 -1.002208 -0.044736  -27.7259
+ -0.011327 -0.117399  0.859033   14.2055
+ -0.922331 -0.050687 -0.028950   -3.0347
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.043995
+rec vc1619_176-3.4dfp.img  Mon Feb  7 14:54:59 2000  gusnard
+scale_4dfp vc1619_176-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1619_176-3.4dfp.img Mon Feb  7 14:53:39 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub7/siem_im/scout/176 3 3 vc1619_176-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub7/siem_im/scout/176
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:7
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec
+t4
+product transform temp_t4
+product=[vc1642_248-3_to_adult_t4][adult_to_711-2B_t4]
+t4
+ -0.010495 -0.912530 -0.045983  -31.5749
+  0.027864 -0.060889  0.920373  -15.7157
+ -0.949012 -0.015275  0.025918   -2.1448
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.998935
+rec vc1642_248-3.4dfp.img  Tue Feb 15 19:05:55 2000  gusnard
+scale_4dfp vc1642_248-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1642_248-3.4dfp.img Tue Feb 15 19:04:48 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub8/siem_im/scout/248 3 3 vc1642_248-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub8/siem_im/scout/248
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:15
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec
+t4
+product transform temp_t4
+product=[vc1647_303-3_to_adult_t4][adult_to_711-2B_t4]
+t4
+ -0.012259 -0.966245  0.120649  -23.3754
+ -0.027425  0.087815  0.896510    5.7187
+ -0.930201 -0.009827 -0.019479   -2.3888
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.025686
+rec vc1647_303-3.4dfp.img  Thu Feb 17 15:11:33 2000  gusnard
+scale_4dfp vc1647_303-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1647_303-3.4dfp.img Thu Feb 17 15:10:26 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub9/siem_im/scout/303 3 3 vc1647_303-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub9/siem_im/scout/303
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:17
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec
+t4
+product transform temp_t4
+product=[vc1654_370-3_to_adult_t4][adult_to_711-2B_t4]
+t4
+ -0.044989 -1.038067 -0.011418  -20.2547
+ -0.039051 -0.051091  0.975088   -7.2545
+ -1.008543  0.039147 -0.042077    9.0276
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.990620
+rec vc1654_370-3.4dfp.img  Mon Feb 21 16:31:02 2000  gusnard
+scale_4dfp vc1654_370-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1654_370-3.4dfp.img Mon Feb 21 16:29:44 CST 2000 gusnard
+imato4dfp -0h /data/emotion/data1/sub10/siem_im/scout/370 3 3 vc1654_370-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data1/sub10/siem_im/scout/370
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:21
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec
+t4
+product transform temp_t4
+product=[vc1661_435-5_to_adult_t4][adult_to_711-2B_t4]
+t4
+ -0.008579 -1.002777  0.124553   -9.7854
+ -0.041716  0.121123  0.915798   -4.5004
+ -0.952971 -0.002272 -0.046921    0.7636
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.027196
+rec vc1661_435-5.4dfp.img  Thu Feb 24 16:47:30 2000  gusnard
+scale_4dfp vc1661_435-5 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1661_435-5.4dfp.img Thu Feb 24 16:46:11 CST 2000 gusnard
+imato4dfp -0h /data/emotion/data1/sub12/siem_im/scout/435 5 5 vc1661_435-5
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data1/sub12/siem_im/scout/435
+first_study:		5
+last_study:		5
+start_image_id:		167
+end_image_id:		294
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:24
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec
+t4
+product transform temp_t4
+product=[vc1667_495-4_to_adult_t4][adult_to_711-2B_t4]
+t4
+ -0.031096 -1.008240  0.017263   -9.0667
+  0.004357 -0.030063  0.937806    1.9115
+ -0.956166 -0.004005 -0.016461    1.0623
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.083806
+rec vc1667_495-4.4dfp.img  Tue Feb 29 15:43:58 2000  gusnard
+scale_4dfp vc1667_495-4 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1667_495-4.4dfp.img Tue Feb 29 15:42:58 CST 2000 gusnard
+imato4dfp -0h /data/emotion/data1/sub13/siem_im/scout/495 4 4 vc1667_495-4
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data1/sub13/siem_im/scout/495
+first_study:		4
+last_study:		4
+start_image_id:		87
+end_image_id:		214
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:29
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec
+t4
+product transform temp_t4
+product=[vc4459_2461-4_to_adult_t4][adult_to_711-2B_t4]
+t4
+  0.025887 -1.060253 -0.020394  -24.4593
+ -0.011271 -0.127418  0.915031    0.4508
+ -0.967154 -0.062212  0.008024    0.7082
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.047069
+rec vc4459_2461-4.4dfp.img  Thu Jun  8 19:34:17 2000  gusnard
+scale_4dfp vc4459_2461-4 10 
+$Id: scale_4dfp.c,v 1.7 2000/04/06 01:58:55 avi Exp $
+Scaled by 10.000000
+rec vc4459_2461-4.4dfp.img Thu Jun  8 19:30:08 CDT 2000 gusnard
+imato4dfp -0h /data/emotion/data2/sub14/siem_im/scout/2461 4 4 vc4459_2461-4
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data2/sub14/siem_im/scout/2461
+first_study:		4
+last_study:		4
+start_image_id:		116
+end_image_id:		243
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:6:6
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Thu Jun  8 19:34:17 2000  gusnard
+t4
+product transform temp_t4
+product=[vc5119_486-3_to_adult_t4][adult_to_711-2B_t4]
+t4
+  0.029011 -0.968721 -0.033305  -21.2994
+ -0.003804 -0.083940  0.906901    8.7435
+ -0.941036 -0.043421 -0.020341   -1.3902
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.013278
+rec vc5119_486-3.4dfp.img  Wed Sep  6 22:24:34 2000  gusnard
+scale_4dfp vc5119_486-3 10 
+$Id: scale_4dfp.c,v 1.7 2000/04/06 01:58:55 avi Exp $
+Scaled by 10.000000
+rec vc5119_486-3.4dfp.img Wed Sep  6 22:20:31 CDT 2000 gusnard
+imato4dfp -0h /data/emotion/data2/sub23/siem_im/scout/486 3 3 vc5119_486-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data2/sub23/siem_im/scout/486
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:9:6
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Wed Sep  6 22:24:35 2000  gusnard
+t4
+product transform temp_t4
+product=[vc5132_558-3_to_adult_t4][adult_to_711-2B_t4]
+t4
+ -0.057381 -1.039901 -0.060823  -31.0133
+ -0.010701 -0.099591  0.971835    0.1404
+ -0.979142  0.032080 -0.019099   -0.4699
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.994953
+rec vc5132_558-3.4dfp.img  Thu Sep  7 16:35:35 2000  gusnard
+scale_4dfp vc5132_558-3 10 
+$Id: scale_4dfp.c,v 1.7 2000/04/06 01:58:55 avi Exp $
+Scaled by 10.000000
+rec vc5132_558-3.4dfp.img Thu Sep  7 16:31:44 CDT 2000 gusnard
+imato4dfp -0h /data/emotion/data2/sub24/siem_im/scout/558 3 3 vc5132_558-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data2/sub24/siem_im/scout/558
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:9:7
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec Thu Sep  7 16:35:35 2000  gusnard
+endrec Sun Sep 14 22:27:27 2003  avi
