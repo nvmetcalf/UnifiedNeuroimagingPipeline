@@ -1,0 +1,1108 @@
+rec 711-2S_333_movie.4dfp.img  Thu Jul  3 19:28:13 2008  avi@nrglin7 Linux 2.6.22.14-72.fc6PAE i686
+paste_4dfp 711-2S_333_movie.lst 711-2S_333_movie -a 
+$Id: paste_4dfp.c,v 1.8 2007/08/10 22:26:07 avi Exp $
+bigendian
+imglst	711-2S_333_movie.lst
+HB_sub7_mpr_on_711-2S_333.4dfp.img
+HB_sub8_mpr_on_711-2S_333.4dfp.img
+RB_sub1b_mpr_on_711-2S_333.4dfp.img
+RB_sub2a_mpr_on_711-2S_333.4dfp.img
+RB_sub3b_mpr_on_711-2S_333.4dfp.img
+RB_sub4b_mpr_on_711-2S_333.4dfp.img
+aphasiaDTI01_mpr_on_711-2S_333.4dfp.img
+jo_sub2_mpr_on_711-2S_333.4dfp.img
+jo_sub4_mpr_on_711-2S_333.4dfp.img
+ojemann_sub5_mpr1_on_711-2S_333.4dfp.img
+retinoDTI1_mpr_on_711-2S_333.4dfp.img
+retinoDTI2_mpr_on_711-2S_333.4dfp.img
+retinoDTI3_mpr_on_711-2S_333.4dfp.img
+endimglst
+rec HB_sub7_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:57:50 CDT 2008 avi
+t4img_4dfp HB_sub7_mpr_to_711-2S_t4 HB_sub7_mpr HB_sub7_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec HB_sub7_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:49 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp HB_sub7_mpr_on_711-2S_333.lst HB_sub7_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+HB_sub7_mpr	t4=HB_sub7_mpr_to_711-2S_t4
+endsub
+t4
+product transform HB_sub7_mpr_to_711-2B_t4
+product=[HB_sub7_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.068901 -1.001630  0.261741  -11.3194
+ -0.005089  0.313120  0.956117  -13.7560
+ -1.020716  0.031678 -0.023535    3.4184
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.738800
+rec HB_sub7_mpr.4dfp.img Sun Jan 16 15:23:43 2005  adrian
+dcm_to_4dfp -z -b HB_sub7_mpr 
+$Id: dcm_to_4dfp.c,v 1.24 2004/04/22 19:55:26 jon Exp jon $
+
+Patient_Name:		HB_sub7
+Patient_ID:		070707
+Institution:		Washington University St Louis
+ID Study Date:		20050113
+dcm_to_4dfp text:	192814.281000
+Orientation:		Sagittal
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+ACQ Sequence Description	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2563
+
+FileName 1 = DWI_DICOM/HB_sub7.47.128
+FileName 2 = DWI_DICOM/HB_sub7.47.127
+FileName 3 = DWI_DICOM/HB_sub7.47.126
+FileName 4 = DWI_DICOM/HB_sub7.47.125
+FileName 5 = DWI_DICOM/HB_sub7.47.124
+FileName 6 = DWI_DICOM/HB_sub7.47.123
+FileName 7 = DWI_DICOM/HB_sub7.47.122
+FileName 8 = DWI_DICOM/HB_sub7.47.121
+FileName 9 = DWI_DICOM/HB_sub7.47.120
+FileName 10 = DWI_DICOM/HB_sub7.47.119
+FileName 11 = DWI_DICOM/HB_sub7.47.118
+FileName 12 = DWI_DICOM/HB_sub7.47.117
+FileName 13 = DWI_DICOM/HB_sub7.47.116
+FileName 14 = DWI_DICOM/HB_sub7.47.115
+FileName 15 = DWI_DICOM/HB_sub7.47.114
+FileName 16 = DWI_DICOM/HB_sub7.47.113
+FileName 17 = DWI_DICOM/HB_sub7.47.112
+FileName 18 = DWI_DICOM/HB_sub7.47.111
+FileName 19 = DWI_DICOM/HB_sub7.47.110
+FileName 20 = DWI_DICOM/HB_sub7.47.109
+FileName 21 = DWI_DICOM/HB_sub7.47.108
+FileName 22 = DWI_DICOM/HB_sub7.47.107
+FileName 23 = DWI_DICOM/HB_sub7.47.106
+FileName 24 = DWI_DICOM/HB_sub7.47.105
+FileName 25 = DWI_DICOM/HB_sub7.47.104
+FileName 26 = DWI_DICOM/HB_sub7.47.103
+FileName 27 = DWI_DICOM/HB_sub7.47.102
+FileName 28 = DWI_DICOM/HB_sub7.47.101
+FileName 29 = DWI_DICOM/HB_sub7.47.100
+FileName 30 = DWI_DICOM/HB_sub7.47.99
+FileName 31 = DWI_DICOM/HB_sub7.47.98
+FileName 32 = DWI_DICOM/HB_sub7.47.97
+FileName 33 = DWI_DICOM/HB_sub7.47.96
+FileName 34 = DWI_DICOM/HB_sub7.47.95
+FileName 35 = DWI_DICOM/HB_sub7.47.94
+FileName 36 = DWI_DICOM/HB_sub7.47.93
+FileName 37 = DWI_DICOM/HB_sub7.47.92
+FileName 38 = DWI_DICOM/HB_sub7.47.91
+FileName 39 = DWI_DICOM/HB_sub7.47.90
+FileName 40 = DWI_DICOM/HB_sub7.47.89
+FileName 41 = DWI_DICOM/HB_sub7.47.88
+FileName 42 = DWI_DICOM/HB_sub7.47.87
+FileName 43 = DWI_DICOM/HB_sub7.47.86
+FileName 44 = DWI_DICOM/HB_sub7.47.85
+FileName 45 = DWI_DICOM/HB_sub7.47.84
+FileName 46 = DWI_DICOM/HB_sub7.47.83
+FileName 47 = DWI_DICOM/HB_sub7.47.82
+FileName 48 = DWI_DICOM/HB_sub7.47.81
+FileName 49 = DWI_DICOM/HB_sub7.47.80
+FileName 50 = DWI_DICOM/HB_sub7.47.79
+FileName 51 = DWI_DICOM/HB_sub7.47.78
+FileName 52 = DWI_DICOM/HB_sub7.47.77
+FileName 53 = DWI_DICOM/HB_sub7.47.76
+FileName 54 = DWI_DICOM/HB_sub7.47.75
+FileName 55 = DWI_DICOM/HB_sub7.47.74
+FileName 56 = DWI_DICOM/HB_sub7.47.73
+FileName 57 = DWI_DICOM/HB_sub7.47.72
+FileName 58 = DWI_DICOM/HB_sub7.47.71
+FileName 59 = DWI_DICOM/HB_sub7.47.70
+FileName 60 = DWI_DICOM/HB_sub7.47.69
+FileName 61 = DWI_DICOM/HB_sub7.47.68
+FileName 62 = DWI_DICOM/HB_sub7.47.67
+FileName 63 = DWI_DICOM/HB_sub7.47.66
+FileName 64 = DWI_DICOM/HB_sub7.47.65
+FileName 65 = DWI_DICOM/HB_sub7.47.64
+FileName 66 = DWI_DICOM/HB_sub7.47.63
+FileName 67 = DWI_DICOM/HB_sub7.47.62
+FileName 68 = DWI_DICOM/HB_sub7.47.61
+FileName 69 = DWI_DICOM/HB_sub7.47.60
+FileName 70 = DWI_DICOM/HB_sub7.47.59
+FileName 71 = DWI_DICOM/HB_sub7.47.58
+FileName 72 = DWI_DICOM/HB_sub7.47.57
+FileName 73 = DWI_DICOM/HB_sub7.47.56
+FileName 74 = DWI_DICOM/HB_sub7.47.55
+FileName 75 = DWI_DICOM/HB_sub7.47.54
+FileName 76 = DWI_DICOM/HB_sub7.47.53
+FileName 77 = DWI_DICOM/HB_sub7.47.52
+FileName 78 = DWI_DICOM/HB_sub7.47.51
+FileName 79 = DWI_DICOM/HB_sub7.47.50
+FileName 80 = DWI_DICOM/HB_sub7.47.49
+FileName 81 = DWI_DICOM/HB_sub7.47.48
+FileName 82 = DWI_DICOM/HB_sub7.47.47
+FileName 83 = DWI_DICOM/HB_sub7.47.46
+FileName 84 = DWI_DICOM/HB_sub7.47.45
+FileName 85 = DWI_DICOM/HB_sub7.47.44
+FileName 86 = DWI_DICOM/HB_sub7.47.43
+FileName 87 = DWI_DICOM/HB_sub7.47.42
+FileName 88 = DWI_DICOM/HB_sub7.47.41
+FileName 89 = DWI_DICOM/HB_sub7.47.40
+FileName 90 = DWI_DICOM/HB_sub7.47.39
+FileName 91 = DWI_DICOM/HB_sub7.47.38
+FileName 92 = DWI_DICOM/HB_sub7.47.37
+FileName 93 = DWI_DICOM/HB_sub7.47.36
+FileName 94 = DWI_DICOM/HB_sub7.47.35
+FileName 95 = DWI_DICOM/HB_sub7.47.34
+FileName 96 = DWI_DICOM/HB_sub7.47.33
+FileName 97 = DWI_DICOM/HB_sub7.47.32
+FileName 98 = DWI_DICOM/HB_sub7.47.31
+FileName 99 = DWI_DICOM/HB_sub7.47.30
+FileName 100 = DWI_DICOM/HB_sub7.47.29
+FileName 101 = DWI_DICOM/HB_sub7.47.28
+FileName 102 = DWI_DICOM/HB_sub7.47.27
+FileName 103 = DWI_DICOM/HB_sub7.47.26
+FileName 104 = DWI_DICOM/HB_sub7.47.25
+FileName 105 = DWI_DICOM/HB_sub7.47.24
+FileName 106 = DWI_DICOM/HB_sub7.47.23
+FileName 107 = DWI_DICOM/HB_sub7.47.22
+FileName 108 = DWI_DICOM/HB_sub7.47.21
+FileName 109 = DWI_DICOM/HB_sub7.47.20
+FileName 110 = DWI_DICOM/HB_sub7.47.19
+FileName 111 = DWI_DICOM/HB_sub7.47.18
+FileName 112 = DWI_DICOM/HB_sub7.47.17
+FileName 113 = DWI_DICOM/HB_sub7.47.16
+FileName 114 = DWI_DICOM/HB_sub7.47.15
+FileName 115 = DWI_DICOM/HB_sub7.47.14
+FileName 116 = DWI_DICOM/HB_sub7.47.13
+FileName 117 = DWI_DICOM/HB_sub7.47.12
+FileName 118 = DWI_DICOM/HB_sub7.47.11
+FileName 119 = DWI_DICOM/HB_sub7.47.10
+FileName 120 = DWI_DICOM/HB_sub7.47.9
+FileName 121 = DWI_DICOM/HB_sub7.47.8
+FileName 122 = DWI_DICOM/HB_sub7.47.7
+FileName 123 = DWI_DICOM/HB_sub7.47.6
+FileName 124 = DWI_DICOM/HB_sub7.47.5
+FileName 125 = DWI_DICOM/HB_sub7.47.4
+FileName 126 = DWI_DICOM/HB_sub7.47.3
+FileName 127 = DWI_DICOM/HB_sub7.47.2
+FileName 128 = DWI_DICOM/HB_sub7.47.1
+endrec Sun Jan 16 15:23:43 2005  adrian
+endrec Thu Jul  3 19:57:50 2008  avi
+endrec Thu Jul 3 19:57:50 CDT 2008 avi
+rec HB_sub8_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:57:51 CDT 2008 avi
+t4img_4dfp HB_sub8_mpr_to_711-2S_t4 HB_sub8_mpr HB_sub8_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec HB_sub8_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:50 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp HB_sub8_mpr_on_711-2S_333.lst HB_sub8_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+HB_sub8_mpr	t4=HB_sub8_mpr_to_711-2S_t4
+endsub
+t4
+product transform HB_sub8_mpr_to_711-2B_t4
+product=[HB_sub8_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.016789 -0.911138  0.229640  -12.9062
+ -0.036336  0.275390  0.874485   -2.8848
+ -0.938395 -0.011414 -0.027255    0.5534
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.754820
+rec HB_sub8_mpr.4dfp.img Fri Jan 14 12:00:01 2005  adrian
+dcm_to_4dfp -z -b HB_sub8_mpr 
+$Id: dcm_to_4dfp.c,v 1.24 2004/04/22 19:55:26 jon Exp jon $
+
+Patient_Name:		HB_sub8
+Patient_ID:		080808
+Institution:		Washington University St Louis
+ID Study Date:		20050113
+dcm_to_4dfp text:	234004.265000
+Orientation:		Sagittal
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+ACQ Sequence Description	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     6279
+
+FileName 1 = DWI_DICOM/HB_sub8.2.128
+FileName 2 = DWI_DICOM/HB_sub8.2.127
+FileName 3 = DWI_DICOM/HB_sub8.2.126
+FileName 4 = DWI_DICOM/HB_sub8.2.125
+FileName 5 = DWI_DICOM/HB_sub8.2.124
+FileName 6 = DWI_DICOM/HB_sub8.2.123
+FileName 7 = DWI_DICOM/HB_sub8.2.122
+FileName 8 = DWI_DICOM/HB_sub8.2.121
+FileName 9 = DWI_DICOM/HB_sub8.2.120
+FileName 10 = DWI_DICOM/HB_sub8.2.119
+FileName 11 = DWI_DICOM/HB_sub8.2.118
+FileName 12 = DWI_DICOM/HB_sub8.2.117
+FileName 13 = DWI_DICOM/HB_sub8.2.116
+FileName 14 = DWI_DICOM/HB_sub8.2.115
+FileName 15 = DWI_DICOM/HB_sub8.2.114
+FileName 16 = DWI_DICOM/HB_sub8.2.113
+FileName 17 = DWI_DICOM/HB_sub8.2.112
+FileName 18 = DWI_DICOM/HB_sub8.2.111
+FileName 19 = DWI_DICOM/HB_sub8.2.110
+FileName 20 = DWI_DICOM/HB_sub8.2.109
+FileName 21 = DWI_DICOM/HB_sub8.2.108
+FileName 22 = DWI_DICOM/HB_sub8.2.107
+FileName 23 = DWI_DICOM/HB_sub8.2.106
+FileName 24 = DWI_DICOM/HB_sub8.2.105
+FileName 25 = DWI_DICOM/HB_sub8.2.104
+FileName 26 = DWI_DICOM/HB_sub8.2.103
+FileName 27 = DWI_DICOM/HB_sub8.2.102
+FileName 28 = DWI_DICOM/HB_sub8.2.101
+FileName 29 = DWI_DICOM/HB_sub8.2.100
+FileName 30 = DWI_DICOM/HB_sub8.2.99
+FileName 31 = DWI_DICOM/HB_sub8.2.98
+FileName 32 = DWI_DICOM/HB_sub8.2.97
+FileName 33 = DWI_DICOM/HB_sub8.2.96
+FileName 34 = DWI_DICOM/HB_sub8.2.95
+FileName 35 = DWI_DICOM/HB_sub8.2.94
+FileName 36 = DWI_DICOM/HB_sub8.2.93
+FileName 37 = DWI_DICOM/HB_sub8.2.92
+FileName 38 = DWI_DICOM/HB_sub8.2.91
+FileName 39 = DWI_DICOM/HB_sub8.2.90
+FileName 40 = DWI_DICOM/HB_sub8.2.89
+FileName 41 = DWI_DICOM/HB_sub8.2.88
+FileName 42 = DWI_DICOM/HB_sub8.2.87
+FileName 43 = DWI_DICOM/HB_sub8.2.86
+FileName 44 = DWI_DICOM/HB_sub8.2.85
+FileName 45 = DWI_DICOM/HB_sub8.2.84
+FileName 46 = DWI_DICOM/HB_sub8.2.83
+FileName 47 = DWI_DICOM/HB_sub8.2.82
+FileName 48 = DWI_DICOM/HB_sub8.2.81
+FileName 49 = DWI_DICOM/HB_sub8.2.80
+FileName 50 = DWI_DICOM/HB_sub8.2.79
+FileName 51 = DWI_DICOM/HB_sub8.2.78
+FileName 52 = DWI_DICOM/HB_sub8.2.77
+FileName 53 = DWI_DICOM/HB_sub8.2.76
+FileName 54 = DWI_DICOM/HB_sub8.2.75
+FileName 55 = DWI_DICOM/HB_sub8.2.74
+FileName 56 = DWI_DICOM/HB_sub8.2.73
+FileName 57 = DWI_DICOM/HB_sub8.2.72
+FileName 58 = DWI_DICOM/HB_sub8.2.71
+FileName 59 = DWI_DICOM/HB_sub8.2.70
+FileName 60 = DWI_DICOM/HB_sub8.2.69
+FileName 61 = DWI_DICOM/HB_sub8.2.68
+FileName 62 = DWI_DICOM/HB_sub8.2.67
+FileName 63 = DWI_DICOM/HB_sub8.2.66
+FileName 64 = DWI_DICOM/HB_sub8.2.65
+FileName 65 = DWI_DICOM/HB_sub8.2.64
+FileName 66 = DWI_DICOM/HB_sub8.2.63
+FileName 67 = DWI_DICOM/HB_sub8.2.62
+FileName 68 = DWI_DICOM/HB_sub8.2.61
+FileName 69 = DWI_DICOM/HB_sub8.2.60
+FileName 70 = DWI_DICOM/HB_sub8.2.59
+FileName 71 = DWI_DICOM/HB_sub8.2.58
+FileName 72 = DWI_DICOM/HB_sub8.2.57
+FileName 73 = DWI_DICOM/HB_sub8.2.56
+FileName 74 = DWI_DICOM/HB_sub8.2.55
+FileName 75 = DWI_DICOM/HB_sub8.2.54
+FileName 76 = DWI_DICOM/HB_sub8.2.53
+FileName 77 = DWI_DICOM/HB_sub8.2.52
+FileName 78 = DWI_DICOM/HB_sub8.2.51
+FileName 79 = DWI_DICOM/HB_sub8.2.50
+FileName 80 = DWI_DICOM/HB_sub8.2.49
+FileName 81 = DWI_DICOM/HB_sub8.2.48
+FileName 82 = DWI_DICOM/HB_sub8.2.47
+FileName 83 = DWI_DICOM/HB_sub8.2.46
+FileName 84 = DWI_DICOM/HB_sub8.2.45
+FileName 85 = DWI_DICOM/HB_sub8.2.44
+FileName 86 = DWI_DICOM/HB_sub8.2.43
+FileName 87 = DWI_DICOM/HB_sub8.2.42
+FileName 88 = DWI_DICOM/HB_sub8.2.41
+FileName 89 = DWI_DICOM/HB_sub8.2.40
+FileName 90 = DWI_DICOM/HB_sub8.2.39
+FileName 91 = DWI_DICOM/HB_sub8.2.38
+FileName 92 = DWI_DICOM/HB_sub8.2.37
+FileName 93 = DWI_DICOM/HB_sub8.2.36
+FileName 94 = DWI_DICOM/HB_sub8.2.35
+FileName 95 = DWI_DICOM/HB_sub8.2.34
+FileName 96 = DWI_DICOM/HB_sub8.2.33
+FileName 97 = DWI_DICOM/HB_sub8.2.32
+FileName 98 = DWI_DICOM/HB_sub8.2.31
+FileName 99 = DWI_DICOM/HB_sub8.2.30
+FileName 100 = DWI_DICOM/HB_sub8.2.29
+FileName 101 = DWI_DICOM/HB_sub8.2.28
+FileName 102 = DWI_DICOM/HB_sub8.2.27
+FileName 103 = DWI_DICOM/HB_sub8.2.26
+FileName 104 = DWI_DICOM/HB_sub8.2.25
+FileName 105 = DWI_DICOM/HB_sub8.2.24
+FileName 106 = DWI_DICOM/HB_sub8.2.23
+FileName 107 = DWI_DICOM/HB_sub8.2.22
+FileName 108 = DWI_DICOM/HB_sub8.2.21
+FileName 109 = DWI_DICOM/HB_sub8.2.20
+FileName 110 = DWI_DICOM/HB_sub8.2.19
+FileName 111 = DWI_DICOM/HB_sub8.2.18
+FileName 112 = DWI_DICOM/HB_sub8.2.17
+FileName 113 = DWI_DICOM/HB_sub8.2.16
+FileName 114 = DWI_DICOM/HB_sub8.2.15
+FileName 115 = DWI_DICOM/HB_sub8.2.14
+FileName 116 = DWI_DICOM/HB_sub8.2.13
+FileName 117 = DWI_DICOM/HB_sub8.2.12
+FileName 118 = DWI_DICOM/HB_sub8.2.11
+FileName 119 = DWI_DICOM/HB_sub8.2.10
+FileName 120 = DWI_DICOM/HB_sub8.2.9
+FileName 121 = DWI_DICOM/HB_sub8.2.8
+FileName 122 = DWI_DICOM/HB_sub8.2.7
+FileName 123 = DWI_DICOM/HB_sub8.2.6
+FileName 124 = DWI_DICOM/HB_sub8.2.5
+FileName 125 = DWI_DICOM/HB_sub8.2.4
+FileName 126 = DWI_DICOM/HB_sub8.2.3
+FileName 127 = DWI_DICOM/HB_sub8.2.2
+FileName 128 = DWI_DICOM/HB_sub8.2.1
+endrec Fri Jan 14 12:00:01 2005  adrian
+endrec Thu Jul  3 19:57:51 2008  avi
+endrec Thu Jul 3 19:57:51 CDT 2008 avi
+rec RB_sub1b_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:28:06 CDT 2008 avi
+t4img_4dfp RB_sub1b_mpr_to_711-2S_t4 RB_sub1b_mpr RB_sub1b_mpr_on_711-2S_333 -O333 -@b
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec RB_sub1b_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:28:06 2008  avi@nrglin7 Linux 2.6.22.14-72.fc6PAE i686
+t4imgs_4dfp RB_sub1b_mpr_on_711-2S_333.lst RB_sub1b_mpr_on_711-2S_333 -O333 -@b 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+RB_sub1b_mpr	t4=RB_sub1b_mpr_to_711-2S_t4
+endsub
+t4
+imgreg_4dfp /data/petsun43/data1/atlas/711-2B /data/petsun43/data1/atlas/711-2B_mask_g5_111z RB_sub1b_mpr_g11 RB_sub1b_mpr_mskz RB_sub1b_mpr_to_711-2B_t4 2311 
+$Id: imgreg_4dfp.c,v 1.15 2007/08/10 03:27:30 avi Exp $
+t4
+ -0.033738 -1.021537 -0.122423  -14.0779
+ -0.057636 -0.186212  1.004370    2.3768
+ -0.981210  0.019407 -0.033962    1.6360
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.825839
+rec RB_sub1b_mpr.4dfp.img Wed Jan 26 10:33:39 2005  jandrews
+dcm_to_4dfp -z -b RB_sub1b_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		RB_sub1b
+Patient_ID:		1b1b1b1b
+Institution:		Washington University St Louis
+ID Study Date:		20050118
+dcm_to_4dfp text:	173654.140000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     1706
+
+FileName 1 = DICOM/RB_sub1b.2.128
+endrec Wed Jan 26 10:33:39 2005  jandrews
+endrec Thu Jul  3 19:28:06 2008  avi
+endrec Thu Jul 3 19:28:06 CDT 2008 avi
+rec RB_sub2a_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:57:54 CDT 2008 avi
+t4img_4dfp RB_sub2a_mpr_to_711-2S_t4 RB_sub2a_mpr RB_sub2a_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec RB_sub2a_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:52 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp RB_sub2a_mpr_on_711-2S_333.lst RB_sub2a_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+RB_sub2a_mpr	t4=RB_sub2a_mpr_to_711-2S_t4
+endsub
+t4
+product transform RB_sub2_mpr_to_711-2B_t4
+product=[RB_sub2_mpr_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.020215 -1.022743 -0.033594  -10.6056
+ -0.021971 -0.061661  0.968938    0.2297
+ -0.970376 -0.000279 -0.020915    1.2788
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.715074
+rec RB_sub2_mpr.4dfp.img Sun Apr 10 22:24:46 2005  jandrews
+dcm_to_4dfp -z -b RB_sub2_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		RB_sub2
+Patient_ID:		020202
+Institution:		Washington University St Louis
+ID Study Date:		20050117
+dcm_to_4dfp text:	173036.343000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2134
+
+FileName 1 = DICOM/RB_sub2.2.128
+endrec Sun Apr 10 22:24:46 2005  jandrews
+endrec Thu Jul  3 19:57:54 2008  avi
+endrec Thu Jul 3 19:57:54 CDT 2008 avi
+rec RB_sub3b_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:57:55 CDT 2008 avi
+t4img_4dfp RB_sub3b_mpr_to_711-2S_t4 RB_sub3b_mpr RB_sub3b_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec RB_sub3b_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:54 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp RB_sub3b_mpr_on_711-2S_333.lst RB_sub3b_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+RB_sub3b_mpr	t4=RB_sub3b_mpr_to_711-2S_t4
+endsub
+t4
+product transform RB_sub3b_mpr_to_711-2B_t4
+product=[RB_sub3b_mpr_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.011980 -0.958486  0.190978   -9.3508
+  0.007548  0.148357  0.931271    8.0072
+ -0.954550 -0.017755  0.008607   -0.6384
+  0.000000  0.000000  0.000000    1.0000
+scale:      2.017195
+rec RB_sub3b_mpr.4dfp.img Wed Mar  2 15:48:20 2005  jandrews
+dcm_to_4dfp -z -b RB_sub3b_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		RB_sub3b
+Patient_ID:		17394
+Institution:		Washington University St Louis
+ID Study Date:		20050224
+dcm_to_4dfp text:	093352.859000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2598
+
+FileName 1 = DICOM/RB_sub3b.2.128
+endrec Wed Mar  2 15:48:20 2005  jandrews
+endrec Thu Jul  3 19:57:55 2008  avi
+endrec Thu Jul 3 19:57:55 CDT 2008 avi
+rec RB_sub4b_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:57:56 CDT 2008 avi
+t4img_4dfp RB_sub4b_mpr_to_711-2S_t4 RB_sub4b_mpr RB_sub4b_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec RB_sub4b_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:55 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp RB_sub4b_mpr_on_711-2S_333.lst RB_sub4b_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+RB_sub4b_mpr	t4=RB_sub4b_mpr_to_711-2S_t4
+endsub
+t4
+product transform RB_sub4b_mpr_to_711-2B_t4
+product=[RB_sub4b_mpr_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.007844 -1.110175 -0.031008  -10.3415
+  0.000289  0.008729  0.943474   13.0951
+ -0.937775 -0.001343 -0.007189   -1.8239
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.757562
+rec RB_sub4b_mpr.4dfp.img Fri Apr  1 10:53:18 2005  jandrews
+dcm_to_4dfp -z -b RB_sub4b_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		RB_sub4b
+Patient_ID:		040404
+Institution:		Washington University St Louis
+ID Study Date:		20050331
+dcm_to_4dfp text:	164556.468000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     3415
+
+FileName 1 = DICOM/RB_sub4b.2.128
+endrec Fri Apr  1 10:53:18 2005  jandrews
+endrec Thu Jul  3 19:57:56 2008  avi
+endrec Thu Jul 3 19:57:56 CDT 2008 avi
+rec aphasiaDTI01_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:57:57 CDT 2008 avi
+t4img_4dfp aphasiaDTI01_mpr_to_711-2S_t4 aphasiaDTI01_mpr aphasiaDTI01_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec aphasiaDTI01_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:56 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp aphasiaDTI01_mpr_on_711-2S_333.lst aphasiaDTI01_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+aphasiaDTI01_mpr	t4=aphasiaDTI01_mpr_to_711-2S_t4
+endsub
+t4
+product transform aphasiaDTI01_mpr_to_711-2B_t4
+product=[aphasiaDTI01_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.088002 -0.870231  0.346253   -1.5285
+ -0.011360  0.282837  0.851397    8.8951
+ -0.888727  0.038534 -0.009811   -1.4643
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.606543
+rec aphasiaDTI01_mpr.4dfp.img Mon Jul 26 17:12:00 2004  adrian
+dcm_to_4dfp -z -b aphasiaDTI01_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		aphasiaDTI_control1
+Patient_ID:		15656
+Institution:		Washington University St Louis
+ID Study Date:		20040725
+dcm_to_4dfp text:	171049.703000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2107
+
+FileName 1 = DICOM1/aphasiaDTI_control1.2.128
+endrec Mon Jul 26 17:12:00 2004  adrian
+endrec Thu Jul  3 19:57:57 2008  avi
+endrec Thu Jul 3 19:57:57 CDT 2008 avi
+rec jo_sub2_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:57:59 CDT 2008 avi
+t4img_4dfp jo_sub2_mpr_to_711-2S_t4 jo_sub2_mpr jo_sub2_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec jo_sub2_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:58 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp jo_sub2_mpr_on_711-2S_333.lst jo_sub2_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+jo_sub2_mpr	t4=jo_sub2_mpr_to_711-2S_t4
+endsub
+t4
+product transform jo_sub2_mpr_to_711-2B_t4
+product=[jo_sub2_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.056833 -0.988561  0.298778  -12.4826
+ -0.024083  0.233255  0.889709   22.8540
+ -0.930775  0.032328 -0.021075    0.6258
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.678497
+rec jo_sub2_mpr.4dfp.img Thu Nov 25 12:31:44 2004  adrian
+dcm_to_4dfp -z -b jo_sub2_mpr 
+$Id: dcm_to_4dfp.c,v 1.24 2004/04/22 19:55:26 jon Exp jon $
+
+Patient_Name:		BOLD-AE
+Patient_ID:		B-6630-11790
+Institution:		Washington University St Louis
+ID Study Date:		20030421
+dcm_to_4dfp text:	200639.562000
+Orientation:		Sagittal
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+ACQ Sequence Description	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2127
+
+FileName 1 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.128.2003.4.21.20.12.24.437000.9104442.IMA
+FileName 2 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.127.2003.4.21.20.12.24.437000.9104427.IMA
+FileName 3 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.126.2003.4.21.20.12.24.437000.9104412.IMA
+FileName 4 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.125.2003.4.21.20.12.24.437000.9104397.IMA
+FileName 5 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.124.2003.4.21.20.12.24.421000.9104382.IMA
+FileName 6 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.123.2003.4.21.20.12.24.421000.9104367.IMA
+FileName 7 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.122.2003.4.21.20.12.24.421000.9104352.IMA
+FileName 8 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.121.2003.4.21.20.12.24.421000.9104337.IMA
+FileName 9 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.120.2003.4.21.20.12.24.421000.9104322.IMA
+FileName 10 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.119.2003.4.21.20.12.24.421000.9104307.IMA
+FileName 11 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.118.2003.4.21.20.12.24.421000.9104292.IMA
+FileName 12 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.117.2003.4.21.20.12.24.421000.9104277.IMA
+FileName 13 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.116.2003.4.21.20.12.24.406000.9104262.IMA
+FileName 14 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.115.2003.4.21.20.12.24.406000.9104247.IMA
+FileName 15 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.114.2003.4.21.20.12.24.406000.9104232.IMA
+FileName 16 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.113.2003.4.21.20.12.24.406000.9104217.IMA
+FileName 17 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.112.2003.4.21.20.12.24.406000.9104202.IMA
+FileName 18 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.111.2003.4.21.20.12.24.390000.9104187.IMA
+FileName 19 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.110.2003.4.21.20.12.24.390000.9104172.IMA
+FileName 20 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.109.2003.4.21.20.12.24.390000.9104157.IMA
+FileName 21 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.108.2003.4.21.20.12.24.390000.9104142.IMA
+FileName 22 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.107.2003.4.21.20.12.24.390000.9104127.IMA
+FileName 23 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.106.2003.4.21.20.12.24.390000.9104112.IMA
+FileName 24 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.105.2003.4.21.20.12.24.390000.9104097.IMA
+FileName 25 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.104.2003.4.21.20.12.24.375000.9104082.IMA
+FileName 26 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.103.2003.4.21.20.12.24.625000.9109045.IMA
+FileName 27 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.102.2003.4.21.20.12.24.625000.9109030.IMA
+FileName 28 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.101.2003.4.21.20.12.24.625000.9109015.IMA
+FileName 29 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.100.2003.4.21.20.12.24.625000.9109000.IMA
+FileName 30 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.99.2003.4.21.20.12.24.625000.9108985.IMA
+FileName 31 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.98.2003.4.21.20.12.24.625000.9108970.IMA
+FileName 32 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.97.2003.4.21.20.12.24.625000.9108955.IMA
+FileName 33 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.96.2003.4.21.20.12.24.625000.9108940.IMA
+FileName 34 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.95.2003.4.21.20.12.24.609000.9108925.IMA
+FileName 35 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.94.2003.4.21.20.12.24.609000.9108910.IMA
+FileName 36 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.93.2003.4.21.20.12.24.609000.9108895.IMA
+FileName 37 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.92.2003.4.21.20.12.24.609000.9108880.IMA
+FileName 38 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.91.2003.4.21.20.12.24.609000.9108865.IMA
+FileName 39 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.90.2003.4.21.20.12.24.609000.9108850.IMA
+FileName 40 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.89.2003.4.21.20.12.24.609000.9108835.IMA
+FileName 41 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.88.2003.4.21.20.12.24.609000.9108820.IMA
+FileName 42 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.87.2003.4.21.20.12.24.593000.9108805.IMA
+FileName 43 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.86.2003.4.21.20.12.24.593000.9108790.IMA
+FileName 44 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.85.2003.4.21.20.12.24.593000.9108775.IMA
+FileName 45 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.84.2003.4.21.20.12.24.593000.9108760.IMA
+FileName 46 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.83.2003.4.21.20.12.24.593000.9108745.IMA
+FileName 47 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.82.2003.4.21.20.12.24.593000.9108730.IMA
+FileName 48 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.81.2003.4.21.20.12.24.593000.9108715.IMA
+FileName 49 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.80.2003.4.21.20.12.24.593000.9108700.IMA
+FileName 50 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.79.2003.4.21.20.12.24.593000.9108685.IMA
+FileName 51 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.78.2003.4.21.20.12.24.593000.9108670.IMA
+FileName 52 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.77.2003.4.21.20.12.24.578000.9108655.IMA
+FileName 53 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.76.2003.4.21.20.12.24.578000.9108640.IMA
+FileName 54 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.75.2003.4.21.20.12.24.578000.9108625.IMA
+FileName 55 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.74.2003.4.21.20.12.24.578000.9108610.IMA
+FileName 56 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.73.2003.4.21.20.12.24.578000.9108595.IMA
+FileName 57 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.72.2003.4.21.20.12.24.578000.9108580.IMA
+FileName 58 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.71.2003.4.21.20.12.24.578000.9108565.IMA
+FileName 59 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.70.2003.4.21.20.12.24.578000.9108550.IMA
+FileName 60 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.69.2003.4.21.20.12.24.562000.9108535.IMA
+FileName 61 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.68.2003.4.21.20.12.24.562000.9108520.IMA
+FileName 62 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.67.2003.4.21.20.12.24.562000.9108505.IMA
+FileName 63 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.66.2003.4.21.20.12.24.562000.9108490.IMA
+FileName 64 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.65.2003.4.21.20.12.24.562000.9108475.IMA
+FileName 65 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.64.2003.4.21.20.12.24.562000.9108460.IMA
+FileName 66 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.63.2003.4.21.20.12.24.562000.9108445.IMA
+FileName 67 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.62.2003.4.21.20.12.24.562000.9108430.IMA
+FileName 68 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.61.2003.4.21.20.12.24.562000.9108415.IMA
+FileName 69 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.60.2003.4.21.20.12.24.546000.9108400.IMA
+FileName 70 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.59.2003.4.21.20.12.24.546000.9108385.IMA
+FileName 71 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.58.2003.4.21.20.12.24.546000.9108370.IMA
+FileName 72 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.57.2003.4.21.20.12.24.546000.9108355.IMA
+FileName 73 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.56.2003.4.21.20.12.24.546000.9108340.IMA
+FileName 74 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.55.2003.4.21.20.12.24.531000.9108325.IMA
+FileName 75 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.54.2003.4.21.20.12.24.531000.9108310.IMA
+FileName 76 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.53.2003.4.21.20.12.24.531000.9108295.IMA
+FileName 77 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.52.2003.4.21.20.12.24.531000.9108280.IMA
+FileName 78 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.51.2003.4.21.20.12.24.531000.9108265.IMA
+FileName 79 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.50.2003.4.21.20.12.24.515000.9108250.IMA
+FileName 80 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.49.2003.4.21.20.12.24.515000.9108235.IMA
+FileName 81 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.48.2003.4.21.20.12.24.515000.9108220.IMA
+FileName 82 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.47.2003.4.21.20.12.24.515000.9108205.IMA
+FileName 83 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.46.2003.4.21.20.12.24.515000.9108190.IMA
+FileName 84 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.45.2003.4.21.20.12.24.500000.9108175.IMA
+FileName 85 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.44.2003.4.21.20.12.24.500000.9108160.IMA
+FileName 86 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.43.2003.4.21.20.12.24.500000.9108145.IMA
+FileName 87 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.42.2003.4.21.20.12.24.500000.9108130.IMA
+FileName 88 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.41.2003.4.21.20.12.24.500000.9108115.IMA
+FileName 89 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.40.2003.4.21.20.12.24.500000.9108100.IMA
+FileName 90 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.39.2003.4.21.20.12.24.500000.9108085.IMA
+FileName 91 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.38.2003.4.21.20.12.24.500000.9108070.IMA
+FileName 92 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.37.2003.4.21.20.12.24.500000.9108055.IMA
+FileName 93 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.36.2003.4.21.20.12.24.500000.9108040.IMA
+FileName 94 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.35.2003.4.21.20.12.24.484000.9108025.IMA
+FileName 95 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.34.2003.4.21.20.12.24.484000.9108010.IMA
+FileName 96 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.33.2003.4.21.20.12.24.484000.9107995.IMA
+FileName 97 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.32.2003.4.21.20.12.24.484000.9107980.IMA
+FileName 98 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.31.2003.4.21.20.12.24.484000.9107965.IMA
+FileName 99 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.30.2003.4.21.20.12.24.484000.9107950.IMA
+FileName 100 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.29.2003.4.21.20.12.24.484000.9107935.IMA
+FileName 101 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.28.2003.4.21.20.12.24.484000.9107920.IMA
+FileName 102 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.27.2003.4.21.20.12.24.484000.9107905.IMA
+FileName 103 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.26.2003.4.21.20.12.24.484000.9107890.IMA
+FileName 104 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.25.2003.4.21.20.12.24.484000.9107875.IMA
+FileName 105 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.24.2003.4.21.20.12.24.468000.9107860.IMA
+FileName 106 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.23.2003.4.21.20.12.24.468000.9107845.IMA
+FileName 107 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.22.2003.4.21.20.12.24.468000.9107830.IMA
+FileName 108 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.21.2003.4.21.20.12.24.468000.9107815.IMA
+FileName 109 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.20.2003.4.21.20.12.24.468000.9107800.IMA
+FileName 110 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.19.2003.4.21.20.12.24.468000.9107785.IMA
+FileName 111 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.18.2003.4.21.20.12.24.468000.9107770.IMA
+FileName 112 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.17.2003.4.21.20.12.24.468000.9107755.IMA
+FileName 113 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.16.2003.4.21.20.12.24.468000.9107740.IMA
+FileName 114 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.15.2003.4.21.20.12.24.453000.9107725.IMA
+FileName 115 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.14.2003.4.21.20.12.24.453000.9107710.IMA
+FileName 116 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.13.2003.4.21.20.12.24.453000.9107695.IMA
+FileName 117 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.12.2003.4.21.20.12.24.453000.9107680.IMA
+FileName 118 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.11.2003.4.21.20.12.24.453000.9107665.IMA
+FileName 119 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.10.2003.4.21.20.12.24.453000.9107650.IMA
+FileName 120 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.9.2003.4.21.20.12.24.453000.9107635.IMA
+FileName 121 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.8.2003.4.21.20.12.24.453000.9107620.IMA
+FileName 122 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.7.2003.4.21.20.12.24.437000.9107605.IMA
+FileName 123 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.6.2003.4.21.20.12.24.437000.9107590.IMA
+FileName 124 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.5.2003.4.21.20.12.24.437000.9107575.IMA
+FileName 125 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.4.2003.4.21.20.12.24.437000.9107560.IMA
+FileName 126 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.3.2003.4.21.20.12.24.828000.9110576.IMA
+FileName 127 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.2.2003.4.21.20.12.24.828000.9110561.IMA
+FileName 128 = /data/petsun43/data1/ojemann_sub2/dicom_4_21_03/BOLD-AE.MR.HEAD_MCKINSTRY.20.1.2003.4.21.20.12.24.828000.9110546.IMA
+endrec Thu Nov 25 12:31:44 2004  adrian
+endrec Thu Jul  3 19:57:59 2008  avi
+endrec Thu Jul 3 19:57:59 CDT 2008 avi
+rec jo_sub4_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:58:00 CDT 2008 avi
+t4img_4dfp jo_sub4_mpr_to_711-2S_t4 jo_sub4_mpr jo_sub4_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec jo_sub4_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:59 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp jo_sub4_mpr_on_711-2S_333.lst jo_sub4_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+jo_sub4_mpr	t4=jo_sub4_mpr_to_711-2S_t4
+endsub
+t4
+product transform jo_sub4_mpr_to_711-2B_t4
+product=[jo_sub4_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.003315 -0.947423  0.006140  -19.6904
+ -0.022536 -0.117375  0.943711    8.2422
+ -0.911847 -0.010573 -0.019714    0.1036
+  0.000000  0.000000  0.000000    1.0000
+scale:     17.168982
+rec jo_sub4_mpr.4dfp.img Fri Nov 26 14:01:50 2004  adrian
+dcm_to_4dfp -z -b jo_sub4_mpr 
+$Id: dcm_to_4dfp.c,v 1.24 2004/04/22 19:55:26 jon Exp jon $
+
+Patient_Name:		J-O-BOLD-004
+Patient_ID:		B-5757-11973
+Institution:		Washington University St Louis
+ID Study Date:		20030513
+dcm_to_4dfp text:	154659.218000
+Orientation:		Sagittal
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+ACQ Sequence Description	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      198
+
+FileName 1 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.128.2003.5.14.9.55.53.109000.12612155.IMA
+FileName 2 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.127.2003.5.14.9.55.53.109000.12612140.IMA
+FileName 3 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.126.2003.5.14.9.55.53.109000.12612125.IMA
+FileName 4 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.125.2003.5.14.9.55.53.109000.12612110.IMA
+FileName 5 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.124.2003.5.14.9.55.53.93000.12612095.IMA
+FileName 6 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.123.2003.5.14.9.55.53.93000.12612080.IMA
+FileName 7 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.122.2003.5.14.9.55.53.93000.12612065.IMA
+FileName 8 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.121.2003.5.14.9.55.53.93000.12612050.IMA
+FileName 9 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.120.2003.5.14.9.55.53.93000.12612035.IMA
+FileName 10 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.119.2003.5.14.9.55.53.93000.12612020.IMA
+FileName 11 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.118.2003.5.14.9.55.53.93000.12612005.IMA
+FileName 12 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.117.2003.5.14.9.55.53.93000.12611990.IMA
+FileName 13 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.116.2003.5.14.9.55.53.78000.12611975.IMA
+FileName 14 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.115.2003.5.14.9.55.53.78000.12611960.IMA
+FileName 15 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.114.2003.5.14.9.55.53.78000.12611945.IMA
+FileName 16 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.113.2003.5.14.9.55.53.78000.12611930.IMA
+FileName 17 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.112.2003.5.14.9.55.53.78000.12611915.IMA
+FileName 18 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.111.2003.5.14.9.55.53.78000.12611900.IMA
+FileName 19 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.110.2003.5.14.9.55.53.78000.12611885.IMA
+FileName 20 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.109.2003.5.14.9.55.53.78000.12611870.IMA
+FileName 21 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.108.2003.5.14.9.55.53.78000.12611855.IMA
+FileName 22 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.107.2003.5.14.9.55.53.62000.12611840.IMA
+FileName 23 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.106.2003.5.14.9.55.53.62000.12611825.IMA
+FileName 24 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.105.2003.5.14.9.55.53.62000.12611810.IMA
+FileName 25 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.104.2003.5.14.9.55.53.62000.12611795.IMA
+FileName 26 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.103.2003.5.14.9.55.53.62000.12611780.IMA
+FileName 27 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.102.2003.5.14.9.55.53.62000.12611765.IMA
+FileName 28 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.101.2003.5.14.9.55.53.62000.12611750.IMA
+FileName 29 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.100.2003.5.14.9.55.53.62000.12611735.IMA
+FileName 30 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.99.2003.5.14.9.55.53.46000.12611720.IMA
+FileName 31 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.98.2003.5.14.9.55.53.46000.12611705.IMA
+FileName 32 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.97.2003.5.14.9.55.53.46000.12611690.IMA
+FileName 33 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.96.2003.5.14.9.55.53.46000.12611675.IMA
+FileName 34 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.95.2003.5.14.9.55.53.46000.12611660.IMA
+FileName 35 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.94.2003.5.14.9.55.53.46000.12611645.IMA
+FileName 36 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.93.2003.5.14.9.55.53.46000.12611630.IMA
+FileName 37 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.92.2003.5.14.9.55.53.46000.12611615.IMA
+FileName 38 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.91.2003.5.14.9.55.53.46000.12611600.IMA
+FileName 39 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.90.2003.5.14.9.55.53.31000.12611585.IMA
+FileName 40 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.89.2003.5.14.9.55.53.31000.12611570.IMA
+FileName 41 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.88.2003.5.14.9.55.53.31000.12611555.IMA
+FileName 42 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.87.2003.5.14.9.55.53.31000.12611540.IMA
+FileName 43 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.86.2003.5.14.9.55.53.31000.12611525.IMA
+FileName 44 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.85.2003.5.14.9.55.53.31000.12611510.IMA
+FileName 45 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.84.2003.5.14.9.55.53.31000.12611495.IMA
+FileName 46 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.83.2003.5.14.9.55.53.31000.12611480.IMA
+FileName 47 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.82.2003.5.14.9.55.53.15000.12611465.IMA
+FileName 48 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.81.2003.5.14.9.55.53.15000.12611450.IMA
+FileName 49 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.80.2003.5.14.9.55.53.15000.12611435.IMA
+FileName 50 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.79.2003.5.14.9.55.53.15000.12611420.IMA
+FileName 51 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.78.2003.5.14.9.55.53.15000.12611405.IMA
+FileName 52 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.77.2003.5.14.9.55.53.15000.12611390.IMA
+FileName 53 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.76.2003.5.14.9.55.53.15000.12611375.IMA
+FileName 54 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.75.2003.5.14.9.55.53.15000.12611360.IMA
+FileName 55 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.74.2003.5.14.9.55.53.0.12611345.IMA
+FileName 56 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.73.2003.5.14.9.55.53.0.12611330.IMA
+FileName 57 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.72.2003.5.14.9.55.53.0.12611315.IMA
+FileName 58 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.71.2003.5.14.9.55.53.0.12611300.IMA
+FileName 59 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.70.2003.5.14.9.55.53.0.12611285.IMA
+FileName 60 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.69.2003.5.14.9.55.53.0.12611270.IMA
+FileName 61 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.68.2003.5.14.9.55.53.0.12611255.IMA
+FileName 62 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.67.2003.5.14.9.55.53.0.12611240.IMA
+FileName 63 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.66.2003.5.14.9.55.52.984000.12611225.IMA
+FileName 64 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.65.2003.5.14.9.55.52.984000.12611210.IMA
+FileName 65 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.64.2003.5.14.9.55.52.984000.12611195.IMA
+FileName 66 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.63.2003.5.14.9.55.52.984000.12611180.IMA
+FileName 67 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.62.2003.5.14.9.55.52.984000.12611165.IMA
+FileName 68 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.61.2003.5.14.9.55.52.984000.12611150.IMA
+FileName 69 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.60.2003.5.14.9.55.52.984000.12611135.IMA
+FileName 70 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.59.2003.5.14.9.55.52.984000.12611120.IMA
+FileName 71 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.58.2003.5.14.9.55.52.968000.12611105.IMA
+FileName 72 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.57.2003.5.14.9.55.52.968000.12611090.IMA
+FileName 73 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.56.2003.5.14.9.55.52.968000.12611075.IMA
+FileName 74 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.55.2003.5.14.9.55.52.968000.12611060.IMA
+FileName 75 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.54.2003.5.14.9.55.52.968000.12611045.IMA
+FileName 76 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.53.2003.5.14.9.55.52.968000.12611030.IMA
+FileName 77 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.52.2003.5.14.9.55.52.968000.12611015.IMA
+FileName 78 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.51.2003.5.14.9.55.52.968000.12611000.IMA
+FileName 79 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.50.2003.5.14.9.55.52.953000.12610985.IMA
+FileName 80 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.49.2003.5.14.9.55.52.953000.12610970.IMA
+FileName 81 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.48.2003.5.14.9.55.52.953000.12610955.IMA
+FileName 82 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.47.2003.5.14.9.55.52.953000.12610940.IMA
+FileName 83 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.46.2003.5.14.9.55.52.953000.12610925.IMA
+FileName 84 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.45.2003.5.14.9.55.52.953000.12610910.IMA
+FileName 85 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.44.2003.5.14.9.55.52.953000.12610895.IMA
+FileName 86 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.43.2003.5.14.9.55.52.953000.12610880.IMA
+FileName 87 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.42.2003.5.14.9.55.52.937000.12610865.IMA
+FileName 88 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.41.2003.5.14.9.55.52.937000.12610850.IMA
+FileName 89 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.40.2003.5.14.9.55.52.937000.12610835.IMA
+FileName 90 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.39.2003.5.14.9.55.52.937000.12610820.IMA
+FileName 91 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.38.2003.5.14.9.55.52.937000.12610805.IMA
+FileName 92 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.37.2003.5.14.9.55.52.937000.12610790.IMA
+FileName 93 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.36.2003.5.14.9.55.52.937000.12610775.IMA
+FileName 94 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.35.2003.5.14.9.55.52.937000.12610760.IMA
+FileName 95 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.34.2003.5.14.9.55.52.921000.12610745.IMA
+FileName 96 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.33.2003.5.14.9.55.52.921000.12610730.IMA
+FileName 97 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.32.2003.5.14.9.55.52.921000.12610715.IMA
+FileName 98 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.31.2003.5.14.9.55.52.921000.12610700.IMA
+FileName 99 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.30.2003.5.14.9.55.52.921000.12610685.IMA
+FileName 100 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.29.2003.5.14.9.55.52.921000.12610670.IMA
+FileName 101 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.28.2003.5.14.9.55.52.921000.12610655.IMA
+FileName 102 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.27.2003.5.14.9.55.52.921000.12610640.IMA
+FileName 103 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.26.2003.5.14.9.55.52.921000.12610625.IMA
+FileName 104 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.25.2003.5.14.9.55.52.906000.12610610.IMA
+FileName 105 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.24.2003.5.14.9.55.52.906000.12610595.IMA
+FileName 106 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.23.2003.5.14.9.55.52.906000.12610580.IMA
+FileName 107 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.22.2003.5.14.9.55.52.906000.12610565.IMA
+FileName 108 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.21.2003.5.14.9.55.52.906000.12610550.IMA
+FileName 109 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.20.2003.5.14.9.55.52.906000.12610535.IMA
+FileName 110 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.19.2003.5.14.9.55.52.906000.12610520.IMA
+FileName 111 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.18.2003.5.14.9.55.52.906000.12610505.IMA
+FileName 112 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.17.2003.5.14.9.55.52.890000.12610490.IMA
+FileName 113 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.16.2003.5.14.9.55.52.890000.12610475.IMA
+FileName 114 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.15.2003.5.14.9.55.52.890000.12610460.IMA
+FileName 115 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.14.2003.5.14.9.55.52.890000.12610445.IMA
+FileName 116 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.13.2003.5.14.9.55.52.890000.12610430.IMA
+FileName 117 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.12.2003.5.14.9.55.52.890000.12610415.IMA
+FileName 118 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.11.2003.5.14.9.55.52.890000.12610400.IMA
+FileName 119 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.10.2003.5.14.9.55.52.890000.12610385.IMA
+FileName 120 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.9.2003.5.14.9.55.52.875000.12610370.IMA
+FileName 121 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.8.2003.5.14.9.55.52.875000.12610355.IMA
+FileName 122 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.7.2003.5.14.9.55.52.875000.12610340.IMA
+FileName 123 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.6.2003.5.14.9.55.52.875000.12610325.IMA
+FileName 124 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.5.2003.5.14.9.55.52.875000.12610310.IMA
+FileName 125 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.4.2003.5.14.9.55.52.875000.12610295.IMA
+FileName 126 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.3.2003.5.14.9.55.52.875000.12610280.IMA
+FileName 127 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.2.2003.5.14.9.55.52.875000.12610265.IMA
+FileName 128 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.1.2003.5.14.9.55.52.859000.12610250.IMA
+endrec Fri Nov 26 14:01:50 2004  adrian
+endrec Thu Jul  3 19:58:00 2008  avi
+endrec Thu Jul 3 19:58:00 CDT 2008 avi
+rec ojemann_sub5_mpr1_on_711-2S_333.4dfp.img Thu Jul 3 19:58:01 CDT 2008 avi
+t4img_4dfp ojemann_sub5_mpr1_to_711-2S_t4 ojemann_sub5_mpr1 ojemann_sub5_mpr1_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec ojemann_sub5_mpr1_on_711-2S_333.4dfp.img  Thu Jul  3 19:58:00 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp ojemann_sub5_mpr1_on_711-2S_333.lst ojemann_sub5_mpr1_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+ojemann_sub5_mpr1	t4=ojemann_sub5_mpr1_to_711-2S_t4
+endsub
+t4
+product transform ojemann_sub5_mpr1_to_711-2B_t4
+product=[ojemann_sub5_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.089857 -0.954142  0.282753  -14.7249
+  0.051983  0.317657  0.878245   -7.8378
+ -0.999978  0.081992  0.009881    1.8949
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.630125
+rec Anatomy/ojemann_sub5_mpr1.4dfp.img Mon Jul 26 23:33:01 2004  adrian
+dcm_to_4dfp -z -b Anatomy/ojemann_sub5_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		ojemann_sub5
+Patient_ID:		050505
+Institution:		Washington University St Louis
+ID Study Date:		20040610
+dcm_to_4dfp text:	181347.796000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2965
+
+FileName 1 = DICOM/ojemann_sub5.2.128
+endrec Mon Jul 26 23:33:01 2004  adrian
+endrec Thu Jul  3 19:58:01 2008  avi
+endrec Thu Jul 3 19:58:01 CDT 2008 avi
+rec retinoDTI1_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:58:02 CDT 2008 avi
+t4img_4dfp retinoDTI1_mpr_to_711-2S_t4 retinoDTI1_mpr retinoDTI1_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec retinoDTI1_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:58:01 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp retinoDTI1_mpr_on_711-2S_333.lst retinoDTI1_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+retinoDTI1_mpr	t4=retinoDTI1_mpr_to_711-2S_t4
+endsub
+t4
+product transform retinoDTI1_mpr_to_711-2B_t4
+product=[retinoDTI1_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.010507 -0.963012 -0.013168  -10.5367
+  0.021225 -0.047064  0.982143   -7.2487
+ -0.997226 -0.006073  0.013900    1.7625
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.555210
+rec retinoDTI1_mpr.4dfp.img Sun Mar 14 22:50:19 2004  adrian
+dcm_to_4dfp -z -b retinoDTI1_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		retinoDTI1
+Patient_ID:		12345
+Institution:		Washington University St Louis
+ID Study Date:		20040314
+dcm_to_4dfp text:	155840.265000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2833
+
+FileName 1 = DICOM/RETINODTI1.MR.HEAD_MCKINSTRY.2.128.2004.3.14.17.40.25.312000.12125674.IMA
+endrec Sun Mar 14 22:50:19 2004  adrian
+endrec Thu Jul  3 19:58:02 2008  avi
+endrec Thu Jul 3 19:58:02 CDT 2008 avi
+rec retinoDTI2_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:58:04 CDT 2008 avi
+t4img_4dfp retinoDTI2_mpr_to_711-2S_t4 retinoDTI2_mpr retinoDTI2_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec retinoDTI2_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:58:03 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp retinoDTI2_mpr_on_711-2S_333.lst retinoDTI2_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+retinoDTI2_mpr	t4=retinoDTI2_mpr_to_711-2S_t4
+endsub
+t4
+product transform retinoDTI2_mpr_to_711-2B_t4
+product=[retinoDTI2_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.095145 -0.995043  0.217225  -12.9291
+ -0.007742  0.231040  0.967459    6.8680
+ -0.978538  0.041142 -0.042293    3.1347
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.671027
+rec retinoDTI2_mpr.4dfp.img Fri Mar 26 17:30:33 2004  avi
+dcm_to_4dfp -z -b retinoDTI2_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		retinoDTI2
+Patient_ID:		23456
+Institution:		Washington University St Louis
+ID Study Date:		20040325
+dcm_to_4dfp text:	181721.625000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2598
+
+FileName 1 = DICOM/RETINODTI2.MR.HEAD_MCKINSTRY.2.128.2004.3.26.8.7.30.453000.19427526.IMA
+endrec Fri Mar 26 17:30:33 2004  avi
+endrec Thu Jul  3 19:58:04 2008  avi
+endrec Thu Jul 3 19:58:04 CDT 2008 avi
+rec retinoDTI3_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:58:05 CDT 2008 avi
+t4img_4dfp retinoDTI3_mpr_to_711-2S_t4 retinoDTI3_mpr retinoDTI3_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec retinoDTI3_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:58:04 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp retinoDTI3_mpr_on_711-2S_333.lst retinoDTI3_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+retinoDTI3_mpr	t4=retinoDTI3_mpr_to_711-2S_t4
+endsub
+t4
+product transform retinoDTI3_mpr_to_711-2B_t4
+product=[retinoDTI3_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.067430 -0.970730  0.106856  -16.1655
+ -0.019144  0.036158  0.928393   12.0358
+ -0.932957 -0.059256 -0.024383   -0.3083
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.641303
+rec retinoDTI3_mpr.4dfp.img Wed Apr 21 23:16:25 2004  adrian
+dcm_to_4dfp -z -b retinoDTI3_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		retinoDTI3
+Patient_ID:		33333
+Institution:		Washington University St Louis
+ID Study Date:		20040421
+dcm_to_4dfp text:	162813.437000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2438
+
+FileName 1 = DICOM/retinoDTI3.2.128
+endrec Wed Apr 21 23:16:25 2004  adrian
+endrec Thu Jul  3 19:58:05 2008  avi
+endrec Thu Jul 3 19:58:05 CDT 2008 avi
+endrec Thu Jul  3 19:28:15 2008  avi

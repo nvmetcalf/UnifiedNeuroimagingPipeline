@@ -1,0 +1,2998 @@
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB15341_mpr1.4dfp.img
+       256       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 256 256 128 padded to 288 288 144 
+processing volume 1
+including: VB15341_mpr1.4dfp.img.rec in VB15341_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB15452_mpr1.4dfp.img
+       240       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 240 256 128 padded to 256 288 144 
+processing volume 1
+including: VB15452_mpr1.4dfp.img.rec in VB15452_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB15688_mpr1.4dfp.img
+       224       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 224 256 128 padded to 256 288 144 
+processing volume 1
+including: VB15688_mpr1.4dfp.img.rec in VB15688_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB15744_mpr1.4dfp.img
+       240       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 240 256 128 padded to 256 288 144 
+processing volume 1
+including: VB15744_mpr1.4dfp.img.rec in VB15744_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB15792_mpr1.4dfp.img
+       240       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 240 256 128 padded to 256 288 144 
+processing volume 1
+including: VB15792_mpr1.4dfp.img.rec in VB15792_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB15892_mpr1.4dfp.img
+       240       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 240 256 128 padded to 256 288 144 
+processing volume 1
+including: VB15892_mpr1.4dfp.img.rec in VB15892_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB16110_mpr1.4dfp.img
+       240       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 240 256 128 padded to 256 288 144 
+processing volume 1
+including: VB16110_mpr1.4dfp.img.rec in VB16110_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB16283_mpr1.4dfp.img
+       240       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 240 256 128 padded to 256 288 144 
+processing volume 1
+including: VB16283_mpr1.4dfp.img.rec in VB16283_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB16348_mpr1.4dfp.img
+       240       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 240 256 128 padded to 256 288 144 
+processing volume 1
+including: VB16348_mpr1.4dfp.img.rec in VB16348_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB16350_mpr1.4dfp.img
+       240       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 240 256 128 padded to 256 288 144 
+processing volume 1
+including: VB16350_mpr1.4dfp.img.rec in VB16350_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+VB16539_mpr1.4dfp.img
+       240       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 240 256 128 padded to 256 288 144 
+processing volume 1
+including: VB16539_mpr1.4dfp.img.rec in VB16539_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+drum33_mpr1.4dfp.img
+       256       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 256 256 128 padded to 288 288 144 
+processing volume 1
+including: drum33_mpr1.4dfp.img.rec in drum33_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+recall_pilot2_mpr1.4dfp.img
+       256       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 256 256 128 padded to 288 288 144 
+processing volume 1
+including: recall_pilot2_mpr1.4dfp.img.rec in recall_pilot2_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+recog_pilot3_mpr1.4dfp.img
+       256       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 256 256 128 padded to 288 288 144 
+processing volume 1
+including: recog_pilot3_mpr1.4dfp.img.rec in recog_pilot3_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+recog_pilot4_mpr1.4dfp.img
+       256       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 256 256 128 padded to 288 288 144 
+processing volume 1
+including: recog_pilot4_mpr1.4dfp.img.rec in recog_pilot4_mpr1_g11.4dfp.img.rec
+$Id: gauss_4dfp.c,v 1.10 2005/07/02 03:11:57 avi Exp $
+recog_pilot5_mpr1.4dfp.img
+       256       256       128         1
+  1.000000  1.000000  1.250000
+orientation S
+image dimensions 256 256 128 padded to 288 288 144 
+processing volume 1
+including: recog_pilot5_mpr1.4dfp.img.rec in recog_pilot5_mpr1_g11.4dfp.img.rec
+/bin/mv 711-2V_111.4dfp* BAK/iter0
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=20.655205  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=20.866648  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=19.640060  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=20.651962  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=20.433754  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=20.470705  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=20.702774  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=22.179182  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=21.342686  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=21.665203  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=20.424273  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=19.517824  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=19.309889  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=19.386847  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=21.482321  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=19.840057  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Tue Jul 19 23:06:28 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_to_711-2B_t4 BAK/iter0
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.878860  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=22.102829  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.803577  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.875425  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.644291  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.683432  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.929249  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.493122  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.607069  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.948692  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.634247  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.674099  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.453846  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.535362  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.754976  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=21.015423  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Tue Jul 19 23:14:30 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_111.4dfp* BAK/iter1
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.697781  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=22.035913  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.448673  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.816362  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.625616  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.813826  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.765539  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.338503  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.352209  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.705696  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.458160  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.403008  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.442642  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.414654  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.594831  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.531324  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Tue Jul 19 23:26:08 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_to_711-2B_t4 BAK/iter1
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.760012  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=22.099113  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.507320  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.878933  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.687639  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.876389  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.827965  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.405439  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.416317  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.770817  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.519703  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.461525  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.501272  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.473204  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.659636  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.590210  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Tue Jul 19 23:33:59 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_111.4dfp* BAK/iter2
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.583467  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=21.925026  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.329149  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.697540  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.518419  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.732801  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.647684  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.217827  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.240042  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.586226  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.342878  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.291828  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.348450  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.316763  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.487150  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.410622  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Tue Jul 19 23:45:46 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_to_711-2B_t4 BAK/iter2
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.753889  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=22.098145  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.489668  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.868862  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.688328  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.904402  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.818613  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.401154  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.415648  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.764565  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.511400  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.452051  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.509119  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.477182  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.664707  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.571783  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Tue Jul 19 23:53:26 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_111.4dfp* BAK/iter3
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.578735  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=21.921211  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.323029  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.689587  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.511902  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.731037  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.642830  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.214666  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.236691  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.585661  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.339066  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.288292  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.345896  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.314701  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.477089  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.406395  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Wed Jul 20 00:05:13 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_to_711-2B_t4 BAK/iter3
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.748926  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=22.094105  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.483316  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.860653  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.681566  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.902430  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.813526  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.397760  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.412071  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.763794  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.507366  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.448305  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.506365  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.474924  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.654366  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.567341  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Wed Jul 20 00:12:49 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_111.4dfp* BAK/iter4
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.574299  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=21.916784  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.317631  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.683945  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.505651  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.726744  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.636604  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.209736  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.232208  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.581547  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.334015  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.283117  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.341667  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.310863  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.478638  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.402273  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Wed Jul 20 00:24:34 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_to_711-2B_t4 BAK/iter4
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.747046  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=22.092274  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.480314  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.857569  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.677849  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.900711  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.809849  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.395576  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.410223  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.762358  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.504837  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.445526  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.504543  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.473494  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.658625  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.565636  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Wed Jul 20 00:32:19 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_111.4dfp* BAK/iter5
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.572109  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=21.914482  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.316269  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.681627  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.503849  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.725033  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.634926  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.207922  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.230125  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.579178  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.332434  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.282711  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.340286  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.309837  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.463104  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.400620  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Wed Jul 20 00:44:01 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_to_711-2B_t4 BAK/iter5
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.745419  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=22.090544  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.479490  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.855818  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.676611  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.899572  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.808741  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.394375  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.408722  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.760578  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.503819  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.445662  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.503700  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.473007  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.643572  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.564518  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Wed Jul 20 00:51:37 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_111.4dfp* BAK/iter6
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.570799  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=21.911917  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.313662  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.679600  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.501627  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.723183  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.632908  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.205784  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.228813  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.573605  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.330395  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.280361  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.338448  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.307474  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.460434  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.398598  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Wed Jul 20 01:03:18 2005
+Writing: 711-2V_111.4dfp.hdr
+/bin/mv 711-2V_to_711-2B_t4 BAK/iter6
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111
+$Header: /data/petsun4/data1/src_solaris/t4imgs_4dfp/RCS/t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+Including: 711-2V.lst in 711-2V_111.4dfp.img.rec
+Reading: VB15688_mpr1.4dfp.img
+Reading: VB15688_mpr1_to_711-2V_t4
+Including: VB15688_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        224       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       112.0000 -129.0000  -81.2500
+imgfile=VB15688_mpr1.4dfp.img
+t4file=VB15688_mpr1_to_711-2V_t4
+scale=21.749599  weight=1.000000  shift=0
+frame: 1
+Including: VB15688_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15744_mpr1.4dfp.img
+Reading: VB15744_mpr1_to_711-2V_t4
+Including: VB15744_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15744_mpr1.4dfp.img
+t4file=VB15744_mpr1_to_711-2V_t4
+scale=22.093544  weight=1.000000  shift=0
+frame: 1
+Including: VB15744_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15792_mpr1.4dfp.img
+Reading: VB15792_mpr1_to_711-2V_t4
+Including: VB15792_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15792_mpr1.4dfp.img
+t4file=VB15792_mpr1_to_711-2V_t4
+scale=20.482040  weight=1.000000  shift=0
+frame: 1
+Including: VB15792_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15892_mpr1.4dfp.img
+Reading: VB15892_mpr1_to_711-2V_t4
+Including: VB15892_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15892_mpr1.4dfp.img
+t4file=VB15892_mpr1_to_711-2V_t4
+scale=21.859301  weight=1.000000  shift=0
+frame: 1
+Including: VB15892_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16110_mpr1.4dfp.img
+Reading: VB16110_mpr1_to_711-2V_t4
+Including: VB16110_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16110_mpr1.4dfp.img
+t4file=VB16110_mpr1_to_711-2V_t4
+scale=21.679853  weight=1.000000  shift=0
+frame: 1
+Including: VB16110_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16348_mpr1.4dfp.img
+Reading: VB16348_mpr1_to_711-2V_t4
+Including: VB16348_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16348_mpr1.4dfp.img
+t4file=VB16348_mpr1_to_711-2V_t4
+scale=21.903246  weight=1.000000  shift=0
+frame: 1
+Including: VB16348_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16350_mpr1.4dfp.img
+Reading: VB16350_mpr1_to_711-2V_t4
+Including: VB16350_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16350_mpr1.4dfp.img
+t4file=VB16350_mpr1_to_711-2V_t4
+scale=21.812223  weight=1.000000  shift=0
+frame: 1
+Including: VB16350_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16539_mpr1.4dfp.img
+Reading: VB16539_mpr1_to_711-2V_t4
+Including: VB16539_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16539_mpr1.4dfp.img
+t4file=VB16539_mpr1_to_711-2V_t4
+scale=23.398136  weight=1.000000  shift=0
+frame: 1
+Including: VB16539_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB16283_mpr1.4dfp.img
+Reading: VB16283_mpr1_to_711-2V_t4
+Including: VB16283_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB16283_mpr1.4dfp.img
+t4file=VB16283_mpr1_to_711-2V_t4
+scale=22.413067  weight=1.000000  shift=0
+frame: 1
+Including: VB16283_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15341_mpr1.4dfp.img
+Reading: VB15341_mpr1_to_711-2V_t4
+Including: VB15341_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=VB15341_mpr1.4dfp.img
+t4file=VB15341_mpr1_to_711-2V_t4
+scale=22.760717  weight=1.000000  shift=0
+frame: 1
+Including: VB15341_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: VB15452_mpr1.4dfp.img
+Reading: VB15452_mpr1_to_711-2V_t4
+Including: VB15452_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        240       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       120.0000 -129.0000  -81.2500
+imgfile=VB15452_mpr1.4dfp.img
+t4file=VB15452_mpr1_to_711-2V_t4
+scale=21.507202  weight=1.000000  shift=0
+frame: 1
+Including: VB15452_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot3_mpr1.4dfp.img
+Reading: recog_pilot3_mpr1_to_711-2V_t4
+Including: recog_pilot3_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot3_mpr1.4dfp.img
+t4file=recog_pilot3_mpr1_to_711-2V_t4
+scale=20.448465  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot3_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot4_mpr1.4dfp.img
+Reading: recog_pilot4_mpr1_to_711-2V_t4
+Including: recog_pilot4_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot4_mpr1.4dfp.img
+t4file=recog_pilot4_mpr1_to_711-2V_t4
+scale=20.507032  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot4_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recog_pilot5_mpr1.4dfp.img
+Reading: recog_pilot5_mpr1_to_711-2V_t4
+Including: recog_pilot5_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recog_pilot5_mpr1.4dfp.img
+t4file=recog_pilot5_mpr1_to_711-2V_t4
+scale=20.475801  weight=1.000000  shift=0
+frame: 1
+Including: recog_pilot5_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: drum33_mpr1.4dfp.img
+Reading: drum33_mpr1_to_711-2V_t4
+Including: drum33_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=drum33_mpr1.4dfp.img
+t4file=drum33_mpr1_to_711-2V_t4
+scale=22.646608  weight=1.000000  shift=0
+frame: 1
+Including: drum33_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+Reading: recall_pilot2_mpr1.4dfp.img
+Reading: recall_pilot2_mpr1_to_711-2V_t4
+Including: recall_pilot2_mpr1_to_711-2V_t4 in 711-2V_111.4dfp.img.rec
+input orient=4
+input stack dimensions        256       256       128         1
+input stack mmppix       1.000000 -1.000000 -1.250000
+input stack center       128.0000 -129.0000  -81.2500
+imgfile=recall_pilot2_mpr1.4dfp.img
+t4file=recall_pilot2_mpr1_to_711-2V_t4
+scale=20.567680  weight=1.000000  shift=0
+frame: 1
+Including: recall_pilot2_mpr1.4dfp.img.rec in 711-2V_111.4dfp.img.rec
+output orient=2
+output stack dimensions       176       208       176         1
+output stack mmppix      1.000000 -1.000000 -1.000000
+output stack center       89.0000  -85.0000 -101.0000
+Writing: 711-2V_111.4dfp.img
+$Id: ifh2hdr.c,v 1.4 2003/09/25 03:06:25 avi Exp $
+Reading: 711-2V_111.4dfp.ifh
+Wed Jul 20 01:11:03 2005
+Writing: 711-2V_111.4dfp.hdr

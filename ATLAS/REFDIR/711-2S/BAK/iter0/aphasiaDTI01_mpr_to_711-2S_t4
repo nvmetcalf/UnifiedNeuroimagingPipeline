@@ -1,0 +1,8 @@
+product transform aphasiaDTI01_mpr_to_711-2B_t4
+product=[aphasiaDTI01_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.088002 -0.870231  0.346253   -1.5285
+ -0.011360  0.282837  0.851397    8.8951
+ -0.888727  0.038534 -0.009811   -1.4643
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.606543

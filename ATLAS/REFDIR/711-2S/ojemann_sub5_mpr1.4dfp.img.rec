@@ -1,0 +1,22 @@
+rec Anatomy/ojemann_sub5_mpr1.4dfp.img Mon Jul 26 23:33:01 2004  adrian
+dcm_to_4dfp -z -b Anatomy/ojemann_sub5_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		ojemann_sub5
+Patient_ID:		050505
+Institution:		Washington University St Louis
+ID Study Date:		20040610
+dcm_to_4dfp text:	181347.796000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2965
+
+FileName 1 = DICOM/ojemann_sub5.2.128
+endrec Mon Jul 26 23:33:01 2004  adrian

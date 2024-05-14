@@ -1,0 +1,22 @@
+rec drum33_mpr1.4dfp.img Wed Jul  7 21:17:26 2004  harold
+dcm_to_4dfp -z -b drum33_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		drum33
+Patient_ID:		15492
+Institution:		
+ID Study Date:		20040707
+dcm_to_4dfp text:	163106.859000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      251
+
+FileName 1 = /data/braille/data2/drum/drum_sight/drum33/dicom/drum33.4.128
+endrec Wed Jul  7 21:17:26 2004  harold

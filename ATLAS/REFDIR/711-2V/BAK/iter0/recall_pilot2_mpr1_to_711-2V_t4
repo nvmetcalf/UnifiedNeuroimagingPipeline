@@ -1,0 +1,8 @@
+product transform recall_pilot2_mpr1_to_711-2B_t4
+product=[recall_pilot2_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.017614 -0.987485  0.299368    4.1150
+  0.011201  0.257180  0.881893   20.8264
+ -1.009722 -0.035365 -0.008076    0.4103
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.361769

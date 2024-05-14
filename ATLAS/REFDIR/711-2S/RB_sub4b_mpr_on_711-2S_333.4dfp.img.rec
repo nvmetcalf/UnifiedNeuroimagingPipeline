@@ -1,0 +1,44 @@
+rec RB_sub4b_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:57:56 CDT 2008 avi
+t4img_4dfp RB_sub4b_mpr_to_711-2S_t4 RB_sub4b_mpr RB_sub4b_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec RB_sub4b_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:55 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp RB_sub4b_mpr_on_711-2S_333.lst RB_sub4b_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+RB_sub4b_mpr	t4=RB_sub4b_mpr_to_711-2S_t4
+endsub
+t4
+product transform RB_sub4b_mpr_to_711-2B_t4
+product=[RB_sub4b_mpr_to_711-2A_t4][/home/iac3/nil-tools/refdir/to_711-2B_t4]
+t4
+ -0.007844 -1.110175 -0.031008  -10.3415
+  0.000289  0.008729  0.943474   13.0951
+ -0.937775 -0.001343 -0.007189   -1.8239
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.757562
+rec RB_sub4b_mpr.4dfp.img Fri Apr  1 10:53:18 2005  jandrews
+dcm_to_4dfp -z -b RB_sub4b_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		RB_sub4b
+Patient_ID:		040404
+Institution:		Washington University St Louis
+ID Study Date:		20050331
+dcm_to_4dfp text:	164556.468000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     3415
+
+FileName 1 = DICOM/RB_sub4b.2.128
+endrec Fri Apr  1 10:53:18 2005  jandrews
+endrec Thu Jul  3 19:57:56 2008  avi
+endrec Thu Jul 3 19:57:56 CDT 2008 avi

@@ -1,0 +1,22 @@
+rec VB15792_mpr1.4dfp.img Wed Aug 11 17:44:55 2004  justinv
+dcm_to_4dfp -z -b VB15792_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		VB15792
+Patient_ID:		J-4941-15792
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20040811
+dcm_to_4dfp text:	081440.156000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      286
+
+FileName 1 = /data/emotion3/data33/EEG_fMRI/VB15792/siem_im/VB15792.MR.HEAD_RAICHLE.3.128.2004.8.11.8.39.22.125000.53279244.IMA
+endrec Wed Aug 11 17:44:55 2004  justinv

@@ -1,0 +1,173 @@
+rec jo_sub4_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:58:00 CDT 2008 avi
+t4img_4dfp jo_sub4_mpr_to_711-2S_t4 jo_sub4_mpr jo_sub4_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec jo_sub4_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:59 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp jo_sub4_mpr_on_711-2S_333.lst jo_sub4_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+jo_sub4_mpr	t4=jo_sub4_mpr_to_711-2S_t4
+endsub
+t4
+product transform jo_sub4_mpr_to_711-2B_t4
+product=[jo_sub4_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.003315 -0.947423  0.006140  -19.6904
+ -0.022536 -0.117375  0.943711    8.2422
+ -0.911847 -0.010573 -0.019714    0.1036
+  0.000000  0.000000  0.000000    1.0000
+scale:     17.168982
+rec jo_sub4_mpr.4dfp.img Fri Nov 26 14:01:50 2004  adrian
+dcm_to_4dfp -z -b jo_sub4_mpr 
+$Id: dcm_to_4dfp.c,v 1.24 2004/04/22 19:55:26 jon Exp jon $
+
+Patient_Name:		J-O-BOLD-004
+Patient_ID:		B-5757-11973
+Institution:		Washington University St Louis
+ID Study Date:		20030513
+dcm_to_4dfp text:	154659.218000
+Orientation:		Sagittal
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+ACQ Sequence Description	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      198
+
+FileName 1 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.128.2003.5.14.9.55.53.109000.12612155.IMA
+FileName 2 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.127.2003.5.14.9.55.53.109000.12612140.IMA
+FileName 3 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.126.2003.5.14.9.55.53.109000.12612125.IMA
+FileName 4 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.125.2003.5.14.9.55.53.109000.12612110.IMA
+FileName 5 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.124.2003.5.14.9.55.53.93000.12612095.IMA
+FileName 6 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.123.2003.5.14.9.55.53.93000.12612080.IMA
+FileName 7 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.122.2003.5.14.9.55.53.93000.12612065.IMA
+FileName 8 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.121.2003.5.14.9.55.53.93000.12612050.IMA
+FileName 9 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.120.2003.5.14.9.55.53.93000.12612035.IMA
+FileName 10 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.119.2003.5.14.9.55.53.93000.12612020.IMA
+FileName 11 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.118.2003.5.14.9.55.53.93000.12612005.IMA
+FileName 12 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.117.2003.5.14.9.55.53.93000.12611990.IMA
+FileName 13 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.116.2003.5.14.9.55.53.78000.12611975.IMA
+FileName 14 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.115.2003.5.14.9.55.53.78000.12611960.IMA
+FileName 15 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.114.2003.5.14.9.55.53.78000.12611945.IMA
+FileName 16 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.113.2003.5.14.9.55.53.78000.12611930.IMA
+FileName 17 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.112.2003.5.14.9.55.53.78000.12611915.IMA
+FileName 18 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.111.2003.5.14.9.55.53.78000.12611900.IMA
+FileName 19 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.110.2003.5.14.9.55.53.78000.12611885.IMA
+FileName 20 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.109.2003.5.14.9.55.53.78000.12611870.IMA
+FileName 21 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.108.2003.5.14.9.55.53.78000.12611855.IMA
+FileName 22 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.107.2003.5.14.9.55.53.62000.12611840.IMA
+FileName 23 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.106.2003.5.14.9.55.53.62000.12611825.IMA
+FileName 24 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.105.2003.5.14.9.55.53.62000.12611810.IMA
+FileName 25 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.104.2003.5.14.9.55.53.62000.12611795.IMA
+FileName 26 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.103.2003.5.14.9.55.53.62000.12611780.IMA
+FileName 27 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.102.2003.5.14.9.55.53.62000.12611765.IMA
+FileName 28 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.101.2003.5.14.9.55.53.62000.12611750.IMA
+FileName 29 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.100.2003.5.14.9.55.53.62000.12611735.IMA
+FileName 30 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.99.2003.5.14.9.55.53.46000.12611720.IMA
+FileName 31 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.98.2003.5.14.9.55.53.46000.12611705.IMA
+FileName 32 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.97.2003.5.14.9.55.53.46000.12611690.IMA
+FileName 33 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.96.2003.5.14.9.55.53.46000.12611675.IMA
+FileName 34 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.95.2003.5.14.9.55.53.46000.12611660.IMA
+FileName 35 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.94.2003.5.14.9.55.53.46000.12611645.IMA
+FileName 36 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.93.2003.5.14.9.55.53.46000.12611630.IMA
+FileName 37 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.92.2003.5.14.9.55.53.46000.12611615.IMA
+FileName 38 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.91.2003.5.14.9.55.53.46000.12611600.IMA
+FileName 39 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.90.2003.5.14.9.55.53.31000.12611585.IMA
+FileName 40 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.89.2003.5.14.9.55.53.31000.12611570.IMA
+FileName 41 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.88.2003.5.14.9.55.53.31000.12611555.IMA
+FileName 42 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.87.2003.5.14.9.55.53.31000.12611540.IMA
+FileName 43 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.86.2003.5.14.9.55.53.31000.12611525.IMA
+FileName 44 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.85.2003.5.14.9.55.53.31000.12611510.IMA
+FileName 45 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.84.2003.5.14.9.55.53.31000.12611495.IMA
+FileName 46 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.83.2003.5.14.9.55.53.31000.12611480.IMA
+FileName 47 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.82.2003.5.14.9.55.53.15000.12611465.IMA
+FileName 48 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.81.2003.5.14.9.55.53.15000.12611450.IMA
+FileName 49 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.80.2003.5.14.9.55.53.15000.12611435.IMA
+FileName 50 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.79.2003.5.14.9.55.53.15000.12611420.IMA
+FileName 51 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.78.2003.5.14.9.55.53.15000.12611405.IMA
+FileName 52 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.77.2003.5.14.9.55.53.15000.12611390.IMA
+FileName 53 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.76.2003.5.14.9.55.53.15000.12611375.IMA
+FileName 54 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.75.2003.5.14.9.55.53.15000.12611360.IMA
+FileName 55 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.74.2003.5.14.9.55.53.0.12611345.IMA
+FileName 56 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.73.2003.5.14.9.55.53.0.12611330.IMA
+FileName 57 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.72.2003.5.14.9.55.53.0.12611315.IMA
+FileName 58 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.71.2003.5.14.9.55.53.0.12611300.IMA
+FileName 59 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.70.2003.5.14.9.55.53.0.12611285.IMA
+FileName 60 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.69.2003.5.14.9.55.53.0.12611270.IMA
+FileName 61 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.68.2003.5.14.9.55.53.0.12611255.IMA
+FileName 62 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.67.2003.5.14.9.55.53.0.12611240.IMA
+FileName 63 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.66.2003.5.14.9.55.52.984000.12611225.IMA
+FileName 64 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.65.2003.5.14.9.55.52.984000.12611210.IMA
+FileName 65 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.64.2003.5.14.9.55.52.984000.12611195.IMA
+FileName 66 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.63.2003.5.14.9.55.52.984000.12611180.IMA
+FileName 67 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.62.2003.5.14.9.55.52.984000.12611165.IMA
+FileName 68 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.61.2003.5.14.9.55.52.984000.12611150.IMA
+FileName 69 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.60.2003.5.14.9.55.52.984000.12611135.IMA
+FileName 70 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.59.2003.5.14.9.55.52.984000.12611120.IMA
+FileName 71 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.58.2003.5.14.9.55.52.968000.12611105.IMA
+FileName 72 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.57.2003.5.14.9.55.52.968000.12611090.IMA
+FileName 73 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.56.2003.5.14.9.55.52.968000.12611075.IMA
+FileName 74 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.55.2003.5.14.9.55.52.968000.12611060.IMA
+FileName 75 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.54.2003.5.14.9.55.52.968000.12611045.IMA
+FileName 76 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.53.2003.5.14.9.55.52.968000.12611030.IMA
+FileName 77 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.52.2003.5.14.9.55.52.968000.12611015.IMA
+FileName 78 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.51.2003.5.14.9.55.52.968000.12611000.IMA
+FileName 79 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.50.2003.5.14.9.55.52.953000.12610985.IMA
+FileName 80 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.49.2003.5.14.9.55.52.953000.12610970.IMA
+FileName 81 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.48.2003.5.14.9.55.52.953000.12610955.IMA
+FileName 82 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.47.2003.5.14.9.55.52.953000.12610940.IMA
+FileName 83 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.46.2003.5.14.9.55.52.953000.12610925.IMA
+FileName 84 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.45.2003.5.14.9.55.52.953000.12610910.IMA
+FileName 85 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.44.2003.5.14.9.55.52.953000.12610895.IMA
+FileName 86 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.43.2003.5.14.9.55.52.953000.12610880.IMA
+FileName 87 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.42.2003.5.14.9.55.52.937000.12610865.IMA
+FileName 88 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.41.2003.5.14.9.55.52.937000.12610850.IMA
+FileName 89 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.40.2003.5.14.9.55.52.937000.12610835.IMA
+FileName 90 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.39.2003.5.14.9.55.52.937000.12610820.IMA
+FileName 91 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.38.2003.5.14.9.55.52.937000.12610805.IMA
+FileName 92 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.37.2003.5.14.9.55.52.937000.12610790.IMA
+FileName 93 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.36.2003.5.14.9.55.52.937000.12610775.IMA
+FileName 94 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.35.2003.5.14.9.55.52.937000.12610760.IMA
+FileName 95 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.34.2003.5.14.9.55.52.921000.12610745.IMA
+FileName 96 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.33.2003.5.14.9.55.52.921000.12610730.IMA
+FileName 97 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.32.2003.5.14.9.55.52.921000.12610715.IMA
+FileName 98 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.31.2003.5.14.9.55.52.921000.12610700.IMA
+FileName 99 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.30.2003.5.14.9.55.52.921000.12610685.IMA
+FileName 100 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.29.2003.5.14.9.55.52.921000.12610670.IMA
+FileName 101 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.28.2003.5.14.9.55.52.921000.12610655.IMA
+FileName 102 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.27.2003.5.14.9.55.52.921000.12610640.IMA
+FileName 103 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.26.2003.5.14.9.55.52.921000.12610625.IMA
+FileName 104 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.25.2003.5.14.9.55.52.906000.12610610.IMA
+FileName 105 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.24.2003.5.14.9.55.52.906000.12610595.IMA
+FileName 106 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.23.2003.5.14.9.55.52.906000.12610580.IMA
+FileName 107 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.22.2003.5.14.9.55.52.906000.12610565.IMA
+FileName 108 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.21.2003.5.14.9.55.52.906000.12610550.IMA
+FileName 109 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.20.2003.5.14.9.55.52.906000.12610535.IMA
+FileName 110 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.19.2003.5.14.9.55.52.906000.12610520.IMA
+FileName 111 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.18.2003.5.14.9.55.52.906000.12610505.IMA
+FileName 112 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.17.2003.5.14.9.55.52.890000.12610490.IMA
+FileName 113 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.16.2003.5.14.9.55.52.890000.12610475.IMA
+FileName 114 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.15.2003.5.14.9.55.52.890000.12610460.IMA
+FileName 115 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.14.2003.5.14.9.55.52.890000.12610445.IMA
+FileName 116 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.13.2003.5.14.9.55.52.890000.12610430.IMA
+FileName 117 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.12.2003.5.14.9.55.52.890000.12610415.IMA
+FileName 118 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.11.2003.5.14.9.55.52.890000.12610400.IMA
+FileName 119 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.10.2003.5.14.9.55.52.890000.12610385.IMA
+FileName 120 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.9.2003.5.14.9.55.52.875000.12610370.IMA
+FileName 121 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.8.2003.5.14.9.55.52.875000.12610355.IMA
+FileName 122 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.7.2003.5.14.9.55.52.875000.12610340.IMA
+FileName 123 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.6.2003.5.14.9.55.52.875000.12610325.IMA
+FileName 124 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.5.2003.5.14.9.55.52.875000.12610310.IMA
+FileName 125 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.4.2003.5.14.9.55.52.875000.12610295.IMA
+FileName 126 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.3.2003.5.14.9.55.52.875000.12610280.IMA
+FileName 127 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.2.2003.5.14.9.55.52.875000.12610265.IMA
+FileName 128 = /data/petsun43/data1/ojemann_sub4/anat_dicom/J-O-BOLD-004.MR.HEAD_MCKINSTRY.4.1.2003.5.14.9.55.52.859000.12610250.IMA
+endrec Fri Nov 26 14:01:50 2004  adrian
+endrec Thu Jul  3 19:58:00 2008  avi
+endrec Thu Jul 3 19:58:00 CDT 2008 avi

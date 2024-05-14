@@ -1,0 +1,8 @@
+imgreg_4dfp /data/petsun43/data1/atlas/711-2B /data/petsun43/data1/atlas/711-2B_mask_g5_111z RB_sub1b_mpr_g11 RB_sub1b_mpr_mskz RB_sub1b_mpr_to_711-2B_t4 2311 
+$Id: imgreg_4dfp.c,v 1.15 2007/08/10 03:27:30 avi Exp $
+t4
+ -0.033738 -1.021537 -0.122423  -14.0779
+ -0.057636 -0.186212  1.004370    2.3768
+ -0.981210  0.019407 -0.033962    1.6360
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.825839

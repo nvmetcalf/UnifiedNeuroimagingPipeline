@@ -1,0 +1,40 @@
+rec recog_pilot5_mpr1_711-2V_atl_222.4dfp.img Wed Jul 20 13:31:42 CDT 2005 justinv
+/data/petsun4/data1/solaris/t4img_4dfp recog_pilot5_mpr1_to_711-2V_t4 recog_pilot5_mpr1 recog_pilot5_mpr1_711-2V_atl_222 -O222
+$Id: t4img_4dfp,v 1.4 1999/04/26 01:40:52 avi Exp $
+$Id: t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+resampling by 3D linear interpolation
+sub
+recog_pilot5_mpr1	t4=recog_pilot5_mpr1_to_711-2V_t4
+endsub
+t4
+product transform temp_t4
+product=[recog_pilot5_mpr1_to_711-2V_t4][711-2V_to_711-2B_t4]
+t4
+  0.019962 -0.943864  0.221385   12.2477
+  0.007176  0.147028  0.881071   26.6675
+ -0.921529 -0.028934  0.003445    0.0352
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.475801
+rec recog_pilot5_mpr1.4dfp.img Thu Jan 13 16:18:20 2005  harold
+dcm_to_4dfp -z -b recog_pilot5_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		recog_pilot5
+Patient_ID:		17038
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20050113
+dcm_to_4dfp text:	104126.125000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      339
+
+FileName 1 = /data/touch2/data5/exp3/recog_pilot5/dicom/recog_pilot5.3.128
+endrec Thu Jan 13 16:18:20 2005  harold
+endrec Wed Jul 20 13:31:42 CDT 2005 justinv

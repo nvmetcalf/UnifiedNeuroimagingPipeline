@@ -1,0 +1,22 @@
+rec retinoDTI2_mpr.4dfp.img Fri Mar 26 17:30:33 2004  avi
+dcm_to_4dfp -z -b retinoDTI2_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		retinoDTI2
+Patient_ID:		23456
+Institution:		Washington University St Louis
+ID Study Date:		20040325
+dcm_to_4dfp text:	181721.625000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2598
+
+FileName 1 = DICOM/RETINODTI2.MR.HEAD_MCKINSTRY.2.128.2004.3.26.8.7.30.453000.19427526.IMA
+endrec Fri Mar 26 17:30:33 2004  avi

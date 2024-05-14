@@ -1,0 +1,22 @@
+rec recog_pilot4_mpr1.4dfp.img Tue Jan 11 16:34:35 2005  harold
+dcm_to_4dfp -z -b recog_pilot4_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		recog_pilot4
+Patient_ID:		17023
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20050111
+dcm_to_4dfp text:	094807.375000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      330
+
+FileName 1 = /data/touch2/data5/exp3/recog_pilot4/dicom/recog_pilot4.3.128
+endrec Tue Jan 11 16:34:35 2005  harold

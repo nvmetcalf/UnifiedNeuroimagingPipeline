@@ -1,0 +1,173 @@
+rec HB_sub8_mpr_on_711-2S_333.4dfp.img Thu Jul 3 19:57:51 CDT 2008 avi
+t4img_4dfp HB_sub8_mpr_to_711-2S_t4 HB_sub8_mpr HB_sub8_mpr_on_711-2S_333 -O333
+$Id: t4img_4dfp,v 1.8 2008/01/30 05:25:04 avi Exp $
+rec HB_sub8_mpr_on_711-2S_333.4dfp.img  Thu Jul  3 19:57:50 2008  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp HB_sub8_mpr_on_711-2S_333.lst HB_sub8_mpr_on_711-2S_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.30 2008/01/15 06:05:35 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+HB_sub8_mpr	t4=HB_sub8_mpr_to_711-2S_t4
+endsub
+t4
+product transform HB_sub8_mpr_to_711-2B_t4
+product=[HB_sub8_mpr_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.016789 -0.911138  0.229640  -12.9062
+ -0.036336  0.275390  0.874485   -2.8848
+ -0.938395 -0.011414 -0.027255    0.5534
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.754820
+rec HB_sub8_mpr.4dfp.img Fri Jan 14 12:00:01 2005  adrian
+dcm_to_4dfp -z -b HB_sub8_mpr 
+$Id: dcm_to_4dfp.c,v 1.24 2004/04/22 19:55:26 jon Exp jon $
+
+Patient_Name:		HB_sub8
+Patient_ID:		080808
+Institution:		Washington University St Louis
+ID Study Date:		20050113
+dcm_to_4dfp text:	234004.265000
+Orientation:		Sagittal
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+ACQ Sequence Description	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     6279
+
+FileName 1 = DWI_DICOM/HB_sub8.2.128
+FileName 2 = DWI_DICOM/HB_sub8.2.127
+FileName 3 = DWI_DICOM/HB_sub8.2.126
+FileName 4 = DWI_DICOM/HB_sub8.2.125
+FileName 5 = DWI_DICOM/HB_sub8.2.124
+FileName 6 = DWI_DICOM/HB_sub8.2.123
+FileName 7 = DWI_DICOM/HB_sub8.2.122
+FileName 8 = DWI_DICOM/HB_sub8.2.121
+FileName 9 = DWI_DICOM/HB_sub8.2.120
+FileName 10 = DWI_DICOM/HB_sub8.2.119
+FileName 11 = DWI_DICOM/HB_sub8.2.118
+FileName 12 = DWI_DICOM/HB_sub8.2.117
+FileName 13 = DWI_DICOM/HB_sub8.2.116
+FileName 14 = DWI_DICOM/HB_sub8.2.115
+FileName 15 = DWI_DICOM/HB_sub8.2.114
+FileName 16 = DWI_DICOM/HB_sub8.2.113
+FileName 17 = DWI_DICOM/HB_sub8.2.112
+FileName 18 = DWI_DICOM/HB_sub8.2.111
+FileName 19 = DWI_DICOM/HB_sub8.2.110
+FileName 20 = DWI_DICOM/HB_sub8.2.109
+FileName 21 = DWI_DICOM/HB_sub8.2.108
+FileName 22 = DWI_DICOM/HB_sub8.2.107
+FileName 23 = DWI_DICOM/HB_sub8.2.106
+FileName 24 = DWI_DICOM/HB_sub8.2.105
+FileName 25 = DWI_DICOM/HB_sub8.2.104
+FileName 26 = DWI_DICOM/HB_sub8.2.103
+FileName 27 = DWI_DICOM/HB_sub8.2.102
+FileName 28 = DWI_DICOM/HB_sub8.2.101
+FileName 29 = DWI_DICOM/HB_sub8.2.100
+FileName 30 = DWI_DICOM/HB_sub8.2.99
+FileName 31 = DWI_DICOM/HB_sub8.2.98
+FileName 32 = DWI_DICOM/HB_sub8.2.97
+FileName 33 = DWI_DICOM/HB_sub8.2.96
+FileName 34 = DWI_DICOM/HB_sub8.2.95
+FileName 35 = DWI_DICOM/HB_sub8.2.94
+FileName 36 = DWI_DICOM/HB_sub8.2.93
+FileName 37 = DWI_DICOM/HB_sub8.2.92
+FileName 38 = DWI_DICOM/HB_sub8.2.91
+FileName 39 = DWI_DICOM/HB_sub8.2.90
+FileName 40 = DWI_DICOM/HB_sub8.2.89
+FileName 41 = DWI_DICOM/HB_sub8.2.88
+FileName 42 = DWI_DICOM/HB_sub8.2.87
+FileName 43 = DWI_DICOM/HB_sub8.2.86
+FileName 44 = DWI_DICOM/HB_sub8.2.85
+FileName 45 = DWI_DICOM/HB_sub8.2.84
+FileName 46 = DWI_DICOM/HB_sub8.2.83
+FileName 47 = DWI_DICOM/HB_sub8.2.82
+FileName 48 = DWI_DICOM/HB_sub8.2.81
+FileName 49 = DWI_DICOM/HB_sub8.2.80
+FileName 50 = DWI_DICOM/HB_sub8.2.79
+FileName 51 = DWI_DICOM/HB_sub8.2.78
+FileName 52 = DWI_DICOM/HB_sub8.2.77
+FileName 53 = DWI_DICOM/HB_sub8.2.76
+FileName 54 = DWI_DICOM/HB_sub8.2.75
+FileName 55 = DWI_DICOM/HB_sub8.2.74
+FileName 56 = DWI_DICOM/HB_sub8.2.73
+FileName 57 = DWI_DICOM/HB_sub8.2.72
+FileName 58 = DWI_DICOM/HB_sub8.2.71
+FileName 59 = DWI_DICOM/HB_sub8.2.70
+FileName 60 = DWI_DICOM/HB_sub8.2.69
+FileName 61 = DWI_DICOM/HB_sub8.2.68
+FileName 62 = DWI_DICOM/HB_sub8.2.67
+FileName 63 = DWI_DICOM/HB_sub8.2.66
+FileName 64 = DWI_DICOM/HB_sub8.2.65
+FileName 65 = DWI_DICOM/HB_sub8.2.64
+FileName 66 = DWI_DICOM/HB_sub8.2.63
+FileName 67 = DWI_DICOM/HB_sub8.2.62
+FileName 68 = DWI_DICOM/HB_sub8.2.61
+FileName 69 = DWI_DICOM/HB_sub8.2.60
+FileName 70 = DWI_DICOM/HB_sub8.2.59
+FileName 71 = DWI_DICOM/HB_sub8.2.58
+FileName 72 = DWI_DICOM/HB_sub8.2.57
+FileName 73 = DWI_DICOM/HB_sub8.2.56
+FileName 74 = DWI_DICOM/HB_sub8.2.55
+FileName 75 = DWI_DICOM/HB_sub8.2.54
+FileName 76 = DWI_DICOM/HB_sub8.2.53
+FileName 77 = DWI_DICOM/HB_sub8.2.52
+FileName 78 = DWI_DICOM/HB_sub8.2.51
+FileName 79 = DWI_DICOM/HB_sub8.2.50
+FileName 80 = DWI_DICOM/HB_sub8.2.49
+FileName 81 = DWI_DICOM/HB_sub8.2.48
+FileName 82 = DWI_DICOM/HB_sub8.2.47
+FileName 83 = DWI_DICOM/HB_sub8.2.46
+FileName 84 = DWI_DICOM/HB_sub8.2.45
+FileName 85 = DWI_DICOM/HB_sub8.2.44
+FileName 86 = DWI_DICOM/HB_sub8.2.43
+FileName 87 = DWI_DICOM/HB_sub8.2.42
+FileName 88 = DWI_DICOM/HB_sub8.2.41
+FileName 89 = DWI_DICOM/HB_sub8.2.40
+FileName 90 = DWI_DICOM/HB_sub8.2.39
+FileName 91 = DWI_DICOM/HB_sub8.2.38
+FileName 92 = DWI_DICOM/HB_sub8.2.37
+FileName 93 = DWI_DICOM/HB_sub8.2.36
+FileName 94 = DWI_DICOM/HB_sub8.2.35
+FileName 95 = DWI_DICOM/HB_sub8.2.34
+FileName 96 = DWI_DICOM/HB_sub8.2.33
+FileName 97 = DWI_DICOM/HB_sub8.2.32
+FileName 98 = DWI_DICOM/HB_sub8.2.31
+FileName 99 = DWI_DICOM/HB_sub8.2.30
+FileName 100 = DWI_DICOM/HB_sub8.2.29
+FileName 101 = DWI_DICOM/HB_sub8.2.28
+FileName 102 = DWI_DICOM/HB_sub8.2.27
+FileName 103 = DWI_DICOM/HB_sub8.2.26
+FileName 104 = DWI_DICOM/HB_sub8.2.25
+FileName 105 = DWI_DICOM/HB_sub8.2.24
+FileName 106 = DWI_DICOM/HB_sub8.2.23
+FileName 107 = DWI_DICOM/HB_sub8.2.22
+FileName 108 = DWI_DICOM/HB_sub8.2.21
+FileName 109 = DWI_DICOM/HB_sub8.2.20
+FileName 110 = DWI_DICOM/HB_sub8.2.19
+FileName 111 = DWI_DICOM/HB_sub8.2.18
+FileName 112 = DWI_DICOM/HB_sub8.2.17
+FileName 113 = DWI_DICOM/HB_sub8.2.16
+FileName 114 = DWI_DICOM/HB_sub8.2.15
+FileName 115 = DWI_DICOM/HB_sub8.2.14
+FileName 116 = DWI_DICOM/HB_sub8.2.13
+FileName 117 = DWI_DICOM/HB_sub8.2.12
+FileName 118 = DWI_DICOM/HB_sub8.2.11
+FileName 119 = DWI_DICOM/HB_sub8.2.10
+FileName 120 = DWI_DICOM/HB_sub8.2.9
+FileName 121 = DWI_DICOM/HB_sub8.2.8
+FileName 122 = DWI_DICOM/HB_sub8.2.7
+FileName 123 = DWI_DICOM/HB_sub8.2.6
+FileName 124 = DWI_DICOM/HB_sub8.2.5
+FileName 125 = DWI_DICOM/HB_sub8.2.4
+FileName 126 = DWI_DICOM/HB_sub8.2.3
+FileName 127 = DWI_DICOM/HB_sub8.2.2
+FileName 128 = DWI_DICOM/HB_sub8.2.1
+endrec Fri Jan 14 12:00:01 2005  adrian
+endrec Thu Jul  3 19:57:51 2008  avi
+endrec Thu Jul 3 19:57:51 CDT 2008 avi

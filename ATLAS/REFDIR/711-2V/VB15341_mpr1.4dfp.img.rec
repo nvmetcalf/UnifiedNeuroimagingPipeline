@@ -1,0 +1,22 @@
+rec VB15341_mpr1.4dfp.img Tue Jun 22 17:06:05 2004  lindap
+dcm_to_4dfp -z -b VB15341_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		vb15341
+Patient_ID:		d-5755-15341
+Institution:		
+ID Study Date:		20040621
+dcm_to_4dfp text:	175807.046000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      286
+
+FileName 1 = /data/emotion2/data27/EEG_MRI/VB15341/siem_im/VB15341.MR.HEAD_RAICHLE.3.128.2004.6.21.18.28.8.843000.42218518.IMA
+endrec Tue Jun 22 17:06:05 2004  lindap

@@ -1,0 +1,22 @@
+rec aphasiaDTI01_mpr.4dfp.img Mon Jul 26 17:12:00 2004  adrian
+dcm_to_4dfp -z -b aphasiaDTI01_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		aphasiaDTI_control1
+Patient_ID:		15656
+Institution:		Washington University St Louis
+ID Study Date:		20040725
+dcm_to_4dfp text:	171049.703000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     2107
+
+FileName 1 = DICOM1/aphasiaDTI_control1.2.128
+endrec Mon Jul 26 17:12:00 2004  adrian

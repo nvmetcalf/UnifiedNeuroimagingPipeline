@@ -1,0 +1,1445 @@
+rec 711-2P_111.4dfp.img  Mon May 16 15:26:30 2005  avi
+	imgopr_4dfp	\
+	-e711-2P_111	\
+	010718_vc7268_mpr_n4_111_t88.4dfp.img	\
+	010720_vc7285_mpr_n4_111_t88.4dfp.img	\
+	010722_vc7303_mpr_n4_111_t88.4dfp.img	\
+	010725_vc7331_mpr_n4_111_t88.4dfp.img	\
+	020226_vc8672_mpr_n4_111_t88.4dfp.img	\
+	031105_vc13452_mpr_n4_111_t88.4dfp.img	\
+	990128_vc764_mpr_n4_111_t88.4dfp.img	\
+	990211_vc799_mpr_n4_111_t88.4dfp.img	\
+	990309_vc864_mpr_n4_111_t88.4dfp.img	\
+	990323_vc886_mpr_n4_111_t88.4dfp.img	\
+	990419_vc963_mpr_n4_111_t88.4dfp.img	\
+	990422_vc971_mpr_n4_111_t88.4dfp.img
+$Id: imgopr_4dfp.c,v 1.4 2005/01/07 22:42:16 avi Exp $
+rec 010718_vc7268_mpr_n4_111_t88.4dfp.img  Thu Feb 27 16:24:47 2003  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 010718_vc7268_mpr_n4_atl.lst 010718_vc7268_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+010718_vc7268_3413-3	t4=010718_vc7268_3413-3_to_711-2C_t4
+010718_vc7268_3413-4	t4=010718_vc7268_3413-4_to_711-2C_t4
+010718_vc7268_3413-5	t4=010718_vc7268_3413-5_to_711-2C_t4
+010718_vc7268_3413-6	t4=010718_vc7268_3413-6_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 010718_vc7268_3413-3_g11 010718_vc7268_3413-3_mskz 010718_vc7268_3413-3_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+ -0.024749 -0.971279  0.312737   -4.6579
+ -0.077852  0.266796  0.837450   13.5279
+ -1.000387 -0.005744 -0.082638    2.6922
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.940413
+rec 010718_vc7268_3413-3.4dfp.img  Thu Feb 27 16:04:37 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010718_vc7268/RAW13293/3413 3 3 010718_vc7268_3413-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7268
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Tra   5	   >Cor   2
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		18-JUL-2001
+scan_time:		09:37:39-09:37:39
+endrec Thu Feb 27 16:04:37 2003  capweb
+t4
+product transform 010718_vc7268_3413-4_to_711-2C_t4
+product=[010718_vc7268_3413-4_to_010718_vc7268_3413-3_t4][010718_vc7268_3413-3_to_711-2C_t4]
+t4
+ -0.023982 -0.971180  0.312398   -4.5067
+ -0.079910  0.266494  0.837719   13.7868
+ -0.999541 -0.006986 -0.084040    2.6687
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.935800
+rec 010718_vc7268_3413-4.4dfp.img  Thu Feb 27 16:04:42 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010718_vc7268/RAW13293/3413 4 4 010718_vc7268_3413-4 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7268
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Tra   5	   >Cor   2
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		18-JUL-2001
+scan_time:		09:45:14-09:45:14
+endrec Thu Feb 27 16:04:42 2003  capweb
+t4
+product transform 010718_vc7268_3413-5_to_711-2C_t4
+product=[010718_vc7268_3413-5_to_010718_vc7268_3413-3_t4][010718_vc7268_3413-3_to_711-2C_t4]
+t4
+ -0.025377 -0.970782  0.312941   -4.4089
+ -0.082135  0.267343  0.837374   13.8537
+ -0.999358 -0.006290 -0.086328    2.7076
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.939674
+rec 010718_vc7268_3413-5.4dfp.img  Thu Feb 27 16:04:47 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010718_vc7268/RAW13293/3413 5 5 010718_vc7268_3413-5 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7268
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Tra   5	   >Cor   2
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		18-JUL-2001
+scan_time:		09:53:40-09:53:40
+endrec Thu Feb 27 16:04:47 2003  capweb
+t4
+product transform 010718_vc7268_3413-6_to_711-2C_t4
+product=[010718_vc7268_3413-6_to_010718_vc7268_3413-3_t4][010718_vc7268_3413-3_to_711-2C_t4]
+t4
+ -0.025229 -0.973314  0.305701   -4.3866
+ -0.080606  0.258772  0.839747   13.7393
+ -0.999366 -0.005307 -0.085061    2.8015
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.927982
+rec 010718_vc7268_3413-6.4dfp.img  Thu Feb 27 16:04:53 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010718_vc7268/RAW13293/3413 6 6 010718_vc7268_3413-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7268
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Tra   5	   >Cor   2
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		18-JUL-2001
+scan_time:		10:01:15-10:01:15
+endrec Thu Feb 27 16:04:53 2003  capweb
+endrec Thu Feb 27 16:27:43 2003  capweb
+rec 010720_vc7285_mpr_n4_111_t88.4dfp.img  Thu Feb 27 16:25:12 2003  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 010720_vc7285_mpr_n4_atl.lst 010720_vc7285_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+010720_vc7285_3487-3	t4=010720_vc7285_3487-3_to_711-2C_t4
+010720_vc7285_3487-4	t4=010720_vc7285_3487-4_to_711-2C_t4
+010720_vc7285_3487-5	t4=010720_vc7285_3487-5_to_711-2C_t4
+010720_vc7285_3487-6	t4=010720_vc7285_3487-6_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 010720_vc7285_3487-3_g11 010720_vc7285_3487-3_mskz 010720_vc7285_3487-3_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+ -0.010049 -1.020020  0.143779  -10.0582
+ -0.058949  0.087407  0.904929   10.7016
+ -0.955768 -0.024484 -0.075737   -0.7815
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.795263
+rec 010720_vc7285_3487-3.4dfp.img  Thu Feb 27 16:05:55 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010720_vc7285/RAW13555/3487 3 3 010720_vc7285_3487-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7285
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		20-JUL-2001
+scan_time:		08:35:45-08:35:45
+endrec Thu Feb 27 16:05:55 2003  capweb
+t4
+product transform 010720_vc7285_3487-4_to_711-2C_t4
+product=[010720_vc7285_3487-4_to_010720_vc7285_3487-3_t4][010720_vc7285_3487-3_to_711-2C_t4]
+t4
+ -0.007201 -1.019587  0.143925   -9.8703
+ -0.048952  0.087665  0.905738   10.7674
+ -0.956411 -0.026604 -0.065842   -1.3218
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.798537
+rec 010720_vc7285_3487-4.4dfp.img  Thu Feb 27 16:06:02 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010720_vc7285/RAW13555/3487 4 4 010720_vc7285_3487-4 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7285
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		20-JUL-2001
+scan_time:		08:43:19-08:43:19
+endrec Thu Feb 27 16:06:02 2003  capweb
+t4
+product transform 010720_vc7285_3487-5_to_711-2C_t4
+product=[010720_vc7285_3487-5_to_010720_vc7285_3487-3_t4][010720_vc7285_3487-3_to_711-2C_t4]
+t4
+ -0.008809 -1.019536  0.146223   -9.7562
+ -0.056023  0.090125  0.904519    9.8512
+ -0.955791 -0.025693 -0.072783   -1.0899
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.795645
+rec 010720_vc7285_3487-5.4dfp.img  Thu Feb 27 16:06:09 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010720_vc7285/RAW13555/3487 5 5 010720_vc7285_3487-5 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7285
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		20-JUL-2001
+scan_time:		08:51:58-08:51:58
+endrec Thu Feb 27 16:06:09 2003  capweb
+t4
+product transform 010720_vc7285_3487-6_to_711-2C_t4
+product=[010720_vc7285_3487-6_to_010720_vc7285_3487-3_t4][010720_vc7285_3487-3_to_711-2C_t4]
+t4
+ -0.008620 -1.019690  0.145815   -9.6863
+ -0.053280  0.089683  0.904550    9.9011
+ -0.955985 -0.025611 -0.070173   -1.2489
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.800477
+rec 010720_vc7285_3487-6.4dfp.img  Thu Feb 27 16:06:15 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010720_vc7285/RAW13555/3487 6 6 010720_vc7285_3487-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7285
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		20-JUL-2001
+scan_time:		08:59:32-08:59:32
+endrec Thu Feb 27 16:06:15 2003  capweb
+endrec Thu Feb 27 16:28:00 2003  capweb
+rec 010722_vc7303_mpr_n4_111_t88.4dfp.img  Mon Mar  3 12:45:19 2003  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 010722_vc7303_mpr_n4_atl.lst 010722_vc7303_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+010722_vc7303_3571-3	t4=010722_vc7303_3571-3_to_711-2C_t4
+010722_vc7303_3571-4	t4=010722_vc7303_3571-4_to_711-2C_t4
+010722_vc7303_3571-5	t4=010722_vc7303_3571-5_to_711-2C_t4
+010722_vc7303_3571-6	t4=010722_vc7303_3571-6_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 010722_vc7303_3571-3_g11 010722_vc7303_3571-3_mskz 010722_vc7303_3571-3_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+ -0.046252 -0.966815  0.242109   -0.6726
+ -0.032911  0.207815  0.866456   16.8281
+ -0.946900  0.006991 -0.023968   -0.4767
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.799177
+rec 010722_vc7303_3571-3.4dfp.img  Mon Mar  3 12:02:28 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010722_vc7303/RAW22856/3571 3 3 010722_vc7303_3571-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7303
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   4	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-JUL-2001
+scan_time:		19:12:24-19:12:24
+endrec Mon Mar  3 12:02:28 2003  capweb
+t4
+product transform 010722_vc7303_3571-4_to_711-2C_t4
+product=[010722_vc7303_3571-4_to_010722_vc7303_3571-3_t4][010722_vc7303_3571-3_to_711-2C_t4]
+t4
+ -0.045964 -0.965450  0.247528   -0.6087
+ -0.028575  0.213721  0.864566   16.6859
+ -0.946223  0.007395 -0.020140   -0.7654
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.799481
+rec 010722_vc7303_3571-4.4dfp.img  Mon Mar  3 12:02:50 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010722_vc7303/RAW22856/3571 4 4 010722_vc7303_3571-4 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7303
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   4	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-JUL-2001
+scan_time:		19:19:02-19:19:02
+endrec Mon Mar  3 12:02:50 2003  capweb
+t4
+product transform 010722_vc7303_3571-5_to_711-2C_t4
+product=[010722_vc7303_3571-5_to_010722_vc7303_3571-3_t4][010722_vc7303_3571-3_to_711-2C_t4]
+t4
+ -0.044174 -0.966420  0.239164   -0.3013
+ -0.036752  0.204832  0.867317   16.5900
+ -0.946536  0.004226 -0.026848   -0.5384
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.800558
+rec 010722_vc7303_3571-5.4dfp.img  Mon Mar  3 12:03:05 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010722_vc7303/RAW22856/3571 5 5 010722_vc7303_3571-5 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7303
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   4	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-JUL-2001
+scan_time:		19:27:08-19:27:08
+endrec Mon Mar  3 12:03:05 2003  capweb
+t4
+product transform 010722_vc7303_3571-6_to_711-2C_t4
+product=[010722_vc7303_3571-6_to_010722_vc7303_3571-3_t4][010722_vc7303_3571-3_to_711-2C_t4]
+t4
+ -0.045497 -0.966427  0.237229   -0.2293
+ -0.033130  0.202707  0.867496   16.3481
+ -0.946492  0.006466 -0.023815   -0.4830
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.804087
+rec 010722_vc7303_3571-6.4dfp.img  Mon Mar  3 12:03:20 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010722_vc7303/RAW22856/3571 6 6 010722_vc7303_3571-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7303
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   4	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-JUL-2001
+scan_time:		19:33:46-19:33:46
+endrec Mon Mar  3 12:03:20 2003  capweb
+endrec Mon Mar  3 12:50:39 2003  capweb
+rec 010725_vc7331_mpr_n4_111_t88.4dfp.img  Mon Mar  3 12:44:25 2003  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 010725_vc7331_mpr_n4_atl.lst 010725_vc7331_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+010725_vc7331_3639-3	t4=010725_vc7331_3639-3_to_711-2C_t4
+010725_vc7331_3639-4	t4=010725_vc7331_3639-4_to_711-2C_t4
+010725_vc7331_3639-5	t4=010725_vc7331_3639-5_to_711-2C_t4
+010725_vc7331_3639-6	t4=010725_vc7331_3639-6_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 010725_vc7331_3639-3_g11 010725_vc7331_3639-3_mskz 010725_vc7331_3639-3_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+  0.008838 -0.985583  0.140436   -7.1477
+ -0.065958  0.100601  0.923587    3.8707
+ -0.909321 -0.014133 -0.082703    2.7529
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.852511
+rec 010725_vc7331_3639-3.4dfp.img  Mon Mar  3 12:02:31 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010725_vc7331/RAW23086/3639 3 3 010725_vc7331_3639-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7331
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		25-JUL-2001
+scan_time:		20:50:38-20:50:38
+endrec Mon Mar  3 12:02:31 2003  capweb
+t4
+product transform 010725_vc7331_3639-4_to_711-2C_t4
+product=[010725_vc7331_3639-4_to_010725_vc7331_3639-3_t4][010725_vc7331_3639-3_to_711-2C_t4]
+t4
+  0.007780 -0.985242  0.143234   -6.9887
+ -0.065708  0.103644  0.922849    4.3177
+ -0.908446 -0.013168 -0.082497    2.6721
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.857942
+rec 010725_vc7331_3639-4.4dfp.img  Mon Mar  3 12:02:51 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010725_vc7331/RAW23086/3639 4 4 010725_vc7331_3639-4 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7331
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		25-JUL-2001
+scan_time:		20:58:12-20:58:12
+endrec Mon Mar  3 12:02:51 2003  capweb
+t4
+product transform 010725_vc7331_3639-5_to_711-2C_t4
+product=[010725_vc7331_3639-5_to_010725_vc7331_3639-3_t4][010725_vc7331_3639-3_to_711-2C_t4]
+t4
+  0.007086 -0.984872  0.143885   -6.7974
+ -0.065667  0.104491  0.923131    4.6108
+ -0.908299 -0.012466 -0.082507    2.6334
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.859367
+rec 010725_vc7331_3639-5.4dfp.img  Mon Mar  3 12:03:06 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010725_vc7331/RAW23086/3639 5 5 010725_vc7331_3639-5 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7331
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		25-JUL-2001
+scan_time:		21:07:16-21:07:16
+endrec Mon Mar  3 12:03:06 2003  capweb
+t4
+product transform 010725_vc7331_3639-6_to_711-2C_t4
+product=[010725_vc7331_3639-6_to_010725_vc7331_3639-3_t4][010725_vc7331_3639-3_to_711-2C_t4]
+t4
+  0.006851 -0.984504  0.145720   -6.7000
+ -0.069176  0.106431  0.922464    4.8735
+ -0.907911 -0.012764 -0.086057    2.4392
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.863444
+rec 010725_vc7331_3639-6.4dfp.img  Mon Mar  3 12:03:21 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc019/010725_vc7331/RAW23086/3639 6 6 010725_vc7331_3639-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc7331
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		25-JUL-2001
+scan_time:		21:14:51-21:14:51
+endrec Mon Mar  3 12:03:21 2003  capweb
+endrec Mon Mar  3 12:49:41 2003  capweb
+rec 020226_vc8672_mpr_n4_111_t88.4dfp.img  Wed Feb 19 09:58:09 2003  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 020226_vc8672_mpr_n4_atl.lst 020226_vc8672_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+020226_vc8672_1843-3	t4=020226_vc8672_1843-3_to_711-2C_t4
+020226_vc8672_1843-4	t4=020226_vc8672_1843-4_to_711-2C_t4
+020226_vc8672_1843-5	t4=020226_vc8672_1843-5_to_711-2C_t4
+020226_vc8672_1843-6	t4=020226_vc8672_1843-6_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 020226_vc8672_1843-3_g11 020226_vc8672_1843-3_mskz 020226_vc8672_1843-3_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+ -0.010584 -1.059843 -0.037968  -13.2314
+ -0.109807 -0.077046  0.906239   24.6037
+ -1.023011  0.009819 -0.091710    0.5729
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.815963
+rec 020226_vc8672_1843-3.4dfp.img  Wed Feb 19 09:37:47 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc014/020226_vc8672/RAW9147/1843 3 3 020226_vc8672_1843-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc8672
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		26-FEB-2002
+scan_time:		17:36:53-17:36:53
+endrec Wed Feb 19 09:37:47 2003  capweb
+t4
+product transform 020226_vc8672_1843-4_to_711-2C_t4
+product=[020226_vc8672_1843-4_to_020226_vc8672_1843-3_t4][020226_vc8672_1843-3_to_711-2C_t4]
+t4
+ -0.011450 -1.057980 -0.036728  -13.0364
+ -0.107594 -0.075510  0.905170   25.0094
+ -1.022209  0.010421 -0.089784    0.6026
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.816002
+rec 020226_vc8672_1843-4.4dfp.img  Wed Feb 19 09:37:50 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc014/020226_vc8672/RAW9147/1843 4 4 020226_vc8672_1843-4 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc8672
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		26-FEB-2002
+scan_time:		17:44:28-17:44:28
+endrec Wed Feb 19 09:37:50 2003  capweb
+t4
+product transform 020226_vc8672_1843-5_to_711-2C_t4
+product=[020226_vc8672_1843-5_to_020226_vc8672_1843-3_t4][020226_vc8672_1843-3_to_711-2C_t4]
+t4
+ -0.010768 -1.058483 -0.036936  -12.9534
+ -0.107181 -0.075973  0.907197   25.3473
+ -1.022027  0.009689 -0.089210    0.5091
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.824999
+rec 020226_vc8672_1843-5.4dfp.img  Wed Feb 19 09:37:52 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc014/020226_vc8672/RAW9147/1843 5 5 020226_vc8672_1843-5 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc8672
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		26-FEB-2002
+scan_time:		17:53:34-17:53:34
+endrec Wed Feb 19 09:37:52 2003  capweb
+t4
+product transform 020226_vc8672_1843-6_to_711-2C_t4
+product=[020226_vc8672_1843-6_to_020226_vc8672_1843-3_t4][020226_vc8672_1843-3_to_711-2C_t4]
+t4
+ -0.011263 -1.058449 -0.034954  -12.9120
+ -0.109175 -0.073627  0.907295   25.4850
+ -1.021488  0.010099 -0.090936    0.5036
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.827932
+rec 020226_vc8672_1843-6.4dfp.img  Wed Feb 19 09:37:54 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space1/users/CNDA/arc014/020226_vc8672/RAW9147/1843 6 6 020226_vc8672_1843-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc8672
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		26-FEB-2002
+scan_time:		18:01:08-18:01:08
+endrec Wed Feb 19 09:37:54 2003  capweb
+endrec Wed Feb 19 10:02:04 2003  capweb
+rec 031105_vc13452_mpr_n4_111_t88.4dfp.img  Fri Nov 21 01:40:35 2003  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 031105_vc13452_mpr_n4_atl.lst 031105_vc13452_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+031105_vc13452_3486-3	t4=031105_vc13452_3486-3_to_711-2C_t4
+031105_vc13452_3486-4	t4=031105_vc13452_3486-4_to_711-2C_t4
+031105_vc13452_3486-5	t4=031105_vc13452_3486-5_to_711-2C_t4
+031105_vc13452_3486-6	t4=031105_vc13452_3486-6_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 031105_vc13452_3486-3_g11 031105_vc13452_3486-3_mskz 031105_vc13452_3486-3_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+ -0.025527 -1.007667  0.024945    4.8267
+ -0.023512  0.003672  0.890421   11.2514
+ -1.002252 -0.021547 -0.062237    4.4876
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.836178
+rec 031105_vc13452_3486-3.4dfp.img  Fri Nov 21 01:24:43 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space11/CNDA/arc002/031105_vc13452/RAW23540/3486 3 3 031105_vc13452_3486-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		031105_vc13452
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   2	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		05-NOV-2003
+scan_time:		13:24:52-13:24:52
+endrec Fri Nov 21 01:24:43 2003  capweb
+t4
+product transform 031105_vc13452_3486-4_to_711-2C_t4
+product=[031105_vc13452_3486-4_to_031105_vc13452_3486-3_t4][031105_vc13452_3486-3_to_711-2C_t4]
+t4
+ -0.026111 -1.006323  0.024005    5.3190
+ -0.024793  0.002665  0.890558   11.8760
+ -1.002081 -0.020902 -0.063356    4.5399
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.828315
+rec 031105_vc13452_3486-4.4dfp.img  Fri Nov 21 01:24:50 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space11/CNDA/arc002/031105_vc13452/RAW23540/3486 4 4 031105_vc13452_3486-4 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		031105_vc13452
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   2	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		05-NOV-2003
+scan_time:		13:32:26-13:32:26
+endrec Fri Nov 21 01:24:50 2003  capweb
+t4
+product transform 031105_vc13452_3486-5_to_711-2C_t4
+product=[031105_vc13452_3486-5_to_031105_vc13452_3486-3_t4][031105_vc13452_3486-3_to_711-2C_t4]
+t4
+ -0.025924 -1.006815  0.026056    5.5823
+ -0.025130  0.004942  0.889453   12.5138
+ -1.000970 -0.021139 -0.063656    4.5971
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.834416
+rec 031105_vc13452_3486-5.4dfp.img  Fri Nov 21 01:24:56 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space11/CNDA/arc002/031105_vc13452/RAW23540/3486 5 5 031105_vc13452_3486-5 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		031105_vc13452
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   2	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		05-NOV-2003
+scan_time:		13:40:46-13:40:46
+endrec Fri Nov 21 01:24:56 2003  capweb
+t4
+product transform 031105_vc13452_3486-6_to_711-2C_t4
+product=[031105_vc13452_3486-6_to_031105_vc13452_3486-3_t4][031105_vc13452_3486-3_to_711-2C_t4]
+t4
+ -0.024739 -1.006914  0.037331    5.8945
+ -0.018354  0.017736  0.889720   12.0284
+ -1.002161 -0.022560 -0.057929    4.5953
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.844661
+rec 031105_vc13452_3486-6.4dfp.img  Fri Nov 21 01:25:02 2003  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space11/CNDA/arc002/031105_vc13452/RAW23540/3486 6 6 031105_vc13452_3486-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		031105_vc13452
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   2	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		05-NOV-2003
+scan_time:		13:48:20-13:48:20
+endrec Fri Nov 21 01:25:02 2003  capweb
+endrec Fri Nov 21 01:42:54 2003  capweb
+rec 990128_vc764_mpr_n4_111_t88.4dfp.img  Wed Nov 13 12:04:38 2002  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 990128_vc764_mpr_n4_atl.lst 990128_vc764_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+990128_vc764_4764-2	t4=990128_vc764_4764-2_to_711-2C_t4
+990128_vc764_4764-6	t4=990128_vc764_4764-6_to_711-2C_t4
+990128_vc764_4764-7	t4=990128_vc764_4764-7_to_711-2C_t4
+990128_vc764_4764-8	t4=990128_vc764_4764-8_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 990128_vc764_4764-2_g11 990128_vc764_4764-2_mskz 990128_vc764_4764-2_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+ -0.044503 -0.995190  0.230299   -9.4069
+ -0.036296  0.135019  0.911144    0.5585
+ -0.947843  0.024248 -0.069592    2.2884
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.939130
+rec 990128_vc764_4764-2.4dfp.img  Wed Nov 13 11:50:27 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990128_vc764/RAW8517/4764 2 2 990128_vc764_4764-2 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc764
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		28-JAN-1999
+scan_time:		19:59:21-19:59:21
+endrec Wed Nov 13 11:50:27 2002  capweb
+t4
+product transform 990128_vc764_4764-6_to_711-2C_t4
+product=[990128_vc764_4764-6_to_990128_vc764_4764-2_t4][990128_vc764_4764-2_to_711-2C_t4]
+t4
+ -0.047460 -0.994251  0.230510   -8.2692
+ -0.024258  0.135281  0.911501    2.3879
+ -0.946937  0.029046 -0.058706    2.3274
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.774481
+rec 990128_vc764_4764-6.4dfp.img  Wed Nov 13 11:50:32 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990128_vc764/RAW8517/4764 6 6 990128_vc764_4764-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc764
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		28-JAN-1999
+scan_time:		21:16:50-21:16:50
+endrec Wed Nov 13 11:50:32 2002  capweb
+t4
+product transform 990128_vc764_4764-7_to_711-2C_t4
+product=[990128_vc764_4764-7_to_990128_vc764_4764-2_t4][990128_vc764_4764-2_to_711-2C_t4]
+t4
+ -0.047693 -0.993865  0.231018   -8.2172
+ -0.024041  0.135945  0.911536    2.4681
+ -0.946962  0.029317 -0.058581    2.3565
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.776558
+rec 990128_vc764_4764-7.4dfp.img  Wed Nov 13 11:50:37 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990128_vc764/RAW8517/4764 7 7 990128_vc764_4764-7 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc764
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		28-JAN-1999
+scan_time:		21:23:28-21:23:28
+endrec Wed Nov 13 11:50:37 2002  capweb
+t4
+product transform 990128_vc764_4764-8_to_711-2C_t4
+product=[990128_vc764_4764-8_to_990128_vc764_4764-2_t4][990128_vc764_4764-2_to_711-2C_t4]
+t4
+ -0.048006 -0.993776  0.231130   -8.1770
+ -0.022286  0.136044  0.911576    2.4949
+ -0.946978  0.029894 -0.056978    2.2955
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.776418
+rec 990128_vc764_4764-8.4dfp.img  Wed Nov 13 11:50:42 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990128_vc764/RAW8517/4764 8 8 990128_vc764_4764-8 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc764
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		28-JAN-1999
+scan_time:		21:30:05-21:30:05
+endrec Wed Nov 13 11:50:42 2002  capweb
+endrec Wed Nov 13 12:06:40 2002  capweb
+rec 990211_vc799_mpr_n4_111_t88.4dfp.img  Wed Nov 13 10:51:54 2002  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 990211_vc799_mpr_n4_atl.lst 990211_vc799_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+990211_vc799_5078-2	t4=990211_vc799_5078-2_to_711-2C_t4
+990211_vc799_5078-6	t4=990211_vc799_5078-6_to_711-2C_t4
+990211_vc799_5078-7	t4=990211_vc799_5078-7_to_711-2C_t4
+990211_vc799_5078-8	t4=990211_vc799_5078-8_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 990211_vc799_5078-2_g11 990211_vc799_5078-2_mskz 990211_vc799_5078-2_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+ -0.059083 -0.996806  0.160426   -8.7565
+ -0.025769  0.114617  0.901865    9.8684
+ -0.942990  0.040269 -0.033173    4.2370
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.919259
+rec 990211_vc799_5078-2.4dfp.img  Wed Nov 13 10:37:54 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990211_vc799/RAW7190/5078 2 2 990211_vc799_5078-2 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc799
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		11-FEB-1999
+scan_time:		18:50:24-18:50:24
+endrec Wed Nov 13 10:37:54 2002  capweb
+t4
+product transform 990211_vc799_5078-6_to_711-2C_t4
+product=[990211_vc799_5078-6_to_990211_vc799_5078-2_t4][990211_vc799_5078-2_to_711-2C_t4]
+t4
+ -0.058188 -0.996038  0.158731   -7.9678
+ -0.023678  0.112858  0.902710    9.0513
+ -0.942629  0.039676 -0.030914    4.3119
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.758922
+rec 990211_vc799_5078-6.4dfp.img  Wed Nov 13 10:37:59 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990211_vc799/RAW7190/5078 6 6 990211_vc799_5078-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc799
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		11-FEB-1999
+scan_time:		20:06:32-20:06:32
+endrec Wed Nov 13 10:37:59 2002  capweb
+t4
+product transform 990211_vc799_5078-7_to_711-2C_t4
+product=[990211_vc799_5078-7_to_990211_vc799_5078-2_t4][990211_vc799_5078-2_to_711-2C_t4]
+t4
+ -0.058529 -0.995182  0.161169   -7.9523
+ -0.026628  0.115845  0.902567    9.1504
+ -0.942445  0.039615 -0.033926    4.3962
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.749267
+rec 990211_vc799_5078-7.4dfp.img  Wed Nov 13 10:38:04 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990211_vc799/RAW7190/5078 7 7 990211_vc799_5078-7 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc799
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		11-FEB-1999
+scan_time:		20:13:09-20:13:09
+endrec Wed Nov 13 10:38:04 2002  capweb
+t4
+product transform 990211_vc799_5078-8_to_711-2C_t4
+product=[990211_vc799_5078-8_to_990211_vc799_5078-2_t4][990211_vc799_5078-2_to_711-2C_t4]
+t4
+ -0.058480 -0.995251  0.163241   -7.9749
+ -0.028505  0.118208  0.902487    9.3006
+ -0.942500  0.039236 -0.035813    4.4458
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.744569
+rec 990211_vc799_5078-8.4dfp.img  Wed Nov 13 10:38:10 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990211_vc799/RAW7190/5078 8 8 990211_vc799_5078-8 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc799
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		11-FEB-1999
+scan_time:		20:19:47-20:19:47
+endrec Wed Nov 13 10:38:10 2002  capweb
+endrec Wed Nov 13 10:53:57 2002  capweb
+rec 990309_vc864_mpr_n4_111_t88.4dfp.img  Tue Nov 12 21:35:24 2002  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 990309_vc864_mpr_n4_atl.lst 990309_vc864_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+990309_vc864_5620-2	t4=990309_vc864_5620-2_to_711-2C_t4
+990309_vc864_5620-6	t4=990309_vc864_5620-6_to_711-2C_t4
+990309_vc864_5620-7	t4=990309_vc864_5620-7_to_711-2C_t4
+990309_vc864_5620-8	t4=990309_vc864_5620-8_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 990309_vc864_5620-2_g11 990309_vc864_5620-2_mskz 990309_vc864_5620-2_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+ -0.018580 -1.009275  0.308019   -6.5599
+ -0.054095  0.164529  0.917539    2.3806
+ -0.948549 -0.021678 -0.068035    3.0834
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.851345
+rec 990309_vc864_5620-2.4dfp.img  Tue Nov 12 21:19:17 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990309_vc864/RAW1222/5620 2 2 990309_vc864_5620-2 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc864
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		09-MAR-1999
+scan_time:		17:18:52-17:18:52
+endrec Tue Nov 12 21:19:17 2002  capweb
+t4
+product transform 990309_vc864_5620-6_to_711-2C_t4
+product=[990309_vc864_5620-6_to_990309_vc864_5620-2_t4][990309_vc864_5620-2_to_711-2C_t4]
+t4
+ -0.019934 -1.007463  0.312488   -5.3569
+ -0.060345  0.169695  0.915299    4.8677
+ -0.947800 -0.021653 -0.074505    3.1093
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.766273
+rec 990309_vc864_5620-6.4dfp.img  Tue Nov 12 21:19:21 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990309_vc864/RAW1222/5620 6 6 990309_vc864_5620-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc864
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		09-MAR-1999
+scan_time:		18:37:17-18:37:17
+endrec Tue Nov 12 21:19:21 2002  capweb
+t4
+product transform 990309_vc864_5620-7_to_711-2C_t4
+product=[990309_vc864_5620-7_to_990309_vc864_5620-2_t4][990309_vc864_5620-2_to_711-2C_t4]
+t4
+ -0.019551 -1.007530  0.312437   -5.3262
+ -0.060658  0.169614  0.915490    4.8919
+ -0.947591 -0.022103 -0.074652    3.0780
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.761227
+rec 990309_vc864_5620-7.4dfp.img  Tue Nov 12 21:19:26 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990309_vc864/RAW1222/5620 7 7 990309_vc864_5620-7 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc864
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		09-MAR-1999
+scan_time:		18:43:55-18:43:55
+endrec Tue Nov 12 21:19:26 2002  capweb
+t4
+product transform 990309_vc864_5620-8_to_711-2C_t4
+product=[990309_vc864_5620-8_to_990309_vc864_5620-2_t4][990309_vc864_5620-2_to_711-2C_t4]
+t4
+ -0.019034 -1.007673  0.311061   -5.2580
+ -0.058973  0.168208  0.916496    5.0646
+ -0.947619 -0.022243 -0.072827    3.0203
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.764683
+rec 990309_vc864_5620-8.4dfp.img  Tue Nov 12 21:20:31 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990309_vc864/RAW1222/5620 8 8 990309_vc864_5620-8 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc864
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		09-MAR-1999
+scan_time:		18:50:32-18:50:32
+endrec Tue Nov 12 21:20:31 2002  capweb
+endrec Tue Nov 12 21:37:31 2002  capweb
+rec 990323_vc886_mpr_n4_111_t88.4dfp.img  Tue Nov 12 19:42:41 2002  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 990323_vc886_mpr_n4_atl.lst 990323_vc886_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+990323_vc886_5839-2	t4=990323_vc886_5839-2_to_711-2C_t4
+990323_vc886_5839-6	t4=990323_vc886_5839-6_to_711-2C_t4
+990323_vc886_5839-7	t4=990323_vc886_5839-7_to_711-2C_t4
+990323_vc886_5839-8	t4=990323_vc886_5839-8_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 990323_vc886_5839-2_g11 990323_vc886_5839-2_mskz 990323_vc886_5839-2_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+  0.025006 -0.986091  0.327044   -8.4034
+  0.050945  0.261527  0.864808    4.6874
+ -0.911476 -0.008923  0.037584   -1.2553
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.820287
+rec 990323_vc886_5839-2.4dfp.img  Tue Nov 12 19:28:24 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990323_vc886/RAW29221/5839 2 2 990323_vc886_5839-2 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc886
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		23-MAR-1999
+scan_time:		19:33:01-19:33:01
+endrec Tue Nov 12 19:28:24 2002  capweb
+t4
+product transform 990323_vc886_5839-6_to_711-2C_t4
+product=[990323_vc886_5839-6_to_990323_vc886_5839-2_t4][990323_vc886_5839-2_to_711-2C_t4]
+t4
+  0.022618 -0.985665  0.330253   -7.6413
+  0.046483  0.265041  0.864437    5.8816
+ -0.910849 -0.007416  0.032444   -1.3454
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.613770
+rec 990323_vc886_5839-6.4dfp.img  Tue Nov 12 19:28:30 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990323_vc886/RAW29221/5839 6 6 990323_vc886_5839-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc886
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		23-MAR-1999
+scan_time:		21:02:13-21:02:13
+endrec Tue Nov 12 19:28:30 2002  capweb
+t4
+product transform 990323_vc886_5839-7_to_711-2C_t4
+product=[990323_vc886_5839-7_to_990323_vc886_5839-2_t4][990323_vc886_5839-2_to_711-2C_t4]
+t4
+  0.024872 -0.985574  0.331736   -7.5828
+  0.043541  0.266642  0.863972    6.0926
+ -0.910826 -0.010600  0.030483   -1.3724
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.625236
+rec 990323_vc886_5839-7.4dfp.img  Tue Nov 12 19:28:34 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990323_vc886/RAW29221/5839 7 7 990323_vc886_5839-7 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc886
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		23-MAR-1999
+scan_time:		21:08:51-21:08:51
+endrec Tue Nov 12 19:28:34 2002  capweb
+t4
+product transform 990323_vc886_5839-8_to_711-2C_t4
+product=[990323_vc886_5839-8_to_990323_vc886_5839-2_t4][990323_vc886_5839-2_to_711-2C_t4]
+t4
+  0.025741 -0.985142  0.333042   -7.4749
+  0.049144  0.268148  0.862984    6.5842
+ -0.911323 -0.009813  0.036150   -1.3950
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.621524
+rec 990323_vc886_5839-8.4dfp.img  Tue Nov 12 19:28:38 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990323_vc886/RAW29221/5839 8 8 990323_vc886_5839-8 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc886
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		23-MAR-1999
+scan_time:		21:15:28-21:15:28
+endrec Tue Nov 12 19:28:38 2002  capweb
+endrec Tue Nov 12 19:44:44 2002  capweb
+rec 990419_vc963_mpr_n4_111_t88.4dfp.img  Tue Nov 12 17:21:25 2002  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 990419_vc963_mpr_n4_atl.lst 990419_vc963_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+990419_vc963_6361-2	t4=990419_vc963_6361-2_to_711-2C_t4
+990419_vc963_6361-6	t4=990419_vc963_6361-6_to_711-2C_t4
+990419_vc963_6361-7	t4=990419_vc963_6361-7_to_711-2C_t4
+990419_vc963_6361-8	t4=990419_vc963_6361-8_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 990419_vc963_6361-2_g11 990419_vc963_6361-2_mskz 990419_vc963_6361-2_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+ -0.011293 -0.988477  0.189352  -12.4691
+ -0.030686  0.114710  0.876058   11.5806
+ -0.944048 -0.009186 -0.009054    1.9591
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.797366
+rec 990419_vc963_6361-2.4dfp.img  Tue Nov 12 17:07:11 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990419_vc963/RAW26613/6361 2 2 990419_vc963_6361-2 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc963
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		19-APR-1999
+scan_time:		19:45:51-19:45:51
+endrec Tue Nov 12 17:07:11 2002  capweb
+t4
+product transform 990419_vc963_6361-6_to_711-2C_t4
+product=[990419_vc963_6361-6_to_990419_vc963_6361-2_t4][990419_vc963_6361-2_to_711-2C_t4]
+t4
+ -0.009210 -0.987103  0.193794  -11.2851
+ -0.038009  0.119881  0.875767   13.6551
+ -0.942812 -0.012445 -0.015390    1.4110
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.956983
+rec 990419_vc963_6361-6.4dfp.img  Tue Nov 12 17:07:18 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990419_vc963/RAW26613/6361 6 6 990419_vc963_6361-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc963
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		19-APR-1999
+scan_time:		21:05:01-21:05:01
+endrec Tue Nov 12 17:07:18 2002  capweb
+t4
+product transform 990419_vc963_6361-7_to_711-2C_t4
+product=[990419_vc963_6361-7_to_990419_vc963_6361-2_t4][990419_vc963_6361-2_to_711-2C_t4]
+t4
+ -0.009167 -0.987058  0.196247  -11.1675
+ -0.038803  0.122542  0.874979   13.9607
+ -0.942882 -0.012711 -0.016127    1.3918
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.956000
+rec 990419_vc963_6361-7.4dfp.img  Tue Nov 12 17:07:24 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990419_vc963/RAW26613/6361 7 7 990419_vc963_6361-7 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc963
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		19-APR-1999
+scan_time:		21:11:39-21:11:39
+endrec Tue Nov 12 17:07:24 2002  capweb
+t4
+product transform 990419_vc963_6361-8_to_711-2C_t4
+product=[990419_vc963_6361-8_to_990419_vc963_6361-2_t4][990419_vc963_6361-2_to_711-2C_t4]
+t4
+ -0.008539 -0.987271  0.194660  -11.0921
+ -0.040515  0.120721  0.875371   14.1052
+ -0.942481 -0.013505 -0.017572    1.4050
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.959579
+rec 990419_vc963_6361-8.4dfp.img  Tue Nov 12 17:07:30 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990419_vc963/RAW26613/6361 8 8 990419_vc963_6361-8 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc963
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		19-APR-1999
+scan_time:		21:18:16-21:18:16
+endrec Tue Nov 12 17:07:30 2002  capweb
+endrec Tue Nov 12 17:23:29 2002  capweb
+rec 990422_vc971_mpr_n4_111_t88.4dfp.img  Tue Nov 12 16:31:04 2002  capweb
+/home/iac3/nil-tools/t4imgs_4dfp 990422_vc971_mpr_n4_atl.lst 990422_vc971_mpr_n4_111_t88 -O/home/iac3/nil-tools/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+990422_vc971_6431-2	t4=990422_vc971_6431-2_to_711-2C_t4
+990422_vc971_6431-7	t4=990422_vc971_6431-7_to_711-2C_t4
+990422_vc971_6431-8	t4=990422_vc971_6431-8_to_711-2C_t4
+990422_vc971_6431-9	t4=990422_vc971_6431-9_to_711-2C_t4
+endsub
+t4
+/home/iac3/nil-tools/imgreg_4dfp /home/iac3/nil-tools/refdir/young6+6_atrophy_avg_222 /home/iac3/nil-tools/refdir/young6+6_avg_222_mask0_g9z 990422_vc971_6431-2_g11 990422_vc971_6431-2_mskz 990422_vc971_6431-2_to_711-2C_t4 2311 
+$Id: imgreg_4dfp.c,v 1.10 1999/02/03 08:16:33 avi Exp $
+t4
+  0.050992 -0.830849  0.207454   -0.3482
+  0.024662  0.224440  0.783743   -4.0763
+ -0.922732 -0.009592  0.013302    0.0773
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.809953
+rec 990422_vc971_6431-2.4dfp.img  Tue Nov 12 16:16:42 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990422_vc971/RAW25610/6431 2 2 990422_vc971_6431-2 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc971
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dale.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-APR-1999
+scan_time:		17:19:43-17:19:43
+endrec Tue Nov 12 16:16:42 2002  capweb
+t4
+product transform 990422_vc971_6431-7_to_711-2C_t4
+product=[990422_vc971_6431-7_to_990422_vc971_6431-2_t4][990422_vc971_6431-2_to_711-2C_t4]
+t4
+  0.045875 -0.829527  0.206238    3.0218
+  0.032512  0.223675  0.784326   -1.8686
+ -0.921492 -0.003203  0.018760    1.4517
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.793019
+rec 990422_vc971_6431-7.4dfp.img  Tue Nov 12 16:16:48 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990422_vc971/RAW25610/6431 7 7 990422_vc971_6431-7 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc971
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-APR-1999
+scan_time:		18:46:17-18:46:17
+endrec Tue Nov 12 16:16:48 2002  capweb
+t4
+product transform 990422_vc971_6431-8_to_711-2C_t4
+product=[990422_vc971_6431-8_to_990422_vc971_6431-2_t4][990422_vc971_6431-2_to_711-2C_t4]
+t4
+  0.042573 -0.829436  0.207290    3.0318
+  0.033835  0.224690  0.784095   -1.7945
+ -0.921709  0.000150  0.019173    1.6801
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.797384
+rec 990422_vc971_6431-8.4dfp.img  Tue Nov 12 16:16:53 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990422_vc971/RAW25610/6431 8 8 990422_vc971_6431-8 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc971
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-APR-1999
+scan_time:		18:52:55-18:52:55
+endrec Tue Nov 12 16:16:53 2002  capweb
+t4
+product transform 990422_vc971_6431-9_to_711-2C_t4
+product=[990422_vc971_6431-9_to_990422_vc971_6431-2_t4][990422_vc971_6431-2_to_711-2C_t4]
+t4
+  0.042263 -0.828952  0.208339    3.1642
+  0.034852  0.225814  0.783686   -1.6242
+ -0.921555  0.000727  0.020007    1.6603
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.789834
+rec 990422_vc971_6431-9.4dfp.img  Tue Nov 12 16:16:58 2002  capweb
+/home/iac3/nil-tools/imato4dfp1 /data/iac14/space6/users/SCRATCH/990422_vc971/RAW25610/6431 9 9 990422_vc971_6431-9 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc971
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/Buckner_Aging/MPRAGE_dalex3.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-APR-1999
+scan_time:		18:59:32-18:59:32
+endrec Tue Nov 12 16:16:58 2002  capweb
+endrec Tue Nov 12 16:33:09 2002  capweb
+endrec Mon May 16 15:27:21 2005  avi

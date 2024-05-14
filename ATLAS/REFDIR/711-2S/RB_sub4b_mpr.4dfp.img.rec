@@ -1,0 +1,22 @@
+rec RB_sub4b_mpr.4dfp.img Fri Apr  1 10:53:18 2005  jandrews
+dcm_to_4dfp -z -b RB_sub4b_mpr 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		RB_sub4b
+Patient_ID:		040404
+Institution:		Washington University St Louis
+ID Study Date:		20050331
+dcm_to_4dfp text:	164556.468000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	t1_mpr_ns_sag
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:     3415
+
+FileName 1 = DICOM/RB_sub4b.2.128
+endrec Fri Apr  1 10:53:18 2005  jandrews

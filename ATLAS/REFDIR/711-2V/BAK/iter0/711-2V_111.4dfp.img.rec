@@ -1,0 +1,648 @@
+rec 711-2V_111.4dfp.img  Tue Jul 19 22:16:40 2005  justinv
+t4imgs_4dfp 711-2V.lst 711-2V_111 -O111 
+$Id: t4imgs_4dfp.c,v 1.23 2004/09/02 20:19:46 rsachs Exp rsachs $
+resampling by 3D linear interpolation
+sub
+VB15688_mpr1	t4=VB15688_mpr1_to_711-2V_t4
+VB15744_mpr1	t4=VB15744_mpr1_to_711-2V_t4
+VB15792_mpr1	t4=VB15792_mpr1_to_711-2V_t4
+VB15892_mpr1	t4=VB15892_mpr1_to_711-2V_t4
+VB16110_mpr1	t4=VB16110_mpr1_to_711-2V_t4
+VB16348_mpr1	t4=VB16348_mpr1_to_711-2V_t4
+VB16350_mpr1	t4=VB16350_mpr1_to_711-2V_t4
+VB16539_mpr1	t4=VB16539_mpr1_to_711-2V_t4
+VB16283_mpr1	t4=VB16283_mpr1_to_711-2V_t4
+VB15341_mpr1	t4=VB15341_mpr1_to_711-2V_t4
+VB15452_mpr1	t4=VB15452_mpr1_to_711-2V_t4
+recog_pilot3_mpr1	t4=recog_pilot3_mpr1_to_711-2V_t4
+recog_pilot4_mpr1	t4=recog_pilot4_mpr1_to_711-2V_t4
+recog_pilot5_mpr1	t4=recog_pilot5_mpr1_to_711-2V_t4
+drum33_mpr1	t4=drum33_mpr1_to_711-2V_t4
+recall_pilot2_mpr1	t4=recall_pilot2_mpr1_to_711-2V_t4
+endsub
+t4
+product transform VB15688_mpr1_to_711-2B_t4
+product=[VB15688_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.055418 -0.912188  0.350754   -6.2411
+  0.032173  0.318988  0.803796    3.4679
+ -0.884655  0.027331  0.036406   -0.3114
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.757824
+rec VB15688_mpr1.4dfp.img Sun Aug  1 13:30:13 2004  justinv
+dcm_to_4dfp -z -b VB15688_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		VB15688_
+Patient_ID:		d-7003-15688
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20040728
+dcm_to_4dfp text:	080837.484000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    224      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      319
+
+FileName 1 = /data/emotion2/data27/EEG_MRI/VB15688/siem_im/VB15688.MR.HEAD_RAICHLE.3.128.2004.7.29.17.14.19.796000.50725559.IMA
+endrec Sun Aug  1 13:30:13 2004  justinv
+t4
+product transform VB15744_mpr1_to_711-2B_t4
+product=[VB15744_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.094584 -0.830001  0.213778   -3.9178
+ -0.051857  0.208343  0.739915   -5.6158
+ -0.961672  0.035278 -0.049223    1.4665
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.834171
+rec VB15744_mpr1.4dfp.img Tue Jul 19 21:59:05 2005  justinv
+dcm_to_4dfp -z -b VB15744_mpr1 
+$Id: dcm_to_4dfp.c,v 1.24 2004/04/22 19:55:26 jon Exp jon $
+
+Patient_Name:		VB15744
+Patient_ID:		J-8912-15744
+Institution:		
+ID Study Date:		20040804
+dcm_to_4dfp text:	080944.093000
+Orientation:		Sagittal
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+ACQ Sequence Description	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      314
+
+FileName 1 = VB15744.MR.HEAD_RAICHLE.3.128.2004.8.4.11.22.13.234000.51721964.IMA
+FileName 2 = VB15744.MR.HEAD_RAICHLE.3.127.2004.8.4.11.22.13.234000.51721949.IMA
+FileName 3 = VB15744.MR.HEAD_RAICHLE.3.126.2004.8.4.11.22.13.234000.51721934.IMA
+FileName 4 = VB15744.MR.HEAD_RAICHLE.3.125.2004.8.4.11.22.13.234000.51721919.IMA
+FileName 5 = VB15744.MR.HEAD_RAICHLE.3.124.2004.8.4.11.22.13.234000.51721904.IMA
+FileName 6 = VB15744.MR.HEAD_RAICHLE.3.123.2004.8.4.11.22.13.218000.51721889.IMA
+FileName 7 = VB15744.MR.HEAD_RAICHLE.3.122.2004.8.4.11.22.13.218000.51721874.IMA
+FileName 8 = VB15744.MR.HEAD_RAICHLE.3.121.2004.8.4.11.22.13.218000.51721859.IMA
+FileName 9 = VB15744.MR.HEAD_RAICHLE.3.120.2004.8.4.11.22.13.218000.51721844.IMA
+FileName 10 = VB15744.MR.HEAD_RAICHLE.3.119.2004.8.4.11.22.13.218000.51721829.IMA
+FileName 11 = VB15744.MR.HEAD_RAICHLE.3.118.2004.8.4.11.22.13.218000.51721814.IMA
+FileName 12 = VB15744.MR.HEAD_RAICHLE.3.117.2004.8.4.11.22.13.515000.51724888.IMA
+FileName 13 = VB15744.MR.HEAD_RAICHLE.3.116.2004.8.4.11.22.13.515000.51724873.IMA
+FileName 14 = VB15744.MR.HEAD_RAICHLE.3.115.2004.8.4.11.22.13.515000.51724858.IMA
+FileName 15 = VB15744.MR.HEAD_RAICHLE.3.114.2004.8.4.11.22.13.515000.51724843.IMA
+FileName 16 = VB15744.MR.HEAD_RAICHLE.3.113.2004.8.4.11.22.13.500000.51724828.IMA
+FileName 17 = VB15744.MR.HEAD_RAICHLE.3.112.2004.8.4.11.22.13.500000.51724813.IMA
+FileName 18 = VB15744.MR.HEAD_RAICHLE.3.111.2004.8.4.11.22.13.500000.51724798.IMA
+FileName 19 = VB15744.MR.HEAD_RAICHLE.3.110.2004.8.4.11.22.13.500000.51724783.IMA
+FileName 20 = VB15744.MR.HEAD_RAICHLE.3.109.2004.8.4.11.22.13.500000.51724768.IMA
+FileName 21 = VB15744.MR.HEAD_RAICHLE.3.108.2004.8.4.11.22.13.500000.51724753.IMA
+FileName 22 = VB15744.MR.HEAD_RAICHLE.3.107.2004.8.4.11.22.13.500000.51724738.IMA
+FileName 23 = VB15744.MR.HEAD_RAICHLE.3.106.2004.8.4.11.22.13.500000.51724723.IMA
+FileName 24 = VB15744.MR.HEAD_RAICHLE.3.105.2004.8.4.11.22.13.500000.51724708.IMA
+FileName 25 = VB15744.MR.HEAD_RAICHLE.3.104.2004.8.4.11.22.13.484000.51724693.IMA
+FileName 26 = VB15744.MR.HEAD_RAICHLE.3.103.2004.8.4.11.22.13.484000.51724678.IMA
+FileName 27 = VB15744.MR.HEAD_RAICHLE.3.102.2004.8.4.11.22.13.484000.51724663.IMA
+FileName 28 = VB15744.MR.HEAD_RAICHLE.3.101.2004.8.4.11.22.13.484000.51724648.IMA
+FileName 29 = VB15744.MR.HEAD_RAICHLE.3.100.2004.8.4.11.22.13.484000.51724633.IMA
+FileName 30 = VB15744.MR.HEAD_RAICHLE.3.99.2004.8.4.11.22.13.484000.51724618.IMA
+FileName 31 = VB15744.MR.HEAD_RAICHLE.3.98.2004.8.4.11.22.13.484000.51724603.IMA
+FileName 32 = VB15744.MR.HEAD_RAICHLE.3.97.2004.8.4.11.22.13.484000.51724588.IMA
+FileName 33 = VB15744.MR.HEAD_RAICHLE.3.96.2004.8.4.11.22.13.484000.51724573.IMA
+FileName 34 = VB15744.MR.HEAD_RAICHLE.3.95.2004.8.4.11.22.13.484000.51724558.IMA
+FileName 35 = VB15744.MR.HEAD_RAICHLE.3.94.2004.8.4.11.22.13.484000.51724543.IMA
+FileName 36 = VB15744.MR.HEAD_RAICHLE.3.93.2004.8.4.11.22.13.468000.51724528.IMA
+FileName 37 = VB15744.MR.HEAD_RAICHLE.3.92.2004.8.4.11.22.13.468000.51724513.IMA
+FileName 38 = VB15744.MR.HEAD_RAICHLE.3.91.2004.8.4.11.22.13.468000.51724498.IMA
+FileName 39 = VB15744.MR.HEAD_RAICHLE.3.90.2004.8.4.11.22.13.468000.51724483.IMA
+FileName 40 = VB15744.MR.HEAD_RAICHLE.3.89.2004.8.4.11.22.13.468000.51724468.IMA
+FileName 41 = VB15744.MR.HEAD_RAICHLE.3.88.2004.8.4.11.22.13.468000.51724453.IMA
+FileName 42 = VB15744.MR.HEAD_RAICHLE.3.87.2004.8.4.11.22.13.468000.51724438.IMA
+FileName 43 = VB15744.MR.HEAD_RAICHLE.3.86.2004.8.4.11.22.13.468000.51724423.IMA
+FileName 44 = VB15744.MR.HEAD_RAICHLE.3.85.2004.8.4.11.22.13.468000.51724408.IMA
+FileName 45 = VB15744.MR.HEAD_RAICHLE.3.84.2004.8.4.11.22.13.468000.51724393.IMA
+FileName 46 = VB15744.MR.HEAD_RAICHLE.3.83.2004.8.4.11.22.13.468000.51724378.IMA
+FileName 47 = VB15744.MR.HEAD_RAICHLE.3.82.2004.8.4.11.22.13.453000.51724363.IMA
+FileName 48 = VB15744.MR.HEAD_RAICHLE.3.81.2004.8.4.11.22.13.453000.51724348.IMA
+FileName 49 = VB15744.MR.HEAD_RAICHLE.3.80.2004.8.4.11.22.13.453000.51724333.IMA
+FileName 50 = VB15744.MR.HEAD_RAICHLE.3.79.2004.8.4.11.22.13.453000.51724318.IMA
+FileName 51 = VB15744.MR.HEAD_RAICHLE.3.78.2004.8.4.11.22.13.453000.51724303.IMA
+FileName 52 = VB15744.MR.HEAD_RAICHLE.3.77.2004.8.4.11.22.13.453000.51724288.IMA
+FileName 53 = VB15744.MR.HEAD_RAICHLE.3.76.2004.8.4.11.22.13.453000.51724273.IMA
+FileName 54 = VB15744.MR.HEAD_RAICHLE.3.75.2004.8.4.11.22.13.453000.51724258.IMA
+FileName 55 = VB15744.MR.HEAD_RAICHLE.3.74.2004.8.4.11.22.13.453000.51724243.IMA
+FileName 56 = VB15744.MR.HEAD_RAICHLE.3.73.2004.8.4.11.22.13.453000.51724228.IMA
+FileName 57 = VB15744.MR.HEAD_RAICHLE.3.72.2004.8.4.11.22.13.453000.51724213.IMA
+FileName 58 = VB15744.MR.HEAD_RAICHLE.3.71.2004.8.4.11.22.13.453000.51724198.IMA
+FileName 59 = VB15744.MR.HEAD_RAICHLE.3.70.2004.8.4.11.22.13.437000.51724183.IMA
+FileName 60 = VB15744.MR.HEAD_RAICHLE.3.69.2004.8.4.11.22.13.437000.51724168.IMA
+FileName 61 = VB15744.MR.HEAD_RAICHLE.3.68.2004.8.4.11.22.13.437000.51724153.IMA
+FileName 62 = VB15744.MR.HEAD_RAICHLE.3.67.2004.8.4.11.22.13.437000.51724138.IMA
+FileName 63 = VB15744.MR.HEAD_RAICHLE.3.66.2004.8.4.11.22.13.437000.51724123.IMA
+FileName 64 = VB15744.MR.HEAD_RAICHLE.3.65.2004.8.4.11.22.13.437000.51724108.IMA
+FileName 65 = VB15744.MR.HEAD_RAICHLE.3.64.2004.8.4.11.22.13.437000.51724093.IMA
+FileName 66 = VB15744.MR.HEAD_RAICHLE.3.63.2004.8.4.11.22.13.437000.51724078.IMA
+FileName 67 = VB15744.MR.HEAD_RAICHLE.3.62.2004.8.4.11.22.13.437000.51724063.IMA
+FileName 68 = VB15744.MR.HEAD_RAICHLE.3.61.2004.8.4.11.22.13.437000.51724048.IMA
+FileName 69 = VB15744.MR.HEAD_RAICHLE.3.60.2004.8.4.11.22.13.437000.51724033.IMA
+FileName 70 = VB15744.MR.HEAD_RAICHLE.3.59.2004.8.4.11.22.13.421000.51724018.IMA
+FileName 71 = VB15744.MR.HEAD_RAICHLE.3.58.2004.8.4.11.22.13.421000.51724003.IMA
+FileName 72 = VB15744.MR.HEAD_RAICHLE.3.57.2004.8.4.11.22.13.421000.51723988.IMA
+FileName 73 = VB15744.MR.HEAD_RAICHLE.3.56.2004.8.4.11.22.13.421000.51723973.IMA
+FileName 74 = VB15744.MR.HEAD_RAICHLE.3.55.2004.8.4.11.22.13.421000.51723958.IMA
+FileName 75 = VB15744.MR.HEAD_RAICHLE.3.54.2004.8.4.11.22.13.421000.51723943.IMA
+FileName 76 = VB15744.MR.HEAD_RAICHLE.3.53.2004.8.4.11.22.13.421000.51723928.IMA
+FileName 77 = VB15744.MR.HEAD_RAICHLE.3.52.2004.8.4.11.22.13.421000.51723913.IMA
+FileName 78 = VB15744.MR.HEAD_RAICHLE.3.51.2004.8.4.11.22.13.421000.51723898.IMA
+FileName 79 = VB15744.MR.HEAD_RAICHLE.3.50.2004.8.4.11.22.13.421000.51723883.IMA
+FileName 80 = VB15744.MR.HEAD_RAICHLE.3.49.2004.8.4.11.22.13.406000.51723868.IMA
+FileName 81 = VB15744.MR.HEAD_RAICHLE.3.48.2004.8.4.11.22.13.406000.51723853.IMA
+FileName 82 = VB15744.MR.HEAD_RAICHLE.3.47.2004.8.4.11.22.13.406000.51723838.IMA
+FileName 83 = VB15744.MR.HEAD_RAICHLE.3.46.2004.8.4.11.22.13.406000.51723823.IMA
+FileName 84 = VB15744.MR.HEAD_RAICHLE.3.45.2004.8.4.11.22.13.406000.51723808.IMA
+FileName 85 = VB15744.MR.HEAD_RAICHLE.3.44.2004.8.4.11.22.13.406000.51723793.IMA
+FileName 86 = VB15744.MR.HEAD_RAICHLE.3.43.2004.8.4.11.22.13.406000.51723778.IMA
+FileName 87 = VB15744.MR.HEAD_RAICHLE.3.42.2004.8.4.11.22.13.406000.51723763.IMA
+FileName 88 = VB15744.MR.HEAD_RAICHLE.3.41.2004.8.4.11.22.13.406000.51723748.IMA
+FileName 89 = VB15744.MR.HEAD_RAICHLE.3.40.2004.8.4.11.22.13.406000.51723733.IMA
+FileName 90 = VB15744.MR.HEAD_RAICHLE.3.39.2004.8.4.11.22.13.406000.51723718.IMA
+FileName 91 = VB15744.MR.HEAD_RAICHLE.3.38.2004.8.4.11.22.13.390000.51723703.IMA
+FileName 92 = VB15744.MR.HEAD_RAICHLE.3.37.2004.8.4.11.22.13.390000.51723688.IMA
+FileName 93 = VB15744.MR.HEAD_RAICHLE.3.36.2004.8.4.11.22.13.390000.51723673.IMA
+FileName 94 = VB15744.MR.HEAD_RAICHLE.3.35.2004.8.4.11.22.13.390000.51723658.IMA
+FileName 95 = VB15744.MR.HEAD_RAICHLE.3.34.2004.8.4.11.22.13.390000.51723643.IMA
+FileName 96 = VB15744.MR.HEAD_RAICHLE.3.33.2004.8.4.11.22.13.390000.51723628.IMA
+FileName 97 = VB15744.MR.HEAD_RAICHLE.3.32.2004.8.4.11.22.13.390000.51723613.IMA
+FileName 98 = VB15744.MR.HEAD_RAICHLE.3.31.2004.8.4.11.22.13.390000.51723598.IMA
+FileName 99 = VB15744.MR.HEAD_RAICHLE.3.30.2004.8.4.11.22.13.390000.51723583.IMA
+FileName 100 = VB15744.MR.HEAD_RAICHLE.3.29.2004.8.4.11.22.13.390000.51723568.IMA
+FileName 101 = VB15744.MR.HEAD_RAICHLE.3.28.2004.8.4.11.22.13.375000.51723553.IMA
+FileName 102 = VB15744.MR.HEAD_RAICHLE.3.27.2004.8.4.11.22.13.375000.51723538.IMA
+FileName 103 = VB15744.MR.HEAD_RAICHLE.3.26.2004.8.4.11.22.13.375000.51723523.IMA
+FileName 104 = VB15744.MR.HEAD_RAICHLE.3.25.2004.8.4.11.22.13.375000.51723508.IMA
+FileName 105 = VB15744.MR.HEAD_RAICHLE.3.24.2004.8.4.11.22.13.375000.51723493.IMA
+FileName 106 = VB15744.MR.HEAD_RAICHLE.3.23.2004.8.4.11.22.13.375000.51723478.IMA
+FileName 107 = VB15744.MR.HEAD_RAICHLE.3.22.2004.8.4.11.22.13.375000.51723463.IMA
+FileName 108 = VB15744.MR.HEAD_RAICHLE.3.21.2004.8.4.11.22.13.375000.51723448.IMA
+FileName 109 = VB15744.MR.HEAD_RAICHLE.3.20.2004.8.4.11.22.13.375000.51723433.IMA
+FileName 110 = VB15744.MR.HEAD_RAICHLE.3.19.2004.8.4.11.22.13.375000.51723418.IMA
+FileName 111 = VB15744.MR.HEAD_RAICHLE.3.18.2004.8.4.11.22.13.375000.51723403.IMA
+FileName 112 = VB15744.MR.HEAD_RAICHLE.3.17.2004.8.4.11.22.13.656000.51726411.IMA
+FileName 113 = VB15744.MR.HEAD_RAICHLE.3.16.2004.8.4.11.22.13.656000.51726396.IMA
+FileName 114 = VB15744.MR.HEAD_RAICHLE.3.15.2004.8.4.11.22.13.656000.51726381.IMA
+FileName 115 = VB15744.MR.HEAD_RAICHLE.3.14.2004.8.4.11.22.13.656000.51726366.IMA
+FileName 116 = VB15744.MR.HEAD_RAICHLE.3.13.2004.8.4.11.22.13.656000.51726351.IMA
+FileName 117 = VB15744.MR.HEAD_RAICHLE.3.12.2004.8.4.11.22.13.640000.51726336.IMA
+FileName 118 = VB15744.MR.HEAD_RAICHLE.3.11.2004.8.4.11.22.13.640000.51726321.IMA
+FileName 119 = VB15744.MR.HEAD_RAICHLE.3.10.2004.8.4.11.22.13.640000.51726306.IMA
+FileName 120 = VB15744.MR.HEAD_RAICHLE.3.9.2004.8.4.11.22.13.640000.51726291.IMA
+FileName 121 = VB15744.MR.HEAD_RAICHLE.3.8.2004.8.4.11.22.13.640000.51726276.IMA
+FileName 122 = VB15744.MR.HEAD_RAICHLE.3.7.2004.8.4.11.22.13.640000.51726261.IMA
+FileName 123 = VB15744.MR.HEAD_RAICHLE.3.6.2004.8.4.11.22.13.640000.51726246.IMA
+FileName 124 = VB15744.MR.HEAD_RAICHLE.3.5.2004.8.4.11.22.13.640000.51726231.IMA
+FileName 125 = VB15744.MR.HEAD_RAICHLE.3.4.2004.8.4.11.22.13.640000.51726216.IMA
+FileName 126 = VB15744.MR.HEAD_RAICHLE.3.3.2004.8.4.11.22.13.640000.51726201.IMA
+FileName 127 = VB15744.MR.HEAD_RAICHLE.3.2.2004.8.4.11.22.13.625000.51726186.IMA
+FileName 128 = VB15744.MR.HEAD_RAICHLE.3.1.2004.8.4.11.22.13.625000.51726171.IMA
+endrec Tue Jul 19 21:59:05 2005  justinv
+t4
+product transform VB15792_mpr1_to_711-2B_t4
+product=[VB15792_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.007837 -0.919978  0.219753   -3.3010
+  0.013306  0.220988  0.821872    8.8689
+ -0.886661 -0.003909  0.035788    0.8364
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.054216
+rec VB15792_mpr1.4dfp.img Wed Aug 11 17:44:55 2004  justinv
+dcm_to_4dfp -z -b VB15792_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		VB15792
+Patient_ID:		J-4941-15792
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20040811
+dcm_to_4dfp text:	081440.156000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      286
+
+FileName 1 = /data/emotion3/data33/EEG_fMRI/VB15792/siem_im/VB15792.MR.HEAD_RAICHLE.3.128.2004.8.11.8.39.22.125000.53279244.IMA
+endrec Wed Aug 11 17:44:55 2004  justinv
+t4
+product transform VB15892_mpr1_to_711-2B_t4
+product=[VB15892_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.025549 -0.919494  0.232566  -17.5800
+ -0.045562  0.249728  0.796411   -5.2728
+ -0.890468 -0.049180 -0.046681    0.9170
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.878014
+rec VB15892_mpr1.4dfp.img Tue May  3 14:34:16 2005  justinv
+dcm_to_4dfp -z -b VB15892_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		VB15892
+Patient_ID:		J-8143-15892
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20040825
+dcm_to_4dfp text:	165817.062000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      305
+
+FileName 1 = /data/emotion2/data31/EEG_fMRI/VB15892/siem_im/VB15892.MR.HEAD_RAICHLE.3.128.2004.8.26.17.43.29.796000.58393875.IMA
+endrec Tue May  3 14:34:16 2005  justinv
+t4
+product transform VB16110_mpr1_to_711-2B_t4
+product=[VB16110_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.001020 -0.874835  0.233265  -11.1328
+ -0.048494  0.202705  0.858005   -9.6479
+ -0.914957 -0.030951 -0.042244    1.0417
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.476273
+rec VB16110_mpr1.4dfp.img Wed Sep 22 00:40:00 2004  justinv
+dcm_to_4dfp -z -b VB16110_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		VB16110
+Patient_ID:		J-0347-16110
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20040920
+dcm_to_4dfp text:	175710.687000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      321
+
+FileName 1 = /data/emotion2/data31/EEG_fMRI/VB16110/siem_im/VB16110.MR.HEAD_RAICHLE.3.128.2004.9.20.21.5.30.562000.65070480.IMA
+endrec Wed Sep 22 00:40:00 2004  justinv
+t4
+product transform VB16348_mpr1_to_711-2B_t4
+product=[VB16348_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.038993 -0.997878  0.232537  -15.7283
+ -0.009620  0.160528  0.855931  -15.3183
+ -0.947584  0.008542 -0.021128   -0.8980
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.465609
+rec VB16348_mpr1.4dfp.img Sat Jan 29 18:21:12 2005  justinv
+dcm_to_4dfp -z -b VB16348_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		VB16348
+Patient_ID:		J-1859-16348
+Institution:		
+ID Study Date:		20041018
+dcm_to_4dfp text:	195708.109000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      300
+
+FileName 1 = /data/emotion2/data31/EEG_fMRI/VB16348/siem_im/VB16348.MR.HEAD_RAICHLE.3.128.2004.10.19.0.9.11.156000.76427421.IMA
+endrec Sat Jan 29 18:21:12 2005  justinv
+t4
+product transform VB16350_mpr1_to_711-2B_t4
+product=[VB16350_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.010899 -0.914040  0.172345  -12.6346
+ -0.010200  0.143908  0.812112    0.0238
+ -0.898213  0.000617 -0.004122    1.7821
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.789963
+rec VB16350_mpr1.4dfp.img Sat Jan 29 18:19:58 2005  justinv
+dcm_to_4dfp -z -b VB16350_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		VB16350
+Patient_ID:		J-1961-16350
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20041101
+dcm_to_4dfp text:	194859.437000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      301
+
+FileName 1 = /data/emotion2/data31/EEG_fMRI/VB16350/siem_im/VB16350.MR.HEAD_RAICHLE.3.128.2004.11.1.22.43.48.296000.80412135.IMA
+endrec Sat Jan 29 18:19:58 2005  justinv
+t4
+product transform VB16539_mpr1_to_711-2B_t4
+product=[VB16539_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.032663 -0.911338  0.180876   -2.3394
+ -0.034881  0.205229  0.799767   -0.1294
+ -0.872148 -0.050532 -0.024517    0.5235
+  0.000000  0.000000  0.000000    1.0000
+scale:     22.213495
+rec VB16539_mpr1.4dfp.img Tue May  3 13:56:25 2005  justinv
+dcm_to_4dfp -z -b VB16539_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		VB16539
+Patient_ID:		J-4140-16539
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20041108
+dcm_to_4dfp text:	173920.046000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      266
+
+FileName 1 = /data/emotion2/data31/EEG_fMRI/VB16539/siem_im/VB16539.MR.HEAD_RAICHLE.3.128.2004.11.8.20.41.20.984000.82636483.IMA
+endrec Tue May  3 13:56:25 2005  justinv
+t4
+product transform VB16283_mpr1_to_711-2B_t4
+product=[VB16283_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.000432 -0.889590  0.305288  -11.3545
+ -0.054036  0.315678  0.794020   -5.9464
+ -0.944551 -0.002068 -0.036193   -2.1663
+  0.000000  0.000000  0.000000    1.0000
+scale:     21.446878
+rec VB16283_mpr1.4dfp.img Sat Jan 29 19:56:09 2005  justinv
+dcm_to_4dfp -z -b VB16283_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		VB16283
+Patient_ID:		J-1183-1283
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20041011
+dcm_to_4dfp text:	180248.640000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      277
+
+FileName 1 = /data/emotion2/data31/EEG_fMRI/VB16283/siem_im/VB16283.MR.HEAD_RAICHLE.3.128.2004.10.11.21.0.46.718000.74200641.IMA
+endrec Sat Jan 29 19:56:09 2005  justinv
+t4
+product transform VB15341_mpr1_to_711-2B_t4
+product=[VB15341_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.006580 -0.981585  0.248900  -20.5127
+ -0.045411  0.235585  0.868490  -10.2904
+ -0.988405 -0.063716 -0.019847    0.7997
+  0.000000  0.000000  0.000000    1.0000
+scale:     21.748516
+rec VB15341_mpr1.4dfp.img Tue Jun 22 17:06:05 2004  lindap
+dcm_to_4dfp -z -b VB15341_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		vb15341
+Patient_ID:		d-5755-15341
+Institution:		
+ID Study Date:		20040621
+dcm_to_4dfp text:	175807.046000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      286
+
+FileName 1 = /data/emotion2/data27/EEG_MRI/VB15341/siem_im/VB15341.MR.HEAD_RAICHLE.3.128.2004.6.21.18.28.8.843000.42218518.IMA
+endrec Tue Jun 22 17:06:05 2004  lindap
+t4
+product transform VB15452_mpr1_to_711-2B_t4
+product=[VB15452_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.012365 -0.877159  0.396728    6.5286
+ -0.030982  0.390492  0.762246   14.1610
+ -0.990302 -0.008625 -0.053781    1.2302
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.642414
+rec VB15452_mpr1.4dfp.img Wed Jul  7 15:37:07 2004  dlkerr
+dcm_to_4dfp -z -b VB15452_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		vb15452
+Patient_ID:		d-2677-15452
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20040705
+dcm_to_4dfp text:	184620.046000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    240      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      344
+
+FileName 1 = /data/emotion2/data27/EEG_MRI/VB15452/siem_im/VB15452.MR.HEAD_RAICHLE.3.128.2004.7.5.19.15.24.875000.44871980.IMA
+endrec Wed Jul  7 15:37:07 2004  dlkerr
+t4
+product transform recog_pilot3_mpr1_to_711-2B_t4
+product=[recog_pilot3_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.000063 -0.973096  0.307136    5.6047
+ -0.024889  0.301078  0.863538   -2.0328
+ -0.959851  0.003361 -0.050229    0.8588
+  0.000000  0.000000  0.000000    1.0000
+scale:     19.686707
+rec recog_pilot3_mpr1.4dfp.img Thu Dec 30 16:31:24 2004  harold
+dcm_to_4dfp -z -b recog_pilot3_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		recog_pilot3
+Patient_ID:		16943
+Institution:		
+ID Study Date:		20041230
+dcm_to_4dfp text:	094635.171000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      296
+
+FileName 1 = /data/touch2/data5/exp3/recog_pilot3/dicom/recog_pilot3.4.128
+endrec Thu Dec 30 16:31:24 2004  harold
+t4
+product transform recog_pilot4_mpr1_to_711-2B_t4
+product=[recog_pilot4_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.017692 -0.963413  0.232156    6.4419
+  0.008693  0.179466  0.819574   12.5155
+ -0.904365  0.014007 -0.005306   -0.2551
+  0.000000  0.000000  0.000000    1.0000
+scale:     19.217112
+rec recog_pilot4_mpr1.4dfp.img Tue Jan 11 16:34:35 2005  harold
+dcm_to_4dfp -z -b recog_pilot4_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		recog_pilot4
+Patient_ID:		17023
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20050111
+dcm_to_4dfp text:	094807.375000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      330
+
+FileName 1 = /data/touch2/data5/exp3/recog_pilot4/dicom/recog_pilot4.3.128
+endrec Tue Jan 11 16:34:35 2005  harold
+t4
+product transform recog_pilot5_mpr1_to_711-2B_t4
+product=[recog_pilot5_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.015461 -0.891466  0.208005   13.3514
+  0.011950  0.142180  0.844907   27.7394
+ -0.896251 -0.026924  0.004521    0.0168
+  0.000000  0.000000  0.000000    1.0000
+scale:     19.432129
+rec recog_pilot5_mpr1.4dfp.img Thu Jan 13 16:18:20 2005  harold
+dcm_to_4dfp -z -b recog_pilot5_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		recog_pilot5
+Patient_ID:		17038
+Institution:		Washington Univ Sch of Med East B
+ID Study Date:		20050113
+dcm_to_4dfp text:	104126.125000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      339
+
+FileName 1 = /data/touch2/data5/exp3/recog_pilot5/dicom/recog_pilot5.3.128
+endrec Thu Jan 13 16:18:20 2005  harold
+t4
+product transform drum33_mpr1_to_711-2B_t4
+product=[drum33_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+ -0.001214 -0.962194  0.202372  -10.4154
+ -0.015979  0.236522  0.887972   -2.4904
+ -0.955703 -0.015294 -0.043413    1.8506
+  0.000000  0.000000  0.000000    1.0000
+scale:     21.662779
+rec drum33_mpr1.4dfp.img Wed Jul  7 21:17:26 2004  harold
+dcm_to_4dfp -z -b drum33_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		drum33
+Patient_ID:		15492
+Institution:		
+ID Study Date:		20040707
+dcm_to_4dfp text:	163106.859000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      251
+
+FileName 1 = /data/braille/data2/drum/drum_sight/drum33/dicom/drum33.4.128
+endrec Wed Jul  7 21:17:26 2004  harold
+t4
+product transform recall_pilot2_mpr1_to_711-2B_t4
+product=[recall_pilot2_mpr1_to_711-2A_t4][/data/petsun9/data2/petmri/to_711-2B_t4]
+t4
+  0.017614 -0.987485  0.299368    4.1150
+  0.011201  0.257180  0.881893   20.8264
+ -1.009722 -0.035365 -0.008076    0.4103
+  0.000000  0.000000  0.000000    1.0000
+scale:     20.361769
+rec recall_pilot2_mpr1.4dfp.img Mon Dec 20 11:54:54 2004  harold
+dcm_to_4dfp -z -b recall_pilot2_mpr1 
+$Id: dcm_to_4dfp.c,v 1.2 2003/05/06 21:58:27 jon Exp jon $
+
+Patient_Name:		recall_pilot2
+Patient_ID:		16876
+Institution:		
+ID Study Date:		20041217
+dcm_to_4dfp text:	094354.343000
+ID Sequence Name:	*tfl3d1_ns
+ACQ Protocol Name:	MPRAGE 1x1x1.25
+
+X dimension (columns):    256      Width (mm):    1.00000 
+   Y dimension (rows):    256     Height (mm):    1.00000 
+ Z dimension (slices):    128  Thickness (mm):    1.25000 
+    Number of Volumes:      1
+           Dimensions:      4
+ Min Value:        0
+ Max Value:      292
+
+FileName 1 = /data/touch2/data5/exp3/recall_pilot2/dicom/recall_pilot2.3.128
+endrec Mon Dec 20 11:54:54 2004  harold
+endrec Tue Jul 19 22:25:34 2005  justinv

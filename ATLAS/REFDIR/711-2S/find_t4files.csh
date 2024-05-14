@@ -1,0 +1,22 @@
+#!/bin/csh
+
+set subs = (`cat mprs.lst`)
+set t4list = 711-2S_init_t4file.lst
+if (-e $t4list) /bin/rm $t4list
+touch $t4list
+
+foreach s ($subs)
+	echo $s
+	set t4file = ${s}_to_711-2B_t4
+	echo $t4file
+	echo $t4file >> $t4list
+	cat $t4file
+	ls $s.4dfp.*
+	foreach e (img img.rec ifh hdr)
+		/bin/cp $s.4dfp.$e .
+		if ($status) exit $status
+	end
+	echo
+end
+cat $t4list
+echo done
