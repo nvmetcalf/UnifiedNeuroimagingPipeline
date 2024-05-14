@@ -1,0 +1,753 @@
+rec adult_crop_gfc_111.4dfp.img  Thu Aug  9 22:58:15 2001  massih
+t4imgs_4dfp adult_crop_gfc.lst adult_crop_gfc_111 -O/data/petsun4/data1/solaris/111h 
+$Id: t4imgs_4dfp.c,v 1.21 2001/01/10 00:49:18 avi Exp $
+resampling by 3D linear interpolation
+sub
+sub2/vc1547_3802-7_crop_gfc	t4=vc1547_3802-7_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub5/vc1592_4174-3_crop_gfc	t4=vc1592_4174-3_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub6/vc1604_103-3_crop_gfc	t4=vc1604_103-3_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub7/vc1619_176-3_crop_gfc	t4=vc1619_176-3_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub8/vc1642_248-3_crop_gfc	t4=vc1642_248-3_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub9/vc1647_303-3_crop_gfc	t4=vc1647_303-3_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub10/vc1654_370-3_crop_gfc	t4=vc1654_370-3_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub12/vc1661_435-5_crop_gfc	t4=vc1661_435-5_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub13/vc1667_495-4_crop_gfc	t4=vc1667_495-4_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub14/vc4459_2461-4_crop_gfc	t4=vc4459_2461-4_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub23/vc5119_486-3_crop_gfc	t4=vc5119_486-3_mpr_crop_gfc_to_adult_crop_gfc_t4
+sub24/vc5132_558-3_crop_gfc	t4=vc5132_558-3_mpr_crop_gfc_to_adult_crop_gfc_t4
+endsub
+t4
+product transform temp_t4
+product=[vc1547_3802-7_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+ -0.051023 -0.893099  0.254303   -3.9168
+ -0.014369  0.294020  0.852036    6.6100
+ -0.916799  0.010124 -0.036458   -6.3777
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.043335
+rec vc1547_3802-7_crop_gfc.4dfp.img  Wed Jul 25 09:23:19 2001  massih
+analyzeto4dfp vc1547_3802-7_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1547_3802-7_crop_gfc.img  Wed Jul 25 09:22:41 2001  massih
+partitiond_gfc -g vc1547_3802-7_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc1547_3802-7_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.0872 -0.0149  0.1431  0.0329 -0.0662 -0.0102 -0.2234  0.0348 -0.0976  0.0199
+rec vc1547_3802-7_crop.4dint.img  Wed Jul 25 09:22:02 2001  massih
+4dfptoanalyze vc1547_3802-7_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1547_3802-7_crop.4dfp.img
+analyze_avw
+loadas  flip x y z vc1547_3802-7.4dfp.img
+x	start 8		number 208
+y	start 68	number 160
+z	start 1		number 128
+saveas flip x y z
+rec vc1547_3802-7.4dfp.img  Wed Jan 19 20:16:30 2000  marc
+scale_4dfp vc1547_3802-7 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1547_3802-7.4dfp.img Wed Jan 19 20:16:03 CST 2000 marc
+imato4dfp -0h /data/petsun29/data1/sub2/siem_im/scout/3802 7 7 vc1547_3802-7
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+patient_id:		/data/petsun29/data1/sub2/siem_im/scout/3802
+first_study:		7
+last_study:		7
+start_image_id:		250
+end_image_id:		377
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:1:10
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec
+endrec
+endrec Wed Jul 25 09:22:02 2001  massih
+endrec Wed Jul 25 09:22:42 2001  massih
+endrec Wed Jul 25 09:23:19 2001  massih
+t4
+product transform temp_t4
+product=[vc1592_4174-3_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+ -0.001977 -1.093312  0.193671  -19.6686
+ -0.059225  0.076738  0.965811   -3.6573
+ -1.012373 -0.002632 -0.069819   -1.1996
+  0.000000  0.000000  0.000000    1.0000
+scale:     10.592911
+rec vc1592_4174-3_crop_gfc.4dfp.img  Tue Jul 24 20:45:05 2001  massih
+analyzeto4dfp vc1592_4174-3_crop_gfc 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1592_4174-3_crop_gfc.img  Tue Jul 24 20:44:44 2001  massih
+partitiond_gfc -g vc1592_4174-3_crop.4dint 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc1592_4174-3_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.0908 -0.0233 -0.0019 -0.0051 -0.1146 -0.0215 -0.2089 -0.0276 -0.0189 -0.0171
+rec vc1592_4174-3_crop.4dint.img  Tue Jul 24 20:43:56 2001  massih
+4dfptoanalyze vc1592_4174-3_crop.4dfp 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1592_4174-3_crop.4dfp.img
+analyze_avw
+loadas flip x y z	vc1592_4174-3.4dfp.img
+x start	24	number 224
+y start	20	number 192
+z start	1	number 128
+saveas flip x y z	vc1592_4174-3_crop.4dfp.img
+rec vc1592_4174-3.4dfp.img Wed Feb  2 12:11:57 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub5/siem_im/scout/4174 3 3 vc1592_4174-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+patient_id:		/data/petsun29/data1/sub5/siem_im/scout/4174
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:1:27
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec
+endrec Tue Jul 24 20:43:56 2001  massih
+endrec Tue Jul 24 20:44:44 2001  massih
+endrec Tue Jul 24 20:45:05 2001  massih
+t4
+product transform temp_t4
+product=[vc1604_103-3_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+ -0.015869 -1.030464  0.114554  -10.7146
+  0.006822  0.023841  0.927615   -3.0964
+ -1.012086  0.006243 -0.018384    7.3819
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.109220
+rec vc1604_103-3_crop_gfc.4dfp.img  Wed Jul 25 09:59:03 2001  massih
+analyzeto4dfp vc1604_103-3_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1604_103-3_crop_gfc.img  Wed Jul 25 09:58:44 2001  massih
+partitiond_gfc -g vc1604_103-3_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc1604_103-3_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1005  0.0178  0.0675 -0.0022 -0.1133 -0.0050 -0.2423  0.0245 -0.0724  0.0002
+rec vc1604_103-3_crop.4dint.img  Wed Jul 25 09:58:18 2001  massih
+4dfptoanalyze vc1604_103-3_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1604_103-3_crop.4dfp.img
+load file flip x y z vc1604_103-3.4dfp.img
+x start 17	number 208
+y start 33	number 176
+z start 01	number 128
+save file flip x y z vc1604_103-3_crop.4dfp.img
+rec vc1604_103-3.4dfp.img  Thu Feb  3 20:49:23 2000  gusnard
+scale_4dfp vc1604_103-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1604_103-3.4dfp.img Thu Feb  3 20:48:04 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub6/siem_im/scout/103 3 3 vc1604_103-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub6/siem_im/scout/103
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:3
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec
+endrec
+endrec Wed Jul 25 09:58:18 2001  massih
+endrec Wed Jul 25 09:58:44 2001  massih
+endrec Wed Jul 25 09:59:03 2001  massih
+t4
+product transform temp_t4
+product=[vc1619_176-3_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+  0.043692 -1.002696 -0.048058  -13.8598
+ -0.011580 -0.115428  0.860770   -4.7114
+ -0.923727 -0.051956 -0.028851   -3.0534
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.091094
+rec vc1619_176-3_crop_gfc.4dfp.img  Wed Jul 25 10:23:24 2001  massih
+analyzeto4dfp vc1619_176-3_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1619_176-3_crop_gfc.img  Wed Jul 25 10:23:03 2001  massih
+partitiond_gfc -g vc1619_176-3_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc1619_176-3_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.0971 -0.0157 -0.0434  0.0025 -0.1398  0.0070 -0.1837 -0.0085 -0.0362 -0.1025
+rec vc1619_176-3_crop.4dint.img  Wed Jul 25 10:22:27 2001  massih
+4dfptoanalyze vc1619_176-3_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1619_176-3_crop.4dfp.img
+load file flip x y z vc1619_176-3.4dfp.img
+x start 11 	number 208
+y start 22	number 176
+z start 01 	number 128
+save file flip x y z vc1619_176-3_crop.4dfp.img
+rec vc1619_176-3.4dfp.img  Mon Feb  7 14:54:59 2000  gusnard
+scale_4dfp vc1619_176-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1619_176-3.4dfp.img Mon Feb  7 14:53:39 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub7/siem_im/scout/176 3 3 vc1619_176-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub7/siem_im/scout/176
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:7
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec
+endrec
+endrec Wed Jul 25 10:22:28 2001  massih
+endrec Wed Jul 25 10:23:03 2001  massih
+endrec Wed Jul 25 10:23:24 2001  massih
+t4
+product transform temp_t4
+product=[vc1642_248-3_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+ -0.014473 -0.921509 -0.042074  -12.7017
+  0.027899 -0.055408  0.914568   -2.8323
+ -0.950005 -0.013532  0.024879   -2.1471
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.090489
+rec vc1642_248-3_crop_gfc.4dfp.img  Wed Jul 25 10:43:38 2001  massih
+analyzeto4dfp vc1642_248-3_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1642_248-3_crop_gfc.img  Wed Jul 25 10:43:20 2001  massih
+partitiond_gfc -g vc1642_248-3_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc1642_248-3_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1823 -0.0181  0.1127  0.0144 -0.2336  0.0198 -0.3246  0.0428 -0.0183 -0.1268
+rec vc1642_248-3_crop.4dint.img  Wed Jul 25 10:42:57 2001  massih
+4dfptoanalyze vc1642_248-3_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1642_248-3_crop.4dfp.img
+load file flip x y z vc1642_248-3.4dfp.img
+x start 14	number 192
+y start 62	number 160
+z start 01	number 128
+save as flip x y z vc1642_248-3_crop.4dfp.img
+rec vc1642_248-3.4dfp.img  Tue Feb 15 19:05:55 2000  gusnard
+scale_4dfp vc1642_248-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1642_248-3.4dfp.img Tue Feb 15 19:04:48 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub8/siem_im/scout/248 3 3 vc1642_248-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub8/siem_im/scout/248
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:15
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+
+endrec
+endrec
+endrec
+endrec Wed Jul 25 10:42:57 2001  massih
+endrec Wed Jul 25 10:43:21 2001  massih
+endrec Wed Jul 25 10:43:38 2001  massih
+t4
+product transform temp_t4
+product=[vc1647_303-3_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+ -0.008409 -0.957877  0.119372  -14.4044
+ -0.028836  0.081667  0.897349   -3.2988
+ -0.931000 -0.009417 -0.019603   -2.4565
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.041904
+rec vc1647_303-3_crop_gfc.4dfp.img  Wed Jul 25 11:00:34 2001  massih
+analyzeto4dfp vc1647_303-3_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1647_303-3_crop_gfc.img  Wed Jul 25 10:58:59 2001  massih
+partitiond_gfc -g vc1647_303-3_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc1647_303-3_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.0405  0.0044  0.0202  0.0526 -0.0283  0.0062 -0.1608  0.0359 -0.0488  0.0586
+rec vc1647_303-3_crop.4dint.img  Wed Jul 25 10:58:32 2001  massih
+4dfptoanalyze vc1647_303-3_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1647_303-3_crop.4dfp.img
+load file flip x y z vc1647_303-3.4dfp.img
+x start 24 	number 192
+y start 40	number 160
+z start 01	number 128
+rec vc1647_303-3.4dfp.img  Thu Feb 17 15:11:33 2000  gusnard
+scale_4dfp vc1647_303-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1647_303-3.4dfp.img Thu Feb 17 15:10:26 CST 2000 gusnard
+imato4dfp -0h /data/petsun29/data1/sub9/siem_im/scout/303 3 3 vc1647_303-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/petsun29/data1/sub9/siem_im/scout/303
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:17
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec
+endrec
+endrec Wed Jul 25 10:58:32 2001  massih
+endrec Wed Jul 25 10:59:00 2001  massih
+endrec Wed Jul 25 11:00:34 2001  massih
+t4
+product transform temp_t4
+product=[vc1654_370-3_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+ -0.047651 -1.037410 -0.016008  -19.3560
+ -0.039890 -0.049574  0.967939   -7.4085
+ -1.010902  0.040718 -0.041168    9.0537
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.045456
+rec vc1654_370-3_crop_gfc.4dfp.img  Wed Jul 25 11:27:38 2001  massih
+analyzeto4dfp vc1654_370-3_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1654_370-3_crop_gfc.img  Wed Jul 25 11:27:00 2001  massih
+partitiond_gfc -g vc1654_370-3_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc1654_370-3_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1250  0.0181  0.0624 -0.0156 -0.1373 -0.0238 -0.2804  0.0109 -0.0642 -0.0497
+rec vc1654_370-3_crop.4dint.img  Wed Jul 25 11:26:19 2001  massih
+4dfptoanalyze vc1654_370-3_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1654_370-3_crop.4dfp.img
+load file vc1654_370-3.4dfp.img
+x start 24	number 208
+y start 41	number 176
+z start 01	number 128
+rec vc1654_370-3.4dfp.img  Mon Feb 21 16:31:02 2000  gusnard
+scale_4dfp vc1654_370-3 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1654_370-3.4dfp.img Mon Feb 21 16:29:44 CST 2000 gusnard
+imato4dfp -0h /data/emotion/data1/sub10/siem_im/scout/370 3 3 vc1654_370-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data1/sub10/siem_im/scout/370
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:21
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec
+endrec
+endrec Wed Jul 25 11:26:19 2001  massih
+endrec Wed Jul 25 11:27:00 2001  massih
+endrec Wed Jul 25 11:27:39 2001  massih
+t4
+product transform temp_t4
+product=[vc1661_435-5_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+ -0.009435 -1.008705  0.122651   -8.7337
+ -0.042779  0.124756  0.909325    1.3563
+ -0.951995 -0.000937 -0.046943    0.7965
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.094957
+rec vc1661_435-5_crop_gfc.4dfp.img  Wed Jul 25 11:42:46 2001  massih
+analyzeto4dfp vc1661_435-5_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1661_435-5_crop_gfc.img  Wed Jul 25 11:42:27 2001  massih
+partitiond_gfc -g vc1661_435-5_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc1661_435-5_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.1149 -0.0118  0.0990  0.0017 -0.1220 -0.0129 -0.3114 -0.0015 -0.0564  0.0424
+rec vc1661_435-5_crop.4dint.img  Wed Jul 25 11:42:05 2001  massih
+4dfptoanalyze vc1661_435-5_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+vc1661_435-5_crop.4dfp.img.rec not found
+endrec Wed Jul 25 11:42:05 2001  massih
+endrec Wed Jul 25 11:42:28 2001  massih
+endrec Wed Jul 25 11:42:46 2001  massih
+t4
+product transform temp_t4
+product=[vc1667_495-4_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+ -0.028640 -1.013640  0.014747  -11.2241
+  0.003748 -0.025557  0.934609   -9.2022
+ -0.955685 -0.002893 -0.016005    1.0780
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.140186
+rec vc1667_495-4_crop_gfc.4dfp.img  Mon Jul 30 10:08:38 2001  massih
+analyzeto4dfp vc1667_495-4_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc1667_495-4_crop_gfc.img  Mon Jul 30 10:08:09 2001  massih
+partitiond_gfc -g vc1667_495-4_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc1667_495-4_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.0928 -0.0051  0.0376 -0.0464 -0.1096  0.0012 -0.2234  0.0141 -0.0483 -0.0122
+rec vc1667_495-4_crop.4dint.img  Mon Jul 30 10:07:40 2001  massih
+4dfptoanalyze vc1667_495-4_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc1667_495-4_crop.4dfp.img
+load file flip x y z vc1667_495-4.4dfp.img
+x start 27	number 208
+y start 30	number 176
+z start 01	number 128
+save as flip x y z vc1667_495-4_crop.4dfp.img
+rec vc1667_495-4.4dfp.img  Tue Feb 29 15:43:58 2000  gusnard
+scale_4dfp vc1667_495-4 10 
+$Id: scale_4dfp.c,v 1.3 1998/05/07 01:25:05 avi Exp $
+scaled by 10.000000
+rec vc1667_495-4.4dfp.img Tue Feb 29 15:42:58 CST 2000 gusnard
+imato4dfp -0h /data/emotion/data1/sub13/siem_im/scout/495 4 4 vc1667_495-4
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data1/sub13/siem_im/scout/495
+first_study:		4
+last_study:		4
+start_image_id:		87
+end_image_id:		214
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:2:29
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec
+endrec
+endrec Mon Jul 30 10:07:40 2001  massih
+endrec Mon Jul 30 10:08:09 2001  massih
+endrec Mon Jul 30 10:08:38 2001  massih
+t4
+product transform temp_t4
+product=[vc4459_2461-4_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+  0.022247 -1.062409 -0.006013  -18.2207
+ -0.012202 -0.133732  0.919358   -5.3372
+ -0.967299 -0.063323  0.009648    0.7498
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.094517
+rec vc4459_2461-4_crop_gfc.4dfp.img  Mon Jul 30 10:39:24 2001  massih
+analyzeto4dfp vc4459_2461-4_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc4459_2461-4_crop_gfc.img  Mon Jul 30 10:39:06 2001  massih
+partitiond_gfc -g vc4459_2461-4_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc4459_2461-4_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.0950 -0.0075  0.0145  0.0130 -0.0723  0.0115 -0.2683  0.0010 -0.0236 -0.0073
+rec vc4459_2461-4_crop.4dint.img  Mon Jul 30 10:38:41 2001  massih
+4dfptoanalyze vc4459_2461-4_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc4459_2461-4_crop.4dfp.img
+load file flip x y z vc4459_2461-4.4dfp.img
+x start 19 	number 208
+y start 43	number 160
+z start 01 	number 128
+save as flip x y z vc4459_2461_crop.4dfp.img
+rec vc4459_2461-4.4dfp.img  Thu Jun  8 19:34:17 2000  gusnard
+scale_4dfp vc4459_2461-4 10 
+$Id: scale_4dfp.c,v 1.7 2000/04/06 01:58:55 avi Exp $
+Scaled by 10.000000
+rec vc4459_2461-4.4dfp.img Thu Jun  8 19:30:08 CDT 2000 gusnard
+imato4dfp -0h /data/emotion/data2/sub14/siem_im/scout/2461 4 4 vc4459_2461-4
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data2/sub14/siem_im/scout/2461
+first_study:		4
+last_study:		4
+start_image_id:		116
+end_image_id:		243
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:6:6
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec Thu Jun  8 19:34:17 2000  gusnard
+endrec
+endrec Mon Jul 30 10:38:41 2001  massih
+endrec Mon Jul 30 10:39:07 2001  massih
+endrec Mon Jul 30 10:39:24 2001  massih
+t4
+product transform temp_t4
+product=[vc5119_486-3_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+  0.028931 -0.962622 -0.029486  -15.3616
+ -0.003064 -0.089720  0.908572   -1.1786
+ -0.941416 -0.043379 -0.019977   -1.3728
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.053332
+rec vc5119_486-3_crop_gfc.4dfp.img  Mon Jul 30 10:55:36 2001  massih
+analyzeto4dfp vc5119_486-3_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc5119_486-3_crop_gfc.img  Mon Jul 30 10:55:00 2001  massih
+partitiond_gfc -g vc5119_486-3_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc5119_486-3_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.0847 -0.0113  0.0382  0.0312 -0.0565  0.0003 -0.2104  0.0283 -0.0437 -0.0363
+rec vc5119_486-3_crop.4dint.img  Mon Jul 30 10:54:40 2001  massih
+4dfptoanalyze vc5119_486-3_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc5119_486-3_crop.4dfp.img
+load file flip x y z vc5119_486-3.4dfp.img
+x start 27 	number 192
+y start 39	number 160
+z start 01	number 128
+save as flip x y z vc5119_486-3_crop.4dfp.img
+rec vc5119_486-3.4dfp.img  Wed Sep  6 22:24:34 2000  gusnard
+scale_4dfp vc5119_486-3 10 
+$Id: scale_4dfp.c,v 1.7 2000/04/06 01:58:55 avi Exp $
+Scaled by 10.000000
+rec vc5119_486-3.4dfp.img Wed Sep  6 22:20:31 CDT 2000 gusnard
+imato4dfp -0h /data/emotion/data2/sub23/siem_im/scout/486 3 3 vc5119_486-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data2/sub23/siem_im/scout/486
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:9:6
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec Wed Sep  6 22:24:35 2000  gusnard
+endrec
+endrec Mon Jul 30 10:54:40 2001  massih
+endrec Mon Jul 30 10:55:00 2001  massih
+endrec Mon Jul 30 10:55:36 2001  massih
+t4
+product transform temp_t4
+product=[vc5132_558-3_mpr_crop_gfc_to_adult_crop_gfc_t4][adult_crop_gfc_to_711-2B_t4]
+t4
+ -0.054423 -1.031420 -0.070623  -18.2285
+ -0.010917 -0.096230  0.966376   -8.0713
+ -0.980482  0.030009 -0.019130   -0.4732
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.040069
+rec vc5132_558-3_crop_gfc.4dfp.img  Mon Jul 30 11:10:48 2001  massih
+analyzeto4dfp vc5132_558-3_crop_gfc.img 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+rec vc5132_558-3_crop_gfc.img  Mon Jul 30 11:10:27 2001  massih
+partitiond_gfc -g vc5132_558-3_crop.4dint.img 
+$Id: partitiond_gfc.c,v 1.16 2000/10/20 00:32:54 avi Exp $
+vc5132_558-3_crop.4dint gain field coefficients
+  x0y0z0  x0y0z1  x0y1z0  x1y0z0  x0y0z2  x0y1z1  x0y2z0  x1y0z1  x1y1z0  x2y0z0
+  1.0942 -0.0062  0.0672  0.0147 -0.0417 -0.0073 -0.2676  0.0173 -0.0628 -0.0244
+rec vc5132_558-3_crop.4dint.img  Mon Jul 30 11:10:03 2001  massih
+4dfptoanalyze vc5132_558-3_crop 
+$Id: 4dfptoanalyze.c,v 1.20 1999/01/08 01:55:19 avi Exp $
+rec vc5132_558-3_crop.4dfp.img
+load file flip x y z vc5132_558-3.4dfp.img
+x start 12	number 208
+y start 33	number 176
+z start 01	number 128
+save as flip x y z vc5132_558-3_crop.4dfp.img
+rec vc5132_558-3.4dfp.img  Thu Sep  7 16:35:35 2000  gusnard
+scale_4dfp vc5132_558-3 10 
+$Id: scale_4dfp.c,v 1.7 2000/04/06 01:58:55 avi Exp $
+Scaled by 10.000000
+rec vc5132_558-3.4dfp.img Thu Sep  7 16:31:44 CDT 2000 gusnard
+imato4dfp -0h /data/emotion/data2/sub24/siem_im/scout/558 3 3 vc5132_558-3
+     $Header: /data/petsun4/data1/src_solaris/imato4dfp/RCS/imato4dfp.c,v 1.40 1999/06/04 06:26:43 avi Exp $
+
+patient_id:		/data/emotion/data2/sub24/siem_im/scout/558
+first_study:		3
+last_study:		3
+start_image_id:		84
+end_image_id:		211
+patient_position:	H-SP
+time_series_flag	0
+xdim:			256
+ydim:			256
+zdim:			128
+vdim:			1
+xpix:			1.000000
+ypix:			1.000000
+zpix:			1.250000
+slice_thickness: 	1.250000
+bitsperpix:		32
+orientation:		4
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+study_date:		2000:9:7
+parameter_file_name:	/usr/appl/proto/016/c/head/Gusnard/3d-hires.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr
+endrec
+endrec Thu Sep  7 16:35:35 2000  gusnard
+endrec
+endrec Mon Jul 30 11:10:03 2001  massih
+endrec Mon Jul 30 11:10:28 2001  massih
+endrec Mon Jul 30 11:10:48 2001  massih
+endrec Thu Aug  9 23:04:54 2001  massih

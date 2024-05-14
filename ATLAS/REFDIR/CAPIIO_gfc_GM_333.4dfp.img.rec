@@ -1,0 +1,31 @@
+rec CAPIIO_gfc_GM_333.4dfp.img Sat Jun 18 22:44:35 CDT 2011 avi
+t4img_4dfp none CAPIIO_gfc_GM_111 CAPIIO_gfc_GM_333 -n -O333
+$Id: t4img_4dfp,v 1.9 2009/03/05 04:30:54 avi Exp $
+rec CAPIIO_gfc_GM_333.4dfp.img  Sat Jun 18 22:44:34 2011  avi@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+t4imgs_4dfp CAPIIO_gfc_GM_333.lst CAPIIO_gfc_GM_333 -n -O333 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+CAPIIO_gfc_GM_111	t4=
+endsub
+rec CAPIIO_gfc_GM_111.4dfp.img  Sat Jun 18 22:42:05 2011  avi@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+maskimg_4dfp CAPIIO_gfc_GM_111_clus CAPIIO_gfc_GM_111_clus CAPIIO_gfc_GM_111 -v1 
+$Id: maskimg_4dfp.c,v 1.16 2010/02/11 06:20:42 avi Exp $
+bigendian
+CAPIIO_gfc_GM_111_clus threshold=0.000000
+rec CAPIIO_gfc_GM_111_clus.4dfp.img  Sat Jun 18 22:41:13 2011  avi@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+cluster_4dfp CAPIIO_gfc_GM_111 -n100000 
+$Id: cluster_4dfp.c,v 1.13 2011/06/19 03:39:20 avi Exp $
+bigendian
+Threshold = 0.0000
+Starting number of clusters = 8
+Cluster size criterion = 100000 voxels
+7 clusters zeroed
+Final number of clusters = 1
+Final voxel count = 746688
+CAPIIO_gfc_GM_111.4dfp.img.rec not found
+endrec Sat Jun 18 22:41:13 2011  avi
+endrec Sat Jun 18 22:42:05 2011  avi
+endrec Sat Jun 18 22:44:35 2011  avi
+endrec Sat Jun 18 22:44:35 CDT 2011 avi

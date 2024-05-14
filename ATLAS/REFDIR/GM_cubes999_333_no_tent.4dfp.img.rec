@@ -1,0 +1,21 @@
+rec GM_cubes999_333_no_tent.4dfp.img  Tue Jan 13 11:37:19 2015  jmk1@gizmo Linux 2.6.32-279.22.1.el6.x86_64 x86_64
+maskimg_4dfp /data/petsun43/data1/atlas/GM_cubes999_333.4dfp.img GM_cubes999_333_tent_inverse.4dfp.img GM_cubes999_333_no_tent 
+$Id: maskimg_4dfp.c,v 1.17 2012/06/27 22:33:19 avi Exp $
+littleendian
+GM_cubes999_333_tent_inverse threshold=0.000000
+/data/petsun43/data1/atlas/GM_cubes999_333.4dfp.img.rec not found
+rec GM_cubes999_333_tent_inverse.4dfp.img  Tue Jan 13 11:36:39 2015  jmk1@gizmo Linux 2.6.32-279.22.1.el6.x86_64 x86_64
+scale_4dfp GM_cubes999_333_tent -1.0 -b1.0 -ainverse 
+$Id: scale_4dfp.c,v 1.14 2007/07/05 05:01:52 avi Exp $
+littleendian
+Scaled by -1.000000
+Offset by 1.000000
+rec GM_cubes999_333_tent.4dfp.img  Tue Jan 13 11:33:55 2015  jmk1@gizmo Linux 2.6.32-279.22.1.el6.x86_64 x86_64
+analyzeto4dfp GM_cubes999_333_tent.img 
+$Id: analyzeto4dfp.c,v 1.20 2009/03/18 04:00:25 avi Exp $
+littleendian
+Byte order swapped
+GM_cubes999_333_tent.img.rec not found
+endrec Tue Jan 13 11:33:55 2015  jmk1
+endrec Tue Jan 13 11:36:39 2015  jmk1
+endrec Tue Jan 13 11:37:19 2015  jmk1

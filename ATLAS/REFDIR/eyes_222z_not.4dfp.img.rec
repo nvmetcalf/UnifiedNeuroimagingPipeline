@@ -1,0 +1,32 @@
+rec eyes_222z_not.4dfp.img Tue Jan 7 15:50:49 CST 2020 tanenbauma
+t4img_4dfp none eyes_333z_not eyes_222z_not -O711-2B_222 -N
+$Id: t4img_4dfp,v 1.15 2018/08/17 05:53:19 avi Exp $
+rec eyes_222z_not.4dfp.img  Tue Jan  7 15:50:49 2020  tanenbauma@bach Linux 4.15.0-72-generic x86_64
+t4imgs_4dfp eyes_222z_not.lst eyes_222z_not -O711-2B_222 -N 
+$Id: t4imgs_4dfp.c,v 1.38 2017/01/27 23:32:53 avi Exp $
+littleendian
+resampling by 3D linear interpolation
+sub
+eyes_333z_not	t4=
+endsub
+rec eyes_333z_not.4dfp.img  Thu Jul 11 21:00:49 2013  avi@petsun52 SunOS 5.8 sun4u
+scale_4dfp eyes_333z -1. -b1 -anot 
+$Id: scale_4dfp.c,v 1.14 2007/07/05 05:01:52 avi Exp $
+bigendian
+Scaled by -1.000000
+Offset by 1.000000
+rec eyes_333z.4dfp.img  Thu Jul 11 20:59:57 2013  avi@petsun52 SunOS 5.8 sun4u
+scale_4dfp eyes_333z 0.001 
+$Id: scale_4dfp.c,v 1.14 2007/07/05 05:01:52 avi Exp $
+bigendian
+Scaled by 0.001000
+rec eyes_333z.4dfp.img  Thu Jul 11 20:59:43 2013  avi@petsun52 SunOS 5.8 sun4u
+zero_lt_4dfp 900 eyes_333 
+$Id: zero_lt_4dfp.c,v 1.12 2007/05/04 01:30:46 avi Exp $
+bigendian
+eyes_333.4dfp.img.rec not found
+endrec Thu Jul 11 20:59:43 2013  avi
+endrec Thu Jul 11 20:59:57 2013  avi
+endrec Thu Jul 11 21:00:49 2013  avi
+endrec Tue Jan  7 15:50:49 2020  tanenbauma
+endrec Tue Jan 7 15:50:49 CST 2020 tanenbauma

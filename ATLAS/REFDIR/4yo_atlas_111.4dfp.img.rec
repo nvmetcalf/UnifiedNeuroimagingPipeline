@@ -1,0 +1,222 @@
+rec 4yo_atlas_111.4dfp.img  Thu Oct 12 19:53:16 2000  avi
+t4imgs_4dfp 4yo.lst 4yo_atlas_111 -O/data/petsun4/data1/solaris/111h 
+$Id: t4imgs_4dfp.c,v 1.18 1999/10/31 04:49:43 avi Exp $
+sub
+jus_3161_mpr	t4=jus_3161_mpr_to_4yo_atlas_t4
+joi_3268_mpr	t4=joi_3268_mpr_to_4yo_atlas_t4
+kra_3272_mpr	t4=kra_3272_mpr_to_4yo_atlas_t4
+mcm_3274_mpr	t4=mcm_3274_mpr_to_4yo_atlas_t4
+ott_3270_mpr	t4=ott_3270_mpr_to_4yo_atlas_t4
+qua_3271_mpr	t4=qua_3271_mpr_to_4yo_atlas_t4
+sch_3133_mpr	t4=sch_3133_mpr_to_4yo_atlas_t4
+sch_3104_mpr	t4=sch_3104_mpr_to_4yo_atlas_t4
+sta_3275_mpr	t4=sta_3275_mpr_to_4yo_atlas_t4
+endsub
+t4
+product transform temp_t4
+product=[jus_3161_mpr_to_4yo_atlas_t4][4yo_atlas_to_711-2B_t4]
+t4
+ -0.046740 -0.814657  0.301696    0.0055
+ -0.009747  0.254843  0.794967   19.2921
+ -0.900558  0.000241 -0.036099    2.1700
+  0.000000  0.000000  0.000000    1.0000
+scale:      6.609529
+rec jus_3161_mpr.4dfp.img  Wed Oct 11 17:08:35 2000  melanie
+imato4dfp1 siem_im/3161 2 2 jus_3161_mpr 
+$Id: imato4dfp1.c,v 1.1 2000/05/05 23:04:31 avi Exp $
+institution:		St Louis Childrens Hosp   
+manufacturer_model:	MAGNETOM VISION           
+parameter_file_name:	/usr/appl/proto/016/c/head/OLD/MPRAGE.prg                       
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr      12	TR      9.7	TE    4.0/1
+tilts:			Sag>Cor  -2	           
+4dfp_dimensions:	256       256       150       1         
+voxel_dimensions:	1.000000  1.000000  1.000000  
+scan_date:		19-FEB-1999
+scan_time:		08:05:01-08:05:01
+endrec Wed Oct 11 17:08:35 2000  melanie
+t4
+product transform temp_t4
+product=[joi_3268_mpr_to_4yo_atlas_t4][4yo_atlas_to_711-2B_t4]
+t4
+ -0.030621 -0.845067 -0.090000  -12.3418
+ -0.013670 -0.089662  0.827859   29.8022
+ -0.965341 -0.017168 -0.031551    2.2192
+  0.000000  0.000000  0.000000    1.0000
+scale:      8.841615
+rec joi_3268_mpr.4dfp.img  Wed Oct 11 14:47:01 2000  melanie
+imato4dfp1 siem_im/3268 2 2 joi_3268_mpr 
+$Id: imato4dfp1.c,v 1.1 2000/05/05 23:04:31 avi Exp $
+institution:		St Louis Childrens Hosp   
+manufacturer_model:	MAGNETOM VISION           
+parameter_file_name:	/usr/appl/proto/016/c/head/OLD/MPRAGE.prg                       
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr      12	TR      9.7	TE    4.0/1
+tilts:			Sag        	           
+4dfp_dimensions:	256       256       150       1         
+voxel_dimensions:	1.000000  1.000000  1.000000  
+scan_date:		11-NOV-1998
+scan_time:		11:03:45-11:03:45
+endrec Wed Oct 11 14:47:01 2000  melanie
+t4
+product transform temp_t4
+product=[kra_3272_mpr_to_4yo_atlas_t4][4yo_atlas_to_711-2B_t4]
+t4
+ -0.055171 -0.981534  0.030040  -17.8275
+  0.018680  0.016504  0.926669   35.9217
+ -0.919725  0.026093 -0.006719   -1.3014
+  0.000000  0.000000  0.000000    1.0000
+scale:      6.171521
+rec kra_3272_mpr.4dfp.img  Wed Oct 11 21:28:21 2000  avi
+/data/petsun4/data1/src_solaris/imato4dfp2/imato4dfp1 siem_im/3272 2 2 kra_3272_mpr 
+$Id: imato4dfp1.c,v 1.1 2000/05/05 23:04:31 avi Exp avi $
+institution:		St Louis Childrens Hosp   
+manufacturer_model:	MAGNETOM VISION           
+parameter_file_name:	/usr/appl/proto/016/c/head/INF/MPRAGE.prg                       
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr      12	TR      9.7	TE    4.0/1
+tilts:			Sag>Cor   3	           
+4dfp_dimensions:	256       256       130       1         
+voxel_dimensions:	1.000000  1.000000  1.000000  
+scan_date:		23-FEB-1999
+scan_time:		12:41:59-12:41:59
+endrec Wed Oct 11 21:28:21 2000  avi
+t4
+product transform temp_t4
+product=[mcm_3274_mpr_to_4yo_atlas_t4][4yo_atlas_to_711-2B_t4]
+t4
+ -0.050513 -0.913661 -0.144167  -18.4081
+ -0.007926 -0.201903  0.898166   22.4997
+ -0.945799  0.055129 -0.018843    1.7816
+  0.000000  0.000000  0.000000    1.0000
+scale:      6.243828
+rec mcm_3274_mpr.4dfp.img  Wed Oct 11 16:26:46 2000  melanie
+imato4dfp1 siem_im/3274 5 5 mcm_3274_mpr 
+$Id: imato4dfp1.c,v 1.1 2000/05/05 23:04:31 avi Exp $
+institution:		St Louis Childrens Hosp   
+manufacturer_model:	MAGNETOM VISION           
+parameter_file_name:	/usr/appl/proto/016/c/head/OLD/MPRAGE.prg                       
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr      12	TR      9.7	TE    4.0/1
+tilts:			Sag>Tra  -2	           
+4dfp_dimensions:	256       256       150       1         
+voxel_dimensions:	0.859375  0.859375  1.000000  
+scan_date:		09-APR-1999
+scan_time:		08:55:51-08:55:51
+endrec Wed Oct 11 16:26:47 2000  melanie
+t4
+product transform temp_t4
+product=[ott_3270_mpr_to_4yo_atlas_t4][4yo_atlas_to_711-2B_t4]
+t4
+ -0.008576 -0.949517 -0.068038  -15.5448
+ -0.029460 -0.108233  0.923134   31.3701
+ -0.897894 -0.012991 -0.041072    1.3096
+  0.000000  0.000000  0.000000    1.0000
+scale:      8.392736
+rec ott_3270_mpr.4dfp.img  Wed Oct 11 16:26:01 2000  melanie
+imato4dfp1 siem_im/3270 2 2 ott_3270_mpr 
+$Id: imato4dfp1.c,v 1.1 2000/05/05 23:04:31 avi Exp $
+institution:		St Louis Childrens Hosp   
+manufacturer_model:	MAGNETOM VISION           
+parameter_file_name:	/usr/appl/proto/016/c/head/YNG/MPRAGE.prg                       
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr      12	TR      9.7	TE    4.0/1
+tilts:			Sag>Tra   3	           
+4dfp_dimensions:	256       256       140       1         
+voxel_dimensions:	1.015625  1.015625  1.000000  
+scan_date:		16-NOV-1998
+scan_time:		14:33:41-14:33:41
+endrec Wed Oct 11 16:26:01 2000  melanie
+t4
+product transform temp_t4
+product=[qua_3271_mpr_to_4yo_atlas_t4][4yo_atlas_to_711-2B_t4]
+t4
+ -0.069699 -0.953857 -0.027653  -15.3322
+  0.007421 -0.007908  0.909926   29.6823
+ -0.935629  0.068480 -0.017716    4.5697
+  0.000000  0.000000  0.000000    1.0000
+scale:      6.411468
+rec qua_3271_mpr.4dfp.img  Wed Oct 11 16:28:03 2000  melanie
+imato4dfp1 siem_im/3271 4 4 qua_3271_mpr 
+$Id: imato4dfp1.c,v 1.1 2000/05/05 23:04:31 avi Exp $
+institution:		St Louis Childrens Hosp   
+manufacturer_model:	MAGNETOM VISION           
+parameter_file_name:	/usr/appl/proto/016/c/head/YNG/MPRAGE.prg                       
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr      12	TR      9.7	TE    4.0/1
+tilts:			Sag>Cor   5	           
+4dfp_dimensions:	256       256       140       1         
+voxel_dimensions:	1.015625  1.015625  1.000000  
+scan_date:		22-FEB-1999
+scan_time:		11:39:09-11:39:09
+endrec Wed Oct 11 16:28:03 2000  melanie
+t4
+product transform temp_t4
+product=[sch_3133_mpr_to_4yo_atlas_t4][4yo_atlas_to_711-2B_t4]
+t4
+  0.737894 -0.183346 -0.252659   12.6778
+ -0.016372  0.279403  0.565802   32.2083
+  0.114423 -0.127789  0.253446   16.5441
+  0.000000  0.000000  0.000000    1.0000
+scale:      8.299055
+rec sch_3133_mpr.4dfp.img  Tue Sep 19 10:26:34 2000  melanie
+imato4dfp1 siem_im/3133 7 7 sch_3133_mpr 
+$Id: imato4dfp1.c,v 1.1 2000/05/05 23:04:31 avi Exp $
+institution:		St Louis Childrens Hosp   
+manufacturer_model:	MAGNETOM VISION           
+parameter_file_name:	/usr/appl/proto/016/c/head/YNG/MPRAGE.prg                       
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr      12	TR      9.7	TE    4.0/1
+tilts:			Sag        	           
+4dfp_dimensions:	256       256       140       1         
+voxel_dimensions:	1.000000  1.000000  1.000000  
+scan_date:		30-OCT-1998
+scan_time:		08:48:44-08:48:44
+endrec Tue Sep 19 10:26:34 2000  melanie
+t4
+product transform temp_t4
+product=[sch_3104_mpr_to_4yo_atlas_t4][4yo_atlas_to_711-2B_t4]
+t4
+  0.004160 -0.889419  0.145020  -12.5671
+  0.003875  0.110754  0.846368   31.2640
+ -0.949996 -0.023931 -0.003778    2.4219
+  0.000000  0.000000  0.000000    1.0000
+scale:      9.917940
+rec sch_3104_mpr.4dfp.img  Tue Sep 19 09:49:46 2000  melanie
+imato4dfp1 siem_im/3104 4 4 sch_3104_mpr 
+$Id: imato4dfp1.c,v 1.1 2000/05/05 23:04:31 avi Exp $
+institution:		St Louis Childrens Hosp   
+manufacturer_model:	MAGNETOM VISION           
+parameter_file_name:	/usr/appl/proto/016/c/head/HEAD_YOUNG_CHILD/MPRAGE.prg          
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr      12	TR      9.7	TE    4.0/1
+tilts:			Sag        	           
+4dfp_dimensions:	256       256       140       1         
+voxel_dimensions:	0.957031  0.957031  1.000000  
+scan_date:		15-SEP-1998
+scan_time:		15:08:04-15:08:04
+endrec Tue Sep 19 09:49:46 2000  melanie
+t4
+product transform temp_t4
+product=[sta_3275_mpr_to_4yo_atlas_t4][4yo_atlas_to_711-2B_t4]
+t4
+  0.012275 -0.918393  0.200584  -14.2831
+ -0.016156  0.176520  0.914203   35.0784
+ -0.922949 -0.036109 -0.028774    0.1426
+  0.000000  0.000000  0.000000    1.0000
+scale:      7.143190
+rec sta_3275_mpr.4dfp.img  Wed Oct 11 16:29:53 2000  melanie
+imato4dfp1 siem_im/3275 5 5 sta_3275_mpr 
+$Id: imato4dfp1.c,v 1.1 2000/05/05 23:04:31 avi Exp $
+institution:		St Louis Childrens Hosp   
+manufacturer_model:	MAGNETOM VISION           
+parameter_file_name:	/usr/appl/proto/016/c/head/YNG/MPRAGE.prg                       
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc                          
+sequence_description:	mpr      12	TR      9.7	TE    4.0/1
+tilts:			Sag        	           
+4dfp_dimensions:	256       256       140       1         
+voxel_dimensions:	1.000000  1.000000  1.000000  
+scan_date:		04-MAY-1999
+scan_time:		14:08:54-14:08:54
+endrec Wed Oct 11 16:29:53 2000  melanie
+endrec Thu Oct 12 20:01:43 2000  avi

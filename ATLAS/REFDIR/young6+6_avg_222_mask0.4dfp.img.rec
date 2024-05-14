@@ -1,0 +1,5 @@
+rec young6+6_avg_222_mask0.4dfp.img  Sun Dec 19 23:04:32 1999  avi
+analyzeto4dfp young6+6_avg_222_mask0 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+young6+6_avg_222_mask0.img.rec not found
+endrec Sun Dec 19 23:04:32 1999  avi

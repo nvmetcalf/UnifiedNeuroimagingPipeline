@@ -1,0 +1,10 @@
+rec MacaqueYerkes19_T1w_0.5mm_aseg.4dfp.img  Wed Jun 14 19:41:17 2017  avi@linux5 Linux 2.6.32-358.11.1.el6.x86_64 x86_64
+nifti_4dfp -4 MacaqueYerkes19_T1w_0.5mm_aseg.nii MacaqueYerkes19_T1w_0.5mm_aseg 
+$Id: nifti_4dfp.c,v 1.9 2011/09/13 03:40:37 avi Exp $
+littleendian
+datatype: 16	 bitpix: 32
+scale: 1.000000	 offset: 0.000000
+common sform[0]:    -0.500000	    0.000000	    0.000000	   48.000000
+common sform[1]:     0.000000	    0.500000	    0.000000	  -64.000000
+common sform[2]:     0.000000	    0.000000	    0.500000	  -48.000000
+endrec Wed Jun 14 19:41:23 2017  avi

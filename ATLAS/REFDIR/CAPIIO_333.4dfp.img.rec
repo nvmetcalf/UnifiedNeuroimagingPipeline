@@ -1,0 +1,200 @@
+rec CAPIIO_333.4dfp.img  Sat Jun 18 18:05:21 2011  avi@petsun52 SunOS 5.8 sun4u
+t4imgs_4dfp CAPIIO.lst CAPIIO_333 -O333 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+/data/nil-external/nrg/CAPII_ATLAS/070122_tc23351_4 t4=/data/nil-external/nrg/CAPII_ATLAS/070122_tc23351_4_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/070202_tc23468_4 t4=/data/nil-external/nrg/CAPII_ATLAS/070202_tc23468_4_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/070125_tc23385_4 t4=/data/nil-external/nrg/CAPII_ATLAS/070125_tc23385_4_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/061227_tc23152_4 t4=/data/nil-external/nrg/CAPII_ATLAS/061227_tc23152_4_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/061121_tc22923_2 t4=/data/nil-external/nrg/CAPII_ATLAS/061121_tc22923_2_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/061220_tc23120_5 t4=/data/nil-external/nrg/CAPII_ATLAS/061220_tc23120_5_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/070103_tc23191_4 t4=/data/nil-external/nrg/CAPII_ATLAS/070103_tc23191_4_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/070216_tc23581_4 t4=/data/nil-external/nrg/CAPII_ATLAS/070216_tc23581_4_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/070214_tc23557_4 t4=/data/nil-external/nrg/CAPII_ATLAS/070214_tc23557_4_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/070221_tc23623_4 t4=/data/nil-external/nrg/CAPII_ATLAS/070221_tc23623_4_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/070309_tc23783_4 t4=/data/nil-external/nrg/CAPII_ATLAS/070309_tc23783_4_to_CAPIIO_t4
+/data/nil-external/nrg/CAPII_ATLAS/070515_TC24441_4 t4=/data/nil-external/nrg/CAPII_ATLAS/070515_TC24441_4_to_CAPIIO_t4
+endsub
+t4
+product=[070122_tc23351_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  0.937608  0.083359 -0.029124    1.3466
+ -0.064548  0.973377 -0.135877   10.5645
+  0.025872  0.118507  0.881381    0.4046
+  0.000000  0.000000  0.000000    1.0000
+scale:      5.250103
+rec 070122_tc23351_gu_4.4dfp.img  Sat Jan  5 18:09:20 2008  capweb@cninds03 SunOS 5.10 sun4u
+analyzeto4dfp 070122_tc23351_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+070122_tc23351_gu_4.img.rec not found
+endrec Sat Jan  5 18:09:20 2008  capweb
+t4
+product=[070202_tc23468_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  0.888792  0.255451 -0.031398    1.5715
+ -0.246656  0.963691 -0.104562   10.2208
+  0.019959  0.085510  0.866725    1.3939
+  0.000000  0.000000  0.000000    1.0000
+scale:      4.067624
+rec 070202_tc23468_gu_4.4dfp.img  Thu Dec 20 17:39:15 2007  capweb@cninds03 SunOS 5.10 sun4u
+analyzeto4dfp 070202_tc23468_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+070202_tc23468_gu_4.img.rec not found
+endrec Thu Dec 20 17:39:15 2007  capweb
+t4
+product=[070125_tc23385_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  0.914118  0.153958  0.050976    0.2916
+ -0.145994  0.987813 -0.131050   11.9173
+ -0.060942  0.075916  0.865091    0.4433
+  0.000000  0.000000  0.000000    1.0000
+scale:      4.329957
+rec 070125_tc23385_gu_4.4dfp.img  Sat Jan  5 22:37:07 2008  capweb@cninds03 SunOS 5.10 sun4u
+analyzeto4dfp 070125_tc23385_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+070125_tc23385_gu_4.img.rec not found
+endrec Sat Jan  5 22:37:07 2008  capweb
+t4
+product=[061227_tc23152_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  0.972389 -0.009284  0.016780   -0.3922
+  0.039237  1.033755 -0.025303   13.8839
+ -0.020971 -0.003260  0.907592   -0.5130
+  0.000000  0.000000  0.000000    1.0000
+scale:      4.174586
+rec 061227_tc23152_gu_4.4dfp.img  Thu Dec 20 16:13:51 2007  capweb@cninds03 SunOS 5.10 sun4u
+analyzeto4dfp 061227_tc23152_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+061227_tc23152_gu_4.img.rec not found
+endrec Thu Dec 20 16:13:51 2007  capweb
+t4
+product=[061121_tc22923_2_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  0.950098  0.002804  0.034279    0.1911
+  0.018522  0.975480 -0.160486   10.8302
+ -0.020672  0.165055  0.934678    1.3514
+  0.000000  0.000000  0.000000    1.0000
+scale:      4.489288
+rec 061121_tc22923_gu_2.4dfp.img  Mon Dec 17 16:22:01 2007  capweb@cninds03 SunOS 5.10 sun4u
+analyzeto4dfp 061121_tc22923_gu_2.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+061121_tc22923_gu_2.img.rec not found
+endrec Mon Dec 17 16:22:01 2007  capweb
+t4
+product=[061220_tc23120_5_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  0.993282 -0.037358  0.046072   -1.5242
+  0.099069  1.028179  0.005052   14.5293
+ -0.037890  0.029572  0.876765   -1.8470
+  0.000000  0.000000  0.000000    1.0000
+scale:      6.077271
+rec 061220_tc23120_gu_5.4dfp.img  Thu Dec 20 13:34:09 2007  capweb@cninds03 SunOS 5.10 sun4u
+analyzeto4dfp 061220_tc23120_gu_5.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+061220_tc23120_gu_5.img.rec not found
+endrec Thu Dec 20 13:34:09 2007  capweb
+t4
+product=[070103_tc23191_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  0.995123  0.027716  0.081960   -0.8868
+ -0.028645  0.921202  0.016480    7.7043
+ -0.070956  0.000685  0.866172    0.7051
+  0.000000  0.000000  0.000000    1.0000
+scale:      5.114161
+rec 070103_tc23191_gu_4.4dfp.img  Tue Apr 22 11:28:22 2008  capweb@cninds01 SunOS 5.10 sun4u
+analyzeto4dfp 070103_tc23191_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.18 2008/02/25 23:10:17 adrian Exp $
+bigendian
+Byte order swapped
+070103_tc23191_gu_4.img.rec not found
+endrec Tue Apr 22 11:28:22 2008  capweb
+t4
+product=[070216_tc23581_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  0.954279 -0.122650  0.042728   -2.0508
+  0.121458  0.998254 -0.098184   12.3444
+ -0.014845  0.129828  0.932577   -0.5598
+  0.000000  0.000000  0.000000    1.0000
+scale:      4.461188
+rec 070216_tc23581_gu_4.4dfp.img  Sat Jan  5 20:49:38 2008  capweb@cninds01 SunOS 5.10 sun4u
+analyzeto4dfp 070216_tc23581_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+070216_tc23581_gu_4.img.rec not found
+endrec Sat Jan  5 20:49:38 2008  capweb
+t4
+product=[070214_tc23557_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  1.001521  0.022849  0.033337   -0.2926
+  0.008603  1.071937 -0.093810   13.9801
+ -0.020308  0.049004  0.907552   -2.1393
+  0.000000  0.000000  0.000000    1.0000
+scale:      4.833408
+rec 070214_tc23557_gu_4.4dfp.img  Sat Jan  5 20:37:33 2008  capweb@cninds01 SunOS 5.10 sun4u
+analyzeto4dfp 070214_tc23557_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+070214_tc23557_gu_4.img.rec not found
+endrec Sat Jan  5 20:37:33 2008  capweb
+t4
+product=[070221_tc23623_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  0.981310 -0.049784  0.013385   -0.6804
+  0.053205  1.042529 -0.039721   13.9698
+  0.036323  0.057074  0.905372   -1.1748
+  0.000000  0.000000  0.000000    1.0000
+scale:      3.876554
+rec 070221_tc23623_gu_4.4dfp.img  Thu Dec 20 12:49:32 2007  capweb@cninds01 SunOS 5.10 sun4u
+analyzeto4dfp 070221_tc23623_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+070221_tc23623_gu_4.img.rec not found
+endrec Thu Dec 20 12:49:32 2007  capweb
+t4
+product=[070309_tc23783_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  1.000250  0.076757  0.096673   -0.3617
+  0.008139  1.036215 -0.161453   13.4588
+ -0.102835  0.128646  0.892172    0.1504
+  0.000000  0.000000  0.000000    1.0000
+scale:      5.067106
+rec 070309_tc23783_gu_4.4dfp.img  Thu Dec 20 18:21:43 2007  capweb@cninds01 SunOS 5.10 sun4u
+analyzeto4dfp 070309_tc23783_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+070309_tc23783_gu_4.img.rec not found
+endrec Thu Dec 20 18:21:43 2007  capweb
+t4
+product=[070515_TC24441_4_to_CAPIIO_t4][CAPIIO_to_711-2B_t4]
+t4
+  1.038018  0.029647  0.015971    0.3790
+  0.000808  1.079672 -0.260577   16.8967
+ -0.010442  0.238816  0.902308    1.6362
+  0.000000  0.000000  0.000000    1.0000
+scale:      3.786371
+rec 070515_TC24441_gu_4.4dfp.img  Sat Dec 22 14:29:19 2007  capweb@cninds03 SunOS 5.10 sun4u
+analyzeto4dfp 070515_TC24441_gu_4.img 
+$Id: analyzeto4dfp.c,v 1.14 2006/10/05 01:15:26 avi Exp $
+bigendian
+Byte order swapped
+070515_TC24441_gu_4.img.rec not found
+endrec Sat Dec 22 14:29:19 2007  capweb
+endrec Sat Jun 18 18:07:04 2011  avi

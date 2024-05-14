@@ -1,0 +1,13 @@
+rec young6+6_avg_222_mask0_g9z.4dfp.img  Tue Dec 21 17:00:03 1999  avi
+zero_lt_4dfp 250 young6+6_avg_222_mask0_g9 
+$Id: zero_lt_4dfp.c,v 1.6 1998/12/13 00:51:22 avi Exp $
+rec young6+6_avg_222_mask0_g9.4dfp.img  Tue Dec 21 16:43:32 1999  avi
+gauss_4dfp young6+6_avg_222_mask0 0.9 
+$Id: gauss_4dfp.c,v 1.8 1999/01/18 03:23:54 avi Exp $
+rec young6+6_avg_222_mask0.4dfp.img  Sun Dec 19 23:04:32 1999  avi
+analyzeto4dfp young6+6_avg_222_mask0 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+young6+6_avg_222_mask0.img.rec not found
+endrec Sun Dec 19 23:04:32 1999  avi
+endrec Tue Dec 21 16:43:32 1999  avi
+endrec Tue Dec 21 17:00:03 1999  avi

@@ -1,0 +1,903 @@
+rec CAP_CKY_111.4dfp.img  Sat Feb 17 05:28:07 2007  mohanar
+t4imgs_4dfp CAP_CKY.lst CAP_CKY_111 -O111 
+$Id: t4imgs_4dfp.c,v 1.24 2006/02/13 07:34:00 avi Exp $
+resampling by 3D linear interpolation
+sub
+vc19247_1517-3       t4=vc19247_1517-3_to_CAP_CKY_t4
+vc19468_2248-7       t4=vc19468_2248-7_to_CAP_CKY_t4
+vc21003_917-3       t4=vc21003_917-3_to_CAP_CKY_t4
+vc21073_1075-3       t4=vc21073_1075-3_to_CAP_CKY_t4
+vc21512_973-3       t4=vc21512_973-3_to_CAP_CKY_t4
+vc21593_1180-6       t4=vc21593_1180-6_to_CAP_CKY_t4
+vc21613_1225-3       t4=vc21613_1225-3_to_CAP_CKY_t4
+vc21660_1355-3       t4=vc21660_1355-3_to_CAP_CKY_t4
+vc18789_345-7       t4=vc18789_345-7_to_CAP_CKY_t4
+vc19407_2105-8       t4=vc19407_2105-8_to_CAP_CKY_t4
+vc19911_528-3       t4=vc19911_528-3_to_CAP_CKY_t4
+vc21717_1507-3       t4=vc21717_1507-3_to_CAP_CKY_t4
+vc18982_908-3       t4=vc18982_908-3_to_CAP_CKY_t4
+vc21151_178-7       t4=vc21151_178-7_to_CAP_CKY_t4
+vc21722_1538-3       t4=vc21722_1538-3_to_CAP_CKY_t4
+vc19787_668-3       t4=vc19787_668-3_to_CAP_CKY_t4
+vc18906_597-3       t4=vc18906_597-3_to_CAP_CKY_t4
+vc18971_784-3       t4=vc18971_784-3_to_CAP_CKY_t4
+vc19083_1089-3       t4=vc19083_1089-3_to_CAP_CKY_t4
+vc19412_1991-3       t4=vc19412_1991-3_to_CAP_CKY_t4
+vc19420_2047-3       t4=vc19420_2047-3_to_CAP_CKY_t4
+vc19382_1901-3       t4=vc19382_1901-3_to_CAP_CKY_t4
+vc18287_592-3       t4=vc18287_592-3_to_CAP_CKY_t4
+vc19076_1042-3       t4=vc19076_1042-3_to_CAP_CKY_t4
+vc19362_1852-3       t4=vc19362_1852-3_to_CAP_CKY_t4
+vc19411_1974-3       t4=vc19411_1974-3_to_CAP_CKY_t4
+vc19419_2009-3       t4=vc19419_2009-3_to_CAP_CKY_t4
+vc19497_2184-3       t4=vc19497_2184-3_to_CAP_CKY_t4
+vc19550_2443-3       t4=vc19550_2443-3_to_CAP_CKY_t4
+vc19363_1883-3       t4=vc19363_1883-3_to_CAP_CKY_t4
+vc19383_1918-3       t4=vc19383_1918-3_to_CAP_CKY_t4
+vc19671_2589-3       t4=vc19671_2589-3_to_CAP_CKY_t4
+endsub
+t4
+product transform temp_t4
+product=[vc19247_1517-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.009260 -0.951124  0.079891   -7.9432
+  0.008126 -0.026979  0.903331   23.2076
+ -0.875632  0.012755 -0.007292    1.2819
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.926114
+rec vc19247_1517-3.4dfp.img  Thu Jan 26 02:41:21 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc19247/raw_data/1517 3 3 vc19247_1517-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		051016_vc19247
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		16-OCT-2005
+scan_time:		11:46:40-11:46:40
+endrec Thu Jan 26 02:41:25 2006  becky
+t4
+product transform temp_t4
+product=[vc19468_2248-7_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.026241 -0.973412 -0.052445  -14.3647
+  0.009121 -0.173385  0.945992   -4.9906
+ -0.929358  0.004607 -0.008714    2.2496
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.972717
+rec vc19468_2248-7.4dfp.img  Thu Jan 26 06:59:11 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc19468/raw_data/2248 7 7 vc19468_2248-7 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		051113_vc19468
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor  -4	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		13-NOV-2005
+scan_time:		17:47:20-17:47:20
+endrec Thu Jan 26 06:59:14 2006  becky
+t4
+product transform temp_t4
+product=[vc21003_917-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.025957 -0.922734  0.015588   -8.8601
+  0.034775  0.005595  0.885844   17.1950
+ -0.932384  0.008088  0.033838    1.7553
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.952096
+rec vc21003_917-3.4dfp.img  Mon Apr 24 12:02:39 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc21003/raw_data/917 3 3 vc21003_917-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		060422_vc21003
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor  -3	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-APR-2006
+scan_time:		09:43:42-09:43:42
+endrec Mon Apr 24 12:02:39 2006  becky
+t4
+product transform temp_t4
+product=[vc21073_1075-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.012557 -0.950360 -0.003251  -14.7621
+ -0.014932 -0.055865  0.907527    7.2402
+ -0.940039 -0.036917 -0.025807    1.0481
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.886986
+rec vc21073_1075-3.4dfp.img  Mon May  1 12:19:40 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc21073/raw_data/1075 3 3 vc21073_1075-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc21073
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   6	   >Tra   2
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		29-APR-2006
+scan_time:		13:16:59-13:16:59
+endrec Mon May  1 12:19:42 2006  becky
+t4
+product transform temp_t4
+product=[vc21512_973-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.015271 -0.917963 -0.078622  -10.9527
+  0.008216 -0.117991  0.896142   -5.4617
+ -0.922384  0.005096  0.007968    0.5400
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.934053
+rec vc21512_973-3.4dfp.img  Mon Jun 12 12:11:34 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc21512/raw_data/973 3 3 vc21512_973-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		060609_vc21512
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/CAP/CAP_MPRAGEx2.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Tra  -3	   >Cor   2
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		09-JUN-2006
+scan_time:		17:52:33-17:52:33
+endrec Mon Jun 12 12:11:34 2006  becky
+t4
+product transform temp_t4
+product=[vc21593_1180-6_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.030291 -0.938844 -0.104635  -15.3601
+  0.016902 -0.091670  0.875364   13.0211
+ -0.958896  0.022684 -0.020079    1.7219
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.922182
+rec vc21593_1180-6.4dfp.img  Tue Jun 20 14:48:38 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc21593/raw_data/1180 6 6 vc21593_1180-6 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		060617_vc21593
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Tra  -2	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		17-JUN-2006
+scan_time:		15:54:09-15:54:09
+endrec Tue Jun 20 14:48:40 2006  becky
+t4
+product transform temp_t4
+product=[vc21613_1225-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.004242 -0.951015  0.031748   -7.9166
+ -0.006897  0.016089  0.860440    9.5193
+ -0.929688  0.019210 -0.013158    2.7410
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.850202
+rec vc21613_1225-3.4dfp.img  Tue Jun 20 15:15:55 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc21613/raw_data/1225 3 3 vc21613_1225-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc21613
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   6	   >Tra  -3
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		19-JUN-2006
+scan_time:		11:29:18-11:29:18
+endrec Tue Jun 20 15:15:58 2006  becky
+t4
+product transform temp_t4
+product=[vc21660_1355-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.029201 -0.932833 -0.156897  -12.6488
+  0.017807 -0.191980  0.849502    6.7439
+ -0.970354 -0.019388  0.009235   -0.0573
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.854364
+rec vc21660_1355-3.4dfp.img  Fri Jun 23 15:54:24 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc21660/raw_data/1355 3 3 vc21660_1355-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		060622_vc21660
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Tra  -6	   >Cor   1
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		22-JUN-2006
+scan_time:		20:25:02-20:25:02
+endrec Fri Jun 23 15:54:28 2006  becky
+t4
+product transform temp_t4
+product=[vc18789_345-7_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.011111 -0.970726  0.087062   -8.3048
+ -0.019514  0.040170  0.894642   11.9141
+ -0.996048 -0.018067 -0.004669    1.3153
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.878879
+rec vc18789_345-7.4dfp.img  Wed Jan 25 17:36:18 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc18789/raw_data/345 7 7 vc18789_345-7 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		050828_vc18789
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   8	   >Tra  -6
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		28-AUG-2005
+scan_time:		20:42:13-20:42:13
+endrec Wed Jan 25 17:36:22 2006  becky
+t4
+product transform temp_t4
+product=[vc19407_2105-8_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.006667 -0.959908  0.018824   -6.8490
+ -0.019295 -0.056744  0.954047   -4.1353
+ -0.959353  0.014649 -0.034335   -2.2321
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.980635
+rec vc19407_2105-8.4dfp.img  Thu Jan 26 05:53:56 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc19407/raw_data/2105 8 8 vc19407_2105-8 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		051107_vc19407
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		07-NOV-2005
+scan_time:		18:44:29-18:44:29
+endrec Thu Jan 26 05:54:00 2006  becky
+t4
+product transform temp_t4
+product=[vc19911_528-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.021150 -1.000911  0.075690   -3.4626
+  0.015609 -0.022847  1.018296   11.2871
+ -0.937287 -0.031316  0.007278    0.9311
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.832219
+rec vc19911_528-3.4dfp.img  Thu Jan 26 10:06:41 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc19911/raw_data/528 3 3 vc19911_528-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		060120_vc19911
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		20-JAN-2006
+scan_time:		17:40:09-17:40:09
+endrec Thu Jan 26 10:06:45 2006  becky
+t4
+product transform temp_t4
+product=[vc21717_1507-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.043563 -0.932134  0.051484  -13.5742
+ -0.028444  0.035456  0.947183    2.4083
+ -0.920013  0.019911 -0.016997    0.6788
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.880907
+rec vc21717_1507-3.4dfp.img  Wed Jun 28 16:21:36 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc21717/raw_data/1507 3 3 vc21717_1507-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		060627_vc21717
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Tra  -6	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		27-JUN-2006
+scan_time:		15:52:38-15:52:38
+endrec Wed Jun 28 16:21:39 2006  becky
+t4
+product transform temp_t4
+product=[vc18982_908-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.018846 -1.002780  0.206941   -7.5066
+  0.043140  0.179008  0.870051    3.8641
+ -0.996235  0.011762  0.017643    1.6258
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.950166
+rec vc18982_908-3.4dfp.img  Wed Jan 25 21:25:33 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc18982/raw_data/908 3 3 vc18982_908-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		050920_vc18982
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Tra  -3	   >Cor   2
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		20-SEP-2005
+scan_time:		19:02:07-19:02:07
+endrec Wed Jan 25 21:25:36 2006  becky
+t4
+product transform temp_t4
+product=[vc21151_178-7_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.025814 -1.002841  0.132817  -12.7307
+  0.014526  0.106915  0.856548   -5.4865
+ -0.974810  0.004018  0.004738   -0.4844
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.886594
+rec vc21151_178-7.4dfp.img  Mon May  8 16:33:57 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc21151/raw_data/178 7 7 vc21151_178-7 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		060506_vc21151
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   2	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		06-MAY-2006
+scan_time:		12:57:28-12:57:28
+endrec Mon May  8 16:34:00 2006  becky
+t4
+product transform temp_t4
+product=[vc21722_1538-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.010463 -0.934175 -0.088929  -14.6272
+ -0.024706 -0.170887  0.906122   12.5289
+ -0.959790 -0.020205 -0.014728    1.6303
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.914036
+rec vc21722_1538-3.4dfp.img  Wed Jun 28 17:46:06 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc21722/raw_data/1538 3 3 vc21722_1538-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		060628_vc21722
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   8	   >Tra  -2
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		28-JUN-2006
+scan_time:		13:58:24-13:58:24
+endrec Wed Jun 28 17:46:06 2006  becky
+t4
+product transform temp_t4
+product=[vc19787_668-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.006859 -1.005714 -0.032433  -13.6583
+ -0.004197 -0.066210  0.955907    2.9978
+ -0.997360  0.010868 -0.006687    2.0086
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.964899
+rec vc19787_668-3.4dfp.img  Mon Jan 30 11:02:06 2006  becky
+/data/petsun4/data1/solaris/imato4dfp1 /data/nilstor01/data8/raw_data/LifeSpanII_kids/vc19787/raw_data/668 3 3 vc19787_668-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		060128_vc19787
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		28-JAN-2006
+scan_time:		15:03:32-15:03:32
+endrec Mon Jan 30 11:02:06 2006  becky
+t4
+product transform temp_t4
+product=[vc18906_597-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.043406 -1.004777  0.091446  -12.1914
+  0.016707  0.055020  0.906110   14.6759
+ -0.963112  0.018895  0.010106    1.4526
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.874963
+rec vc18906_597-3.4dfp.img  Tue Sep 27 12:49:02 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc18906/raw_data/597 3 3 vc18906_597-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc18906
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		10-SEP-2005
+scan_time:		19:29:44-19:29:44
+endrec Tue Sep 27 12:49:02 2005  jess
+t4
+product transform temp_t4
+product=[vc18971_784-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.054737 -0.986754  0.213199   -6.4358
+  0.016045  0.181997  0.872914   25.8808
+ -0.934739  0.058168 -0.008894    1.3945
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.860650
+rec vc18971_784-3.4dfp.img  Tue Sep 27 12:45:56 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc18971/raw_data/784 3 3 vc18971_784-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc18971
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		17-SEP-2005
+scan_time:		13:14:02-13:14:02
+endrec Tue Sep 27 12:45:56 2005  jess
+t4
+product transform temp_t4
+product=[vc19083_1089-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.106555 -0.990022  0.157531   -5.7001
+ -0.044281  0.102602  0.867156   18.9060
+ -0.963335  0.070580 -0.051652    1.8720
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.898640
+rec vc19083_1089-3.4dfp.img  Thu Sep 29 16:29:11 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19083/raw_data/1089 3 3 vc19083_1089-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19083
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		28-SEP-2005
+scan_time:		18:20:16-18:20:16
+endrec Thu Sep 29 16:29:11 2005  jess
+t4
+product transform temp_t4
+product=[vc19412_1991-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.045062 -0.991727  0.168530  -11.5707
+  0.006421  0.114167  0.899257   10.6098
+ -0.944169  0.045202  0.009180    3.3995
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.938619
+rec vc19412_1991-3.4dfp.img  Fri Nov  4 09:47:14 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19412/raw_data/1991 3 3 vc19412_1991-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19412
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		03-NOV-2005
+scan_time:		19:57:02-19:57:02
+endrec Fri Nov  4 09:47:14 2005  jess
+t4
+product transform temp_t4
+product=[vc19420_2047-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.001852 -1.005931  0.109388   -8.8273
+  0.073973  0.057461  0.920006   15.9663
+ -0.980023  0.008026  0.043390    0.7771
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.901323
+rec vc19420_2047-3.4dfp.img  Sun Nov  6 13:18:15 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19420/raw_data/2047 3 3 vc19420_2047-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19420
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		05-NOV-2005
+scan_time:		14:19:21-14:19:21
+endrec Sun Nov  6 13:18:15 2005  jess
+t4
+product transform temp_t4
+product=[vc19382_1901-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.035283 -0.983411  0.162430   -7.9569
+ -0.032107  0.128294  0.864923   13.2862
+ -0.974683  0.051774 -0.035776    2.6157
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.898807
+rec vc19382_1901-3.4dfp.img  Thu Nov  3 09:07:05 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19382/raw_data/1901 3 3 vc19382_1901-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19382
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		01-NOV-2005
+scan_time:		17:36:49-17:36:49
+endrec Thu Nov  3 09:07:05 2005  jess
+t4
+product transform temp_t4
+product=[vc18287_592-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.086458 -0.993944  0.114251   -7.1589
+  0.042478 -0.012069  0.902264   13.2788
+ -0.919574  0.080633  0.032248    3.9091
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.822505
+rec vc18287_592-3.4dfp.img  Tue Sep 27 15:19:16 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc18287/raw_data/592 3 3 vc18287_592-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc18287
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		30-JUN-2005
+scan_time:		20:23:31-20:23:31
+endrec Tue Sep 27 15:19:16 2005  jess
+t4
+product transform temp_t4
+product=[vc19076_1042-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.050372 -1.022654  0.154047   -7.0541
+  0.001245  0.136364  0.926409    8.3718
+ -0.942318  0.052276 -0.026296    1.2550
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.875533
+rec vc19076_1042-3.4dfp.img  Wed Sep 28 10:22:06 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19076/raw_data/1042 3 3 vc19076_1042-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19076
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		27-SEP-2005
+scan_time:		17:40:17-17:40:17
+endrec Wed Sep 28 10:22:06 2005  jess
+t4
+product transform temp_t4
+product=[vc19362_1852-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.052447 -1.028449  0.150672   -8.4635
+  0.003112  0.090443  0.928522   14.6706
+ -0.985997 -0.044739  0.019363   -1.2984
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.873834
+rec vc19362_1852-3.4dfp.img  Mon Oct 31 16:26:33 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19362/raw_data/1852 3 3 vc19362_1852-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19362
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		30-OCT-2005
+scan_time:		10:00:02-10:00:02
+endrec Mon Oct 31 16:26:33 2005  jess
+t4
+product transform temp_t4
+product=[vc19411_1974-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.010004 -1.000472  0.322794   -0.1748
+ -0.018665  0.283679  0.911022    8.7392
+ -1.003089 -0.007842 -0.045138    1.0910
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.865093
+rec vc19411_1974-3.4dfp.img  Fri Nov  4 09:49:26 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19411/raw_data/1974 3 3 vc19411_1974-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19411
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   4	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		03-NOV-2005
+scan_time:		17:35:09-17:35:09
+endrec Fri Nov  4 09:49:26 2005  jess
+t4
+product transform temp_t4
+product=[vc19419_2009-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.022566 -1.036489  0.195721   -9.6292
+ -0.038855  0.178322  0.902712   14.8725
+ -0.985931 -0.042618 -0.034613    0.5342
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.928960
+rec vc19419_2009-3.4dfp.img  Fri Nov  4 14:24:42 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19419/raw_data/2009 3 3 vc19419_2009-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19419
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		04-NOV-2005
+scan_time:		11:23:13-11:23:13
+endrec Fri Nov  4 14:24:42 2005  jess
+t4
+product transform temp_t4
+product=[vc19497_2184-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.000640 -1.030629  0.137220    0.2302
+  0.051535  0.192771  0.859287   14.2133
+ -0.973103  0.002635  0.041994    3.9943
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.882715
+rec vc19497_2184-3.4dfp.img  Fri Nov 11 22:43:10 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19497/raw_data/2184 3 3 vc19497_2184-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc194976
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		11-NOV-2005
+scan_time:		19:51:23-19:51:23
+endrec Fri Nov 11 22:43:10 2005  jess
+t4
+product transform temp_t4
+product=[vc19550_2443-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.014908 -0.992472  0.190887   -0.7214
+  0.014824  0.104320  0.887862   12.1970
+ -0.963175  0.009269  0.009664    0.5164
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.894137
+rec vc19550_2443-3.4dfp.img  Fri Dec  2 10:03:38 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19550/raw_data/2443 3 3 vc19550_2443-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19550
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		01-DEC-2005
+scan_time:		17:14:37-17:14:37
+endrec Fri Dec  2 10:03:38 2005  jess
+t4
+product transform temp_t4
+product=[vc19363_1883-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.027606 -1.012318  0.206720   -2.6198
+  0.035015  0.217152  0.921770    9.0352
+ -0.994318 -0.001962  0.028470    0.1306
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.924018
+rec vc19363_1883-3.4dfp.img  Mon Oct 31 17:59:43 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19363/raw_data/1883 3 3 vc19363_1883-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19363
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor  -2	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		31-OCT-2005
+scan_time:		12:16:56-12:16:56
+endrec Mon Oct 31 17:59:43 2005  jess
+t4
+product transform temp_t4
+product=[vc19383_1918-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+ -0.044473 -1.016423  0.078968   -8.0996
+  0.009257  0.149309  0.924174   17.1460
+ -0.982006  0.038805  0.015463    3.9722
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.885604
+rec vc19383_1918-3.4dfp.img  Fri Nov  4 11:01:01 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19383/raw_data/1918 3 3 vc19383_1918-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19383
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag>Cor   5	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		01-NOV-2005
+scan_time:		20:03:03-20:03:03
+endrec Fri Nov  4 11:01:01 2005  jess
+t4
+product transform temp_t4
+product=[vc19671_2589-3_to_CAP_CKY_t4][CAP_CKY_to_711-2B_t4]
+t4
+  0.037073 -1.070255  0.121248  -11.5467
+  0.002462  0.066915  0.944353   20.8886
+ -0.997901 -0.060333  0.002268    0.0347
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.903915
+rec vc19671_2589-3.4dfp.img  Wed Dec  7 11:19:23 2005  jess
+/data/petsun4/data1/solaris/imato4dfp1 /data/cn/data25/jess/ADULT_STUDY/vc19671/raw_data/2589 3 3 vc19671_2589-3 
+$Id: imato4dfp1.c,v 1.5 2002/09/09 23:17:28 avi Exp $
+patient_id:		vc19671
+institution:		Washington University
+manufacturer_model:	MAGNETOM VISION
+parameter_file_name:	/usr/appl/proto/016/c/head/fran/CAP_MPRAGE.prg
+sequence_file_name:	/usr/appl/sequence/mpr_ns_t1_4b195.wkc
+sequence_description:	mpr      10	TR      9.7	TE    4.0/1
+TI:			20.0000
+TD:			200.0000
+tilts:			Sag        	           
+distortion_correction:	OFF
+4dfp_dimensions:	256       256       128       1         
+voxel_dimensions:	1.000000  1.000000  1.250000  
+scan_date:		07-DEC-2005
+scan_time:		08:21:25-08:21:25
+endrec Wed Dec  7 11:19:23 2005  jess
+endrec Sat Feb 17 05:33:50 2007  mohanar

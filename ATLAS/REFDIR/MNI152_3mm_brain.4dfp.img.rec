@@ -1,0 +1,64 @@
+rec MNI152_3mm_brain.4dfp.img  Mon Jun 24 22:42:35 2013  avi@wagner Linux 2.6.32-220.17.1.el6.x86_64 x86_64
+maskimg_4dfp MNI152_3mm_maskz MNI152_3mm_maskz MNI152_3mm_brain -v1 
+$Id: maskimg_4dfp.c,v 1.17 2012/06/27 22:33:19 avi Exp $
+littleendian
+MNI152_3mm_maskz threshold=0.000000
+rec MNI152_3mm_maskz.4dfp.img  Mon Jun 24 22:42:24 2013  avi@wagner Linux 2.6.32-220.17.1.el6.x86_64 x86_64
+zero_lt_4dfp 500 MNI152_3mm_mask 
+$Id: zero_lt_4dfp.c,v 1.12 2007/05/04 01:30:46 avi Exp $
+littleendian
+rec MNI152_3mm_mask.4dfp.img Mon Jun 24 22:42:06 CDT 2013 avi
+t4img_4dfp /data/nil-bluearc/raichle/lin64-tools/711-2B_to_MNI152lin_T1_t4 711-2B_mask_g5_111 MNI152_3mm_mask -O/data/nil-bluearc/raichle/lin64-tools/MNI152_T1_3mm
+$Id: t4img_4dfp,v 1.9 2009/03/05 04:30:54 avi Exp $
+rec MNI152_3mm_mask.4dfp.img  Mon Jun 24 22:42:05 2013  avi@wagner Linux 2.6.32-220.17.1.el6.x86_64 x86_64
+t4imgs_4dfp MNI152_3mm_mask.lst MNI152_3mm_mask -O/data/nil-bluearc/raichle/lin64-tools/MNI152_T1_3mm 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+littleendian
+resampling by 3D linear interpolation
+sub
+711-2B_mask_g5_111	t4=/data/nil-bluearc/raichle/lin64-tools/711-2B_to_MNI152lin_T1_t4
+endsub
+t4
+#t4_inv MNI152lin_T1_to_711-2B_t4
+#$Id: t4_inv.c,v 1.1 2007/05/01 01:20:20 avi Exp $
+t4
+  0.953903 -0.003872 -0.021291   -0.1135
+ -0.010402  0.950932 -0.016412   -3.4194
+  0.020852  0.055067  0.946383    2.5682
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.000000
+rec 711-2B_mask_g5_111.4dfp.img Mon Jul 5 17:42:15 CDT 2010 avi
+t4img_4dfp none 711-2B_mask_g5 711-2B_mask_g5_111 -O111
+$Id: t4img_4dfp,v 1.9 2009/03/05 04:30:54 avi Exp $
+rec 711-2B_mask_g5_111.4dfp.img  Mon Jul  5 17:42:01 2010  avi@petsun43 SunOS 5.8 sun4u
+t4imgs_4dfp 711-2B_mask_g5_111.lst 711-2B_mask_g5_111 -O111 
+$Id: t4imgs_4dfp.c,v 1.34 2010/04/05 02:46:03 avi Exp $
+bigendian
+resampling by 3D linear interpolation
+sub
+711-2B_mask_g5	t4=
+endsub
+rec 711-2B_mask_g5.4dfp.img  Sun Feb 21 02:24:51 1999  avi
+gauss_4dfp 711-2B_mask 0.5 
+$Id: gauss_4dfp.c,v 1.8 1999/01/18 03:23:54 avi Exp $
+rec 711-2B_mask.4dfp.img  Sun Feb 21 02:21:18 1999  avi
+maskimg_4dfp 711-2B_imgm_ANALYZE 711-2B_imgm_ANALYZE 711-2B_mask -v1000 
+$Id: maskimg_4dfp.c,v 1.6 1999/02/21 08:17:26 avi Exp $
+rec 711-2B_imgm_ANALYZE.4dfp.img  Fri Feb  5 21:23:56 1999  avi
+analyzeto4dfp 711-2B_imgm_ANALYZE 
+$Id: analyzeto4dfp.c,v 1.1 1998/05/14 18:33:45 tscull Exp $
+711-2B_imgm_ANALYZE.img.rec not found
+endrec Fri Feb  5 21:23:56 1999  avi
+rec 711-2B_imgm_ANALYZE.4dfp.img  Fri Feb  5 21:23:56 1999  avi
+analyzeto4dfp 711-2B_imgm_ANALYZE 
+$Id: analyzeto4dfp.c,v 1.1 1998/05/14 18:33:45 tscull Exp $
+711-2B_imgm_ANALYZE.img.rec not found
+endrec Fri Feb  5 21:23:56 1999  avi
+endrec Sun Feb 21 02:21:18 1999  avi
+endrec Sun Feb 21 02:24:51 1999  avi
+endrec Mon Jul  5 17:42:15 2010  avi
+endrec Mon Jul 5 17:42:15 CDT 2010 avi
+endrec Mon Jun 24 22:42:06 2013  avi
+endrec Mon Jun 24 22:42:06 CDT 2013 avi
+endrec Mon Jun 24 22:42:24 2013  avi
+endrec Mon Jun 24 22:42:35 2013  avi

@@ -1,0 +1,10 @@
+rec TRIO_Y_NDC_111.4dfp.img  Tue Nov 17 16:57:43 2020  metcalfn@maulinux02 Linux 3.10.0-957.12.2.el7.x86_64 x86_64
+nifti_4dfp -4 TRIO_Y_NDC_111.nii TRIO_Y_NDC_111 
+$Id: nifti_4dfp.c,v 1.9 2011/09/13 03:40:37 avi Exp $
+littleendian
+datatype: 16	 bitpix: 32
+scale: 1.000000	 offset: 0.000000
+common sform[0]:     1.000000	    0.000000	    0.000000	  -88.000000
+common sform[1]:     0.000000	    1.000000	    0.000000	 -123.000000
+common sform[2]:     0.000000	    0.000000	    1.000000	  -75.000000
+endrec Tue Nov 17 16:57:44 2020  metcalfn
