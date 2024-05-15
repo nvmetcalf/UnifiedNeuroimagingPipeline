@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/qnt_4dfp/qntw_4dfp.mak

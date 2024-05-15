@@ -1,0 +1,17 @@
+INTERFILE :=
+version of keys	:= 3.3
+number format		:= float
+conversion program	:= analyzeto4dfp
+name of data file	:= pet_good_voxel_mask.4dfp.img
+number of bytes per pixel	:= 4
+orientation	:= 2
+number of dimensions	:= 4
+matrix size [1]	:= 128
+matrix size [2]	:= 128
+matrix size [3]	:= 47
+matrix size [4]	:= 1
+scaling factor (mm/pixel) [1]	:= 2.121792
+scaling factor (mm/pixel) [2]	:= 2.121792
+scaling factor (mm/pixel) [3]	:= 3.125000
+mmppix	:=   2.121792 -2.121792 -3.125000
+center	:=   135.7947 -137.9165  -75.0000

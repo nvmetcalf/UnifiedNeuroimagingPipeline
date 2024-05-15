@@ -1,0 +1,6 @@
+264 ROIs:
+/data/nil-bluearc/raichle/ryan/reference_images/264_10mm_711-2b_all.4dfp.img
+
+Data:
+/data/nil-bluearc/raichle/ryan/MSC/TESTING/MSCXX/vcXXXXX/FCmaps_nodv_filt005_1
+

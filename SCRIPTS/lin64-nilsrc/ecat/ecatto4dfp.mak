@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/ecat/ecatto4dfp.mak

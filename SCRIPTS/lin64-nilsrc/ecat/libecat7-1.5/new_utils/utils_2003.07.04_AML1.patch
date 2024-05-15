@@ -1,0 +1,80 @@
+diff -urN unpatched_utils/applynorm.c utils/applynorm.c
+--- unpatched_utils/applynorm.c	2003-07-04 10:43:20.000000000 -0700
++++ utils/applynorm.c	2003-07-04 11:21:18.000000000 -0700
+@@ -81,7 +81,7 @@
+  * plane. The array is ringnums[nplanes][span+2]. The first entry is number of pairs followed
+  * by the ring_a, ring_b pairs for each lor in the plane. If no memory is available, NULL is returned.
+  */
+-#include <malloc.h>
++/*#include <malloc.h>*/
+ #include <stdio.h>
+ 
+ 
+@@ -430,7 +430,7 @@
+ 	proj = (float*)malloc(size*sizeof(float));
+ 	norm = (float*)malloc(size*sizeof(float));
+ 	scan_data = (short*)malloc(size*sizeof(short));
+-	scan_buf = malloc(size*sizeof(float));
++	scan_buf = (caddr_t) malloc(size*sizeof(float));
+ 
+ /* create atten file */
+ 	memcpy(&mh, scan_mf->mhptr, sizeof(Main_header));
+diff -urN unpatched_utils/byte_volume.c utils/byte_volume.c
+--- unpatched_utils/byte_volume.c	2003-07-04 10:43:20.000000000 -0700
++++ utils/byte_volume.c	2003-07-04 10:45:05.000000000 -0700
+@@ -1,6 +1,6 @@
+ #include <string.h>
+ #include <stdlib.h>
+-#include <malloc.h>
++/*#include <malloc.h>*/
+ #include "matrix.h"
+ 
+ typedef struct _Tslice
+diff -urN unpatched_utils/get_axial_lor.c utils/get_axial_lor.c
+--- unpatched_utils/get_axial_lor.c	2003-07-04 10:43:20.000000000 -0700
++++ utils/get_axial_lor.c	2003-07-04 10:45:05.000000000 -0700
+@@ -5,7 +5,7 @@
+  *	Creation date :		21-Jun-1995
+  */
+ 
+-#include <values.h>
++/* #include <values.h> */
+ #include "plandefs.h"
+ #include "ecat_model.h"
+ #include "matrix.h"
+diff -urN unpatched_utils/load_volume.h utils/load_volume.h
+--- unpatched_utils/load_volume.h	2003-07-04 10:43:20.000000000 -0700
++++ utils/load_volume.h	2003-07-04 10:45:05.000000000 -0700
+@@ -20,7 +20,7 @@
+  *     last modification date : 19-JUL-1996
+  */
+ #include <stdlib.h>
+-#include <malloc.h>
++/* #include <malloc.h> */
+ #include <string.h>
+ 
+ #include "matrix.h"
+diff -urN unpatched_utils/matcopy.c utils/matcopy.c
+--- unpatched_utils/matcopy.c	2003-07-04 10:43:20.000000000 -0700
++++ utils/matcopy.c	2003-07-04 10:45:05.000000000 -0700
+@@ -5,7 +5,7 @@
+ 
+ /* 09-Nov-1995 : modified by sibomana@topo.ucl.ac.be */
+ 
+-#include <malloc.h>
++/*#include <malloc.h>*/
+ #include <string.h>
+ #include "matrix.h"
+ extern MatrixData *matrix_read_scan();
+diff -urN unpatched_utils/scanshift.c utils/scanshift.c
+--- unpatched_utils/scanshift.c	2003-07-04 10:43:20.000000000 -0700
++++ utils/scanshift.c	2003-07-04 10:45:05.000000000 -0700
+@@ -5,7 +5,7 @@
+ 
+ /* 09-Nov-1995 : modified by sibomana@topo.ucl.ac.be */
+ 
+-#include <malloc.h>
++/* #include <malloc.h> */
+ #include <string.h>
+ #include "matrix.h"
+ extern MatrixData *matrix_read_scan();

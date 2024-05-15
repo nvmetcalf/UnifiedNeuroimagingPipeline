@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/sqrt_4dfp/t2z_4dfp.mak

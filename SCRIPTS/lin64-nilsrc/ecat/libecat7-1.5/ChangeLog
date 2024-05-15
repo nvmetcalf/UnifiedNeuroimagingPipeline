@@ -1,0 +1,38 @@
+1.5 - AML 2006.03.29
+	* updated automake/autoconf/libtool/etc.
+	* updated .spec file
+	* updated original src to the current version (July 20th 2004)
+	* got rid of some compilation errors
+
+1.4 - AML 2003.07.04
+	* updated original source to the current version (June 3 2003)
+	* updated automake/autoconf/libtool/etc.
+	* switched matrix_extra from varargs.h (dropped in GCC 3.3) to stdargs.h
+
+1.3 - AML 2003.03.01
+	* updated original src to the current version (Oct 09 2002)
+	* updated original src to the current version (Jan 30 2002)
+	* updated original src to the current version (Jan 9 2003)
+	* updated for current version of automake/autoconf/libtool
+	* added .info file for fink
+	
+1.2 - AML 2002.03.10
+	* changed gcc compile flag to -O (was -O2) to avoid compilation errors
+	* fixed libtool configuration, so that libraries
+	  don't complain about not being in /usr/local/lib
+	
+1.1 - AML 2001.09.30
+	* changed build structure to a gnu style setup so as
+	  to allow clean compilation on OS X
+	* removed dclz compression method due to licensing, 
+	  and lack of use
+	* renamed compress to z_compress (needed for OS X)
+	* renamed uncompress to z_uncompress (needed for OS X)
+	* removed rts_wdat function in rts_cmd
+	  -unused function, and screws up OS X compilation due to cfree call
+	* removed a large number of unused files
+	* removed values.h from utils/get_axial_lor.c
+	* removed malloc.h includes 
+	* changed references to -D__alpha to -DLITTLE_ENDIAN
+	* changed references to -D__sun to -DBIG_ENDIAN
+

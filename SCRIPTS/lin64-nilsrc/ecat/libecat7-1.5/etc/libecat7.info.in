@@ -1,0 +1,19 @@
+Package: libecat7
+Version: @VERSION@
+Revision: 1
+Source: http://osdn.dl.sourceforge.net/sourceforge/amide/%n-%v.tgz
+Depends:
+BuildDepends:
+InstallScript: make install PREFIX=%p DESTDIR=%d
+#DocFiles: README COPYING AUTHORS
+Description: library for handling CTI data files
+DescDetail: <<
+Libecat is a library for reading and writing CTI version 6 and 7
+medical image data files.
+<<
+License: Restrictive
+Homepage: http://amide.sf.net/
+Maintainer: Andy Loening <loening@alum.mit.edu>
+
+
+

@@ -1,0 +1,41 @@
+#!/bin/csh
+
+if (${#argv} < 2) then
+	echo "Usage:	<(4dfp) epi_anat> <(4dfp) t2w_anat> <t2w mask>"
+	exit 1
+endif
+
+set oristr	= (T C S)
+
+set epi		= $1
+set t2w		= $2
+
+set t4file = $epi"_to_"$t2w"_t4"
+
+if(-e $t4file) rm  $t4file
+
+@ ori = `awk '/orientation/{print $NF - 1}' $t2w.4dfp.ifh`
+t4_inv $RELEASE/$oristr[$ori]_t4 temp$$_t4
+if($status) exit 1
+@ ori = `awk '/orientation/{print $NF - 1}' $epi.4dfp.ifh`
+t4_mul $RELEASE/$oristr[$ori]_t4 temp$$_t4 $t4file
+if($status) exit 1
+@ mode = 4096 + 3		# brute-force displacement grid search
+imgreg_4dfp $t2w none $epi none $t4file $mode
+if($status) exit 1
+@ mode = 1024 + 3
+imgreg_4dfp $t2w none $epi none $t4file $mode
+if($status) exit 1
+@ mode = 1024 + 3
+imgreg_4dfp $t2w none $epi none $t4file $mode
+if($status) exit 1
+@ mode = 3072 + 3
+imgreg_4dfp $t2w none $epi none $t4file $mode
+if($status) exit 1
+@ mode = 8192 + 2048 + 3
+imgreg_4dfp $t2w none $epi none $t4file $mode
+if($status) exit 1
+
+/bin/rm none* temp$$*
+
+exit 0

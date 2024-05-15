@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/rmspike_4dfp/rmspike_4dfp.mak

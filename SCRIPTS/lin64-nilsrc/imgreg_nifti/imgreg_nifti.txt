@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/imgreg_nifti/imgreg_nifti.txt

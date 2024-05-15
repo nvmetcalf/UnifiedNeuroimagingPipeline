@@ -1,0 +1,75 @@
+#!/bin/csh
+#$Header: /data/petsun4/data1/src_solaris/pet_4dfp/RCS/ogi_4dfp,v 1.1 2012/09/19 17:35:38 larsc Exp larsc $
+
+set idstr = '$Id: ogi_4dfp,v 1.1 2012/09/19 17:35:38 larsc Exp larsc $'
+echo $idstr
+
+set program = $0
+set program = $program:t
+
+set norm = 5.323
+
+@ i = 1
+@ j = 0
+while ($i <= ${#argv})
+	set c = `echo $argv[$i] | gawk '{print substr ($0, 1, 1)}'`
+	switch ($c)
+	case "-":
+		set c = `echo $argv[$i] | gawk '{print substr ($0, 1, 2)}'`
+		switch ($c)
+		case "-n":
+			set norm    = `echo $argv[$i] | gawk '{print substr ($0, 3)}'`;	breaksw
+		endsw
+		breaksw
+	default:
+		switch ($j)
+		case 0:
+			set  omroot = $argv[$i];				@ j ++;	breaksw
+		case 1:
+			set fdgroot = $argv[$i];				@ j ++;	breaksw
+		case 2:
+			set mskroot = $argv[$i];				@ j ++; breaksw
+		case 3:
+			set outroot = $argv[$i];				@ j ++;	breaksw
+		endsw
+	endsw
+	@ i ++
+end
+if ($j != 4) then
+	echo "Usage:	$program <(4dfp)CMRO2> <(4dfp)FDG> <(4dfp)MASK> <(4dfp)OUTROOT>"
+	exit 1
+endif
+
+foreach ext (rec img ifh hdr 4dfp)
+	if ($omroot:e  == $ext) set  omroot = $omroot:r
+	if ($fdgroot:e == $ext) set fdgroot = $fdgroot:r
+	if ($mskroot:e == $ext) set mskroot = $mskroot:r
+	if ($outroot:e == $ext) set outroot = $outroot:r
+end
+
+foreach img ($omroot $fdgroot $mskroot)
+foreach ext (img ifh)
+	if (! -e $img.4dfp.$ext) then
+		echo $program": "$img".4dfp."$ext" not found"
+		exit -1
+	endif
+end
+end
+
+echo imgopr_4dfp -r$outroot $omroot $fdgroot -Z
+     imgopr_4dfp -r$outroot $omroot $fdgroot -Z;			if ($status) exit $status
+#echo imgopr_4dfp -r$outroot $omroot $fdgroot -Z -u
+#     imgopr_4dfp -r$outroot $omroot $fdgroot -Z -u;			if ($status) exit $status
+#echo imgopr_4dfp -rtemp$$ $omroot $fdgroot -Z -u
+#     imgopr_4dfp -rtemp$$ $omroot $fdgroot -Z -u;			if ($status) exit $status
+#echo maskimg_4dfp temp$$ $fdgroot $outroot;
+#     maskimg_4dfp temp$$ $fdgroot $outroot;				if ($status) exit $status
+#     maskimg_4dfp $mskroot $outroot temp$$;				if ($status) exit $status
+#set s = `qnt_4dfp $outroot temp$$ | gawk '/Mean/ {print '$norm'/$2}'`
+set s = `qnt_4dfp -D $outroot $mskroot | gawk '/Mean/ {print '$norm'/$2}'`
+echo scale_4dfp $outroot $s
+     scale_4dfp $outroot $s;						if ($status) exit $status
+
+#rm temp$$".4dfp."{img,ifh,hdr,img.rec}
+
+exit 0

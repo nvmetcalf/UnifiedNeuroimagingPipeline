@@ -1,0 +1,103 @@
+rec C.4dfp.img  Thu Jun  5 00:30:35 2008  avi@nrglin7 Linux 2.6.22.14-72.fc6PAE i686
+	imgopr_4dfp	\
+	-rC	\
+	A	\
+	pt633_study50to51_frame1
+$Id: imgopr_4dfp.c,v 1.10 2008/06/05 06:15:01 avi Exp $
+bigendian
+first frame of pt633_study50to51_frame1 applied to all frames of A
+rec A.4dfp.img  Thu Jun  5 00:40:07 2008  avi
+scale_4dfp A 2 
+$Id: scale_4dfp.c,v 1.13 2006/09/29 23:36:57 avi Exp $
+Scaled by 2.000000
+rec A.4dfp.img  Thu Jun  5 00:39:55 2008  avi@petsun43 SunOS 5.8 sun4u
+paste_4dfp -ap1 A.lst A 
+$Id: paste_4dfp.c,v 1.8 2007/08/10 22:26:07 avi Exp $
+bigendian
+imglst	A.lst
+ pt633_study50to51_frame1
+ pt633_study50to51_frame1
+
+endimglst
+rec pt633_study50to51_frame1.4dfp.img  Thu Jun  5 00:39:15 2008  avi@petsun43 SunOS 5.8 sun4u
+paste_4dfp -ap1 26911.lst pt633_study50to51_frame1 
+$Id: paste_4dfp.c,v 1.8 2007/08/10 22:26:07 avi Exp $
+bigendian
+imglst	26911.lst
+pt633_study50to51 1
+endimglst
+rec pt633_study50to51.4dfp.img Mon Jul 15 17:39:50 CDT 1996 yang
+imato4dfp 633 50 51
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.37 1996/07/12 23:26:59 yang Exp $
+
+patient_id:		633
+first_study:		50
+last_study:		51
+start_image_id:		282
+end_image_id:		293
+patient_position:	H-SP-CR
+time_series_flag	0
+xdim:			128
+ydim:			128
+zdim:			6
+vdim:			2
+xpix:			3.125000
+ypix:			3.125000
+zpix:			7.000000
+slice_thickness: 	7.000000
+bitsperpix:		32
+orientation:		2
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+
+study_date:		1995:8:31
+parameter_file_name:	Initialized by sequence
+sequence_file_name:	/usr/users/tec/rcm/ge_BOLD_50_3x3.ykc
+sequence_description:	ge_bold
+
+endrec
+endrec Thu Jun  5 00:39:17 2008  avi
+endrec Thu Jun  5 00:39:57 2008  avi
+endrec Thu Jun  5 00:40:07 2008  avi
+rec pt633_study50to51_frame1.4dfp.img  Thu Jun  5 00:39:15 2008  avi@petsun43 SunOS 5.8 sun4u
+paste_4dfp -ap1 26911.lst pt633_study50to51_frame1 
+$Id: paste_4dfp.c,v 1.8 2007/08/10 22:26:07 avi Exp $
+bigendian
+imglst	26911.lst
+pt633_study50to51 1
+endimglst
+rec pt633_study50to51.4dfp.img Mon Jul 15 17:39:50 CDT 1996 yang
+imato4dfp 633 50 51
+     $Header: /data/petsun4/src/imato4dfp/RCS/imato4dfp.c,v 1.37 1996/07/12 23:26:59 yang Exp $
+
+patient_id:		633
+first_study:		50
+last_study:		51
+start_image_id:		282
+end_image_id:		293
+patient_position:	H-SP-CR
+time_series_flag	0
+xdim:			128
+ydim:			128
+zdim:			6
+vdim:			2
+xpix:			3.125000
+ypix:			3.125000
+zpix:			7.000000
+slice_thickness: 	7.000000
+bitsperpix:		32
+orientation:		2
+overlaping_slices_flag:	0
+institution:		Washington University
+model:			MAGNETOM VISION
+
+study_date:		1995:8:31
+parameter_file_name:	Initialized by sequence
+sequence_file_name:	/usr/users/tec/rcm/ge_BOLD_50_3x3.ykc
+sequence_description:	ge_bold
+
+endrec
+endrec Thu Jun  5 00:39:17 2008  avi
+defined or zero output voxel count = 176848 out of 196608 total
+endrec Thu Jun  5 00:30:38 2008  avi

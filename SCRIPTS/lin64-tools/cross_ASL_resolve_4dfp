@@ -1,0 +1,118 @@
+#!/bin/csh
+#$Header$
+#$Log$
+set idstr   = '$Id$'
+echo $idstr
+set program = $0
+set program = $program:t
+set modes   = (4099 3075 2051 10243)
+set oristr  = (T C S)
+
+set target = ""
+set imgt = ()
+@ redo	= 0
+@ m = 1
+@ k = 0
+while ($m <= ${#argv})
+	set swi = `echo $argv[$m] | awk '{print substr($1,1,2)}'`
+	set arg = `echo $argv[$m] | awk '{print substr($0,3)}'`
+	switch ($swi)
+		case -d:
+			@ debug++;			breaksw;
+		case -r:
+			@ redo++;			breaksw;
+		case -T*:
+			set target = $arg;		breaksw;
+		default:
+			set imgt = ($imgt $argv[$m]);	breaksw;
+	endsw
+	@ m++
+end
+set str = '$cwd'
+if (${#imgt} < 2) then
+	echo "Usage:	$program image_1 image_2 ... image_n"
+	echo " e.g.,	$program PATID_t2w PATID_anat_ave PATID_pCASL PATID_pASL"
+	echo "N.B.:	at least two images must be specified"
+	echo "N.B.:	images may be specified with path (t4 file and log will be created in $str)"
+	echo "	options"
+	echo "	-T<str>	specify atlas target (for computing tailored masks)"
+	echo "	-r	redo (keep existing log file)"
+	exit 1
+endif
+echo $program $argv[1-]
+
+set imgv = ()
+foreach img ($imgt)
+	if ($img:e == "img")  set img = $img:r
+	if ($img:e == "4dfp") set img = $img:r
+	if (! -e $img.4dfp.ifh || ! -e $img.4dfp.img) then
+		echo $program": "$img not found
+		exit -1
+	endif
+	set imgv = ($imgv $img)
+	if ($target == "") then
+		set Tstr = ""
+	else
+		set Tstr = -T$target
+	endif
+	if ($img:h != $img) then
+		pushd $img:h
+	else
+		pushd .
+	endif
+	if (! -e ${img:t}_mskt) msktgen_4dfp $img:t $Tstr
+	if ($status) exit $status
+	popd
+end
+echo "imgv:gt="$imgv:gt
+
+set reglog = ${imgv[1]:t}_${program}.log
+if (! $redo) then
+	echo $idstr		>! $reglog
+	echo $program $argv[1-]	>> $reglog
+else
+	touch			   $reglog
+	date			>> $reglog
+endif
+
+@ n = ${#imgv}
+@ i = 1
+while ($i <= $n)
+	@ j = 1
+	while ($j <= $n)
+		if ($i != $j) then
+			set tar = $imgv[$i]
+			set src = $imgv[$j]
+			set t4file = ${src:t}_to_${tar:t}_t4
+			@ k = 4
+			if (! -e ${src:t}_to_${tar:t}_t4) then
+				if ( -e ${tar:t}_to_${src:t}_t4) then
+					t4_inv ${tar:t}_to_${src:t}_t4
+				else
+					@ ori = `awk '/orientation/{print $NF - 1}' $tar.4dfp.ifh`
+					t4_inv $RELEASE/$oristr[$ori]_t4 temp$$_t4
+					@ ori = `awk '/orientation/{print $NF - 1}' $src.4dfp.ifh`
+					t4_mul $RELEASE/$oristr[$ori]_t4 temp$$_t4 $t4file
+					/bin/rm temp$$_t4
+					@ k = 1
+				endif
+			endif
+			foreach mode ($modes[$k-])
+				echo	imgreg_4dfp $tar ${tar}_mskt $src none $t4file $mode
+				echo	imgreg_4dfp $tar ${tar}_mskt $src none $t4file $mode	>> $reglog
+		     			imgreg_4dfp $tar ${tar}_mskt $src none $t4file $mode	>> $reglog
+				if ($status) exit $status
+			end
+		endif
+		@ j++		# $j loop
+	end
+	@ i++
+end				# $i loop
+
+set reslog = ${imgv[1]:t}_t4_resolve.log
+echo $idstr				>! $reslog
+echo $program $argv[1-]			>> $reslog
+date					>> $reslog
+t4_resolve $imgv:gt -o$imgv[1]:t	>> $reslog
+
+exit $status

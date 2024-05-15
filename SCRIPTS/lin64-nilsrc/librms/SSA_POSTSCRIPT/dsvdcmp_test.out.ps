@@ -1,0 +1,708 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 38 24 574 768
+%%Title: Enscript Output
+%%For: Avi Snyder
+%%Creator: GNU enscript 1.6.4
+%%CreationDate: Sat Jan 27 01:51:46 2018
+%%Orientation: Landscape
+%%Pages: (atend)
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: (atend)
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset Enscript-Prolog 1.6 4
+%
+% Procedures.
+%
+
+/_S {	% save current state
+  /_s save def
+} def
+/_R {	% restore from saved state
+  _s restore
+} def
+
+/S {	% showpage protecting gstate
+  gsave
+  showpage
+  grestore
+} bind def
+
+/MF {	% fontname newfontname -> -	make a new encoded font
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  % insert only valid encoding vectors
+  encoding_vector length 256 eq {
+    newfont /Encoding encoding_vector put
+  } if
+
+  newfontname newfont definefont pop
+} def
+
+/MF_PS { % fontname newfontname -> -	make a new font preserving its enc
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  newfontname newfont definefont pop
+} def
+
+/SF { % fontname width height -> -	set a new font
+  /height exch def
+  /width exch def
+
+  findfont
+  [width 0 0 height 0 0] makefont setfont
+} def
+
+/SUF { % fontname width height -> -	set a new user font
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF
+  /F-gs-user-font width height SF
+} def
+
+/SUF_PS { % fontname width height -> -	set a new user font preserving its enc
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF_PS
+  /F-gs-user-font width height SF
+} def
+
+/M {moveto} bind def
+/s {show} bind def
+
+/Box {	% x y w h -> -			define box path
+  /d_h exch def /d_w exch def /d_y exch def /d_x exch def
+  d_x d_y  moveto
+  d_w 0 rlineto
+  0 d_h rlineto
+  d_w neg 0 rlineto
+  closepath
+} def
+
+/bgs {	% x y height blskip gray str -> -	show string with bg color
+  /str exch def
+  /gray exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    gray setgray
+    fill
+  grestore
+  x y M str s
+} def
+
+/bgcs { % x y height blskip red green blue str -> -  show string with bg color
+  /str exch def
+  /blue exch def
+  /green exch def
+  /red exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    red green blue setrgbcolor
+    fill
+  grestore
+  x y M str s
+} def
+
+% Highlight bars.
+/highlight_bars {	% nlines lineheight output_y_margin gray -> -
+  gsave
+    setgray
+    /ymarg exch def
+    /lineheight exch def
+    /nlines exch def
+
+    % This 2 is just a magic number to sync highlight lines to text.
+    0 d_header_y ymarg sub 2 sub translate
+
+    /cw d_output_w cols div def
+    /nrows d_output_h ymarg 2 mul sub lineheight div cvi def
+
+    % for each column
+    0 1 cols 1 sub {
+      cw mul /xp exch def
+
+      % for each rows
+      0 1 nrows 1 sub {
+        /rn exch def
+        rn lineheight mul neg /yp exch def
+        rn nlines idiv 2 mod 0 eq {
+	  % Draw highlight bar.  4 is just a magic indentation.
+	  xp 4 add yp cw 8 sub lineheight neg Box fill
+	} if
+      } for
+    } for
+
+  grestore
+} def
+
+% Line highlight bar.
+/line_highlight {	% x y width height gray -> -
+  gsave
+    /gray exch def
+    Box gray setgray fill
+  grestore
+} def
+
+% Column separator lines.
+/column_lines {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h translate
+    /cw d_output_w cols div def
+    1 1 cols 1 sub {
+      cw mul 0 moveto
+      0 d_output_h rlineto stroke
+    } for
+  grestore
+} def
+
+% Column borders.
+/column_borders {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h moveto
+    0 d_output_h rlineto
+    d_output_w 0 rlineto
+    0 d_output_h neg rlineto
+    closepath stroke
+  grestore
+} def
+
+% Do the actual underlay drawing
+/draw_underlay {
+  ul_style 0 eq {
+    ul_str true charpath stroke
+  } {
+    ul_str show
+  } ifelse
+} def
+
+% Underlay
+/underlay {	% - -> -
+  gsave
+    0 d_page_h translate
+    d_page_h neg d_page_w atan rotate
+
+    ul_gray setgray
+    ul_font setfont
+    /dw d_page_h dup mul d_page_w dup mul add sqrt def
+    ul_str stringwidth pop dw exch sub 2 div ul_h_ptsize -2 div moveto
+    draw_underlay
+  grestore
+} def
+
+/user_underlay {	% - -> -
+  gsave
+    ul_x ul_y translate
+    ul_angle rotate
+    ul_gray setgray
+    ul_font setfont
+    0 0 ul_h_ptsize 2 div sub moveto
+    draw_underlay
+  grestore
+} def
+
+% Page prefeed
+/page_prefeed {		% bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} def
+
+% Wrapped line markers
+/wrapped_line_mark {	% x y charwith charheight type -> -
+  /type exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  type 2 eq {
+    % Black boxes (like TeX does)
+    gsave
+      0 setlinewidth
+      x w 4 div add y M
+      0 h rlineto w 2 div 0 rlineto 0 h neg rlineto
+      closepath fill
+    grestore
+  } {
+    type 3 eq {
+      % Small arrows
+      gsave
+        .2 setlinewidth
+        x w 2 div add y h 2 div add M
+        w 4 div 0 rlineto
+        x w 4 div add y lineto stroke
+
+        x w 4 div add w 8 div add y h 4 div add M
+        x w 4 div add y lineto
+	w 4 div h 8 div rlineto stroke
+      grestore
+    } {
+      % do nothing
+    } ifelse
+  } ifelse
+} def
+
+% EPSF import.
+
+/BeginEPSF {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack
+  userdict begin
+  /showpage { } def
+  0 setgray 0 setlinecap
+  1 setlinewidth 0 setlinejoin
+  10 setmiterlimit [ ] 0 setdash newpath
+  /languagelevel where {
+    pop languagelevel
+    1 ne {
+      false setstrokeadjust false setoverprint
+    } if
+  } if
+} bind def
+
+/EndEPSF {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+%%EndResource
+%%BeginResource: procset Enscript-Encoding-88591 1.6 4
+/encoding_vector [
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclam       	/quotedbl     	/numbersign   	
+/dollar       	/percent      	/ampersand    	/quoteright   	
+/parenleft    	/parenright   	/asterisk     	/plus         	
+/comma        	/hyphen       	/period       	/slash        	
+/zero         	/one          	/two          	/three        	
+/four         	/five         	/six          	/seven        	
+/eight        	/nine         	/colon        	/semicolon    	
+/less         	/equal        	/greater      	/question     	
+/at           	/A            	/B            	/C            	
+/D            	/E            	/F            	/G            	
+/H            	/I            	/J            	/K            	
+/L            	/M            	/N            	/O            	
+/P            	/Q            	/R            	/S            	
+/T            	/U            	/V            	/W            	
+/X            	/Y            	/Z            	/bracketleft  	
+/backslash    	/bracketright 	/asciicircum  	/underscore   	
+/quoteleft    	/a            	/b            	/c            	
+/d            	/e            	/f            	/g            	
+/h            	/i            	/j            	/k            	
+/l            	/m            	/n            	/o            	
+/p            	/q            	/r            	/s            	
+/t            	/u            	/v            	/w            	
+/x            	/y            	/z            	/braceleft    	
+/bar          	/braceright   	/tilde        	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclamdown   	/cent         	/sterling     	
+/currency     	/yen          	/brokenbar    	/section      	
+/dieresis     	/copyright    	/ordfeminine  	/guillemotleft	
+/logicalnot   	/hyphen       	/registered   	/macron       	
+/degree       	/plusminus    	/twosuperior  	/threesuperior	
+/acute        	/mu           	/paragraph    	/bullet       	
+/cedilla      	/onesuperior  	/ordmasculine 	/guillemotright	
+/onequarter   	/onehalf      	/threequarters	/questiondown 	
+/Agrave       	/Aacute       	/Acircumflex  	/Atilde       	
+/Adieresis    	/Aring        	/AE           	/Ccedilla     	
+/Egrave       	/Eacute       	/Ecircumflex  	/Edieresis    	
+/Igrave       	/Iacute       	/Icircumflex  	/Idieresis    	
+/Eth          	/Ntilde       	/Ograve       	/Oacute       	
+/Ocircumflex  	/Otilde       	/Odieresis    	/multiply     	
+/Oslash       	/Ugrave       	/Uacute       	/Ucircumflex  	
+/Udieresis    	/Yacute       	/Thorn        	/germandbls   	
+/agrave       	/aacute       	/acircumflex  	/atilde       	
+/adieresis    	/aring        	/ae           	/ccedilla     	
+/egrave       	/eacute       	/ecircumflex  	/edieresis    	
+/igrave       	/iacute       	/icircumflex  	/idieresis    	
+/eth          	/ntilde       	/ograve       	/oacute       	
+/ocircumflex  	/otilde       	/odieresis    	/divide       	
+/oslash       	/ugrave       	/uacute       	/ucircumflex  	
+/udieresis    	/yacute       	/thorn        	/ydieresis    	
+] def
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier
+/HFpt_w 10 def
+/HFpt_h 10 def
+/Courier-Bold /HF-gs-font MF
+/HF /HF-gs-font findfont [HFpt_w 0 0 HFpt_h 0 0] makefont def
+/Courier /F-gs-font MF
+/F-gs-font 10 10 SF
+/#copies 1 def
+% Pagedevice definitions:
+gs_languagelevel 1 gt {
+  <<
+    /PageSize [612 792] 
+  >> setpagedevice
+} if
+%%BeginResource: procset Enscript-Header-simple 1.6 4
+
+/do_header {	% print default simple header
+  gsave
+    d_header_x d_header_y HFpt_h 3 div add translate
+
+    HF setfont
+    user_header_p {
+      5 0 moveto user_header_left_str show
+
+      d_header_w user_header_center_str stringwidth pop sub 2 div
+      0 moveto user_header_center_str show
+
+      d_header_w user_header_right_str stringwidth pop sub 5 sub
+      0 moveto user_header_right_str show
+    } {
+      fname length fmodstr length add pagenumstr length add 95 6 idiv add d_header_w 6 idiv le{
+        5 0 moveto fname show
+        45 0 rmoveto fmodstr show
+        45 0 rmoveto pagenumstr show
+      } {
+        5 0 moveto fmodstr show
+        45 0 rmoveto pagenumstr show
+        fname length d_header_w 6 idiv idiv 1 add 10 mul 5 exch moveto
+        1 1 fname length d_header_w 6 idiv idiv
+        {
+          dup fname exch 1 sub d_header_w 6 idiv mul d_header_w 6 idiv getinterval show
+          5 exch 10 mul fname length d_header_w 6 idiv idiv 1 add 10 mul exch sub moveto
+        } for
+        5 10 moveto
+        fname fname length d_header_w 6 idiv idiv d_header_w 6 idiv mul dup fname length exch sub getinterval show
+      }ifelse
+    }ifelse
+
+  grestore
+} def
+%%EndResource
+/d_page_w 744 def
+/d_page_h 536 def
+/d_header_x 0 def
+/d_header_y 492 def
+/d_header_w 744 def
+/d_header_h 44 def
+/d_footer_x 0 def
+/d_footer_y 0 def
+/d_footer_w 744 def
+/d_footer_h 0 def
+/d_output_w 744 def
+/d_output_h 492 def
+/cols 1 def
+%%EndSetup
+%%Page: (1) 1
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (dsvdcmp_test.out) def
+/fdir () def
+/ftail (dsvdcmp_test.out) def
+% User defined strings:
+/fmodstr (Sat Jan 27 01:51:08 2018) def
+/pagenumstr (1) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 479 M
+(main4) s
+5 468 M
+(E before dsvdcmp0\(\)) s
+5 457 M
+(   1.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 446 M
+(   0.9135455   0.4067366   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 435 M
+(   0.6691306   0.7431448   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 424 M
+(   0.3090170   0.9510565   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 413 M
+(  -0.1045285   0.9945219   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 402 M
+(  -0.5000000   0.8660254   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 391 M
+(  -0.8090170   0.5877853   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 380 M
+(  -0.9781476   0.2079117   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 369 M
+(  -0.9781476  -0.2079117   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 358 M
+(  -0.8090170  -0.5877853   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 347 M
+(  -0.5000000  -0.8660254   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 336 M
+(  -0.1045285  -0.9945219   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 325 M
+(   0.3090170  -0.9510565   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 314 M
+(   0.6691306  -0.7431448   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 303 M
+(   0.9135455  -0.4067366   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 281 M
+(E \(U\) after dsvdcmp0\(\)) s
+5 270 M
+(   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000   0.0000000) s
+5 259 M
+(   0.7385489  -0.6741999   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 248 M
+(   0.6741999   0.7385489   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 237 M
+(   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000   0.0000000) s
+5 226 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   1.0000000   0.0000000) s
+5 215 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   1.0000000) s
+5 204 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 193 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 182 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 171 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 160 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 149 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 138 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 127 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 116 M
+(   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 94 M
+(V after dsvdcmp0\(\)) s
+5 83 M
+(   0.9309493  -0.1308407  -0.0958349  -0.0442583   0.0149709   0.0716115   0.1158698   0.1400932   0.1400932   0.1158698  ) s
+5 72 M
+( 0.0716115   0.0149709  -0.0442583  -0.0958349  -0.1308407) s
+5 61 M
+(   0.2696799   0.1462332  -0.0024985  -0.1507982  -0.2730236  -0.3480407  -0.3628784  -0.3149711  -0.2126025  -0.0734729  ) s
+5 50 M
+( 0.0783607   0.2166451   0.3174696   0.3634007   0.3464965) s
+5 39 M
+(   0.2461830   0.3345881   0.3651398   0.3325556   0.2424695   0.1104582  -0.0406523  -0.1847337  -0.2968729  -0.3576801  ) s
+5 28 M
+(-0.3566412  -0.2939357  -0.1804061  -0.0356827   0.1152106) s
+5 17 M
+(   0.0000000  -0.0905809  -0.3515260   0.9021325  -0.0960841  -0.0776869  -0.0458569  -0.0060979   0.0347156   0.0695264  ) s
+5 6 M
+( 0.0923154   0.0991423   0.0888266   0.0631519   0.0265578) s
+_R
+S
+%%Page: (2) 2
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (dsvdcmp_test.out) def
+/fdir () def
+/ftail (dsvdcmp_test.out) def
+% User defined strings:
+/fmodstr (Sat Jan 27 01:51:08 2018) def
+/pagenumstr (2) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 479 M
+(   0.0000000   0.0747063  -0.3531962  -0.0921520   0.8889845  -0.1106834  -0.0912131  -0.0559713  -0.0110515   0.0357792  ) s
+5 468 M
+( 0.0764233   0.1038532   0.1133259   0.1032035   0.0752363) s
+5 457 M
+(   0.0000000   0.2270761  -0.2937956  -0.0705025  -0.1067512   0.8754584  -0.1207977  -0.0961667  -0.0549077  -0.0041545  ) s
+5 446 M
+( 0.0473169   0.0906069   0.1182300   0.1254102   0.1109058) s
+5 435 M
+(   0.0000000   0.3401823  -0.1835950  -0.0366626  -0.0840287  -0.1168656   0.8705047  -0.1197341  -0.0892698  -0.0433699  ) s
+5 424 M
+( 0.0100290   0.0616938   0.1026912   0.1259323   0.1273986) s
+5 413 M
+(   0.0000000   0.3944680  -0.0416492   0.0035167  -0.0467769  -0.0889823  -0.1158019   0.8774017  -0.1081963  -0.0750862  ) s
+5 402 M
+(-0.0289930   0.0221133   0.0693961   0.1046796   0.1218631) s
+5 391 M
+(   0.0000000   0.3805465   0.1074981   0.0430879  -0.0014369  -0.0457133  -0.0820854  -0.1042642   0.8915852  -0.0938195  ) s
+5 380 M
+(-0.0630019  -0.0212907   0.0241018   0.0653269   0.0952564) s
+5 369 M
+(   0.0000000   0.3008252   0.2380581   0.0752088   0.0441515   0.0054600  -0.0341755  -0.0679019  -0.0898873   0.9036696  ) s
+5 358 M
+(-0.0861172  -0.0610134  -0.0253599   0.0146785   0.0521789) s
+5 347 M
+(   0.0000000   0.1690884   0.3274556   0.0943254   0.0821057   0.0556892   0.0196436  -0.0197987  -0.0558175  -0.0821850  ) s
+5 336 M
+( 0.9056580  -0.0901864  -0.0704367  -0.0385079   0.0000793) s
+5 325 M
+(   0.0000000   0.0081146   0.3602331   0.0971323   0.1058632   0.0962893   0.0700661   0.0317279  -0.0120964  -0.0538291  ) s
+5 314 M
+(-0.0862542   0.8962347  -0.1033343  -0.0850360  -0.0520341) s
+5 303 M
+(   0.0000000  -0.1542622   0.3307230   0.0831442   0.1113159   0.1202400   0.1083736   0.0777684   0.0337164  -0.0161656  ) s
+5 292 M
+(-0.0632523  -0.0994022   0.8816355  -0.1168605  -0.0951503) s
+5 281 M
+(   0.0000000  -0.2899656   0.2440279   0.0547796   0.0975210   0.1234002   0.1279423   0.1103621   0.0736992   0.0242931  ) s
+5 270 M
+(-0.0293135  -0.0778516  -0.1129284   0.8715212  -0.1218141) s
+5 259 M
+(   0.0000000  -0.3755314   0.1151381   0.0169432   0.0668639   0.1052233   0.1253886   0.1238731   0.1009388   0.0605513  ) s
+5 248 M
+( 0.0096939  -0.0428397  -0.0879659  -0.1178820   0.8725848) s
+5 226 M
+(W after dsvdcmp0\(\)) s
+5 215 M
+(   0.0000000   2.7386128   2.7386128   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000  ) s
+5 204 M
+( 0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 182 M
+(reduced dimensionality = 2) s
+5 171 M
+(W after ndsvdcmp0\(\)) s
+5 160 M
+(   2.7386128   2.7386128) s
+5 138 M
+(E \(U\) after ndsvdcmp0\(\)) s
+5 127 M
+(   0.7385489  -0.6741999   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 116 M
+(   0.6741999   0.7385489   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 94 M
+(V after ndsvdcmp0\(\)) s
+5 83 M
+(   0.2696799   0.1462332  -0.0024985  -0.1507982  -0.2730236  -0.3480407  -0.3628784  -0.3149711  -0.2126025  -0.0734729  ) s
+5 72 M
+( 0.0783607   0.2166451   0.3174696   0.3634007   0.3464965) s
+5 61 M
+(   0.2461830   0.3345881   0.3651398   0.3325556   0.2424695   0.1104582  -0.0406523  -0.1847337  -0.2968729  -0.3576801  ) s
+5 50 M
+(-0.3566412  -0.2939357  -0.1804061  -0.0356827   0.1152106) s
+5 28 M
+(reconstituted original E = Vt*W*U) s
+5 17 M
+(   1.0000000  -0.0000000   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 6 M
+(   0.9135455   0.4067366   0.0000000   0.0000000   0.0000000   0.0000000) s
+_R
+S
+%%Page: (3) 3
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 3 def
+/fname (dsvdcmp_test.out) def
+/fdir () def
+/ftail (dsvdcmp_test.out) def
+% User defined strings:
+/fmodstr (Sat Jan 27 01:51:08 2018) def
+/pagenumstr (3) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 479 M
+(   0.6691306   0.7431448   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 468 M
+(   0.3090170   0.9510565   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 457 M
+(  -0.1045285   0.9945219   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 446 M
+(  -0.5000000   0.8660254   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 435 M
+(  -0.8090170   0.5877853   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 424 M
+(  -0.9781476   0.2079117   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 413 M
+(  -0.9781476  -0.2079117   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 402 M
+(  -0.8090170  -0.5877853   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 391 M
+(  -0.5000000  -0.8660254   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 380 M
+(  -0.1045285  -0.9945219   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 369 M
+(   0.3090170  -0.9510565   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 358 M
+(   0.6691306  -0.7431448   0.0000000   0.0000000   0.0000000   0.0000000) s
+5 347 M
+(   0.9135455  -0.4067366   0.0000000   0.0000000   0.0000000   0.0000000) s
+_R
+S
+%%Trailer
+%%Pages: 3
+%%DocumentNeededResources: font Courier-Bold Courier 
+%%EOF

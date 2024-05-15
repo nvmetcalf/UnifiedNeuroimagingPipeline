@@ -1,0 +1,291 @@
+#!/bin/csh -f
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/run_dvar_4dfp,v 1.24 2021/12/04 04:22:45 avi Exp $
+#$Log: run_dvar_4dfp,v $
+#Revision 1.24  2021/12/04 04:22:45  avi
+#correct bug in use of awk to generate DVAR format from $outroot.vals and $crit
+#
+#Revision 1.23  2021/09/21 08:54:36  avi
+#option -r (specify DVAR hist and gamma_fit xrange oncommand line)
+#
+#Revision 1.22  2021/09/18 08:11:39  avi
+#default autocrit method os find_dvar_crit.awk
+#Tstr typo corrected
+#
+# Revision 1.21  2021/09/14  05:52:47  avi
+# extensive edits to enable auto crit finding by either gamma_fit or find_dvar_crit.awk
+#
+#Revision 1.20  2020/11/14 22:11:22  avi
+#option -S (passed on to find_dvar_crit.awk) and clearer usage
+#
+# Revision 1.19  2019/05/03  03:11:18  avi
+# option -T
+#
+# Revision 1.18  2019/02/26  07:15:49  avi
+# recover crit from ${outroot}_find_dvar_crit.log instead of pipe from stdout
+#
+# Revision 1.17  2019/02/26  06:40:48  avi
+# reassign option -p from naming a printer to naming a non-default xmgr prototype
+# eliminate option print with message to use print_run_dvar.csh (on Solaris)
+#
+# Revision 1.16  2018/08/17  06:16:35  avi
+# option -X
+# remove option -P
+# invoke csh with -f
+#
+# Revision 1.15  2016/11/06  02:21:12  avi
+# enable find_dvar_crit.awk errors to be reported
+#
+# Revision 1.14  2016/10/29  02:42:46  avi
+# more traps for dvar errors
+#
+# Revision 1.13  2015/12/21  01:02:19  avi
+# check $status after running dvar_4dfp
+#
+# Revision 1.12  2015/04/21  05:04:39  avi
+# new mode-based auto-compute crit
+#
+# Revision 1.11  2014/03/31  01:08:21  avi
+# more generous frame tick spacing
+#
+# Revision 1.10  2013/08/25  05:15:46  avi
+# support dvar_4dfp option -b
+#
+# Revision 1.9  2013/03/05  05:37:31  avi
+# option -P
+#
+# Revision 1.8  2012/08/20  04:31:06  avi
+# enable printing on Linux machnine using rsh to petsun43
+#
+# Revision 1.7  2009/11/24  22:29:27  avi
+# compute x_ticks according to $nframe
+#
+# Revision 1.6  2009/09/22  23:08:39  avi
+# isolate SunOS-dependent code
+#
+# Revision 1.5  2009/09/17  22:01:43  avi
+# alter USAGE to reflect that input must be conc
+#
+# Revision 1.4  2009/08/21  01:37:25  avi
+# eliminate apparent null-command (problem on SunOS only)
+# automatically plot results (SunOS only)
+#
+# Revision 1.3  2009/08/14  06:47:52  avi
+# auto-compute $crit
+#
+# Revision 1.2  2009/08/14  06:00:21  avi
+# improve argument parsing
+# force -s option to dvar_4dfp
+# compute OR of conc2format and dvar_4dfp derived result in final output format
+#
+# Revision 1.1  2008/03/14  04:30:29  avi
+# Initial revision
+#
+set rcsid = '$Id: run_dvar_4dfp,v 1.24 2021/12/04 04:22:45 avi Exp $'
+echo $rcsid
+set program = $0; set program = $program:t
+set D = /data/petsun4/data1/solaris/csh_scripts	# debugging directory
+
+set crit = 0
+@ debug = 0
+set Xstr = ""
+set Tstr = ""
+@ verb = 0
+@ k = 0
+@ skip = 0
+@ S_flag = 1		# used by find_dvar_crit.awk
+set Tstr = tol=3.5	# used by find_dvar_crit.awk
+set xtile = 95tile	# select crit from gamma_fit output dat file
+set autocrit_method = find_dvar
+set optstr = "-s"
+set xrangestr = ""
+set prototype_xmgr = $RELEASE/run_dvar_4dfp_prototype.xmgr
+if (${#argv} < 1) goto USAGE
+@ m = 1;
+while ($m <= ${#argv})
+	set swi = `echo $argv[$m] | awk '{print substr($1,1,2)}'`
+	set arg = `echo $argv[$m] | awk '{print substr($0,3)}'`
+	switch ($swi)
+	case -[bmts]*:
+		set optstr = `echo $optstr $argv[$m] | awk '{print $0}'`; breaksw;
+	case -n:
+		set optstr = `echo $optstr $argv[$m] | awk '{print $0}'`;
+		@ skip = $arg;
+		breaksw;
+	case -d:
+		@ debug++;				breaksw;
+	case -v:
+		@ verb++;				breaksw;
+	case -p:
+		set prototype_xmgr = $arg;		breaksw;
+	case -S:
+		@ S_flag++;				breaksw;
+	case -T:
+		set Tstr = "tol="$arg;			breaksw;
+	case -X:
+		set Xstr = -X;				breaksw;
+	case -M:
+		set autocrit_method = $arg;		breaksw;
+	case -x:
+		set crit = $arg;			breaksw;
+	case -r:
+		set xrangestr = "-r"$arg;		breaksw;
+	case -%:
+		set xtile = `echo $arg | gawk '{printf("%dtile",$1+0);}'`; breaksw;
+	case -*:
+		echo option $argv[$m] not recognized; goto USAGE;
+		breaksw;
+	default:
+		switch ($k)
+		case 0:
+			set file = $argv[$m];
+			if ($file:e != "conc") goto USAGE
+			@ k++; breaksw;
+		default:
+			breaksw;
+		endsw
+	endsw
+	@ m++
+end
+set autocrit_method = `echo $autocrit_method | gawk '/gamma/{print "gamma_fit"};/find/{print "find_dvar_crit.awk"}'`
+echo "autocrit_method="$autocrit_method
+echo "xtile="$xtile
+echo "dvar_4dfp options = "$optstr
+echo "skip = "$skip
+
+if (! $k) goto USAGE
+if ($verb) set echo
+
+if (! -e $file) then
+	echo $program":	"$file not found
+	exit -1
+endif
+if (! -e $prototype_xmgr) then
+	echo $program":	"$prototype_xmgr not found
+	exit -1
+endif
+
+set outroot = $file:r
+set outroot = $outroot:t
+
+awk '/file:/{l=index($1,":")+1; print substr($1,l)}' $file >! $$.lst
+@ n = `cat $$.lst | wc -l`
+
+#########################################
+# generate $outroot.vals and $outroot.dat
+#########################################
+if (-e $outroot.vals) /bin/rm $outroot.vals; touch $outroot.vals
+@ k = 1
+while ($k <= $n)
+	set bold = `head -$k $$.lst | tail -1`
+	set bold = `echo $bold | sed -E 's/\.4dfp(\.img){0,1}$//'`	# -E required for this mode; does not work on Solaris
+echo	dvar_4dfp $optstr $bold
+	dvar_4dfp $optstr $bold	|| exit $status
+	awk '$1=="frame"{print $4}' $bold.ddat >> $outroot.vals
+	@ k++
+end
+@ m = `cat $outroot.vals | wc -l`
+if (-e $outroot.dat) /bin/rm $outroot.dat
+touch $outroot.dat
+@ k = 1
+while ($k <= $m)
+	echo $k `head -$k $outroot.vals | tail -1` >> $outroot.dat	# first column has frame number
+	@ k++
+end
+
+@ nframe = `wc $outroot.vals | gawk '{print $1}'`
+#########################################################
+# gamma_fit needs to know binwidth used by xmgr_DVAR_hist
+#########################################################
+@ k = `echo $nframe | gawk '{print int(0.03*$1);}'`
+@ m = `sort -nr $outroot.vals | head -$k | tail -1 | gawk '{print int($1 + 0.5)};'`
+@ xmax = 10
+while ($xmax < $m)
+	@ xmax += 5
+end
+@ nbin = $nframe / 25; set binwidth = `echo $xmax $nbin | gawk '{print $1/$2}'`
+#############################
+# compute crit with gamma_fit
+#############################
+set Q = $RELEASE/normalize_4dfp
+echo	gamma_fit $outroot.vals	-w$binwidth $xrangestr
+	gamma_fit $outroot.vals	-w$binwidth $xrangestr	|| exit $status
+
+set   format0 = `conc2format $file $skip $Xstr`		|| exit $status
+echo "format0="$format0
+format2lst $format0 >! $$.format0
+#######################################################
+# compute crit relative to mode with find_dvar_crit.awk
+#######################################################
+echo "Tstr="$Tstr
+echo "S_flag="$S_flag
+paste $outroot.vals $$.format0 | gawk -f $RELEASE/find_dvar_crit.awk $Tstr S_flag=$S_flag >! ${outroot}_find_dvar_crit.log
+
+#############
+# assign crit
+#############
+if (`echo $crit | gawk '$1==0{print 1}'`) then
+	if ($autocrit_method == "gamma_fit") then
+		echo crit determined by gamma_fit
+		set crit = `cat $outroot.vals_gamma_fit.dat | \
+			gawk '/model/{for(i=1;i<NF;i++)if($i~thresh)print $(i+1);}' thresh=$xtile`	|| exit $status
+		echo gamma_fit crit = $crit
+	else
+		echo crit determined by find_dvar_crit.awk
+		set crit = `cat ${outroot}_find_dvar_crit.log | gawk '/^CRIT=/{print $2}'`		|| exit $status
+	endif
+endif
+@ m = `cat $outroot.vals | gawk '$1 > crit+0 {k++};END{print k}' crit=$crit`
+set str = `echo $crit $m $nframe | \
+	gawk '{printf ("crit=%.2f %d of %d frames (%.2f%) censored", $1, $2, $3, 100*$2/$3);}'`		|| exit $status
+echo $str
+
+#############################
+# prepare print_run_dvar xmgr
+#############################
+echo "0	$crit"	>! $outroot.crit
+echo "$nframe	$crit"	>> $outroot.crit
+@ x_tick_minor = `echo $nframe | awk '{print int($1/50)}'`
+@ x_tick_major = 5 * $x_tick_minor
+echo "/%title/s/%title/"'"'$outroot.dat'"/'			>! $$.sed
+echo "/%subtitle/s/%subtitle/"'"'$str'"/'			>> $$.sed
+echo "/%x_tick_minor/s/%x_tick_minor/"$x_tick_minor"/"		>> $$.sed
+echo "/%x_tick_major/s/%x_tick_major/"$x_tick_major"/"		>> $$.sed
+echo "/%nframe/s/%nframe/"$nframe"/"				>> $$.sed
+echo	sed -f $$.sed $prototype_xmgr
+	sed -f $$.sed $prototype_xmgr >!   $outroot.xmgr
+
+##############################
+# prepare print_DVAR_hist xmgr
+##############################
+xmgr_DVAR_hist $outroot.vals -x$crit $xrangestr
+
+####################
+# create format file
+####################
+cat $outroot.vals | gawk '{c="+";if ($1 > crit+0)c="x"; printf ("%s\n",c)}' crit=$crit  >! $$.format1
+paste $$.format0 $$.format1 | awk '{if($1!="+")$2=$1;printf("%s",$2)};END{printf("\n");}' >! $$.format
+condense -f$$.format >! $outroot.format
+cat $outroot.format; echo
+
+if (! $debug) /bin/rm $$*
+echo $program "done status="$status
+exit
+
+USAGE:
+echo "Usage:	"$program" <(conc) concfile>"
+echo "	option"
+echo "	-d	debug mode"
+echo "	-v	verbose mode"
+echo "	-x<flt>	specify frame censoring threshold (zero or unspecified -> autocrit mode)"
+echo "	-M<str>	specify autocrit method (gamma_fit or find_dvar_crit.awk)"
+echo "	-%<int>	e.g., -%95; select gamma_fit xtile defining autocrit value {100 99 98 95 90 80 70}"
+echo "	-X	in format set first frame of each run 'X'"
+echo "	-S	in find_dvar_crit.awk smooth histogram before finding mode (default enabled)"
+echo "	-T<flt>	in find_dvar_crit.awk compute DVAR crit as specified sd units above mode (default=3.5)"
+echo "	-p<str>	specify non-default print_run_dvar prototype xmgr"
+echo "	-r<flt>	specify X-axis range for gamma_fit and xmgr_DVAR_hist plots"
+echo "N.B.:	"$program" is a wrapper for dvar_4dfp"
+echo "N.B.:	options -n(skip) -b(preblur) -m(mask) -t(mask-threshold) are passed to dvar_4dfp"
+echo "N.B.:	option  -s is always passed to dvar_4dfp"
+echo "N.B.:	run print_run_dvar.csh and printf_DVAR_hist.csh (on Solaris) to generate postscript"
+exit 1

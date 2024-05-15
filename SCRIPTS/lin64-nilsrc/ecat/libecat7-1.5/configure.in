@@ -1,0 +1,47 @@
+dnl  This file is an input file used by the GNU "autoconf" program to
+dnl  generate the file "configure", which is run during installation
+dnl  to configure the system for the local environment.
+
+AC_INIT(orig_src/matrix.h)
+ 
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(libecat7, 1.5)
+
+MAJOR=1
+MINOR=4
+LIBVERSION=${MAJOR}:${MINOR}:0   
+
+AC_CANONICAL_HOST      
+AC_PROG_CC
+AC_PROG_LIBTOOL()
+
+CFLAGS="-g -O"
+
+
+dnl make substitutions
+AC_SUBST(MAJOR)
+AC_SUBST(MINOR)
+AC_SUBST(LIBVERSION)
+ 
+AC_PROG_INSTALL
+AM_PROG_LIBTOOL()
+ 
+dnl AC_HEADER_STDC
+ 
+AC_OUTPUT([
+        Makefile
+        new_src/Makefile
+        new_utils/Makefile
+        etc/Makefile
+        etc/libecat7.spec
+	etc/libecat7-$VERSION-1.info:etc/libecat7.info.in
+])
+    
+dnl Move the spec file so it won't get eaten by make distclean
+echo "Moving SPEC file to base directory"
+mv etc/libecat7.spec ./
+
+dnl and now, setup the source structure
+echo "creating source directories (src and utils)"
+./create_src.sh
+ 

@@ -1,0 +1,38 @@
+#!/bin/sh -f
+
+###font="-fn -schumacher-clean-bold-r-normal--16-160-75-75-c-80-iso646.1991-irv"
+name="--name `hostname`"
+geometry="--geometry 120x40"
+addpar=
+edfile=
+
+while [ $# -gt 0 ]
+do
+    case "$1" in
+	"-T" | "--title" | "--name")
+	    name="--name $2"
+	    shift
+	    ;;
+	"--geometry" | "-g")
+	    geometry="--geometry $2"
+	    shift
+	    ;;
+	-* )
+	    addpar="$addpar $1 $2"
+	    shift
+	    ;;
+	* )
+	    if [ $# -eq 1 ]
+	    then
+		name="--name $1"
+	    fi
+	    edfile="$*"
+	    break;
+	    ;;
+    esac
+	
+    shift
+done    
+
+emacs $name $font $geometry $addpar $edfile &
+

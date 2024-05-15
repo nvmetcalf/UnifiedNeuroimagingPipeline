@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/imglin/stretch_out.mak

@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/img2msk_4dfp/img2msk_4dfp.mak

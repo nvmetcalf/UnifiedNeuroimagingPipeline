@@ -1,0 +1,1062 @@
+# ACE/gr parameter file
+#
+#
+page 5
+page inout 5
+link page off
+default linestyle 1
+default linewidth 1
+default color 1
+default char size 1.000000
+default font 4
+default font source 0
+default symbol size 1.000000
+with g0
+g0 on
+g0 label off
+g0 hidden false
+g0 type xy
+g0 autoscale type AUTO
+g0 fixedpoint off
+g0 fixedpoint type 0
+g0 fixedpoint xy 0.000000, 0.000000
+g0 fixedpoint format general general
+g0 fixedpoint prec 6, 6
+    world xmin -5
+    world xmax 5
+    world ymin 0.3
+    world ymax 1
+    view xmin 0.150000
+    view xmax 0.850000
+    view ymin 0.150000
+    view ymax 0.850000
+    title "lagged cross-covariance functions"
+    title font 4
+    title size 1.500000
+    title color 1
+    title linewidth 1
+    subtitle "4096 sec modeled lag = 0.0 sec"
+    subtitle font 4
+    subtitle size 1.500000
+    subtitle color 1
+    subtitle linewidth 1
+    s0 type xy
+    s0 symbol 0
+    s0 symbol size 1.000000
+    s0 symbol fill 0
+    s0 symbol color 1
+    s0 symbol linewidth 1
+    s0 symbol linestyle 1
+    s0 symbol center false
+    s0 symbol char 0
+    s0 skip 0
+    s0 linestyle 1
+    s0 linewidth 1
+    s0 color 1
+    s0 fill 0
+    s0 fill with color
+    s0 fill color 1
+    s0 fill pattern 0
+    s0 errorbar type BOTH
+    s0 errorbar length 1.000000
+    s0 errorbar linewidth 1
+    s0 errorbar linestyle 1
+    s0 errorbar riser on
+    s0 errorbar riser linewidth 1
+    s0 errorbar riser linestyle 1
+    s0 xyz 0.000000, 0.000000
+    s0 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s1 type xy
+    s1 symbol 0
+    s1 symbol size 1.000000
+    s1 symbol fill 0
+    s1 symbol color 1
+    s1 symbol linewidth 1
+    s1 symbol linestyle 1
+    s1 symbol center false
+    s1 symbol char 0
+    s1 skip 0
+    s1 linestyle 1
+    s1 linewidth 1
+    s1 color 2
+    s1 fill 0
+    s1 fill with color
+    s1 fill color 1
+    s1 fill pattern 0
+    s1 errorbar type BOTH
+    s1 errorbar length 1.000000
+    s1 errorbar linewidth 1
+    s1 errorbar linestyle 1
+    s1 errorbar riser on
+    s1 errorbar riser linewidth 1
+    s1 errorbar riser linestyle 1
+    s1 xyz 0.000000, 0.000000
+    s1 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s2 type xy
+    s2 symbol 0
+    s2 symbol size 1.000000
+    s2 symbol fill 0
+    s2 symbol color 1
+    s2 symbol linewidth 1
+    s2 symbol linestyle 1
+    s2 symbol center false
+    s2 symbol char 0
+    s2 skip 0
+    s2 linestyle 1
+    s2 linewidth 1
+    s2 color 3
+    s2 fill 0
+    s2 fill with color
+    s2 fill color 1
+    s2 fill pattern 0
+    s2 errorbar type BOTH
+    s2 errorbar length 1.000000
+    s2 errorbar linewidth 1
+    s2 errorbar linestyle 1
+    s2 errorbar riser on
+    s2 errorbar riser linewidth 1
+    s2 errorbar riser linestyle 1
+    s2 xyz 0.000000, 0.000000
+    s2 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s3 type xy
+    s3 symbol 0
+    s3 symbol size 1.000000
+    s3 symbol fill 0
+    s3 symbol color 1
+    s3 symbol linewidth 1
+    s3 symbol linestyle 1
+    s3 symbol center false
+    s3 symbol char 0
+    s3 skip 0
+    s3 linestyle 1
+    s3 linewidth 1
+    s3 color 4
+    s3 fill 0
+    s3 fill with color
+    s3 fill color 1
+    s3 fill pattern 0
+    s3 errorbar type BOTH
+    s3 errorbar length 1.000000
+    s3 errorbar linewidth 1
+    s3 errorbar linestyle 1
+    s3 errorbar riser on
+    s3 errorbar riser linewidth 1
+    s3 errorbar riser linestyle 1
+    s3 xyz 0.000000, 0.000000
+    s3 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s4 type xy
+    s4 symbol 0
+    s4 symbol size 1.000000
+    s4 symbol fill 0
+    s4 symbol color 1
+    s4 symbol linewidth 1
+    s4 symbol linestyle 1
+    s4 symbol center false
+    s4 symbol char 0
+    s4 skip 0
+    s4 linestyle 1
+    s4 linewidth 1
+    s4 color 5
+    s4 fill 0
+    s4 fill with color
+    s4 fill color 1
+    s4 fill pattern 0
+    s4 errorbar type BOTH
+    s4 errorbar length 1.000000
+    s4 errorbar linewidth 1
+    s4 errorbar linestyle 1
+    s4 errorbar riser on
+    s4 errorbar riser linewidth 1
+    s4 errorbar riser linestyle 1
+    s4 xyz 0.000000, 0.000000
+    s4 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s5 type xy
+    s5 symbol 0
+    s5 symbol size 1.000000
+    s5 symbol fill 0
+    s5 symbol color 1
+    s5 symbol linewidth 1
+    s5 symbol linestyle 1
+    s5 symbol center false
+    s5 symbol char 0
+    s5 skip 0
+    s5 linestyle 1
+    s5 linewidth 1
+    s5 color 6
+    s5 fill 0
+    s5 fill with color
+    s5 fill color 1
+    s5 fill pattern 0
+    s5 errorbar type BOTH
+    s5 errorbar length 1.000000
+    s5 errorbar linewidth 1
+    s5 errorbar linestyle 1
+    s5 errorbar riser on
+    s5 errorbar riser linewidth 1
+    s5 errorbar riser linestyle 1
+    s5 xyz 0.000000, 0.000000
+    s5 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s6 type xy
+    s6 symbol 0
+    s6 symbol size 1.000000
+    s6 symbol fill 0
+    s6 symbol color 1
+    s6 symbol linewidth 1
+    s6 symbol linestyle 1
+    s6 symbol center false
+    s6 symbol char 0
+    s6 skip 0
+    s6 linestyle 1
+    s6 linewidth 1
+    s6 color 7
+    s6 fill 0
+    s6 fill with color
+    s6 fill color 1
+    s6 fill pattern 0
+    s6 errorbar type BOTH
+    s6 errorbar length 1.000000
+    s6 errorbar linewidth 1
+    s6 errorbar linestyle 1
+    s6 errorbar riser on
+    s6 errorbar riser linewidth 1
+    s6 errorbar riser linestyle 1
+    s6 xyz 0.000000, 0.000000
+    s6 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s7 type xy
+    s7 symbol 0
+    s7 symbol size 1.000000
+    s7 symbol fill 0
+    s7 symbol color 1
+    s7 symbol linewidth 1
+    s7 symbol linestyle 1
+    s7 symbol center false
+    s7 symbol char 0
+    s7 skip 0
+    s7 linestyle 1
+    s7 linewidth 1
+    s7 color 8
+    s7 fill 0
+    s7 fill with color
+    s7 fill color 1
+    s7 fill pattern 0
+    s7 errorbar type BOTH
+    s7 errorbar length 1.000000
+    s7 errorbar linewidth 1
+    s7 errorbar linestyle 1
+    s7 errorbar riser on
+    s7 errorbar riser linewidth 1
+    s7 errorbar riser linestyle 1
+    s7 xyz 0.000000, 0.000000
+    s7 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s8 type xy
+    s8 symbol 0
+    s8 symbol size 1.000000
+    s8 symbol fill 0
+    s8 symbol color 1
+    s8 symbol linewidth 1
+    s8 symbol linestyle 1
+    s8 symbol center false
+    s8 symbol char 0
+    s8 skip 0
+    s8 linestyle 1
+    s8 linewidth 1
+    s8 color 9
+    s8 fill 0
+    s8 fill with color
+    s8 fill color 1
+    s8 fill pattern 0
+    s8 errorbar type BOTH
+    s8 errorbar length 1.000000
+    s8 errorbar linewidth 1
+    s8 errorbar linestyle 1
+    s8 errorbar riser on
+    s8 errorbar riser linewidth 1
+    s8 errorbar riser linestyle 1
+    s8 xyz 0.000000, 0.000000
+    s8 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s9 type xy
+    s9 symbol 0
+    s9 symbol size 1.000000
+    s9 symbol fill 0
+    s9 symbol color 1
+    s9 symbol linewidth 1
+    s9 symbol linestyle 1
+    s9 symbol center false
+    s9 symbol char 0
+    s9 skip 0
+    s9 linestyle 1
+    s9 linewidth 1
+    s9 color 10
+    s9 fill 0
+    s9 fill with color
+    s9 fill color 1
+    s9 fill pattern 0
+    s9 errorbar type BOTH
+    s9 errorbar length 1.000000
+    s9 errorbar linewidth 1
+    s9 errorbar linestyle 1
+    s9 errorbar riser on
+    s9 errorbar riser linewidth 1
+    s9 errorbar riser linestyle 1
+    s9 xyz 0.000000, 0.000000
+    s9 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s10 type xy
+    s10 symbol 0
+    s10 symbol size 1.000000
+    s10 symbol fill 0
+    s10 symbol color 1
+    s10 symbol linewidth 1
+    s10 symbol linestyle 1
+    s10 symbol center false
+    s10 symbol char 0
+    s10 skip 0
+    s10 linestyle 1
+    s10 linewidth 1
+    s10 color 11
+    s10 fill 0
+    s10 fill with color
+    s10 fill color 1
+    s10 fill pattern 0
+    s10 errorbar type BOTH
+    s10 errorbar length 1.000000
+    s10 errorbar linewidth 1
+    s10 errorbar linestyle 1
+    s10 errorbar riser on
+    s10 errorbar riser linewidth 1
+    s10 errorbar riser linestyle 1
+    s10 xyz 0.000000, 0.000000
+    s10 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s11 type xy
+    s11 symbol 0
+    s11 symbol size 1.000000
+    s11 symbol fill 0
+    s11 symbol color 1
+    s11 symbol linewidth 1
+    s11 symbol linestyle 1
+    s11 symbol center false
+    s11 symbol char 0
+    s11 skip 0
+    s11 linestyle 1
+    s11 linewidth 1
+    s11 color 12
+    s11 fill 0
+    s11 fill with color
+    s11 fill color 1
+    s11 fill pattern 0
+    s11 errorbar type BOTH
+    s11 errorbar length 1.000000
+    s11 errorbar linewidth 1
+    s11 errorbar linestyle 1
+    s11 errorbar riser on
+    s11 errorbar riser linewidth 1
+    s11 errorbar riser linestyle 1
+    s11 xyz 0.000000, 0.000000
+    s11 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s12 type xy
+    s12 symbol 0
+    s12 symbol size 1.000000
+    s12 symbol fill 0
+    s12 symbol color 1
+    s12 symbol linewidth 1
+    s12 symbol linestyle 1
+    s12 symbol center false
+    s12 symbol char 0
+    s12 skip 0
+    s12 linestyle 1
+    s12 linewidth 1
+    s12 color 13
+    s12 fill 0
+    s12 fill with color
+    s12 fill color 1
+    s12 fill pattern 0
+    s12 errorbar type BOTH
+    s12 errorbar length 1.000000
+    s12 errorbar linewidth 1
+    s12 errorbar linestyle 1
+    s12 errorbar riser on
+    s12 errorbar riser linewidth 1
+    s12 errorbar riser linestyle 1
+    s12 xyz 0.000000, 0.000000
+    s12 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s13 type xy
+    s13 symbol 0
+    s13 symbol size 1.000000
+    s13 symbol fill 0
+    s13 symbol color 1
+    s13 symbol linewidth 1
+    s13 symbol linestyle 1
+    s13 symbol center false
+    s13 symbol char 0
+    s13 skip 0
+    s13 linestyle 1
+    s13 linewidth 1
+    s13 color 14
+    s13 fill 0
+    s13 fill with color
+    s13 fill color 1
+    s13 fill pattern 0
+    s13 errorbar type BOTH
+    s13 errorbar length 1.000000
+    s13 errorbar linewidth 1
+    s13 errorbar linestyle 1
+    s13 errorbar riser on
+    s13 errorbar riser linewidth 1
+    s13 errorbar riser linestyle 1
+    s13 xyz 0.000000, 0.000000
+    s13 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s14 type xy
+    s14 symbol 0
+    s14 symbol size 1.000000
+    s14 symbol fill 0
+    s14 symbol color 1
+    s14 symbol linewidth 1
+    s14 symbol linestyle 1
+    s14 symbol center false
+    s14 symbol char 0
+    s14 skip 0
+    s14 linestyle 1
+    s14 linewidth 1
+    s14 color 15
+    s14 fill 0
+    s14 fill with color
+    s14 fill color 1
+    s14 fill pattern 0
+    s14 errorbar type BOTH
+    s14 errorbar length 1.000000
+    s14 errorbar linewidth 1
+    s14 errorbar linestyle 1
+    s14 errorbar riser on
+    s14 errorbar riser linewidth 1
+    s14 errorbar riser linestyle 1
+    s14 xyz 0.000000, 0.000000
+    s14 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s15 type xy
+    s15 symbol 0
+    s15 symbol size 1.000000
+    s15 symbol fill 0
+    s15 symbol color 1
+    s15 symbol linewidth 1
+    s15 symbol linestyle 1
+    s15 symbol center false
+    s15 symbol char 0
+    s15 skip 0
+    s15 linestyle 1
+    s15 linewidth 1
+    s15 color 1
+    s15 fill 0
+    s15 fill with color
+    s15 fill color 1
+    s15 fill pattern 0
+    s15 errorbar type BOTH
+    s15 errorbar length 1.000000
+    s15 errorbar linewidth 1
+    s15 errorbar linestyle 1
+    s15 errorbar riser on
+    s15 errorbar riser linewidth 1
+    s15 errorbar riser linestyle 1
+    s15 xyz 0.000000, 0.000000
+    s15 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s16 type xy
+    s16 symbol 0
+    s16 symbol size 1.000000
+    s16 symbol fill 0
+    s16 symbol color 1
+    s16 symbol linewidth 1
+    s16 symbol linestyle 1
+    s16 symbol center false
+    s16 symbol char 0
+    s16 skip 0
+    s16 linestyle 1
+    s16 linewidth 1
+    s16 color 2
+    s16 fill 0
+    s16 fill with color
+    s16 fill color 1
+    s16 fill pattern 0
+    s16 errorbar type BOTH
+    s16 errorbar length 1.000000
+    s16 errorbar linewidth 1
+    s16 errorbar linestyle 1
+    s16 errorbar riser on
+    s16 errorbar riser linewidth 1
+    s16 errorbar riser linestyle 1
+    s16 xyz 0.000000, 0.000000
+    s16 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s17 type xy
+    s17 symbol 0
+    s17 symbol size 1.000000
+    s17 symbol fill 0
+    s17 symbol color 1
+    s17 symbol linewidth 1
+    s17 symbol linestyle 1
+    s17 symbol center false
+    s17 symbol char 0
+    s17 skip 0
+    s17 linestyle 1
+    s17 linewidth 1
+    s17 color 3
+    s17 fill 0
+    s17 fill with color
+    s17 fill color 1
+    s17 fill pattern 0
+    s17 errorbar type BOTH
+    s17 errorbar length 1.000000
+    s17 errorbar linewidth 1
+    s17 errorbar linestyle 1
+    s17 errorbar riser on
+    s17 errorbar riser linewidth 1
+    s17 errorbar riser linestyle 1
+    s17 xyz 0.000000, 0.000000
+    s17 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s18 type xy
+    s18 symbol 0
+    s18 symbol size 1.000000
+    s18 symbol fill 0
+    s18 symbol color 1
+    s18 symbol linewidth 1
+    s18 symbol linestyle 1
+    s18 symbol center false
+    s18 symbol char 0
+    s18 skip 0
+    s18 linestyle 1
+    s18 linewidth 1
+    s18 color 4
+    s18 fill 0
+    s18 fill with color
+    s18 fill color 1
+    s18 fill pattern 0
+    s18 errorbar type BOTH
+    s18 errorbar length 1.000000
+    s18 errorbar linewidth 1
+    s18 errorbar linestyle 1
+    s18 errorbar riser on
+    s18 errorbar riser linewidth 1
+    s18 errorbar riser linestyle 1
+    s18 xyz 0.000000, 0.000000
+    s18 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s19 type xy
+    s19 symbol 0
+    s19 symbol size 1.000000
+    s19 symbol fill 0
+    s19 symbol color 1
+    s19 symbol linewidth 1
+    s19 symbol linestyle 1
+    s19 symbol center false
+    s19 symbol char 0
+    s19 skip 0
+    s19 linestyle 1
+    s19 linewidth 1
+    s19 color 5
+    s19 fill 0
+    s19 fill with color
+    s19 fill color 1
+    s19 fill pattern 0
+    s19 errorbar type BOTH
+    s19 errorbar length 1.000000
+    s19 errorbar linewidth 1
+    s19 errorbar linestyle 1
+    s19 errorbar riser on
+    s19 errorbar riser linewidth 1
+    s19 errorbar riser linestyle 1
+    s19 xyz 0.000000, 0.000000
+    s19 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s20 type xy
+    s20 symbol 0
+    s20 symbol size 1.000000
+    s20 symbol fill 0
+    s20 symbol color 1
+    s20 symbol linewidth 1
+    s20 symbol linestyle 1
+    s20 symbol center false
+    s20 symbol char 0
+    s20 skip 0
+    s20 linestyle 1
+    s20 linewidth 1
+    s20 color 6
+    s20 fill 0
+    s20 fill with color
+    s20 fill color 1
+    s20 fill pattern 0
+    s20 errorbar type BOTH
+    s20 errorbar length 1.000000
+    s20 errorbar linewidth 1
+    s20 errorbar linestyle 1
+    s20 errorbar riser on
+    s20 errorbar riser linewidth 1
+    s20 errorbar riser linestyle 1
+    s20 xyz 0.000000, 0.000000
+    s20 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s21 type xy
+    s21 symbol 0
+    s21 symbol size 1.000000
+    s21 symbol fill 0
+    s21 symbol color 1
+    s21 symbol linewidth 1
+    s21 symbol linestyle 1
+    s21 symbol center false
+    s21 symbol char 0
+    s21 skip 0
+    s21 linestyle 1
+    s21 linewidth 1
+    s21 color 7
+    s21 fill 0
+    s21 fill with color
+    s21 fill color 1
+    s21 fill pattern 0
+    s21 errorbar type BOTH
+    s21 errorbar length 1.000000
+    s21 errorbar linewidth 1
+    s21 errorbar linestyle 1
+    s21 errorbar riser on
+    s21 errorbar riser linewidth 1
+    s21 errorbar riser linestyle 1
+    s21 xyz 0.000000, 0.000000
+    s21 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s22 type xy
+    s22 symbol 0
+    s22 symbol size 1.000000
+    s22 symbol fill 0
+    s22 symbol color 1
+    s22 symbol linewidth 1
+    s22 symbol linestyle 1
+    s22 symbol center false
+    s22 symbol char 0
+    s22 skip 0
+    s22 linestyle 1
+    s22 linewidth 1
+    s22 color 8
+    s22 fill 0
+    s22 fill with color
+    s22 fill color 1
+    s22 fill pattern 0
+    s22 errorbar type BOTH
+    s22 errorbar length 1.000000
+    s22 errorbar linewidth 1
+    s22 errorbar linestyle 1
+    s22 errorbar riser on
+    s22 errorbar riser linewidth 1
+    s22 errorbar riser linestyle 1
+    s22 xyz 0.000000, 0.000000
+    s22 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s23 type xy
+    s23 symbol 0
+    s23 symbol size 1.000000
+    s23 symbol fill 0
+    s23 symbol color 1
+    s23 symbol linewidth 1
+    s23 symbol linestyle 1
+    s23 symbol center false
+    s23 symbol char 0
+    s23 skip 0
+    s23 linestyle 1
+    s23 linewidth 1
+    s23 color 9
+    s23 fill 0
+    s23 fill with color
+    s23 fill color 1
+    s23 fill pattern 0
+    s23 errorbar type BOTH
+    s23 errorbar length 1.000000
+    s23 errorbar linewidth 1
+    s23 errorbar linestyle 1
+    s23 errorbar riser on
+    s23 errorbar riser linewidth 1
+    s23 errorbar riser linestyle 1
+    s23 xyz 0.000000, 0.000000
+    s23 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s24 type xy
+    s24 symbol 0
+    s24 symbol size 1.000000
+    s24 symbol fill 0
+    s24 symbol color 1
+    s24 symbol linewidth 1
+    s24 symbol linestyle 1
+    s24 symbol center false
+    s24 symbol char 0
+    s24 skip 0
+    s24 linestyle 1
+    s24 linewidth 1
+    s24 color 10
+    s24 fill 0
+    s24 fill with color
+    s24 fill color 1
+    s24 fill pattern 0
+    s24 errorbar type BOTH
+    s24 errorbar length 1.000000
+    s24 errorbar linewidth 1
+    s24 errorbar linestyle 1
+    s24 errorbar riser on
+    s24 errorbar riser linewidth 1
+    s24 errorbar riser linestyle 1
+    s24 xyz 0.000000, 0.000000
+    s24 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s25 type xy
+    s25 symbol 0
+    s25 symbol size 1.000000
+    s25 symbol fill 0
+    s25 symbol color 1
+    s25 symbol linewidth 1
+    s25 symbol linestyle 1
+    s25 symbol center false
+    s25 symbol char 0
+    s25 skip 0
+    s25 linestyle 1
+    s25 linewidth 1
+    s25 color 11
+    s25 fill 0
+    s25 fill with color
+    s25 fill color 1
+    s25 fill pattern 0
+    s25 errorbar type BOTH
+    s25 errorbar length 1.000000
+    s25 errorbar linewidth 1
+    s25 errorbar linestyle 1
+    s25 errorbar riser on
+    s25 errorbar riser linewidth 1
+    s25 errorbar riser linestyle 1
+    s25 xyz 0.000000, 0.000000
+    s25 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s26 type xy
+    s26 symbol 0
+    s26 symbol size 1.000000
+    s26 symbol fill 0
+    s26 symbol color 1
+    s26 symbol linewidth 1
+    s26 symbol linestyle 1
+    s26 symbol center false
+    s26 symbol char 0
+    s26 skip 0
+    s26 linestyle 1
+    s26 linewidth 1
+    s26 color 12
+    s26 fill 0
+    s26 fill with color
+    s26 fill color 1
+    s26 fill pattern 0
+    s26 errorbar type BOTH
+    s26 errorbar length 1.000000
+    s26 errorbar linewidth 1
+    s26 errorbar linestyle 1
+    s26 errorbar riser on
+    s26 errorbar riser linewidth 1
+    s26 errorbar riser linestyle 1
+    s26 xyz 0.000000, 0.000000
+    s26 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s27 type xy
+    s27 symbol 0
+    s27 symbol size 1.000000
+    s27 symbol fill 0
+    s27 symbol color 1
+    s27 symbol linewidth 1
+    s27 symbol linestyle 1
+    s27 symbol center false
+    s27 symbol char 0
+    s27 skip 0
+    s27 linestyle 1
+    s27 linewidth 1
+    s27 color 13
+    s27 fill 0
+    s27 fill with color
+    s27 fill color 1
+    s27 fill pattern 0
+    s27 errorbar type BOTH
+    s27 errorbar length 1.000000
+    s27 errorbar linewidth 1
+    s27 errorbar linestyle 1
+    s27 errorbar riser on
+    s27 errorbar riser linewidth 1
+    s27 errorbar riser linestyle 1
+    s27 xyz 0.000000, 0.000000
+    s27 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s28 type xy
+    s28 symbol 0
+    s28 symbol size 1.000000
+    s28 symbol fill 0
+    s28 symbol color 1
+    s28 symbol linewidth 1
+    s28 symbol linestyle 1
+    s28 symbol center false
+    s28 symbol char 0
+    s28 skip 0
+    s28 linestyle 1
+    s28 linewidth 1
+    s28 color 14
+    s28 fill 0
+    s28 fill with color
+    s28 fill color 1
+    s28 fill pattern 0
+    s28 errorbar type BOTH
+    s28 errorbar length 1.000000
+    s28 errorbar linewidth 1
+    s28 errorbar linestyle 1
+    s28 errorbar riser on
+    s28 errorbar riser linewidth 1
+    s28 errorbar riser linestyle 1
+    s28 xyz 0.000000, 0.000000
+    s28 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    s29 type xy
+    s29 symbol 0
+    s29 symbol size 1.000000
+    s29 symbol fill 0
+    s29 symbol color 1
+    s29 symbol linewidth 1
+    s29 symbol linestyle 1
+    s29 symbol center false
+    s29 symbol char 0
+    s29 skip 0
+    s29 linestyle 1
+    s29 linewidth 1
+    s29 color 15
+    s29 fill 0
+    s29 fill with color
+    s29 fill color 1
+    s29 fill pattern 0
+    s29 errorbar type BOTH
+    s29 errorbar length 1.000000
+    s29 errorbar linewidth 1
+    s29 errorbar linestyle 1
+    s29 errorbar riser on
+    s29 errorbar riser linewidth 1
+    s29 errorbar riser linestyle 1
+    s29 xyz 0.000000, 0.000000
+    s29 comment "/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp/covs.dat"
+    xaxis  tick on
+    xaxis  tick major 2
+    xaxis  tick minor 1
+    xaxis  tick offsetx 0.000000
+    xaxis  tick offsety 0.000000
+    xaxis  label "shift (sec)"
+    xaxis  label layout para
+    xaxis  label place auto
+    xaxis  label char size 1.000000
+    xaxis  label font 4
+    xaxis  label color 1
+    xaxis  label linewidth 1
+    xaxis  ticklabel on
+    xaxis  ticklabel type auto
+    xaxis  ticklabel prec 1
+    xaxis  ticklabel format decimal
+    xaxis  ticklabel append ""
+    xaxis  ticklabel prepend ""
+    xaxis  ticklabel layout horizontal
+    xaxis  ticklabel skip 0
+    xaxis  ticklabel stagger 0
+    xaxis  ticklabel op bottom
+    xaxis  ticklabel sign normal
+    xaxis  ticklabel start type auto
+    xaxis  ticklabel start 0.000000
+    xaxis  ticklabel stop type auto
+    xaxis  ticklabel stop 0.000000
+    xaxis  ticklabel char size 1.000000
+    xaxis  ticklabel font 4
+    xaxis  ticklabel color 1
+    xaxis  ticklabel linewidth 1
+    xaxis  tick major on
+    xaxis  tick minor on
+    xaxis  tick default 6
+    xaxis  tick in
+    xaxis  tick major color 1
+    xaxis  tick major linewidth 1
+    xaxis  tick major linestyle 1
+    xaxis  tick minor color 1
+    xaxis  tick minor linewidth 1
+    xaxis  tick minor linestyle 1
+    xaxis  tick log off
+    xaxis  tick size 1.000000
+    xaxis  tick minor size 0.500000
+    xaxis  bar off
+    xaxis  bar color 1
+    xaxis  bar linestyle 1
+    xaxis  bar linewidth 1
+    xaxis  tick major grid off
+    xaxis  tick minor grid off
+    xaxis  tick op both
+    xaxis  tick type auto
+    xaxis  tick spec 0
+    yaxis  tick on
+    yaxis  tick major 0.1
+    yaxis  tick minor 0.05
+    yaxis  tick offsetx 0.000000
+    yaxis  tick offsety 0.000000
+    yaxis  label "cov"
+    yaxis  label layout para
+    yaxis  label place auto
+    yaxis  label char size 1.000000
+    yaxis  label font 4
+    yaxis  label color 1
+    yaxis  label linewidth 1
+    yaxis  ticklabel on
+    yaxis  ticklabel type auto
+    yaxis  ticklabel prec 2
+    yaxis  ticklabel format decimal
+    yaxis  ticklabel append ""
+    yaxis  ticklabel prepend ""
+    yaxis  ticklabel layout horizontal
+    yaxis  ticklabel skip 0
+    yaxis  ticklabel stagger 0
+    yaxis  ticklabel op left
+    yaxis  ticklabel sign normal
+    yaxis  ticklabel start type auto
+    yaxis  ticklabel start 0.000000
+    yaxis  ticklabel stop type auto
+    yaxis  ticklabel stop 0.000000
+    yaxis  ticklabel char size 1.000000
+    yaxis  ticklabel font 4
+    yaxis  ticklabel color 1
+    yaxis  ticklabel linewidth 1
+    yaxis  tick major on
+    yaxis  tick minor on
+    yaxis  tick default 6
+    yaxis  tick in
+    yaxis  tick major color 1
+    yaxis  tick major linewidth 1
+    yaxis  tick major linestyle 1
+    yaxis  tick minor color 1
+    yaxis  tick minor linewidth 1
+    yaxis  tick minor linestyle 1
+    yaxis  tick log off
+    yaxis  tick size 1.000000
+    yaxis  tick minor size 0.500000
+    yaxis  bar off
+    yaxis  bar color 1
+    yaxis  bar linestyle 1
+    yaxis  bar linewidth 1
+    yaxis  tick major grid off
+    yaxis  tick minor grid off
+    yaxis  tick op both
+    yaxis  tick type auto
+    yaxis  tick spec 0
+    zeroxaxis  tick on
+    zeroxaxis  tick major 5
+    zeroxaxis  tick minor 2.5
+    zeroxaxis  tick offsetx 0.000000
+    zeroxaxis  tick offsety 0.000000
+    zeroxaxis  label ""
+    zeroxaxis  label layout para
+    zeroxaxis  label place auto
+    zeroxaxis  label char size 1.000000
+    zeroxaxis  label font 4
+    zeroxaxis  label color 1
+    zeroxaxis  label linewidth 1
+    zeroxaxis  ticklabel off
+    zeroxaxis  ticklabel type auto
+    zeroxaxis  ticklabel prec 1
+    zeroxaxis  ticklabel format decimal
+    zeroxaxis  ticklabel append ""
+    zeroxaxis  ticklabel prepend ""
+    zeroxaxis  ticklabel layout horizontal
+    zeroxaxis  ticklabel skip 0
+    zeroxaxis  ticklabel stagger 0
+    zeroxaxis  ticklabel op bottom
+    zeroxaxis  ticklabel sign normal
+    zeroxaxis  ticklabel start type auto
+    zeroxaxis  ticklabel start 0.000000
+    zeroxaxis  ticklabel stop type auto
+    zeroxaxis  ticklabel stop 0.000000
+    zeroxaxis  ticklabel char size 1.000000
+    zeroxaxis  ticklabel font 4
+    zeroxaxis  ticklabel color 1
+    zeroxaxis  ticklabel linewidth 1
+    zeroxaxis  tick major off
+    zeroxaxis  tick minor on
+    zeroxaxis  tick default 6
+    zeroxaxis  tick in
+    zeroxaxis  tick major color 1
+    zeroxaxis  tick major linewidth 1
+    zeroxaxis  tick major linestyle 1
+    zeroxaxis  tick minor color 1
+    zeroxaxis  tick minor linewidth 1
+    zeroxaxis  tick minor linestyle 1
+    zeroxaxis  tick log off
+    zeroxaxis  tick size 1.000000
+    zeroxaxis  tick minor size 0.500000
+    zeroxaxis  bar off
+    zeroxaxis  bar color 1
+    zeroxaxis  bar linestyle 1
+    zeroxaxis  bar linewidth 1
+    zeroxaxis  tick major grid off
+    zeroxaxis  tick minor grid off
+    zeroxaxis  tick op both
+    zeroxaxis  tick type auto
+    zeroxaxis  tick spec 0
+    zeroyaxis  tick on
+    zeroyaxis  tick major 0.1
+    zeroyaxis  tick minor 0.05
+    zeroyaxis  tick offsetx 0.000000
+    zeroyaxis  tick offsety 0.000000
+    zeroyaxis  label ""
+    zeroyaxis  label layout para
+    zeroyaxis  label place auto
+    zeroyaxis  label char size 1.000000
+    zeroyaxis  label font 4
+    zeroyaxis  label color 1
+    zeroyaxis  label linewidth 1
+    zeroyaxis  ticklabel off
+    zeroyaxis  ticklabel type auto
+    zeroyaxis  ticklabel prec 2
+    zeroyaxis  ticklabel format decimal
+    zeroyaxis  ticklabel append ""
+    zeroyaxis  ticklabel prepend ""
+    zeroyaxis  ticklabel layout horizontal
+    zeroyaxis  ticklabel skip 0
+    zeroyaxis  ticklabel stagger 0
+    zeroyaxis  ticklabel op left
+    zeroyaxis  ticklabel sign normal
+    zeroyaxis  ticklabel start type auto
+    zeroyaxis  ticklabel start 0.000000
+    zeroyaxis  ticklabel stop type auto
+    zeroyaxis  ticklabel stop 0.000000
+    zeroyaxis  ticklabel char size 1.000000
+    zeroyaxis  ticklabel font 4
+    zeroyaxis  ticklabel color 1
+    zeroyaxis  ticklabel linewidth 1
+    zeroyaxis  tick major off
+    zeroyaxis  tick minor on
+    zeroyaxis  tick default 6
+    zeroyaxis  tick in
+    zeroyaxis  tick major color 1
+    zeroyaxis  tick major linewidth 1
+    zeroyaxis  tick major linestyle 1
+    zeroyaxis  tick minor color 1
+    zeroyaxis  tick minor linewidth 1
+    zeroyaxis  tick minor linestyle 1
+    zeroyaxis  tick log off
+    zeroyaxis  tick size 1.000000
+    zeroyaxis  tick minor size 0.500000
+    zeroyaxis  bar off
+    zeroyaxis  bar color 1
+    zeroyaxis  bar linestyle 1
+    zeroyaxis  bar linewidth 1
+    zeroyaxis  tick major grid off
+    zeroyaxis  tick minor grid off
+    zeroyaxis  tick op both
+    zeroyaxis  tick type auto
+    zeroyaxis  tick spec 0
+    legend off
+    legend loctype view
+    legend layout 0
+    legend vgap 2
+    legend hgap 1
+    legend length 4
+    legend box off
+    legend box fill off
+    legend box fill with color
+    legend box fill color 0
+    legend box fill pattern 1
+    legend box color 1
+    legend box linewidth 1
+    legend box linestyle 1
+    legend x1 0.8
+    legend y1 0.8
+    legend font 4
+    legend char size 1.000000
+    legend linestyle 1
+    legend linewidth 1
+    legend color 1
+    frame on
+    frame type 0
+    frame linestyle 1
+    frame linewidth 1
+    frame color 1
+    frame fill off
+    frame background color 0

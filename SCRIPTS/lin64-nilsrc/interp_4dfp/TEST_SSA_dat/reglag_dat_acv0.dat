@@ -1,0 +1,7 @@
+#reglag_dat /data/nil-bluearc/raichle/ryan/MSC/TESTING/MSC02/vc38508/FCmaps/vc38508_faln_dbnd_xr3d_uwrp_atl.dvar.format vc38508_b1_faln_dbnd_xr3d_uwrp_atl_bpss_resid_264ROI.dat -et2.2 -Lreglag_dat_vc38508_b1_faln_dbnd_xr3d_uwrp_atl_bpss_resid_264ROI.log
+#$Id: reglag_dat.c,v 1.7 2018/03/05 03:48:51 avi Exp $
+ -4.400000  0.259778
+ -2.200000  0.657036
+  0.000000  1.000000
+  2.200000  0.657036
+  4.400000  0.259778

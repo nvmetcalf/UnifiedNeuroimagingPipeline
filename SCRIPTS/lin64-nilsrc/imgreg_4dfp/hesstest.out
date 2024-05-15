@@ -1,0 +1,203 @@
+quad
+   15.2339    1.3443   -0.8952    1.3134    2.4981
+    1.3443    1.5022   -0.7493   -0.3450    0.1277
+   -0.8952   -0.7493    1.2453    0.5976   -0.6131
+    1.3134   -0.3450    0.5976    2.6913    0.1720
+    2.4981    0.1277   -0.6131    0.1720    1.4362
+quad eigenvalues
+   15.9906    3.1497    1.4336    1.2140    0.3210
+parameters
+    0.1000    0.1000    0.1000    0.1000    0.1000
+eta  0.748188
+parameter search radius
+    0.1000    0.1000    0.1000    0.1000    0.1000
+niter,escale    10      1.00
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.2569   -0.1125 -0.0088  0.0101  0.0044 -0.0158
+ -0.0277   -0.0088 -0.0213  0.0107  0.0074  0.0001
+  0.0061    0.0101  0.0107 -0.0185 -0.0092  0.0085
+ -0.0646    0.0044  0.0074 -0.0092 -0.0340  0.0021
+ -0.0535   -0.0158  0.0001  0.0085  0.0021 -0.0175
+hess eigenvalues
+   -0.0049   -0.0181   -0.0205   -0.0423   -0.1180
+hess determinant -.9003E-08  condition number 0.2427E+02
+parameters
+   -0.1018   -0.1392   -0.1263   -0.1235   -0.1627
+eta  0.680672
+adjusting parameter search radius
+parameter search radius
+    0.4216    0.9697    1.0406    0.7668    1.0700
+niter,escale     9      0.50
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.0621   -0.6142 -0.0138  0.0133 -0.0034 -0.0307
+ -0.0340   -0.0138 -0.5538  0.0529  0.0191 -0.0008
+  0.0084    0.0133  0.0529 -0.5532 -0.0293  0.0425
+ -0.0563   -0.0034  0.0191 -0.0293 -0.5576  0.0027
+ -0.0618   -0.0307 -0.0008  0.0425  0.0027 -0.5581
+hess eigenvalues
+   -0.4847   -0.5388   -0.5527   -0.6049   -0.6557
+hess determinant -.5726E-01  condition number 0.1353E+01
+parameters
+    0.0604    0.0399    0.1045    0.0208   -0.0130
+eta  0.937241
+maximum parameter change  0.112971
+adjusting parameter search radius
+parameter search radius
+    0.4073    0.9868    1.0595    0.7776    1.0846
+niter,escale     8      0.87
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.0506   -1.4693 -0.0230  0.0199 -0.0118 -0.0622
+ -0.0202   -0.0230 -1.2538  0.1106  0.0229 -0.0092
+ -0.0286    0.0199  0.1106 -1.2265 -0.0456  0.0754
+ -0.0460   -0.0118  0.0229 -0.0456 -1.3004 -0.0077
+ -0.0253   -0.0622 -0.0092  0.0754 -0.0077 -1.3285
+hess eigenvalues
+   -1.1125   -1.2608   -1.3092   -1.3861   -1.5098
+hess determinant -.3843E+01  condition number 0.1357E+01
+parameters
+    0.0468    0.0219    0.0777   -0.0060   -0.0331
+eta  0.969389
+maximum parameter change  0.026853
+adjusting parameter search radius
+parameter search radius
+    0.2546    0.6676    0.7247    0.5166    0.7129
+niter,escale     7      1.52
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.1652   -1.7995 -0.1345  0.1078 -0.0919 -0.2825
+ -0.0357   -0.1345 -1.4360  0.3130  0.0902 -0.0438
+ -0.0613    0.1078  0.3130 -1.4092 -0.1712  0.2519
+ -0.0584   -0.0919  0.0902 -0.1712 -1.5045 -0.0432
+ -0.0238   -0.2825 -0.0438  0.2519 -0.0432 -1.5251
+hess eigenvalues
+   -1.0256   -1.3473   -1.3950   -1.7613   -2.1451
+hess determinant -.7283E+01  condition number 0.2092E+01
+parameters
+    0.0238    0.0019    0.0381   -0.0208   -0.0376
+eta  0.992684
+maximum parameter change  0.039631
+adjusting parameter search radius
+parameter search radius
+    0.1522    0.4468    0.4896    0.3378    0.4630
+niter,escale     6      2.36
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.1054   -1.3877 -0.2243  0.1667 -0.1650 -0.4378
+ -0.0136   -0.2243 -1.2151  0.4308  0.1333 -0.0677
+ -0.0601    0.1667  0.4308 -1.2083 -0.2550  0.3594
+  0.0105   -0.1650  0.1333 -0.2550 -1.2398 -0.0681
+  0.0337   -0.4378 -0.0677  0.3594 -0.0681 -1.2419
+hess eigenvalues
+   -0.6154   -0.9066   -1.0612   -1.5884   -2.1210
+hess determinant -.1995E+01  condition number 0.3446E+01
+parameters
+    0.0088   -0.0044    0.0077   -0.0105   -0.0177
+eta  0.999039
+maximum parameter change  0.030314
+adjusting parameter search radius
+parameter search radius
+    0.1117    0.3505    0.3851    0.2623    0.3592
+niter,escale     5      3.16
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.0373   -1.0925 -0.2289  0.1675 -0.1673 -0.4380
+ -0.0017   -0.2289 -1.0638  0.4444  0.1384 -0.0701
+ -0.0193    0.1675  0.4444 -1.0646 -0.2641  0.3715
+  0.0186   -0.1673  0.1384 -0.2641 -1.0669 -0.0705
+  0.0196   -0.4380 -0.0701  0.3715 -0.0705 -1.0677
+hess eigenvalues
+   -0.4308   -0.6845   -0.8910   -1.4013   -1.9479
+hess determinant -.7172E+00  condition number 0.4522E+01
+parameters
+    0.0027   -0.0033   -0.0008   -0.0026   -0.0065
+eta  0.999922
+maximum parameter change  0.011166
+adjusting parameter search radius
+parameter search radius
+    0.0968    0.3077    0.3380    0.2299    0.3148
+niter,escale     4      3.85
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.0112   -1.0247 -0.2323  0.1698 -0.1695 -0.4428
+  0.0015   -0.2323 -1.0217  0.4537  0.1416 -0.0717
+ -0.0034    0.1698  0.4537 -1.0219 -0.2697  0.3792
+  0.0062   -0.1695  0.1416 -0.2697 -1.0221 -0.0722
+  0.0064   -0.4428 -0.0717  0.3792 -0.0722 -1.0222
+hess eigenvalues
+   -0.3726   -0.6249   -0.8432   -1.3572   -1.9147
+hess determinant -.5101E+00  condition number 0.5139E+01
+parameters
+    0.0008   -0.0016   -0.0014   -0.0004   -0.0024
+eta  0.999993
+maximum parameter change  0.004095
+adjusting parameter search radius
+parameter search radius
+    0.0886    0.2821    0.3099    0.2108    0.2885
+niter,escale     3      4.49
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.0030   -1.0115 -0.2376  0.1737 -0.1734 -0.4524
+  0.0011   -0.2376 -1.0112  0.4641  0.1450 -0.0734
+  0.0001    0.1737  0.4641 -1.0112 -0.2760  0.3880
+  0.0014   -0.1734  0.1450 -0.2760 -1.0112 -0.0739
+  0.0021   -0.4524 -0.0734  0.3880 -0.0739 -1.0113
+hess eigenvalues
+   -0.3468   -0.6040   -0.8283   -1.3535   -1.9238
+hess determinant -.4518E+00  condition number 0.5547E+01
+parameters
+    0.0002   -0.0007   -0.0008   -0.0000   -0.0009
+eta  0.999999
+maximum parameter change  0.001508
+adjusting parameter search radius
+parameter search radius
+    0.0828    0.2638    0.2898    0.1971    0.2698
+niter,escale     2      5.07
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.0008   -1.0074 -0.2420  0.1770 -0.1766 -0.4607
+  0.0005   -0.2420 -1.0074  0.4726  0.1477 -0.0748
+  0.0004    0.1770  0.4726 -1.0074 -0.2812  0.3952
+  0.0002   -0.1766  0.1477 -0.2812 -1.0074 -0.0753
+  0.0008   -0.4607 -0.0748  0.3952 -0.0753 -1.0074
+hess eigenvalues
+   -0.3307   -0.5925   -0.8210   -1.3560   -1.9368
+hess determinant -.4225E+00  condition number 0.5856E+01
+parameters
+    0.0001   -0.0003   -0.0003    0.0000   -0.0003
+eta  1.000000
+maximum parameter change  0.000568
+adjusting parameter search radius
+parameter search radius
+    0.0784    0.2498    0.2743    0.1866    0.2554
+niter,escale     1      5.62
+evaluating gradient and hessian diagonals
+evaluating hessian off-diagonals
+linear system
+ -0.0002   -1.0053 -0.2455  0.1795 -0.1792 -0.4671
+  0.0002   -0.2455 -1.0053  0.4792  0.1499 -0.0759
+  0.0002    0.1795  0.4792 -1.0053 -0.2852  0.4008
+  0.0000   -0.1792  0.1499 -0.2852 -1.0053 -0.0764
+  0.0003   -0.4671 -0.0759  0.4008 -0.0764 -1.0053
+hess eigenvalues
+   -0.3192   -0.5845   -0.8163   -1.3588   -1.9479
+hess determinant -.4031E+00  condition number 0.6102E+01
+parameters
+    0.0000   -0.0001   -0.0001    0.0000   -0.0001
+eta  1.000000
+maximum parameter change  0.000212
+adjusting parameter search radius
+parameters
+    0.0000   -0.0001   -0.0001    0.0000   -0.0001
+eta  1.000000

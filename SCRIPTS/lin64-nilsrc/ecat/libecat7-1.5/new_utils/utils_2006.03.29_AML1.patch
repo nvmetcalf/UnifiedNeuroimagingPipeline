@@ -1,0 +1,161 @@
+diff -urN utils/applynorm.c fixed_utils/applynorm.c
+--- utils/applynorm.c	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/applynorm.c	2006-03-29 14:31:58.000000000 -0800
+@@ -6,6 +6,7 @@
+ #include "matrix.h"
+ #include "ecat_model.h"
+ #include <math.h>
++#include <string.h> /* AML -get memcpy, memset */
+ 
+ #define RMAX 32	/* Number of crystal rings supported */
+ #define AXIAL_CRYSTAL_RINGS 32
+@@ -430,7 +431,7 @@
+ 	proj = (float*)malloc(size*sizeof(float));
+ 	norm = (float*)malloc(size*sizeof(float));
+ 	scan_data = (short*)malloc(size*sizeof(short));
+-	scan_buf = malloc(size*sizeof(float));
++	scan_buf = (caddr_t) malloc(size*sizeof(float));
+ 
+ /* create atten file */
+ 	memcpy(&mh, scan_mf->mhptr, sizeof(Main_header));
+diff -urN utils/byte_volume.c fixed_utils/byte_volume.c
+--- utils/byte_volume.c	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/byte_volume.c	2006-03-29 14:31:58.000000000 -0800
+@@ -1,6 +1,6 @@
+ #include <string.h>
+ #include <stdlib.h>
+-#include <malloc.h>
++/*#include <malloc.h>*/
+ #include "matrix.h"
+ 
+ typedef struct _Tslice
+diff -urN utils/get_axial_lor.c fixed_utils/get_axial_lor.c
+--- utils/get_axial_lor.c	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/get_axial_lor.c	2006-03-29 14:31:58.000000000 -0800
+@@ -11,6 +11,7 @@
+ #include <math.h>
+ #include <stdlib.h>
+ #include <stdio.h>
++#include <string.h> /* AML -get memcpy, memset */
+ 
+ static int verbose = 0;
+ 
+diff -urN utils/imagemath.c fixed_utils/imagemath.c
+--- utils/imagemath.c	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/imagemath.c	2006-03-29 14:31:58.000000000 -0800
+@@ -18,6 +18,7 @@
+ #include "matrix.h"
+ #include <math.h>
+ #include <string.h>
++#include <stdlib.h> /* AML - get exit */
+ static char *version = "imagemath V2.4 02-Nov-2001";
+ static usage(pgm) 
+ char *pgm;
+diff -urN utils/load_volume.h fixed_utils/load_volume.h
+--- utils/load_volume.h	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/load_volume.h	2006-03-29 14:31:58.000000000 -0800
+@@ -20,7 +20,7 @@
+  *     last modification date : 19-JUL-1996
+  */
+ #include <stdlib.h>
+-#include <malloc.h>
++/* #include <malloc.h> */
+ #include <string.h>
+ 
+ #include "matrix.h"
+diff -urN utils/matcopy.c fixed_utils/matcopy.c
+--- utils/matcopy.c	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/matcopy.c	2006-03-29 14:31:58.000000000 -0800
+@@ -5,9 +5,10 @@
+ 
+ /* 09-Nov-1995 : modified by sibomana@topo.ucl.ac.be */
+ 
+-#include <malloc.h>
++/*#include <malloc.h>*/
+ #include <string.h>
+ #include "matrix.h"
++#include <stdlib.h> /* AML - get exit */
+ extern MatrixData *matrix_read_scan();
+ 
+ static usage() {
+diff -urN utils/matlist.c fixed_utils/matlist.c
+--- utils/matlist.c	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/matlist.c	2006-03-29 14:31:58.000000000 -0800
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include "matrix.h"
++#include <stdlib.h> /* AML - get exit function */
+ 
+ main( argc, argv)
+   int argc;
+diff -urN utils/scanshift.c fixed_utils/scanshift.c
+--- utils/scanshift.c	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/scanshift.c	2006-03-29 14:31:58.000000000 -0800
+@@ -5,7 +5,7 @@
+ 
+ /* 09-Nov-1995 : modified by sibomana@topo.ucl.ac.be */
+ 
+-#include <malloc.h>
++/* #include <malloc.h> */
+ #include <string.h>
+ #include "matrix.h"
+ extern MatrixData *matrix_read_scan();
+diff -urN utils/show_header.c fixed_utils/show_header.c
+--- utils/show_header.c	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/show_header.c	2006-03-29 14:52:02.000000000 -0800
+@@ -8,6 +8,8 @@
+ 
+ #include <math.h>
+ #include "matrix.h"
++#include <stdlib.h> /* AML - get exit function */
++#include <string.h> /* AML - get strncpy */
+ 
+ main( argc, argv)
+   int argc;
+@@ -97,6 +99,7 @@
+ 	int ft, i;
+ 	char *ftstr, tod[256];
+ 	time_t t = mh->scan_start_time;
++	char ctime_result[26];
+ 
+ 	printf("Matrix Main Header\n");
+ 	printf("Original File Name          : %-32s\n", mh->original_file_name);
+@@ -110,7 +113,8 @@
+ 	if (ft>0 && ft<=NumDataSetTypes) ftstr = ftypes[ft-1];
+ 	printf("File type                   : %d (%s)\n", ft, ftstr);
+ 	printf("Node Id                     : %-10s\n", mh->serial_number);
+-	printf("Scan TOD                    : %s\n",ctime(&t));
++	ctime_r(&t, &ctime_result); /* AML - usage of ctime(&t) was giving SIGSEGV for some reason */
++	printf("Scan TOD                    : %s\n",ctime_result);
+ /*
+ 	day_time( tod, mh->scan_start_day, mh->scan_start_month, 
+ 	  mh->scan_start_year, mh->scan_start_hour, mh->scan_start_minute,
+@@ -183,14 +187,14 @@
+ 	printf("Acquisition Mode            : %d \n", mh->acquisition_mode);
+ 	printf("User Processing Code        : %-10s\n", mh->user_process_code);
+ 	printf("Branching Fraction          : %0.4f\n", mh->branching_fraction);
+-	if (dosage>1000.0f)
++	if (mh->dosage>1000.0f)
+ 	{ /* Assume Bq */
+ 		printf("Injected dose               : %g Bq\n", mh->dosage);
+ 	} else
+ 		printf("Injected dose               : %g mCi\n", mh->dosage);
+ 	t = mh->dose_start_time;
+ 	if (t > 0) {
+-	printf("Dose start time             : %s",ctime(&t));
++	printf("Dose start time             : %s",ctime_result);
+ 	printf("Delay since injection       : %d\n",mh->scan_start_time - t);
+ 	}
+ 	else  {
+diff -urN utils/wb_assemble.c fixed_utils/wb_assemble.c
+--- utils/wb_assemble.c	2006-03-29 14:53:49.000000000 -0800
++++ fixed_utils/wb_assemble.c	2006-03-29 14:31:58.000000000 -0800
+@@ -21,6 +21,7 @@
+ #include <unistd.h>
+ #include <stdio.h>
+ #include <math.h>
++#include <string.h> /* AML -get memcpy, memset */
+ #define MAX_BEDS 20
+ 
+ typedef struct _BedPosition

@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/imgmax_4dfp/imgmax_4dfp.mak

@@ -1,0 +1,343 @@
+#!/bin/csh -f
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/generic_NT_script,v 1.9 2018/08/17 05:48:19 avi Exp $
+#$Log: generic_NT_script,v $
+# Revision 1.9  2018/08/17  05:48:19  avi
+# invoke with -f
+#
+# Revision 1.8  2007/09/26  01:40:36  avi
+# generalize target variable to work with -T option in atlas transformation scripts
+#
+# Revision 1.7  2007/04/19  05:15:51  avi
+# accommodate PD+T2W as t2w data
+#
+# Revision 1.6  2004/08/02  21:39:33  avi
+# add -RD options to mat2dat call
+#
+# Revision 1.5  2003/11/05  02:11:23  avi
+# allow manually interleaved T2W
+# always create 222 as well as 333 atlas space epi anat_ave
+#
+# Revision 1.4  2003/09/30  02:48:54  avi
+# small typo
+#
+# Revision 1.3  2003/09/24  20:20:04  avi
+# remove absolute path to ~jon/bin in call to dcm_to_4dfp
+#
+# Revision 1.2  2003/08/27  22:19:58  avi
+# $epidir
+#
+# Revision 1.1  2003/08/27  22:11:45  avi
+# Initial revision
+#
+
+@ go =		1		# 0: test mode; 1: run mode;
+@ economy =	5		# if ($economy > 0)			compress *ima
+				# if ($economy > 2)			rm $patid"_b"$irun[$k].4dfp.*
+				# if ($economy > 3)			rm $patid"_b"$irun[$k]"_faln".4dfp.*
+				# if ($economy > 4 && $epi2atl == 0)	rm $patid"_b"$irun[$k]"_faln_dbnd.4dfp.*
+				# if ($economy > 5)			rm $patid"_"$mprs[$k].4dfp.* $patid_$mprave*.4dfp.*
+				# if ($economy > 6)			rm $patid"_b"$irun[$k]"_faln_dbnd_xr3d_norm".4dfp.*
+set inpath =    $cwd/*rawdata
+set dcmroot =   AB23759.MR.HEAD_BARCH
+set patid =     ab23759
+set target =	711-2V		# 711-2B | 711-2O | 711-2Y | etc. OR, e.g., -T$REFDIR/ALLEGRA_Y_111
+set mprs =	(3)		# fine MP-RAGE study number
+set tse =	()		# tse T2W scan[s]; more than 1 are assumed manually interleaved; list most ventral first
+set pdt2w =	(4)		# two volume pd+t2w acquisition; the second (t2w) volume will be used; only 1 acq allowed
+set irun =	(1  2  3  4  5  6  7  8)	# fMRI run label
+set fstd =	(6  7  8  9 10 11 12 13)	# Siemens series number
+set TR_vol =	2.5		# time per frame in seconds
+set TR_slc = 	0.0		# time per slice in seconds (0 => will be computed assuming even spacing)
+set imaflip =	0		# 0 | x | y | xy
+@ epidir =	1		# 0 for inf->sup (product sequence default); 1 for sup->inf acquisition (Erbil sequence);
+@ skip =	4		# pre-functional BOLD frames
+@ epi2atl =	1		# 0: leave processed time series in EPI space; 1: transform to 333 space
+				# 2: proceed directly to t4_xr3d_4dfp
+@ normode =	0		# 1: enable per-frame volume intensity equalization; 0: no operation;
+
+set program = $0; set program = $program:t
+@ nmpr = ${#mprs}
+@ runs = ${#irun}
+if ($runs != ${#fstd}) then
+	echo "irun fstd mismatch - edit "$0
+	exit -1
+endif
+
+date
+###################
+# process BOLD data
+###################
+@ err = 0
+@ k = 1
+while ($k <= $runs)
+	if (! -d bold$irun[$k]) mkdir bold$irun[$k]
+	pushd bold$irun[$k]
+	set y = $patid"_b"$irun[$k]"_faln_dbnd"
+	if (-e $y.4dfp.img && -e $y.4dfp.ifh) goto POP
+	echo	uncompress $inpath/$dcmroot.$fstd[$k]."*".IMA.Z
+	if ($go) then
+		onintr -
+		uncompress $inpath/$dcmroot.$fstd[$k].*.IMA.Z
+		onintr
+	endif
+	echo		dcm_to_4dfp -q -b study$fstd[$k] $inpath/$dcmroot.$fstd[$k]."*"
+	if ($go)	dcm_to_4dfp -q -b study$fstd[$k] $inpath/$dcmroot.$fstd[$k].*
+	echo		unpack_4dfp -V study$fstd[$k] $patid"_b"$irun[$k]
+	if ($go)	unpack_4dfp -V study$fstd[$k] $patid"_b"$irun[$k]
+	if ($status) then
+		@ err++
+		/bin/rm $patid"_b"$irun[$k]*
+		goto POP
+	endif
+	echo		/bin/rm  study$fstd[$k]."*"
+	if ($go)	/bin/rm  study$fstd[$k].*
+	if ($economy) echo	compress $inpath/$dcmroot.$fstd[$k]."*".IMA
+	if ($economy && $go) then
+				onintr -
+				compress $inpath/$dcmroot.$fstd[$k].*.IMA
+				onintr
+	endif
+
+	echo		frame_align_4dfp $patid"_b"$irun[$k] $skip -TR_vol $TR_vol -TR_slc $TR_slc -d $epidir
+	if ($go)	frame_align_4dfp $patid"_b"$irun[$k] $skip -TR_vol $TR_vol -TR_slc $TR_slc -d $epidir
+
+	echo		deband_4dfp -n$skip $patid"_b"$irun[$k]"_faln"
+	if ($go)	deband_4dfp -n$skip $patid"_b"$irun[$k]"_faln"
+	if ($status)	exit $status
+
+	if ($economy > 2) then
+		echo		/bin/rm $patid"_b"$irun[$k].4dfp."*"
+		if ($go)	/bin/rm $patid"_b"$irun[$k].4dfp.*
+	endif
+	if ($economy > 3) then
+		echo		/bin/rm $patid"_b"$irun[$k]"_faln".4dfp."*"
+		if ($go)	/bin/rm $patid"_b"$irun[$k]"_faln".4dfp.*
+	endif
+POP:
+	popd	# out of bold$irun[$k]
+	@ k++
+end
+if ($err) then
+	echo $program": one or more BOLD runs failed preliminary processing"
+	exit -1
+endif
+if ($epi2atl == 2) goto ATL
+
+/bin/rm $patid"_xr3d".lst
+touch   $patid"_xr3d".lst
+/bin/rm $patid"_anat".lst
+touch   $patid"_anat".lst
+@ k = 1
+while ($k <= $runs)
+	echo bold$irun[$k]/$patid"_b"$irun[$k]"_faln_dbnd" >>			$patid"_xr3d".lst
+	echo bold$irun[$k]/$patid"_b"$irun[$k]"_faln_dbnd_xr3d_norm" 1 >>	$patid"_anat".lst
+	@ k++
+end
+
+echo cat	$patid"_xr3d".lst
+cat		$patid"_xr3d".lst
+echo		cross_realign3d_4dfp -n$skip -qv$normode -l$patid"_xr3d".lst
+if ($go)	cross_realign3d_4dfp -n$skip -qv$normode -l$patid"_xr3d".lst
+if ($status)	exit $status
+
+date
+#################################
+# compute mode 1000 normalization
+#################################
+@ k = 1
+while ($k <= $runs)
+	pushd bold$irun[$k]
+	echo 		normalize_4dfp $patid"_b"$irun[$k]"_faln_dbnd_r3d_avg"
+	if ($go)	normalize_4dfp $patid"_b"$irun[$k]"_faln_dbnd_r3d_avg"
+	if ($economy > 4 && $epi2atl == 0) then
+		echo		/bin/rm $patid"_b"$irun[$k]"_faln_dbnd".4dfp."*"
+		if ($go)	/bin/rm $patid"_b"$irun[$k]"_faln_dbnd".4dfp.*
+	endif
+	popd	# out of bold$irun[$k]
+	@ k++
+end
+
+date
+###############################
+# apply mode 1000 normalization
+###############################
+@ k = 1
+while ($k <= $runs)
+	pushd bold$irun[$k]
+	set file = $patid"_b"$irun[$k]"_faln_dbnd_r3d_avg_norm".4dfp.img.rec
+	set f = 1.0; if (-e $file) set f = `head $file | awk '/original/{print 1000/$NF}'`
+	echo		scale_4dfp $patid"_b"$irun[$k]"_faln_dbnd_xr3d" $f -anorm
+	if ($go)	scale_4dfp $patid"_b"$irun[$k]"_faln_dbnd_xr3d" $f -anorm
+	echo		/bin/rm $patid"_b"$irun[$k]"_faln_dbnd_xr3d".4dfp."*"
+	if ($go)	/bin/rm $patid"_b"$irun[$k]"_faln_dbnd_xr3d".4dfp.*
+	popd	# out of bold$irun[$k]
+	@ k++
+end
+
+date
+###################
+# movement analysis
+###################
+if (! -d movement) mkdir movement
+@ k = 1
+while ($k <= $runs)
+	echo		mat2dat bold$irun[$k]/"*_xr3d".mat -RD -n$skip
+	if ($go)	mat2dat bold$irun[$k]/*"_xr3d".mat -RD -n$skip
+	echo		/bin/mv bold$irun[$k]/"*_xr3d.*dat"	movement
+	if ($go)	/bin/mv bold$irun[$k]/*"_xr3d".*dat	movement
+	@ k++
+end
+
+date
+######################################
+# make EPI first frame (anatomy) image
+######################################
+echo cat	$patid"_anat".lst
+cat		$patid"_anat".lst
+echo		paste_4dfp -p1 $patid"_anat".lst	$patid"_anat_ave"
+if ($go)	paste_4dfp -p1 $patid"_anat".lst	$patid"_anat_ave"
+echo		ifh2hdr	-r2000				$patid"_anat_ave"
+if ($go)	ifh2hdr	-r2000				$patid"_anat_ave"
+echo		4dfptoanalyze $patid"_anat_ave"
+if ($go)	4dfptoanalyze $patid"_anat_ave"
+
+######################
+# atlas transformation
+######################
+if (! -d atlas) mkdir atlas
+echo		mv $patid"_anat*" atlas
+if ($go)	mv $patid"_anat"* atlas
+
+pushd atlas
+######################
+# make MP-RAGE average
+######################
+if ($nmpr < 1) exit 0
+set mprave =	$patid"_mpr_n"$nmpr
+set mprlst = ()
+@ k = 1
+while ($k <= $nmpr)
+	echo	uncompress $inpath/$dcmroot.$mprs[$k]."*".IMA.Z
+	if ($go) then
+		onintr -
+		uncompress $inpath/$dcmroot.$mprs[$k].*.IMA.Z
+		onintr
+	endif
+	echo		dcm_to_4dfp -z -b $patid"_mpr"$k $inpath/$dcmroot.$mprs[$k]."*"
+	if ($go)	dcm_to_4dfp -z -b $patid"_mpr"$k $inpath/$dcmroot.$mprs[$k].*
+	if ($economy) echo	compress $inpath/$dcmroot.$mprs[$k]."*".IMA
+	if ($economy && $go) then
+				onintr -
+				compress $inpath/$dcmroot.$mprs[$k].*.IMA
+				onintr
+	endif
+	set mprlst = ($mprlst $patid"_mpr"$k)
+	@ k++
+end
+
+echo		avgmpr_4dfp $mprlst $mprave $target useold 
+if ($go)	avgmpr_4dfp $mprlst $mprave $target useold
+
+date
+#########################
+# compute atlas transform
+#########################
+@ ntse = ${#tse}
+if ($ntse) then
+	set tselst = ()
+	@ k = 1
+	while ($k <= $ntse)
+		echo	uncompress $inpath/$dcmroot.$tse[$k]."*".IMA.Z
+		if ($go) then
+			onintr -
+			uncompress $inpath/$dcmroot.$tse[$k].*.IMA.Z
+			onintr
+		endif
+		set filenam = $patid"_t2w"
+		if ($ntse > 1) set filenam = $filenam$k
+		echo		dcm_to_4dfp -b $filenam $inpath/$dcmroot.$tse[$k]."*"
+		if ($go) 	dcm_to_4dfp -b $filenam $inpath/$dcmroot.$tse[$k].*
+		if ($economy) echo	compress $inpath/$dcmroot.$tse[$k]."*".IMA
+		if ($economy && $go) then
+					onintr -
+					compress $inpath/$dcmroot.$tse[$k].*.IMA
+					onintr
+		endif
+		set tselst = ($tselst $filenam)
+		@ k++
+	end
+	if ($ntse  > 1) then
+		echo		collate_slice_4dfp $tselst $patid"_t2w"
+		if ($go)	collate_slice_4dfp $tselst $patid"_t2w"
+	endif
+	echo		epi2t2w2mpr2atl1_4dfp $patid"_anat_ave" $patid"_t2w" $patid"_mpr1" useold $target
+	if ($go)	epi2t2w2mpr2atl1_4dfp $patid"_anat_ave" $patid"_t2w" $patid"_mpr1" useold $target
+else if (${#pdt2w} == 1) then
+	echo	uncompress $inpath/$dcmroot.$pdt2w."*".IMA.Z
+	if ($go) then
+		onintr -
+		uncompress $inpath/$dcmroot.$pdt2w.*.IMA.Z
+		onintr
+	endif
+	echo		dcm_to_4dfp -b temp$$ $inpath/$dcmroot.$pdt2w."*"
+	if ($go) 	dcm_to_4dfp -b temp$$ $inpath/$dcmroot.$pdt2w.*
+	if ($economy) echo	compress $inpath/$dcmroot.$pdt2w."*".IMA
+	if ($economy && $go) then
+			onintr -
+			compress $inpath/$dcmroot.$pdt2w.*.IMA
+			onintr
+	endif
+	echo		extract_frame_4dfp temp$$ 2 -o$patid"_t2w"
+	if ($go)	extract_frame_4dfp temp$$ 2 -o$patid"_t2w"
+	echo		/bin/rm temp$$"*"
+	if ($go)	/bin/rm temp$$*
+	echo		epi2t2w2mpr2atl1_4dfp $patid"_anat_ave" $patid"_t2w" $patid"_mpr1" useold $target
+	if ($go)	epi2t2w2mpr2atl1_4dfp $patid"_anat_ave" $patid"_t2w" $patid"_mpr1" useold $target
+else
+	echo		epi2mpr2atlv_4dfp $patid"_anat_ave" $patid"_mpr1" useold $target
+	if ($go)	epi2mpr2atlv_4dfp $patid"_anat_ave" $patid"_mpr1" useold $target
+endif
+
+@ k = 1
+while ($k <= $nmpr)
+	if ($economy > 5) then
+		echo		/bin/rm $patid"_mpr?".4dfp."*" $mprave"*".4dfp."*"
+ 		if ($go)	/bin/rm $patid"_mpr"?.4dfp.*   $mprave*.4dfp.*
+	endif
+	@ k++
+end
+/bin/rm *t4%
+
+################################################################
+# make atlas transformed EPI anat_ave in 333 and 222 atlas space
+################################################################
+set t4file = $patid"_anat_ave_to_"$target:t"_t4"
+foreach O (222 333)
+	echo		t4img_4dfp $t4file  $patid"_anat_ave"	$patid"_anat_ave_t88_"$O -O$O
+	if ($go)	t4img_4dfp $t4file  $patid"_anat_ave"	$patid"_anat_ave_t88_"$O -O$O
+	echo		ifh2hdr	 -r2000				$patid"_anat_ave_t88_"$O
+	if ($go)	ifh2hdr	 -r2000				$patid"_anat_ave_t88_"$O
+end
+popd		# out of atlas
+
+ATL:
+if (! $epi2atl) exit 0
+date
+###################################################################
+# make cross-realigned atlas-transformed resampled BOLD 4dfp stacks
+###################################################################
+@ k = 1
+while ($k <= $runs)
+	pushd bold$irun[$k]
+	set file = $patid"_b"$irun[$k]"_faln_dbnd_r3d_avg_norm".4dfp.img.rec
+	set f = 1.0; if (-e $file) set f = `head $file | awk '/original/{print 1000/$NF}'`
+	echo		t4_xr3d_4dfp ../atlas/$patid"_anat_ave_to_"$target:t"_t4" $patid"_b"$irun[$k]"_faln_dbnd" -axr3d_atl -v$normode -c$f -O333
+	if ($go)	t4_xr3d_4dfp ../atlas/$patid"_anat_ave_to_"$target:t"_t4" $patid"_b"$irun[$k]"_faln_dbnd" -axr3d_atl -v$normode -c$f -O333
+	if ($economy > 6) then
+		echo		/bin/rm $patid"_b"$irun[$k]"_faln_dbnd_xr3d_norm".4dfp."*"
+		if ($go)	/bin/rm $patid"_b"$irun[$k]"_faln_dbnd_xr3d_norm".4dfp.*
+	endif
+	popd	# out of bold$irun[$k]
+	@ k++
+end
+exit

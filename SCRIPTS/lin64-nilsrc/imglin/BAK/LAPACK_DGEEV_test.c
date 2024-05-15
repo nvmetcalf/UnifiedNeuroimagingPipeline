@@ -1,0 +1,102 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+/*******************/
+/* DGEEV prototype */
+/*******************/
+extern void dgeev_ (char* jobvl, char* jobvr, int* n, double* a, int* lda, double* wr, double* wi, double* vl, int* ldvl, double* vr, int* ldvr, double* work, int* lwork, int* info);
+/*********************************/
+/* Auxiliary routines prototypes */
+/*********************************/
+extern void print_eigenvalues  (char* desc, int n, double* wr, double* wi);
+extern void print_eigenvectors (char* desc, int n, double* wi, double* v, int ldv);
+
+/**************/
+/* Parameters */
+/**************/
+#define N 5
+#define LDA N
+#define LDVL N
+#define LDVR N
+
+/**********************/
+/* Auxiliary printing */
+/**********************/
+void print_eigenvalues (char* desc, int n, double* wr, double* wi) {
+	int	j;
+	printf ("\n %s\n", desc);
+	for (j = 0; j < n; j++ ) {
+		if (wi[j] == (double) 0.0) {
+			printf (" %6.2f", wr[j]);
+		} else {
+			printf ("(%6.2f,%6.2f)", wr[j], wi[j]);
+		}
+	}
+	printf ("\n");
+}
+
+void print_eigenvectors (char* desc, int n, double* wi, double* v, int ldv) {
+	int	i, j;
+	printf("\n %s\n", desc);
+	for (i = 0; i < n; i++) {
+		j = 0;
+		while (j < n) {
+			if (wi[j] == (double) 0.0) {
+				printf (" %6.2f", v[i+j*ldv]);
+				j++;
+			} else {
+				printf ("(%6.2f,%6.2f)", v[i+j*ldv],  v[i+(j+1)*ldv]);
+				printf ("(%6.2f,%6.2f)", v[i+j*ldv], -v[i+(j+1)*ldv]);
+				j += 2;
+			}
+		}
+		printf ("\n");
+	}
+}
+
+int main() {
+/**********/
+/* Locals */
+/**********/
+	int	n = N, lda = LDA, ldvl = LDVL, ldvr = LDVR, info, lwork;
+	double	wkopt;
+	double	*work;
+	double	wr[N], wi[N], vl[LDVL*N], vr[LDVR*N];
+	double	a[LDA*N] = {
+		-1.01,  3.98,  3.30,  4.43,  7.31,
+		 0.86,  0.53,  8.26,  4.96, -6.43,
+		-4.60, -7.04, -3.89, -7.66, -6.16,
+		 3.31,  5.29,  8.20, -7.33,  2.47,
+		-4.81,  3.55, -1.51,  6.18,  5.58
+	};
+
+	printf ("DGEEV Example Program\n");
+/********************************************/
+/* Query and allocate the optimal workspace */
+/********************************************/
+	lwork = -1;
+	dgeev_ ("Vectors", "Vectors", &n, a, &lda, wr, wi, vl, &ldvl, vr, &ldvr, &wkopt, &lwork, &info);
+	lwork = (int) wkopt;
+	work = (double*) malloc (lwork*sizeof(double));
+/**********************/
+/* Solve eigenproblem */
+/**********************/
+	dgeev_ ("Vectors", "Vectors", &n, a, &lda, wr, wi, vl, &ldvl, vr, &ldvr,  work,  &lwork, &info);
+/*************************/
+/* Check for convergence */
+/*************************/
+	if (info > 0) {
+		printf ("algorithm failed to compute eigenvalues\n" );
+		exit (-1);
+	}
+
+/*****************/
+/* Print results */
+/*****************/
+	print_eigenvalues  ("Eigenvalues", n, wr, wi);
+	print_eigenvectors ("Left  eigenvectors", n, wi, vl, ldvl);
+	print_eigenvectors ("Right eigenvectors", n, wi, vr, ldvr);
+
+	free ((void*) work);
+	exit (0);
+} /* End of DGEEV Example */

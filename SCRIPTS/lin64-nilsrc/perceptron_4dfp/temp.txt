@@ -1,0 +1,1 @@
+perceptron_4dfp NC-11_faln_dbnd_xr3d_atl_g7_bpss_resid.conc test_ROI /data/nil-bluearc/corbetta/Hacker/Process/MATLAB/FCTB/Reference_Images/N21_aparc+aseg_GMctx_on_711-2V_333_avg_zlt0.5_gAAmask_v1 /data/nil-bluearc/corbetta/Hacker/Data/Perceptron/weights1.txt /data/nil-bluearc/corbetta/Hacker/Data/Perceptron/weights2.txt

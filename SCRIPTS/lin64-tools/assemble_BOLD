@@ -1,0 +1,67 @@
+#!/bin/csh -f
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/assemble_BOLD,v 1.2 2018/08/17 05:28:13 avi Exp $
+#$Log: assemble_BOLD,v $
+# Revision 1.2  2018/08/17  05:28:13  avi
+# invoke with -f
+#
+# Revision 1.1  2009/03/12  05:10:25  avi
+# Initial revision
+#
+set idstr = '$Id: assemble_BOLD,v 1.2 2018/08/17 05:28:13 avi Exp $'
+set program = $0; set program = $program:t;
+echo $idstr
+
+@ debug = 0
+######################
+# process command line
+######################
+@ k = 0
+@ i = 1
+while ($i <= ${#argv})
+	set swi = `echo $argv[$i] | awk '$1~/^-/{print substr($1,1,2)}'`
+	if (${#swi} > 0) then
+		set arg = `echo $argv[$i] | awk '{print substr($0,3)}'`
+		switch ($swi)
+			case -d:
+				@ debug++;		breaksw;
+			default:
+				echo $swi option not recognized
+				goto USAGE
+				breaksw;
+		endsw
+	else
+		switch ($k)
+			case 0:
+				set inpath	= $argv[$i];	@ k++; breaksw;
+			case 1:
+				set dcmroot	= $argv[$i];	@ k++; breaksw;
+			case 2:
+				@ fstd		= $argv[$i];	@ k++; breaksw;
+			case 3:
+				set outroot	= $argv[$i];	@ k++; breaksw;
+		endsw
+	endif
+	@ i++
+end
+if ($k < 4) goto USAGE
+
+ls $inpath >! $$list
+grep $dcmroot"."$fstd"." $$list >! $$list1
+awk '{printf("ln -s %s/%s .\n", inpath, $1)}' inpath=$inpath $$list1 >! $$list2
+mkdir $$dir
+mv $$list2 $$dir
+cd $$dir
+source $$list2
+/bin/rm $$list2
+cd ..
+dcm_to_4dfp -b $outroot $$dir
+/bin/rm -r $$dir $$list $$list1
+
+exit
+
+USAGE:
+echo "Usage:	"$program" <inpath> <dcmroot> <study_number> <outroot>"
+echo "e.g.,	"$program" /data/nil-bluearc/shimony/Data/TBI/TB0048/siem_im TB0048.MR.CCIR-0075_BRODY-MACDONALD_TRAUMATIC_BRAIN_INJ_ 21 TB004_b21"
+echo "	option"
+echo "	-d	debug mode"
+exit 1

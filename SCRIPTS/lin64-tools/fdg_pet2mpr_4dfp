@@ -1,0 +1,296 @@
+#!/bin/csh
+# $Header: /home/usr/jon/bin/RCS/fdg_pet2mpr_4dfp,v 1.2 2011/08/26 20:19:04 jon Exp jon $
+
+# Algorithm:
+# This script will register a MPRAGE MRI (mpr) to a target and to FDG PET.
+#
+# If mpr_to_target_t4 does not exist mpr2atl is run. 
+# MRI and PET are blurred and masked. 
+# The FDG to mr registration is calculated.
+# The FDG to target registration is calculated.
+# Registration quality is calculated. Resolved t4 are moved to resolved_t4.
+# Log files are maintained.
+#
+
+set idstr = '$Id: fdg_pet2mpr_4dfp,v 1.2 2011/08/26 20:19:04 jon Exp jon $'
+echo $idstr
+
+set program = $0
+set program = $program:t
+
+set bindir = $RELEASE
+set oristr = (T C S)
+
+set pet_reg_modes = (4099 4099 3075 2051 10243)
+
+set gauss = 1.3				# MRI gauss
+set blur = 5				# FDG blur
+
+@ useT = 0				# 
+set targetpath = "/data/cninds01/data2/atlas"
+set target = "TRIO_Y_NDC"
+
+set imgv = ()	# input files
+set imgf = ()	# smoothed
+set imgm = ()	# masked
+
+@ i    = 0
+while ($i <= ${#argv})
+        switch ($argv[$i])
+       case -G*:
+                set gauss  = `echo $argv[$i] | gawk '{print substr($1,3)}'`
+                breaksw
+       case -B*:
+                set blur   = `echo $argv[$i] | gawk '{print substr($1,3)}'`
+                breaksw
+       case -T*:
+                set targetpath   = `echo $argv[$i] | gawk '{print substr($1,3)}'`
+                set targetpath   = $targetpath:r
+                set targetpath   = $targetpath:r
+                set target       = $targetpath:t
+                set targetpath   = $targetpath:h
+                @ useT ++
+                breaksw
+        default:
+                set imgv = ($imgv $argv[$i])
+                breaksw         
+        endsw
+        @ i ++
+end
+
+@ n = ${#imgv}
+if ($n < 2) then
+        echo n = $n
+	echo "Usage:	$program <mprage_image> <fdg_image(s)> [-Gmprage_gauss] [-Bfdg_blur_mm] [target]"
+	echo " e.g.,	$program p5999_mprage p5999fdg1 -G1.2 -B4 -T/data/cninds01/data2/atlas/MSADEM_Y_DC"
+	echo "   or,	$program p5999_mprage p5999fdg1 p5999fdg2 p5999fdg3"
+
+	echo "		The first image listed must be the MRI."
+	echo "		Default mprage_gauss is 1.3, default fdg_blur is 5 mm"
+	echo "		Default target is /data/cninds01/data2/atlas/TRIO_Y_NDC"
+	echo "		Resolved t4 files and fdg to target t4 are placed in resolved_t4."
+	
+	exit 1
+endif
+
+echo MRI = $imgv[1] FDG = $imgv[2-]
+
+set gaussint = `echo $gauss | gawk '{print int(10 * '$gauss')}'`
+set gaussstr = "_g"$gaussint
+set blurstr = "_b"$blur"0"
+
+echo MPRAGE gauss will be "_g"$gaussint FDG blur will be "_b"$blur"0"
+
+if($useT)then
+	echo command line targetpath $targetpath target $target
+else
+	echo Default TARGET PATH $targetpath/$target
+endif
+
+##################################################################################################
+# Check to see if necessary files are present
+
+if (! -e $targetpath/$target".4dfp.img" || ! -e $targetpath/$target".4dfp.ifh") then
+   echo ERROR $target".4dfp.img" or $target".4dfp.ifh" not found
+   exit -1
+endif
+
+echo imgv = $imgv
+
+set j = 1
+while($j <= ${#imgv})
+    if (! -e $imgv[$j].4dfp.img || ! -e $imgv[$j].4dfp.ifh) then
+	echo
+	echo ERROR $imgv[$j].4dfp.img or $imgv[$j].4dfp.ifh not found.
+	echo "Exiting "$program
+	echo
+	exit -1
+    endif
+    @ j++
+end
+
+##################################################################################################
+# Make logs
+set log = $imgv[1]"_"${program}$blurstr$gaussstr".log"
+if (-e $log) /bin/rm $log
+date >> $log
+touch $log
+echo imgreg_4dfp OUTPUT will be placed in $log
+
+set t4_log = $imgv[1]"_"${program}$blurstr$gaussstr"_t4_resolve.log"
+if (-e $t4_log) /bin/rm $t4_log
+date >> $t4_log
+touch $t4_log
+echo t4_resolve OUTPUT will be placed in $t4_log
+
+##################################################################################################
+echo Preprocess MPRAGE
+
+if (! -e $imgv[1]"_to_"$target"_t4") then
+	echo run mpr2atl_4dfp for image $imgv[1] 
+	mpr2atl_4dfp $imgv[1] -T$targetpath/$target
+	if ($status) exit $status
+else
+	echo Target MPRAGE t4 $imgv[1]"_to_"$target"_t4" exists
+endif
+if (-e $imgv[1]"_g11.4dfp.img")rm $imgv[1]"_g11"*
+
+if (! -e $imgv[1]$gaussstr".4dfp.img") then
+	gauss_4dfp $imgv[1] $gauss
+        if ($status) exit $status
+else
+	echo Gaussed MPRAGE $imgv[1]$gaussstr".4dfp.img" exists
+endif
+ 
+if (! -e $imgv[1]"_mskt.4dfp.img" ) then
+	msktgen_4dfp $imgv[1] -T$targetpath/$target
+	if ($status) exit $status
+else
+	echo Masked MPRAGE $imgv[1]"_mskt.4dfp.img" exists
+endif
+
+set imgf = ($imgf $imgv[1]$gaussstr)
+set imgm = ($imgm $imgv[1]"_mskt")
+##################################################################################################
+echo Preprocess PET images blur and mask
+
+@ i = 2
+while ( $i <= ${#imgv})
+	if (! -e $imgv[$i]$blurstr".4dfp.img" || ! -e $imgv[$i]$blurstr".4dfp.ifh") then
+	    echo "imgblur_4dfp set to "$blur"mm"
+	    echo imgblur_4dfp $imgv[$i] $blur
+		 imgblur_4dfp $imgv[$i] $blur
+	endif
+	set imgf = ( $imgf $imgv[$i]$blurstr )
+
+	@ nsl = `gawk '/matrix size \[3\]/ {print $NF}' $imgv[$i]$blurstr.4dfp.ifh`
+	@ msl = `echo $nsl | gawk '{print int(0.08*$1)}'`
+	echo maskimg_4dfp $imgv[$i]$blurstr $imgv[$i]$blurstr -p0.1 $imgv[$i]_msk
+	     maskimg_4dfp $imgv[$i]$blurstr $imgv[$i]$blurstr -p0.1 $imgv[$i]_msk
+	echo zero_slice_4dfp $imgv[$i]_msk z 1 $msl $imgv[$i]_mskz
+	     zero_slice_4dfp $imgv[$i]_msk z 1 $msl $imgv[$i]_mskz
+	    @ k = $nsl - $msl; @ k++
+	echo zero_slice_4dfp $imgv[$i]_mskz z $k $nsl $imgv[$i]_msk
+	     zero_slice_4dfp $imgv[$i]_mskz z $k $nsl $imgv[$i]_msk
+	set imgm = ( $imgm $imgv[$i]"_msk" )
+
+	echo remove $imgv[$i]"_mskz"
+	    /bin/rm $imgv[$i]"_mskz"*
+	       echo $imgv[$i]"_mskz has been removed." >> $log
+	@ i++
+end
+
+echo imgf = $imgf
+echo imgm = $imgm
+
+##################################################################################################
+echo Compute FDG to MRI registration
+
+@ i = 1
+while ($i <= ${#imgv})
+	@ j = 1
+	@ k = 1
+	while ($j <= ${#imgv})
+		if ($j == $i) goto SKIP
+		set pos = $imgv[$i]:t
+		set neg = $imgv[$j]:t
+		set t4file = $neg"_to_"$pos"_t4"
+		echo "" >> $log
+
+		if (-e $t4file) /bin/rm $t4file	### create t4
+		if (! -e $t4file) then		### check the orientation of the mprage
+		   @ ori = `gawk '/orientation/{print $NF - 1}' ${imgv[$i]}.4dfp.ifh`
+		   t4_inv $bindir/$oristr[$ori]_t4 temp$$_t4
+		   @ ori = `gawk '/orientation/{print $NF - 1}' ${imgv[$j]}.4dfp.ifh`
+		   t4_mul $bindir/$oristr[$ori]_t4 temp$$_t4 $t4file
+		   /bin/rm -f temp$$_t4
+		endif
+
+		@ k = 1
+		while ($k <= ${#pet_reg_modes})
+		    echo       imgreg_4dfp $imgf[$i] $imgm[$i] $imgf[$j] $imgm[$j] $t4file $pet_reg_modes[$k]
+
+		    if($k == ${#pet_reg_modes})then 		# the last mode processing is added to log
+		       $bindir/imgreg_4dfp $imgf[$i] $imgm[$i] $imgf[$j] $imgm[$j] $t4file $pet_reg_modes[$k] >> $log
+		    else
+		       $bindir/imgreg_4dfp $imgf[$i] $imgm[$i] $imgf[$j] $imgm[$j] $t4file $pet_reg_modes[$k]
+		    endif
+
+		    @ k++
+		end
+  
+SKIP:
+		@ j++
+	end
+	@ i++
+end
+
+##################################################################################################
+echo Resolve the MPRAGE and FDG t4 files
+echo"" >> $t4_log
+
+echo "t4_resolve $imgv -ofdgmpr"    $t4_log
+      t4_resolve $imgv -ofdgmpr  >> $t4_log
+                 if ($status) exit $status
+
+echo Determine quality of the registration and print output
+set error = `gawk '/rotation/{rot = $5} /translation/{trans = $5} END {printf("%3d",100*(trans+1.4*rot))}' $t4_log`
+
+echo "" 
+echo "" >> $t4_log
+echo "fdgmpr ERROR = " $error
+echo "fdgmpr ERROR = " $error >> $t4_log
+if ($error < 100) then
+    echo    "error is LOW, image reconciliation is good" >> $t4_log
+else if (($error > 100) && ($error < 200)) then
+    echo    "error is MED, cross-image reconciliation is acceptable" >> $t4_log
+else if ($error > 200) then
+    echo    "error is HIGH, cross-image reconciliation is poor" >> $t4_log
+endif
+
+##################################################################################################
+echo Move better quality resolved t4 files to resolved_t4 subdirectory. 
+# The resolved_t4 directory will not be removed, but existing t4 files may be overwritten.
+set unres = unresolved_t4
+if (! -e $unres) mkdir $unres
+
+foreach img1 ($imgv)
+   foreach img2 ($imgv)
+	if (-e ${img1}_to_${img2}_t4) mv -f ${img1}_to_${img2}_t4 $unres
+   end
+end
+
+set res = resolved_t4
+if (-d $res) echo Warning resolved_t4 directory exists
+if (! -e $res) mkdir $res
+
+mv -f *"fdgmpr_t4" fdgmpr.sub $res
+
+# The FDG to target registration is calculated in $res
+@ i = 2
+pushd $res
+	while ($i <= ${#imgv})
+           if (-e $imgv[$i]"_to_"$imgv[1]"_t4")rm -f $imgv[$i]"_to_"$imgv[1]"_t4"
+	   cp -f $imgv[$i]"_to_fdgmpr_t4" $imgv[$i]"_to_"$imgv[1]"_t4"
+           t4_mul $imgv[$i]"_to_"$imgv[1]"_t4" ../$imgv[1]"_to_"$target"_t4" $imgv[$i]"_to_"$target"_t4"
+	   @ i++
+	end
+popd 
+
+echo $program Cleaning
+
+echo remove $imgv[1]"_mskt"
+    /bin/rm $imgv[1]"_mskt.4dfp"*
+echo remove $imgv[1]$gaussstr
+    /bin/rm $imgv[1]$gaussstr".4dfp"*
+@ i = 2
+while ($i <= ${#imgv})
+   echo remove $imgm[$i]
+       /bin/rm $imgm[$i]".4dfp"*
+   echo remove $imgf[$i]
+       /bin/rm $imgf[$i]".4dfp"*
+   @ i++
+end
+
+echo Done $program
+exit 0

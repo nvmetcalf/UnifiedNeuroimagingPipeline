@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/normalize_4dfp/normalize_4dfp.mak

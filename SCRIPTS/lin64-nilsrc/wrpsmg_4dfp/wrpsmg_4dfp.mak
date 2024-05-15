@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/wrpsmg_4dfp/wrpsmg_4dfp.mak

@@ -1,0 +1,219 @@
+#!/bin/csh
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/input_to_4dfp,v 1.2 2011/11/28 22:58:10 coalsont Exp $
+#$Log: input_to_4dfp,v $
+#Revision 1.2  2011/11/28 22:58:10  coalsont
+#use -N to discard center and spacing from nifti
+#
+#Revision 1.1  2010/08/17 22:10:20  coalsont
+#Initial revision
+#
+#coalsont: Philips data cannot be handled correctly by dinifti
+#dcm2nii drops slice spacing in normal mosaic data, and does not reslice mosaic
+#dinifti takes care of everything but Philips as of 7/29/2009 (release: 4/7/2009, 2.28.14)
+#so, dcm2nii is used ONLY on Philips data
+#several other converters from idoimaging.com and google search were considered, no better candidates found
+#hopefully dinifti will resolve Philips data processing and can be used for all data in the near future
+#additionally, dcm2nii is unlikely to compile on solaris due to using lazarus as a build environment, and gtk
+#dinifti will compile on solaris with a subset of CTN (now MESA) and the nifti reference implementation
+#see http://cbi.nyu.edu/software/dinifti.php
+#set echo
+set idstr = '$Id: input_to_4dfp,v 1.2 2011/11/28 22:58:10 coalsont Exp $'
+echo $idstr
+set program = $0; set program = $program:t
+
+if (${#argv} < 5) then
+	echo "usage:	"$program" output_root input_root format sorted go [format-specific options]"
+	echo "nx and ny must be specified if mosaic is 1"
+	exit 1
+endif
+#set CURRDIR = `pwd`
+#ugly hack to keep relative paths using $cwd sane
+#cd $argv[4]
+#if (! -e $argv[3]) then
+#	echo $program": "$argv[3] not found
+#	exit -1
+#endif
+#source $argv[3]
+#cd $CURRDIR
+#if (! ${?sorted}) @ sorted = 0
+set outname = $argv[1]
+set inname = $argv[2]
+set frmt = $argv[3]
+@ sorted = $argv[4]
+#@ mosaic = $argv[5]
+@ go = $argv[5]
+@ i = 6
+set tempname = "tempdicomconv.nii"
+set tempdir = "temp4dcm2nii"
+set dinifti = "dinifti"
+set dcm2nii = "dcm2nii"
+#if ($mosaic) then
+#	set outname = study$argv[1]
+#	@ nx = $argv[7]
+#	@ ny = $argv[8]
+#	@ i = 9
+#endif
+set myargs = ""
+while ($i <= ${#argv})
+	set myargs = "$myargs $argv[$i]"
+	@ i++
+end
+#echo myargs = $myargs
+#if (${?frmt} == 0) set frmt = DICOM
+#if (! $?mosaic) @ mosaic = 1
+switch ($frmt)
+case "dicom":
+case "DICOM":
+case "DICoM":
+case ".dcm":
+case ".IMA":
+	if ($sorted) then
+		echo testing for Philips data...
+		set onefile = `echo $inname/* | cut -f-5 -d' '`
+		set onefile = `ls -1 $onefile | grep -v .xml | head -n 1`
+		echo $onefile
+		if (`strings $onefile | grep Philips` == "") then
+			echo		$dinifti $myargs $inname $tempname
+			if ($go)	$dinifti $myargs $inname $tempname
+		else
+			@ rmdir = 0
+			if (! -e $tempdir) then
+				@ rmdir = 1
+			else
+				rm -f $tempdir/* > /dev/null
+			endif
+			echo		mkdir -p $tempdir
+			if ($go)	mkdir -p $tempdir
+			echo		$dcm2nii -a y -d n -e n -f n -g n -i n -p n -r n -o $tempdir $myargs $inname
+			if ($go)	$dcm2nii -a y -d n -e n -f n -g n -i n -p n -r n -o $tempdir $myargs $inname
+			echo		mv $tempdir/*nii $tempname
+			if ($go)	mv $tempdir/*nii $tempname
+			if ($rmdir) then
+				echo		rmdir -p $tempdir
+				if ($go)	rmdir -p $tempdir
+			endif
+		endif
+	else
+		echo testing for Philips data...
+		set onefile = `echo $inname* | cut -f-5 -d' '`
+		set onefile = `ls -1 $onefile | grep -v .xml | head -n 1`
+		echo $onefile
+		if (`strings $onefile | grep Philips` == "") then
+			echo		$dinifti $myargs $inname"*" $tempname
+			if ($go)	$dinifti $myargs $inname* $tempname
+		else
+			@ rmdir = 0
+			if (! -e $tempdir) then
+				@ rmdir = 1
+			else
+				rm -f $tempdir/*nii > /dev/null
+			endif
+			echo		mkdir -p $tempdir
+			if ($go)	mkdir -p $tempdir
+			echo		find $inname:h -name $inname:t'"*"' -exec cp {} $tempdir \;
+			if ($go)	find $inname:h -name $inname:t"*" -exec cp {} $tempdir \;
+			echo		$dcm2nii -a y -d n -e n -f n -g n -i n -p n -r n -o $tempdir $myargs $tempdir/"*"
+			if ($go)	$dcm2nii -a y -d n -e n -f n -g n -i n -p n -r n -o $tempdir $myargs $tempdir/*
+			echo		mv $tempdir/*nii $tempname
+			if ($go)	mv $tempdir/*nii $tempname
+			echo		rm -f $tempdir/"*"
+			if ($go)	rm -f $tempdir/*
+			if ($rmdir) then
+				echo		rmdir -p $tempdir
+				if ($go)	rmdir -p $tempdir
+			endif
+		endif
+	endif
+	echo		nifti_4dfp -4 -N $tempname $outname
+	if ($go)	nifti_4dfp -4 -N $tempname $outname
+	echo		rm -f $tempname
+	if ($go)	rm -f $tempname
+	if (-e `echo $outname | sed 's/\.ifh$//' | sed 's/\.img$//' | sed 's/\.4dfp$//'`.4dfp.img_to_atlas_t4) then
+		echo WARNING: input file $argv[1] is not plumb!
+	endif
+breaksw
+case "NIfTI":
+case "NIFTI":
+case ".nii":
+case "nifti":
+#nifti_4dfp -4 takes no optional arguments
+	if ($sorted) then
+		echo		nifti_4dfp -4 -N $inname/"*".nii $outname
+		if ($go)	nifti_4dfp -4 -N $inname/*.nii $outname
+	else
+#		if ((! $?caselist) || (! $?casename)) then
+#			echo unsorted non-dicom data MUST have caselist and casename parameters.
+#			echo format is:
+#			echo set caselist = (<a number for every dataset>)
+#			echo set casename = (<image root for each dataset>)
+#			echo images should be in '$inpath' 
+#		endif
+#		@ i = 1
+#		while ($i <= $#caselist)
+#			if ($caselist[$i] == argv[2]) break
+#			@ i++
+#		end
+#		set inname = `echo $casename[$i] | sed 's/\.ifh$//' | sed 's/\.img$//' | sed 's/\.4dfp$//'`
+		echo		nifti_4dfp -4 -N $inname $outname
+		if ($go)	nifti_4dfp -4 -N $inname $outname
+	endif
+	if (-e `echo $outname | sed 's/\.ifh$//' | sed 's/\.img$//' | sed 's/\.4dfp$//'`.4dfp.img_to_atlas_t4) then
+		echo WARNING: input file $argv[1] is not plumb!
+	endif
+breaksw
+case "4dfp":
+case "4DFP":
+case "4dFP":
+case ".4dfp.ifh":
+case ".4dfp":
+#dont use myargs, cp and ln will not run if unknown args are present
+	set toconvert = "cp"
+	if (! $?link) @ link = 0
+	if ($link) set toconvert = "ln -s"
+	set inname = `echo $inname | sed 's/\.ifh$//' | sed 's/\.img$//' | sed 's/\.4dfp$//'`
+	set outname = `echo $outname | sed 's/\.ifh$//' | sed 's/\.img$//' | sed 's/\.4dfp$//'`
+	if ($sorted) then
+		echo		$toconvert $inname/'*.4dfp.ifh' $outname.4dfp.ifh
+		if ($go)	$toconvert $inname/*.4dfp.ifh $outname.4dfp.ifh
+		echo		$toconvert $inname/'*.4dfp.img' $outname.4dfp.img
+		if ($go)	$toconvert $inname/*.4dfp.img $outname.4dfp.img
+		echo		$toconvert $inname/'*.4dfp.img.rec' $outname.4dfp.img.rec
+		if ($go)	$toconvert $inname/*.4dfp.img.rec $outname.4dfp.img.rec
+	else
+#		if ((! $?caselist) || (! $?casename)) then
+#			echo unsorted non-dicom data MUST have caselist and casename parameters.
+#			echo format is:
+#			echo set caselist = (<a number for every dataset>)
+#			echo set casename = (<image root for each dataset>)
+#			echo images should be in '$inpath' 
+#		endif
+#		@ i = 1
+#		while ($i <= $#caselist)
+#			if ($caselist[$i] == argv[2]) break
+#			@ i++
+#		end
+#		set inname = `echo $casename[$i] | sed 's/\.ifh$//' | sed 's/\.img$//' | sed 's/\.4dfp$//'`
+		echo		$toconvert $inname.4dfp.ifh $outname.4dfp.ifh
+		if ($go)	$toconvert $inname.4dfp.ifh $outname.4dfp.ifh
+		echo		$toconvert $inname.4dfp.img $outname.4dfp.img
+		if ($go)	$toconvert $inname.4dfp.img $outname.4dfp.img
+		echo		$toconvert $inname.4dfp.img.rec $outname.4dfp.img.rec
+		if ($go)	$toconvert $inname.4dfp.img.rec $outname.4dfp.img.rec
+	endif
+breaksw
+default:
+	echo format unsupported: $frmt
+	exit -1
+endsw
+echo		ifh2hdr $outname
+if ($go)	ifh2hdr $outname
+#if ($mosaic) then
+#	echo		unpack_4dfp -V $outname $argv[1] -nx$nx -ny$ny
+#	if ($go)	unpack_4dfp -V $outname $argv[1] -nx$nx -ny$ny
+#	if ($status) then
+#		exit -1
+#	else
+#		echo		/bin/rm $outname"*"
+#		if ($go)	/bin/rm $outname*
+#	endif
+#endif

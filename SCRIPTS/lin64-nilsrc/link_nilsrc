@@ -1,0 +1,886 @@
+mkdir 4dfptoanalyze
+pushd 4dfptoanalyze
+ln -s /data/petsun4/data1/src_solaris/4dfptoanalyze/4dfptoanalyze.c .
+popd
+pushd 4dfptoanalyze
+ln -s /data/petsun4/data1/src_solaris/4dfptoanalyze/4dfptoanalyze.mak .
+popd
+mkdir actmapf_4dfp
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/compute_defined_4dfp.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/compute_defined_4dfp.mak .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/actmapf_4dfp.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/actmapf_4dfp.mak .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/conc.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/conc.h .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/conc_test.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/conc_test.mak .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/condense.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/condense.mak .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/covariance.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/covariance.mak .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/dglm_4dfp.f .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/expandf.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/glm_4dfp.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/glm_4dfp.mak .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/fGC.f .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/GC_4dfp.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/GC_4dfp.mak .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/GC_dat.c .
+popd
+pushd actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/actmapf_4dfp/GC_dat.mak .
+popd
+mkdir algebra_4dfp
+pushd algebra_4dfp
+ln -s /data/petsun4/data1/src_solaris/algebra_4dfp/imgopr_4dfp.c .
+popd
+pushd algebra_4dfp
+ln -s /data/petsun4/data1/src_solaris/algebra_4dfp/imgopr_4dfp.mak .
+popd
+mkdir cluster_4dfp
+pushd cluster_4dfp
+ln -s /data/petsun4/data1/src_solaris/cluster_4dfp/cluster_4dfp.c .
+popd
+pushd cluster_4dfp
+ln -s /data/petsun4/data1/src_solaris/cluster_4dfp/cluster_4dfp.mak .
+popd
+mkdir collate_slice_4dfp
+pushd collate_slice_4dfp
+ln -s /data/petsun4/data1/src_solaris/collate_slice_4dfp/collate_slice_4dfp.c .
+popd
+pushd collate_slice_4dfp
+ln -s /data/petsun4/data1/src_solaris/collate_slice_4dfp/collate_slice_4dfp.mak .
+popd
+mkdir crop_4dfp
+pushd crop_4dfp
+ln -s /data/petsun4/data1/src_solaris/crop_4dfp/crop_4dfp.c .
+popd
+pushd crop_4dfp
+ln -s /data/petsun4/data1/src_solaris/crop_4dfp/crop_4dfp.mak .
+popd
+mkdir cross_realign3d_4dfp
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/alignmrixyz.f .
+popd
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/cross_realign3d_4dfp.c .
+popd
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/cross_realign3d_4dfp.mak .
+popd
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/frmsfmri.f .
+popd
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/gauss2diz.c .
+popd
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/gauss3diz.c .
+popd
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/imgvalsixyz.f .
+popd
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/mat2dat.c .
+popd
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/mat2dat.mak .
+popd
+ln -s /dcm_to_4dfp-1.0.tar .
+mkdir dcm_dump_file
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/dcm_dump_file.mak .
+popd
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/condition.c .
+popd
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/ctnthread.c .
+popd
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/dcm.c .
+popd
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/dcm_dump_file.c .
+popd
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/dcmcond.c .
+popd
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/dcmdict.c .
+popd
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/dcmsupport.c .
+popd
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/lst.c .
+popd
+pushd dcm_dump_file
+ln -s /data/petsun4/data1/src_solaris/dcm_dump_file/utility.c .
+popd
+mkdir dwi_xalign_4dfp
+pushd dwi_xalign_4dfp
+ln -s /data/petsun4/data1/src_solaris/dwi_xalign_4dfp/dwi_xalign3d_4dfp.c .
+popd
+pushd dwi_xalign_4dfp
+ln -s /data/petsun4/data1/src_solaris/dwi_xalign_4dfp/dwi_xalign3d_4dfp.mak .
+popd
+pushd dwi_xalign_4dfp
+ln -s /data/petsun4/data1/src_solaris/dwi_xalign_4dfp/dwi_cross_xalign3d_4dfp.c .
+popd
+pushd dwi_xalign_4dfp
+ln -s /data/petsun4/data1/src_solaris/dwi_xalign_4dfp/dwi_cross_xalign3d_4dfp.mak .
+popd
+pushd cross_realign3d_4dfp
+ln -s /data/petsun4/data1/src_solaris/cross_realign3d_4dfp/splinexyz.f .
+popd
+mkdir deband_4dfp
+pushd deband_4dfp
+ln -s /data/petsun4/data1/src_solaris/deband_4dfp/deband_4dfp.c .
+popd
+pushd deband_4dfp
+ln -s /data/petsun4/data1/src_solaris/deband_4dfp/deband_4dfp.mak .
+popd
+pushd deband_4dfp
+ln -s /data/petsun4/data1/src_solaris/deband_4dfp/debandg.f .
+popd
+pushd deband_4dfp
+ln -s /data/petsun4/data1/src_solaris/deband_4dfp/fdeband.f .
+popd
+mkdir diff4dfp
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/diffRGB_4dfp.mak .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/diff_4dfp.mak .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/whisker_4dfp.mak .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/affine_DTrot.c .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/diffRGB_4dfp.c .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/diff_4dfp.c .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/dtensor.c .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/get_dti_params.c .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/nonlinear.c .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/t4tolin.c .
+popd
+pushd diff4dfp
+ln -s /home/usr/shimonyj/diff4dfp/whisker_4dfp.c .
+popd
+mkdir flip_4dfp
+pushd flip_4dfp
+ln -s /data/petsun4/data1/src_solaris/flip_4dfp/cflip.c .
+popd
+pushd flip_4dfp
+ln -s /data/petsun4/data1/src_solaris/flip_4dfp/flip_4dfp.c .
+popd
+pushd flip_4dfp
+ln -s /data/petsun4/data1/src_solaris/flip_4dfp/flip_4dfp.mak .
+popd
+mkdir frame_align
+pushd frame_align
+ln -s /data/petsun4/data1/src_solaris/frame_align/frame_align_4dfp.c .
+popd
+pushd frame_align
+ln -s /data/petsun4/data1/src_solaris/frame_align/frame_align_4dfp.mak .
+popd
+pushd frame_align
+ln -s /data/petsun4/data1/src_solaris/frame_align/rfft1d.c .
+popd
+mkdir gauss_4dfp
+pushd gauss_4dfp
+ln -s /data/petsun4/data1/src_solaris/gauss_4dfp/cgauss3dd.c .
+popd
+pushd gauss_4dfp
+ln -s /data/petsun4/data1/src_solaris/gauss_4dfp/gauss_4dfp.c .
+popd
+pushd gauss_4dfp
+ln -s /data/petsun4/data1/src_solaris/gauss_4dfp/gauss_4dfp.mak .
+popd
+pushd gauss_4dfp
+ln -s /data/petsun4/data1/src_solaris/gauss_4dfp/hsphere3d.f .
+popd
+pushd gauss_4dfp
+ln -s /data/petsun4/data1/src_solaris/gauss_4dfp/hsphere_4dfp.c .
+popd
+pushd gauss_4dfp
+ln -s /data/petsun4/data1/src_solaris/gauss_4dfp/hsphere_4dfp.mak .
+popd
+mkdir imato4dfp2
+pushd imato4dfp2
+ln -s /data/petsun4/data1/src_solaris/imato4dfp2/unpack_4dfp.c .
+popd
+pushd imato4dfp2
+ln -s /data/petsun4/data1/src_solaris/imato4dfp2/unpack_4dfp.mak .
+popd
+pushd imato4dfp2
+ln -s /data/petsun4/data1/src_solaris/imato4dfp2/unpack.f .
+popd
+mkdir imgblur_4dfp
+pushd imgblur_4dfp
+ln -s /data/petsun4/data1/src_solaris/imgblur_4dfp/fimgblur.f .
+popd
+mkdir img_hist_4dfp
+pushd img_hist_4dfp
+ln -s /data/petsun4/data1/src_solaris/img_hist_4dfp/img_hist_4dfp.c .
+popd
+pushd img_hist_4dfp
+ln -s /data/petsun4/data1/src_solaris/img_hist_4dfp/img_hist_4dfp.mak .
+popd
+pushd img_hist_4dfp
+ln -s /data/petsun4/data1/src_solaris/img_hist_4dfp/fimg_mode.c .
+popd
+mkdir imglin
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/dnormal.c .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4scale.c .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_sub.f .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/param12opr.f .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_io.c .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_io.h .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_factor.c .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_factor.mak .
+popd
+mkdir imgreg_4dfp
+pushd imgreg_4dfp
+ln -s /data/petsun4/data1/src_solaris/imgreg_4dfp/ffind.f .
+popd
+pushd imgreg_4dfp
+ln -s /data/petsun4/data1/src_solaris/imgreg_4dfp/fimgreg.f .
+popd
+pushd imgreg_4dfp
+ln -s /data/petsun4/data1/src_solaris/imgreg_4dfp/imgreg_4dfp.c .
+popd
+pushd imgreg_4dfp
+ln -s /data/petsun4/data1/src_solaris/imgreg_4dfp/imgreg_4dfp.mak .
+popd
+pushd imgreg_4dfp
+ln -s /data/petsun4/data1/src_solaris/imgreg_4dfp/imgvalm.f .
+popd
+pushd imgreg_4dfp
+ln -s /data/petsun4/data1/src_solaris/imgreg_4dfp/imgvalx.f .
+popd
+mkdir interp_4dfp
+pushd interp_4dfp
+ln -s /data/petsun4/data1/src_solaris/interp_4dfp/interp_4dfp.c .
+popd
+pushd interp_4dfp
+ln -s /data/petsun4/data1/src_solaris/interp_4dfp/interp_4dfp.mak .
+popd
+pushd interp_4dfp
+ln -s /data/petsun4/data1/src_solaris/interp_4dfp/bandpass_4dfp.c .
+popd
+pushd interp_4dfp
+ln -s /data/petsun4/data1/src_solaris/interp_4dfp/bandpass_4dfp.mak .
+popd
+pushd interp_4dfp
+ln -s /data/petsun4/data1/src_solaris/interp_4dfp/spline.f .
+popd
+pushd interp_4dfp
+ln -s /data/petsun4/data1/src_solaris/interp_4dfp/butt1d.f .
+popd
+mkdir JSSutil
+pushd JSSutil
+ln -s /home/usr/shimonyj/JSSutil/JSSutil.mak .
+popd
+pushd JSSutil
+ln -s /home/usr/shimonyj/JSSutil/lin_algebra.c .
+popd
+pushd JSSutil
+ln -s /home/usr/shimonyj/JSSutil/random.c .
+popd
+pushd JSSutil
+ln -s /home/usr/shimonyj/JSSutil/JSSnrutil.c .
+popd
+pushd JSSutil
+ln -s /home/usr/shimonyj/JSSutil/JSSutil.h .
+popd
+pushd JSSutil
+ln -s /home/usr/shimonyj/JSSutil/JSSstatistics.c .
+popd
+pushd JSSutil
+ln -s /home/usr/shimonyj/JSSutil/JSSstatistics.h .
+popd
+mkdir librms
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/cgauss3d.c .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/deconv.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/deigen.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/dgeigen.c .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/determ12.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/dmatinv.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/eigen.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/fftsol.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/fft_test.c .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/fft_test.mak .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/frmsmri.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/gauss3d.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/hipass3d.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/imag2mask.c .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/img2lmask.c .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/img2lmask_test.c .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/img2lmask_test.mak .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/imgpad.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/librms.h .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/librms.mak .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/matopr.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/dmatopr.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/npad.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/param6opr.f .
+popd
+pushd librms
+ln -s /data/petsun4/data1/src_solaris/librms/polfit.f .
+popd
+mkdir mpetto4dfp
+pushd mpetto4dfp
+ln -s /data/petsun4/data1/src_solaris/mpetto4dfp/mpetto4dfp.c .
+popd
+pushd mpetto4dfp
+ln -s /data/petsun4/data1/src_solaris/mpetto4dfp/mpetto4dfp.mak .
+popd
+mkdir mprtir
+pushd mprtir
+ln -s /data/petsun4/data1/src_solaris/mprtir/2Dhist.c .
+popd
+pushd mprtir
+ln -s /data/petsun4/data1/src_solaris/mprtir/2Dhist.mak .
+popd
+pushd mprtir
+ln -s /data/petsun4/data1/src_solaris/mprtir/partitiond_gfc_4dfp.c .
+popd
+pushd mprtir
+ln -s /data/petsun4/data1/src_solaris/mprtir/fitgain3d.f .
+popd
+pushd mprtir
+ln -s /data/petsun4/data1/src_solaris/mprtir/fnegdef.f .
+popd
+pushd mprtir
+ln -s /data/petsun4/data1/src_solaris/mprtir/fitgain3dd.f .
+popd
+pushd mprtir
+ln -s /data/petsun4/data1/src_solaris/mprtir/powsub.f .
+popd
+pushd mprtir
+ln -s /data/petsun4/data1/src_solaris/mprtir/partitiond_gfc_4dfp.c .
+popd
+pushd mprtir
+ln -s /data/petsun4/data1/src_solaris/mprtir/partitiond_gfc_4dfp.mak .
+popd
+mkdir nonlin
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/b2v4m.f .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/cmplxfft3d.f .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/fvfield.f .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/iic.c .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/imgval0.f .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/inc.f .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/lud.c .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/morphc_4dfp.c .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/morphc_4dfp.mak .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/piic.c .
+popd
+pushd nonlin
+ln -s /data/petsun4/data1/src_solaris/nonlin/util.f .
+popd
+mkdir normalize_4dfp
+pushd normalize_4dfp
+ln -s /data/petsun4/data1/src_solaris/normalize_4dfp/fnormalize.f .
+popd
+pushd normalize_4dfp
+ln -s /data/petsun4/data1/src_solaris/normalize_4dfp/img2hist.c .
+popd
+pushd normalize_4dfp
+ln -s /data/petsun4/data1/src_solaris/normalize_4dfp/normalize_4dfp.c .
+popd
+pushd normalize_4dfp
+ln -s /data/petsun4/data1/src_solaris/normalize_4dfp/normalize_4dfp.mak .
+popd
+mkdir parzen_4dfp
+pushd parzen_4dfp
+ln -s /data/petsun4/data1/src_solaris/parzen_4dfp/imgpac.f .
+popd
+pushd parzen_4dfp
+ln -s /data/petsun4/data1/src_solaris/parzen_4dfp/mskpac.f .
+popd
+pushd parzen_4dfp
+ln -s /data/petsun4/data1/src_solaris/parzen_4dfp/parzen.f .
+popd
+mkdir paste_4dfp
+pushd paste_4dfp
+ln -s /data/petsun4/data1/src_solaris/paste_4dfp/paste_4dfp.c .
+popd
+pushd paste_4dfp
+ln -s /data/petsun4/data1/src_solaris/paste_4dfp/paste_4dfp.mak .
+popd
+mkdir qnt_4dfp
+pushd qnt_4dfp
+ln -s /data/petsun4/data1/src_solaris/qnt_4dfp/qnt_4dfp.c .
+popd
+pushd qnt_4dfp
+ln -s /data/petsun4/data1/src_solaris/qnt_4dfp/qnt_4dfp.mak .
+popd
+mkdir reindex_4dfp
+pushd reindex_4dfp
+ln -s /data/petsun4/data1/src_solaris/reindex_4dfp/reindex_4dfp.c .
+popd
+pushd reindex_4dfp
+ln -s /data/petsun4/data1/src_solaris/reindex_4dfp/reindex_4dfp.mak .
+popd
+mkdir rmspike_4dfp
+pushd rmspike_4dfp
+ln -s /data/petsun4/data1/src_solaris/rmspike_4dfp/frmspike.f .
+popd
+pushd rmspike_4dfp
+ln -s /data/petsun4/data1/src_solaris/rmspike_4dfp/rmspike_4dfp.c .
+popd
+pushd rmspike_4dfp
+ln -s /data/petsun4/data1/src_solaris/rmspike_4dfp/rmspike_4dfp.mak .
+popd
+mkdir S2T_4dfp
+pushd S2T_4dfp
+ln -s /data/petsun4/data1/src_solaris/S2T_4dfp/C2T_4dfp.c .
+popd
+pushd S2T_4dfp
+ln -s /data/petsun4/data1/src_solaris/S2T_4dfp/C2T_4dfp.mak .
+popd
+pushd S2T_4dfp
+ln -s /data/petsun4/data1/src_solaris/S2T_4dfp/reorder.f .
+popd
+pushd S2T_4dfp
+ln -s /data/petsun4/data1/src_solaris/S2T_4dfp/S2T_4dfp.c .
+popd
+pushd S2T_4dfp
+ln -s /data/petsun4/data1/src_solaris/S2T_4dfp/S2T_4dfp.mak .
+popd
+pushd S2T_4dfp
+ln -s /data/petsun4/data1/src_solaris/S2T_4dfp/T2C_4dfp.c .
+popd
+pushd S2T_4dfp
+ln -s /data/petsun4/data1/src_solaris/S2T_4dfp/T2C_4dfp.mak .
+popd
+pushd S2T_4dfp
+ln -s /data/petsun4/data1/src_solaris/S2T_4dfp/T2S_4dfp.c .
+popd
+pushd S2T_4dfp
+ln -s /data/petsun4/data1/src_solaris/S2T_4dfp/T2S_4dfp.mak .
+popd
+mkdir scale_4dfp
+pushd scale_4dfp
+ln -s /data/petsun4/data1/src_solaris/scale_4dfp/scale_4dfp.c .
+popd
+pushd scale_4dfp
+ln -s /data/petsun4/data1/src_solaris/scale_4dfp/scale_4dfp.mak .
+popd
+mkdir sqrt_4dfp
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/sqrt_4dfp.c .
+popd
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/sqrt_4dfp.mak .
+popd
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/rho2z_4dfp.c .
+popd
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/rho2z_4dfp.mak .
+popd
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/t2z_4dfp.c .
+popd
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/t2z_4dfp.mak .
+popd
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/statsub.c .
+popd
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/bertulani_betai.c .
+popd
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/z2logp_4dfp.c .
+popd
+pushd sqrt_4dfp
+ln -s /data/petsun4/data1/src_solaris/sqrt_4dfp/z2logp_4dfp.mak .
+popd
+mkdir t4_actmapf_4dfp
+pushd t4_actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4_actmapf_4dfp/ft4ixyz.f .
+popd
+pushd t4_actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4_actmapf_4dfp/t4_xr3d_4dfp.c .
+popd
+pushd t4_actmapf_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4_actmapf_4dfp/t4_xr3d_4dfp.mak .
+popd
+mkdir t4imgs_4dfp
+pushd t4imgs_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4imgs_4dfp/cvrtflip.c .
+popd
+pushd t4imgs_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4imgs_4dfp/ft4imgn.f .
+popd
+pushd t4imgs_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4imgs_4dfp/ft4imgo.f .
+popd
+pushd t4imgs_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4imgs_4dfp/NaN_test.c .
+popd
+pushd t4imgs_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4imgs_4dfp/set_rnan.f .
+popd
+pushd t4imgs_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4imgs_4dfp/t4imgs_4dfp.c .
+popd
+pushd t4imgs_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4imgs_4dfp/t4imgs_4dfp.mak .
+popd
+pushd t4imgs_4dfp
+ln -s /data/petsun4/data1/src_solaris/t4imgs_4dfp/to_711-2B.f .
+popd
+mkdir TRX
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/ANALYZE.h .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/asciito4dfp.c .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/asciito4dfp.mak .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/endian_4dfp.c .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/endian_4dfp.mak .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/endianio.c .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/endianio.h .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/Getifh.c .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/Getifh.h .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/ifh2hdr.c .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/ifh2hdr.mak .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/ifh.h .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/Inithdr.c .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/rec.c .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/rec.h .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/spline23dvgh.h .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/spline23dvgh_test.c .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/spline23dvgh_test.mak .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/spline2dvgh.f .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/spline3dvgh.f .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/fomega.f .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/etadeta.f .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/fimgeta.f .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/fimgetae.f .
+popd
+pushd TRX
+ln -s /data/petsun4/data1/src_solaris/TRX/twoecal.f .
+popd
+mkdir var_4dfp
+pushd var_4dfp
+ln -s /data/petsun4/data1/src_solaris/var_4dfp/var_4dfp.c .
+popd
+pushd var_4dfp
+ln -s /data/petsun4/data1/src_solaris/var_4dfp/var_4dfp.mak .
+popd
+pushd var_4dfp
+ln -s /data/petsun4/data1/src_solaris/var_4dfp/dvar_4dfp.c .
+popd
+pushd var_4dfp
+ln -s /data/petsun4/data1/src_solaris/var_4dfp/dvar_4dfp.mak .
+popd
+mkdir zero_lt_4dfp
+pushd zero_lt_4dfp
+ln -s /data/petsun4/data1/src_solaris/zero_lt_4dfp/zero_gt_4dfp.c .
+popd
+pushd zero_lt_4dfp
+ln -s /data/petsun4/data1/src_solaris/zero_lt_4dfp/zero_gt_4dfp.mak .
+popd
+pushd zero_lt_4dfp
+ln -s /data/petsun4/data1/src_solaris/zero_lt_4dfp/zero_gtlt_4dfp.c .
+popd
+pushd zero_lt_4dfp
+ln -s /data/petsun4/data1/src_solaris/zero_lt_4dfp/zero_gtlt_4dfp.mak .
+popd
+pushd zero_lt_4dfp
+ln -s /data/petsun4/data1/src_solaris/zero_lt_4dfp/zero_lt_4dfp.c .
+popd
+pushd zero_lt_4dfp
+ln -s /data/petsun4/data1/src_solaris/zero_lt_4dfp/zero_lt_4dfp.mak .
+popd
+pushd zero_lt_4dfp
+ln -s /data/petsun4/data1/src_solaris/zero_lt_4dfp/zero_ltgt_4dfp.c .
+popd
+pushd zero_lt_4dfp
+ln -s /data/petsun4/data1/src_solaris/zero_lt_4dfp/zero_ltgt_4dfp.mak .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/dnormal.c .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_ident.c .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_ident.mak .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_inv.c .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4inv.f .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_inv.mak .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_mul.c .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_mul.mak .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4scale.c .
+popd
+pushd imglin
+ln -s /data/petsun4/data1/src_solaris/imglin/t4_sub.f .
+popd
+mkdir img2msk_4dfp
+pushd img2msk_4dfp
+ln -s /data/petsun4/data1/src_solaris/img2msk_4dfp/fimg2msk.f .
+popd
+pushd img2msk_4dfp
+ln -s /data/petsun4/data1/src_solaris/img2msk_4dfp/img2msk_4dfp.c .
+popd
+pushd img2msk_4dfp
+ln -s /data/petsun4/data1/src_solaris/img2msk_4dfp/img2msk_4dfp.mak .
+popd
+mkdir imgmax_4dfp
+pushd imgmax_4dfp
+ln -s /data/petsun4/data1/src_solaris/imgmax_4dfp/imgmax_4dfp.c .
+popd
+pushd imgmax_4dfp
+ln -s /data/petsun4/data1/src_solaris/imgmax_4dfp/imgmax_4dfp.mak .
+popd
+mkdir analyzeto4dfp
+pushd analyzeto4dfp
+ln -s /data/petsun4/data1/src_solaris/analyzeto4dfp/analyzeto4dfp.c .
+popd
+pushd analyzeto4dfp
+ln -s /data/petsun4/data1/src_solaris/analyzeto4dfp/analyzeto4dfp.mak .
+popd
+pushd analyzeto4dfp
+ln -s /data/petsun4/data1/src_solaris/analyzeto4dfp/hdr2txt.c .
+popd
+pushd analyzeto4dfp
+ln -s /data/petsun4/data1/src_solaris/analyzeto4dfp/hdr2txt.mak .
+popd
+ln -s /make_nil-tools.csh .
+mkdir maskimg_4dfp
+pushd maskimg_4dfp
+ln -s /data/petsun4/data1/src_solaris/maskimg_4dfp/maskimg_4dfp.c .
+popd
+pushd maskimg_4dfp
+ln -s /data/petsun4/data1/src_solaris/maskimg_4dfp/maskimg_4dfp.mak .
+popd
+pushd imato4dfp2
+ln -s /data/petsun4/data1/src_solaris/imato4dfp2/unpack_4dfp.c .
+popd
+pushd imato4dfp2
+ln -s /data/petsun4/data1/src_solaris/imato4dfp2/unpack_4dfp.mak .
+popd
+pushd imato4dfp2
+ln -s /data/petsun4/data1/src_solaris/imato4dfp2/unpack.f .
+popd
+mkdir peak_4dfp
+pushd peak_4dfp
+ln -s /data/petsun4/data1/src_solaris/peak_4dfp/burn_sphere_4dfp.c .
+popd
+pushd peak_4dfp
+ln -s /data/petsun4/data1/src_solaris/peak_4dfp/burn_sphere_4dfp.mak .
+popd
+pushd peak_4dfp
+ln -s /data/petsun4/data1/src_solaris/peak_4dfp/index2atl.c .
+popd
+pushd peak_4dfp
+ln -s /data/petsun4/data1/src_solaris/peak_4dfp/index2atl.mak .
+popd
+pushd peak_4dfp
+ln -s /data/petsun4/data1/src_solaris/peak_4dfp/peak_4dfp.c .
+popd
+pushd peak_4dfp
+ln -s /data/petsun4/data1/src_solaris/peak_4dfp/peak_4dfp.mak .
+popd
+pushd peak_4dfp
+ln -s /data/petsun4/data1/src_solaris/peak_4dfp/read_4dfp.c .
+popd
+pushd peak_4dfp
+ln -s /data/petsun4/data1/src_solaris/peak_4dfp/read_4dfp.mak .
+popd

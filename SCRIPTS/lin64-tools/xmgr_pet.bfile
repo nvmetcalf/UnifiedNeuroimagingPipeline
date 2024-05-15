@@ -1,0 +1,13 @@
+s0 symbol 4
+s0 symbol size 0.750000
+s0 line linewidth 2.0
+title "filename"
+xaxis label "Time (sec)"
+yaxis label "Counts"
+PRINT TO "filename.png"
+HARDCOPY DEVICE "PNG"
+PAGE SIZE 2560, 2048
+DEVICE "PNG" FONT ANTIALIASING on
+DEVICE "PNG" OP "transparent:on"
+DEVICE "PNG" OP "compression:9"
+PRINT

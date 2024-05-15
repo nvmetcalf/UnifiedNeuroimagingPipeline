@@ -1,0 +1,5 @@
+rec test_b26.4dfp.img  Tue Dec  4 22:16:33 2018  avi@linux5 Linux 2.6.32-696.18.7.el6.x86_64 x86_64
+nifti_4dfp -4 test_b26.nii test_b26.4dfp.img 
+$Id: nifti_4dfp.c,v 1.9 2011/09/13 03:40:37 avi Exp $
+littleendian
+endrec Tue Dec  4 22:16:33 2018  avi

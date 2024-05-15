@@ -1,0 +1,807 @@
+head	1.7;
+access;
+symbols;
+locks
+	jon:1.7; strict;
+comment	@c @;
+
+
+1.7
+date	2011.04.29.14.14.16;	author jon;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.05.21.14.19.10;	author jon;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.05.13.18.03.51;	author jon;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.05.10.19.12.46;	author jon;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2000.06.29.18.43.50;	author jon;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2000.06.28.22.37.43;	author jon;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2000.06.26.21.19.02;	author jon;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial Version. Debugging comments are still available.
+@
+
+
+1.7
+log
+@updates for linux gfortran
+@
+text
+@      program peakchk
+c $Header: /home/usr/jon/programs/peakchk/RCS/peakchk.f,v 1.6 2002/05/21 14:19:10 jon Exp jon $
+
+c------------------------------------------------------------c
+c The purpose of this program is to read in a text file of four 
+c columns of data, (frame, length, start time, and mean), find the 
+c the peak value of the mean, the time corresponding to one half
+c half the peak and finally the frame number corresponding to the 
+c half peak time plus the time_interval.
+
+c  Please Note: Start times larger than the start time of the last frame
+c  plus the length of that frame will generate an error message. 
+c  The user must check the data to validate.
+c----------------------------------------------------------------------------c
+  
+      dimension frame(99),length(99),start(99),mean(99),datarray(99)
+      character file_in*72,temp_arg*72,temp_arg2*72,string*72
+      integer checkio
+      integer ctr,row,i,i1,j,time_interval,total_time,frame
+      integer startframe,lastframe
+      
+      real length,timetot,start,mean,datarray,half_peak
+      real scanstarttime,time
+      
+      logical done,found,there
+      
+c----------------------------------------------------------------------------c
+      write(*, "('# $Id: peakchk.f,v 1.6 2002/05/21 14:19:10 jon Exp jon $')")
+           
+c declare command line argument
+      if (iargc().lt.2) then
+	write(*,*)'Usage: peakchk dat_file total_time time_interval'
+	write(*,*)'e.g.,  /home/usr/jon/bin/peakchk p5654ho1.glob.prm 60 8'
+	write(*,*)'.prm file requires frame, length, start, and mean in four columns on the'
+	write(*,*)'first line followed by four columns of data that start on the second line.'
+	goto 1000
+      end if
+
+      call getarg(1,file_in)
+      call getarg(2,temp_arg)
+      call getarg(3,temp_arg2)
+
+c use temp.txt as a temp file to write temp_arg
+      open(1,file = 'temp.txt',status='unknown')
+      write(1,*)temp_arg
+      close(1)
+
+c read temp_arg for total_time 
+      open(2,file ='temp.txt',status='old')
+      read(2,*),total_time
+      close(2)
+      
+      print*,'# Total Time Interval=	',total_time
+
+c clean up temp.txt file 
+      string = 'rm temp.txt'
+      call system (string)     
+      
+c use temp.txt as a temp file to write temp_arg2
+      open(1,file = 'temp.txt',status='unknown')
+      write(1,*)temp_arg2
+      close(1)
+
+c read temp_arg for total_time 
+      open(2,file ='temp.txt',status='old')
+      read(2,*),time_interval
+      close(2)
+            
+      print*,'# Time Interval After Half-Peak= ',time_interval
+      
+c clean up temp.txt file 
+      string = '/bin/rm temp.txt'
+      call system (string)
+c---------------------------------------------------------c
+      done = .false.
+      found = .false.
+     
+c check for file existence
+ 100  if(.not.done) then
+          inquire (file=file_in, exist=there)
+          if (.not.there) then
+             print*,'ERROR File does not exist'
+             print*,'Enter new file name or type QUIT to quit'
+             read(*,150), file_in 
+ 150         format(A31)
+             if(file_in(:4).eq.'QUIT') then
+                done =.true.
+                go to 100
+             end if
+           else
+             done=.true.
+             found=.true.
+           end if
+           go to 100
+      end if
+      
+      if (found) then
+            open (unit=10, file=file_in, iostat=checkio, status='unknown') 
+      else
+         print*,'ERROR file not found'
+      end if 
+
+c read dat file for header only
+c	read(10,180)frame(1),length(1),start(1),mean(1)
+ 	read(10,180)start(1),mean(1),length(1),frame(1)
+ 180	format(4(A7))
+c---------------------------------------------------------c
+      i = 2
+      ctr = 0
+      timetot = 0
+      checkio = 0
+      
+      do while(checkio.eq.0)
+c         read(10,*,ERR = 275, iostat=checkio)frame(i),length(i),start(i),mean(i)
+          read(10,*,ERR = 275, iostat=checkio)start(i),mean(i),length(i),frame(i)
+          if(checkio .eq. 0) then
+              datarray(i) = mean(i)
+c              print*,checkio, frame(i), length(i), start(i), mean(i)
+              ctr = ctr + 1
+              i = i + 1
+          end if
+          if(checkio .gt. 0) then
+             print*,'ERROR Reading File'
+          end if
+      end do
+c---------------------------------------------------------c
+ 275  write(*,*)'# Total Input Frames= 	',ctr
+      timetot = start(ctr+1) + length(ctr+1)
+      print*,'# Total Time Of This Study=',timetot
+c---------------------------------------------------------c
+      if (time_interval  .gt. (timetot-total_time) .or. (time_interval.lt. 0))then
+         print*,'ERROR time_interval ',time_interval,' out of range'
+         goto 1000
+      endif
+      
+      if (total_time .gt. (timetot+time_interval) .or. (total_time  .lt. 0)) then
+         print*,'ERROR total_time ',total_time,' out of range'
+         goto 1000
+      endif
+c---------------------------------------------------------c
+c Bubble Sort 'datarray'
+
+	 row = ctr + 1
+	  
+	 do 500 i=2,row
+	    i1=i+1
+	    do 400 j=i1,ctr
+	        if (datarray(i) .ge. datarray(j)) then
+	          continue
+	        else
+	            hold=datarray(i)
+	            datarray(i)=datarray(j)
+	            datarray(j)=hold
+	        endif
+ 400	    continue
+ 500	 continue
+c---------------------------------------------------------c 	 
+c Spike? This code will check for one or more spikes (>20% rise).
+c At this point datarray(2) is the largest value in the array.
+c If a spike is found, mean(i) is changed to mean(i-1)+mean(i+1)/2,
+c and the next largest value in datarray (j+1) is tested.
+
+	 j = 2 
+ 550	 do 600 i=3,ctr	 
+ 	    if (mean(i) .eq. datarray(j)) then	    
+ 	        if ((mean(i)-mean(i-1)) .gt. (mean(i)*0.2)) then
+ 	           print*,'# Spike-Value=	',mean(i)
+ 	           mean(i) = (mean(i-1)+mean(i+1))/2
+ 	           j = j + 1
+ 	           goto 550
+ 	        else
+c                  Peak Has Been Found
+ 	           print*,'# Peak-Value=		',mean(i)
+ 	           half_peak = mean(i)/2
+ 	           print*,'# Half-Peak-Value=	',half_peak
+ 	           goto 650
+ 	        endif
+ 	     endif 
+ 600	 continue
+c--------------------------------------------------------------------------------c  
+ 650	 do 800 i=3,ctr
+ 	 
+ 	    if (mean(i) .gt. half_peak) then
+	        
+ 	        if ((mean(i)-half_peak) .gt. (mean(i)-mean(i-1)/2)) then
+ 	           time = start(i)+time_interval
+ 	           print*,'# Half-Peak-Frame=	',frame(i)
+ 	        else
+ 	           time = start(i-1)+time_interval
+ 	           print*,'# Half-Peak-Frame=	',frame(i-1)
+ 	        endif
+ 	        
+c               Find frame with the 'start time' closest to 'time'.
+
+ 	        do 700 j=i,ctr
+ 	           if (start(j) .gt. time)then
+ 	              if ((time).le.(start(j-1)+((start(j)-start(j-1))/2))) then
+     			 startframe = frame(j-1)
+     			 print*,'# Auto Integration Start Time=	',start(j-1)
+     			 scanstarttime = start(j-1)
+     			 time = start(j-1)+total_time
+ 	                 goto 825
+ 	              else
+ 	                 startframe = frame(j)
+ 	                 print*,'# Auto Integration Start Time=	',start(j)
+ 	                 scanstarttime = start(j)
+			 time = start(j)+total_time
+ 	                 goto 825
+ 	              endif
+ 	           endif
+ 700            continue
+ 
+ 	     endif
+ 800	  continue
+c--------------------------------------------------------------------------------c   
+c 	 print*,'Calculate (Half-Peak time + ',time_interval,' Seconds)+total_time to final frame.'
+c	 Note: how lastframe and Total Scan Time are determined to make sure
+c              the last frame includes 'time'.
+
+ 825		found = .false.
+		
+  	        do 850 j=3,row
+ 	           if (start(j) .ge. time)then
+ 	                 lastframe = frame(j-1)
+ 	                 print*,'# Auto Integration Eval Time=	',start(j-1)
+ 	                 print*,'# Total Integration Time=	',start(j)-scanstarttime
+ 	                 found = .true.
+ 	                 goto 900
+ 	            endif
+ 850            continue
+ 
+ 900	  if (.not. found) then
+             if(time .le. (start(row) + length(row))) then
+                lastframe = row
+                print*,'# Auto Integration Eval Time=	',start(row)
+                print*,'# Total Integration Time=	',((start(row)+length(row))-scanstarttime)
+             else
+                print*,' '
+                print*,'ERROR Please Check Data - Auto Integration Start time for summed frame length of',time,' could not be found'
+             endif
+          endif
+          
+          print*,' '
+          
+  	  print 950,'# Start Frame= ',startframe
+ 950	  format(A14,I3)
+ 
+  	  print 975,'# Last Frame= ',lastframe
+ 975      format(A13,I3)  
+
+ 1000   end
+@
+
+
+1.6
+log
+@error checking of input and readability of output improved
+@
+text
+@d2 1
+a2 1
+c $Header: /home/usr/jon/programs/peakchk/RCS/peakchk.f,v 1.5 2002/05/13 18:03:51 jon Exp jon $
+d18 3
+a20 1
+      integer ctr,row,i,i1,j,nrows,time_interval,total_time
+d22 2
+a23 2
+      real frame,length,timetot,start,mean,datarray,half_peak
+      real startframe,scanstarttime,lastframe,time
+d28 1
+a28 1
+      write(*, "('$Id: peakchk.f,v 1.5 2002/05/13 18:03:51 jon Exp jon $')")
+d53 1
+a53 1
+      print*,'Total Time Interval=		',total_time
+d56 1
+a56 1
+      string = '/bin/rm temp.txt'
+d69 1
+a69 1
+      print*,'Time Interval After Half-Peak=	',time_interval
+d98 1
+a98 1
+            open (unit=10, file=file_in, status='unknown') 
+d104 3
+a106 2
+	read(10,180)frame(1),length(1),start(1),mean(1)
+ 180	format(4(A7))             
+a107 1
+      nrows = 99
+d110 2
+a111 1
+      timetot = 0 
+d113 12
+a124 6
+      do while(i.le.nrows)
+         read(10,*,ERR = 275)frame(i),length(i),start(i),mean(i)
+         datarray(i) = mean(i)
+c         print*,frame(i), length(i), start(i), mean(i)
+         ctr = ctr + 1
+         i = i + 1  
+d127 1
+a127 1
+ 275  write(*,*)'Total Frames In Data= 	',ctr
+d129 1
+a129 1
+      print*,'Total Time Of This Study',timetot
+d167 1
+a167 1
+ 	           print*,'Spike=	',mean(i)
+d173 1
+a173 1
+ 	           print*,'Peak=		',mean(i)
+d175 1
+a175 1
+ 	           print*,'Half-Peak=	',half_peak
+d187 1
+a187 1
+ 	           print*,'Half-Peak-Frame=	',frame(i)
+d190 1
+a190 1
+ 	           print*,'Half-Peak-Frame=	',frame(i-1)
+d199 1
+a199 1
+     			 print*,'First Start Time=	',start(j-1)
+d205 1
+a205 1
+ 	                 print*,'First Start Time=	',start(j)
+d225 2
+a226 2
+ 	                 print*,'Last Start Time=	',start(j-1)
+ 	                 print*,'Total Scan Time=	',start(j)-scanstarttime
+d235 2
+a236 2
+                print*,'Last Start Time=	',start(row)
+                print*,'Total Scan Time=	',((start(row)+length(row))-scanstarttime)
+d239 1
+a239 1
+                print*,'ERROR Please Check Data - Start time for summed frame length of',time,' could not be found'
+d245 2
+a246 2
+  	  print 950,' Start Frame= ',startframe
+ 950	  format(A14,F3)
+d248 2
+a249 2
+  	  print 975,' Last Frame= ',lastframe
+ 975      format(A13,F3)  
+d251 1
+a251 1
+ 1000	end
+@
+
+
+1.5
+log
+@Now will compensate for length of last scan if that slice is needed
+@
+text
+@d2 1
+a2 1
+c $Header: /home/usr/jon/programs/peakchk/RCS/peakchk.f,v 1.4 2002/05/10 19:12:46 jon Exp jon $
+d9 1
+a9 14
+c half peak time plus the time_interval. Sample output:
+c $Id: peakchk.f,v 1.4 2002/05/10 19:12:46 jon Exp jon $
+c  Total Time=   60
+c  Total Frames=   43
+c  Peak=     20699.7
+c  Half-Peak=    10349.86
+c  Half-Peak-Frame=     21.0000
+c  First Start Time=     72.1160
+c  Last Start Time=     126.116
+c  Total Scan Time=     64.0000
+c  Time Interval=   8
+c
+c  Start Frame= 25.
+c  Last Frame= 43.
+d17 2
+a18 2
+      character file_in*72,temp_arg*72,string*72
+      integer ctr,row,i,i1,j,nrows,time_interval/8/,total_time
+d20 1
+a20 1
+      real frame,length,start,mean,datarray,half_peak
+d26 1
+a26 1
+      write(*, "('$Id: peakchk.f,v 1.4 2002/05/10 19:12:46 jon Exp jon $')")
+d30 4
+a33 3
+	write(*,*)'Usage: peakchk dat_file total_time'
+	write(*,*)'e.g.,  /home/usr/jon/bin/peakchk p5654ho1.glob.prm 60'
+	write(*,*)'prm file requires frame,length,start, and mean in four columns'
+d39 1
+d48 1
+a48 1
+      read(2,*),total_time 
+d51 2
+a52 2
+      print*,'Total Time= ',total_time
+ 
+d56 16
+d107 2
+a108 1
+      ctr = 0 
+d111 1
+a111 1
+         read(10,*,ERR = 275)frame(i),length(i),start(i),mean(i)   
+d113 1
+a116 2
+c---------------------------------------------------------c     
+ 275  write(*,*)'Total Frames= ',ctr              
+d118 14
+d158 1
+a158 1
+ 	           print*,'Spike= ',mean(i)
+d164 1
+a164 1
+ 	           print*,'Peak= ',mean(i)
+d166 1
+a166 1
+ 	           print*,'Half-Peak= ',half_peak
+d178 1
+a178 1
+ 	           print*,'Half-Peak-Frame= ',frame(i)
+d181 1
+a181 1
+ 	           print*,'Half-Peak-Frame= ',frame(i-1)
+d190 1
+a190 1
+     			 print*,'First Start Time= ',start(j-1)
+d196 1
+a196 1
+ 	                 print*,'First Start Time= ',start(j)
+d207 1
+a207 1
+c 	 print*,'Calculate (Half-Peak time + 8 Seconds)+total_time to final frame.'
+d216 2
+a217 2
+ 	                 print*,'Last Start Time= ',start(j-1)
+ 	                 print*,'Total Scan Time= ',start(j)-scanstarttime
+d226 2
+a227 2
+                print*,'Last Start Time= ',start(row)
+                print*,'Total Scan Time= ',((start(row)+length(row))-scanstarttime)
+d229 1
+a233 1
+          print*,'Time Interval= ',time_interval
+@
+
+
+1.4
+log
+@indexing bug removed and added error message
+@
+text
+@d2 1
+a2 1
+c $Header: /home/usr/jon/programs/peakchk/RCS/peakchk.f,v 1.3 2000/06/29 18:43:50 jon Exp jon $
+d5 4
+a8 4
+c The purpose of this program is to read in a text file of three 
+c columns of data, (frame, start time, and mean), find the 
+c peak value of the mean, the time corresponding to one half
+c the peak and finally the frame number corresponding to the 
+d10 1
+a10 1
+c $Id: peakchk.f,v 1.4 2002/05/10 13:43:50 jon Exp jon $
+a16 1
+c  
+d20 1
+d23 4
+d29 1
+a29 1
+      dimension frame(99),start(99),mean(99),datarray(99)
+d33 1
+a33 1
+      real frame,start,mean,datarray,half_peak
+d39 1
+a39 1
+      write(*, "('$Id: peakchk.f,v 1.3 2000/06/29 18:43:50 jon Exp jon $')")
+d45 1
+d97 2
+a98 2
+	read(10,180)frame(1),start(1),mean(1)
+ 180	format(3(A7))             
+d105 1
+a105 1
+         read(10,*,ERR = 275)frame(i),start(i),mean(i)   
+a186 3
+ 
+ 825	 print*
+c825	 print*,'start time + total time = ',time
+d192 1
+a192 1
+		found = .false.
+d205 7
+a211 1
+             print*,'ERROR Please Check Data - Start time gt',time,' could not be found'
+d215 2
+a216 1
+ 
+@
+
+
+1.3
+log
+@More debugging, and improvement of output.
+@
+text
+@d2 1
+a2 1
+c $Header: /home/usr/jon/programs/peakchk/RCS/peakchk.f,v 1.2 2000/06/28 22:37:43 jon Exp jon $
+d5 1
+a5 1
+c The purpose of this program is to take a text file of three 
+d10 1
+a10 1
+c $Id: peakchk.f,v 1.2 2000/06/28 22:37:43 jon Exp jon $
+d12 8
+a19 8
+c  Total Frames=   49
+c  Spike=     11769.6
+c  Peak=     9179.76
+c  Half-Peak=     4589.88
+c  Half-Peak-Frame=     5.00000
+c  First Start Time=     27.8830
+c  Last Start Time=     84.3660
+c  Total Scan Time=     61.5000
+d21 2
+a22 2
+c  Start Frame=  9.
+c  Last Frame= 37.
+d35 1
+a35 1
+      write(*, "('$Id: peakchk.f,v 1.2 2000/06/28 22:37:43 jon Exp jon $')")
+d177 1
+a177 1
+ 	            endif
+d182 3
+d189 2
+d192 1
+a192 1
+ 825 	        do 850 j=3,ctr
+d197 1
+d202 5
+a206 1
+ 900	  print*,'Time Interval= ',time_interval
+@
+
+
+1.2
+log
+@Updated with Total Scan Time, better spike calculation,
+better last frame determination.
+@
+text
+@d2 1
+a2 1
+c $Header: /home/usr/jon/programs/peakchk/RCS/peakchk.f,v 1.1 2000/06/26 21:19:02 jon Exp jon $
+d10 13
+a22 8
+c Total time=   60
+c Total Frames:   49
+c Peak=     13735.3
+c Half-Peak=     6867.63
+c Half-Peak-Frame=    10.00000
+c Time Interval=   8
+c Start Frame= 14.
+c Last Frame= 40.
+d35 1
+a35 1
+      write(*, "('$Id: peakchk.f,v 1.1 2000/06/26 21:19:02 jon Exp jon $')")
+d108 2
+d113 10
+a122 10
+	   i1=i+1
+	   do 400 j=i1,ctr
+	       if (datarray(i) .ge. datarray(j)) then
+	         continue
+	       else
+	           hold=datarray(i)
+	           datarray(i)=datarray(j)
+	           datarray(j)=hold
+	       endif
+ 400	   continue
+d125 5
+a129 1
+c Spike?
+d139 1
+d147 1
+a147 2
+c---------------------------------------------------------c  
+
+d160 1
+a160 1
+c               Find frame closest to time.
+d166 1
+a166 1
+     			 print*,'Start Time= ',start(j-1)
+d172 1
+a172 1
+ 	                 print*,'Start Time= ',start(j)
+d182 1
+a182 1
+ 
+d184 2
+d189 3
+a191 3
+ 	                 lastframe = frame(j)
+ 	                 print*,'End Time= ',start(j)
+ 	                 print*,'Total scan Time= ',start(j)-scanstarttime
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 1
+a2 1
+c $Header: $
+d4 1
+a4 1
+c---------------------------------------------------------c
+d16 1
+a16 1
+c Start Frame=14.
+d18 1
+a18 1
+c---------------------------------------------------------c
+d23 4
+a26 1
+      real frame,start,mean,datarray,startframe,lastframe,half_peak,time
+d28 3
+a30 2
+
+      write(*, "('$Id: $')")
+d56 1
+a56 2
+      call system (string)
+      
+a57 1
+
+d79 1
+a81 1
+c            print*,'File Opened'
+a83 1
+         
+d88 1
+a88 3
+c        print*,'Header Read'     
+ 180	format(3(A7))
+              
+a90 1
+
+d93 1
+d95 1
+a95 5
+       read(10,*,ERR = 275)frame(i),start(i),mean(i)
+       
+c         print 270,frame(i),'--- ',start(i),'----',mean(i)
+c 270     format(F3,A5,F7.3,A5,F10.4)
+ 
+d100 2
+a101 2
+ 275  write(*,*)'Total Frames= ',ctr
+                
+a102 1
+
+a103 1
+c	 print*,'Ready To Sort'
+a116 3
+ 
+c---------------------------------------------------------c 
+c	 print*,'Peak= ',datarray(2)
+d118 4
+a121 8
+c Spike?  	 
+
+ 	 do 600 i=3,ctr
+ 	 
+ 	    if (mean(i) .eq. datarray(2)) then
+ 	    
+c 	        print*,'mean(i)= ',mean(i),'  datarray(2)= ',datarray(2)
+	    
+d124 3
+a126 2
+ 	           print*,'Peak= ',mean(i-1)
+ 	           half_peak = mean(i-1)/2
+d130 2
+a135 3
+ 	 print*,'Half-Peak= ',half_peak
+c---------------------------------------------------------c	
+c 	 print*,'Calculate Half-Peak + 8 Seconds'
+d137 1
+a137 1
+ 	 do 800 i=3,ctr
+a139 2
+c               Find Half-Peak+time_interval.
+c	        print*,'mean(i).gt.half_peak      mean(i)= ',mean(i),' half_peak = ',half_peak
+a148 2
+c 	        print*,'Time of half_peak_plus_interval = ',time
+ 	        
+a151 2
+c 	           print*,'start(j)= ',start(j),'time = ',time
+ 	           
+a153 4
+ 	              
+c	                 print*,'time= ',time,' start(j-1)+(start(j)-start(j-1)/2)= ',	              
+c     + 	                 start(j-1)+((start(j)-start(j-1))/2)
+
+d155 2
+a157 1
+c     			 print*,'Now time= ',time
+a159 4
+ 	              
+c	                 print*,'time= ',time,' start(j-1)+(start(j)-start(j-1)/2)= ',	              
+c     + 	                 start(j-1)+((start(j)-start(j-1))/2)
+
+d161 2
+a162 1
+c 	                 print*,'startframe = frame(j)'
+a163 1
+c			 print*,'Now time= ',time
+a166 1
+ 	            
+d175 1
+a175 15
+c 	           print*,'start(j)= ',start(j),'time = ',time
+ 	           
+ 	           if (start(j) .gt. time)then
+ 	              if ((time).le.(start(j-1)+((start(j)-start(j-1))/2))) then
+ 	              
+c	                 print*,'time= ',time,' start(j-1)+(start(j)-start(j-1)/2)= ',	              
+c     + 	                 start(j-1)+((start(j)-start(j-1))/2)
+
+     			 lastframe = frame(j-1)
+ 	                 goto 900
+ 	              else
+ 	              
+c	                 print*,'time= ',time,' start(j-1)+(start(j)-start(j-1)/2)= ',	              
+c     + 	                 start(j-1)+((start(j)-start(j-1))/2)
+
+d177 2
+a179 1
+ 	              endif
+a180 1
+ 	            
+d186 1
+a186 1
+ 950	  format(A13,F3)
+@

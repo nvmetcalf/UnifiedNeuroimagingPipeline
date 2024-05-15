@@ -1,0 +1,586 @@
+processor type unknown
+NILSRC=/data/nil-bluearc/raichle/lin64-nilsrc
+RELEASE=/data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc/librms /data/nil-bluearc/raichle/lin64-nilsrc 
+echo done
+done
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/imgblur_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/img_hist_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/parzen_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/t4_actmapf_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/imglin /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o t4_inv t4inv.o t4_inv.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o -lm -lgfortran
+chmod 771 t4_inv
+chgrp program t4_inv
+mv t4_inv /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o t4_mul  t4_mul.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o -lm -lgfortran
+chmod 771 t4_mul
+chgrp program t4_mul
+mv t4_mul /data/nil-bluearc/raichle/lin64-tools
+cc -O -o t4_ident  t4_ident.o  -lm
+chmod 771 t4_ident
+chgrp program t4_ident
+mv t4_ident /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o t4_factor t4_sub.o param12opr.o t4_factor.o t4_io.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/eigen.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/param6opr.o -lm -lgfortran
+chmod 771 t4_factor
+/bin/mv t4_factor /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/TRX /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -I. -o endian_4dfp endian_4dfp.o Getifh.o endianio.o rec.o  -lm
+chmod 755 endian_4dfp
+chgrp program endian_4dfp
+/bin/mv endian_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -I. -o ifh2hdr ifh2hdr.o Inithdr.o Getifh.o endianio.o  -lm
+chmod 755 ifh2hdr
+chgrp program ifh2hdr
+/bin/mv ifh2hdr /data/nil-bluearc/raichle/lin64-tools
+cc -O -I. -o asciito4dfp asciito4dfp.o Getifh.o endianio.o rec.o  
+chmod 755 asciito4dfp
+chgrp program asciito4dfp
+/bin/mv asciito4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o spline23dvgh_test spline23dvgh_test.o spline2dvgh.o spline3dvgh.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/npad.o -lm -lgfortran
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/JSSutil /data/nil-bluearc/raichle/lin64-nilsrc 
+make: Nothing to be done for `compile'.
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -I. -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -O -o actmapf_4dfp actmapf_4dfp.o expandf.o conc.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/img_hist_4dfp/fimg_mode.o -lm -lgfortran
+chmod 771 actmapf_4dfp
+chgrp program actmapf_4dfp
+/bin/mv actmapf_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -std=c99 -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -I/data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp -O	 -o compute_defined_4dfp compute_defined_4dfp.o conc.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 771 compute_defined_4dfp
+chgrp program compute_defined_4dfp
+/bin/mv compute_defined_4dfp /data/nil-bluearc/raichle/lin64-tools
+cc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -I/data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp -O -o conc_test conc_test.o conc.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 771 conc_test
+chgrp program conc_test
+/bin/mv conc_test /data/nil-bluearc/raichle/lin64-tools
+cc -O -o condense condense.o  -lm
+chmod 771 condense
+chgrp program condense
+/bin/mv condense /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fcray-pointer -o covariance covariance.o expandf.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/deigen.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o -lm -lgfortran
+chmod 771 covariance
+chgrp program covariance
+/bin/mv covariance /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fcray-pointer -o glm_4dfp glm_4dfp.o expandf.o conc.o dglm_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/img_hist_4dfp/fimg_mode.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/deigen.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/dmatinv.o -lm -lgfortran
+chmod 771 glm_4dfp
+chgrp program glm_4dfp
+/bin/mv glm_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fcray-pointer -o GC_4dfp GC_4dfp.o expandf.o conc.o fGC.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o -lm -lgfortran
+chmod 771 GC_4dfp
+chgrp program GC_4dfp
+/bin/mv GC_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fcray-pointer -o GC_dat GC_dat.o expandf.o fGC.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o -lm -lgfortran
+chmod 771 GC_dat
+chgrp program GC_dat
+/bin/mv GC_dat /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/4dfptoanalyze /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o 4dfptoanalyze  4dfptoanalyze.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Inithdr.o -lm
+chmod 771 4dfptoanalyze
+chgrp program 4dfptoanalyze
+/bin/mv 4dfptoanalyze /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/S2T_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o S2T_4dfp S2T_4dfp.o reorder.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o -lm -lgfortran
+chmod 775 S2T_4dfp
+chgrp program S2T_4dfp
+/bin/mv S2T_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o C2T_4dfp C2T_4dfp.o reorder.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o -lm -lgfortran
+chmod 775 C2T_4dfp
+chgrp program C2T_4dfp
+/bin/mv C2T_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o T2C_4dfp T2C_4dfp.o reorder.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o -lm -lgfortran
+chmod 775 T2C_4dfp
+chgrp program T2C_4dfp
+/bin/mv T2C_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o T2S_4dfp T2S_4dfp.o reorder.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o -lm -lgfortran
+chmod 775 T2S_4dfp
+chgrp program T2S_4dfp
+/bin/mv T2S_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/algebra_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -std=c99 -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -O	 -o imgopr_4dfp imgopr_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 755 imgopr_4dfp
+chgrp program imgopr_4dfp
+/bin/mv imgopr_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/analyzeto4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o analyzeto4dfp analyzeto4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o -lm
+chmod 771 analyzeto4dfp
+chgrp program analyzeto4dfp
+/bin/mv analyzeto4dfp /data/nil-bluearc/raichle/lin64-tools
+cc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o hdr2txt hdr2txt.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o -lm 
+chmod 755 hdr2txt
+chgrp program hdr2txt
+/bin/mv hdr2txt /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/cluster_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o cluster_4dfp cluster_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 711 cluster_4dfp
+chgrp program cluster_4dfp
+/bin/mv cluster_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/collate_slice_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -O -o collate_slice_4dfp collate_slice_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o -lm
+chmod 755 collate_slice_4dfp
+chgrp program collate_slice_4dfp
+/bin/mv collate_slice_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/crop_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -O -o crop_4dfp crop_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o -lm
+chmod 775 crop_4dfp
+chgrp program crop_4dfp
+/bin/mv crop_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/cross_realign3d_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fcray-pointer -o cross_realign3d_4dfp cross_realign3d_4dfp.o gauss3diz.o gauss2diz.o frmsfmri.o splinexyz.o alignmrixyz.o imgvalsixyz.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp/expandf.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imgpad.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/img2lmask.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/polfit.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/gauss3d.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/param6opr.o  -lm -lgfortran
+chmod 771 cross_realign3d_4dfp
+chgrp program cross_realign3d_4dfp
+mv cross_realign3d_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fcray-pointer -o mat2dat mat2dat.o  /data/nil-bluearc/raichle/lin64-nilsrc/librms/frmsmri.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/param6opr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/polfit.o -lm -lgfortran
+chmod 775 mat2dat
+chgrp program mat2dat
+/bin/mv mat2dat /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/diff4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -I. -I/data/nil-bluearc/raichle/lin64-nilsrc/JSSutil -o diff_4dfp diff_4dfp.o get_dti_params.o dtensor.o nonlinear.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/JSSutil/JSSnrutil.o /data/nil-bluearc/raichle/lin64-nilsrc/JSSutil/lin_algebra.o /data/nil-bluearc/raichle/lin64-nilsrc/JSSutil/random.o /data/nil-bluearc/raichle/lin64-nilsrc/img_hist_4dfp/fimg_mode.o -lm
+chmod 775 diff_4dfp
+chgrp program diff_4dfp
+/bin/mv diff_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -I. -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -I/data/nil-bluearc/raichle/lin64-nilsrc/JSSutil -o diffRGB_4dfp diffRGB_4dfp.o dtensor.o t4tolin.o affine_DTrot.o get_dti_params.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Inithdr.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/img_hist_4dfp/fimg_mode.o /data/nil-bluearc/raichle/lin64-nilsrc/JSSutil/JSSnrutil.o /data/nil-bluearc/raichle/lin64-nilsrc/JSSutil/lin_algebra.o  -lm 
+chgrp program diffRGB_4dfp 
+chmod 771 diffRGB_4dfp 
+/bin/mv diffRGB_4dfp  /data/nil-bluearc/raichle/lin64-tools
+gcc -O -I. -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -I/data/nil-bluearc/raichle/lin64-nilsrc/JSSutil -o whisker_4dfp whisker_4dfp.o dtensor.o t4tolin.o affine_DTrot.o get_dti_params.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/img_hist_4dfp/fimg_mode.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o /data/nil-bluearc/raichle/lin64-nilsrc/JSSutil/JSSnrutil.o /data/nil-bluearc/raichle/lin64-nilsrc/JSSutil/lin_algebra.o -lm 
+chmod 775 whisker_4dfp
+chgrp program whisker_4dfp
+/bin/mv whisker_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/dwi_xalign_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o dwi_xalign3d_4dfp dwi_xalign3d_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/spline2dvgh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/spline3dvgh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/fimgeta.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/fimgetae.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/etadeta.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/fomega.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/twoecal.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/eigen.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/determ12.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imgpad.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/gauss3d.o -lm -lgfortran
+chmod 775 dwi_xalign3d_4dfp
+chgrp program dwi_xalign3d_4dfp
+mv dwi_xalign3d_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o dwi_cross_xalign3d_4dfp dwi_cross_xalign3d_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/fimgeta.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/fimgetae.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/etadeta.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/fomega.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/twoecal.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/spline2dvgh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/spline3dvgh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imgpad.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/gauss3d.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/eigen.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/determ12.o -lm -lgfortran
+chmod 775 dwi_cross_xalign3d_4dfp
+chgrp program dwi_cross_xalign3d_4dfp
+/bin/mv dwi_cross_xalign3d_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/dcm_dump_file /data/nil-bluearc/raichle/lin64-nilsrc 
+cc -O -I./include -g -DDEBUG -DSHARED_MEMORY -DSEMAPHORE -DX11 -DATHENA -DMOTIF -DX11R4 -DUSLEEP -DMSQL -DTBL_REQUIRES_HAT_ESCAPE -DLITTLE_ENDIAN_ARCHITECTURE -DLONGSIZE=32 -DINTSIZE=32 -DSHORTSIZE=16 -o dcm_dump_file dcm_dump_file.o lst.o dcm.o condition.o utility.o ctnthread.o dcmsupport.o dcmdict.o dcmcond.o
+chmod 751 dcm_dump_file
+chgrp program dcm_dump_file
+/bin/mv dcm_dump_file /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+wget: missing URL
+Usage: wget [OPTION]... [URL]...
+
+Try `wget --help' for more options.
+dcm_to_4dfp-1.0/
+dcm_to_4dfp-1.0/aclocal.m4
+dcm_to_4dfp-1.0/AUTHORS
+dcm_to_4dfp-1.0/ChangeLog
+dcm_to_4dfp-1.0/condition.c
+dcm_to_4dfp-1.0/config.h
+dcm_to_4dfp-1.0/config.h.in
+dcm_to_4dfp-1.0/configure
+dcm_to_4dfp-1.0/configure.ac
+dcm_to_4dfp-1.0/COPYING
+dcm_to_4dfp-1.0/ctnthread.c
+dcm_to_4dfp-1.0/dcm.c
+dcm_to_4dfp-1.0/dcm_to_4dfp.c
+dcm_to_4dfp-1.0/dcmcond.c
+dcm_to_4dfp-1.0/dcmdict.c
+dcm_to_4dfp-1.0/dcmsupport.c
+dcm_to_4dfp-1.0/depcomp
+dcm_to_4dfp-1.0/include/
+dcm_to_4dfp-1.0/include/condition.h
+dcm_to_4dfp-1.0/include/ctnthread.h
+dcm_to_4dfp-1.0/include/dcm_to_analyze.h
+dcm_to_4dfp-1.0/include/dcmprivate.h
+dcm_to_4dfp-1.0/include/dicom.h
+dcm_to_4dfp-1.0/include/dicom_objects.h
+dcm_to_4dfp-1.0/include/dicom_uids.h
+dcm_to_4dfp-1.0/include/lst.h
+dcm_to_4dfp-1.0/include/lstprivate.h
+dcm_to_4dfp-1.0/include/Makefile.am
+dcm_to_4dfp-1.0/include/Makefile.in
+dcm_to_4dfp-1.0/include/utility.h
+dcm_to_4dfp-1.0/INSTALL
+dcm_to_4dfp-1.0/install-sh
+dcm_to_4dfp-1.0/lst.c
+dcm_to_4dfp-1.0/Makefile.am
+dcm_to_4dfp-1.0/Makefile.in
+dcm_to_4dfp-1.0/missing
+dcm_to_4dfp-1.0/NEWS
+dcm_to_4dfp-1.0/pixel_ops.c
+dcm_to_4dfp-1.0/README
+dcm_to_4dfp-1.0/test_dcm.c
+dcm_to_4dfp-1.0/test_dcm_to_4dfp.c
+dcm_to_4dfp-1.0/utility.c
+/data/nil-bluearc/raichle/lin64-nilsrc/dcm_to_4dfp-1.0 /data/nil-bluearc/raichle/lin64-nilsrc 
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking for gcc... gcc
+checking for C compiler default output file name... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for style of include used by make... GNU
+checking dependency style of gcc... gcc3
+checking for ranlib... ranlib
+checking for /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o... yes
+checking for /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o... yes
+checking for /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o... yes
+checking for dirent.h that defines DIR... yes
+checking for library containing opendir... none required
+checking how to run the C preprocessor... gcc -E
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/wait.h that is POSIX.1 compatible... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking fcntl.h usability... yes
+checking fcntl.h presence... yes
+checking for fcntl.h... yes
+checking limits.h usability... yes
+checking limits.h presence... yes
+checking for limits.h... yes
+checking malloc.h usability... yes
+checking malloc.h presence... yes
+checking for malloc.h... yes
+checking netdb.h usability... yes
+checking netdb.h presence... yes
+checking for netdb.h... yes
+checking netinet/in.h usability... yes
+checking netinet/in.h presence... yes
+checking for netinet/in.h... yes
+checking stddef.h usability... yes
+checking stddef.h presence... yes
+checking for stddef.h... yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking sys/file.h usability... yes
+checking sys/file.h presence... yes
+checking for sys/file.h... yes
+checking sys/param.h usability... yes
+checking sys/param.h presence... yes
+checking for sys/param.h... yes
+checking sys/socket.h usability... yes
+checking sys/socket.h presence... yes
+checking for sys/socket.h... yes
+checking sys/time.h usability... yes
+checking sys/time.h presence... yes
+checking for sys/time.h... yes
+checking sys/timeb.h usability... yes
+checking sys/timeb.h presence... yes
+checking for sys/timeb.h... yes
+checking for unistd.h... (cached) yes
+checking regex.h usability... yes
+checking regex.h presence... yes
+checking for regex.h... yes
+checking for an ANSI C-conforming const... yes
+checking for off_t... yes
+checking for size_t... yes
+checking whether time.h and sys/time.h may both be included... yes
+checking whether struct tm is in sys/time.h or time.h... time.h
+checking size of short... 2
+checking size of long... 8
+checking size of int... 4
+checking for stdlib.h... (cached) yes
+checking for GNU libc compatible malloc... yes
+checking for stdlib.h... (cached) yes
+checking for GNU libc compatible realloc... yes
+checking whether lstat dereferences a symlink specified with a trailing slash... yes
+checking whether stat accepts an empty string... no
+checking for vprintf... yes
+checking for _doprnt... no
+checking for gettimeofday... yes
+checking for memset... yes
+checking for mkdir... yes
+checking for re_comp... yes
+checking for regcomp... yes
+checking for sqrt... no
+checking for strchr... yes
+checking for strerror... yes
+checking for strrchr... yes
+checking for strstr... yes
+checking for uname... yes
+checking for library containing sqrt... -lm
+checking for library containing CU_basic_run_tests... no
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating include/Makefile
+config.status: creating config.h
+config.status: executing depfiles commands
+make  all-recursive
+make[1]: Entering directory `/data/nil-bluearc/raichle/lin64-nilsrc/dcm_to_4dfp-1.0'
+Making all in include
+make[2]: Entering directory `/data/nil-bluearc/raichle/lin64-nilsrc/dcm_to_4dfp-1.0/include'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/data/nil-bluearc/raichle/lin64-nilsrc/dcm_to_4dfp-1.0/include'
+make[2]: Entering directory `/data/nil-bluearc/raichle/lin64-nilsrc/dcm_to_4dfp-1.0'
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT dcm_to_4dfp.o -MD -MP -MF .deps/dcm_to_4dfp.Tpo -c -o dcm_to_4dfp.o dcm_to_4dfp.c
+mv -f .deps/dcm_to_4dfp.Tpo .deps/dcm_to_4dfp.Po
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT pixel_ops.o -MD -MP -MF .deps/pixel_ops.Tpo -c -o pixel_ops.o pixel_ops.c
+mv -f .deps/pixel_ops.Tpo .deps/pixel_ops.Po
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT lst.o -MD -MP -MF .deps/lst.Tpo -c -o lst.o lst.c
+mv -f .deps/lst.Tpo .deps/lst.Po
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT dcm.o -MD -MP -MF .deps/dcm.Tpo -c -o dcm.o dcm.c
+mv -f .deps/dcm.Tpo .deps/dcm.Po
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT condition.o -MD -MP -MF .deps/condition.Tpo -c -o condition.o condition.c
+mv -f .deps/condition.Tpo .deps/condition.Po
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT utility.o -MD -MP -MF .deps/utility.Tpo -c -o utility.o utility.c
+mv -f .deps/utility.Tpo .deps/utility.Po
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT ctnthread.o -MD -MP -MF .deps/ctnthread.Tpo -c -o ctnthread.o ctnthread.c
+mv -f .deps/ctnthread.Tpo .deps/ctnthread.Po
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT dcmsupport.o -MD -MP -MF .deps/dcmsupport.Tpo -c -o dcmsupport.o dcmsupport.c
+mv -f .deps/dcmsupport.Tpo .deps/dcmsupport.Po
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT dcmdict.o -MD -MP -MF .deps/dcmdict.Tpo -c -o dcmdict.o dcmdict.c
+mv -f .deps/dcmdict.Tpo .deps/dcmdict.Po
+gcc -DHAVE_CONFIG_H -I.  -I./include -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX   -g -O2 -MT dcmcond.o -MD -MP -MF .deps/dcmcond.Tpo -c -o dcmcond.o dcmcond.c
+mv -f .deps/dcmcond.Tpo .deps/dcmcond.Po
+gcc  -g -O2   -o dcm_to_4dfp dcm_to_4dfp.o pixel_ops.o lst.o dcm.o condition.o utility.o ctnthread.o dcmsupport.o dcmdict.o dcmcond.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm 
+make[2]: Leaving directory `/data/nil-bluearc/raichle/lin64-nilsrc/dcm_to_4dfp-1.0'
+make[1]: Leaving directory `/data/nil-bluearc/raichle/lin64-nilsrc/dcm_to_4dfp-1.0'
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/deband_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fcray-pointer -o deband_4dfp deband_4dfp.o fdeband.o debandg.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp/expandf.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/img2lmask.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imgpad.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/gauss3d.o  -lm -lgfortran
+chmod 711 deband_4dfp
+chgrp program deband_4dfp
+/bin/mv deband_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o flip_4dfp flip_4dfp.o cflip.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 771 flip_4dfp
+chgrp program flip_4dfp
+/bin/mv flip_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/frame_align /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -O -o frame_align_4dfp frame_align_4dfp.o rfft1d.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chgrp program frame_align_4dfp
+chmod 751 frame_align_4dfp
+/bin/mv frame_align_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/gauss_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+chmod 751 gauss_4dfp
+chgrp program gauss_4dfp
+/bin/mv gauss_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fcray-pointer -o hsphere_4dfp hsphere_4dfp.o hsphere3d.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imgpad.o -lm -lgfortran 
+chmod 755 hsphere_4dfp
+chgrp program hsphere_4dfp
+/bin/mv hsphere_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/frame_align /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -O -o frame_align_4dfp frame_align_4dfp.o rfft1d.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chgrp program frame_align_4dfp
+chmod 751 frame_align_4dfp
+/bin/mv frame_align_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/img2msk_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o img2msk_4dfp img2msk_4dfp.o fimg2msk.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm -lgfortran
+chmod 775 img2msk_4dfp
+chgrp program img2msk_4dfp
+/bin/mv img2msk_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/imgreg_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o imgreg_4dfp fimgreg.o imgvalm.o imgvalx.o ffind.o imgreg_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o /data/nil-bluearc/raichle/lin64-nilsrc/imglin/t4_sub.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/polfit.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/eigen.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/param6opr.o -lm -lgfortran
+chmod 771 imgreg_4dfp
+chgrp program imgreg_4dfp
+mv imgreg_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/img_hist_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+cc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o img_hist_4dfp img_hist_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm 
+chmod 775 img_hist_4dfp
+chgrp program img_hist_4dfp
+/bin/mv img_hist_4dfp /data/nil-bluearc/raichle/lin64-tools 
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/imgmax_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+cc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o imgmax_4dfp imgmax_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm 
+chmod 771 imgmax_4dfp 
+chgrp program imgmax_4dfp
+/bin/mv imgmax_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/interp_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fcray-pointer -o interp_4dfp interp_4dfp.o spline.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imgpad.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o -lm -lgfortran
+chmod 751 interp_4dfp
+chgrp program interp_4dfp
+/bin/mv interp_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fcray-pointer -o bandpass_4dfp bandpass_4dfp.o butt1d.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp/conc.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/npad.o -lm -lgfortran
+chgrp program bandpass_4dfp
+chmod 751 bandpass_4dfp
+/bin/mv bandpass_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/maskimg_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+cc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o maskimg_4dfp maskimg_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 771 maskimg_4dfp
+chgrp program maskimg_4dfp
+/bin/mv maskimg_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/mpetto4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+cc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o mpetto4dfp mpetto4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o -lm
+chmod 771 mpetto4dfp
+chgrp program mpetto4dfp
+/bin/mv mpetto4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/mprtir /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o 2Dhist 2Dhist.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o -lm
+chmod 771 2Dhist
+chgrp program 2Dhist
+/bin/mv 2Dhist /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -fcray-pointer -o partitiond_gfc_4dfp partitiond_gfc_4dfp.o fitgain3d.o powsub.o fnegdef.o fitgain3dd.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/eigen.o /data/nil-bluearc/raichle/lin64-nilsrc/imgblur_4dfp/fimgblur.o -lm -lgfortran
+chmod 711 partitiond_gfc_4dfp
+chgrp program partitiond_gfc_4dfp
+/bin/mv partitiond_gfc_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/nonlin /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fcray-pointer -o morphc_4dfp morphc_4dfp.o piic.o iic.o lud.o fvfield.o util.o b2v4m.o inc.o imgval0.o cmplxfft3d.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/parzen_4dfp/parzen.o /data/nil-bluearc/raichle/lin64-nilsrc/parzen_4dfp/imgpac.o /data/nil-bluearc/raichle/lin64-nilsrc/parzen_4dfp/mskpac.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imgpad.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o -lm -lgfortran
+chmod 755 morphc_4dfp
+chgrp program morphc_4dfp
+/bin/mv morphc_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/normalize_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fcray-pointer -o normalize_4dfp normalize_4dfp.o img2hist.o fnormalize.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imag2mask.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imgpad.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/gauss3d.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o -lm -lgfortran
+chgrp program normalize_4dfp
+chmod 755 normalize_4dfp
+/bin/mv normalize_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/paste_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -O -o paste_4dfp paste_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm 
+chmod 775 paste_4dfp 
+chgrp program paste_4dfp
+/bin/mv paste_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/qnt_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -std=c99 -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -I/data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp	 -o qnt_4dfp qnt_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp/conc.o /data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp/expandf.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o -lm 
+chmod 775 qnt_4dfp
+chgrp program qnt_4dfp
+/bin/mv qnt_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/reindex_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -I. -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -O -o reindex_4dfp reindex_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm -lgfortran
+chmod 775 reindex_4dfp
+chgrp program reindex_4dfp
+/bin/mv reindex_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/rmspike_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fcray-pointer -o rmspike_4dfp rmspike_4dfp.o frmspike.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp/expandf.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm -lgfortran
+chmod 775 rmspike_4dfp
+chgrp program rmspike_4dfp
+/bin/mv rmspike_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/scale_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o scale_4dfp scale_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o  -lm
+chmod 775 scale_4dfp
+chgrp program scale_4dfp
+/bin/mv scale_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/sqrt_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -std=c99 -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX	 -o sqrt_4dfp sqrt_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 771 sqrt_4dfp
+chgrp program sqrt_4dfp
+/bin/mv sqrt_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o rho2z_4dfp rho2z_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 771 rho2z_4dfp
+chgrp program rho2z_4dfp
+/bin/mv rho2z_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o t2z_4dfp t2z_4dfp.o bertulani_betai.o statsub.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 771 t2z_4dfp
+chgrp program t2z_4dfp
+/bin/mv t2z_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o z2logp_4dfp z2logp_4dfp.o bertulani_betai.o statsub.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 771 z2logp_4dfp
+chgrp program z2logp_4dfp
+/bin/mv z2logp_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o t4imgs_4dfp t4imgs_4dfp.o ft4imgo.o to_711-2B.o ft4imgn.o set_rnan.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/spline3dvgh.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/imgpad.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/polfit.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/param6opr.o /data/nil-bluearc/raichle/lin64-nilsrc/imgreg_4dfp/imgvalx.o /data/nil-bluearc/raichle/lin64-nilsrc/imglin/t4_sub.o /data/nil-bluearc/raichle/lin64-nilsrc/imglin/t4scale.o /data/nil-bluearc/raichle/lin64-nilsrc/t4_actmapf_4dfp/ft4ixyz.o -lm -lgfortran
+chmod 771 t4imgs_4dfp
+chgrp program t4imgs_4dfp
+/bin/mv t4imgs_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/peak_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fcray-pointer -o read_4dfp read_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/imgreg_4dfp/imgvalx.o /data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp/cvrtflip.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/polfit.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o -lm -lgfortran
+chmod 755 read_4dfp
+chgrp program read_4dfp
+/bin/mv read_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o peak_4dfp peak_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/imgreg_4dfp/imgvalx.o /data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp/ft4imgo.o /data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp/set_rnan.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/polfit.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/param6opr.o -lm -lgfortran
+chmod 755 peak_4dfp
+chgrp program peak_4dfp
+/bin/mv peak_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fno-second-underscore -o index2atl index2atl.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/imgreg_4dfp/imgvalx.o /data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp/ft4imgo.o  /data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp/set_rnan.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/param6opr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/polfit.o -lm -lgfortran
+chmod 755 index2atl
+chgrp program index2atl
+/bin/mv index2atl /data/nil-bluearc/raichle/lin64-tools
+gcc -O -ffixed-line-length-132 -fcray-pointer -o burn_sphere_4dfp burn_sphere_4dfp.o  /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/imgreg_4dfp/imgvalx.o /data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp/set_rnan.o /data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp/ft4imgo.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/polfit.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/param6opr.o -lm -lgfortran
+chmod 755 burn_sphere_4dfp
+chgrp program burn_sphere_4dfp
+/bin/mv burn_sphere_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/t4_actmapf_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fcray-pointer -o t4_xr3d_4dfp t4_xr3d_4dfp.o ft4ixyz.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/imglin/t4_sub.o /data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp/ft4imgo.o /data/nil-bluearc/raichle/lin64-nilsrc/t4imgs_4dfp/set_rnan.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/spline3dvgh.o /data/nil-bluearc/raichle/lin64-nilsrc/imgreg_4dfp/imgvalx.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/param6opr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/npad.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/matopr.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/polfit.o /data/nil-bluearc/raichle/lin64-nilsrc/librms/fftsol.o -lm -lgfortran
+chmod 771 t4_xr3d_4dfp
+chgrp program t4_xr3d_4dfp
+mv t4_xr3d_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/imato4dfp2 /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -ffixed-line-length-132 -fcray-pointer -o unpack_4dfp unpack.o unpack_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/flip_4dfp/cflip.o -lm -lgfortran
+chmod 771 unpack_4dfp
+chgrp program unpack_4dfp
+/bin/mv unpack_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/var_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -std=c99 -O -I/data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX	 -o var_4dfp  var_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o /data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp/expandf.o /data/nil-bluearc/raichle/lin64-nilsrc/actmapf_4dfp/conc.o -lm
+chmod 771 var_4dfp
+chgrp program var_4dfp
+mv var_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -std=c99 -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX	 -o dvar_4dfp  dvar_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm
+chmod 771 dvar_4dfp
+chgrp program dvar_4dfp
+mv dvar_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 
+/data/nil-bluearc/raichle/lin64-nilsrc/zero_lt_4dfp /data/nil-bluearc/raichle/lin64-nilsrc 
+gcc -O -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX -o zero_lt_4dfp zero_lt_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX/endianio.o -lm   
+chmod 775 zero_lt_4dfp
+chgrp program zero_lt_4dfp
+/bin/mv zero_lt_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX/ -O -o zero_gt_4dfp zero_gt_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX//rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX//Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX//endianio.o -lm  
+chmod 775 zero_gt_4dfp
+chgrp program zero_gt_4dfp
+/bin/mv zero_gt_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX/ -O -o zero_ltgt_4dfp zero_ltgt_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX//rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX//Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX//endianio.o -lm  
+chmod 775 zero_ltgt_4dfp
+chgrp program zero_ltgt_4dfp
+/bin/mv zero_ltgt_4dfp /data/nil-bluearc/raichle/lin64-tools
+gcc -I/data/nil-bluearc/raichle/lin64-nilsrc/TRX/ -O -o zero_gtlt_4dfp zero_gtlt_4dfp.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX//rec.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX//Getifh.o /data/nil-bluearc/raichle/lin64-nilsrc/TRX//endianio.o -lm  
+chmod 775 zero_gtlt_4dfp
+chgrp program zero_gtlt_4dfp
+/bin/mv zero_gtlt_4dfp /data/nil-bluearc/raichle/lin64-tools
+/data/nil-bluearc/raichle/lin64-nilsrc 

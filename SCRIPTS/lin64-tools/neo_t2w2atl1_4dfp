@@ -1,0 +1,110 @@
+#!/bin/csh -f
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/neo_t2w2atl1_4dfp,v 1.2 2018/08/17 05:51:08 avi Exp $
+#$Log: neo_t2w2atl1_4dfp,v $
+# Revision 1.2  2018/08/17  05:51:08  avi
+# invoke with -f
+#
+# Revision 1.1  2009/04/04  01:23:05  avi
+# Initial revision
+#
+#
+set idstr	= '$Id: neo_t2w2atl1_4dfp,v 1.2 2018/08/17 05:51:08 avi Exp $'
+set program	= $0; set program = $program:t
+echo $idstr
+
+@ debug = 0
+######################
+# process command line
+######################
+@ k = 0
+@ i = 1
+while ($i <= ${#argv})
+	set swi = `echo $argv[$i] | awk '$1~/^-/{print substr($1,1,2)}'`
+	if (${#swi} > 0) then
+		set arg = `echo $argv[$i] | awk '{print substr($0,3)}'`
+		switch ($swi)
+			case -d:
+				@ debug++;		breaksw;
+			default:
+				echo $swi option not recognized
+				goto USAGE
+				breaksw;
+		endsw
+	else
+		switch ($k)
+			case 0:
+				set t2w	= $argv[$i];	@ k++; breaksw;
+			case 1:
+				set atl = $argv[$i];	@ k++; breaksw;
+		endsw
+	endif
+	@ i++
+end
+if ($k < 2) goto USAGE
+
+if ($t2w:e == "img")  set t2w = $t2w:r;
+if ($t2w:e == "4dfp") set t2w = $t2w:r;
+if (! -e $t2w.4dfp.img || ! -e $t2w.4dfp.ifh) then
+	echo $t2w not found
+	exit -1
+endif
+if ($atl:e == "img")  set atl = $t2w:r;
+if ($atl:e == "4dfp") set atl = $t2w:r;
+if (! -e $atl.4dfp.img || ! -e $atl.4dfp.ifh) then
+	echo $atl not found
+	exit -1
+endif
+if (! -e ${atl}_to_711-2N_t4) then
+	echo ${atl}_to_711-2N_t4 not found
+	exit -1
+endif
+
+set t4file = $t2w"_to_"$atl:t"_t4"
+set log	=    $t2w"_to_"$atl:t.log
+echo $program $argv[1-]	>! $log
+echo $idstr		>> $log
+date			>> $log
+echo "t2w="$t2w		>> $log
+echo "atl="$atl		>> $log
+
+set echo
+###################
+# initialize t4file
+###################
+set oristr = (T C S)
+@ ori = `awk '/orientation/{print $NF - 1}' $t2w.4dfp.ifh`
+/bin/cp $RELEASE/$oristr[$ori]_t4	$t4file
+chmod 664				$t4file
+
+######################
+# compute registration
+######################
+set modes = (4355 1283 2307 2311 775 775)
+@ i = 1
+while ($i <= $#modes)
+	echo	imgreg_4dfp $atl none $t2w none $t4file $modes[$i]
+	echo	imgreg_4dfp $atl none $t2w none $t4file $modes[$i] >> $log
+	if ($debug) then
+		imgreg_4dfp $atl none $t2w none $t4file $modes[$i]
+	else
+		imgreg_4dfp $atl none $t2w none $t4file $modes[$i] >> $log
+	endif
+	@ i++
+	if ($status) exit $status
+end
+
+t4_mul $t4file ${atl}_to_711-2N_t4 $t2w"_to_711-2N_t4"
+
+foreach O (111 222 333)
+	t4img_4dfp $t2w"_to_711-2N_t4" $t2w	$t2w"_on_711-2N_"$O -O$O
+	ifh2hdr -r1600				$t2w"_on_711-2N_"$O
+end
+
+exit
+
+USAGE:
+echo "Usage:	"$program" <t2w_anat> </path/neo_atlas_target>"
+echo "e.g.,	"$program" vc0011_t2w[.4dfp.img] /data/nil-bluearc/shimony/wunder/new_atlases/30weeks_N9_t2w/30weeks_N9_t2w"
+echo "	options"
+echo "	-d	debug mode"
+exit 1

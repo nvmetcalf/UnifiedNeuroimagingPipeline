@@ -1,0 +1,283 @@
+#!/bin/csh -f
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/cyno_DWI_script,v 1.6 2018/08/17 05:38:50 avi Exp $
+#$Log: cyno_DWI_script,v $
+# Revision 1.6  2018/08/17  05:38:50  avi
+# invoke with -f
+#
+# Revision 1.5  2013/11/18  05:34:20  avi
+# correct control flow logic
+#
+# Revision 1.4  2013/11/18  02:33:59  avi
+# run t2w msktgen_4dfp if gotoDWI is set
+#
+# Revision 1.3  2013/09/16  21:40:57  avi
+# more robust dwi->t2w registration
+#
+# Revision 1.2  2013/09/09  23:41:39  avi
+# option -T
+#
+# Revision 1.1  2013/09/03  21:07:58  avi
+# Initial revision
+#
+
+set idstr = '$Id: cyno_DWI_script,v 1.6 2018/08/17 05:38:50 avi Exp $'
+echo $idstr
+set program = $0; set program = $program:t
+
+if (${#argv} < 1) then
+	echo "Usage:	"$program" params_file [instructions_file]"
+	exit 1
+endif
+set prmfile = $1
+echo "prmfile="$prmfile
+if (! -e $prmfile) then
+	echo $program": "$prmfile not found
+	exit -1
+endif
+cat	$prmfile
+source	$prmfile
+if (${#argv} > 1) then
+	set instructions = $2
+	if (! -e $instructions) then
+		echo $program": "$instructions not found
+		exit -1
+	endif
+	cat	$instructions
+	source	$instructions
+endif
+echo $program": patid="$patid
+if (! $?target) set target = /data/petsun59/data2/macaqueF6/macaqueF6
+if ($target:e == "img")  set target = $target:r
+if ($target:e == "4dfp") set target = $target:r
+
+if (! ${?day1_dwi})		set day1_dwi = ""
+if (! ${?day1_dwi_path})	set day1_dwi_path = ""
+if ($day1_dwi != "") then
+	if (! -d $day1_dwi_path) then
+		echo $program": "$day1_dwi_path not a directory
+		exit -1
+	endif
+	pushd atlas
+	goto DWI
+endif
+
+##################################
+# skip anatomical image processing
+##################################
+if (${?gotoDWI})	then
+	pushd atlas
+	goto DWI
+endif
+if (${?gotoDTI})	then
+	pushd DWI
+	goto DTI
+endif
+if (${?gotoDTI1})	then
+	pushd DWI
+	goto DTI1
+endif
+
+######################
+# atlas transformation
+######################
+pushd atlas			# into atlas
+if ($status) exit $status
+set mpr = (`ls ${patid}_mpr_[1-9]_crop_gfc.4dfp.img ${patid}_mpr[1-9]_crop_gfc.4dfp.img`)
+if ($#mpr != 1) then
+	echo unique cropped gain field corrected MP-RAGE not found
+	exit -1
+endif
+set mpr = $mpr:r; set mpr = $mpr:r
+cyno_mpr2atl_4dfp $mpr useold -T$target
+if ($status) exit $status
+t4img_4dfp  ${mpr:t}_to_${target:t}_t4 $mpr	${mpr:t}_on_${target:t} -O$target
+if ($status) exit $status
+ifh2hdr -r700					${mpr:t}_on_${target:t}
+
+T2W:
+@ ntse = ${#tse}
+if ($ntse < 1) exit -1
+set filenam = ${patid}_t2w
+echo	dcm_to_4dfp -b $filenam $inpath/study$tse
+	dcm_to_4dfp -b $filenam $inpath/study$tse
+if ($status) exit $status
+
+echo	cyno_t2w2mpr_4dfp ${mpr} ${patid}_t2w -T$target
+	cyno_t2w2mpr_4dfp ${mpr} ${patid}_t2w -T$target
+if ($status) exit $status
+
+DWI:
+########################
+# make generous T2W mask
+########################
+echo	cyno_msktgen_4dfp ${patid}_t2w 100 -T$target
+	cyno_msktgen_4dfp ${patid}_t2w 100 -T$target
+if ($status) exit $status
+
+popd				# out of atlas
+
+#####
+# DWI
+#####
+if (! -d DWI) mkdir DWI
+pushd DWI			# into DWI
+
+###########################
+# convert DWI dicom to 4dfp
+###########################
+@ k = 1
+while ($k <= ${#DWI})
+	@ j = $DWI[$k]
+	echo	dcm_to_4dfp -b ${patid}_study$j $inpath/study$j
+		dcm_to_4dfp -b ${patid}_study$j $inpath/study$j
+	if ($status) exit $status
+	unpack_4dfp ${patid}_study$j ${patid}_dwi$k -V -nx$dwinx -ny$dwiny
+	if ($status) exit $status
+	/bin/rm ${patid}_study$j.4dfp.*
+	@ k++
+end
+
+if ($day1_dwi != "") then
+	foreach file (${patid}_dwi?.4dfp.img)
+		cyno_cross_DWI_imgreg_4dfp $file $day1_dwi_path $day1_dwi
+		if ($status) exit $status
+		cyno_msktgen_4dfp $file 100 -T$target
+		if ($status) exit $status
+	end
+else
+#############################################
+# register each DWI to t2w
+# compute generous masks for all DWI datasets
+#############################################
+	@ I0vol = 1
+	set oristr = (T C S)
+	set modes = (0 0 0 0 0)
+	@ modes[1] = 4096 + 3
+	@ modes[2] = 2048 + 3
+	@ modes[3] = 2048 + 3
+	@ modes[4] =  512 + 3
+	@ modes[5] =  512 + 3 + 8192
+	set M = ../atlas/${patid}_t2w_mskt
+	set usemsk = ("none" "none" $M $M $M)
+	foreach file (${patid}_dwi?.4dfp.img)
+		set root = $file:r; set root = $root:r;
+		set t4file = ${root}_to_${patid}_t2w_t4
+		extract_frame_4dfp $root $I0vol
+		set log = ${root}_to_${patid}_t2w.log
+		date >! $log
+		@ ori = `awk '/orientation/{print $NF - 1}' ../atlas/${patid}_t2w.4dfp.ifh`
+		t4_inv $RELEASE/$oristr[$ori]_t4 $t4file	# assume DWI is transverse
+		if ($status) exit $status
+		@ k0 = 1
+REREG:
+		@ k = $k0
+		while ($k <= ${#modes})
+			echo	imgreg_4dfp ../atlas/${patid}_t2w $usemsk[$k] ${root}_frame$I0vol none $t4file $modes[$k] >> $log
+				imgreg_4dfp ../atlas/${patid}_t2w $usemsk[$k] ${root}_frame$I0vol none $t4file $modes[$k] >> $log
+			if ($status == 254 && $k0 == 1) then
+				@ k0 = 2
+				t4_inv $RELEASE/$oristr[$ori]_t4 $t4file	# re-initialize $t4file
+				goto REREG
+			endif
+			if ($status) exit $status
+			tail -14 $log
+			@ k++
+		end
+		t4_mul $t4file ../atlas/${patid}_t2w_to_${target:t}_t4 ${root}_to_${target:t}_t4
+		if ($status) exit $status
+		cyno_msktgen_4dfp $root 100
+		if ($status) exit $status
+	end
+	set lst = ${patid}_dwi_mskt.lst
+	ls ${patid}_dwi?_mskt.4dfp.img >! $lst
+	paste_4dfp -ap1 $lst $lst:r; ifh2hdr $lst:r -r1000
+	if ($status) exit $status
+	set lst = ${patid}_dwi.lst
+	ls ${patid}_dwi?.4dfp.img >! $lst
+	paste_4dfp -ap1 $lst ${patid}_dwi_frame1; ifh2hdr ${patid}_dwi_frame1 -r500
+	if ($status) exit $status
+endif
+
+#######################
+# run dwi_xalign3d_4dfp
+#######################
+foreach file (${patid}_dwi?.4dfp.img)
+	set root = $file:r; set root = $root:r;
+	set log = ${root}_dwi_xalign3d_4dfp.log
+	date >! $log
+echo	dwi_xalign3d_4dfp -sm $grpstr $root $root"_mskt" >> $log
+	dwi_xalign3d_4dfp -sm $grpstr $root $root"_mskt" >> $log
+end
+set lst = ${patid}_dwi_geom.lst
+ls ${patid}_dwi?_geom.4dfp.img >! $lst
+paste_4dfp -ap1 $lst ${patid}_dwi_geom; ifh2hdr ${patid}_dwi_geom -r500
+if ($status) exit $status
+
+##########################
+# combine all DWI datasets
+##########################
+set log = ${patid}_dwi_cross_xalign3d_4dfp.log
+date >! $log
+echo	dwi_cross_xalign3d_4dfp -g -m${patid}_dwi1_mskt ${patid}_dwi?.4dfp.img ${patid}_dwi >> $log
+	dwi_cross_xalign3d_4dfp -g -m${patid}_dwi1_mskt ${patid}_dwi?.4dfp.img ${patid}_dwi >> $log
+if ($status) exit $status
+ifh2hdr ${patid}_dwi_xenc -r800
+
+t4img_4dfp ${patid}_dwi1_to_${target:t}_t4 ${patid}_dwi_xenc	${patid}_dwi_xenc_on_${target:t} -O$target
+if ($status) exit $status
+ifh2hdr -r800							${patid}_dwi_xenc_on_${target:t}
+
+DTI:
+#############
+# compute DTI
+#############
+diff_4dfp	$diff_4dfp_opts	$dtiprm	${patid}_dwi_xenc
+if ($status) exit $status
+diffRGB_4dfp	$diff_4dfp_opts	$dtiprm	${patid}_dwi_xenc -qc1.5 
+if ($status) exit $status
+ifh2hdr -r-1to3.5			${patid}_dwi_xenc_dti
+whisker_prepare	$diff_4dfp_opts	$dtiprm	${patid}_dwi_xenc
+if ($status) exit $status
+diffRGB_4dfp	$diff_4dfp_opts	$dtiprm	${patid}_dwi_xenc_on_${target:t} -T${patid}_dwi1_to_${target:t}_t4 -qc1.5
+if ($status) exit $status
+diff_4dfp	$diff_4dfp_opts $dtiprm	${patid}_dwi_xenc_on_${target:t}
+if ($status) exit $status
+
+DTI1:
+###############################
+# extract DTI parameter volumes
+###############################
+set F = ${patid}_dwi_xenc_dti.4dfp.img.rec
+@ V_FA = `awk '$1=="Volume" && $0~/Fractional/	{printf $2}' $F`
+@ V_L1 = `awk '$1=="Volume" && $0~/Lambda1/	{printf $2}' $F`
+@ V_L2 = `awk '$1=="Volume" && $0~/Lambda2/	{printf $2}' $F`
+@ V_L3 = `awk '$1=="Volume" && $0~/Lambda3/	{printf $2}' $F`
+echo V-FA=$V_FA
+echo V_L1=$V_L1
+echo V_L2=$V_L2
+echo V_L3=$V_L3
+
+extract_frame_4dfp ${patid}_dwi_xenc_dti 1 		-o${patid}_Dbar;	ifh2hdr -r4 ${patid}_Dbar
+extract_frame_4dfp ${patid}_dwi_xenc_dti 2 		-o${patid}_Asigma;	ifh2hdr -r1 ${patid}_Asigma
+extract_frame_4dfp ${patid}_dwi_xenc_dti $V_FA 		-o${patid}_FA;		ifh2hdr -r1 ${patid}_FA
+if ($V_L3) then
+	extract_frame_4dfp ${patid}_dwi_xenc_dti $V_L3 	-o${patid}_AxialD;	ifh2hdr -r4 ${patid}_AxialD
+	extract_frame_4dfp ${patid}_dwi_xenc_dti $V_L1	-o${patid}_dwi_xenc_L1
+	extract_frame_4dfp ${patid}_dwi_xenc_dti $V_L2	-o${patid}_dwi_xenc_L2
+	imgopr_4dfp ${patid}_dwi_xenc_L[12].4dfp.img	-e${patid}_RadialD;	ifh2hdr -r4 ${patid}_RadialD
+	/bin/rm     ${patid}_dwi_xenc_L[12].4dfp.*
+endif
+
+extract_frame_4dfp ${patid}_dwi_xenc_on_${target:t}_dti 1	-o${patid}_on_${target:t}_Dbar;		ifh2hdr -r4 ${patid}_on_${target:t}_Dbar
+extract_frame_4dfp ${patid}_dwi_xenc_on_${target:t}_dti 2	-o${patid}_on_${target:t}_Asigma;	ifh2hdr -r1 ${patid}_on_${target:t}_Asigma
+extract_frame_4dfp ${patid}_dwi_xenc_on_${target:t}_dti $V_FA	-o${patid}_on_${target:t}_FA;		ifh2hdr -r1 ${patid}_on_${target:t}_FA
+if ($V_L3) then
+	extract_frame_4dfp ${patid}_dwi_xenc_on_${target:t}_dti $V_L3	-o${patid}_on_${target:t}_AxialD;	ifh2hdr -r4 ${patid}_on_${target:t}_AxialD
+	extract_frame_4dfp ${patid}_dwi_xenc_on_${target:t}_dti $V_L1	-o${patid}_dwi_xenc_on_${target:t}_L1
+	extract_frame_4dfp ${patid}_dwi_xenc_on_${target:t}_dti $V_L2	-o${patid}_dwi_xenc_on_${target:t}_L2
+	imgopr_4dfp ${patid}_dwi_xenc_on_${target:t}_L[12].4dfp.img	-e${patid}_on_${target:t}_RadialD;	ifh2hdr -r4 ${patid}_on_${target:t}_RadialD
+	/bin/rm     ${patid}_dwi_xenc_on_${target:t}_L[12].4dfp.*
+endif
+popd				# out of DWI
+
+exit

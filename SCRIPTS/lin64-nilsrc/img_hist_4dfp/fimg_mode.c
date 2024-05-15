@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/img_hist_4dfp/fimg_mode.c

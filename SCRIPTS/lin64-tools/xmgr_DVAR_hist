@@ -1,0 +1,120 @@
+#!/bin/csh -f
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/xmgr_DVAR_hist,v 1.10 2021/09/21 08:50:21 avi Exp $
+#$Log: xmgr_DVAR_hist,v $
+# Revision 1.10  2021/09/21  08:50:21  avi
+# option -r (set plot xrange on command line)
+#
+# Revision 1.9  2021/09/14  05:47:25  avi
+# specify $crit rather than xtile
+# eliminate references to printer
+#
+#Revision 1.8  2021/09/12 06:18:19  avi
+#use "%" instead of "x" to select gamma_fit censoring criterion
+#
+#Revision 1.7  2021/09/12 02:46:02  avi
+#option -x (select gamma_fit xtile censoring criterion)
+#
+# Revision 1.6  2021/09/05  06:17:24  avi
+# include call to gamma_fit -> compute DVARS frame censoring criterion
+#
+
+set idstr	= '$Id: xmgr_DVAR_hist,v 1.10 2021/09/21 08:50:21 avi Exp $'
+set program	= $0; set program = $program:t
+echo $idstr
+
+@ debug = 0
+######################
+# process command line
+######################
+set crit = 100.	# default no censored frames
+set xrange = 0.	# default xrange <- xmax
+@ k = 0
+@ i = 1
+while ($i <= ${#argv})
+	set swi = `echo $argv[$i] | awk '$1~/^-/{print substr($1,1,2)}'`
+	set arg = `echo $argv[$i] | awk '$1~/^-/{print substr($1,3)}'`
+	if (${#swi} > 0) then
+		switch ($swi)
+			case -d:
+				@ debug++;		breaksw;
+			case -x:
+				set crit = $arg;	breaksw;
+			case -r:
+				set xrange = $arg;	breaksw;
+			default:
+				echo $swi option not recognized
+				goto USAGE
+				breaksw;
+		endsw
+	else
+		switch ($k)
+			case 0:
+			set concroot = $argv[$i]; if ($concroot:e == "conc" || $concroot:e == "vals") set concroot = $concroot:r
+			@ k++; breaksw;
+		endsw
+	endif
+	@ i++
+end
+if ($k < 1) goto USAGE
+if (! -e $concroot.vals) then
+	echo $concroot files not found
+	goto USAGE
+endif
+if ($debug) set echo
+
+@ n = `wc $concroot.vals | gawk '{print $1;}'`
+@ k = `echo $n | gawk '{print int(0.03*$1);}'`
+@ m = `sort -nr $concroot.vals | head -$k | tail -1 | gawk '{print int($1 + 0.5)};'`
+@ xmax = 10
+while ($xmax < $m)
+	@ xmax += 5
+end
+@ nbin = $n / 25; set binwidth = `echo $xmax $nbin | gawk '{print $1/$2}'`
+echo "nbin="$nbin "xmax="$xmax
+echo "binwidth="$binwidth
+if ($xrange != 0) echo "xrange="$xrange
+#####################################################
+# generate histograms of all vals and vals above crit
+#####################################################
+cat $concroot.vals  | gawk '$1 > crit+0 {print}' crit=$crit >! $concroot.vals1
+#cat $concroot.vals1
+@ m = `wc $concroot.vals1 | gawk '{print $1}'`
+set str = `echo $crit $m $n | gawk '{printf ("crit=%.2f %d of %d frames (%.2f%) censored", $1, $2, $3, 100*$2/$3);}'`
+echo $str
+cat $concroot.vals | gawk -f $RELEASE/histog.awk nbin=$nbin minval=0 maxval=$xmax >! $concroot.vals.hist
+set ymax = `sort -n -k 2,2 $concroot.vals.hist | tail -1 | gawk '{print $2*1.15}'`	# add 15% to allow for gamma_fit
+if ($debug) echo "histog_max="$ymax
+set ymax = `echo $ymax | gawk '{print 50*(int($1/50) + 1)}'`
+if ($debug) echo "histog_max="$ymax
+cat $concroot.vals1 | gawk -f $RELEASE/histog.awk nbin=$nbin minval=0 maxval=$xmax >! $concroot.vals1.hist
+
+######################################################################
+# create and run sed command file to tailor prototype xmgr on $RELEASE
+######################################################################
+if ($xrange == 0.) set xrange = $xmax
+set conctitle = `echo $concroot | gawk '{m=split($1,a,"/");if(m==0){print $1;}else{print a[m];}}'`
+set conctitle = $conctitle.vals
+echo "/%title/s/%title/"'"'$conctitle'"/'			>! $$.sed
+echo "/%subtitle/s/%subtitle/"'"'$str'"/'			>> $$.sed
+echo "/%ymax/s/%ymax/"$ymax"/"					>> $$.sed
+set ytick_major = `echo $ymax | awk '{printf $1/5}'`
+set ytick_minor = `echo $ymax | awk '{printf $1/10}'`
+echo "/%ytick_major/s/%ytick_major/"$ytick_major"/"		>> $$.sed
+echo "/%ytick_minor/s/%ytick_minor/"$ytick_minor"/"		>> $$.sed
+echo "/%xmax/s/%xmax/"$xrange"/"					>> $$.sed
+set xtick_major = `echo $xrange | awk '{printf $1/10}'`
+set xtick_minor = `echo $xrange | awk '{printf $1/20}'`
+echo "/%xtick_major/s/%xtick_major/"$xtick_major"/"		>> $$.sed
+echo "/%xtick_minor/s/%xtick_minor/"$xtick_minor"/"		>> $$.sed
+sed -f $$.sed $RELEASE/DVAR_hist_prototype.xmgr			>! ${concroot}_DVAR_hist.xmgr
+
+if (! $debug) /bin/rm $$.sed
+exit 0
+
+USAGE:
+echo "usage:	"$program "<vals fileroot>"
+echo "e.g.,	"$program" TRD001_3_faln_xr3d_uwrp_on_MNI152_T1_2mm_Swgt_norm[.conc|.vals]"
+echo "	options"
+echo "	-x<flt>	specify crit value"
+echo "N.B.:	generate postscript with print_DVAR_hist.csh on Solaris"
+exit 1

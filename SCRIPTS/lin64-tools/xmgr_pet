@@ -1,0 +1,45 @@
+#!/bin/csh
+## renders xmgr ouput (png) using pet parameter files
+set idstr   = '$Id: xmgr.pet.lx.csh,v 1.1 2011/02/15 20:10:02 russ Exp $'
+echo $idstr
+
+set today = `date +%y%m%d`
+set system = `uname`
+set bdir = $RELEASE
+
+set program = $0
+set program = $program:t
+
+@ n = ${#argv}
+if ($n < 1 )then
+        echo n = $n
+	echo "Usage:	$program <parameter file>"
+	echo "e.g.,	$program p7561ho1.glob.prm"
+	echo "NOTE:     works only for ho and oo images."
+
+	exit 1
+endif
+
+set trgv = (${argv[1-]})
+set srgv = ($trgv)
+
+set datfile = $srgv[1]
+
+set title = $datfile:t
+set title = $title:r
+set title = $title:r
+set title = $title:r
+
+set bfile = $bdir/xmgr_pet.bfile
+
+sed 's/filename/'$title'/g' $bfile >! $title.bfile
+
+echo xmgr -batch $title.bfile -block $title.glob.prm -bxy 1:2 -nosafe -hardcopy
+
+xmgr -batch $title.bfile -block $title.glob.prm -bxy 1:2 -nosafe -hardcopy
+
+/bin/rm $title.bfile
+
+echo "fin"
+exit
+

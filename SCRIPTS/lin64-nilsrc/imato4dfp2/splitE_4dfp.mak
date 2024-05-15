@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/imato4dfp2/splitE_4dfp.mak

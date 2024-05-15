@@ -1,0 +1,77 @@
+Summary: library for handling CTI data files
+Group: Applications/Engineering
+Packager: Andy Loening <loening@alum.mit.edu>
+Name: libecat7
+Version: 1.5
+Release: 1
+License: Non-GPL
+URL: http://amide.sourceforge.net
+Source: %{name}-%{version}.tgz
+Buildroot: %{_tmppath}/%{name}-%{version}-root
+
+%description 
+Libecat is a library for reading and writing CTI version 6 and 7
+medical image data files.  
+
+%package utils
+Summary: utilities for handling CTI data files
+Group: Applications/Engineering
+Requires: libecat7
+
+%description utils
+Several small programs to facilitate working with CTI files.
+Includings matlist, show_header, get_axial_lor, matcopy, cti2analyze,
+analyze2ifh, matinfo, read_ecat, write_ecat, scan2if, byte_volume,
+iamgemath, wb_assemble, make_volume.
+
+%prep
+%setup -n %{name}-%{version}
+
+%build
+%configure
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+%makeinstall
+
+%post
+#if ! grep %{prefix}/lib /etc/ld.so.conf > /dev/null ; then
+#    echo "%{prefix}/lib" >> /etc/ld.so.conf
+#fi
+/sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-, root, root)
+%{_libdir}/libecat.*
+%{_includedir}/matrix.h
+
+%files utils
+%{_bindir}/analyze2ifh
+%{_bindir}/applynorm
+%{_bindir}/byte_volume
+%{_bindir}/cti2analyze
+%{_bindir}/get_axial_lor
+%{_bindir}/imagemath
+%{_bindir}/make_volume
+%{_bindir}/matcopy
+%{_bindir}/matinfo
+%{_bindir}/matlist
+%{_bindir}/read_ecat
+%{_bindir}/scan2if
+%{_bindir}/show_header
+%{_bindir}/wb_assemble
+%{_bindir}/write_ecat
+
+
+%changelog
+* Sun Sep 30 2001 Andy Loening <loening@alum.mit.edu>
+- source and build updates for Mac OS X compilation
+
+* Sun Dec 17 2000 Andy Loening <loening@alum.mit.edu>
+- wrote this fool thing

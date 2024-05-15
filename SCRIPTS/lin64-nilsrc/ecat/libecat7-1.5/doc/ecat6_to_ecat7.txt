@@ -1,0 +1,433 @@
+================= HOW TO CREATE 7.0 HEADERS FROM 6.4 HEADERS ================
+
+enum DataSetType {NoData, Sinogram, PetImage, AttenCor, Normalization,
+                PolarMap, ByteVolume, PetVolume, ByteProjection,
+                PetProjection, ByteImage, Short3dSinogram,
+                Byte3dSinogram, Norm3d, NumDataSetTypes};
+
+enum Sino3dOrder {ElAxVwRd, ElVwAxRd, NumSino3dOrders};
+
+struct XMAIN_HEAD {
+    char magic_number[14];
+    char original_file_name[32];        = original_file_name[20];
+    short sw_version;                   = CONST 7;
+    short system_type;                  = system_type;
+    short file_type;                    = file_type;
+    char serial_number[10];             = node_id[10];
+                                        short   scan_start_day,
+                                                scan_start_month,
+                                                scan_start_year,
+                                                scan_start_hour,
+                                                scan_start_minute,
+                                                scan_start_second;
+    int scan_start_time;            = timelocal(dd:mm:yy-1900:hh:mm:ss)
+    char isotope_code[8];               = isotope_code[8];
+    float isotope_halflife;             = isotope_halflife;
+    char radiopharmaceutical[32];       = radiopharmaceutical[32];
+    float gantry_tilt;                  = gantry_tilt;
+    float gantry_rotation;              = gantry_rotation;
+    float bed_elevation;                = bed_elevation;
+    float intrinsic_tilt;               = function(system_type);
+    short wobble_speed;                 = wobble_speed;
+    short transm_source_type;           = transm_source_type;
+    float distance_scanned;             = float axial_fov;
+    float transaxial_fov;               = transaxial_fov;
+    short angular_compression;          = low_byte(compression_code);
+    short coin_samp_mode;               = coin_samp_mode;
+    short axial_samp_mode;              = axial_samp_mode;
+    float calibration_factor;           = calibration_factor;
+    short calibration_units;            = short calibration_units_label;
+    short calibration_units_label;      = function(calibration_units_label)
+    short compression_code;             = high_byte(compression_code);
+    char study_name[12];                = study_name[12];
+    char patient_id[16];                = patient_id[16];
+    char patient_name[32];              = patient_name[32];
+    char patient_sex[1];                = patient_sex[1];
+    char patient_dexterity[1];          = char patient_dexterity;
+    float patient_age;                  = number(char patient_age[10]);
+    float patient_height;               = number(char patient_height[10]);
+    float patient_weight;               = number(char patient_weight[10]);
+    int patient_birth_date;             = CONST 0;
+    char physician_name[32];            = physician_name[32];
+    char operator_name[32];             = operator_name[32];
+    char study_description[32];         = study_description[32];
+    short acquisition_type;             = acquisition_type;
+    short patient_orientation;          = CONST UnknownOrientation;
+    char facility_name[20];             = facility_name[20];
+    short num_planes;                   = num_planes;
+    short num_frames;                   = num_frames;
+    short num_gates;                    = num_gates;
+    short num_bed_pos;                  = num_bed_pos;
+    float init_bed_position;            = init_bed_position;
+    float bed_offset[15];               = bed_offset[15];
+    float plane_separation;             = plane_separation;
+    short lwr_sctr_thres;               = lwr_sctr_thres;
+    short lwr_true_thres;               = lwr_true_thres;
+    short upr_true_thres;               = upr_true_thres;
+    char user_process_code[10];         = user_process_code[10];
+    short acquisition_mode;             = acquisition_mode;
+    float bin_size;                     = function(system_type);
+    float branching_fraction;           = CONST 1.0
+    int dose_start_time;                = CONST 0.0;
+    float dosage;                       = CONST 0.0;
+    float well_counter_factor;          = CONST 1.0;
+    char data_units[32];                = function(calibration_units)
+    short septa_state;                  = CONST SeptaExtended;
+};
+
+struct XSCAN_SUB {
+    short data_type;                    = data_type;
+    short num_dimensions;               = CONST 2;
+    short num_r_elements;               = short dimension_1;
+    short num_angles;                   = short dimension_2;
+    short corrections_applied;          = short smoothing;
+    short num_z_elements;               = CONST 1;
+    short ring_difference;              = function(phy_planes); /*see at end*/
+    float x_resolution;                 = float sample_distance;
+    float y_resolution;                 = x_resolution;
+    float z_resolution;                 = MainHeader::plane_separation;
+    float w_resolution;                 = CONST 0;
+    int gate_duration;                  = gate_duration;
+    int r_wave_offset;                  = r_wave_offset;
+    int num_accepted_beats;             = CONST 0;
+    float scale_factor;                 = scale_factor;
+    short scan_min;                     = scan_min;
+    short scan_max;                     = scan_max;
+    int prompts;                        = prompts;
+    int delayed;                        = delayed;
+    int multiples;                      = multiples;
+    int net_trues;                      = net_trues;
+    float cor_singles[16];              = cor_singles[16];
+    float uncor_singles[16];            = uncor_singles[16];
+    float tot_avg_cor;                  = tot_avg_cor;
+    float tot_avg_uncor;                = tot_avg_uncor;
+    int total_coin_rate;                = total_coin_rate;
+    int frame_start_time;               = frame_start_time;
+    int frame_duration;                 = frame_duration;
+    float loss_correction_fctr;         = loss_correction_fctr;
+    short phy_planes[8];                = phy_planes[8]; (int )
+};
+
+struct X3DSCAN_SUB {
+    short data_type;
+    short num_dimensions;
+    short num_r_elements;
+    short num_angles;
+    short corrections_applied;
+    short num_z_elements[64];
+    short ring_difference;
+    short storage_order;
+    short axial_compression;
+    float x_resolution;
+    float v_resolution;
+    float z_resolution;
+    float w_resolution;
+    int gate_duration;
+    int r_wave_offset;
+    int num_accepted_beats;
+    float scale_factor;
+    short scan_min;
+    short scan_max;
+    int prompts;
+    int delayed;
+    int multiples;
+    int net_trues;
+    float tot_avg_cor;
+    float tot_avg_uncor;
+    int total_coin_rate;
+    int frame_start_time;
+    int frame_duration;
+    float loss_correction_fctr;
+    float cor_singles[64];
+    float uncor_singles[64];
+};
+
+struct XIMAGE_SUB {
+    short data_type;                    = data_type;
+    short num_dimensions;               = num_dimensions;
+    short x_dimension;                  = short dimension_1;
+    short y_dimension;                  = short dimension_2;
+    short z_dimension;                  = CONST 1;
+    float z_offset;                     = CONST 0;
+    float x_offset;                     = float x_origin;
+    float y_offset;                     = float y_origin;
+    float recon_zoom;                   = float recon_scale;
+    float scale_factor;   				= quant_scale;
+    short image_min;                    = image_min;
+    short image_max;                    = image_max;
+    float x_pixel_size;                 = pixel_size;
+    float y_pixel_size;                 = pixel_size;
+    float z_pixel_size;                 = MainHeader::plane_separation;
+    int frame_duration;                 = frame_duration;
+    int frame_start_time;               = frame_start_time;
+    short filter_code;                  = filter_code;
+    float x_resolution;                 = CONST 0.0;
+    float y_resolution;                 = CONST 0.0;
+    float z_resolution;                 = CONST 0.0;
+    float num_r_elements;               = function(system_type);
+    float num_angles;                   = function(system_type);
+    float z_rotation_angle;             = image_rotation
+    float decay_corr_fctr;              = decay_corr_fctr;
+    int processing_code;                = processing_code;
+    int gate_duration;                  = CONST 0;
+    int r_wave_offset;                  = CONST 0;
+    int num_accepted_beats;             = CONST 0;
+    float filter_cutoff_frequency;      = filter_params[0];
+    float filter_resolution;            = CONST 0.0;
+    float filter_ramp_slope;            = filter_params[2];
+    short filter_order;                 = filter_params[3];
+    float filter_scatter_fraction;      = filter_params[4];
+    float filter_scatter_slope;         = filter_params[5];
+    float da_x_rotation_angle;          = CONST 0.0;
+    float da_y_rotation_angle;          = CONST 0.0;
+    float da_z_rotation_angle;          = CONST 0.0;
+    float da_x_translation;             = CONST 0.0;
+    float da_y_translation;             = CONST 0.0;
+    float da_z_translation;             = CONST 0.0;
+    float da_x_scale_factor;            = CONST 0.0;
+    float da_y_scale_factor;            = CONST 0.0;
+    float da_z_scale_factor;            = CONST 0.0;
+    float rfilter_cutoff;               = CONST 0.0;
+    float rfilter_resolution;           = CONST 0.0;
+    short rfilter_code;                 = CONST 0;
+    short rfilter_order;                = CONST 0;
+    float zfilter_cutoff;               = CONST 0.0;
+    float zfilter_resolution;           = CONST 0.0;
+    short zfilter_code;                 = CONST 0;
+    short zfilter_order;                = CONST 0;
+    char annotation[40];                = annotation[40];
+};
+
+struct XNORM_SUB {
+    short data_type;                    = data_type;
+    short num_dimensions;               = CONST 2;
+    short num_r_elements;               = dimension_1;
+    short num_angles;                   = dimension_2;
+    short num_z_elements;               = CONST 1;
+    short ring_difference;              = CONST 0;
+    float scale_factor;        			= scale_factor;
+    float norm_min;                     = recompute min(data);
+    float norm_max;                     = recompute max(data)
+    float fov_source_width;             = fov_source_width;
+    float norm_quality_factor;          = CONST 1.0;
+    short norm_quality_factor_code;     = CONST 0.0;
+    short storage_order;                = const ElVwAxRd;
+    short span;                         = CONST 0.0;
+    short z_elements[64];               = CONST [1,0,0,...0]
+};
+
+struct X3DNORM_SUB {
+    short data_type;
+    short num_r_elements;
+    short num_transaxial_crystals;
+    short num_crystal_rings;
+    short crystals_per_ring;
+    short num_geo_corr_planes;
+    short uld;
+    short lld;
+    short scatter_energy;
+    short norm_quality_factor_code;
+    float norm_quality_factor;
+    float ring_dtcor1[32];
+    float ring_dtcor2[32];
+    float crystal_dtcor[8];
+    short span;
+    short max_ring_diff;
+};
+
+struct XATTEN_SUB {
+    short data_type;                    = data_type;
+    short num_dimensions;               = CONST 2;
+    short attenuation_type;             = attenuation_type
+    short num_r_elements;               = short dimension_1;
+    short num_angles;                   = short dimension_2;
+    short num_z_elements;               = CONST 1;
+    short ring_difference;              = CONST 0;
+    float x_resolution;                 = float sample_distance;
+    float y_resolution;                 = float sample_distance;
+    float z_resolution;                 = CONST 0.0;
+    float w_resolution;                 = CONST 0.0;
+    float scale_factor;                 = scale_factor;
+    float x_offset;                     = float x_origin;
+    float y_offset;                     = float y_origin;
+    float x_radius;                     = x_radius;
+    float y_radius;                     = y_radius;
+    float tilt_angle;                   = tilt_angle;
+    float attenuation_coeff;            = attenuation_coeff;
+    float attenuation_min;              = recompute min(data);
+    float attenuation_max;              = recompute max(data);
+    float skull_thickness;              = CONST 0.45;
+    short num_additional_atten_coeff;   = CONST 0.0;
+    float additional_atten_coeff[8];    = CONST [0.0,0.0,...,0.0]
+    float edge_finding_threshold;       = CONST 0.1;
+    short storage_order;                = CONST ElVwAxRd;
+    short span;                         = CONST 0;
+    short z_elements[64];               = CONST [1,0,0,...,0];
+};
+ ================= HOW TO CREATE 6.4 HEADERS FROM 7.0 HEADERS ================
+typedef
+    struct mat_main_header {
+    char    original_file_name[20];             = char original_file_name[32];
+    word    sw_version;                         = CONST 6;
+    word    data_type;                          = FIRST IMAGE::data_type
+    word    system_type;                        = system_type;
+    word    file_type;                          = file_type;
+    char    node_id[10];                        = char serial_number[10];
+    word    scan_start_day,                        
+            scan_start_month,
+            scan_start_year,
+            scan_start_hour,
+            scan_start_minute,
+            scan_start_second;                  = ctime(inst scan_start_time)
+    char    isotope_code[8];                    = isotope_code[8];
+    float   isotope_halflife;                   = isotope_halflife;
+    char    radiopharmaceutical[32];            = radiopharmaceutical[32];
+    float   gantry_tilt,                        = gantry_tilt;
+            gantry_rotation,                    = gantry_rotation;
+            bed_elevation;                      = bed_elevation;
+    word    rot_source_speed,                   = ELIMINATED
+            wobble_speed,                       = wobble_speed,
+            transm_source_type;                 = transm_source_type;
+    float   axial_fov,                          = float distance_scanned;
+            transaxial_fov;                     = transaxial_fov;
+    word    transaxial_samp_mode,               = ELIMINATED
+            coin_samp_mode,                     = coin_samp_mode,
+            axial_samp_mode;                    = axial_samp_mode;
+    float   calibration_factor;                 = calibration_factor;
+    word    calibration_units,                  = calibration_units_label;
+            compression_code;    = (256*compression_code)+angular_compression;
+    char    study_name[12],                     = study_name[12],
+            patient_id[16],                     = patient_id[16],
+            patient_name[32],                   = patient_name[32],
+            patient_sex,                        = char patient_sex[1];
+            patient_age[10],                    = ascii(patient_age);
+            patient_height[10],                 = ascii(patient_height);
+            patient_weight[10],                 = ascii(patient_weight);
+            patient_dexterity,                  = char patient_dexterity[1];
+            physician_name[32],                 = physician_name[32];
+            operator_name[32],                  = operator_name[32],
+            study_description[32];              = study_description[32];
+    word    acquisition_type,                   = acquisition_type;
+            bed_type,                           = ELIMINATED
+            septa_type;                         = ELIMINATED
+    char    facility_name[20];                  = facility_name[20];
+    word    num_planes,                         = num_planes;
+            num_frames,                         = num_frames;
+            num_gates,                          = num_gates;
+            num_bed_pos;                        = num_bed_pos;
+    float   init_bed_position,                  = init_bed_position;
+            bed_offset[15],                     = bed_offset[15],
+            plane_separation;                   = plane_separation;
+    word    lwr_sctr_thres,                     = lwr_sctr_thres;
+            lwr_true_thres,                     = lwr_true_thres;
+            upr_true_thres;                     = upr_true_thres;
+    float   collimator;                         = ELIMINATED
+    char    user_process_code[10];              = user_process_code[10];
+    word    acquisition_mode;                   = acquisition_mode;
+    }
+Main_header;
+
+typedef struct mat_scan_subheader{
+    word    data_type,                          = data_type
+            dimension_1,                        = num_r_elements;
+            dimension_2,                        = num_angles;
+            smoothing,                          = corrections_applied;
+            processing_code;                    = ELIMINATED;
+    float   sample_distance,                    = x_resolution;
+            isotope_halflife;                   = GET FROM MAIN HEADER
+    word    frame_duration_sec;                 = ELIMINATED
+    int     gate_duration,                      = gate_duration;
+            r_wave_offset;                      = r_wave_offset;
+    float   scale_factor;                       = scale_factor;
+    word    scan_min,                           = scan_min;
+            scan_max;                           = scan_max;
+    int     prompts,                            = prompts,
+            delayed,                            = delayed,
+            multiples,                          = multiples;
+            net_trues;                          = net_trues;
+    float   cor_singles[16],                    = cor_singles[16];
+            uncor_singles[16],                  = uncor_singles[16];
+            tot_avg_cor,                        = tot_avg_cor;
+            tot_avg_uncor;                      = tot_avg_uncor;
+    int     total_coin_rate,                    = total_coin_rate;
+            frame_start_time,                   = frame_start_time;
+            frame_duration;                     = frame_duration;
+    float   loss_correction_fctr;               = loss_correction_fctr;
+    int     phy_planes[8];                      = phy_planes[8]; (short)
+    } Scan_subheader;
+
+typedef struct mat_image_subheader{
+    word    data_type,                          = data_type;
+            num_dimensions,                     = CONST 2;
+            dimension_1,                        = x_dimension;
+            dimension_2;                        = y_dimension;
+    float   x_origin,                           = float x_offset;  
+            y_origin,                           = float y_offset;      
+            recon_scale,                        = float recon_zoom;  
+            quant_scale;        				= scale_factor;
+    word    image_min,                          = image_min;
+            image_max;                          = image_max;
+    float   pixel_size,                         = x_pixel_size;
+            slice_width;                        = GET FROM MAIN HEADER
+    int     frame_duration,                     = frame_duration;
+            frame_start_time;                   = frame_start_time;
+    word    slice_location,                     = ELIMINATED
+            recon_start_hour,                   = ELIMINATED
+            recon_start_minute,                 = ELIMINATED
+            recon_start_sec;                    = ELIMINATED
+    int     recon_duration;                     = ELIMINATED
+    word    filter_code;                        = filter_code;
+    int     scan_matrix_num,                    = ELIMINATED
+            norm_matrix_num,                    = ELIMINATED
+            atten_cor_matrix_num;               = ELIMINATED
+    float   image_rotation,                     = z_rotation_angle
+            plane_eff_corr_fctr,                = ELIMINATED
+            decay_corr_fctr,                    = decay_corr_fctr;
+            loss_corr_fctr,                     = GET FROM MAIN HEADER
+            intrinsic_tilt ;                    = GET FROM MAIN HEADER
+    word    processing_code,                    = processing_code;
+            quant_units,                        = ELIMINATED
+            recon_start_day,                    = ELIMINATED
+            recon_start_month,                  = ELIMINATED
+            recon_start_year;                   = ELIMINATED
+    float   ecat_calibration_fctr,              = GET FROM MAIN HEADER
+            well_counter_cal_fctr,              = GET FROM MAIN HEADER
+            filter_params[6];                   = [ filter_cutoff_frequency,
+                                                    0.0,
+                                                    filter_ramp_slope,
+                                                    filter_order,
+                                                    filter_scatter_fraction,
+                                                    filter_scatter_slope ]
+    char    annotation[40];                     = annotation[40];
+    } Image_subheader;
+
+typedef struct mat_norm_subheader{
+    word    data_type,                          = data_type;
+            dimension_1,                        = num_r_elements;
+            dimension_2;                        = num_angles;
+    float   scale_factor;      					= scale_factor;
+    word    norm_hour,                          = GET FROM MAIN HEADER
+            norm_minute,                        = GET FROM MAIN HEADER
+            norm_second,                        = GET FROM MAIN HEADER
+            norm_day,                           = GET FROM MAIN HEADER
+            norm_month,                         = GET FROM MAIN HEADER
+            norm_year;                          = GET FROM MAIN HEADER
+    float   fov_source_width;                   = fov_source_width;
+    float   ecat_calib_factor;                  = GET FROM MAIN HEADER
+    } Norm_subheader;
+
+typedef struct mat_attn_subheader{
+    word    data_type,                          = data_type;
+            attenuation_type,                   = attenuation_type
+            dimension_1,                        = num_r_elements;
+            dimension_2;                        = num_angles;
+    float   scale_factor,                       = scale_factor;
+            x_origin,                           = x_offset; 
+            y_origin,                           = y_offset; 
+            x_radius,                           = x_radius;
+            y_radius,                           = y_radius;
+            tilt_angle,                         = tilt_angle;
+            attenuation_coeff,                  = attenuation_coeff;
+            sample_distance;                    = ELIMINATED
+    }
+Attn_subheader;

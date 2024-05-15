@@ -1,0 +1,6 @@
+rec test_ROI.4dfp.img  Tue Aug  2 17:57:35 2011  avi@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+burn_sphere_4dfp 0 0 0 333 test_ROI 
+$Id: burn_sphere_4dfp.c,v 1.13 2010/11/08 23:51:53 avi Exp $
+littleendian
+6.0000 mm radius sphere burned in at coords     0.0000     0.0000     0.0000
+endrec Tue Aug  2 17:57:35 2011  avi

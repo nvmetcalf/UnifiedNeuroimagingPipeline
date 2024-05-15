@@ -1,0 +1,13 @@
+$Id: simulate_test_lag.c,v 1.15 2018/03/09 05:36:54 avi Exp $
+Usage:	simulate_test_lag <(str) psdfile> <rho> <(int) npts>
+	option
+	-v	verbose mode
+	-f	fast mode (no outputs other than time series)
+	-i<int>	specify srand48 seed (default 0)
+	-t<flt>	specify frame_TR in sec (default 1.0000 sec)
+	-l<flt>	shift ROI1 relative to ROI0 by specified lag (in sec) (default no shift)
+	-E	enable simulated frame censoring
+	-X	format output for xmgr
+	-F	print  simulated censoring time series
+	k_still=<flt>	specify still state  reciprocal time constant (default=0.0500 Hz)
+	k_motion=<flt>	specify motion state reciprocal time constant (default=1.0000 Hz)

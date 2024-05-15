@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/t4_actmapf_4dfp/ft4ixyz.f

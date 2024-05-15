@@ -1,0 +1,225 @@
+diff -urN src/analyze.c fixed_src/analyze.c
+--- src/analyze.c	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/analyze.c	2006-03-29 14:10:37.000000000 -0800
+@@ -164,7 +164,7 @@
+ 	return NULL;
+ }
+ 
+-#if defined(unix) || defined (__osf__)
++#ifndef _WIN32
+ static char *itoa(i, buf, radix)
+ int i;
+ char *buf;
+diff -urN src/convert_64.c fixed_src/convert_64.c
+--- src/convert_64.c	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/convert_64.c	2006-03-29 14:10:37.000000000 -0800
+@@ -11,7 +11,8 @@
+ #define DEFMATNUM 0x1010001 /* added by H.F. */
+ 
+ 
+-static int mh64_data_type = SunShort;
++//AML static int mh64_data_type = SunShort;
++static int mh64_data_type = UnknownMatDataType; /* if we don't know, don't assume */
+ static char *olddisplayunits[NumOldUnits] =
+     {"Total counts", "Unknown Units", "ECAT counts/sec", "uCi/cc", "LMRGlu",
+     "LMRGlu umol/min/100g", "LMRGlu mg/min/100g", "nCi/ml", "Well counts",
+@@ -176,9 +177,14 @@
+     strcpy(h_64->patient_name, h->patient_name);
+ 	h_64->patient_sex = h->patient_sex[0];
+     h_64->patient_dexterity = h->patient_dexterity[0];
+-    if (h->patient_age) sprintf(h_64->patient_age,"%g",h->patient_age);
+-    if (h->patient_height) sprintf(h_64->patient_height,"%g",h->patient_height);
+-    if (h->patient_weight) sprintf(h_64->patient_weight,"%g",h->patient_weight);
++    //AML changes
++    if (h->patient_age) snprintf(h_64->patient_age,10,"%1.1g",h->patient_age);
++    else snprintf(h_64->patient_age, 10,"%s","          ");
++    if (h->patient_height) snprintf(h_64->patient_height,10,"%1.1g",h->patient_height);
++    else snprintf(h_64->patient_height, 10,"%s","         ");
++    if (h->patient_weight) snprintf(h_64->patient_weight,10,"%1.1g",h->patient_weight);
++    else snprintf(h_64->patient_weight, 10,"%s","          ");
++    //end AML changes
+     strcpy(h_64->physician_name, h->physician_name);
+     strcpy(h_64->operator_name, h->operator_name);
+     strcpy(h_64->study_description, h->study_description);
+diff -urN src/load_volume7.c fixed_src/load_volume7.c
+--- src/load_volume7.c	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/load_volume7.c	2006-03-29 14:10:37.000000000 -0800
+@@ -1,5 +1,4 @@
+ #include <stdlib.h>
+-#include <malloc.h>
+ #include <string.h>
+ 
+ #include "matrix.h"
+diff -urN src/machine_indep.c fixed_src/machine_indep.c
+--- src/machine_indep.c	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/machine_indep.c	2006-03-29 14:11:51.000000000 -0800
+@@ -53,12 +53,13 @@
+ 	return *(float*)(&ret);
+ }
+ 
+-#if defined(__alpha) || defined(_WIN32) /* LITTLE_ENDIAN : alpha, intel */
+-void
+-ftovaxf(f, bufr)
++#ifdef LITTLE_ENDIAN
++void ftovaxf(f, bufr)
+ float f;
+ unsigned short *bufr;
+ {
++   	/* convert from IEEE little endian float to vax float */
++ 
+ 	unsigned *u, sign_exp, low, high, mantissa, ret;
+ 	float f_tmp = f;
+ 
+@@ -77,14 +78,12 @@
+ 	bufr[0] = ret;
+ 	bufr[1] =  ret >>16;
+ }
+-#else  /* BIG ENDIAN : sun hp sgi*/
+-void
+-ftovaxf(orig,number)
++#elif BIG_ENDIAN
++void ftovaxf(orig,number)
+   unsigned short number[2];
+   float orig;
+ {
+-
+-  	/* convert from sun float to vax float */
++   	/* convert from IEEE big endian float to vax float */
+ 
+   	union {
+ 	 	  unsigned short t[2]; 
+@@ -106,7 +105,9 @@
+ 	number[0] = test.t[0];
+ 
+ }
+-#endif /* LITTLE VS BIG ENDIAN*/
++#else
++#error "Must define LITTLE_ENDIAN or BIG_ENDIAN"
++#endif    
+ 
+ int file_data_to_host(dptr, nblks, dtype)
+ char *dptr;
+diff -urN src/matrix.c fixed_src/matrix.c
+--- src/matrix.c	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/matrix.c	2006-03-29 14:10:37.000000000 -0800
+@@ -19,7 +19,7 @@
+ #include	"matrix.h"
+ #include	"machine_indep.h"
+ #include    <string.h>
+-#include    <malloc.h>
++/* #include    <malloc.h> */
+ 
+ #define ERROR   -1
+ #define OK 0
+diff -urN src/matrix_extra.c fixed_src/matrix_extra.c
+--- src/matrix_extra.c	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/matrix_extra.c	2006-03-29 14:12:55.000000000 -0800
+@@ -26,6 +26,7 @@
+  */
+ 
+ 
++#include        <stdio.h>
+ #include	<stdlib.h>
+ #include	<math.h>
+ #include	<fcntl.h>
+@@ -434,7 +435,7 @@
+ 
+ 	/* read and store the matrix file directory.  */
+ 	mptr->dirlist = mat_read_directory(mptr);
+-	if( (int)mptr->dirlist == 0 || (int)mptr->dirlist == -1 ) {
++	if( (int) mptr->dirlist == 0 || (int) mptr->dirlist == -1 ) {
+ 		free_matrix_file( mptr );
+ 		return( NULL );
+ 	}
+@@ -503,7 +504,7 @@
+ 		}
+ 
+ 		strcpy(mptr->fname, fname);
+-		mptr->mhptr = (Main_header *) malloc(sizeof(Main_header));
++		mptr->mhptr = (Main_header *) calloc(1, sizeof(Main_header));
+ 		if (!mptr->mhptr) {
+ 			free( mptr->fname );
+ 			free( mptr );
+@@ -600,7 +601,7 @@
+ 				return ERROR;
+ 			}
+ 			mat_numdoc(matnum,&val);
+-			slice = (MatrixData*)malloc(sizeof(MatrixData));
++			slice = (MatrixData*)calloc(1, sizeof(MatrixData));
+ 			if( !slice ) return(ERROR) ;
+ 
+ 			imh = (Image_subheader*)calloc(1,MatBLKSIZE);
+@@ -1152,13 +1153,13 @@
+ 	matrix_errtxt[0] = '\0';
+ 	if (dirlist == NULL)
+ 	{
+-		dirlist = (MatDirList *) malloc(sizeof(MatDirList)) ;
++		dirlist = (MatDirList *) calloc(1, sizeof(MatDirList)) ;
+ 		if (dirlist == NULL) return(ERROR) ;
+ 		dirlist->nmats = 0 ;
+ 		dirlist->first = NULL ;
+ 		dirlist->last = NULL ;
+ 	}
+-	node = (MatDirNode *) malloc(sizeof(MatDirNode)) ;
++	node = (MatDirNode *) calloc(1, sizeof(MatDirNode)) ;
+ 	if (node == NULL) return(ERROR) ;
+ 
+ 	node->matnum = matdir.matnum ;
+diff -urN src/matrix.h fixed_src/matrix.h
+--- src/matrix.h	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/matrix.h	2006-03-29 14:10:37.000000000 -0800
+@@ -645,7 +645,7 @@
+ #else /* __cplusplus */
+ extern float find_fmin(), find_fmax();
+ extern MatrixFile *matrix_open(), *matrix_create();
+-extern MatrixData *matrix_read(), *matrix_object_create();
++extern MatrixData *matrix_read(), *matrix_object_create(int mat_type, ...);
+ extern MatrixData *matrix_read_slice(), *matrix_read_view();
+ extern Main_header *matrix_init_main_header();
+ extern FILE* mat_open();
+diff -urN src/matrix_slice.c fixed_src/matrix_slice.c
+--- src/matrix_slice.c	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/matrix_slice.c	2006-03-29 14:10:37.000000000 -0800
+@@ -97,7 +97,7 @@
+ 		if (scan3Dsub->storage_order==0) {	/* view mode */
+ 			file_pos += slice*line_size;
+ 			for (y=0; y<data->ydim; y++) {	/* for each planar view fixed theta */
+-#if defined(unix) && !defined(__CYGWIN__)
++#if !defined(_WIN32) && !defined(__CYGWIN__)
+ 				if (mptr->acs) byte_acs_read(mptr->fname,file_pos,line,line_size);
+ 				else
+ #endif
+diff -urN src/rts_cmd.c fixed_src/rts_cmd.c
+--- src/rts_cmd.c	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/rts_cmd.c	2006-03-29 14:10:37.000000000 -0800
+@@ -157,8 +157,9 @@
+     return (rdResp.status);
+ }
+ 
+-int rts_wdat (file, matnum, dataType, buffer, bufferSize)
+-char *file;
++/*
++int rts_wdat (file, matnum, dataType, buffer, bufferSize) 
++char *file; 
+ int matnum, dataType, bufferSize;
+ caddr_t buffer;
+ {
+@@ -176,6 +177,7 @@
+     cfree (wrArgs.wdat.wdat_val);
+     return (resp);
+ }
++*/
+ 
+ int rtsRblk (file, blockNumber, buffer)
+ char *file;
+diff -urN src/save_volume7.c fixed_src/save_volume7.c
+--- src/save_volume7.c	2006-03-29 14:23:28.000000000 -0800
++++ fixed_src/save_volume7.c	2006-03-29 14:10:37.000000000 -0800
+@@ -2,7 +2,6 @@
+  * Merge with bug fixes and support for CYGWIN provided by Kris Thielemans@csc.mrc.ac.uk
+ */
+ #include <stdlib.h>
+-#include <malloc.h>
+ #include <string.h>
+ 
+ #include "matrix.h"

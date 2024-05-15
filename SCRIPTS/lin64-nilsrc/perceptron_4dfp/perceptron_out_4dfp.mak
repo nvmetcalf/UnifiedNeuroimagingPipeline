@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/perceptron_4dfp/perceptron_out_4dfp.mak

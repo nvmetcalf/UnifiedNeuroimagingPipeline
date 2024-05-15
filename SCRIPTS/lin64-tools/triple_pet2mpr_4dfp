@@ -1,0 +1,271 @@
+#!/bin/csh -f
+# $Header: /data/petsun4/data1/solaris/csh_scripts/RCS/triple_pet2mpr_4dfp,v 1.3 2018/08/17 05:53:33 avi Exp $
+# $Log: triple_pet2mpr_4dfp,v $
+# Revision 1.3  2018/08/17  05:53:33  avi
+# invoke with -f
+#
+# Revision 1.2  2011/07/06  15:25:52  larsc
+# *** empty log message ***
+#
+# Revision 1.1  2011/03/03  19:34:46  larsc
+# Initial revision
+#
+set idstr   = '$Id: triple_pet2mpr_4dfp,v 1.3 2018/08/17 05:53:33 avi Exp $'
+echo $idstr
+set program = $0
+set program = $program:t
+
+set oristr  = (T C S)
+set modes   = (4099 4099 3075 2051 10243)
+
+#Instructions for pairwise alignments
+set tarv   = (1   1   2   2   3)
+set srcv   = (2   3   3   4   4)
+set tblurv = (0.9 0.9 8.0 6.0 7.0)
+set sblurv = (7.0 6.0 9.0 6.0 7.0)
+set kmodev = (1   1   3   3   3)
+
+set imgv = ()
+set targetpath = ""
+@ mask = 0
+@ useT = 0
+@ i    = 0
+while ($i <= ${#argv})
+	switch ($argv[$i])
+	case -mask:
+		@ mask ++
+		breaksw
+	case -T*:
+		set targetpath   = `echo $argv[$i] | gawk '{print substr($1,3)}'`
+		set targetpath   = $targetpath:r	# trim off extensions
+		set targetpath   = $targetpath:r
+		set target       = $targetpath:t
+		@ useT ++
+		breaksw
+	default:
+		set imgv = ($imgv $argv[$i])
+		breaksw		
+	endsw
+	@ i ++
+end
+if (${#imgv} < 4) then
+	echo "Usage:	$program <(4dfp)mprage_image> <(4dfp)ho_image> <(4dfp)oo_image> <(4dfp)oc_image>"
+	echo " e.g.,	$program p5999_mprage p5999ho1 p5999oo1 p5999oc1"
+	echo "	options"
+	echo "	-mask		use existing masks or create them, named <mprage_image>_mskt or <??_image>_msk"
+	echo "	-T<target>	specify atlas target (<target> may include absolute path)"
+	exit 1
+endif
+
+set imgv    = ($imgv:gr)
+set imgv    = ($imgv:gr)   ## Images used for t4 file naming
+set imgw    = ()           ## Unblurred versions of images used for alignment
+set imgm    = ()           ## Created masks
+set imgr    = ()           ## Images to be removed
+
+if (! -e $imgv[1].4dfp.ifh || ! -e $imgv[1].4dfp.img) then
+	echo "${program}: $imgv[1] not found"
+	exit -1
+endif
+if ($useT) then
+	set mpratlt4 = ${imgv[1]}_to_${target}_t4
+	if (! -e $mpratlt4) then
+		echo $mpratlt4 not found
+		echo "mpr2atl_4dfp $imgv[1] -T$targetpath"
+		      mpr2atl_4dfp $imgv[1] -T$targetpath
+		if ($status) exit $status
+	endif
+else
+	set mpratlt4 = (`ls ${imgv[1]}_to_TRIO_Y_NDC_t4 ${imgv[1]}_to_711-2[B-Z]_t4`)
+	if (${#mpratlt4} < 1) then
+		echo $imgv[1] atlas transform not found
+		set target = TRIO_Y_NDC
+		set targetpath = /data/cninds01/data2/atlas/$target
+		echo "mpr2atl_4dfp $imgv[1] -T$targetpath"
+		      mpr2atl_4dfp $imgv[1] -T$targetpath
+		if ($status) exit $status
+		set mpratlt4 = ${imgv[1]}_to_${target}
+	else
+		set target = `echo $imgv[1] $mpratlt4[1] | gawk '{a=length($1)+5; b=length($2); printf("%s",substr($2,a,b-a-2));}'`
+		set targetpath = $target
+	endif
+endif
+if ($mask) then
+	if (! -e $imgv[1]_mskt.4dfp.img) then
+		echo "msktgen_4dfp $imgv[1] -T$targetpath"
+		      msktgen_4dfp $imgv[1] -T$targetpath
+		if ($status) exit $status
+	endif
+	set imgm = ($imgv[1]_mskt)
+else
+	set imgm = ("none")
+endif
+set imgw = ($imgw $imgv[1])
+foreach img ($imgv[2-])
+	if (! -e $img.4dfp.ifh || ! -e $img.4dfp.img) then
+		echo "${program}: $img not found"
+		exit -1
+	endif
+	if ($mask) then
+		if (! -e ${img}_msk.4dfp.ifh || ! -e ${img}_msk.4dfp.img) then
+			imgblur_4dfp $img 5
+			maskimg_4dfp ${img}_b50 ${img}_b50 -p5 ${img}_temp$$
+			set lims = `gawk '/matrix size \[3\]/ {m = int(0.09*$NF); print (m+1)"to"($5-m)}' $img.4dfp.ifh`
+			crop_4dfp -Z -z$lims ${img}_temp$$ ${img}_msk
+			if ($status) exit $status
+			rm ${img}_b50.4dfp.{img,ifh,hdr,img.rec}
+			rm ${img}_temp$$.4dfp.{img,ifh,hdr,img.rec}
+			set imgr = ($imgr ${img}_msk)
+		endif
+		set imgm = ($imgm ${img}_msk)
+	else
+		set imgm = ($imgm "none")
+	endif
+	if ($img == $imgv[4]) then
+		if (! -e ${img}_sqrt.4dfp.img) then
+			sqrt_4dfp $img
+			set imgr = ($imgr ${img}_sqrt)
+		endif
+		set imgw = ($imgw ${img}_sqrt)
+	else
+		set imgw = ($imgw ${img})
+	endif
+end
+
+set imgreglog = $program.log
+if (-e $imgreglog) /bin/rm $imgreglog
+date >! $imgreglog
+echo imgreg_4dfp OUTPUT will be placed in $imgreglog
+
+@ i = 1
+while ($i <= $#tarv)
+	if ($tarv[$i] == 1) then
+		set text = `echo $tblurv[$i] | gawk '{print "g"10*$1}'`
+		if (! -e $imgw[$tarv[$i]]_$text.4dfp.img) then
+			gauss_4dfp $imgw[$tarv[$i]] $tblurv[$i]
+			set imgr = ($imgr $imgw[$tarv[$i]]_$text)
+		endif
+	else
+		set text = `echo $tblurv[$i] | gawk '{print "b"10*$1}'`
+		if (! -e $imgw[$tarv[$i]]_$text.4dfp.img) then
+			imgblur_4dfp $imgw[$tarv[$i]] $tblurv[$i]
+			set imgr = ($imgr $imgw[$tarv[$i]]_$text)
+		endif
+	endif
+	if ($srcv[$i] == 1) then
+		set sext = `echo $tblurv[$i] | gawk '{print "g"10*$1}'`
+		if (! -e $imgw[$srcv[$i]]_$sext.4dfp.img) then
+			gauss_4dfp $imgw[$srcv[$i]] $sblurv[$i]
+			set imgr = ($imgr $imgw[$srcv[$i]]_$sext)
+		endif
+	else
+		set sext = `echo $sblurv[$i] | gawk '{print "b"10*$1}'`
+		if (! -e $imgw[$srcv[$i]]_$sext.4dfp.img) then
+			imgblur_4dfp $imgw[$srcv[$i]] $sblurv[$i]
+			set imgr = ($imgr $imgw[$srcv[$i]]_$sext)
+		endif
+	endif
+
+	set ori = `gawk '/orientation/ {print $NF-1}' $imgw[$tarv[$i]].4dfp.ifh $imgw[$srcv[$i]].4dfp.ifh`
+	t4_inv $RELEASE/$oristr[$ori[1]]_t4 temp$$_t4
+	t4_mul $RELEASE/$oristr[$ori[2]]_t4 temp$$_t4 $imgv[$srcv[$i]]_to_$imgv[$tarv[$i]]_t4
+	t4_inv $imgv[$srcv[$i]]_to_$imgv[$tarv[$i]]_t4
+
+	@ k = $kmodev[$i]
+	while ($k < $#kmodev)
+		imgreg_4dfp $imgw[$tarv[$i]]_$text $imgm[$tarv[$i]] $imgw[$srcv[$i]]_$sext $imgm[$srcv[$i]] $imgv[$srcv[$i]]_to_$imgv[$tarv[$i]]_t4 $modes[$k]
+		if ($status) exit $status
+		imgreg_4dfp $imgw[$srcv[$i]]_$sext $imgm[$srcv[$i]] $imgw[$tarv[$i]]_$text $imgm[$tarv[$i]] $imgv[$tarv[$i]]_to_$imgv[$srcv[$i]]_t4 $modes[$k]
+		if ($status) exit $status
+		@ k ++
+	end
+	echo imgreg_4dfp $imgw[$tarv[$i]]_$text $imgm[$tarv[$i]] $imgw[$srcv[$i]]_$sext $imgm[$srcv[$i]] $imgv[$srcv[$i]]_to_$imgv[$tarv[$i]]_t4 $modes[$k] >> $imgreglog
+	     imgreg_4dfp $imgw[$tarv[$i]]_$text $imgm[$tarv[$i]] $imgw[$srcv[$i]]_$sext $imgm[$srcv[$i]] $imgv[$srcv[$i]]_to_$imgv[$tarv[$i]]_t4 $modes[$k] >> $imgreglog
+	if ($status) exit $status
+	echo imgreg_4dfp $imgw[$srcv[$i]]_$sext $imgm[$srcv[$i]] $imgw[$tarv[$i]]_$text $imgm[$tarv[$i]] $imgv[$tarv[$i]]_to_$imgv[$srcv[$i]]_t4 $modes[$k] >> $imgreglog
+	     imgreg_4dfp $imgw[$srcv[$i]]_$sext $imgm[$srcv[$i]] $imgw[$tarv[$i]]_$text $imgm[$tarv[$i]] $imgv[$tarv[$i]]_to_$imgv[$srcv[$i]]_t4 $modes[$k] >> $imgreglog
+	if ($status) exit $status
+	@ i ++
+end
+
+set resolvelog = ${program}_t4_resolve.log
+if (-e $resolvelog) /bin/rm $resolvelog
+date >! $resolvelog
+echo t4_resolve OUTPUT will be placed in $resolvelog
+
+echo t4_resolve $imgv[1] $imgv[2] -ohompr >> $resolvelog
+     t4_resolve $imgv[1] $imgv[2] -ohompr >> $resolvelog
+if ($status) exit $status
+echo                                      >> $resolvelog
+echo t4_resolve $imgv[2] $imgv[3] -oooho  >> $resolvelog
+     t4_resolve $imgv[2] $imgv[3] -oooho  >> $resolvelog
+if ($status) exit $status
+echo                                      >> $resolvelog
+echo t4_resolve $imgv[3] $imgv[4] -oocoo  >> $resolvelog
+     t4_resolve $imgv[3] $imgv[4] -oocoo  >> $resolvelog
+if ($status) exit $status
+echo                                      >> $resolvelog
+echo t4_resolve $imgv[2] $imgv[4] -oocho  >> $resolvelog
+     t4_resolve $imgv[2] $imgv[4] -oocho  >> $resolvelog
+if ($status) exit $status
+echo                                      >> $resolvelog
+echo t4_resolve $imgv[1] $imgv[3] -ooompr >> $resolvelog
+     t4_resolve $imgv[1] $imgv[3] -ooompr >> $resolvelog
+if ($status) exit $status
+
+##################################################################################################
+# Quality control check of the data using t4_resolve on the mr, ho, and oo t4 files
+echo                                                 >> $resolvelog
+echo t4_resolve $imgv[1] $imgv[2] $imgv[3] -ohooompr >> $resolvelog
+     t4_resolve $imgv[1] $imgv[2] $imgv[3] -ohooompr >> $resolvelog
+
+# Determine quality of the t4_resolve ho oo mpr script, then print output
+set error = `gawk '/estimate total rotation error/{rot = $5} /estimate total translation error/{trans = $5} END {printf ("%3d", 100*(trans + 1.4*rot))}' $resolvelog`
+echo                           >> $resolvelog
+echo "hooompr ERROR = " $error
+echo "hooompr ERROR = " $error >> $resolvelog
+if ($error < 100) then
+    echo "error is LOW, image reconciliation is good"             >> $resolvelog
+else if (($error > 100) && ($error < 200)) then
+    echo "error is MED, cross-image reconciliation is acceptable" >> $resolvelog
+else if ($error > 200) then
+    echo "error is HIGH, cross-image reconciliation is poor"      >> $resolvelog
+endif
+
+##################################################################################################
+# Reorganize t4 files
+
+set unres = unresolved_t4
+if (! -e $unres) mkdir $unres
+
+foreach img1 ($imgv)
+foreach img2 ($imgv)
+	if (-e ${img1}_to_${img2}_t4) mv ${img1}_to_${img2}_t4 $unres
+end
+end
+
+cp $imgv[2]"_to_hompr_t4" $imgv[2]"_to_"$imgv[1]"_t4"
+cp $imgv[3]"_to_ooho_t4"  $imgv[3]"_to_"$imgv[2]"_t4"
+cp $imgv[4]"_to_ocoo_t4"  $imgv[4]"_to_"$imgv[3]"_t4"
+cp $imgv[4]"_to_ocho_t4"  $imgv[4]"_to_"$imgv[2]"_t4"
+cp $imgv[3]"_to_oompr_t4" $imgv[3]"_to_"$imgv[1]"_t4"
+
+t4_mul $imgv[4]"_to_"$imgv[2]"_t4" $imgv[2]"_to_"$imgv[1]"_t4"
+foreach img ($imgv[2-])
+	t4_mul $img"_to_"$imgv[1]"_t4" $imgv[1]"_to_"$target"_t4"
+end
+
+set res = resolved_t4
+if (! -e $res) mkdir $res
+
+mv *hompr* *ooho* *ocoo* *ocho* *oompr* $res
+
+##################################################################################################
+# Clean up
+
+foreach img ($imgr)
+	rm ${img}.4dfp.{img,ifh,hdr,img.rec}
+end
+
+exit 0
+

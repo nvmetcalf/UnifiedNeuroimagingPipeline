@@ -1,0 +1,110 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <JSSstatistics.h>
+
+/*************/
+/* externals */
+/*************/
+ double	dnormal (void);			/* dnormal.c */
+
+/********************************************************/
+/* returns x such that gammp(a,x) = P                   */
+/* 2.*invgammp(nu/2.,drand48())) is a chi^2(nu) variate */
+/********************************************************/
+float invgammp (float a, float P) {
+	float	x, dx, t, u, dgammpdx, gammlna;
+	float	c[4] = {2.30753, 0.27061, 0.99229, 0.04481}; 		/* Abramowitz & Stegun 26.2.22 */
+	int	iter, debug = 0;
+
+	if (a < 1.) {
+		printf ("For nu==1 use dnormal()^2\n");
+		exit -1;
+	}
+
+	if (P <= 0.0) return 0.;
+	if (P >= 1.0) return 1./0.;
+	if (a == 1.0) return -log (1. - P);
+	
+	if (a < 4.5 && P < .2) {
+		x = pow (P*exp(gammln(a + 1.)), 1./a);
+	} else if (P > .85) {
+		t = sqrt (-2.*log (1. - P));
+		u = t + (c[0] + c[1]*t)/(1. + c[2]*t + c[3]*t*t); 	/* Abramowitz & Stegun 26.2.22 */
+		x = a + .5*sqrt(a)*u;					/* Abramowitz & Stegun 26.4.11 */
+	} else {
+		x = a + (P - 0.5)*2.5*sqrt(a);
+	}
+	if (0) return x;	/* return initial estimate */
+
+	gammlna = gammln(a);
+	if (debug) printf ("%10s%10s%10s%10s%10s\n", "a", "x", "t", "P", "dx");
+	iter = 0;
+	do {	iter++;
+		t = gammp (a, x);
+		dgammpdx = pow(x, a - 1.)*exp(-x -gammlna);
+		dx = (P - t)/dgammpdx;
+		if (debug) printf ("%10.4f%10.4f%10.6f%10.6f%10.6f\n", a, x, t, P, dx);
+		if (dx > a) dx = a; if (dx < -a/5.) dx = -a/5.;
+		x += dx; if (x < 0.) x = -x;
+	} while (fabs(P - t) > 1.e-6);
+	if (0) printf ("%3d ", iter);
+	return x;
+}
+
+int main (int argc, char *argv[]) {
+	float		a, x, t, eps = 0.001, dgammpdx, t1, P;
+	float		x1, dxdP, g, f;
+	int		i, k, nu = 2;
+
+	a = 50.;
+	if (0) for (i = 0; i <= 10; i++) {
+		x = i;
+		t = gammp (a, x);
+		dgammpdx = pow(x, a - 1.)*exp(-x -gammln(a));
+		t1 = gammp (a, x + eps);
+		printf ("%10.4f%10.4f%10.6f%10.6f%10.6f\n", a, x, t, dgammpdx, (t1 - t)/eps);
+	}
+
+	a = 4.;
+	if (1) for (i = 0; i < 1000; i++) {
+		P = i/1000.;
+		x = invgammp (a, P);
+		if (1) {
+			t = gammp (a, x);
+			printf ("%10.6f%10.4f%12.2e\n", P, x, P - t);
+		} else {
+			printf ("%10.6f%10.4f\n", P, x);
+		}
+	}
+
+	if (0) for (i = 1; i < 11; i++) {
+		a = 10.*i;
+		x   = invgammp (a, .895);
+		x1  = invgammp (a, .905);
+		dxdP = 100.*(x1 - x);
+		printf ("%10.4f%10.4f%10.4f\n", a, dxdP, dxdP/sqrt(a));
+
+	}
+
+	if (0) {
+		a = 1.5; g = exp(gammln(a));
+		for (i = 1; i < 11; i++) {
+			x = a*(2. + i/5.);
+			t = gammp(a, x);
+			f = pow(x, a - 1.)*exp(-x);
+			printf ("%10.4f%10.4f\n", g*(1. - t), f);
+		}
+	}
+
+	nu = 3;
+	if (0) for (i = 0; i < 10000; i++) {
+		for (f = k = 0; k < nu; k++) {
+			t = dnormal();
+			f += t*t;
+		}
+		printf ("%10.6f%10.6f\n", f, 2.*invgammp(nu/2.,drand48()));
+	}
+
+	return 0;
+}

@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/actmapf_4dfp/GC_4dfp.mak

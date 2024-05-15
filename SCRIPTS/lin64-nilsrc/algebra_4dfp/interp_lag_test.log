@@ -1,0 +1,200 @@
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0000
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9568    0.1244   -0.1293
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0001
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9516    0.1373   -0.1429
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 0.9992
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9516    0.1386   -0.1442
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 0.9997
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9572    0.1197   -0.1246
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 0.9989
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0000
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9562    0.1264   -0.1314
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0000
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9557    0.1285   -0.1336
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0000
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9541    0.1336   -0.1389
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0002
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0000
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9585    0.1194   -0.1242
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 0.9999
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0200
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9597    0.1164   -0.1211
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0001
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9596    0.1149   -0.1196
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 0.9995
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9547    0.1309   -0.1361
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0000
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9607    0.1157   -0.1202
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0007
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0000
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9597    0.1168   -0.1215
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0000
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9599    0.1169   -0.1215
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0003
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9559    0.1293   -0.1344
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0007
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0000
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9571    0.1250   -0.1300
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0005
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9589    0.1204   -0.1251
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0006
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9578    0.1233   -0.1282
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0004
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0000
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9619    0.1082   -0.1126
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 0.9996
+$Id: interp_lag_test.c,v 1.1 2016/06/02 05:40:00 avi Exp $
+kernel var = 1.000000 fft var = 1.000000
+Writing: interp_lag_test_psd.dat
+Writing: interp_lag_test_timeseries.dat
+true time of peak lag = 1.0100
+Writing: interp_lag_test_cov.dat
+Writing: interp_lag_test_cov_downsample.dat
+a0, a1, a2     0.9565    0.1300   -0.1351
+Writing: interp_lag_test_cov_interp.dat
+interpolated time of peak lag = 1.0012

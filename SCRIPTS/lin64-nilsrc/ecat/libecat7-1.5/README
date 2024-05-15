@@ -1,0 +1,46 @@
+=======
+libecat
+=======
+ 
+libecat (z_matrix_70) is a c library for reading and writing CTI PET
+data sets.  It was written by CTI, with extensions and some utils
+added by Merence Sibomona <Sibomana@topo.ucl.ac.be> and company.
+
+This library is released under a restricive non-free license (see
+orig_src/copyright).  The library is free to use for non-commercial
+uses.
+
+This version is intended to be used with amide, and can be found at:
+	http://amide.sourceforge.net
+
+The original libecat site is:
+        ftp://dormeur.topo.ucl.ac.be/pub/ecat/z_matrix_70/ecat.tar.gz
+ 
+
+The major difference in the amide version of libecat (i.e. this
+version) is that it includes configure scripts and Makefiles to build
+libecat as a shared library.  This is done because distributing a
+statically linked binary version of amide is illegal due to the
+incompatibilities of the license that amide is distributed under (GPL)
+and the license libecat is released under (see orig_src/copyright).
+
+Additionally, several minor changes have been made to the library,
+mainly to allow it to work on Mac OS X (darwin) in addition to Linux.
+All changes to libecat are distributed as a patch to the original
+source, as the copyright does not allow distribution of the original
+source code in a modified form.
+
+Take care,
+	Andy Loening <loening@alum.mit.edu>
+
+ 
+Building
+--------
+  
+        ./configure
+        make
+        make install      
+	/sbin/ldconfig
+
+
+You'll have to be root for the last two commands.

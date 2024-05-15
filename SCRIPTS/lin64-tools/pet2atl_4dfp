@@ -1,0 +1,162 @@
+#!/bin/csh
+# $Header: /data/petsun4/data1/src_solaris/pet_4dfp/RCS/pet2atl_4dfp,v 1.4 2018/12/11 20:57:26 larsc Exp $
+# $Log: pet2atl_4dfp,v $
+# Revision 1.4  2018/12/11 20:57:26  larsc
+# Pass MASK_COMMAND to pet_resolve_scheme_4dfp.
+#
+# Revision 1.3  2018/12/10 20:30:23  larsc
+# Removed "petdir" variable.
+#
+# Revision 1.2  2012/09/19  17:55:11  larsc
+# Added pib image type, multiple scheme capability, default.scheme initialization, KEEP_MPR_T4 option.
+#
+# Revision 1.1  2011/11/10  18:36:26  larsc
+# Initial revision
+#
+
+set idstr   = '$Id: pet2atl_4dfp,v 1.4 2018/12/11 20:57:26 larsc Exp $'
+echo $idstr
+set program = $0
+set program = $program:t
+
+if ($#argv != 1) then
+	echo "Usage:	$program <params file>"
+	echo " e.g.,	$program p6308_pet.params"
+	exit 1
+endif
+
+echo source $RELEASE/default.params
+     source $RELEASE/default.params
+if ($status) then
+	echo $program": couldn't execute default params "$RELEASE/"default.params"
+	exit -1
+endif
+
+set params = $1
+if (-e $params) then
+	echo source $params
+	     source $params
+	if ($status) then
+		echo $program": couldn't execute "$params
+		exit -1
+	endif
+	cat $params
+else
+	echo $program": $params not found"
+	exit -1
+endif
+
+foreach ext (rec img ifh hdr 4dfp)
+	if (   $MPR:e == $ext) set    MPR = $MPR:r
+	if ($TARGET:e == $ext) set TARGET = $TARGET:r
+end
+foreach img ($TARGETPATH/$TARGET $MPR)
+	if (! -e $img".4dfp.img" || ! -e $img".4dfp.ifh") then
+		echo $program": "$img".4dfp.img or "$img".4dfp.ifh not found"
+		exit -1
+	endif
+end
+
+set register_list = ("-mpr" $MPR)
+foreach mode ("ho" "oo" "oc" "fdg" "pib")
+	switch ($mode)
+	case  "ho":
+		set lbl = ($HO_LABELS);  set name = $HO_NAME;  set opt = ($HO_CROSS_PET_OPTIONS);  breaksw;
+	case  "oo":
+		set lbl = ($OO_LABELS);  set name = $OO_NAME;  set opt = ($OO_CROSS_PET_OPTIONS);  breaksw;
+	case  "oc":
+		set lbl = ($OC_LABELS);  set name = $OC_NAME;  set opt = ($OC_CROSS_PET_OPTIONS);  breaksw;
+	case "fdg":
+		set lbl = ($FDG_LABELS); set name = $FDG_NAME; set opt = ($FDG_CROSS_PET_OPTIONS); breaksw;
+	case "pib":
+		set lbl = ($PIB_LABELS); set name = $PIB_NAME; set opt = ($PIB_CROSS_PET_OPTIONS); breaksw;
+	endsw
+	if ($#lbl > 1) then
+		set imgs = `echo $lbl | gawk '{for (i = 1; i <= NF; i++) printf ("'$PATID$mode'%s_'$name'\n", $i)}'`
+		echo cross_pet_resolve_4dfp $PATID$mode"_"$name $imgs $opt
+		     cross_pet_resolve_4dfp $PATID$mode"_"$name $imgs $opt;			if ($status) exit $status
+		echo wrpsmg_4dfp $PATID$mode"_"$name".sub" $PATID$mode"_"$name -O$imgs[1]
+		     wrpsmg_4dfp $PATID$mode"_"$name".sub" $PATID$mode"_"$name -O$imgs[1];	if ($status) exit $status
+		if (! -d unresolved_t4) mkdir unresolved_t4
+		if (! -d   resolved_t4) mkdir   resolved_t4
+		foreach img1 ($imgs)
+			foreach img2 ($imgs)
+				if ($img1 != $img2) mv $img1"_to_"$img2"_t4"  unresolved_t4
+			end
+#			cp $img1"_to_"$PATID$mode"_"$name"_t4" $img1"_to_"$imgs[1]"_t4"
+#			mv $img1"_to_"$PATID$mode"_"$name"_t4" resolved_t4
+			cp $img1"_to_"$PATID$mode"_"$name"_t4" resolved_t4
+		end
+		mv $PATID$mode"_"$name"_imgreg_4dfp.log"                          unresolved_t4
+		mv $PATID$mode"_"$name"_t4_resolve.log" $PATID$mode"_"$name".sub"   resolved_t4
+		set register_list = ($register_list "-"$mode $PATID$mode"_"$name)
+	else if ($#lbl == 1) then
+		set register_list = ($register_list "-"$mode $PATID$mode$lbl"_"$name)
+	endif
+end
+
+foreach scheme ($PET_RESOLVE_SCHEME)
+	if ($?MASK_COMMAND) then
+		echo pet_resolve_scheme_4dfp $PATID $register_list "-scheme" $scheme "-mask_command" "$MASK_COMMAND"
+		     pet_resolve_scheme_4dfp $PATID $register_list "-scheme" $scheme "-mask_command" "$MASK_COMMAND";	if ($status) exit $status
+	else
+		echo pet_resolve_scheme_4dfp $PATID $register_list "-scheme" $scheme
+		     pet_resolve_scheme_4dfp $PATID $register_list "-scheme" $scheme;	if ($status) exit $status
+	endif
+end
+
+if (! -e $MPR"_to_"$TARGET"_t4") mpr2atl_4dfp $MPR -T$TARGETPATH/$TARGET -S711-2B;	if ($status) exit $status
+
+foreach mode ("ho" "oo" "oc" "fdg" "pib")
+	switch ($mode)
+	case  "ho":
+		set lbl = ($HO_LABELS);  set name = $HO_NAME;  breaksw;
+	case  "oo":
+		set lbl = ($OO_LABELS);  set name = $OO_NAME;  breaksw;
+	case  "oc":
+		set lbl = ($OC_LABELS);  set name = $OC_NAME;  breaksw;
+	case "fdg":
+		set lbl = ($FDG_LABELS); set name = $FDG_NAME; breaksw;
+	case "pib":
+		set lbl = ($PIB_LABELS); set name = $PIB_NAME; breaksw;
+	endsw
+	set imgs = `echo $lbl | gawk '{for (i = 1; i <= NF; i++) printf ("'$PATID$mode'%s_'$name'\n", $i)}'`
+	if ($#lbl > 1) then
+		rm $PATID$mode"_"$name".4dfp."{"img","ifh","hdr","img.rec"}
+		if (-e $PATID$mode"_"$name"_to_"$MPR"_t4") then
+			t4_mul $PATID$mode"_"$name"_to_"$MPR"_t4" $MPR"_to_"$TARGET"_t4"
+			foreach img ($imgs)
+				if ($KEEP_MPR_T4 == 1) \
+				t4_mul $img"_to_"$PATID$mode"_"$name"_t4" $PATID$mode"_"$name"_to_"$MPR"_t4"
+				t4_mul $img"_to_"$PATID$mode"_"$name"_t4" $PATID$mode"_"$name"_to_"$TARGET"_t4"
+				rm     $img"_to_"$PATID$mode"_"$name"_t4"
+			end
+			rm     $PATID$mode"_"$name"_to_"$MPR"_t4"
+			rm     $PATID$mode"_"$name"_to_"$TARGET"_t4"
+		else
+			echo $program": "$PATID$mode"_"$name"_to_"$MPR"_t4 not found"
+		endif
+	else if ($#lbl == 1) then
+		if (-e $imgs[1]"_to_"$MPR"_t4") then
+			foreach img ($imgs)
+				t4_mul $img"_to_"$MPR"_t4" $MPR"_to_"$TARGET"_t4"
+				if ($KEEP_MPR_T4 == 0) rm $img"_to_"$MPR"_t4"
+			end
+		else
+			echo $program": "$PATID$mode"_"$name"_to_"$MPR"_t4 not found"
+		endif
+	else
+
+	endif
+end
+##############################################################
+# This is an ugly catchall cleanup of pet_resolve_scheme_4dfp
+##############################################################
+foreach t4 ($PATID{ho,oo,oc,fdg,pib}"_"{$HO_NAME,$OO_NAME,$OC_NAME,$FDG_NAME,$PIB_NAME}"_to_"$PATID{ho,oo,oc,fdg,pib}"_"{$HO_NAME,$OO_NAME,$OC_NAME,$FDG_NAME,$PIB_NAME}"_t4")
+	if (-e $t4) then
+		echo $program": removing "$t4
+		rm $t4
+	endif
+end
+
+exit 0

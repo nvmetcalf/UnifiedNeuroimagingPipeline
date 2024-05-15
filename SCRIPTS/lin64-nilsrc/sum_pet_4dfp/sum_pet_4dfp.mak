@@ -1,0 +1,1 @@
+/data/petsun4/data1/src_solaris/sum_pet_4dfp/sum_pet_4dfp.mak
