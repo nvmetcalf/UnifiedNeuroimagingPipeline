@@ -1,0 +1,125 @@
+#!/bin/csh
+
+set pid1 = $1
+set pid2 = $2
+set sid = $3
+
+# Create relevant t4 files and create binary masks
+
+t4img_4dfp ${pid1}ho1_sumall_to_${pid1}ho2_sumall_t4 ${pid1}ho1_Mask ${pid1}ho2_Mask -O${pid1}ho2_sumall -n
+t4img_4dfp ${pid1}ho1_sumall_to_${pid2}ho1_sumall_t4 ${pid1}ho1_Mask ${pid2}ho1_Mask -O${pid2}ho1_sumall -n
+t4img_4dfp ${pid1}ho1_sumall_to_${pid2}ho2_sumall_t4 ${pid1}ho1_Mask ${pid2}ho2_Mask -O${pid2}ho2_sumall -n
+
+t4_mul ${pid1}ho1_sumall_to_${sid}ho_sumall_t4 ${sid}ho_sumall_to_${sid}oo_sumall_t4 ${pid1}ho1_sumall_to_${sid}oo_sumall_t4
+t4_inv ${pid1}oo1_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid1}oo1_sumall_t4
+t4_mul ${pid1}ho1_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid1}oo1_sumall_t4 ${pid1}ho1_sumall_to_${pid1}oo1_sumall_t4
+t4_inv ${pid1}oo2_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid1}oo2_sumall_t4
+t4_mul ${pid1}ho1_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid1}oo2_sumall_t4 ${pid1}ho1_sumall_to_${pid1}oo2_sumall_t4
+
+t4img_4dfp ${pid1}ho1_sumall_to_${pid1}oo1_sumall_t4 ${pid1}ho1_Mask ${pid1}oo1_Mask -O${pid1}oo1_sumall -n
+t4img_4dfp ${pid1}ho1_sumall_to_${pid1}oo2_sumall_t4 ${pid1}ho1_Mask ${pid1}oo2_Mask -O${pid1}oo2_sumall -n
+
+t4_inv ${pid2}oo1_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid2}oo1_sumall_t4
+t4_mul ${pid1}ho1_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid2}oo1_sumall_t4 ${pid1}ho1_sumall_to_${pid2}oo1_sumall_t4
+t4_inv ${pid2}oo2_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid2}oo2_sumall_t4
+t4_mul ${pid1}ho1_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid2}oo2_sumall_t4 ${pid1}ho1_sumall_to_${pid2}oo2_sumall_t4
+
+t4img_4dfp ${pid1}ho1_sumall_to_${pid2}oo1_sumall_t4 ${pid1}ho1_Mask ${pid2}oo1_Mask -O${pid2}oo1_sumall -n
+t4img_4dfp ${pid1}ho1_sumall_to_${pid2}oo2_sumall_t4 ${pid1}ho1_Mask ${pid2}oo2_Mask -O${pid2}oo2_sumall -n
+
+
+t4_mul ${pid1}oc1_sumall_to_${sid}oc_sumall_t4 ${sid}oc_sumall_to_${sid}oo_sumall_t4 ${pid1}oc1_sumall_to_${sid}oo_sumall_t4
+t4_mul ${pid1}oc1_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid1}oo1_sumall_t4 ${pid1}oc1_sumall_to_${pid1}oo1_sumall_t4
+
+t4_mul ${pid1}ho2_sumall_to_${sid}ho_sumall_t4 ${sid}ho_sumall_to_${sid}oo_sumall_t4 ${pid1}ho2_sumall_to_${sid}oo_sumall_t4
+t4_mul ${pid1}ho2_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid1}oo2_sumall_t4 ${pid1}ho2_sumall_to_${pid1}oo2_sumall_t4
+t4_mul ${pid1}oc2_sumall_to_${sid}oc_sumall_t4 ${sid}oc_sumall_to_${sid}oo_sumall_t4 ${pid1}oc2_sumall_to_${sid}oo_sumall_t4
+t4_mul ${pid1}oc2_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid1}oo2_sumall_t4 ${pid1}oc2_sumall_to_${pid1}oo2_sumall_t4
+
+t4_mul ${pid2}ho1_sumall_to_${sid}ho_sumall_t4 ${sid}ho_sumall_to_${sid}oo_sumall_t4 ${pid2}ho1_sumall_to_${sid}oo_sumall_t4
+t4_mul ${pid2}ho1_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid2}oo1_sumall_t4 ${pid2}ho1_sumall_to_${pid2}oo1_sumall_t4
+t4_mul ${pid2}oc1_sumall_to_${sid}oc_sumall_t4 ${sid}oc_sumall_to_${sid}oo_sumall_t4 ${pid2}oc1_sumall_to_${sid}oo_sumall_t4
+t4_mul ${pid2}oc1_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid2}oo1_sumall_t4 ${pid2}oc1_sumall_to_${pid2}oo1_sumall_t4
+
+t4_mul ${pid2}ho2_sumall_to_${sid}ho_sumall_t4 ${sid}ho_sumall_to_${sid}oo_sumall_t4 ${pid2}ho2_sumall_to_${sid}oo_sumall_t4
+t4_mul ${pid2}ho2_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid2}oo2_sumall_t4 ${pid2}ho2_sumall_to_${pid2}oo2_sumall_t4
+t4_mul ${pid2}oc2_sumall_to_${sid}oc_sumall_t4 ${sid}oc_sumall_to_${sid}oo_sumall_t4 ${pid2}oc2_sumall_to_${sid}oo_sumall_t4
+t4_mul ${pid2}oc2_sumall_to_${sid}oo_sumall_t4 ${sid}oo_sumall_to_${pid2}oo2_sumall_t4 ${pid2}oc2_sumall_to_${pid2}oo2_sumall_t4
+
+# Perform parametric image analysis for CBF and OEF
+
+set mfile = ${pid1}_1.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/data/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load ./AIF/"${pid1}".mat" >>$mfile
+
+echo "[CBFimg, Faimg]=Process_H2O('"${pid1}"ho1', '"${pid1}"ho1_Mask', ho1IF, frd, '"${pid1}"ho1');" >>$mfile 
+echo "[Fvimg]=Process_CO('"${pid1}"oc1',oc1IF,'"${pid1}"oc1');" >> $mfile 
+echo "[CBFimg, Faimg]=Process_H2O('"${pid1}"ho2', '"${pid1}"ho2_Mask', ho2IF, frd, '"${pid1}"ho2');" >>$mfile 
+echo "[Fvimg]=Process_CO('"${pid1}"oc2',oc2IF,'"${pid1}"oc2');" >> $mfile 
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup $MLBIN/matlab -nojvm -nodisplay < $mfile
+
+t4img_4dfp ${pid1}oc1_sumall_to_${pid1}oo1_sumall_t4 ${pid1}oc1_Fv ${pid1}oo1_Fv -O${pid1}oo1_sumall
+t4img_4dfp ${pid1}ho1_sumall_to_${pid1}oo1_sumall_t4 ${pid1}ho1_CBF ${pid1}oo1_CBF -O${pid1}oo1_sumall	
+t4img_4dfp ${pid1}oc2_sumall_to_${pid1}oo2_sumall_t4 ${pid1}oc2_Fv ${pid1}oo2_Fv -O${pid1}oo2_sumall
+t4img_4dfp ${pid1}ho2_sumall_to_${pid1}oo2_sumall_t4 ${pid1}ho2_CBF ${pid1}oo2_CBF -O${pid1}oo2_sumall	
+
+set mfile = ${pid1}_2.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/data/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load ./AIF/"${pid1}".mat" >>$mfile
+
+echo "[OEFimg, OEFRimg]=Process_O2('"${pid1}"oo1', '"${pid1}"oo1_Mask', oo1IF, '"${pid1}"oo1_CBF', '"${pid1}"oo1_Fv', frd, '"${pid1}"oo1');" >>$mfile 
+echo "[OEFimg, OEFRimg]=Process_O2('"${pid1}"oo2', '"${pid1}"oo2_Mask', oo2IF, '"${pid1}"oo2_CBF', '"${pid1}"oo2_Fv', frd, '"${pid1}"oo2');" >>$mfile 
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup $MLBIN/matlab -nojvm -nodisplay < $mfile
+
+
+set mfile = ${pid2}_1.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/data/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load ./AIF/"${pid2}".mat" >>$mfile
+
+echo "[CBFimg, Faimg]=Process_H2O('"${pid2}"ho1', '"${pid2}"ho1_Mask', ho1IF, frd, '"${pid2}"ho1');" >>$mfile 
+echo "[Fvimg]=Process_CO('"${pid2}"oc1',oc1IF,'"${pid2}"oc1');" >> $mfile 
+echo "[CBFimg, Faimg]=Process_H2O('"${pid2}"ho2', '"${pid2}"ho2_Mask', ho2IF, frd, '"${pid2}"ho2');" >>$mfile 
+echo "[Fvimg]=Process_CO('"${pid2}"oc2',oc2IF,'"${pid2}"oc2');" >> $mfile 
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup $MLBIN/matlab -nojvm -nodisplay < $mfile
+
+t4img_4dfp ${pid2}oc1_sumall_to_${pid2}oo1_sumall_t4 ${pid2}oc1_Fv ${pid2}oo1_Fv -O${pid2}oo1_sumall
+t4img_4dfp ${pid2}ho1_sumall_to_${pid2}oo1_sumall_t4 ${pid2}ho1_CBF ${pid2}oo1_CBF -O${pid2}oo1_sumall	
+t4img_4dfp ${pid2}oc2_sumall_to_${pid2}oo2_sumall_t4 ${pid2}oc2_Fv ${pid2}oo2_Fv -O${pid2}oo2_sumall
+t4img_4dfp ${pid2}ho2_sumall_to_${pid2}oo2_sumall_t4 ${pid2}ho2_CBF ${pid2}oo2_CBF -O${pid2}oo2_sumall	
+
+set mfile = ${pid2}_2.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/data/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load ./AIF/"${pid2}".mat" >>$mfile
+
+echo "[OEFimg, OEFRimg]=Process_O2('"${pid2}"oo1', '"${pid2}"oo1_Mask', oo1IF, '"${pid2}"oo1_CBF', '"${pid2}"oo1_Fv', frd, '"${pid2}"oo1');" >>$mfile 
+echo "[OEFimg, OEFRimg]=Process_O2('"${pid2}"oo2', '"${pid2}"oo2_Mask', oo2IF, '"${pid2}"oo2_CBF', '"${pid2}"oo2_Fv', frd, '"${pid2}"oo2');" >>$mfile 
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup $MLBIN/matlab -nojvm -nodisplay < $mfile
+

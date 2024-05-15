@@ -1,0 +1,28 @@
+#!/bin/bash
+
+TOF=$1
+MPR=$2
+ArtInfo=$3
+SID1=$4
+
+~suy/bin/GetAIFPre $TOF $ArtInfo $MPR
+
+for scan in "ho1" "oc1" "oo1"
+do
+	t4_inv ${SID1}${scan}"_sumall_to_"${MPR}"_t4" ${MPR}"_to_"${SID1}${scan}"_sumall_t4"
+	t4_mul ${TOF}"_to_"${MPR}"_t4" ${MPR}"_to_"${SID1}${scan}"_sumall_t4" ${TOF}"_to_"${SID1}${scan}"_sumall_t4"
+	~suy/bin/GetAIF $TOF ${TOF}"_to_"${SID1}${scan}"_sumall_t4" $ArtInfo ${SID1}${scan} 0
+	t4img_4dfp ${MPR}"_to_"${SID1}${scan}"_sumall_t4" ${MPR}"_mskt" ${MPR}"_mskt_on_"${SID1}${scan}"_sumall" -O${SID1}${scan}"_sumall" -n
+	qnt_4dfp ${SID1}${scan} ${MPR}"_mskt_on_"${SID1}${scan}"_sumall" | gawk '/Mean/ {print $2}' > ${SID1}${scan}"_Whole_Brain_Mean.tac"
+
+# QA
+	cd AIF
+	imgopr_4dfp -a"Art_"${SID1}${scan} "lArt_"${SID1}${scan}"z" "rArt_"${SID1}${scan}"z"
+	maskimg_4dfp ${TOF}"_Art_g_"${SID1}${scan} "Art_"${SID1}${scan} ${TOF}"_Art_g_"${SID1}${scan}"_msk"
+	cd ..
+done
+	
+#	scan=fdg1	
+#	t4_mul ${SID1}${scan}"_sumall_to_"${MPR}"_t4" ${MPR}"_to_"${TOF}"_t4" ${SID1}${scan}"_sumall_to_"${TOF}"_t4"
+#	t4_inv ${SID1}${scan}"_sumall_to_"${TOF}"_t4" ${TOF}"_to_"${SID1}${scan}"_sumall_t4"
+#	~suy/bin/GetAIF $TOF ${TOF}"_to_"${SID1}${scan}"_sumall_t4" $ArtInfo ${SID1}${scan} 1

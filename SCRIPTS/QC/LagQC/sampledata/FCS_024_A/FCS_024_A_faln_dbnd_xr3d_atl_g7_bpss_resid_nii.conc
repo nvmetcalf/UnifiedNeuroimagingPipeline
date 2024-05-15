@@ -1,0 +1,8 @@
+number_of_files: 7
+	file:sampledata/FCS_024_A/BOLD/FCS_024_A_b1_faln_dbnd_xr3d_atl_g7_bpss_resid.nii.gz
+	file:sampledata/FCS_024_A/BOLD/FCS_024_A_b2_faln_dbnd_xr3d_atl_g7_bpss_resid.nii.gz
+	file:sampledata/FCS_024_A/BOLD/FCS_024_A_b3_faln_dbnd_xr3d_atl_g7_bpss_resid.nii.gz
+	file:sampledata/FCS_024_A/BOLD/FCS_024_A_b4_faln_dbnd_xr3d_atl_g7_bpss_resid.nii.gz
+	file:sampledata/FCS_024_A/BOLD/FCS_024_A_b5_faln_dbnd_xr3d_atl_g7_bpss_resid.nii.gz
+	file:sampledata/FCS_024_A/BOLD/FCS_024_A_b6_faln_dbnd_xr3d_atl_g7_bpss_resid.nii.gz
+	file:sampledata/FCS_024_A/BOLD/FCS_024_A_b7_faln_dbnd_xr3d_atl_g7_bpss_resid.nii.gz

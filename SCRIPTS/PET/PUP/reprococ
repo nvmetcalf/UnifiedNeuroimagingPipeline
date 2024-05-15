@@ -1,0 +1,22 @@
+#!/bin/bash
+
+t4img_4dfp O15_001ocmr1_auto_to_orig001_t4 O15_001ocmr1 PET_on_MR -Oorig001
+f_half=`echo "scale=6; 4.412712/6.0" | bc`
+gauss_4dfp PET_on_MR ${f_half} PET_on_MR_8mm
+#ln -s ../PROC/ocmr1/artm1.4dfp.* .
+#ln -s ../PROC/ocmr1/artm2.4dfp.* .
+#ln -s ../PROC/ocmr1/bartm2.4dfp.* .
+#ln -s ../PROC/ocmr1/bartm1.4dfp.* .
+
+qnt_4dfp PET_on_MR_8mm artm1 | gawk '/Mean/ {print $2}' > O15_001ocmr1_art1.tac
+qnt_4dfp PET_on_MR_8mm artm2 | gawk '/Mean/ {print $2}' > O15_001ocmr1_art2.tac
+qnt_4dfp PET_on_MR_8mm bartm1 | gawk '/Mean/ {print $2}' > O15_001ocmr1_bart1.tac
+#ln -s ../PROC/ocmr1/RSFMask.4dfp.* .
+#ln -s ../PROC/ocmr1/PETFOV.4dfp.* .
+#ln -s ../PROC/ocmr1/ROIlist.txt .
+#ln -s ../PROC/ocmr1/WBMask.4dfp.* .
+
+qnt_4dfp PET_on_MR_8mm WBMask | gawk '/Mean/ {print $2}' > O15_001ocmr1_WB.tac
+#wc -l ROIlist.txt
+roieval PET_on_MR_8mm RSFMask PETFOV ROIlist.txt 233 O15_001ocmr1 1
+

@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+# Script to prepare mr data for roi extraction.
+#
+# Yi Su, 08/12/2013
+
+TOFfn=$1
+TOFname=`basename $TOFfn`
+TOFdir=`dirname $TOFfn`
+TOFroot=${TOFname%%.*}
+mrfn=$2
+mrname=`basename $mrfn`
+mrdir=`dirname $mrfn`
+mrroot=${mrname%%.*}
+mrroot=${mrroot}"001"
+mprfn=$3
+mprname=`basename $mprfn`
+mprdir=`dirname $mprfn`
+mprroot=${mprname%%.*}
+
+
+mgzto4dfp $mrfn
+#mgzto4dfp wmparc.mgz
+
+echo "TOF= "$TOFroot
+echo "mr= "$mrroot
+
+
+# segment TOF-MRA
+emmraseg $TOFfn
+emmraabseg $TOFfn
+
+# gaussian blur arterial mask
+fwhm=8.0
+f_half=$(echo "scale=6; 4.412712/$fwhm" | bc)
+gauss_4dfp TOF_ART $f_half TOF_ART_gPET
+gauss_4dfp TOF_AB $f_half TOF_AB_gPET
+
+# Register TOF to MR
+reg2img $mrroot $TOFroot
+
+# Transform TOF data to MR space
+t4img_4dfp ${TOFroot}_to_${mrroot}_t4 TOF_ART_gPET TOF_ART_gPET_on_MR -O${mrroot}
+t4img_4dfp ${TOFroot}_to_${mrroot}_t4 TOF_AB_gPET TOF_AB_gPET_on_MR -O${mrroot}
+
+# Register MPR to MR
+reg2img $mrroot $mprroot
+t4_mul ${mrroot}_to_${mprroot}_t4 ${mprroot}_to_TRIO_Y_NDC_t4

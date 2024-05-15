@@ -1,0 +1,22 @@
+#!/bin/bash
+
+pid=( bms016 bms026 bms029 bms031 bms033 bms034 )
+ceredir=/data/nil-bluearc/raichle/larsc/bms/cerebellar
+workdir=/data/nil-bluearc/raichle/larsc/bms
+cd $workdir/SUVR
+for (( i=0; i<6; i++ ))
+do
+	cp ${ceredir}/${pid[$i]}_cerebellar_objmap.img .
+	cp ${ceredir}/${pid[$i]}_cerebellar_objmap.hdr .
+	analyzeto4dfp ${pid[$i]}_cerebellar_objmap
+	sed 's/atlas/'${pid[$i]}'_cerebellar_objmap/g' atlas.4dfp.ifh > ${pid[$i]}_cerebellar_objmap.4dfp.ifh
+	ifh2hdr ${pid[$i]}_cerebellar_objmap
+	t4img_4dfp $workdir/${pid[$i]}/${pid[$i]}rp1_c_to_TRIO_Y_NDC_t4 $workdir/${pid[$i]}/${pid[$i]}rp1_c ${pid[$i]}rp1_SUVR -O${pid[$i]}_cerebellar_objmap
+	t4img_4dfp $workdir/${pid[$i]}/${pid[$i]}rp1_c_to_TRIO_Y_NDC_t4 $workdir/${pid[$i]}/${pid[$i]}rp1_c_b100 ${pid[$i]}rp1_SUVR_b100 -O${pid[$i]}_cerebellar_objmap	
+	refval1=`qnt_4dfp ${pid[$i]}rp1_SUVR ${pid[$i]}_cerebellar_objmap | gawk '/Mean/ {print $2}'`
+	scf1=$(echo "scale=8; 1/$refval1" | bc)	
+	scale_4dfp ${pid[$i]}rp1_SUVR $scf1
+	scale_4dfp ${pid[$i]}rp1_SUVR_b100 $scf1
+	
+	rm ${pid[$i]}_cerebellar_objmap.*
+done

@@ -1,0 +1,25 @@
+#!/bin/csh
+set echo
+set coordinates = BigBrain298_MNI_coords.txt
+
+set n_regions = `wc $coordinates | awk '{print $1}'`
+
+set target = MNI152_T1_1mm_brain
+rm -r temp_rois
+mkdir temp_rois
+
+@ i = 1
+while($i <= $n_regions)
+
+	set curr_row = (`head -$i $coordinates | tail -1`)
+	
+	set x = $curr_row[1]
+	set y = $curr_row[2]
+	set z = $curr_row[3]
+	
+	burn_sphere_4dfp $x $y $z $target temp_rois/region_$i -v$i -o3.5
+	if($status) exit 1
+	@ i ++
+end
+
+imgopr_4dfp -aBigBrain298_MNI_1mm `ls temp_rois/*.img`

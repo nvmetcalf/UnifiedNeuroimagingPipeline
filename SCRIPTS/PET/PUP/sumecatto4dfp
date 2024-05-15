@@ -1,0 +1,56 @@
+#!/bin/bash
+
+ecatfstr=$1
+if (( $# >= 2 ))
+then
+	outroot=$2
+fi
+
+if (( $# >= 3 ))
+then
+	sf=$3
+fi
+
+if (( $# == 4 ))
+then
+	ef=$4
+fi
+
+if [ -z $ecatfstr ]
+then
+	echo "Usage: `basename $0` ecatfstr [outroot] [sf (default 1)] [ef (default inf)]"
+	exit 1
+fi
+
+if [ -z $outroot ]
+then
+	outname=${ecatfstr%.*}
+	outroot=`basename $outname`
+fi	
+
+if [ -z $sf ]
+then
+	sf=1
+fi
+
+if [ -z $ef ]
+then
+	ef=inf
+fi
+
+# Prepare .m file for converting ecat .v image file to 4dfp file
+
+mfile=${outroot}"_sumecat.m"
+if [ -e $mfile ] 
+then
+	rm $mfile
+fi
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "sumecatto4dfp('"$ecatfstr"', '"$outroot"', "$sf", "$ef");" >>$mfile
+
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+$MLBIN/matlab -nojvm -nodisplay < $mfile > /dev/null
+rm $mfile

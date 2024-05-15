@@ -1,0 +1,138 @@
+
+set MPR		= orig
+
+set HO_RAW	= (`ls *"ho"[12]*.v`)
+set OO_RAW	= (`ls *"oo"[12]*.v`)
+set OC_RAW	= (`ls *"oc"[12]*.v`)
+set FDG_RAW	= (`ls *fdg1.v`)
+
+if($#FDG_RAW == 0) then
+	set FDG_RAW	= (`ls *fdg.v`)
+endif
+
+set HO_LABELS   = ()
+if ($#HO_RAW == 1) then
+	set HO_LABELS   = ("_all")
+else
+	@ i = 1
+	set HO_LABELS = ()
+	while($i <= $#HO_RAW)
+		set HO_LABELS	= ($HO_LABELS $i)
+		@ i++
+	end
+endif
+
+set OO_LABELS   = ()
+if ($#OO_RAW == 1) then
+	set OO_LABELS   = ("_all")
+else
+	@ i = 1
+	set OO_LABELS = ()
+	while($i <= $#OO_RAW)
+		set OO_LABELS	= ($OO_LABELS $i)
+		@ i++
+	end
+endif
+
+set OC_LABELS   = ()
+if ($#OC_RAW == 1) then
+	set OC_LABELS   = ("_all")
+else
+	@ i = 1
+	set OC_LABELS = ()
+	while($i <= $#OC_RAW)
+		set OC_LABELS	= ($OC_LABELS $i)
+		@ i++
+	end
+endif
+
+set FDG_LABELS	= ()
+if ($#FDG_RAW >= 1) then
+	set FDG_LABELS   = ("_all")
+endif
+
+if($#HO_LABELS > 0) then
+	set  HO_NAME	= "auto"
+	set  HO_NORM	= 1
+else
+	set  HO_NAME	= ""
+	set  HO_NORM	= 0
+endif
+
+if($#OO_LABELS > 0) then
+	set  OO_NAME	= "auto"
+	set  OO_NORM	= 1
+else
+	set  OO_NAME	= ""
+	set  OO_NORM	= 0
+endif
+
+if($#OC_LABELS > 0) then
+	set  OC_NAME	= "auto"
+	set  OC_NORM	= 1
+else
+	set  OC_NAME	= ""
+	set  OC_NORM	= 0
+endif
+
+set FDG_NAME	= "c"
+
+set  HO_LENGTH	= 60
+set  OO_LENGTH	= 60
+set FDG_LENGTH	= 1200
+
+set FDG_NORM	= 1
+
+set MASK_COMMAND = "$RELEASE/mask_pet_4dfp -v 30"
+
+set  HO_CROSS_PET_OPTIONS	= ("-mask")
+set  OO_CROSS_PET_OPTIONS	= ("-mask")
+set  OC_CROSS_PET_OPTIONS	= ("-oc" "-mask")
+set FDG_CROSS_PET_OPTIONS	= ()
+
+set PET_RESOLVE_SCHEME		= default.scheme
+
+set KEEP_MPR_T4	= 1
+
+set  HO_BLUR	= 0.88
+set  OO_BLUR	= $HO_BLUR
+set  OC_BLUR	= $HO_BLUR
+set FDG_BLUR	= $HO_BLUR
+
+set HO_AVERAGES		= ()
+set OO_AVERAGES		= ()
+set OC_AVERAGES		= ()
+set FDG_AVERAGES	= ()
+if ($#HO_LABELS > 1) then
+	set HO_AVERAGES = ("_all" $HO_LABELS)
+endif
+
+if ($#OO_LABELS > 1) then
+	set OO_AVERAGES = ("_all" $OO_LABELS)
+endif
+
+if ($#OC_LABELS > 1) then
+	set OC_AVERAGES = ("_all" $OC_LABELS)
+endif
+
+set OEM_LABELS		= ()
+set  GI_LABELS		= ()
+if ($#HO_LABELS == 1 && $#OO_LABELS == 1 && $#OC_LABELS == 1) then
+	set OEM_LABELS		= ("_all")
+	set  GI_LABELS		= ("_all")
+else if($#HO_LABELS > 1 && $#OO_LABELS > 1 && $#OC_LABELS > 1) then
+	set OEM_LABELS		= (1 2 "_all")
+	set  GI_LABELS		= ("_all")
+endif
+
+set OGI_LABELS		= ($GI_LABELS)
+
+set TRIO2OEM_MASK	= 0
+
+set  GI_NORM            = 1000
+set OGI_NORM		= 1
+set  OM_NORM		= 1
+set  OE_NORM		= 1
+
+set OEM_BLUR	= 0.45
+set GI_BLUR	= 0.45

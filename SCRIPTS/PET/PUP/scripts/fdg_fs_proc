@@ -1,0 +1,32 @@
+#!/bin/bash
+################################################################################
+# FreeSurfer based FDG data processing master script			       #
+#                                                                              #
+################################################################################
+# Yi Su, 10/25/2011
+
+paramfn=$1
+
+source $paramfn # Read parameter file
+wmparcroot=${wmparc%.*}
+wmparcroot=${wmparcroot}001 
+
+mkdir fdg_proc # Creating fdg processing directory
+cd fdg_proc	# Enter fdg processing directory
+
+if (( $isecat == 1 ))
+then
+	$RELEASE/ecatto4dfp $petdir/$petfn $fdgid
+elif (( $isecat == 0 ))
+then
+	dcm_pet -b $fdgid $petdir/$petfn
+fi
+cp $fsdir/$t1 .
+cp $fsdir/$wmparc .
+
+FDGTB $fdgid $isecat $mdt
+
+if (( $? == 0 )); then FDGMPRREG $fdgid $t1 ; fi
+if (( $? == 0 )); then PETSROIANA $fdgid $wmparc $t1 $fslut $fwhm $roisfn; fi
+
+exit $?

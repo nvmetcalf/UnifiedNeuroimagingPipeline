@@ -1,0 +1,23 @@
+#!/bin/bash
+
+TOFfn=$1
+MPRfn=$2
+ArtInfo=$3
+holist=( $(cat "$4" ) )
+laclist=( $(cat "$5" ) )
+nho=${#holist[*]}
+horoot=( ${holist[*]%%.*} )
+nlac=${#laclist[*]}
+lacroot=( ${laclist[*]%%.*} )
+TOF=${TOFfn%%.*}
+MPR=${MPRfn%%.*}
+sumho=( ${holist[*]/.*/_sumall} )
+sumlac=( ${laclist[*]/.*/_sumall} )
+
+echo "TOF= "$TOF
+echo "MPR= "$MPR
+echo "hos = " $horoot 
+echo "nhos= " $nho
+echo "lacs= " $lacroot 
+echo "nlac= " $nlac
+echo "regimg ho_target "${sumho[*]}

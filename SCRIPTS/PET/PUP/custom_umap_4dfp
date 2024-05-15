@@ -1,0 +1,81 @@
+#!/bin/csh
+#$Header$
+#$Log$
+
+set idstr   = '$Id$'
+echo $idstr
+set program = $0
+set program = $program:t
+
+@ i = 1
+@ j = 0
+while ($i <= ${#argv})
+	switch ($argv[$i])
+	case "-t":
+		set t_flag = 1
+		breaksw
+	case "-m":
+		@ i ++
+		set mask = $argv[$i]
+		breaksw
+	default:
+		switch ($j)
+		case 0:
+			@ j ++; set ctroot  = `echo $argv[$i] | gawk '{sub (/(\.4dfp(\.img(\.rec)?|\.ifh|\.hdr)?)?$/, ""); print $0}'`; breaksw
+		case 1:
+			@ j ++; set mrroot  = `echo $argv[$i] | gawk '{sub (/(\.4dfp(\.img(\.rec)?|\.ifh|\.hdr)?)?$/, ""); print $0}'`; breaksw
+		case 2:
+			@ j ++; set outroot = `echo $argv[$i] | gawk '{sub (/(\.4dfp(\.img(\.rec)?|\.ifh|\.hdr)?)?$/, ""); print $0}'`; breaksw
+                endsw
+        endsw
+        @ i ++
+end
+if ($j != 3) then
+        echo "Usage:    $program <(4dfp)input> <(4dfp)secondary umap> <outroot>"
+	echo " e.g.:	$program NP995_10_ct_on_NP995_10_fdg_v2_NAC NP995_10_fdg_v2_umap NP995_10_fdg_v2_umap_flipz"
+	echo " N.B.:	$program outputs a UMAP that must be flipped on the z axis before being used by E7 tools"
+        exit 1
+endif
+
+
+foreach ext (img ifh hdr img.rec)
+	cp $ctroot.4dfp.$ext temp$$ct.4dfp.$ext
+end
+if ($?mask) then
+	foreach ext (img ifh hdr img.rec)
+		cp $mask.4dfp.$ext temp$$ct"_dfnd".4dfp.$ext
+	end
+else
+	compute_defined_4dfp -z temp$$ct;				if ($status) exit $status
+endif
+scale_4dfp temp$$ct_dfnd -1.0 -b1.0 -ainv;				if ($status) exit $status
+maskimg_4dfp $mrroot temp$$ct_dfnd_inv temp$$mr;			if ($status) exit $status
+
+if ($?t_flag) then
+#	maskimg_4dfp $mprroot temp$$0_dfnd temp$$0
+#	scale_4dfp temp$$0 0.098				#scale masked mpr image
+
+#	maskimg_4dfp $umproot $mprroot temp$$1 -t0.5		#apply mpr mask
+#	scale_4dfp temp$$1 0.0001				#transmission based umap
+
+#	imgopr_4dfp -a$outroot temp$$0 temp$$1
+else
+	scale_4dfp temp$$ct  1.0 -b-1024;				if ($status) exit $status
+	scale_4dfp temp$$ct -1.0 -ainv;					if ($status) exit $status
+
+#	maskimg_4dfp temp$$ct temp$$ct     temp$$p
+#	maskimg_4dfp temp$$ct temp$$ct_inv temp$$n
+	scale_4dfp temp$$ct `echo 0.079/1326 | bc -l` -b0.093 -ap;	if ($status) exit $status
+	scale_4dfp temp$$ct `echo 0.093/1000 | bc -l` -b0.093 -an;	if ($status) exit $status
+	maskimg_4dfp temp$$ct_p temp$$ct     temp$$p;			if ($status) exit $status
+	maskimg_4dfp temp$$ct_n temp$$ct_inv temp$$n;			if ($status) exit $status
+
+	imgopr_4dfp -atemp$$ct temp$$p temp$$n;				if ($status) exit $status
+
+	maskimg_4dfp temp$$ct temp$$ct_dfnd temp$$;			if ($status) exit $status
+	imgopr_4dfp -a$outroot temp$$ temp$$mr;				if ($status) exit $status
+endif
+
+rm temp$$*
+
+exit 0

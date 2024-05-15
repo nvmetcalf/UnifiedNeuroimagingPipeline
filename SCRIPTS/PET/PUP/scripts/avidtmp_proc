@@ -1,0 +1,49 @@
+#!/bin/bash
+################################################################################
+# This program performs ROI analysis based on Avid template and ROIs	       #     
+################################################################################
+# Yi Su, 2013/07/05
+
+idstr='$Id: avidtmp_proc,v 1.1.1.1 2013/07/05 14:42:52 suy Exp $'
+echo $idstr
+
+program=`basename $0`
+if [ $# -lt 2 ]
+then
+	echo "Usage: $program atlas pet"
+	echo "This program performs ROI analysis based on Avid template and ROIs."
+	echo "Atlas should include absolute path of the atlas file and roi files."
+fi
+
+atlas=$1
+subimg=$2
+
+if [ -n "$atlas" ]
+then
+    refdir=`dirname $(readlink -e $atlas)`
+    refname=`basename $atlas`
+    refroot=${refname%%.*}
+else
+    echo "$program: Missing atlas"
+    exit -1
+fi        
+if [ -n "$subimg" ]
+then
+    subdir=`dirname $(readlink -e $subimg)`
+    subname=`basename $subimg`
+    subroot=${subname%%.*}
+else
+    echo "$program: Missing Subject Image"
+    exit -1
+fi
+
+curdir=`pwd`
+
+mkdir avid_proc
+ln -s ${refdir}/${refroot}.4dfp.* avid_proc/
+ln -s ${subdir}/${subroot}.4dfp.* avid_proc/
+cd avid_proc
+pet2petatl $refroot $subroot -rm -mm
+t4img_4dfp ${subroot}_to_${refroot}_t4 $subroot ${subroot}_on_atl -O$refroot
+qnt_avid $refdir ${subroot}_on_atl
+cd $curdir

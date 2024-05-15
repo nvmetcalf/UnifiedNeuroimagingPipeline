@@ -1,0 +1,43 @@
+#!/bin/bash
+# USAGE: dlop_proc_wb orig001 PET1 PET2 PET3
+
+MR=$1
+PET1=$2
+PET2=$3
+PET3=$4
+
+# Generate info file
+petinfo ${PET1} 0
+petinfo ${PET2} 0
+petinfo ${PET3} 0
+
+# Generate common PETFOV
+
+tv=`imgmax_4dfp -m ${PET1}"_sumall" | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${PET1}"_sumall" ${PET1}"_sumall" temp$$
+msl=4
+zero_slice_4dfp temp$$ z 1 $msl  temp$$"_mskz"
+nsl=`gawk '/matrix size \[3\]/ {print $NF}' ${PET1}".4dfp.ifh"`
+k=$((nsl-msl+1))
+zero_slice_4dfp temp$$"_mskz" z $k $nsl temp$$"_msk"
+
+t4img_4dfp ${PET1}"_sumall_to_"${MR}_t4 temp$$_msk PETFOV1 -O${MR}
+t4img_4dfp ${PET2}"_sumall_to_"${MR}_t4 temp$$_msk PETFOV2 -O${MR}
+t4img_4dfp ${PET3}"_sumall_to_"${MR}_t4 temp$$_msk PETFOV3 -O${MR}
+
+imgopr_4dfp -pPETFOV PETFOV1 PETFOV2 PETFOV3
+rm temp$$*.4dfp.*
+
+# Generate whole brain mask
+
+maskimg_4dfp -t.99 PETFOV wmparc001 WBMask
+
+# Transfer whole brain mask to individual PET data space and obtain whole brain TAC
+t4img_4dfp ${MR}_to_${PET1}_sumall_t4 WBMask WBMask_on_PET1 -O${PET1}_sumall
+t4img_4dfp ${MR}_to_${PET2}_sumall_t4 WBMask WBMask_on_PET2 -O${PET2}_sumall
+t4img_4dfp ${MR}_to_${PET3}_sumall_t4 WBMask WBMask_on_PET3 -O${PET3}_sumall
+
+qnt_4dfp -t0.99 ${PET1} WBMask_on_PET1 | gawk '/Mean/ {print $2}' >> ${PET1}_WB.tac
+qnt_4dfp -t0.99 ${PET2} WBMask_on_PET2 | gawk '/Mean/ {print $2}' >> ${PET2}_WB.tac
+qnt_4dfp -t0.99 ${PET3} WBMask_on_PET3 | gawk '/Mean/ {print $2}' >> ${PET3}_WB.tac
+

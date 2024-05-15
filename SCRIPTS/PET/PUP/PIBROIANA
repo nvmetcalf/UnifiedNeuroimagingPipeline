@@ -1,0 +1,157 @@
+#!/bin/bash
+################################################################################
+# This program performs ROI analysis for PIB images based on freesurfer created#
+# ROIs and t4 files created by PIBMPRREG which registers PIB images to the MR  #
+# images. ROI analysis is performed with and without RSF based partial volume  #
+# correction.                                                                  #
+#                                                                              #
+################################################################################
+# Yi Su, 10/08/2010                                                            
+
+ecatfstr=$1 # ECAT PET image file (.v)
+fsfstr=$2   # Freesurfer ROI definition file (usually wmparc.mgz)
+mrfstr=$3   # Anatomical MR file (usually T1.mgz)
+
+mgzto4dfp $fsfstr	# Converting to 4dfp file
+			# The anatomical file (T1.mgz) has already been converted
+			
+petname=`basename $ecatfstr`
+petdir=`dirname $ecatfstr`
+petroot=${petname%.*}
+mrname=`basename $mrfstr`
+mrdir=`dirname $mrfstr`
+mrroot=${mrname%.*}
+mrroot=${mrroot}"001"
+fsfname=`basename $fsfstr`
+fsfdir=`dirname $fsfstr`
+fsfroot=${fsfname%.*}
+fsfroot=${fsfroot}"001"
+
+#############################
+# Determine frame separation scheme for the PIB data
+
+frames=`ecat_header $ecatfstr | gawk '/Number of Frames/ {print $5}'`
+
+PIBFLAG=0
+if (( $frames == 54 ))
+then
+	PIBFLAG=1
+elif (( $frames == 32 ))
+then
+	PIBFLAG=2
+elif (( $frames == 33 ))
+then
+	PIBFLAG=2
+elif (( $frames == 34 ))
+then
+	PIBFLAG=2
+elif (( $frames == 27 ))
+then
+	PIBFLAG=3
+fi
+
+if (( $PIBFLAG == 0 ))
+then
+	echo "ERROR PIBFLAG = 0 Must Exit"
+	exit 1
+fi
+
+if (( $PIBFLAG == 1 ))
+then
+	echo "54 Frame ECAT Sequence"
+	groups=( a b c )
+	startframe=( 2 36 41 46 47 48 49 51 53 )
+	lastframe=( 35 40 45 46 47 48 50 52 54 )
+fi
+
+if (( $PIBFLAG == 2 ))
+then
+	echo "32 to 34 Frame ECAT Sequence"
+	groups=( a b c )
+	startframe=( 2 13 18 22 24 25 26 28 30 )
+	lastframe=( 12 17 21 23 24 25 27 29 31 )
+fi
+
+
+if (( $PIBFLAG == 3 ))
+then
+	echo "27 Frame ECAT Sequence"
+	groups=( a b c )
+	startframe=( 2 17 18 19 20 21 22 24 26 )
+	lastframe=( 16 17 18 19 20 21 23 25 27 )
+fi
+
+###########################
+# Generating PET field of view converage file PETFOV.4dfp.img
+
+tv=`imgmax_4dfp -m ${petroot}"_c" | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${petroot}"_c" ${petroot}"_c" temp$$
+zero_slice_4dfp temp$$ z 1 2  temp$$"_mskz"
+tv=`imgmax_4dfp -m ${mrroot} | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${mrroot} ${mrroot} PETFOV
+groups=( a b c )
+for (( g=0; g<3; g++ ))
+do
+	for (( i=1; i<4; i++ ))
+	do
+		t4file=${petroot}"_"${groups[$g]}$i"_to_MR_t4"
+		t4img_4dfp $t4file temp$$"_mskz" temp$$"_"${groups[$g]}$i -O${mrroot} -n
+		maskimg_4dfp -v1 PETFOV PETFOV temp$$_1
+		imgopr_4dfp -pPETFOV temp$$_1 temp$$"_"${groups[$g]}$i
+	done
+done
+rm temp$$*.4dfp.*
+
+
+###########################
+# Processing freesurfer rois, whole head roi, and prepare for roi analysis
+
+maskimg_4dfp -v1 -t15 ${mrroot}"_g9"  ${mrroot}"_g9" Head_Mask
+PreprocessRSFtest2 $fsfroot Head_Mask  RSFMask ROIlist.txt
+calrsfmat RSFMask ROIlist.txt RSFMat.dat
+if [ -e ${petroot}".info" ]
+then
+	rm ${petroot}".info"
+fi
+touch ${petroot}".info"
+for (( f=2; f<=frames; f++ ))
+do
+	ecat_header $ecatfstr $f >& /dev/null
+	if [ $? -eq 0 ]
+	then
+		~suy/bin/ecatto4dfp $ecatfstr ${petroot}"_"$f 1 $f $f
+		cat ${petroot}"_"$f".info" >> ${petroot}".info"
+		if (( $f < ${startframe[1]} )) 
+		then
+			t4file=${petroot}"_a1_to_MR_t4"
+		elif (( $f < ${startframe[2]} )) 
+		then
+			t4file=${petroot}"_a2_to_MR_t4"
+		elif (( $f < ${startframe[3]} )) 
+		then
+			t4file=${petroot}"_a3_to_MR_t4"
+		elif (( $f < ${startframe[4]} )) 
+		then
+			t4file=${petroot}"_b1_to_MR_t4"
+		elif (( $f < ${startframe[5]} )) 
+		then
+			t4file=${petroot}"_b2_to_MR_t4"
+		elif (( $f < ${startframe[6]} )) 
+		then
+			t4file=${petroot}"_b3_to_MR_t4"
+		elif (( $f < ${startframe[7]} )) 
+		then
+			t4file=${petroot}"_c1_to_MR_t4"
+		elif (( $f < ${startframe[8]} )) 
+		then
+			t4file=${petroot}"_c2_to_MR_t4"
+		else
+			t4file=${petroot}"_c3_to_MR_t4"
+		fi
+		t4img_4dfp $t4file ${petroot}"_"$f  ${petroot}"_"$f"_on_MR" -O${mrroot} # Transform the frame to MR space
+		NROI=`wc -l ROIlist.txt | gawk '{print $1}'`
+		rsfroieval2 ${petroot}"_"$f"_on_MR" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${petroot} $f
+		rm ${petroot}"_"${f}.*
+		rm ${petroot}"_"${f}_on_MR.*
+	fi
+done

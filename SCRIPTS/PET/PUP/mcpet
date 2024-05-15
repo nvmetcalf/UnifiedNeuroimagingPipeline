@@ -1,0 +1,79 @@
+#!/bin/bash
+
+sid=$1
+mlst=$2
+
+n=`wc -l $mlst | gawk '{print $1}'`
+ext=( img img.rec ifh hdr )
+
+# Generate ref image by summing frames without motion
+chop_4dfp $sid 1 1 -o${sid}ref
+chop_4dfp $sid 1 1 -o${sid}_f1
+r=1
+for (( i=2; i<=n; i++ ))
+do
+	mflag=`gawk 'NR=='$i' {print $2}'  ${mlst}`
+	if (( $mflag == 0 ))
+	then
+		(( r=r+1 ))
+		for (( j=0; j<4; j++ ))
+		do
+			cp ${sid}ref.4dfp.${ext[$j]} temp.4dfp.${ext[$j]}
+		done
+		chop_4dfp $sid $i $i -o${sid}_f$i
+		imgopr_4dfp -a${sid}ref temp ${sid}_f$i  
+	fi
+done
+scf=$(echo "scale=8; 1/$r" | bc)
+scale_4dfp ${sid}ref $scf
+
+logf=mclog_${sid}_${mlst}.log
+if [ -e  $logf ]
+then
+	rm $logf
+fi
+touch $logf
+
+# Align frames with motion
+if [ -e align.lst ]
+then
+	rm align.lst
+fi
+touch align.lst
+
+echo ${sid}_f1 >> align.lst
+
+for (( i=2; i<=n; i++ ))
+do
+	mflag=`gawk 'NR=='$i' {print $2}'  ${mlst}`
+	if (( $mflag == 1 ))
+	then
+		echo ${sid}_a$i >> align.lst
+		chop_4dfp $sid $i $i -o${sid}_f$i
+		reg2img ${sid}ref ${sid}_f$i -rm -mm -rb 6 -mb 6
+		err=`gawk '/ERROR =/{print $3}' ${sid}ref_${sid}_f${i}_reg2img_resolve.log`
+		if (( $err > 100 ))
+		then
+			echo frame $i mc FAILED keep original >> $logf
+			for (( j=0; j<4; j++ ))
+			do
+				cp ${sid}_f$i.4dfp.${ext[$j]} ${sid}_a$i.4dfp.${ext[$j]}
+			done
+		else
+			t4img_4dfp ${sid}_f${i}_to_${sid}ref_t4 ${sid}_f$i ${sid}_a$i -O${sid}_f$i
+		fi
+	else
+		echo ${sid}_f$i >> align.lst
+	fi
+done
+
+# Assemble aligned PET
+paste_4dfp -a align.lst ${sid}_align
+cp ${sid}.4dfp.img.rec ${sid}_align.4dfp.img.rec
+
+# extras to be deleted
+sum_pet_4dfp ${sid}_align 1 44 -h1223 ${sid}_align_sumall
+reg2img T1001 ${sid}_align_sumall  -rm -mm -rb 8 -mb 5
+cp T1001_to_${sid}_align_sumall_t4 MR_to_${sid}_align_sumall_t4
+cp ${sid}_align_sumall_to_T1001_t4 ${sid}_align_sumall_to_MR_t4
+/data/nil-bluearc/raichle/suy/GluT/getgluctacs ${sid}_align

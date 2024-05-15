@@ -1,0 +1,7 @@
+FDG	F18dyn
+HO	O15dyn
+OO	O15dyn
+OC	O15AC
+PIB	C11dyn
+AV	F18dyn
+TAU	F18dyn

@@ -1,0 +1,173 @@
+#!/bin/csh
+set echo
+if($#argv < 2) then
+	echo "Usage: Process_PET <participant ID/folder> <participant age> <use alt scheme> <goto stage>"
+	echo "stages| 2: convert orig"
+	echo "	    3: run pet_4dfp"
+	echo "	    4: create gtm seg"
+	echo "	    5: run gtm pvc"
+	exit 1
+endif
+
+set Subject = $1
+set AgeFactorsFile = $PP_SCRIPTS/PET/age_factors.txt
+set Age = $2
+
+set scheme = $PP_SCRIPTS/PET/default.scheme
+
+if($#argv > 2) then
+	if($3 == 1) then
+		set scheme = $PP_SCRIPTS/PET/alt_default.scheme
+	endif
+endif
+
+pushd $Subject
+
+	if(-e $cwd/Freesurfer/mri) then
+		set FSdir = $cwd
+	else if(-e $cwd/Freesurfer/${Subject}/mri) then
+		set FSdir = $cwd/Freesurfer/$Subject
+	else
+		decho "No valid freesurfer found."
+		exit 1
+	endif
+	
+	#fetch the age factor for this participants age.
+	set AgeFactors = ()
+	set Age = `echo $Age | awk '{printf("%2.0f",$1)}'`
+	
+	if($Age != 0) then
+		@ fac_length = `wc $AgeFactorsFile | awk '{print $1}'`
+		@ i = 1
+		while($i <= $fac_length) 
+			set line = (`head -$i $AgeFactorsFile | tail -1`)
+			
+			echo $#line
+			echo $line
+			echo $line[1] $Age
+			
+			if(`echo $line[1] $Age | awk '{if($1 == $2) print 1; else print 0;}'`) then
+				set AgeFactors = ($line[2] $line[3] $line[4])
+				break
+			endif
+			
+			@ i++
+		end
+		
+		#if we don't find a factor, default to the oldest age factors
+		if($#AgeFactors == 0) then
+			set line = (`tail -1 $AgeFactorsFile`)
+			set AgeFactors = ($line[2] $line[3] $line[4])		
+		endif
+	else
+		set AgeFactors = (1 1 1)
+	endif
+	echo $AgeFactors
+	
+	set DEBUG_FILE = $cwd/Logs/PET_procesing.txt
+	rm -f $DEBUG_FILE
+	touch $DEBUG_FILE
+	if($#argv > 3) then
+		cd PET
+		goto $4
+	endif
+	
+	rm -r PET
+	mkdir PET
+	mkdir Logs
+	
+	cd PET
+		1:
+		#create the params file for the pet processing.
+		#this needs to be wrapped up into the normal pipeline eventually
+		decho "`date`" $DEBUG_FILE
+		
+		decho "Linking ecat files..." $DEBUG_FILE
+		set FoundFile = (`find ../dicom -name "*.v"`)
+		
+		if($#FoundFile == 0) then
+			decho "	error: unable to find any .v files in $cwd/../dicom" $DEBUG_FILE
+			exit 1
+		endif
+		
+		find ../dicom -name "*.v" >> $DEBUG_FILE
+		find ../dicom -name "*.v" -exec ln -s {} . \; 
+		decho "	Complete." $DEBUG_FILE
+		
+		if(! -e ${Subject}_pet_4dfp.params) then
+		decho "Creating ${Subject}_pet_4dfp.params" $DEBUG_FILE
+			ftouch ${Subject}_pet_4dfp.params
+			echo "set PATID = $Subject" >> ${Subject}_pet_4dfp.params
+			echo "set TARGET	= TRIO_Y_NDC" >> ${Subject}_pet_4dfp.params
+			echo "set TARGETPATH	= $REFDIR" >> ${Subject}_pet_4dfp.params
+			cat $PP_SCRIPTS/PET/pet_4dfp.params >> ${Subject}_pet_4dfp.params
+			decho "	Complete" $DEBUG_FILE
+		else
+			echo "Params file exists, skipping creation..."
+		endif
+		decho "Copying default.scheme if it doesn't exist" $DEBUG_FILE
+		if(! -e default.scheme) then
+			cp $scheme default.scheme
+			if($status) then
+				decho "	error: could not copy $PP_SCRIPTS/PET/default.scheme" $DEBUG_FILE
+				exit 1
+			endif
+		else
+			echo "defaul.scheme exists, skipping copy."
+		endif
+		
+		decho "	Step1 Complete." $DEBUG_FILE
+		2:
+		decho "Converting anatomy from freesurfer." $DEBUG_FILE
+		decho "Converting orig.mgz to nifti..." $DEBUG_FILE
+		$FREESURFER_HOME/bin/mri_convert ${FSdir}/Freesurfer/mri/orig.mgz orig.nii.gz
+		if($status) then
+			decho "	error: ${FSdir}/Freesurfer/mri/orig.mgz may not exist" $DEBUG_FILE
+			exit 1
+		endif
+		
+		decho "Converting orig.nii.gz to 4dfp..." $DEBUG_FILE
+		niftigz_4dfp -4 orig orig
+		if($status) then
+			decho "	error: $cwd/orig.nii.gz may not exist" $DEBUG_FILE
+			exit 1
+		endif
+		
+		chmod 755 orig.*
+		
+		decho "	Step2 Complete" $DEBUG_FILE
+		
+		3:
+		decho "Running pet_4dfp_nm." $DEBUG_FILE
+		$RELEASE/pet_4dfp_nm ${Subject}_pet_4dfp.params >! pet_4dfp.log
+		if($status) then
+			decho "	error: pet_4dfp_nm failed. Trying pet_4dfp. See $cwd/pet_4dfp.log" $DEBUG_FILE
+			
+			$RELEASE/pet_4dfp ${Subject}_pet_4dfp.params >! pet_4dfp.log
+			if($status) then
+				decho "	error: pet_4dfp failed. Nothing more to try... See $cwd/pet_4dfp.log" $DEBUG_FILE
+				exit 1
+			endif
+		endif
+	
+		decho "	Step3 Complete " $DEBUG_FILE
+		
+		4:
+		decho "Creating gtm segmentation..." $DEBUG_FILE
+		$PP_SCRIPTS/PET/.fdb.process.wmparc_py $Subject $FSdir >> $DEBUG_FILE
+		if($status) then
+			decho "	error: .fdb.process.wmparc_py failed." $DEBUG_FILE
+			exit 1
+		endif
+		
+		decho "	Step4 Complete" $DEBUG_FILE
+		
+		5:
+		$PP_SCRIPTS/PET/.fdb.process.pet $Subject $FSdir "$AgeFactors" >> $DEBUG_FILE
+		if($status) then
+			decho "	error: .fdb.process.pet failed." $DEBUG_FILE
+			exit 1
+		endif
+		
+		decho "Done Processing $Subject." $DEBUG_FILE
+popd

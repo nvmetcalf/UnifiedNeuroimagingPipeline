@@ -1,0 +1,78 @@
+#!/bin/bash
+################################################################################
+# PET FOV preprocessing for mMR data reprocessed with separately acquired CT   #
+#                                   				               #
+# USAGE:								       #
+#	ctpre paramsfn                                                         #
+#                                                                              #
+# This script reads a params file that includes:                               #
+#	ctid:	ctid is a string associated with the file name of CT data in   #
+#               4dfp format.						       #
+#	ctpath: ctpath is a string associated with the location of the CT 4dfp #
+#		data.							       #
+#	ctt4:   the t4 file that specifies the transformation from CT to PET   #
+#	roiimg: roiimg is a string associated with the file name of the        #
+#		roi definetion image in 4dfp format.			       #
+#	pet2roit4: the t4 file that specifies the transformation from PET      #
+#		   space to roi space                                          #
+#									       #
+#									       #
+# The output of this program is an updated PETFOV file			       #
+################################################################################
+# Yi Su, 12/19/2016
+VERSION=1.0
+
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Mon Dec 19 13:19:31 CST 2016 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+###############################################################################
+# Read PARAMS file
+source $paramsfn
+
+###############################################################################
+# copy CT files
+cp ${ctpath}/${ctid}.4dfp.* .
+cp ${ctt4} ct2pett4
+
+###############################################################################
+# update PETFOV
+tv=`imgmax_4dfp -m ${ctid} | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${ctid} ${ctid} temp$$ || die "$program ERROR: maskimg_4dfp failed"
+nsl=`gawk '/matrix size \[3\]/ {print $NF}' ${ctid}".4dfp.ifh"`
+zero_slice_4dfp temp$$ z 1 2  temp$$"_mskz" || die "$program ERROR: zero_slice_4dfp failed"
+k=$((nsl-1))
+zero_slice_4dfp temp$$"_mskz" z $k $nsl  temp$$"_msk" || die "$program ERROR: zero_slice_4dfp failed"
+cp temp$$"_msk".4dfp.img ctfov.4dfp.img
+cp temp$$"_msk".4dfp.ifh ctfov.4dfp.ifh
+cp temp$$"_msk".4dfp.hdr ctfov.4dfp.hdr
+cp temp$$"_msk".4dfp.img.rec ctfov.4dfp.img.rec
+rm temp$$*
+
+t4_mul ct2pett4 ${pet2roit4} ct2roit4
+t4img_4dfp ct2roit4 ctfov temp$$ -O$roiimg || die "$program ERROR: t4img_4dfp ct2roit4 ctfov temp$$ -O$roiimg failed"
+maskimg_4dfp -R -v1 -t.99 PETFOV temp$$ tmp$$ || die "$program ERROR: maskimg_4dfp -R -v1 -t.99 PETFOV temp$$ tmp$$ failed"
+cp tmp$$.4dfp.img PETFOV.4dfp.img
+cp tmp$$.4dfp.ifh PETFOV.4dfp.ifh
+cp tmp$$.4dfp.hdr PETFOV.4dfp.hdr
+
+rm temp$$.4dfp.*
+rm tmp$$*
+

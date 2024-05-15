@@ -1,0 +1,261 @@
+rec FCS_024_A_mpr_n1_111_t88.4dfp.img  Thu May  8 22:23:51 2014  metcalfn@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+t4imgs_4dfp FCS_024_A_mpr_n1_atl.lst FCS_024_A_mpr_n1_111_t88 -O111 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+littleendian
+resampling by 3D linear interpolation
+sub
+FCS_024_A_mpr1	t4=FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4
+endsub
+t4
+imgreg_4dfp /data/nil-bluearc/corbetta/ATLAS/TRIO_STROKE_NDC/TRIO_STROKE_NDC_111 /data/petsun43/data1/atlas/711-2B_mask_g5_111z FCS_024_A_mpr1_g11 FCS_024_A_mpr1_mskz FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4 2311 
+$Id: imgreg_4dfp.c,v 1.15 2007/08/10 03:27:30 avi Exp $
+t4
+  0.027871 -0.976701  0.084719   -8.1676
+ -0.029267  0.106225  0.850358   -0.3079
+ -0.932320  0.006321 -0.020626    2.6505
+  0.000000  0.000000  0.000000    1.0000
+scale:      4.287903
+rec FCS_024_A_mpr1.4dfp.img  Thu May  8 22:23:38 2014  metcalfn@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+	dcm_to_4dfp	\
+	-b	\
+	FCS_024_A_mpr1	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.100.2008.05.21.15.31.25.468750.89890239.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.101.2008.05.21.15.31.25.468750.89890257.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.10.2008.05.21.15.31.25.468750.89888619.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.102.2008.05.21.15.31.25.468750.89890275.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.103.2008.05.21.15.31.25.468750.89890293.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.104.2008.05.21.15.31.25.468750.89890311.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.105.2008.05.21.15.31.25.468750.89890329.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.106.2008.05.21.15.31.25.468750.89890347.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.107.2008.05.21.15.31.25.468750.89890365.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.108.2008.05.21.15.31.25.468750.89890383.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.109.2008.05.21.15.31.25.468750.89890401.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.110.2008.05.21.15.31.25.468750.89890419.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.111.2008.05.21.15.31.25.468750.89890437.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.11.2008.05.21.15.31.25.468750.89888637.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.112.2008.05.21.15.31.25.468750.89890455.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.1.2008.05.21.15.31.25.468750.89888457.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.12.2008.05.21.15.31.25.468750.89888655.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.13.2008.05.21.15.31.25.468750.89888673.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.14.2008.05.21.15.31.25.468750.89888691.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.15.2008.05.21.15.31.25.468750.89888709.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.16.2008.05.21.15.31.25.468750.89888727.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.17.2008.05.21.15.31.25.468750.89888745.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.18.2008.05.21.15.31.25.468750.89888763.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.19.2008.05.21.15.31.25.468750.89888781.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.20.2008.05.21.15.31.25.468750.89888799.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.21.2008.05.21.15.31.25.468750.89888817.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.2.2008.05.21.15.31.25.468750.89888475.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.22.2008.05.21.15.31.25.468750.89888835.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.23.2008.05.21.15.31.25.468750.89888853.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.24.2008.05.21.15.31.25.468750.89888871.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.25.2008.05.21.15.31.25.468750.89888889.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.26.2008.05.21.15.31.25.468750.89888907.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.27.2008.05.21.15.31.25.468750.89888925.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.28.2008.05.21.15.31.25.468750.89888943.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.29.2008.05.21.15.31.25.468750.89888961.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.30.2008.05.21.15.31.25.468750.89888979.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.31.2008.05.21.15.31.25.468750.89888997.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.3.2008.05.21.15.31.25.468750.89888493.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.32.2008.05.21.15.31.25.468750.89889015.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.33.2008.05.21.15.31.25.468750.89889033.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.34.2008.05.21.15.31.25.468750.89889051.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.35.2008.05.21.15.31.25.468750.89889069.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.36.2008.05.21.15.31.25.468750.89889087.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.37.2008.05.21.15.31.25.468750.89889105.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.38.2008.05.21.15.31.25.468750.89889123.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.39.2008.05.21.15.31.25.468750.89889141.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.40.2008.05.21.15.31.25.468750.89889159.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.41.2008.05.21.15.31.25.468750.89889177.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.4.2008.05.21.15.31.25.468750.89888511.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.42.2008.05.21.15.31.25.468750.89889195.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.43.2008.05.21.15.31.25.468750.89889213.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.44.2008.05.21.15.31.25.468750.89889231.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.45.2008.05.21.15.31.25.468750.89889249.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.46.2008.05.21.15.31.25.468750.89889267.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.47.2008.05.21.15.31.25.468750.89889285.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.48.2008.05.21.15.31.25.468750.89889303.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.49.2008.05.21.15.31.25.468750.89889321.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.50.2008.05.21.15.31.25.468750.89889339.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.51.2008.05.21.15.31.25.468750.89889357.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.5.2008.05.21.15.31.25.468750.89888529.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.52.2008.05.21.15.31.25.468750.89889375.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.53.2008.05.21.15.31.25.468750.89889393.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.54.2008.05.21.15.31.25.468750.89889411.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.55.2008.05.21.15.31.25.468750.89889429.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.56.2008.05.21.15.31.25.468750.89889447.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.57.2008.05.21.15.31.25.468750.89889465.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.58.2008.05.21.15.31.25.468750.89889483.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.59.2008.05.21.15.31.25.468750.89889501.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.60.2008.05.21.15.31.25.468750.89889519.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.61.2008.05.21.15.31.25.468750.89889537.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.6.2008.05.21.15.31.25.468750.89888547.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.62.2008.05.21.15.31.25.468750.89889555.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.63.2008.05.21.15.31.25.468750.89889573.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.64.2008.05.21.15.31.25.468750.89889591.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.65.2008.05.21.15.31.25.468750.89889609.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.66.2008.05.21.15.31.25.468750.89889627.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.67.2008.05.21.15.31.25.468750.89889645.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.68.2008.05.21.15.31.25.468750.89889663.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.69.2008.05.21.15.31.25.468750.89889681.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.70.2008.05.21.15.31.25.468750.89889699.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.71.2008.05.21.15.31.25.468750.89889717.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.7.2008.05.21.15.31.25.468750.89888565.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.72.2008.05.21.15.31.25.468750.89889735.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.73.2008.05.21.15.31.25.468750.89889753.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.74.2008.05.21.15.31.25.468750.89889771.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.75.2008.05.21.15.31.25.468750.89889789.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.76.2008.05.21.15.31.25.468750.89889807.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.77.2008.05.21.15.31.25.468750.89889825.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.78.2008.05.21.15.31.25.468750.89889843.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.79.2008.05.21.15.31.25.468750.89889861.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.80.2008.05.21.15.31.25.468750.89889879.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.81.2008.05.21.15.31.25.468750.89889897.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.8.2008.05.21.15.31.25.468750.89888583.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.82.2008.05.21.15.31.25.468750.89889915.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.83.2008.05.21.15.31.25.468750.89889933.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.84.2008.05.21.15.31.25.468750.89889951.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.85.2008.05.21.15.31.25.468750.89889969.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.86.2008.05.21.15.31.25.468750.89889987.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.87.2008.05.21.15.31.25.468750.89890005.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.88.2008.05.21.15.31.25.468750.89890023.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.89.2008.05.21.15.31.25.468750.89890041.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.90.2008.05.21.15.31.25.468750.89890059.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.91.2008.05.21.15.31.25.468750.89890077.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.9.2008.05.21.15.31.25.468750.89888601.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.92.2008.05.21.15.31.25.468750.89890095.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.93.2008.05.21.15.31.25.468750.89890113.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.94.2008.05.21.15.31.25.468750.89890131.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.95.2008.05.21.15.31.25.468750.89890149.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.96.2008.05.21.15.31.25.468750.89890167.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.97.2008.05.21.15.31.25.468750.89890185.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.98.2008.05.21.15.31.25.468750.89890203.IMA	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.99.2008.05.21.15.31.25.468750.89890221.IMA
+$Id: 507d5bd9b20fe72fe5ccd013aad04875baf65952 $
+littleendian
+littleendian
+dcm_to_4dfp text:        	1.3.12.2.1107.5.2.32.35177.3.2008052114490296890019981.0.0.0
+Orientation:             	Sagittal
+ID Sequence Name:        	*tfl3d1_ns
+ACQ Protocol Name:        	MPR_1.5mm_short
+ACQ Sequence Description:	MPR_1.5mm_short
+
+X dimension (columns):    256      Width (mm):    1.00000 
+Y dimension (rows):       256     Height (mm):    1.00000 
+Z dimension (slices):     112  Thickness (mm):    1.50000 
+Number of Volumes:          1
+Dimensions:                 1
+FileName 1 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.112.2008.05.21.15.31.25.468750.89890455.IMA
+FileName 2 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.111.2008.05.21.15.31.25.468750.89890437.IMA
+FileName 3 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.110.2008.05.21.15.31.25.468750.89890419.IMA
+FileName 4 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.109.2008.05.21.15.31.25.468750.89890401.IMA
+FileName 5 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.108.2008.05.21.15.31.25.468750.89890383.IMA
+FileName 6 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.107.2008.05.21.15.31.25.468750.89890365.IMA
+FileName 7 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.106.2008.05.21.15.31.25.468750.89890347.IMA
+FileName 8 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.105.2008.05.21.15.31.25.468750.89890329.IMA
+FileName 9 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.104.2008.05.21.15.31.25.468750.89890311.IMA
+FileName 10 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.103.2008.05.21.15.31.25.468750.89890293.IMA
+FileName 11 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.102.2008.05.21.15.31.25.468750.89890275.IMA
+FileName 12 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.101.2008.05.21.15.31.25.468750.89890257.IMA
+FileName 13 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.100.2008.05.21.15.31.25.468750.89890239.IMA
+FileName 14 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.99.2008.05.21.15.31.25.468750.89890221.IMA
+FileName 15 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.98.2008.05.21.15.31.25.468750.89890203.IMA
+FileName 16 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.97.2008.05.21.15.31.25.468750.89890185.IMA
+FileName 17 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.96.2008.05.21.15.31.25.468750.89890167.IMA
+FileName 18 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.95.2008.05.21.15.31.25.468750.89890149.IMA
+FileName 19 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.94.2008.05.21.15.31.25.468750.89890131.IMA
+FileName 20 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.93.2008.05.21.15.31.25.468750.89890113.IMA
+FileName 21 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.92.2008.05.21.15.31.25.468750.89890095.IMA
+FileName 22 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.91.2008.05.21.15.31.25.468750.89890077.IMA
+FileName 23 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.90.2008.05.21.15.31.25.468750.89890059.IMA
+FileName 24 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.89.2008.05.21.15.31.25.468750.89890041.IMA
+FileName 25 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.88.2008.05.21.15.31.25.468750.89890023.IMA
+FileName 26 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.87.2008.05.21.15.31.25.468750.89890005.IMA
+FileName 27 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.86.2008.05.21.15.31.25.468750.89889987.IMA
+FileName 28 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.85.2008.05.21.15.31.25.468750.89889969.IMA
+FileName 29 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.84.2008.05.21.15.31.25.468750.89889951.IMA
+FileName 30 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.83.2008.05.21.15.31.25.468750.89889933.IMA
+FileName 31 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.82.2008.05.21.15.31.25.468750.89889915.IMA
+FileName 32 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.81.2008.05.21.15.31.25.468750.89889897.IMA
+FileName 33 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.80.2008.05.21.15.31.25.468750.89889879.IMA
+FileName 34 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.79.2008.05.21.15.31.25.468750.89889861.IMA
+FileName 35 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.78.2008.05.21.15.31.25.468750.89889843.IMA
+FileName 36 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.77.2008.05.21.15.31.25.468750.89889825.IMA
+FileName 37 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.76.2008.05.21.15.31.25.468750.89889807.IMA
+FileName 38 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.75.2008.05.21.15.31.25.468750.89889789.IMA
+FileName 39 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.74.2008.05.21.15.31.25.468750.89889771.IMA
+FileName 40 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.73.2008.05.21.15.31.25.468750.89889753.IMA
+FileName 41 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.72.2008.05.21.15.31.25.468750.89889735.IMA
+FileName 42 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.71.2008.05.21.15.31.25.468750.89889717.IMA
+FileName 43 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.70.2008.05.21.15.31.25.468750.89889699.IMA
+FileName 44 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.69.2008.05.21.15.31.25.468750.89889681.IMA
+FileName 45 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.68.2008.05.21.15.31.25.468750.89889663.IMA
+FileName 46 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.67.2008.05.21.15.31.25.468750.89889645.IMA
+FileName 47 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.66.2008.05.21.15.31.25.468750.89889627.IMA
+FileName 48 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.65.2008.05.21.15.31.25.468750.89889609.IMA
+FileName 49 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.64.2008.05.21.15.31.25.468750.89889591.IMA
+FileName 50 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.63.2008.05.21.15.31.25.468750.89889573.IMA
+FileName 51 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.62.2008.05.21.15.31.25.468750.89889555.IMA
+FileName 52 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.61.2008.05.21.15.31.25.468750.89889537.IMA
+FileName 53 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.60.2008.05.21.15.31.25.468750.89889519.IMA
+FileName 54 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.59.2008.05.21.15.31.25.468750.89889501.IMA
+FileName 55 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.58.2008.05.21.15.31.25.468750.89889483.IMA
+FileName 56 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.57.2008.05.21.15.31.25.468750.89889465.IMA
+FileName 57 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.56.2008.05.21.15.31.25.468750.89889447.IMA
+FileName 58 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.55.2008.05.21.15.31.25.468750.89889429.IMA
+FileName 59 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.54.2008.05.21.15.31.25.468750.89889411.IMA
+FileName 60 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.53.2008.05.21.15.31.25.468750.89889393.IMA
+FileName 61 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.52.2008.05.21.15.31.25.468750.89889375.IMA
+FileName 62 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.51.2008.05.21.15.31.25.468750.89889357.IMA
+FileName 63 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.50.2008.05.21.15.31.25.468750.89889339.IMA
+FileName 64 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.49.2008.05.21.15.31.25.468750.89889321.IMA
+FileName 65 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.48.2008.05.21.15.31.25.468750.89889303.IMA
+FileName 66 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.47.2008.05.21.15.31.25.468750.89889285.IMA
+FileName 67 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.46.2008.05.21.15.31.25.468750.89889267.IMA
+FileName 68 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.45.2008.05.21.15.31.25.468750.89889249.IMA
+FileName 69 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.44.2008.05.21.15.31.25.468750.89889231.IMA
+FileName 70 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.43.2008.05.21.15.31.25.468750.89889213.IMA
+FileName 71 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.42.2008.05.21.15.31.25.468750.89889195.IMA
+FileName 72 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.41.2008.05.21.15.31.25.468750.89889177.IMA
+FileName 73 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.40.2008.05.21.15.31.25.468750.89889159.IMA
+FileName 74 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.39.2008.05.21.15.31.25.468750.89889141.IMA
+FileName 75 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.38.2008.05.21.15.31.25.468750.89889123.IMA
+FileName 76 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.37.2008.05.21.15.31.25.468750.89889105.IMA
+FileName 77 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.36.2008.05.21.15.31.25.468750.89889087.IMA
+FileName 78 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.35.2008.05.21.15.31.25.468750.89889069.IMA
+FileName 79 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.34.2008.05.21.15.31.25.468750.89889051.IMA
+FileName 80 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.33.2008.05.21.15.31.25.468750.89889033.IMA
+FileName 81 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.32.2008.05.21.15.31.25.468750.89889015.IMA
+FileName 82 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.31.2008.05.21.15.31.25.468750.89888997.IMA
+FileName 83 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.30.2008.05.21.15.31.25.468750.89888979.IMA
+FileName 84 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.29.2008.05.21.15.31.25.468750.89888961.IMA
+FileName 85 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.28.2008.05.21.15.31.25.468750.89888943.IMA
+FileName 86 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.27.2008.05.21.15.31.25.468750.89888925.IMA
+FileName 87 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.26.2008.05.21.15.31.25.468750.89888907.IMA
+FileName 88 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.25.2008.05.21.15.31.25.468750.89888889.IMA
+FileName 89 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.24.2008.05.21.15.31.25.468750.89888871.IMA
+FileName 90 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.23.2008.05.21.15.31.25.468750.89888853.IMA
+FileName 91 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.22.2008.05.21.15.31.25.468750.89888835.IMA
+FileName 92 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.21.2008.05.21.15.31.25.468750.89888817.IMA
+FileName 93 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.20.2008.05.21.15.31.25.468750.89888799.IMA
+FileName 94 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.19.2008.05.21.15.31.25.468750.89888781.IMA
+FileName 95 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.18.2008.05.21.15.31.25.468750.89888763.IMA
+FileName 96 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.17.2008.05.21.15.31.25.468750.89888745.IMA
+FileName 97 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.16.2008.05.21.15.31.25.468750.89888727.IMA
+FileName 98 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.15.2008.05.21.15.31.25.468750.89888709.IMA
+FileName 99 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.14.2008.05.21.15.31.25.468750.89888691.IMA
+FileName 100 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.13.2008.05.21.15.31.25.468750.89888673.IMA
+FileName 101 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.12.2008.05.21.15.31.25.468750.89888655.IMA
+FileName 102 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.11.2008.05.21.15.31.25.468750.89888637.IMA
+FileName 103 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.10.2008.05.21.15.31.25.468750.89888619.IMA
+FileName 104 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.9.2008.05.21.15.31.25.468750.89888601.IMA
+FileName 105 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.8.2008.05.21.15.31.25.468750.89888583.IMA
+FileName 106 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.7.2008.05.21.15.31.25.468750.89888565.IMA
+FileName 107 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.6.2008.05.21.15.31.25.468750.89888547.IMA
+FileName 108 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.5.2008.05.21.15.31.25.468750.89888529.IMA
+FileName 109 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.4.2008.05.21.15.31.25.468750.89888511.IMA
+FileName 110 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.3.2008.05.21.15.31.25.468750.89888493.IMA
+FileName 111 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.2.2008.05.21.15.31.25.468750.89888475.IMA
+FileName 112 = /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_024_A/dicom_1/PR24A.MR.HEAD_CORBETTA.4.1.2008.05.21.15.31.25.468750.89888457.IMA
+endrec Thu May  8 22:23:38 2014  metcalfn
+endrec Thu May  8 22:23:52 2014  metcalfn

@@ -1,0 +1,10 @@
+rec MNI152_T1_3mm_brain.4dfp.img  Sat Dec  5 12:28:00 2020  metcalfn@maulinux02 Linux 3.10.0-957.12.2.el7.x86_64 x86_64
+nifti_4dfp -4 MNI152_T1_3mm_brain.nii MNI152_T1_3mm_brain 
+$Id: nifti_4dfp.c,v 1.9 2011/09/13 03:40:37 avi Exp $
+littleendian
+datatype: 16	 bitpix: 32
+scale: 1.000000	 offset: 0.000000
+common sform[0]:     3.000000	    0.000000	    0.000000	  -87.000000
+common sform[1]:     0.000000	    3.000000	    0.000000	 -126.000000
+common sform[2]:     0.000000	    0.000000	    3.000000	  -72.000000
+endrec Sat Dec  5 12:28:00 2020  metcalfn

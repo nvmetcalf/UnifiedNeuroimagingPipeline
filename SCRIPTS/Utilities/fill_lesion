@@ -1,0 +1,106 @@
+#!/bin/csh
+
+
+# from subject atlas dir
+# fill_lesion FCS_068_A_mpr_n1_111_t88 ../../../Segmented_Lesions/FCS_068/FCS_068_A_lesion TRIO_STROKE_NDC_111_to_FCS_068_A_mpr1_t4 $CORBETTA/ATLAS/TRIO_STROKE_NDC/TRIO_STROKE_NDC_111 FCS_068_A_mpr1
+# recon-all -s FCS_068_A -i /data/nil-bluearc/corbetta/Studies/FCStroke/Subjects/FCS_068_A/atlas/FCS_068_A_mpr_n1_111_t88_lesion_filled.nii -all
+
+if($#argv < 3) then
+	echo "fill_lesion AtlasSpaceAnatomy LesionMask AtlasTarget"
+	echo "be sure to provide the full filenames!"
+	exit 1
+endif
+
+rm -rf fill_temp
+mkdir fill_temp
+
+cp $1 fill_temp/
+if($status) exit 1
+
+cp $2 fill_temp/
+if($status) exit 1
+
+cp $3 fill_temp/
+if($status) exit 1
+
+set AtlasSpaceAnatomy = `basename $1`
+set LesionMask = `basename $2`
+set Atlas = `basename $3`
+
+pushd fill_temp
+
+	if($AtlasSpaceAnatomy:e == "img") then
+		niftigz_4dfp -n $AtlasSpaceAnatomy $AtlasSpaceAnatomy:r:r
+		if($status) exit 1
+	endif
+
+	if($LesionMask:e == "img") then
+		niftigz_4dfp -n $LesionMask $LesionMask:r:r
+		if($status) exit 1
+	endif	
+
+	if($Atlas:e == "img") then
+		niftigz_4dfp -n $Atlas $Atlas:r:r
+		if($status) exit 1
+	endif	
+
+#scale_4dfp $LesionMask -1 -b1 -a"comp"
+	fslmaths $LesionMask -mul -1 -add 1 $LesionMask:r:r"_comp"
+	if($status) exit 1
+
+#t4img_4dfp none $LesionMask:r:r"_comp" $LesionMask:r:r"_comp_111" -O111 -n
+#if($status) exit 1
+#t4img_4dfp none $LesionMask:r:r $LesionMask:r:r"_111" -O111 -n
+#if($status) exit 1
+
+#need to kinda normalize the images a bit
+	if($AtlasSpaceAnatomy:e == "gz") then
+		niftigz_4dfp -4 $AtlasSpaceAnatomy $AtlasSpaceAnatomy:r:r
+		if($status) exit 1
+	else
+		nifti_4dfp -4 $AtlasSpaceAnatomy $AtlasSpaceAnatomy:r:r
+		if($status) exit 1
+	endif
+
+	if($Atlas:e == "gz") then
+		niftigz_4dfp -4 $Atlas $Atlas:r:r
+		if($status) exit 1
+	else
+		nifti_4dfp -4 $Atlas $Atlas:r:r
+		if($status) exit 1
+	endif
+
+	normalize_4dfp $AtlasSpaceAnatomy:r:r
+	if($status) exit 1
+
+	niftigz_4dfp -n $AtlasSpaceAnatomy:r:r"_norm" $AtlasSpaceAnatomy:r:r"_norm"
+	if($status) exit 1
+
+	normalize_4dfp $Atlas:r:r
+	if($status) exit 1
+
+	niftigz_4dfp -n $Atlas:r:r"_norm" $Atlas:r:r"_norm"
+	if($status) exit 1
+
+#maskimg_4dfp $AtlasSpaceAnatomy:r:r $LesionMask:r:r"_comp_111" $AtlasSpaceAnatomy:r:r"_111_lesion_masked"
+	fslmaths $AtlasSpaceAnatomy:r:r"_norm" -mul $LesionMask:r:r"_comp" "Anatomy_masked"
+	if($status) exit 1
+
+#maskimg_4dfp $Atlas:r:r $LesionMask:r:r"_111" "Atlas_111_lesion_masked"
+	fslmaths $Atlas:r:r"_norm" -mul $LesionMask "Atlas_masked"
+	if($status) exit 1
+
+#imgopr_4dfp -a$AtlasSpaceAnatomy:r:r"_lesion_filled" "Atlas_111_lesion_masked" $AtlasSpaceAnatomy:r:r"_111_lesion_masked"
+	
+	fslmaths "Atlas_masked" -add "Anatomy_masked" $AtlasSpaceAnatomy:r:r"_filled"
+	if($status) exit 1
+
+	mv *filled* ../
+
+popd
+rm -r fill_temp
+
+#t4img_4dfp $t4 ${Anatomy}"_lesion_filled" ${Anatomy}_"native" -O$NativeImage
+#if($status) exit 1
+#nifti_4dfp -n ${Anatomy}"_lesion_filled" ${Anatomy}"_lesion_filled"
+#if($status) exit 1

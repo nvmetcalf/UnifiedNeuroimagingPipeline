@@ -1,0 +1,97 @@
+#!/bin/bash
+################################################################################
+# PET processing							       #
+#                                                                              #
+# USAGE:								       #
+#	idaifproc paramsfn                                                    #
+#                                                                              #
+# This script reads a params file for IDAIF PET processing                     #
+################################################################################
+# Yi Su, 12/19/2016
+VERSION=1.0
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Mon Dec 19 13:19:31 CST 2016 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+
+###############################################################################
+# Read PARAMS file
+source $paramsfn
+
+# Further development will improve this program to check the validity of
+# the inputs specified in the params file
+
+mkdir pet_proc
+cp $paramsfn pet_proc
+cd pet_proc
+
+###############################################################################
+# Populate and preprocess PET files
+petaifpre $paramsfn || die "$program ERROR: PET file conversion failed"
+
+###############################################################################
+# ROI target preprocessing
+fspreproc $paramsfn || die "$program ERROR: ROI target preprocessing failed"
+
+###############################################################################
+# pet to target registration
+petreg $paramsfn || die "$program ERROR: PET to target registration failed"
+
+###############################################################################
+# Fork based on preprocessing flag
+if (( preprocflag == 1 ))
+then
+
+###############################################################################
+# populate preprocessing outputs
+
+# RSF files
+	cp ${preprocpath}/RSFMat.dat .
+	cp ${preprocpath}/RSFMask.* .
+	cp ${preprocpath}/PETFOV.* .
+
+# ART Masks
+	cp ${preprocpath}/artm?.4dfp.* .
+	cp ${preprocpath}/bartm1.4dfp.* .
+	cp ${preprocpath}/bg1.4dfp.* .
+	cp ${preprocpath}/WBMask.4dfp.* .
+	cp ${preprocpath}/AIF_*PET.txt .
+
+
+else
+
+###############################################################################
+# ct preprocessing
+	ctpre $paramsfn || die "$program ERROR: CT preprocessing failed"
+
+###############################################################################
+# TOF MRA preprocessing
+	TOFMRApre $paramsfn
+
+###############################################################################
+# tac preprocessing
+	pettacpre $paramsfn || die "$program ERROR: tac preprocessing failed"
+
+fi
+
+###############################################################################
+# ROI TAC extraction
+petaiftac1 $paramsfn || die "$program ERROR: ROI TAC extraction failed"
+

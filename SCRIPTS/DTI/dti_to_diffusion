@@ -1,0 +1,287 @@
+#!/bin/csh
+
+if($#argv < 1) then
+	echo "dti_to_diffusion <Subject params file> <processing params>"
+	echo "Averages non B0 volumes of the DTI data set into a synthetic Diffusion anatomy."
+	exit 1
+endif
+
+if(! -e $1) then
+	echo "Could not find ${cwd}/$1"
+	exit 1
+endif
+
+source $1
+
+if(! -e $2) then
+	echo "Could not find ${cwd}/$2"
+	exit 1
+endif
+
+source $2
+
+if(! $?SkipExtract) @ SkipExtract = 0
+
+
+if(! -e dicom) then
+	echo "ERROR: No dicom folder!"
+	exit 1
+endif
+
+if(! -e Anatomical) then
+	echo "Anatomical Folder does not exist!" 
+	exit 1
+endif
+
+if(! -e Anatomical/Volume) then
+	echo "Anatomical/Volume folder does not exist!"
+endif
+
+if(-e Anatomical/Volume/Diffusion) rm -rf Anatomical/Volume/Diffusion
+
+mkdir Anatomical/Volume/Diffusion
+
+
+########################
+# make generous T2W mask
+########################
+
+pushd Anatomical/Volume/Diffusion			# into Anatomical/Volume/Diffusion
+
+	#see if we are using a different session for the anatomical transforms
+	if($?day1_patid) then
+		cp -f ${day1_path}/Anatomical/Volume/T2/${day1_patid}_T2T* .
+		if($status) exit 1
+
+		nifti_4dfp -4 ${day1_patid}_T2T ${day1_patid}_T2T
+		if($status) exit 1
+
+		$PP_SCRIPTS/ROBEX/runROBEX.sh ${day1_patid}_T2T.nii ${day1_patid}_T2T_brain.nii.gz ${day1_patid}_T2T_brain_mask.nii.gz
+		if ($status) exit $status
+
+		niftigz_4dfp -4 ${day1_patid}_T2T_brain_mask ${day1_patid}_T2T_brain_mask
+		if($status) exit 1
+	else
+		cp -f ../T2/${patid}_T2T* .
+		if($status) exit 1
+
+		nifti_4dfp -4 ${patid}_T2T ${patid}_T2T
+		if($status) exit 1
+
+		$PP_SCRIPTS/ROBEX/runROBEX.sh ${patid}_T2T.nii ${patid}_T2T_brain.nii.gz ${patid}_T2T_brain_mask.nii.gz
+		if ($status) exit $status
+
+		niftigz_4dfp -4 ${patid}_T2T_brain_mask ${patid}_T2T_brain_mask
+		if($status) exit 1
+	endif
+
+	###########################
+	# convert DWI dicom to 4dfp
+	###########################
+	@ k = 1
+	set j = $DWI[$k]
+
+	echo	$RELEASE/dcm_to_4dfp -b ${patid}_study$j ../../../dicom/$dcmroot.$j."*"
+		$RELEASE/dcm_to_4dfp -b ${patid}_study$j ../../../dicom//$dcmroot.$j.*
+	if ($status) exit $status
+
+	@ nxt = `awk '/matrix size \[1\]/{print $NF}' ${patid}_study$j.4dfp.ifh`
+	@ nyt = `awk '/matrix size \[2\]/{print $NF}' ${patid}_study$j.4dfp.ifh`
+	if ($nxt == $dwinx && $nyt == $dwiny) then
+		foreach e (img img.rec hdr ifh)
+			/bin/mv ${patid}_study$j.4dfp.$e ${patid}_dwi$k.4dfp.$e
+		end
+	else
+		$RELEASE/unpack_4dfp ${patid}_study$j ${patid}_dwi$k -V -nx$dwinx -ny$dwiny
+		if ($status) exit $status
+		rm -f ${patid}_study$j.4dfp.*
+	endif
+
+
+	if (${?day1_dwi}) then
+		foreach file (${patid}_dwi?.4dfp.img)
+			$RELEASE/cross_DWI_imgreg_4dfp $file $day1_dwi_path $day1_dwi -T$target
+			if ($status) exit $status
+
+			niftigz_4dfp -n $file $file:r:r
+			#$PP_SCRIPTS/ROBEX/runROBEX.sh $file:r:r".nii.gz" $file:r:r"_brain.nii.gz" $file:r:r"_brain_mask.nii.gz"
+			bet $file:r:r".nii.gz" $file:r:r"_brain.nii.gz" -m
+			if ($status) exit $status
+
+			niftigz_4dfp -4 $file:r:r"_brain_mask" $file:r:r"_brain_mask"
+			if($status) exit 1
+
+
+		end
+	else if($?day1_patid) then
+		#############################################
+		# register each DWI to day 1 t2w
+		# compute generous masks for all DWI datasets
+		#############################################
+		@ I0vol = 1
+		set oristr = (T C S)
+		set modes = (0 0 0 0 0)
+		@ modes[1] = 4096 + 3
+		@ modes[2] = 3072 + 3
+		@ modes[3] = 2048 + 3
+		@ modes[4] = 2048 + 3 + 4
+		@ modes[5] = 2048 + 3 + 4
+		foreach file (${patid}_dwi?.4dfp.img)
+			set root = $file:r; set root = $root:r;
+			set t4file = ${root}_to_${day1_patid}_T2T_t4
+			$RELEASE/extract_frame_4dfp $root $I0vol
+			if ($status) exit $status
+
+			set log = ${root}_to_${day1_patid}_T2T.log
+			date >! $log
+			@ ori = `awk '/orientation/{print $NF - 1}' ${AtlasDir}/${day1_patid}_T2T.4dfp.ifh`
+			$RELEASE/t4_inv $RELEASE/$oristr[$ori]_t4 $t4file	# assume DWI is transverse
+			if ($status) exit $status
+			@ k = 1
+			while ($k <= ${#modes})
+
+				if($?day1_patid) then
+					$RELEASE/imgreg_4dfp ${day1_patid}_T2T ${day1_patid}_T2T_brain_mask ${root}_frame$I0vol none $t4file $modes[$k] >> $log
+					if ($status) exit $status
+				else
+
+					$RELEASE/imgreg_4dfp ${patid}_T2T ${patid}_T2T_brain_mask ${root}_frame$I0vol none $t4file $modes[$k] >> $log
+					if ($status) exit $status
+				endif
+
+				tail -14 $log
+				@ k++
+			end
+
+			if($?day1_patid) then
+				$RELEASE/t4_mul $t4file ${day1_patid}_T2T_to_${target:t}_t4 ${root}_to_${target:t}_t4
+				if ($status) exit $status
+			else
+				$RELEASE/t4_mul $t4file ${patid}_T2T_to_${target:t}_t4 ${root}_to_${target:t}_t4
+				if ($status) exit $status
+			endif
+
+			niftigz_4dfp -n $root $root
+			#$PP_SCRIPTS/ROBEX/runROBEX.sh $root".nii.gz" $root"_brain.nii.gz" $root"_brain_mask.nii.gz"
+			bet $root".nii.gz" $root"_brain.nii.gz" -m
+			if ($status) exit $status
+
+			niftigz_4dfp -4 $root"_brain_mask" $root"_brain_mask"
+			if($status) exit 1
+		end
+	else
+	#############################################
+	# register each DWI to t2w
+	# compute generous masks for all DWI datasets
+	#############################################
+
+		set
+		@ I0vol = 1
+		set oristr = (T C S)
+		set modes = (0 0 0 0 0)
+		@ modes[1] = 4096 + 3
+		@ modes[2] = 3072 + 3
+		@ modes[3] = 2048 + 3
+		@ modes[4] = 2048 + 3 + 4
+		@ modes[5] = 2048 + 3 + 4
+		foreach file (${patid}_dwi?.4dfp.img)
+			set root = $file:r; set root = $root:r;
+			set t4file = ${root}_to_${patid}_T2T_t4
+			$RELEASE/extract_frame_4dfp $root $I0vol
+			if ($status) exit $status
+
+			set log = ${root}_to_${patid}_T2T.log
+			date >! $log
+			@ ori = `awk '/orientation/{print $NF - 1}' ${patid}_T2T.4dfp.ifh`
+			$RELEASE/t4_inv $RELEASE/$oristr[$ori]_t4 $t4file	# assume DWI is transverse
+			if ($status) exit $status
+
+			@ k = 1
+			while ($k <= ${#modes})
+				echo	$RELEASE/imgreg_4dfp ${patid}_T2T ${patid}_T2T_brain_mask ${root}_frame$I0vol none $t4file $modes[$k] >> $log
+					$RELEASE/imgreg_4dfp ${patid}_T2T ${patid}_T2T_brain_mask ${root}_frame$I0vol none $t4file $modes[$k] >> $log
+					if ($status) exit $status
+				tail -14 $log
+				@ k++
+			end
+			$RELEASE/t4_mul $t4file ${patid}_T2T_to_${target:t}_t4 ${root}_to_${target:t}_t4
+			if ($status) exit $status
+
+			niftigz_4dfp -n $root $root
+			#$PP_SCRIPTS/ROBEX/runROBEX.sh $root".nii.gz" $root"_brain.nii.gz" $root"_brain_mask.nii.gz"
+			bet $root".nii.gz" $root"_brain.nii.gz" -m
+			if ($status) exit $status
+
+			niftigz_4dfp -4 $root"_brain_mask" $root"_brain_mask"
+			if($status) exit 1
+		end
+	endif
+
+	#######################
+	# run dwi_xalign3d_4dfp
+	#######################
+	foreach file (${patid}_dwi?.4dfp.img)
+		set root = $file:r; set root = $root:r;
+		set log = ${root}_dwi_xalign3d_4dfp.log
+		date >! $log
+
+		$RELEASE/dwi_xalign3d_4dfp -sm "-g${DTIFramesToUse[1]}-${DTIFramesToUse[2]}" $root $root"_brain_mask" >> $log
+	end
+
+	##########################
+	# combine all DWI datasets
+	##########################
+	set log = ${patid}_dwi_cross_xalign3d_4dfp.log
+	date >! $log
+	echo	$RELEASE/dwi_cross_xalign3d_4dfp -g -m${patid}_dwi1_brain_mask ${patid}_dwi?.4dfp.img ${patid}_dwi >> $log
+		$RELEASE/dwi_cross_xalign3d_4dfp -g -m${patid}_dwi1_brain_mask ${patid}_dwi?.4dfp.img ${patid}_dwi >> $log
+	if ($status) exit $status
+	$RELEASE/ifh2hdr ${patid}_dwi_xenc -r800
+
+	EXTRACT:
+	set StartFrame = $DTIFramesToUse[1]
+	set EndFrame = $DTIFramesToUse[2]
+
+	$RELEASE/extract_4dfp_volumes ${patid}_dwi_xenc $StartFrame $EndFrame
+
+	$RELEASE/imgopr_4dfp -Z -r${patid}_dwi1_brain_mask_bin ${patid}_dwi1_brain_mask.4dfp.img ${patid}_dwi1_brain_mask.4dfp.img
+
+	#binarize the
+	pushd ${patid}_dwi_xenc
+		rm -f dti_to_diffusion_frame.lst
+		touch dti_to_diffusion_frame.lst
+
+		#compute bias corrected dti
+		foreach Frame(${patid}_dwi_xenc_frame*.4dfp.img)
+			$RELEASE/maskimg_4dfp $Frame ../${patid}_dwi1_brain_mask_bin $Frame:r:r"_msk"
+			$RELEASE/niftigz_4dfp -n $Frame:r:r"_msk" $Frame:r:r"_msk"
+
+			$FSLBIN/fast -B $Frame:r:r"_msk"
+		end
+
+		#convert restore back to 4dfp and make a list
+		foreach Frame(*_restore.nii.gz)
+			$RELEASE/niftigz_4dfp -4 $Frame $Frame:r:r
+
+			echo $Frame:r:r >> dti_to_diffusion_frame.lst
+		end
+
+		$RELEASE/paste_4dfp dti_to_diffusion_frame.lst ../${patid}_diffusion
+	popd
+
+	rm -rf ${patid}_dwi_xenc
+
+	#Atlas transform the images into 111 space
+	$RELEASE/t4img_4dfp ${patid}_dwi1_to_${target:t}_t4 ${patid}_diffusion ${patid}_diffusion_on_${target:t}_111 -O111
+	if ($status) exit $status
+
+	$RELEASE/niftigz_4dfp -n ${patid}_diffusion_on_${target:t}_111 ${patid}_diffusion_111
+	if($status) then
+		echo "unable to convert ${patid}_diffusion_on_${target:t}_111 to nifti"
+		exit 1
+	endif
+
+	rm *4dfp.* *T2T*
+popd				# out of atlas
+
+exit 0

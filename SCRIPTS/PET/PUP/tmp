@@ -1,0 +1,56 @@
+#!/bin/bash
+
+petroot=$1
+mrroot=$2
+ecatfstr=$1".v"
+frames=`ecat_header $ecatfstr | gawk '/Number of Frames/ {print $5}'`
+	groups=( a b c )
+	startframe=( 2 36 41 46 47 48 49 51 53 )
+	lastframe=( 35 40 45 46 47 48 50 52 54 )
+
+if [ -e ${petroot}".info" ]
+then
+	rm ${petroot}".info"
+fi
+touch ${petroot}".info"
+for (( f=2; f<=frames; f++ ))
+do
+	ecat_header $ecatfstr $f >& /dev/null
+	if [ $? -eq 0 ]
+	then
+		~suy/bin/ecatto4dfp $ecatfstr ${petroot}"_"$f 1 $f $f
+		cat ${petroot}"_"$f".info" >> ${petroot}".info"
+		if (( $f < ${startframe[1]} )) 
+		then
+			t4file=${petroot}"_a1_to_MR_t4"
+		elif (( $f < ${startframe[2]} )) 
+		then
+			t4file=${petroot}"_a2_to_MR_t4"
+		elif (( $f < ${startframe[3]} )) 
+		then
+			t4file=${petroot}"_a3_to_MR_t4"
+		elif (( $f < ${startframe[4]} )) 
+		then
+			t4file=${petroot}"_b1_to_MR_t4"
+		elif (( $f < ${startframe[5]} )) 
+		then
+			t4file=${petroot}"_b2_to_MR_t4"
+		elif (( $f < ${startframe[6]} )) 
+		then
+			t4file=${petroot}"_b3_to_MR_t4"
+		elif (( $f < ${startframe[7]} )) 
+		then
+			t4file=${petroot}"_c1_to_MR_t4"
+		elif (( $f < ${startframe[8]} )) 
+		then
+			t4file=${petroot}"_c2_to_MR_t4"
+		else
+			t4file=${petroot}"_c3_to_MR_t4"
+		fi
+		t4img_4dfp $t4file ${petroot}"_"$f  ${petroot}"_"$f"_on_MR" -O${mrroot} # Transform the frame to MR space
+		NROI=`wc -l ROIlist.txt | gawk '{print $1}'`
+		rsfroieval2 ${petroot}"_"$f"_on_MR" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${petroot} $f
+		rm ${petroot}"_"${f}.*
+		rm ${petroot}"_"${f}_on_MR.*
+	fi
+done

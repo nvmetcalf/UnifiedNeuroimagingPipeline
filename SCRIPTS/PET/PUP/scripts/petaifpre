@@ -1,0 +1,129 @@
+#!/bin/bash
+################################################################################
+# PET file preprocessing to prepare 4dfp format PET data for further analysis  #
+# using IDAIF PET processing pipelines.                                        #
+#                                                                              #
+# USAGE:								       #
+#	petaifpre paramsfn                                                     #
+#                                                                              #
+# This script reads a params file that includes:                               #
+# 	petdir:	absolute path of the pet data location	 	               #
+#	petid:	file name (root name ) of the pet data			       #
+#		Assuming 4dfp conversion has been done already		       #
+#	format: original format of pet data                                    #
+#		format = 0 (DICOM) 					       #
+#		format = 1 (ecat)					       #
+#		format = 2 (Siemens InterFile)				       #
+#	filterxy: fwhm of in-plane filtering				       #
+#	filterz:  fwhm of axial filtering				       #
+#                                                                              #
+# The output of this program would be a 4dfp quadruplet and a .info file that  #
+# contains the frame timing and decay correction info.                         #
+################################################################################
+# Yi Su, 12/16/2016
+
+VERSION=1.0
+
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Fri Dec 16 10:25:36 CST 2016 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+
+# Read PARAMS file
+source $paramsfn
+
+# Further development will improve this program which checks the validity of
+# the inputs specified in the params file
+
+# Populate files
+cp $petdir/${petinput}.4dfp.img ./${petid}.4dfp.img
+cp $petdir/${petinput}.4dfp.img.rec ./${petid}.4dfp.img.rec
+cp $petdir/${petinput}.4dfp.ifh ./${petid}.4dfp.ifh
+cp $petdir/${petinput}.4dfp.hdr ./${petid}.4dfp.hdr
+
+# Generate .info file
+PETinfo $petid $format $delay || die "$program ERROR: PETinfo $petid $format $delay failed"
+
+# Filtering if requested
+if [ -n "$filterxy" ] && [ -n "$filterz" ]
+then
+	if [ "$filterxy" != "$filterz" ]
+	then
+		tmp=$(echo "scale=6; $filterxy*10+.499999" | bc)
+		filterxyname=${tmp%.*}
+		tmp=$(echo "scale=6; $filterz*10+.499999" | bc)
+		filterzname=${tmp%.*}
+		imgblur_4dfp -xy $petid $filterxy || die "$program ERROR: imgblur_4dfp -xy $petid $filterxy failed"
+		imgblur_4dfp -z ${petid}_bxy$filterxyname $filterz || die "$program ERROR: imgblur_4dfp -z ${petid}_bxy$filterxyname $filterz failed"
+
+		ext=( img img.rec ifh hdr )
+		for (( i=0; i<4; i++ ))
+		do
+			cp ${petid}_bxy${filterxyname}_bz${filterzname}.4dfp.${ext[$i]} ${petid}n.4dfp.${ext[$i]}
+		done
+		rm ${petid}_bxy$filterxyname.4dfp.*
+		rm ${petid}_bxy${filterxyname}_bz${filterzname}.4dfp.*
+	else
+		tmp=$(echo "scale=6; $filterxy*10+.499999" | bc)
+		filtername=${tmp%.*}
+		imgblur_4dfp ${petid} $filterxy || die "$program ERROR: imgblur_4dfp ${petid} $filterxy failed"
+		ext=( img img.rec ifh hdr )
+		for (( i=0; i<4; i++ ))
+		do
+			cp ${petid}_b${filtername}.4dfp.${ext[$i]} ${petid}n.4dfp.${ext[$i]}
+		done
+		rm ${petid}_b${filtername}.4dfp.*
+	fi
+	cp ${petid}.info ${petid}n.info
+	petid=${petid}n
+	echo "petid=${petid}" >> $paramsfn
+elif [ -n "$filterxy" ] || [  -n "$filterz" ]
+then
+	ERR="Both xy and z filter size are needed!"
+	echo $ERR
+	die "$program ERROR: $ERR"
+fi
+
+# Preprocess PET
+nf=`wc -l ${petid}.info | gawk '{print $1}'`
+if (( nf == 1 ))
+then
+	ext=( img img.rec ifh hdr )
+	for (( i=0; i<4; i++ ))
+	do
+		cp ${petid}.4dfp.${ext[$i]} ${petid}_sumall.4dfp.${ext[$i]}
+	done
+else
+	sum_pet_4dfp ${petid} 1 $nf -d -h${half_life} ${petid}_sumall || die "$program ERROR: sum_pet_4dfp ${petid} 1 $nf -d -h${half_life} ${petid}_sumall failed"
+fi
+tv=`imgmax_4dfp -m ${petid}"_sumall" | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${petid}"_sumall" ${petid}"_sumall" temp$$ || die "$program ERROR: maskimg_4dfp failed"
+nsl=`gawk '/matrix size \[3\]/ {print $NF}' ${petid}"_sumall.4dfp.ifh"`
+zero_slice_4dfp temp$$ z 1 3  temp$$"_mskz" || die "$program ERROR: zero_slice_4dfp failed"
+
+k=$((nsl-2))
+zero_slice_4dfp temp$$"_mskz" z $k $nsl  temp$$"_msk" || die "$program ERROR: zero_slice_4dfp failed"
+cp temp$$"_msk".4dfp.img petfov.4dfp.img
+cp temp$$"_msk".4dfp.ifh petfov.4dfp.ifh
+cp temp$$"_msk".4dfp.hdr petfov.4dfp.hdr
+cp temp$$"_msk".4dfp.img.rec petfov.4dfp.img.rec
+rm temp$$*
+
+

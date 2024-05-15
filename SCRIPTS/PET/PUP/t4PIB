@@ -1,0 +1,162 @@
+#!/bin/bash
+################################################################################
+# This program transforms the inter frame corregistered PIB images into a      #
+# common space using t4 files created by PIBMPRREG which registers PIB images  #
+# to the MR  images.                                                           #
+#                                                                              #
+#                                                                              #
+################################################################################
+# Yi Su, 12/15/2010                                                            
+
+ecatfstr=$1 # ECAT PET image file (.v)
+
+petname=`basename $ecatfstr`
+petdir=`dirname $ecatfstr`
+petroot=${petname%.*}
+
+#############################
+# Determine frame separation scheme for the PIB data
+
+frames=`ecat_header $ecatfstr | gawk '/Number of Frames/ {print $5}'`
+
+PIBFLAG=0
+if (( $frames == 54 ))
+then
+	PIBFLAG=1
+elif (( $frames == 32 ))
+then
+	PIBFLAG=2
+elif (( $frames == 33 ))
+then
+	PIBFLAG=2
+elif (( $frames == 34 ))
+then
+	PIBFLAG=2
+elif (( $frames == 27 ))
+then
+	PIBFLAG=3
+fi
+
+if (( $PIBFLAG == 0 ))
+then
+	echo "ERROR PIBFLAG = 0 Must Exit"
+	exit 1
+fi
+
+if (( $PIBFLAG == 1 ))
+then
+	echo "54 Frame ECAT Sequence"
+	groups=( a b c )
+	startframe=( 2 36 41 46 47 48 49 51 53 )
+	lastframe=( 35 40 45 46 47 48 50 52 54 )
+fi
+
+if (( $PIBFLAG == 2 ))
+then
+	echo "32 to 34 Frame ECAT Sequence"
+	groups=( a b c )
+	startframe=( 2 13 18 22 24 25 26 28 30 )
+	lastframe=( 12 17 21 23 24 25 27 29 31 )
+fi
+
+
+if (( $PIBFLAG == 3 ))
+then
+	echo "27 Frame ECAT Sequence"
+	groups=( a b c )
+	startframe=( 2 17 18 19 20 21 22 24 26 )
+	lastframe=( 16 17 18 19 20 21 23 25 27 )
+fi
+
+###########################
+# Generating necessary t4s
+t4_inv ${petroot}"_a_to_MR_t4"
+t4_mul ${petroot}"_a1_to_MR_t4" "MR_to_"${petroot}"_a_t4" ${petroot}"_a1_to_"${petroot}"_a_t4"
+t4_mul ${petroot}"_a2_to_MR_t4" "MR_to_"${petroot}"_a_t4" ${petroot}"_a2_to_"${petroot}"_a_t4"
+t4_mul ${petroot}"_a3_to_MR_t4" "MR_to_"${petroot}"_a_t4" ${petroot}"_a3_to_"${petroot}"_a_t4"
+t4_mul ${petroot}"_b1_to_MR_t4" "MR_to_"${petroot}"_a_t4" ${petroot}"_b1_to_"${petroot}"_a_t4"
+t4_mul ${petroot}"_b2_to_MR_t4" "MR_to_"${petroot}"_a_t4" ${petroot}"_b2_to_"${petroot}"_a_t4"
+t4_mul ${petroot}"_b3_to_MR_t4" "MR_to_"${petroot}"_a_t4" ${petroot}"_b3_to_"${petroot}"_a_t4"
+t4_mul ${petroot}"_c1_to_MR_t4" "MR_to_"${petroot}"_a_t4" ${petroot}"_c1_to_"${petroot}"_a_t4"
+t4_mul ${petroot}"_c2_to_MR_t4" "MR_to_"${petroot}"_a_t4" ${petroot}"_c2_to_"${petroot}"_a_t4"
+t4_mul ${petroot}"_c3_to_MR_t4" "MR_to_"${petroot}"_a_t4" ${petroot}"_c3_to_"${petroot}"_a_t4"
+
+
+
+###########################
+# Generating PET field of view converage file PIBFOV.4dfp.img
+
+tv=`imgmax_4dfp -m ${petroot}"_c" | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${petroot}"_c" ${petroot}"_c" temp$$
+zero_slice_4dfp temp$$ z 1 2  temp$$"_mskz"
+tv=`imgmax_4dfp -m ${petroot}"_a" | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv}  ${petroot}"_a" ${petroot}"_a" PIBFOV
+groups=( a b c )
+for (( g=0; g<3; g++ ))
+do
+	for (( i=1; i<4; i++ ))
+	do
+		t4file=${petroot}"_"${groups[$g]}$i"_to_"${petroot}"_a_t4"
+		t4img_4dfp $t4file temp$$"_mskz" temp$$"_"${groups[$g]}$i -O${petroot}"_a" -n
+		maskimg_4dfp -v1 PIBFOV PIBFOV temp$$_1
+		imgopr_4dfp -pPIBFOV temp$$_1 temp$$"_"${groups[$g]}$i
+	done
+done
+rm temp$$*.4dfp.*
+
+
+###########################
+# Processing freesurfer rois, whole head roi, and prepare for roi analysis
+
+if [ -e ${petroot}".info" ]
+then
+	rm ${petroot}".info"
+fi
+touch ${petroot}".info"
+if [ -e ${petroot}".lst" ]
+then
+	rm ${petroot}".lst"
+fi
+touch ${petroot}".lst"
+for (( f=2; f<=frames; f++ ))
+do
+	ecat_header $ecatfstr $f >& /dev/null
+	if [ $? -eq 0 ]
+	then
+		~suy/bin/ecatto4dfp $ecatfstr ${petroot}"_f"$f 1 $f $f
+		cat ${petroot}"_f"$f".info" >> ${petroot}".info"
+		if (( $f < ${startframe[1]} )) 
+		then
+			t4file=${petroot}"_a1_to_"${petroot}"_a_t4"
+		elif (( $f < ${startframe[2]} )) 
+		then
+			t4file=${petroot}"_a2_to_"${petroot}"_a_t4"
+		elif (( $f < ${startframe[3]} )) 
+		then
+			t4file=${petroot}"_a3_to_"${petroot}"_a_t4"
+		elif (( $f < ${startframe[4]} )) 
+		then
+			t4file=${petroot}"_b1_to_"${petroot}"_a_t4"
+		elif (( $f < ${startframe[5]} )) 
+		then
+			t4file=${petroot}"_b2_to_"${petroot}"_a_t4"
+		elif (( $f < ${startframe[6]} )) 
+		then
+			t4file=${petroot}"_b3_to_"${petroot}"_a_t4"
+		elif (( $f < ${startframe[7]} )) 
+		then
+			t4file=${petroot}"_c1_to_"${petroot}"_a_t4"
+		elif (( $f < ${startframe[8]} )) 
+		then
+			t4file=${petroot}"_c2_to_"${petroot}"_a_t4"
+		else
+			t4file=${petroot}"_c3_to_"${petroot}"_a_t4"
+		fi
+		t4img_4dfp $t4file ${petroot}"_f"$f  ${petroot}"_f"$f"_on_a" -O${petroot}"_a" # Transform the frame to "a" space
+		echo ${petroot}"_f"$f"_on_a" 1 1 >> ${petroot}".lst"
+		rm ${petroot}"_f"${f}.*
+
+	fi
+done
+paste_4dfp -a ${petroot}".lst" ${petroot}"_on_a"
+rm ${petroot}"_f"*_on_a.*

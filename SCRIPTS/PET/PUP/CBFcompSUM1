@@ -1,0 +1,76 @@
+#!/bin/bash
+# Yi Su, 08/04/2011                                                            
+
+IDS=( AG001 AT019 CO018 DH010 JJ015 TJ009 )
+norms=( rg001_norm rg019_norm rg013_norm rg015_norm rg005_norm rg003_norm  )
+hypos=( rg001_hypo rg019_hypo rg013_hypo rg015_hypo rg005_hypo rg003_hypo  )
+
+nline=`wc -l /data/nil-bluearc/benzinger2/suy/ROIs | gawk '{print $1}'`
+
+for (( i=1; i<=$nline; i++ ))
+do
+	ROI=`gawk 'NR=='$i' {print $1}'  /data/nil-bluearc/benzinger2/suy/ROIs`
+	flag=`gawk 'NR=='$i' {print $2}'  /data/nil-bluearc/benzinger2/suy/ROIs`
+	if (( $flag == 1 ))
+	then
+		vlnorms=()
+		vlhypos=()
+		vrnorms=()
+		vrhypos=()
+		for (( j=0; j<6; j++ ))
+		do
+			vlnorms[$j]=`gawk '/Left-'$ROI'/ {print $3}' ${IDS[$j]}/${norms[$j]}"_ROI2_f0"`
+			vrnorms[$j]=`gawk '/Right-'$ROI'/ {print $3}' ${IDS[$j]}/${norms[$j]}"_ROI2_f0"`
+			vlhypos[$j]=`gawk '/Left-'$ROI'/ {print $3}' ${IDS[$j]}/${hypos[$j]}"_ROI2_f0"`
+			vrhypos[$j]=`gawk '/Right-'$ROI'/ {print $3}' ${IDS[$j]}/${hypos[$j]}"_ROI2_f0"`
+		done
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "Left-"${ROI} ${vlnorms[0]} ${vlnorms[1]} ${vlnorms[2]} ${vlnorms[3]} ${vlnorms[4]} ${vlnorms[5]} >> norms.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "Right-"${ROI} ${vrnorms[0]} ${vrnorms[1]} ${vrnorms[2]} ${vrnorms[3]} ${vrnorms[4]} ${vrnorms[5]} >> norms.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "Left-"${ROI} ${vlhypos[0]} ${vlhypos[1]} ${vlhypos[2]} ${vlhypos[3]} ${vlhypos[4]} ${vlhypos[5]} >> hypos.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "Right-"${ROI} ${vrhypos[0]} ${vrhypos[1]} ${vrhypos[2]} ${vrhypos[3]} ${vrhypos[4]} ${vrhypos[5]} >> hypos.txt
+	elif (( $flag == 0 ))
+	then
+		vlnorms=()
+		vlhypos=()
+		for (( j=0; j<6; j++ ))
+		do
+			vlnorms[$j]=`gawk '/'$ROI'/ {print $3}' ${IDS[$j]}/${norms[$j]}"_ROI2_f0"`
+			vlhypos[$j]=`gawk '/'$ROI'/ {print $3}' ${IDS[$j]}/${hypos[$j]}"_ROI2_f0"`
+		done
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' ${ROI} ${vlnorms[0]} ${vlnorms[1]} ${vlnorms[2]} ${vlnorms[3]} ${vlnorms[4]} ${vlnorms[5]} >> norms.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' ${ROI} ${vlhypos[0]} ${vlhypos[1]} ${vlhypos[2]} ${vlhypos[3]} ${vlhypos[4]} ${vlhypos[5]} >> hypos.txt
+	elif (( $flag == 2 ))
+	then
+		vlnorms=()
+		vlhypos=()
+		vrnorms=()
+		vrhypos=()
+		for (( j=0; j<6; j++ ))
+		do
+			vlnorms[$j]=`gawk '/ctx-lh-'$ROI'/ {print $3}' ${IDS[$j]}/${norms[$j]}"_ROI2_f0"`
+			vrnorms[$j]=`gawk '/ctx-rh-'$ROI'/ {print $3}' ${IDS[$j]}/${norms[$j]}"_ROI2_f0"`
+			vlhypos[$j]=`gawk '/ctx-lh-'$ROI'/ {print $3}' ${IDS[$j]}/${hypos[$j]}"_ROI2_f0"`
+			vrhypos[$j]=`gawk '/ctx-rh-'$ROI'/ {print $3}' ${IDS[$j]}/${hypos[$j]}"_ROI2_f0"`
+		done
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "ctx-lh-"${ROI} ${vlnorms[0]} ${vlnorms[1]} ${vlnorms[2]} ${vlnorms[3]} ${vlnorms[4]} ${vlnorms[5]} >> norms.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "ctx-rh-"${ROI} ${vrnorms[0]} ${vrnorms[1]} ${vrnorms[2]} ${vrnorms[3]} ${vrnorms[4]} ${vrnorms[5]} >> norms.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "ctx-lh-"${ROI} ${vlhypos[0]} ${vlhypos[1]} ${vlhypos[2]} ${vlhypos[3]} ${vlhypos[4]} ${vlhypos[5]} >> hypos.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "ctx-rh-"${ROI} ${vrhypos[0]} ${vrhypos[1]} ${vrhypos[2]} ${vrhypos[3]} ${vrhypos[4]} ${vrhypos[5]} >> hypos.txt
+
+		vlnorms=()
+		vlhypos=()
+		vrnorms=()
+		vrhypos=()
+		for (( j=0; j<6; j++ ))
+		do
+			vlnorms[$j]=`gawk '/wm-lh-'$ROI'/ {print $3}' ${IDS[$j]}/${norms[$j]}"_ROI2_f0"`
+			vrnorms[$j]=`gawk '/wm-rh-'$ROI'/ {print $3}' ${IDS[$j]}/${norms[$j]}"_ROI2_f0"`
+			vlhypos[$j]=`gawk '/wm-lh-'$ROI'/ {print $3}' ${IDS[$j]}/${hypos[$j]}"_ROI2_f0"`
+			vrhypos[$j]=`gawk '/wm-rh-'$ROI'/ {print $3}' ${IDS[$j]}/${hypos[$j]}"_ROI2_f0"`
+		done
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "wm-lh-"${ROI} ${vlnorms[0]} ${vlnorms[1]} ${vlnorms[2]} ${vlnorms[3]} ${vlnorms[4]} ${vlnorms[5]} >> norms.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "wm-rh-"${ROI} ${vrnorms[0]} ${vrnorms[1]} ${vrnorms[2]} ${vrnorms[3]} ${vrnorms[4]} ${vrnorms[5]} >> norms.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "wm-lh-"${ROI} ${vlhypos[0]} ${vlhypos[1]} ${vlhypos[2]} ${vlhypos[3]} ${vlhypos[4]} ${vlhypos[5]} >> hypos.txt
+		printf '%-35s %11.5f %11.5f %11.5f %11.5f %11.5f %11.5f\n' "wm-rh-"${ROI} ${vrhypos[0]} ${vrhypos[1]} ${vrhypos[2]} ${vrhypos[3]} ${vrhypos[4]} ${vrhypos[5]} >> hypos.txt
+	fi	
+done

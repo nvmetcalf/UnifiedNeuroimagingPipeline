@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+# Script to obtain ROI TACs for the arterial region.
+#
+# Yi Su, 4/6/2012
+
+petfstr=$1 # pet 4dfp data
+mrtopett4=$2 # MR to PET t4 file
+toftopett4=$3 # TOF to PET t4 file
+
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%%.*}
+
+t4img_4dfp $mrtopett4 PETFOV PETFOV_on_${petroot} -O${petroot}"_sumall" -n
+t4img_4dfp $mrtopett4 AIFPETFOV AIFPETFOV_on_${petroot} -O${petroot}"_sumall" -n
+t4img_4dfp $toftopett4 TOF_ART TOF_ART_on_${petroot} -O${petroot}"_sumall"
+maskimg_4dfp  AIFPETFOV_on_${petroot} TOF_ART_on_${petroot} ${petroot}_artv2
+maskimg_4dfp  PETFOV_on_${petroot} TOF_ART_on_${petroot} ${petroot}_artv3
+
+a1g5=`qnt_4dfp TOF_ART_g5_on_${petroot} ${petroot}_artv2 | gawk '/Mean/ {print $2}'`
+b1g5=`qnt_4dfp TOF_AB_g5_on_${petroot} ${petroot}_artv2 | gawk '/Mean/ {print $2}'`
+
+if [ -e ${petroot}_abv2g5.txt ]
+then
+	rm  ${petroot}_abv2g5.txt
+fi
+touch ${petroot}_abv2g5.txt
+printf "%16s%16s\n" Region RC >> ${petroot}_abv2g5.txt
+printf "%16s%16f\n" ART1 $a1g5 >> ${petroot}_abv2g5.txt
+
+if [ -e ${petroot}_bv2g5.txt ]
+then
+	rm  ${petroot}_bv2g5.txt
+fi
+touch ${petroot}_bv2g5.txt
+printf "%16s%16s\n" Region RC >> ${petroot}_bv2g5.txt
+printf "%16s%16f\n" ART1 $b1g5>> ${petroot}_bv2g5.txt
+
+if [ -e ${petroot}_artv2.tac ]
+then
+	rm ${petroot}_artv2.tac
+fi
+touch ${petroot}_artv2.tac
+
+qnt_4dfp ${petroot} ${petroot}_artv2 | gawk '/Mean/ {print $2}' >> ${petroot}_artv2.tac
+
+a1g5=`qnt_4dfp TOF_ART_g5_on_${petroot} ${petroot}_artv3 | gawk '/Mean/ {print $2}'`
+b1g5=`qnt_4dfp TOF_AB_g5_on_${petroot} ${petroot}_artv3 | gawk '/Mean/ {print $2}'`
+
+if [ -e ${petroot}_abv3g5.txt ]
+then
+	rm  ${petroot}_abv3g5.txt
+fi
+touch ${petroot}_abv3g5.txt
+printf "%16s%16s\n" Region RC >> ${petroot}_abv3g5.txt
+printf "%16s%16f\n" ART1 $a1g5 >> ${petroot}_abv3g5.txt
+
+if [ -e ${petroot}_bv3g5.txt ]
+then
+	rm  ${petroot}_bv3g5.txt
+fi
+touch ${petroot}_bv3g5.txt
+printf "%16s%16s\n" Region RC >> ${petroot}_bv3g5.txt
+printf "%16s%16f\n" ART1 $b1g5>> ${petroot}_bv3g5.txt
+
+if [ -e ${petroot}_artv3.tac ]
+then
+	rm ${petroot}_artv3.tac
+fi
+touch ${petroot}_artv3.tac
+
+qnt_4dfp ${petroot} ${petroot}_artv3 | gawk '/Mean/ {print $2}' >> ${petroot}_artv3.tac

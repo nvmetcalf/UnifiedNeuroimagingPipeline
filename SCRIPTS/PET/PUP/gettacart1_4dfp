@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+# Script to obtain ROI TACs for the arterial region.
+#
+# Yi Su, 12/22/2011
+
+petfstr=$1 # pet 4dfp data
+mrtopett4=$2 # MR to PET t4 file
+toftopett4=$3 # TOF to PET t4 file
+
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%%.*}
+
+t4img_4dfp $mrtopett4 PETFOV PETFOV_on_${petroot} -O${petroot}"_sumall" -n
+t4img_4dfp $toftopett4 TOF_ART_g5 TOF_ART_g5_on_${petroot} -O${petroot}"_sumall"
+t4img_4dfp $toftopett4 TOF_AB_g5 TOF_AB_g5_on_${petroot} -O${petroot}"_sumall"
+t4img_4dfp $toftopett4 TOFROI TOFROI_on_${petroot} -O${petroot}"_sumall"
+maskimg_4dfp  PETFOV_on_${petroot} TOFROI_on_${petroot} ${petroot}_artg5
+
+a1g5=`qnt_4dfp TOF_ART_g5_on_${petroot} ${petroot}_artg5 | gawk '/Mean/ {print $2}'`
+b1g5=`qnt_4dfp TOF_AB_g5_on_${petroot} ${petroot}_artg5 | gawk '/Mean/ {print $2}'`
+
+if [ -e ${petroot}_abg5.txt ]
+then
+	rm  ${petroot}_abg5.txt
+fi
+touch ${petroot}_abg5.txt
+printf "%16s%16s\n" Region RC >> ${petroot}_abg5.txt
+printf "%16s%16f\n" ART1 $a1g5 >> ${petroot}_abg5.txt
+
+if [ -e ${petroot}_bg5.txt ]
+then
+	rm  ${petroot}_bg5.txt
+fi
+touch ${petroot}_bg5.txt
+printf "%16s%16s\n" Region RC >> ${petroot}_bg5.txt
+printf "%16s%16f\n" ART1 $b1g5>> ${petroot}_bg5.txt
+
+if [ -e ${petroot}_artg5.tac ]
+then
+	rm ${petroot}_artg5.tac
+fi
+touch ${petroot}_artg5.tac
+
+qnt_4dfp ${petroot} ${petroot}_artg5 | gawk '/Mean/ {print $2}' >> ${petroot}_artg5.tac

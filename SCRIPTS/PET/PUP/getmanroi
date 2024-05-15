@@ -1,0 +1,25 @@
+#!/bin/bash
+# Get manual roi files for further processing
+# 03/04/2011 Yi Su
+
+contents=( $(cat "$1") )
+n=`wc -l "$1" | gawk '{print $1}'`
+echo ----
+for (( i=0; i<$n; i++ ))
+do
+	let "a = $i * 2"
+	let "b = $a + 1"
+	echo  -e "${contents[$a]}\t${contents[$b]}"
+	if [ -e /data/nil-bluearc/mintun/mintun/bta/${contents[$b]} ]
+	then
+		cp /data/nil-bluearc/mintun/mintun/bta/${contents[$b]}/*roi/* ${contents[$a]}/${contents[$b]}/
+	elif [ -e /data/nil-bluearc/mintunf/bta/${contents[$b]} ]
+	then
+		cp /data/nil-bluearc/mintunf/bta/${contents[$b]}/*roi/* ${contents[$a]}/${contents[$b]}/
+	else
+		echo DID NOT FIND ${contents[$b]}. NEED MANUAL ATTENTION
+	fi
+	ls ${contents[$a]}/${contents[$b]}/*.obj
+	echo ----
+done
+exit 0

@@ -1,0 +1,68 @@
+#!/bin/csh
+set echo
+
+	setenv SUBJECTS_DIR $2
+	set subject = $1
+	
+	if (! -e ${SUBJECTS_DIR}/Freesurfer/mri/gtmseg.mgz) then
+		setenv SUBJECTS_DIR $2
+		
+		gtmseg --s Freesurfer --xcerseg >! gtmseg.log
+		if($status) then
+			echo "gtmseg failed. See gtmseg.log."
+			exit 1
+		endif
+		
+		setenv SUBJECTS_DIR $2
+	endif
+	
+	cp ${SUBJECTS_DIR}/Freesurfer/mri/wmparc.mgz ${SUBJECTS_DIR}/Freesurfer/mri/gtmseg.mgz .
+
+	if(! -e wmparc.nii) then
+		mri_convert ${SUBJECTS_DIR}/Freesurfer/mri/wmparc.mgz wmparc.nii
+		if($status) then
+			echo "failed to convert ${SUBJECTS_DIR}/Freesurfer/mri/wmparc.mgz to nifti."
+			exit 1
+		endif
+	endif
+	
+	python3 $PP_SCRIPTS/PET/python3/big_wmparc.py wmparc.mgz wmparc_big.mgz
+	if($status) then
+		echo ".fdb/big_wmparc.py failed. Check to make sure you have the dependencies installed."
+		exit 1
+	endif
+	
+	mri_vol2vol --mov wmparc_big.mgz --lta-inv ${SUBJECTS_DIR}/Freesurfer/mri/gtmseg.lta --targ ${SUBJECTS_DIR}/Freesurfer/mri/gtmseg.mgz --o wmparc_on_gtmseg.mgz --nearest
+	if($status) then
+		echo "mri_vol2vol failed to register the wmparc_big.mgz to gtmseg."
+		exit 1
+	endif
+	
+	python3 $PP_SCRIPTS/PET/python3/add_wm.py wmparc_on_gtmseg.mgz gtmseg.mgz "gtmseg+wmparc.mgz"
+	if($status) then
+		echo ".fdb/add_wm.py failed. Check to make sure you have the dependencies installed."
+		exit 1
+	endif
+	
+	mri_convert ${SUBJECTS_DIR}/Freesurfer/mri/gtmseg.mgz gtmseg.nii.gz
+	if($status) then
+		echo "failed to convert ${SUBJECTS_DIR}/Freesurfer/mri/gtmseg.mgz to nifti."
+		exit 1
+	endif
+
+	rm "gtmseg+wmparc.ctab"
+	cp $PP_SCRIPTS/PET/misc/"gtmseg+wmparc.ctab" .
+	if($status) then
+		echo "failed to copy $PP_SCRIPTS/PET/.fdb/gtmseg+wmparc.ctab."
+		exit 1
+	endif
+	
+	rm "gtmseg+wmparc.lta"
+	cp ${SUBJECTS_DIR}/Freesurfer/mri/gtmseg.lta "gtmseg+wmparc.lta"
+	if($status) then
+		echo "failed to copy ${SUBJECTS_DIR}/Freesurfer/mri/gtmseg.lta."
+		exit 1
+	endif
+
+exit 0
+

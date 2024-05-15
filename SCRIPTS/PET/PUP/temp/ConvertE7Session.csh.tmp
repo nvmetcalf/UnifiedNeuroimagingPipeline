@@ -1,0 +1,349 @@
+#!/bin/csh
+#$Header$
+#$Log$
+set idstr   = '$Id$'
+echo $idstr
+set program = $0
+set program = $program:t
+
+set mapdrive = z
+set datadrive = $mapdrive
+
+set reconguide = recon_guide.txt
+
+@ i = 1
+@ j = 0
+while ($i <= ${#argv})
+	switch ($argv[$i])
+	case "-goto":
+		@ i ++
+		set GOTO = $argv[$i]
+		breaksw
+	case "-m":
+		@ i ++
+		set mapdrive = $argv[$i]
+		breaksw
+	case "-d":
+		@ i ++
+		set datadrive = $argv[$i]
+		breaksw
+	case "-r":
+		@ i ++
+		set reconguide = ($reconguide $argv[$i])
+		breaksw
+	default:
+		switch ($j)
+		case 0:
+			@ j ++
+			set dcmtxt = $argv[$i]
+			breaksw
+		case 1:
+			@ j ++
+			set pid    = $argv[$i]
+			breaksw
+		case 2:
+			@ j ++
+			set str    = $argv[$i]
+			breaksw
+		case 3:
+			@ j ++
+			set outdir = $argv[$i]
+			breaksw
+		endsw
+		breaksw
+	endsw
+	@ i ++
+end
+if ($j != 4) then
+        echo "Usage:    $program <DICOM guide(txt)> <PID> <Session label> <Output subdirectory>"
+        echo " e.g.:    $program v2.txt NP995_10 _V2 V2"
+	echo " -m  <drive name>    name of drive mapped to /data/nil-bluearc/raichle (default: $mapdrive)"
+	echo " -d  <drive name>    name of drive where data is stored (default: $mapdrive)"
+	echo " -r  <recon guide>   text file mapping tracer labels to recon text supplied to RunJSRecon.csh"
+	echo "A model DICOM guide follows:"
+	echo "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+	echo "MPR	PPGdata/rawdata/NP995_10_mMR_v2/NP995_10_mMR_v2/SCANS/114/DICOM"
+	echo "MRAC	PPGdata/rawdata/NP995_10_mMR_v2/NP995_10_mMR_v2/SCANS/31/DICOM"
+	echo "CT	PPGdata/rawdata/NP995_10_CT_V1/SCANS/2/DICOM"
+	echo "FDG	PPGdata/rawdata/NP995_10_mMR_v2/NP995_10_mMR_v2/RESOURCES/RawData/NP995_10_mMR_v2RawData/NP995_10_mMR_v2RawData/NP995_10/CCIR-00500_CCIR-0055/Head_MRAC_PET_60min_"
+	echo "HO	PPGdata/rawdata/NP995_10_mMR_v2/NP995_10_mMR_v2/RESOURCES/RawData/NP995_10_mMR_v2RawData/NP995_10_mMR_v2RawData/NP995_10/CCIR-00500_CCIR-0055/Head_HO1_HD_PET_Raw_	1"
+	echo "HO	PPGdata/rawdata/NP995_10_mMR_v2/NP995_10_mMR_v2/RESOURCES/RawData/NP995_10_mMR_v2RawData/NP995_10_mMR_v2RawData/NP995_10/CCIR-00500_CCIR-0055/Head_HO2_HD_PET_Raw_	2"
+	echo "OO	PPGdata/rawdata/NP995_10_mMR_v2/NP995_10_mMR_v2/RESOURCES/RawData/NP995_10_mMR_v2RawData/NP995_10_mMR_v2RawData/NP995_10/CCIR-00500_CCIR-0055/Head_OO1_HD_PET_Raw_	1"
+	echo "OO	PPGdata/rawdata/NP995_10_mMR_v2/NP995_10_mMR_v2/RESOURCES/RawData/NP995_10_mMR_v2RawData/NP995_10_mMR_v2RawData/NP995_10/CCIR-00500_CCIR-0055/Head_OO2_HD_PET_Raw_	2"
+	echo "OC	PPGdata/rawdata/NP995_10_mMR_v2/NP995_10_mMR_v2/RESOURCES/RawData/NP995_10_mMR_v2RawData/NP995_10_mMR_v2RawData/NP995_10/CCIR-00500_CCIR-0055/Head_OC1_HD_MRAC_Raw	1"
+	echo "OC	PPGdata/rawdata/NP995_10_mMR_v2/NP995_10_mMR_v2/RESOURCES/RawData/NP995_10_mMR_v2RawData/NP995_10_mMR_v2RawData/NP995_10/CCIR-00500_CCIR-0055/Head_OC2_HD_MRAC_Raw	2"
+	echo "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+	echo "N.B.: paths in DICOM guide are relative to the drive name controlled by the -d flag."
+	echo "A sample (default) recon guide follows:"
+	echo "----------------"
+	echo "FDG	F18dyn"
+	echo "HO	O15dyn"
+	echo "OO	O15dyn"
+	echo "OC	O15AC"
+	echo "PIB	C11dyn"
+	echo "AV	F18dyn"
+	echo "TAU	F18dyn"
+	echo "----------------"
+        exit 1
+endif
+
+set mapdrive = /cygdrive/$mapdrive
+set datadrive = /cygdrive/$datadrive
+
+setenv PATH "$mapdrive/suy/4dfp/4dfp_cygwin64:${PATH}"
+#setenv PATH "$mapdrive/suy/scripts:${PATH}"
+setenv PATH "$mapdrive/suy/PPG/scripts:${PATH}"
+setenv RELEASE $mapdrive/suy/4dfp/4dfp_cygwin64
+
+set reconguide = ($mapdrive/suy/PPG/scripts/$reconguide[1] $reconguide[2-])
+set workingdir = `pwd`
+set pname = NAC
+
+set FDG_LABELS = ()
+set  HO_LABELS = ()
+set  OO_LABELS = ()
+set  OC_LABELS = ()
+set PIB_LABELS = ()
+set  AV_LABELS = ()
+set TAU_LABELS = ()
+set     IMAGES = ()
+foreach MD (FDG HO OO OC PIB AV TAU)
+foreach dcmdir (`gawk '$1=="'$MD'" {print $2}' $dcmtxt | sort -u`)
+	set ilst = `gawk '$1=="'$MD'"&&$2=="'$dcmdir'"&&NF>2 {print $3}' $dcmtxt`
+	foreach i ($ilst)
+		switch ($MD)
+			case "FDG":
+				set FDG_LABELS = ($FDG_LABELS $i$str); breaksw;
+			case "HO":
+				set  HO_LABELS = ($HO_LABELS  $i$str); breaksw;
+			case "OO":
+				set  OO_LABELS = ($OO_LABELS  $i$str); breaksw;
+			case "OC":
+				set  OC_LABELS = ($OC_LABELS  $i$str); breaksw;
+			case "PIB":
+				set PIB_LABELS = ($PIB_LABELS $i$str); breaksw;
+			case "AV":
+				set  AV_LABELS = ($AV_LABELS  $i$str); breaksw;
+			case "TAU":
+				set TAU_LABELS = ($TAU_LABELS $i$str); breaksw;
+		endsw
+		set IMAGES = ($IMAGES $MD$i$str);
+	end
+	if ($#ilst == 0) then
+		switch ($MD)
+			case "FDG":
+				set FDG_LABELS = ($FDG_LABELS $str); breaksw;
+			case "HO":
+				set  HO_LABELS = ($HO_LABELS  $str); breaksw;
+			case "OO":
+				set  OO_LABELS = ($OO_LABELS  $str); breaksw;
+			case "OC":
+				set  OC_LABELS = ($OC_LABELS  $str); breaksw;
+			case "PIB":
+				set PIB_LABELS = ($PIB_LABELS $str); breaksw;
+			case "AV":
+				set  AV_LABELS = ($AV_LABELS  $str); breaksw;
+			case "TAU":
+				set TAU_LABELS = ($TAU_LABELS $str); breaksw;
+		endsw
+		set IMAGES = ($IMAGES $MD$str);
+	endif
+end
+end
+set fdg_labels = `echo $FDG_LABELS | gawk '{for(i=1;i<=NF;i++)print tolower($i)}'`
+set  ho_labels = `echo  $HO_LABELS | gawk '{for(i=1;i<=NF;i++)print tolower($i)}'`
+set  oo_labels = `echo  $OO_LABELS | gawk '{for(i=1;i<=NF;i++)print tolower($i)}'`
+set  oc_labels = `echo  $OC_LABELS | gawk '{for(i=1;i<=NF;i++)print tolower($i)}'`
+set pib_labels = `echo $PIB_LABELS | gawk '{for(i=1;i<=NF;i++)print tolower($i)}'`
+set  av_labels = `echo  $AV_LABELS | gawk '{for(i=1;i<=NF;i++)print tolower($i)}'`
+set tau_labels = `echo $TAU_LABELS | gawk '{for(i=1;i<=NF;i++)print tolower($i)}'`
+
+if ($?GOTO) then
+	goto $GOTO
+endif
+
+if (! -e $outdir) mkdir $outdir
+foreach MD (CT MPR MRAC)
+	set dcmdir = `gawk '$1=="'$MD'" {print $2}' $dcmtxt`
+	if ($#dcmdir == 0 || $#dcmdir > 1) then
+		echo "${program}: $dcmtxt must have one row with $MD keyword"
+		exit -1
+	endif
+	set md = `echo $MD | gawk '{print tolower($0)}'`
+#	if ($MD == MRAC) then
+#		if (-d $outdir/MRAC) rm -r $outdir/MRAC
+#		sortncpdcm $datadrive/$dcmdir $outdir/MRAC dcm;			if ($status) exit $status
+#		dcm_to_4dfp -b $outdir/$pid"_mrac" $outdir/MRAC/*dcm;		if ($status) exit $status
+#	else
+		dcm_to_4dfp -b $outdir/$pid"_"$md $datadrive/$dcmdir/*.{dcm,DCM,ima,IMA};	if ($status) exit $status
+#	endif
+end
+if (-d $outdir/UMAP) rm -r $outdir/UMAP
+mkdir $outdir/UMAP
+pushd $outdir/UMAP
+foreach dcm (`tac $workingdir/$outdir/$pid"_mrac".4dfp.img.rec | gawk '$1=="FileName"&&$2~/^[0-9]+$/&&$3=="=" {print $4}'`)
+	cp $dcm .
+#	if (! -d f) mkdir f
+#	cd f
+end
+#cd ..
+#rmdir f
+mkdir frame1
+mv `basename $dcm` frame1
+popd
+foreach MD (FDG HO OO OC PIB AV TAU)
+foreach dcmdir (`gawk '$1=="'$MD'" {print $2}' $dcmtxt | sort -u`)
+	set md = `echo $MD | gawk '{print tolower($0)}'`
+	set ilst = `gawk '$1=="'$MD'"&&$2=="'$dcmdir'"&&NF>2 {print $3}' $dcmtxt`
+	foreach i ($ilst)
+		if (-d $outdir/$MD$i$str)      rm -r $outdir/$MD$i$str
+		cp -r $datadrive/$dcmdir             $outdir/$MD$i$str
+		if (-d $outdir/$MD$i$str/umap) rm -r $outdir/$MD$i$str/umap
+		cp -r $outdir/UMAP $outdir/$MD$i$str/umap
+	end
+	if ($#ilst == 0) then
+		if (-d $outdir/$MD$str)      rm -r $outdir/$MD$str
+		cp -r $datadrive/$dcmdir           $outdir/$MD$str
+		if (-d $outdir/$MD$str/umap) rm -r $outdir/$MD$str/umap
+		cp -r $outdir/UMAP $outdir/$MD$str/umap
+	endif
+end
+end
+
+JSRECON1:
+foreach MD (FDG HO OO OC PIB AV TAU)
+	switch ($MD)
+		case "FDG":
+			set labels = ($FDG_LABELS); breaksw;
+		case "HO":
+			set labels = ($HO_LABELS); breaksw;
+		case "OO":
+			set labels = ($OO_LABELS); breaksw;
+		case "OC":
+			set labels = ($OC_LABELS);  breaksw;
+		case "PIB":
+			set labels = ($PIB_LABELS); breaksw;
+		case "AV":
+			set labels = ($AV_LABELS); breaksw;
+		case "TAU":
+			set labels = ($TAU_LABELS); breaksw;
+	endsw
+	foreach label ($labels)
+		set lbl = `echo $label | gawk '{sub(/'$str'$/, ""); print $0}'`
+		set txt = `gawk '$1=="'$MD$lbl'" {t = $2} END {print t}' $reconguide`
+		if ($#txt == 0) set txt = O15NAC
+		pushd $outdir
+		set IMG = $MD$label
+		set img  = $pid`echo $IMG | gawk '{print tolower($0)}'`"_"$pname
+		set umap = $pid`echo $IMG | gawk '{print tolower($0)}'`"_umap"
+		RunJSRecon.csh.tmp $IMG $txt.txt -uo $umap -o $img -m `basename $mapdrive` -f;	if ($status) exit $status
+		t4img_4dfp none $img $img"_222" -O222;	if ($status) exit $status
+		popd
+	end
+end
+
+PET2ATL:
+setenv REFDIR $mapdrive"/larsc/atlas"
+pushd $outdir
+echo "set TARGET	= TRIO_Y_NDC"			>! $pid.params
+echo "set TARGETPATH	= "$mapdrive"/larsc/atlas"	>> $pid.params
+echo "set PATID		= "$pid				>> $pid.params
+echo "set MPR		= "$pid"_mpr"			>> $pid.params
+echo "set  HO_LABELS	= ("$ho_labels")"		>> $pid.params
+echo "set  OO_LABELS	= ("$oo_labels")"		>> $pid.params
+echo "set  OC_LABELS	= ("$oc_labels")"		>> $pid.params
+echo "set FDG_LABELS	= ("$fdg_labels")"		>> $pid.params
+echo "set PIB_LABELS	= ("$pib_labels")"		>> $pid.params
+echo "set  AV_LABELS	= ("$av_labels")"		>> $pid.params
+echo "set TAU_LABELS	= ("$tau_labels")"		>> $pid.params
+echo "set  HO_NAME	= "$pname"_222"			>> $pid.params
+echo "set  OO_NAME	= "$pname"_222"			>> $pid.params
+echo "set  OC_NAME	= "$pname"_222"			>> $pid.params
+echo "set FDG_NAME	= "$pname"_222"			>> $pid.params
+echo "set PIB_NAME	= "$pname"_222"			>> $pid.params
+echo "set  AV_NAME	= "$pname"_222"			>> $pid.params
+echo "set TAU_NAME	= "$pname"_222"			>> $pid.params
+echo "set  HO_CROSS_PET_OPTIONS	= ()"			>> $pid.params
+echo "set  OO_CROSS_PET_OPTIONS	= ()"			>> $pid.params
+echo "set  OC_CROSS_PET_OPTIONS	= (-oc)"		>> $pid.params
+echo "set FDG_CROSS_PET_OPTIONS	= ()"			>> $pid.params
+echo "set PIB_CROSS_PET_OPTIONS	= ()"			>> $pid.params
+echo "set  AV_CROSS_PET_OPTIONS	= ()"			>> $pid.params
+echo "set TAU_CROSS_PET_OPTIONS	= ()"			>> $pid.params
+echo "set KEEP_MPR_T4 = 1"				>> $pid.params
+echo "set PET_RESOLVE_SCHEME	= "$RELEASE"/default.scheme"	>> $pid.params
+pet2atl_4dfp $pid.params;	if ($status) exit $status
+popd
+
+UMAPREG:
+pushd $outdir
+reg2img $pid"_mpr" $pid"_ct";										if ($status) exit $status
+#reg2img $pid"_mpr" $pid"_mrac";										if ($status) exit $status
+#foreach md (ct mrac)
+foreach md (ct)
+	sed -i '/scale/d' $pid"_"$md"_to_"$pid"_mpr_t4"
+	sed -i '/scale/d' $pid"_mpr_to_"$pid"_"$md"_t4"
+	chmod 666 $pid"_"$md"_to_"$pid"_mpr_t4"
+	chmod 666 $pid"_mpr_to_"$pid"_"$md"_t4"
+end
+gauss_4dfp $pid"_mpr" 0.8;										if ($status) exit $status
+t4img_4dfp $pid"_mpr_to_"$pid"_ct_t4" $pid"_mpr_g8" $pid"_mpr_g8_on_"$pid"_ct" -O$pid"_ct";		if ($status) exit $status
+maskimg_4dfp -p5.0 -v1.0 $pid"_mpr_g8_on_"$pid"_ct" $pid"_mpr_g8_on_"$pid"_ct" $pid"_ct_mask";		if ($status) exit $status
+scale_4dfp $pid"_ct_mask" -1.0 -b1.0;									if ($status) exit $status
+cluster_4dfp $pid"_ct_mask" -n`cluster_4dfp $pid"_ct_mask" | gawk '/^region/{getline; print $2}'`;	if ($status) exit $status
+scale_4dfp $pid"_ct_mask_clus" -1.0 -b1.0;								if ($status) exit $status
+maskimg_4dfp $pid"_ct" $pid"_ct_mask_clus" $pid"_ct_msk";						if ($status) exit $status
+compute_defined_4dfp $pid"_ct";										if ($status) exit $status
+popd
+
+UMAP:
+pushd $outdir
+foreach IMG ($IMAGES)
+	set img  = $pid`echo $IMG | gawk '{print tolower($1)}'`"_"$pname
+	set umap = $pid`echo $IMG | gawk '{print tolower($1)}'`"_umap"
+#	t4_inv $img"_to_"$pid"_mpr_t4";									if ($status) exit $status
+	t4_inv $img"_222_to_"$pid"_mpr_t4";								if ($status) exit $status
+#	t4_mul $pid"_ct_to_"$pid"_mpr_t4" $pid"_mpr_to_"$img"_t4";					if ($status) exit $status
+	t4_mul $pid"_ct_to_"$pid"_mpr_t4" $pid"_mpr_to_"$img"_222_t4";					if ($status) exit $status
+	t4img_4dfp    $pid"_ct_to_"$img"_222_t4" $pid"_ct_msk"  $pid"_ct_on_"$img      -O$img;		if ($status) exit $status
+	t4img_4dfp -n $pid"_ct_to_"$img"_222_t4" $pid"_ct_dfnd" $pid"_ct_dfnd_on_"$img -O$img;		if ($status) exit $status
+	custom_umap_4dfp $pid"_ct_on_"$img $umap temp$$ -m $pid"_ct_dfnd_on_"$img;			if ($status) exit $status
+	flip_4dfp -z temp$$ $umap;									if ($status) exit $status
+	rm temp$$.4dfp.*
+end
+popd
+
+JSRECON2:
+set pname = AC
+foreach MD (FDG HO OO OC PIB AV TAU)
+	switch ($MD)
+		case "FDG":
+			set labels = ($FDG_LABELS); breaksw;
+		case "HO":
+			set labels = ($HO_LABELS); breaksw;
+		case "OO":
+			set labels = ($OO_LABELS); breaksw;
+		case "OC":
+			set labels = ($OC_LABELS);  breaksw;
+		case "PIB":
+			set labels = ($PIB_LABELS); breaksw;
+		case "AV":
+			set labels = ($AV_LABELS); breaksw;
+		case "TAU":
+			set labels = ($TAU_LABELS); breaksw;
+	endsw
+#	set txt = `gawk '$1=="'$MD'" {t = $2} END {print t}' $reconguide`
+	foreach label ($labels)
+		set lbl = `echo $label | gawk '{sub(/'$str'$/, ""); print $0}'`
+		set txt = `gawk '$1=="'$MD$lbl'" {t = $NF} END {print t}' $reconguide`
+		if ($#txt == 0) set txt = `gawk '$1=="'$MD'" {t = $NF} END {print t}' $reconguide`
+		pushd $outdir
+		set IMG = $MD$label
+		set img  = $pid`echo $IMG | gawk '{print tolower($0)}'`"_"$pname
+		set umap = $pid`echo $IMG | gawk '{print tolower($0)}'`"_umap"
+		RunJSRecon.csh.tmp $IMG $txt.txt -ui $umap -o $img -m `basename $mapdrive`;	if ($status) exit $status
+		popd
+	end
+end
+
+exit 0

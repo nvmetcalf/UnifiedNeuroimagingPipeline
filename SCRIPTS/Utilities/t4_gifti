@@ -1,0 +1,23 @@
+#!/bin/csh
+# To add - option for retaining .lst output, outroot for .lst
+
+if($#argv < 3) then
+	echo "t4_gifti <t4 file> <gifti_in> <gifti_out>"
+	exit 1
+endif
+# BEGIN t4_gifti
+set t4file = $1
+set giifile = $2
+set outfile = $3
+
+set save_lists=1
+
+set giipath = $PP_SCRIPTS/matlab_scripts
+if (! -e $giipath/t4_pts_gifti.m ) then
+    echo t4_pts_gifti.m was not found in $giipath 
+endif
+
+echo "addpath(genpath('$giipath'));t4_pts_gifti('$giipath','$t4file','$giifile','$outfile','$save_lists');exit;" > temp.m
+cat temp.m | matlab -nodisplay -nosplash
+rm temp.m
+exit

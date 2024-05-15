@@ -1,0 +1,40 @@
+#!/bin/csh
+set PET = $1
+
+set lines = `wc -l ${PET}"_ROI2_f10" | gawk '{print $1}'`
+@ l = 2
+echo "l=${l}; lines=${lines}"
+@ lines++
+
+set frames = `gawk '/matrix size \[4\]/ {print $5}' ${PET}".4dfp.ifh"` 
+@ frames++
+while ($l<$lines)
+	set label = `gawk 'NR=='$l' {print $1}'  ${PET}"_ROI2_f10"` 
+	echo "label = ${label}"
+	set outfile = ${PET}"_"${label}"_RSF.tac"
+	echo "outfile = ${outfile}"
+	
+	if (-e $outfile) then
+		rm $outfile
+	endif
+	touch $outfile
+	
+	set NVOX = `gawk 'NR=='$l' {print $2}'  ${PET}"_ROI2_f10"`
+	printf "%9s %15s %15s %15s %15s %15s%10d\n" "Frame_#" "Start_Time_(m)" "Duration_(m)"  "Mean" "Mean_(RSF)" "NVoxels=" $NVOX>> $outfile
+	@ f = 1
+	@ f1 = 1
+	while ($f<$frames)
+		set ROIfn = ${PET}"_ROI2_f"$f
+		set ROIRSF = ${PET}"_RSF_ROI2_f"$f
+		if (-e $ROIfn  ) then
+		set ts = `gawk 'NR=='$f1' {print $1}'  ${PET}".info"`
+		set td = `gawk 'NR=='$f1' {print $3}'  ${PET}".info"`
+		set meanroi = `gawk 'NR=='$l' {print $3}' $ROIfn `
+		set meanroiRSF = `gawk 'NR=='$l' {print $3}' $ROIRSF`
+		printf "%9d %15f %15f %15f %15f\n" $f $ts $td $meanroi $meanroiRSF >> $outfile
+		@ f1++
+		endif
+		@ f++
+	end
+	@ l++
+end

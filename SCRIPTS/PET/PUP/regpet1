@@ -1,0 +1,75 @@
+#!/bin/bash
+################################################################################
+# This program registers a set of PET images
+#                                                                              
+################################################################################
+# Yi Su, 11/30/2010                                                            
+
+args=$#
+program=`basename $0`
+
+for (( i=1; i<=$args; i++ ))
+do
+	imgfstr[$i]=${!i}
+	imgname[$i]=`basename ${!i}`
+	imgpath[$i]=`dirname ${!i}`
+	tmp=${imgname[$i]}
+	tmp=${tmp%.*}
+	tmp=${tmp%.*}
+	imgf[$i]=$tmp
+	tmp=${tmp%_*}
+	imgroot[$i]=$tmp
+done
+echo ${imgroot[@]}
+log=${program}".log"
+touch	$log
+date >> $log
+echo ;
+echo imgreg_4dfp OUTPUT to $log ;
+echo "Please wait"
+
+nfine=2
+hessian=1
+oristr=( T C S )
+for (( i=1; i<=$args; i++ ))
+do
+	for (( j=1; j<=$args; j++ ))
+	do
+		if [ "$i" -ne "$j" ]
+		then
+			pos=${imgroot[$i]}
+			neg=${imgroot[$j]}
+			t4file=$neg"_to_"$pos"_t4"
+			if [ ! -e $t4file ]
+			then
+				ori=`awk '/orientation/{print $NF - 1}' ${pos}".4dfp.ifh"`
+				ori=$((ori-1))
+				t4_inv /data/petsun4/data1/solaris/${oristr[$ori]}"_t4" temp$$"_t4"
+				ori=`awk '/orientation/{print $NF - 1}' ${neg}".4dfp.ifh"`
+				ori=$((ori-1))
+				t4_mul /data/petsun4/data1/solaris/${oristr[$ori]}"_t4" temp$$"_t4" $t4file
+				rm temp$$_t4			
+			fi
+			for (( k=0; k<nfine; k++ ))
+			do
+				mode=$((2048+3))
+				echo >> $log ; echo "nfile k="$k "search="$nfile "mode = 2048 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+			done
+			if [ $hessian ] 
+			then
+				mode=$((8192+2048+3))
+				echo >> $log ; echo "hessian k="$k "hessian="$hessian "mode = 8192 + 2048 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log			
+			fi
+		fi
+	done
+done
+echo t4_resolve $imgn -otriple_target > triple_target_mov.log
+t4_resolve ${imgroot[@]} -otriple_target > triple_target_mov.log
+echo t4imgs_4dfp triple_target.sub triple_target -O${imgfstr[1]} 
+t4imgs_4dfp triple_target.sub triple_target -O${imgfstr[1]} 

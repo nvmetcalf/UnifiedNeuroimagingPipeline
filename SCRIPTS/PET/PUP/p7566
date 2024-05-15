@@ -1,0 +1,75 @@
+#!/bin/csh
+
+t4_mul p7566ho1_sumall_to_SLP101ho_sumall_t4 SLP101ho_sumall_to_SLP101oo_sumall_t4 p7566ho1_sumall_to_SLP101oo_sumall_t4
+t4_mul p7566ho1_sumall_to_SLP101oo_sumall_t4 SLP101oo_sumall_to_p7566oo1_sumall_t4 p7566ho1_sumall_to_p7566oo1_sumall_t4
+t4_mul p7566oc1_sumall_to_SLP101oc_sumall_t4 SLP101oc_sumall_to_SLP101oo_sumall_t4 p7566oc1_sumall_to_SLP101oo_sumall_t4
+t4_mul p7566oc1_sumall_to_SLP101oo_sumall_t4 SLP101oo_sumall_to_p7566oo1_sumall_t4 p7566oc1_sumall_to_p7566oo1_sumall_t4
+
+set mfile = p7566_1_1.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load p7566.mat" >>$mfile
+ 
+echo "[CBFimg, Faimg]=Process_H2O('p7566ho1', 'p7566ho1_Mask', ho1IF, frd, 'p7566ho1');" >>$mfile 
+echo "[Fvimg]=Process_CO('p7566oc1',oc1IF,'p7566oc1');" >> $mfile 
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup Matlab -nojvm -nodisplay < $mfile
+
+t4img_4dfp p7566oc1_sumall_to_p7566oo1_sumall_t4 p7566oc1_Fv p7566oo1_Fv -Op7566oo1_sumall
+t4img_4dfp p7566ho1_sumall_to_p7566oo1_sumall_t4 p7566ho1_CBF p7566oo1_CBF -Op7566oo1_sumall	
+
+set mfile = p7566_1_2.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load p7566.mat" >>$mfile
+echo "[OEFimg, OEFRimg]=Process_O2('p7566oo1', 'p7566oo1_Mask', oo1IF, 'p7566oo1_CBF', 'p7566oo1_Fv', frd, 'p7566oo1');" >>$mfile #load PET frame
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup Matlab -nojvm -nodisplay < $mfile
+
+t4_mul p7566ho2_sumall_to_SLP101ho_sumall_t4 SLP101ho_sumall_to_SLP101oo_sumall_t4 p7566ho2_sumall_to_SLP101oo_sumall_t4
+t4_mul p7566ho2_sumall_to_SLP101oo_sumall_t4 SLP101oo_sumall_to_p7566oo2_sumall_t4 p7566ho2_sumall_to_p7566oo2_sumall_t4
+t4_mul p7566oc2_sumall_to_SLP101oc_sumall_t4 SLP101oc_sumall_to_SLP101oo_sumall_t4 p7566oc2_sumall_to_SLP101oo_sumall_t4
+t4_mul p7566oc2_sumall_to_SLP101oo_sumall_t4 SLP101oo_sumall_to_p7566oo2_sumall_t4 p7566oc2_sumall_to_p7566oo2_sumall_t4
+
+set mfile = p7566_2_1.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load p7566.mat" >>$mfile
+ 
+echo "[CBFimg, Faimg]=Process_H2O('p7566ho2', 'p7566ho2_Mask', ho2IF, frd, 'p7566ho2');" >>$mfile 
+echo "[Fvimg]=Process_CO('p7566oc2',oc2IF,'p7566oc2');" >> $mfile 
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup Matlab -nojvm -nodisplay < $mfile
+
+t4img_4dfp p7566oc2_sumall_to_p7566oo2_sumall_t4 p7566oc2_Fv p7566oo2_Fv -Op7566oo2_sumall
+t4img_4dfp p7566ho2_sumall_to_p7566oo2_sumall_t4 p7566ho2_CBF p7566oo2_CBF -Op7566oo2_sumall	
+
+set mfile = p7566_2_2.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load p7566.mat" >>$mfile
+echo "[OEFimg, OEFRimg]=Process_O2('p7566oo2', 'p7566oo2_Mask', oo2IF, 'p7566oo2_CBF', 'p7566oo2_Fv', frd, 'p7566oo2');" >>$mfile #load PET frame
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup Matlab -nojvm -nodisplay < $mfile

@@ -1,0 +1,69 @@
+#!/bin/bash
+################################################################################
+# Generating Report for Logan Reference Region Analysis			       #
+#                                                                              #
+# USAGE:								       #
+#	petloganrep paramsfn                                        	       #
+#                                                                              #
+################################################################################
+# Yi Su, 01/08/2014
+VERSION=1.1
+
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Fri Mar 14 09:45:58 CST 2014 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+###############################################################################
+# Read PARAMS file
+source $paramsfn || die "$program ERROR: Cannot source params file $paramsfn"
+
+# Further development will improve this program which checks the validity of
+# the inputs specified in the params file
+
+###############################################################################
+if (( FS == 1 ))
+then
+	fslogansum $paramsfn none || die "$program ERROR: fslogansum $paramsfn none failed"
+	if (( rsfflag == 1 ))
+	then
+		fslogansum $paramsfn _RSF || die "$program ERROR: fslogansum $paramsfn _RSF failed"
+	fi
+	if (( pvc2cflag == 1 ))
+	then
+		fslogansum $paramsfn _PVC2C || die "$program ERROR: fslogansum $paramsfn _PVC2C failed"
+	fi
+
+fi
+
+if (( tgflag == 1 ))
+then
+	roilogansum $petid $roilist .mdl .txt || die "$program ERROR: roilogansum $petid $roilist .mdl .txt failed"
+fi
+
+if (( tgflag == 2 ))
+then
+	roilogansum $petid $roilist .mdl .txt || die "$program ERROR: roilogansum $petid $roilist .mdl .txt failed"
+fi
+###############################################################################
+# Additional ROI target based processing will be included in the future
+
+
+
+###############################################################################

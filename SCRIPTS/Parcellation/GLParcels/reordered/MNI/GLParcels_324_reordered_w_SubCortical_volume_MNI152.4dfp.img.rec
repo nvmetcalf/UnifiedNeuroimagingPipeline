@@ -1,0 +1,45 @@
+rec GLParcels_324_reordered_w_SubCortical_volume_MNI152.4dfp.img Tue Jan 14 12:14:48 EST 2020 metcalfn
+t4img_4dfp none GLParcels_324_reordered_w_SubCortical_volume_MNI GLParcels_324_reordered_w_SubCortical_volume_MNI152 -O/data/nil-bluearc/corbetta/ATLAS/MNI152/MNI152_T1_1mm_brain -n
+$Id: t4img_4dfp,v 1.14 2015/11/03 04:45:16 avi Exp $
+rec GLParcels_324_reordered_w_SubCortical_volume_MNI152.4dfp.img  Tue Jan 14 12:14:47 2020  metcalfn@maulinux02 Linux 3.10.0-862.3.2.el7.x86_64 x86_64
+t4imgs_4dfp GLParcels_324_reordered_w_SubCortical_volume_MNI152.lst GLParcels_324_reordered_w_SubCortical_volume_MNI152 -O/data/nil-bluearc/corbetta/ATLAS/MNI152/MNI152_T1_1mm_brain -n 
+$Id: t4imgs_4dfp.c,v 1.38 2017/01/27 23:32:53 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+GLParcels_324_reordered_w_SubCortical_volume_MNI	t4=
+endsub
+rec GLParcels_324_reordered_w_SubCortical_volume_MNI.4dfp.img Tue Oct 15 13:03:27 EDT 2019 metcalfn
+t4img_4dfp /data/nil-bluearc/corbetta/ATLAS/711-2B_to_MNI152lin_T1_t4 GLParcels_324_reordered_w_SubCortical_volume GLParcels_324_reordered_w_SubCortical_volume_MNI -O/data/nil-bluearc/corbetta/ATLAS/MNI152/MNI152_T1_1mm_brain -n
+$Id: t4img_4dfp,v 1.14 2015/11/03 04:45:16 avi Exp $
+rec GLParcels_324_reordered_w_SubCortical_volume_MNI.4dfp.img  Tue Oct 15 13:03:26 2019  metcalfn@maulinux02 Linux 3.10.0-862.3.2.el7.x86_64 x86_64
+t4imgs_4dfp GLParcels_324_reordered_w_SubCortical_volume_MNI.lst GLParcels_324_reordered_w_SubCortical_volume_MNI -O/data/nil-bluearc/corbetta/ATLAS/MNI152/MNI152_T1_1mm_brain -n 
+$Id: t4imgs_4dfp.c,v 1.38 2017/01/27 23:32:53 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+GLParcels_324_reordered_w_SubCortical_volume	t4=/data/nil-bluearc/corbetta/ATLAS/711-2B_to_MNI152lin_T1_t4
+endsub
+t4
+#t4_inv MNI152lin_T1_to_711-2B_t4
+#$Id: t4_inv.c,v 1.1 2007/05/01 01:20:20 avi Exp $
+t4
+  0.953903 -0.003872 -0.021291   -0.1135
+ -0.010402  0.950932 -0.016412   -3.4194
+  0.020852  0.055067  0.946383    2.5682
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.000000
+rec GLParcels_324_reordered_w_SubCortical_volume.4dfp.img  Tue Oct 15 13:02:28 2019  metcalfn@maulinux02 Linux 3.10.0-862.3.2.el7.x86_64 x86_64
+nifti_4dfp -4 GLParcels_324_reordered_w_SubCortical_volume.nii GLParcels_324_reordered_w_SubCortical_volume 
+$Id: nifti_4dfp.c,v 1.9 2011/09/13 03:40:37 avi Exp $
+littleendian
+datatype: 16	 bitpix: 32
+scale: 1.000000	 offset: 0.000000
+common sform[0]:     3.000000	    0.000000	    0.000000	  -70.500000
+common sform[1]:     0.000000	    3.000000	    0.000000	 -105.000000
+common sform[2]:     0.000000	    0.000000	    3.000000	  -60.000000
+endrec Tue Oct 15 13:02:28 2019  metcalfn
+endrec Tue Oct 15 13:03:27 2019  metcalfn
+endrec Tue Oct 15 13:03:27 EDT 2019 metcalfn
+endrec Tue Jan 14 12:14:48 2020  metcalfn
+endrec Tue Jan 14 12:14:48 EST 2020 metcalfn

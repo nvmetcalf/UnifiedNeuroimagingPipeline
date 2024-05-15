@@ -1,0 +1,136 @@
+#!/bin/csh
+set echo
+#if (! -e .fdb.processing.pet && ! -e .fdb.processed.pet && -e .fdb.processed) then
+	set program = $0
+
+	set wdir = `dirname $program`
+	set wdir = `cd $wdir && pwd`
+
+	setenv SUBJECTS_DIR $2
+	set subject = $1
+	set factors = ($3)
+
+	echo $subject
+	
+	set blur = 5.0
+	set bext = "_b50"
+	set FWHM = 8.0
+
+	set ext = _auto
+	
+	set modes_available = ()
+	
+	rm gtmseg+wmparc.lta
+	cp $2/Freesurfer/mri/gtmseg.lta gtmseg+wmparc.lta
+	if($status) exit 1
+	
+	#register the PET modalities to orig space
+	foreach mode (ho oo oc)
+		if (-e $mode.lst) rm $mode.lst; touch $mode.lst
+		foreach n (1 2 3 _all)
+			if (-e $subject$mode$n${ext}_to_orig_t4 && -e $subject$mode$n$ext.4dfp.img) then
+				imgblur_4dfp $subject$mode$n$ext $blur
+				if ($status) exit $status
+				echo $subject$mode$n$ext$bext "t4="$subject$mode$n${ext}_to_orig_t4 >> $mode.lst
+			endif
+		end
+		if(`cat ${mode}.lst | wc | awk '{print $1}'` > 0) then
+			t4imgs_4dfp $mode.lst $mode -Oorig
+			if ($status) exit $status
+			
+			niftigz_4dfp -n $mode $mode
+			if($status) exit 1
+			
+			fslmaths $mode -Tmean $mode
+			if($status) exit 1
+			
+			niftigz_4dfp -4 $mode $mode
+			if($status) exit 1
+			
+			rm ${mode}.nii.gz
+			
+			set modes_available = ($modes_available $mode)
+		endif
+	end
+	
+	if(-e $subject"fdg_all_c.4dfp.img") then
+		set ext  = _all_c
+		set mode = fdg
+		imgblur_4dfp $subject$mode$ext $blur
+		if ($status) exit $status
+		t4img_4dfp $subject$mode${ext}_to_orig_t4 $subject$mode$ext$bext $mode -Oorig
+		if ($status) exit $status
+		
+		set modes_available = ($modes_available fdg)
+	endif
+	
+	mri_convert $SUBJECTS_DIR/Freesurfer/mri/wmparc.mgz wmparc.nii
+	if ($status) exit $status
+	nifti_4dfp -4 -N wmparc.nii wmparc.4dfp.img
+	if ($status) exit $status
+	
+	#norm should be based on norm list, not wmparc!!!
+	foreach mode ($modes_available)
+
+		set norm = `qnt_4dfp $mode wmparc -D | gawk '/Mean/ {print 1/$NF}'`
+		if ($status) exit $status
+		
+		scale_4dfp $mode $norm -anorm
+		if ($status) exit $status
+	end
+	
+	if(-e oo.4dfp.img && -e ho.4dfp.img && -e oc.4dfp.img) then
+		oem_4dfp oo ho oc wmparc om oe -n1 -g0.44; if ($status) exit $status
+		imgopr_4dfp -acmro2  om  -c$factors[2]; if ($status) exit $status
+		set modes_available = ($modes_available om)	
+	endif
+	
+	if(-e om.4dfp.img && -e fdg.4dfp.img) then
+		gi_4dfp om fdg wmparc gi -n1 -g0.44; if ($status) exit $status
+		set modes_available = ($modes_available gi)	
+	endif
+
+	
+	#this orig.4dfp should be the one used for alignment
+	#this is needed because for some reason, the mgz -> nii
+	# nii -> 4dfp -> nii does not reverse properly
+	#this will register the bad conversion properly to
+	#the orig.mgz image
+ 	niftigz_4dfp -n orig.4dfp.img orig_conv
+ 	if ($status) exit $status
+	
+	#this actually does the registration
+	mri_coreg --s Freesurfer --mov orig_conv.nii.gz --reg orig_nii_4dfp.reg.lta --dof 6
+	if ($status) exit $status
+	
+	GTMPVC:
+	foreach mode ($modes_available)
+		if(-e ${mode}"_norm.4dfp.img") then
+			set mode = ${mode}_norm
+		endif
+		
+		nifti_4dfp -n $mode.4dfp.img $mode.nii
+		if ($status) exit 1
+		
+		lta_convert --inlta identity.nofile --src $mode.nii --trg orig_conv.nii.gz --outlta $mode.orig.lta --subject Freesurfer
+		if ($status) exit 1
+		
+		mri_concatenate_lta -subject Freesurfer $mode.orig.lta orig_nii_4dfp.reg.lta $mode.reg.lta
+		if ($status) exit 1
+
+		mri_vol2vol --mov $mode.nii --lta $mode.reg.lta --targ orig_conv.nii.gz --o ${mode}_to_orig.nii.gz --nearest
+		if ($status) exit 1
+		
+		mri_vol2vol --mov ${mode}_to_orig.nii.gz --lta ../Freesurfer/mri/gtmseg.lta --targ gtmseg+wmparc.mgz --o ${mode}_to_gtm.nii.gz --nearest
+		if ($status) exit 1
+		
+		mri_gtmpvc --sd $2 --i $mode.nii --reg $mode.reg.lta --psf $FWHM --seg "gtmseg+wmparc.mgz" --default-seg-merge --auto-mask PSF .01 --mgx .01 --o ${mode}_gtmpvc.output --no-rescale --no-reduce-fov --rbv --rbv-res 1 --threads 6 >&! ${mode}_gtmpvc.log
+		if ($status) exit 1
+#		mri_gtmpvc --i $mode.nii --reg $mode.reg.lta --psf $FWHM --seg "gtmseg+wmparc.mgz" --default-seg-merge --auto-mask PSF .01 --mgx .01 --o ${mode}_gtmpvc.output --no-rescale >&! ${mode}_gtmpvc.log; if ($status) exit $status
+
+		python3 $PP_SCRIPTS/PET/python3/rbv_stats.py ${mode}_gtmpvc.output/aux/rbv.segmean.nii.gz ${mode}_gtmpvc.output/gtm.stats.dat ${mode}_gtmpvc.output/rbv.stats.dat; if ($status) exit $status
+		if ($status) exit 1
+	end
+
+exit 0
+

@@ -1,0 +1,111 @@
+#!/bin/csh
+#$Header$
+#$Log$
+
+set idstr   = '$Id$'
+echo $idstr
+set program = $0
+set program = $program:t
+
+set mapdrive = z
+
+@ i = 1
+@ j = 0
+while ($i <= ${#argv})
+	switch ($argv[$i])
+	case -map:
+		@ i ++
+		set mapdrive = $argv[$i]
+		breaksw
+	default:
+		switch ($j)
+		case 0:
+			@ j ++
+			set rawloc     = `dirname  $argv[$i]`
+			set rawdirname = `basename $argv[$i]`
+			breaksw
+		case 1:
+			@ j ++
+			set ctdir = $argv[$i]
+			breaksw
+		case 2:
+			@ j ++
+			set mrdir = $argv[$i]
+			breaksw
+		case 3:
+			@ j ++
+			set outroot = $argv[$i]
+			breaksw
+		endsw
+		breaksw
+	endsw
+	@ i ++
+end
+if ($j != 4) then
+        echo "Usage:    $program <umap directory> <ct directory> <mr directory> <outroot>"
+	echo " -map <drive>	name of mapped drive for path (default=$mapdrive)"
+        exit 1
+endif
+
+setenv PATH "${PATH}:/cygdrive/$mapdrive/suy/4dfp/4dfp_cygwin64"
+setenv PATH "${PATH}:/cygdrive/$mapdrive/suy/scripts"
+setenv PATH "${PATH}:/cygdrive/$mapdrive/suy/PPG/scripts"
+setenv RELEASE /cygdrive/$mapdrive/suy/4dfp/4dfp_cygwin64
+
+pushd $rawloc
+
+#set ext = `ls -1 $rawdirname | gawk '/\.(dcm|ica)$/ {print substr($0,length($0)-2)}' | sort -u`
+#if ($#ext > 1) then
+#	echo $program": multiple DICOM extensions found in "$rawdirname
+#	exit -1
+#endif
+######/cygdrive/c/PUP/sortncpdcm $rawdirname/umap ${rawdirname}/sorted-umap $ext
+
+cscript C:/JSRecon12/JSRecon12.js $rawdirname C:/JSRecon12/O15NAC.txt
+
+sed -i '/Run-05/d' ${rawdirname}-Converted/${rawdirname}-LM-00/Run-99-${rawdirname}-LM-00-ALL.bat
+${rawdirname}-Converted/${rawdirname}-LM-00/Run-99-${rawdirname}-LM-00-ALL.bat
+
+IFhdr_to_4dfp ${rawdirname}-Converted/${rawdirname}-LM-00/${rawdirname}-LM-00-umap.v.hdr $outroot
+rm ${outroot}fz.*
+
+popd
+
+if (! -d CT_MR_Reg) mkdir CT_MR_Reg
+
+set ctroot = ${outroot}_ct
+set mrroot = ${outroot}_mr
+
+dcm_to_4dfp -b CT_MR_Reg/$ctroot $ctdir/*;							if ($status) exit $status
+dcm_to_4dfp -b CT_MR_Reg/$mrroot $mrdir/*;							if ($status) exit $status
+cp $rawloc/$outroot.4dfp.* CT_MR_Reg
+
+pushd CT_MR_Reg
+reg2img $mrroot $ctroot;									if ($status) exit $status
+reg2img $mrroot $outroot;									if ($status) exit $status
+t4_inv ${outroot}_to_${mrroot}_t4;								if ($status) exit $status
+t4_mul ${ctroot}_to_${mrroot}_t4 ${mrroot}_to_${outroot}_t4;					if ($status) exit $status
+t4img_4dfp ${mrroot}_to_${outroot}_t4 ${mrroot} ${mrroot}_on_${outroot} -O$outroot;		if ($status) exit $status
+t4img_4dfp ${ctroot}_to_${outroot}_t4 ${ctroot} ${ctroot}_on_${outroot} -O$outroot;		if ($status) exit $status
+custom_umap_4dfp ${ctroot}_on_${outroot} ${mrroot}_on_${outroot} ${ctroot}_temp;		if ($status) exit $status
+flip_4dfp -z ${ctroot}_temp ${ctroot}_custom;							if ($status) exit $status
+rm ${ctroot}_temp.4dfp.*
+popd
+
+mv CT_MR_Reg/${ctroot}_custom.4dfp.img $rawloc/$rawdirname/${rawdirname}-LM-00/${rawdirname}-LM-00-umap.v
+
+pushd $rawloc
+
+sed -i '/Run-05/d' ${rawdirname}-Converted/${rawdirname}-LM-00/Run-99-${rawdirname}-LM-00-ALL.bat
+sed -i '/FBP/d'    ${rawdirname}-Converted/${rawdirname}-LM-00/Run-99-${rawdirname}-LM-00-ALL.bat
+sed -i '/PSF/d'    ${rawdirname}-Converted/${rawdirname}-LM-00/Run-99-${rawdirname}-LM-00-ALL.bat
+
+${rawdirname}-Converted/${rawdirname}-LM-00/Run-99-${rawdirname}-LM-00-ALL.bat
+
+#IFhdr_to_4dfp ${rawdirname}-Sorted-Converted/${rawdirname}-Sorted-LM-00/${rawdirname}-Sorted-LM-00-umap.v.hdr  $outroot
+#sif_4dfp      ${rawdirname}-Sorted-Converted/${rawdirname}-Sorted-LM-00/${rawdirname}-Sorted-LM-00-umap.v.mhdr $outroot
+
+popd
+
+exit 0
+

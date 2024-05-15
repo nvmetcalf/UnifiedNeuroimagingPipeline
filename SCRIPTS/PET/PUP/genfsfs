@@ -1,0 +1,25 @@
+#!/bin/bash
+# Generate file structure to store data used for freesurfer PIB processing validation
+# 03/03/2011 Yi Su
+
+contents=( $(cat "$1") )
+n=`wc -l "$1" | gawk '{print $1}'`
+for (( i=0; i<$n; i++ ))
+do
+	let "a = $i * 2"
+	let "b = $a + 1"
+	echo  -e "${contents[$a]}\t${contents[$b]}"
+	mkdir ${contents[$a]}
+	mkdir ${contents[$a]}/${contents[$b]}
+	if [ -d /data/nil-bluearc/benzinger2/Tyler/DeltaPIB_fs/${contents[$b]} ]
+	then
+		ln -s /data/nil-bluearc/benzinger2/Tyler/DeltaPIB_fs/${contents[$b]}/* ${contents[$a]}/${contents[$b]}
+	elif [ -d /data/nil-bluearc/benzinger2/suy/FS_MCBP/deltacorrect/${contents[$a]}/${contents[$b]} ]
+	then
+		ln -s /data/nil-bluearc/benzinger2/suy/FS_MCBP/deltacorrect/${contents[$a]}/${contents[$b]}/* ${contents[$a]}/${contents[$b]}
+	elif [ -d /data/nil-bluearc/benzinger2/suy/FS_MCBP/testretest/${contents[$a]}/${contents[$b]} ]
+	then
+		ln -s /data/nil-bluearc/benzinger2/suy/FS_MCBP/testretest/${contents[$a]}/${contents[$b]}/* ${contents[$a]}/${contents[$b]}
+	fi
+done
+exit 0

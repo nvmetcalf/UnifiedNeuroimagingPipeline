@@ -1,0 +1,27 @@
+#!/bin/bash
+
+PET1=$1
+PET2=$2
+sf1=$3
+sf2=$4
+MPR=$5
+MPR=${MPR%%.*}
+PID=${PET1:0:5}
+
+sumecatto4dfp $1 ${PID}PET1_5to60 35 53
+sumecatto4dfp $2 ${PID}PET2_5to60 35 53
+
+scale_4dfp ${PID}PET1_5to60 $sf1 -aNORM
+scale_4dfp ${PID}PET2_5to60 $sf2 -aNORM
+gauss_4dfp ${PID}PET1_5to60_NORM 0.7
+gauss_4dfp ${PID}PET2_5to60_NORM 0.7
+if [ ! -e ${MPR}_to_711-2B_t4 ] 
+then
+	mpr2atl_4dfp $MPR
+fi
+	
+t4_mul ${PID}PET1_sumall_to_${MPR}_t4 ${MPR}_to_711-2B_t4
+t4_mul ${PID}PET2_sumall_to_${MPR}_t4 ${MPR}_to_711-2B_t4
+t4img_4dfp ${PID}PET1_sumall_to_711-2B_t4 ${PID}PET1_5to60_NORM_g7 ${PID}PET1_5to60_NORM_g7_on_711-2B -O111
+t4img_4dfp ${PID}PET2_sumall_to_711-2B_t4 ${PID}PET2_5to60_NORM_g7 ${PID}PET2_5to60_NORM_g7_on_711-2B -O111
+t4img_4dfp ${MPR}_to_711-2B_t4 ${MPR} ${MPR}_on_711-2B -O111

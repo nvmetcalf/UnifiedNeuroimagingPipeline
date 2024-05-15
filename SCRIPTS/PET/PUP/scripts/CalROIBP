@@ -1,0 +1,24 @@
+#!/bin/bash
+# Find freesurfer and man roi BPs.
+# 03/21/2011 Yi Su
+
+idstr='$Id: CalROIBP,v 1.2 2012/08/21 20:51:54 suy Exp $'
+echo $idstr
+
+contents=( $(cat "$1") )
+n=`wc -l "$1" | gawk '{print $1}'`
+echo ----
+for (( i=1; i<$n; i++ ))
+do
+	let "a = $i * 3"
+	let "b = $a + 1"
+	let "c = $a + 2"
+	echo  -e "${contents[$a]}\t${contents[$b]}\t${contents[$c]}.v"
+	pushd ${contents[$a]}/${contents[$b]}
+	GetROIList ${contents[$c]}"_ROI2_f10" > fsrois.txt
+	PVC2CFS wmparc001 PETFOV fsrois.txt 6.0
+	PIBMANANA  ${contents[$c]}.v wmparc.mgz
+	CalBP3 ${contents[$c]}
+	popd
+done
+

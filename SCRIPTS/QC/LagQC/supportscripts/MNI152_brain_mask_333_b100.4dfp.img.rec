@@ -1,0 +1,43 @@
+rec MNI154_brain_mask_333_b100.4dfp.img Wed Dec 2 12:10:39 CST 2015 siegelj
+t4img_4dfp 711-2B_to_MNI152lin_T1_t4 talairach_brain_mask_333_b100 MNI154_brain_mask_333_b100 -O333 -N
+$Id: t4img_4dfp,v 1.14 2015/11/03 04:45:16 avi Exp $
+rec MNI154_brain_mask_333_b100.4dfp.img  Wed Dec  2 12:10:38 2015  siegelj@maulinux1 Linux 3.10.0-123.13.2.el7.x86_64.debug x86_64
+t4imgs_4dfp MNI154_brain_mask_333_b100.lst MNI154_brain_mask_333_b100 -O333 -N 
+$Id: t4imgs_4dfp.c,v 1.37 2015/11/03 03:50:32 avi Exp $
+littleendian
+resampling by 3D linear interpolation
+sub
+talairach_brain_mask_333_b100	t4=711-2B_to_MNI152lin_T1_t4
+endsub
+t4
+#t4_inv MNI152lin_T1_to_711-2B_t4
+#$Id: t4_inv.c,v 1.1 2007/05/01 01:20:20 avi Exp $
+t4
+  0.953903 -0.003872 -0.021291   -0.1135
+ -0.010402  0.950932 -0.016412   -3.4194
+  0.020852  0.055067  0.946383    2.5682
+  0.000000  0.000000  0.000000    1.0000
+rec glm_atlas_mask_333_b100.4dfp.img  Tue Sep 27 00:06:58 2011  avi@wagner Linux 2.6.27.7-134.fc10.x86_64 x86_64
+imgblur_4dfp glm_atlas_mask_333 10 
+$Id: imgblur_4dfp.c,v 1.9 2009/07/18 01:30:43 avi Exp $
+bigendian
+rec /usr/local/bin/fidl_code/lib/glm_atlas_mask_333.4dfp.img Wed Oct  4 13:42:17 CDT 2000 jmo
+fidl, Revision:       2.00000
+
+rec young6+6_avg_mask0_333.4dfp.img Mon Apr 17 11:12:25 CDT 2000 avi
+/data/petsun4/data1/solaris/t4img_4dfp none young6+6_avg_222_mask0 young6+6_avg_mask0_333 -O333
+$Id: t4img_4dfp,v 1.4 1999/04/26 01:40:52 avi Exp $
+$Id: t4imgs_4dfp.c,v 1.18 1999/10/31 04:49:43 avi Exp $
+sub
+young6+6_avg_222_mask0	t4=
+endsub
+rec young6+6_avg_222_mask0.4dfp.img  Sun Dec 19 23:04:32 1999  avi
+analyzeto4dfp young6+6_avg_222_mask0 
+$Id: analyzeto4dfp.c,v 1.4 1999/07/06 23:42:26 avi Exp $
+young6+6_avg_222_mask0.img.rec not found
+endrec Sun Dec 19 23:04:32 1999  avi
+endrec Mon Apr 17 11:12:25 CDT 2000 avi
+endrec
+endrec Tue Sep 27 00:06:58 2011  avi
+endrec Wed Dec  2 12:10:39 2015  siegelj
+endrec Wed Dec 2 12:10:39 CST 2015 siegelj

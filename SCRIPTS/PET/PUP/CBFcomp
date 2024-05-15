@@ -1,0 +1,33 @@
+#!/bin/bash
+# Yi Su, 08/04/2011                                                            
+
+petfstr1=$1 # 4dfp PET image file (.4dfp.img)
+petfstr2=$2 # 4dfp PET image file (.4dfp.img)
+fsfstr=$3   # Freesurfer ROI definition file (usually wmparc.mgz)
+mrfstr=$4   # Anatomical MR file (usually T1.mgz)
+mgzto4dfp $mrfstr	# Converting to 4dfp file
+			
+
+petname1=`basename $petfstr1`
+petname2=`basename $petfstr2`
+petdir1=`dirname $petfstr1`
+petdir2=`dirname $petfstr2`
+petroot1=${petname1%%.*}
+petroot2=${petname2%%.*}
+mrname=`basename $mrfstr`
+mrdir=`dirname $mrfstr`
+mrroot=${mrname%%.*}
+mrroot=${mrroot}"001"
+
+fsfname=`basename $fsfstr`
+fsfdir=`dirname $fsfstr`
+
+
+rm *t4
+imgopr_4dfp -ahosum $petfstr1 $petfstr2
+
+REGPETMR hosum $mrroot
+
+gauss_4dfp $mrroot 0.9
+CBFFSdiff $petroot1 $petroot2 $fsfname $mrname
+

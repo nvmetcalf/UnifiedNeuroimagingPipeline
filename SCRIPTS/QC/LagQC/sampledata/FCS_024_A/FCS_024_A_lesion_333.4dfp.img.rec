@@ -1,0 +1,110 @@
+rec /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/333/FCS_024_A_333.4dfp.img Thu Nov 21 20:00:37 CST 2013 ramseyl
+t4img_4dfp none /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/333/FCS_024_A_333 -0333 -n
+$Id: t4img_4dfp,v 1.9 2009/03/05 04:30:54 avi Exp $
+rec /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/333/FCS_024_A_333.4dfp.img  Thu Nov 21 20:00:37 2013  ramseyl@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+t4imgs_4dfp /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/333/FCS_024_A_333.lst /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/333/FCS_024_A_333 -0333 -n 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+/data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion	t4=
+endsub
+rec /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion.4dfp.img  Thu Nov 21 20:00:36 2013  ramseyl@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+	imgopr_4dfp	\
+	-r/data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t	\
+	/data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t
+$Id: imgopr_4dfp.c,v 1.14 2010/12/23 02:43:21 avi Exp $
+littleendian
+rec /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t.4dfp.img Thu Nov 21 20:00:36 CST 2013 ramseyl
+t4img_4dfp FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4 ../FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1.4dfp.img /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t -n -O/data/nil-bluearc/corbetta/ATLAS/TRIO_STROKE_NDC/TRIO_STROKE_NDC_111
+$Id: t4img_4dfp,v 1.9 2009/03/05 04:30:54 avi Exp $
+rec /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t.4dfp.img  Thu Nov 21 20:00:34 2013  ramseyl@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+t4imgs_4dfp /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t.lst /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t -n -O/data/nil-bluearc/corbetta/ATLAS/TRIO_STROKE_NDC/TRIO_STROKE_NDC_111 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+../FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1	t4=FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4
+endsub
+t4
+imgreg_4dfp /data/nil-bluearc/corbetta/ATLAS/TRIO_STROKE_NDC/TRIO_STROKE_NDC_111 /data/petsun43/data1/atlas/711-2B_mask_g5_111z FCS_024_A_mpr1_g11 FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1_comp FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4 2311 
+$Id: imgreg_4dfp.c,v 1.15 2007/08/10 03:27:30 avi Exp $
+t4
+  0.027578 -0.976312  0.083612   -8.1810
+ -0.028783  0.106530  0.849773   -0.2872
+ -0.932257  0.006096 -0.020682    2.6354
+  0.000000  0.000000  0.000000    1.0000
+scale:      4.277241
+rec FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1.4dfp.img Wed Nov 21 15:35:47 CST 2012 metcalfn
+t4img_4dfp TRIO_STROKE_NDC_111_to_FCS_024_A_mpr1_t4 FCS_024_A_mpr_n1_222_t88_lesion FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1 -OFCS_024_A_mpr1 -n
+$Id: t4img_4dfp,v 1.9 2009/03/05 04:30:54 avi Exp $
+rec FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1.4dfp.img  Wed Nov 21 15:35:45 2012  metcalfn@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+t4imgs_4dfp FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1.lst FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1 -OFCS_024_A_mpr1 -n 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+FCS_024_A_mpr_n1_222_t88_lesion	t4=TRIO_STROKE_NDC_111_to_FCS_024_A_mpr1_t4
+endsub
+t4
+#t4_inv FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4
+#$Id: t4_inv.c,v 1.1 2007/05/01 01:20:20 avi Exp $
+t4
+ -0.009662 -0.025042 -1.072096    2.7550
+ -1.013181  0.100130 -0.033432   -8.1558
+  0.126232  1.162605 -0.032722    1.4757
+  0.000000  0.000000  0.000000    1.0000
+FCS_024_A_mpr_n1_222_t88_lesion.4dfp.img.rec not found
+endrec Wed Nov 21 15:35:47 2012  metcalfn
+endrec Wed Nov 21 15:35:47 CST 2012 metcalfn
+endrec Thu Nov 21 20:00:36 2013  ramseyl
+endrec Thu Nov 21 20:00:36 CST 2013 ramseyl
+rec /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t.4dfp.img Thu Nov 21 20:00:36 CST 2013 ramseyl
+t4img_4dfp FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4 ../FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1.4dfp.img /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t -n -O/data/nil-bluearc/corbetta/ATLAS/TRIO_STROKE_NDC/TRIO_STROKE_NDC_111
+$Id: t4img_4dfp,v 1.9 2009/03/05 04:30:54 avi Exp $
+rec /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t.4dfp.img  Thu Nov 21 20:00:34 2013  ramseyl@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+t4imgs_4dfp /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t.lst /data/nil-bluearc/corbetta/Studies/FCStroke/Analysis/ramseyl/Lesions/lesion_files/overlap/FCS_024_A_lesion_t -n -O/data/nil-bluearc/corbetta/ATLAS/TRIO_STROKE_NDC/TRIO_STROKE_NDC_111 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+../FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1	t4=FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4
+endsub
+t4
+imgreg_4dfp /data/nil-bluearc/corbetta/ATLAS/TRIO_STROKE_NDC/TRIO_STROKE_NDC_111 /data/petsun43/data1/atlas/711-2B_mask_g5_111z FCS_024_A_mpr1_g11 FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1_comp FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4 2311 
+$Id: imgreg_4dfp.c,v 1.15 2007/08/10 03:27:30 avi Exp $
+t4
+  0.027578 -0.976312  0.083612   -8.1810
+ -0.028783  0.106530  0.849773   -0.2872
+ -0.932257  0.006096 -0.020682    2.6354
+  0.000000  0.000000  0.000000    1.0000
+scale:      4.277241
+rec FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1.4dfp.img Wed Nov 21 15:35:47 CST 2012 metcalfn
+t4img_4dfp TRIO_STROKE_NDC_111_to_FCS_024_A_mpr1_t4 FCS_024_A_mpr_n1_222_t88_lesion FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1 -OFCS_024_A_mpr1 -n
+$Id: t4img_4dfp,v 1.9 2009/03/05 04:30:54 avi Exp $
+rec FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1.4dfp.img  Wed Nov 21 15:35:45 2012  metcalfn@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+t4imgs_4dfp FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1.lst FCS_024_A_mpr_n1_222_t88_lesion_on_FCS_024_A_mpr1 -OFCS_024_A_mpr1 -n 
+$Id: t4imgs_4dfp.c,v 1.36 2011/04/09 00:19:16 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+FCS_024_A_mpr_n1_222_t88_lesion	t4=TRIO_STROKE_NDC_111_to_FCS_024_A_mpr1_t4
+endsub
+t4
+#t4_inv FCS_024_A_mpr1_to_TRIO_STROKE_NDC_111_t4
+#$Id: t4_inv.c,v 1.1 2007/05/01 01:20:20 avi Exp $
+t4
+ -0.009662 -0.025042 -1.072096    2.7550
+ -1.013181  0.100130 -0.033432   -8.1558
+  0.126232  1.162605 -0.032722    1.4757
+  0.000000  0.000000  0.000000    1.0000
+FCS_024_A_mpr_n1_222_t88_lesion.4dfp.img.rec not found
+endrec Wed Nov 21 15:35:47 2012  metcalfn
+endrec Wed Nov 21 15:35:47 CST 2012 metcalfn
+endrec Thu Nov 21 20:00:36 2013  ramseyl
+endrec Thu Nov 21 20:00:36 CST 2013 ramseyl
+defined or zero output voxel count = 33693 out of 6443008 total
+endrec Thu Nov 21 20:00:37 2013  ramseyl
+endrec Thu Nov 21 20:00:37 2013  ramseyl
+endrec Thu Nov 21 20:00:37 CST 2013 ramseyl

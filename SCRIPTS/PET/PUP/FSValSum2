@@ -1,0 +1,42 @@
+#!/bin/bash
+# Summarize calculated Abeta retention values.
+# 03/16/2011 Yi Su
+
+contents=( $(cat "$1") )
+n=`wc -l "$1" | gawk '{print $1}'`
+
+if [ -e BPPVC2C.csv ] 
+then 
+	rm BPPVC2C.csv
+fi
+
+printf "MAPID,PIB_SESSION_ID," >> BPPVC2C.csv
+for (( i=2; i<90; i++ ))
+do
+	value=`gawk 'NR=='$i' {print $1}'  10064/PIB424/PIB424pib1_ROIPIBPVC2C.txt`
+	printf "%s," $value >> BPPVC2C.csv
+done
+value=`gawk 'NR=='$i' {print $1}'  10064/PIB424/PIB424pib1_ROIPIBPVC2C.txt`
+printf "%s\n" $value >> BPPVC2C.csv
+cp BPPVC2C.csv SUVPVC2C.csv
+
+for (( j=0; j<$n; j++ ))
+do
+	let "a = $j * 3"
+	let "b = $a + 1"
+	let "c = $a + 2"
+	echo  -e "${contents[$a]}\t${contents[$b]}\t${contents[$c]}.v"
+	printf "%s,%s," ${contents[$a]} ${contents[$b]} >> BPPVC2C.csv
+	printf "%s,%s," ${contents[$a]} ${contents[$b]} >> SUVRPVC2C.csv
+	for (( i=2; i<90; i++ ))
+	do
+		value=`gawk 'NR=='$i' {print $3}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_ROIPIBPVC2C.txt"`
+		printf "%s," $value >> BPPVC2C.csv
+		value=`gawk 'NR=='$i' {print $4}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_ROIPIBPVC2C.txt"`
+		printf "%s," $value >> SUVRPVC2C.csv
+	done
+	value=`gawk 'NR=='$i' {print $3}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_ROIPIBPVC2C.txt"`
+	printf "%s\n" $value >> BPPVC2C.csv
+	value=`gawk 'NR=='$i' {print $4}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_ROIPIBPVC2C.txt"`
+	printf "%s\n" $value >> SUVRPVC2C.csv
+done

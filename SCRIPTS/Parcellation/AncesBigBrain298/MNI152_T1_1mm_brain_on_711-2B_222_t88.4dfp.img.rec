@@ -1,0 +1,28 @@
+rec MNI152_T1_1mm_brain_on_711-2B_222_t88.4dfp.img  Sat Dec  5 12:18:43 2020  metcalfn@maulinux02 Linux 3.10.0-957.12.2.el7.x86_64 x86_64
+t4imgs_4dfp MNI152_T1_1mm_brain_on_711-2B_atl.lst MNI152_T1_1mm_brain_on_711-2B_222_t88 -O222 
+$Id: t4imgs_4dfp.c,v 1.38 2017/01/27 23:32:53 avi Exp $
+littleendian
+resampling by 3D linear interpolation
+sub
+MNI152_T1_1mm_brain	t4=MNI152_T1_1mm_brain_to_711-2B_t4
+endsub
+t4
+imgreg_4dfp /data/nil-bluearc/ances_prod/Pipelines/UNPv2/ATLAS/REFDIR/711-2B /data/nil-bluearc/ances_prod/Pipelines/UNPv2/ATLAS/REFDIR/711-2B_mask_g5_111z MNI152_T1_1mm_brain_g11 MNI152_T1_1mm_brain_mskz MNI152_T1_1mm_brain_to_711-2B_t4 2311 
+$Id: imgreg_4dfp.c,v 1.15 2007/08/10 03:27:30 avi Exp $
+t4
+  1.050653  0.010121  0.018679    0.1625
+  0.003724  1.043265  0.008873    3.5529
+ -0.022231 -0.049206  1.073283   -1.0280
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.162664
+rec MNI152_T1_1mm_brain.4dfp.img  Fri Dec  4 16:22:41 2020  metcalfn@maulinux02 Linux 3.10.0-957.12.2.el7.x86_64 x86_64
+nifti_4dfp -4 ../../../ATLAS/MNI152/MNI152_T1_1mm_brain MNI152_T1_1mm_brain 
+$Id: nifti_4dfp.c,v 1.9 2011/09/13 03:40:37 avi Exp $
+littleendian
+datatype: 16	 bitpix: 32
+scale: 1.000000	 offset: 0.000000
+common sform[0]:    -1.000000	    0.000000	    0.000000	   90.000000
+common sform[1]:     0.000000	    1.000000	    0.000000	 -126.000000
+common sform[2]:     0.000000	    0.000000	    1.000000	  -72.000000
+endrec Fri Dec  4 16:22:41 2020  metcalfn
+endrec Sat Dec  5 12:18:43 2020  metcalfn

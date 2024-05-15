@@ -1,0 +1,57 @@
+#!/bin/bash
+datafn=$1
+dataroot=${datafn%%.*}
+mrfn=$2
+mrname=`basename $mrfn`
+mrdir=`dirname $mrfn`
+mrroot=${mrname%%.*}
+
+t1=`findtroisize TOF_ART_gECAT_on_MR AIFPETFOV 100000`
+maskimg_4dfp -t$t1 AIFPETFOV TOF_ART_gECAT_on_MR artbig
+imgopr_4dfp -sbg1 artbig artm1
+if [ -e ${dataroot}_bg1.tac ]
+then
+	rm ${dataroot}_bg1.tac
+fi
+touch ${dataroot}_bg1.tac
+
+source ${dataroot}.tb
+frames=${lastframe[8]}
+for (( f=1; f<=frames; f++ ))
+do
+	if [ $? -eq 0 ]
+	then
+		chop_4dfp $datafn $f $f -o${dataroot}"_"$f
+		if (( $f < ${startframe[1]} )) 
+		then
+			t4file=${dataroot}"_a1_to_MR_t4"
+		elif (( $f < ${startframe[2]} )) 
+		then
+			t4file=${dataroot}"_a2_to_MR_t4"
+		elif (( $f < ${startframe[3]} )) 
+		then
+			t4file=${dataroot}"_a3_to_MR_t4"
+		elif (( $f < ${startframe[4]} )) 
+		then
+			t4file=${dataroot}"_b1_to_MR_t4"
+		elif (( $f < ${startframe[5]} )) 
+		then
+			t4file=${dataroot}"_b2_to_MR_t4"
+		elif (( $f < ${startframe[6]} )) 
+		then
+			t4file=${dataroot}"_b3_to_MR_t4"
+		elif (( $f < ${startframe[7]} )) 
+		then
+			t4file=${dataroot}"_c1_to_MR_t4"
+		elif (( $f < ${startframe[8]} )) 
+		then
+			t4file=${dataroot}"_c2_to_MR_t4"
+		else
+			t4file=${dataroot}"_c3_to_MR_t4"
+		fi
+		t4img_4dfp $t4file ${dataroot}"_"$f PET_on_MR -O$mrroot
+		qnt_4dfp PET_on_MR bg1 | gawk '/Mean/ {print $2}' >> ${dataroot}_bg1.tac
+		
+		rm ${dataroot}"_"${f}.*
+	fi
+done

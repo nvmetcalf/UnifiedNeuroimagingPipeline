@@ -1,0 +1,193 @@
+#!/bin/csh
+
+if($#argv == 0) then
+	echo "bias_correct_4dfp <input image> <input image brain mask> <Image Type> <output image name>"
+	echo "if no mask is available, use none as the brain mask and one will be made"
+	echo "Image Type can be: T1 or T2"
+	echo "If no output image is set, _bc will be appended to the end of the input image name"
+	exit 1
+endif
+
+set InputImage = $1:r:r
+set InputMask = $2:r:r
+set ImageType = $3
+
+if($#argv > 3) then
+	set OutputImage = $4:r:r
+else
+	set OutputImage = $InputImage:r:r"_bc"
+endif
+
+set log = ${InputImage}_bias_correction.log
+echo "Bias Correction Log" >! $log
+
+if($ImageType != "T1" && $ImageType != "T2") then
+	decho "Error: Image type is not T1 or T2" $log
+	exit 1
+endif
+
+if($ImageType == "T1") set Type = 1
+if($ImageType == "T2") set Type = 2
+
+#determine the orientation of the input image.
+if( ! -e $InputImage".4dfp.ifh") then
+	decho "Could not find "$InputImage".4dfp.ifh to determine input image orientation." $log
+	exit 1
+endif
+
+set Orientation = `cat $InputImage".4dfp.ifh" | grep orientation | awk '{printf $3}'`
+switch($Orientation)
+	case "2":
+		decho "Input image is transverse, no flipping needed." $log
+		breaksw
+	case "3":
+		decho "Input image is coronal, flipping to transverse." $log
+		C2T_4dfp $InputImage
+		set InputImage = ${InputImage}T
+
+
+			C2T_4dfp $InputMask
+			set InputMask = ${InputMask}T
+		endif
+		breaksw
+	case "4":
+		decho "Input image is sagital, flipping to transverse." $log
+		S2T_4dfp $InputImage
+		set InputImage = ${InputImage}T
+
+		if($InputMask != "none") then
+			S2T_4dfp $InputMask
+			set InputMask = ${InputMask}T
+		endif
+		breaksw
+	default:
+		decho "~ERROR: Unknown input image orientation." $log
+		exit 1
+		breaksw
+endsw
+
+
+if($InputMask != "none") then
+	set Orientation = `cat $InputMask".4dfp.ifh" | grep orientation | awk '{printf $3}'`
+	switch($Orientation)
+		case "2":
+			decho "Input Mask is transverse, no flipping needed." $log
+			breaksw
+		case "3":
+			decho "Input image is coronal, flipping to transverse." $log
+			C2T_4dfp $InputMask
+
+			set InputMask = ${InputMask}T
+
+			breaksw
+		case "4":
+			decho "Input image is sagital, flipping to transverse." $log
+			S2T_4dfp $InputMask
+
+			set InputMask = ${InputMask}T
+
+			breaksw
+		default:
+			decho "~ERROR: Unknown input image orientation." $log
+			exit 1
+			breaksw
+	endsw
+else
+
+	niftigz_4dfp -n $InputImage $InputImage
+	if($status) exit 1
+
+	#remove the skull
+	decho "No mask specified. Stripping skull from input image." $log
+
+	bet $InputImage $InputImage"_strip" -R -f 0.3
+	if($status) then
+		decho "~ERROR: Could not strip skull before bias computation." $log
+		exit 1
+	endif
+
+	niftigz_4dfp -4 $InputImage"_strip.nii.gz" $InputImage"_strip"
+
+	set InputMask = $InputImage"_strip"
+
+endif
+
+#binarize the mask - if it is already binary, this effectively just makes a copy
+decho "Binarizing mask." $log
+imgopr_4dfp -r$InputMask"_mask" $InputMask $InputMask -u -Z
+
+#mask our 4dfp image by the brain mask
+decho "Extracting brain." $log
+maskimg_4dfp $InputImage $InputMask"_mask" $InputImage"_brain"
+
+#convert input 4dfp -> nifti
+niftigz_4dfp -n $InputImage"_brain" $InputImage"_brain"
+
+if($status) then
+	decho "~ERROR: Could not convert 4dfp to nifti." $log
+	exit 1
+endif
+
+#compute bias field
+decho "Computing bias field." $log
+fast -b -B -t $Type $InputImage"_brain"
+if($status) then
+	decho "~ERROR: Could not compute bias." $log
+	exit 1
+endif
+
+#bring the bias from nifti->4dfp
+niftigz_4dfp -4 $InputImage"_brain_bias" $InputImage"_brain_bias"
+if($status) then
+	decho "~ERROR: Could not convert bias nifti to 4dfp." $log
+	exit 1
+endif
+
+#divide input by the bias
+decho "Applying bias field correction." $log
+imgopr_4dfp -rtemp $InputImage $InputImage"_brain_bias"
+if($status) then
+	decho "~ERROR: Could not scale by bias." $log
+	exit 1
+endif
+
+switch($Orientation)
+	case "2":
+		decho "Input image started as transver, no flipping needed." $log
+
+		mv temp.4dfp.img $OutputImage.4dfp.img
+		mv temp.4dfp.hdr $OutputImage.4dfp.hdr
+		mv temp.4dfp.ifh $OutputImage.4dfp.ifh
+		mv temp.4dfp.img.rec $OutputImage.4dfp.img.rec
+
+		breaksw
+	case "3":
+		decho "Input image was coronal, flipping to coronal" $log
+		T2C_4dfp temp $OutputImage
+
+		if($status) then
+			decho "~ERROR: Unable to restore coronal orientation." $log
+			exit 1
+		endif
+		rm temp.4dfp.*
+		breaksw
+	case "4":
+		decho "Input image is sagital, flipping to sagital" $log
+		T2S_4dfp temp $OutputImage
+		if($status) then
+			decho "~ERROR: Unable to restore sagital orientation." $log
+			exit 1
+		endif
+		rm temp.4dfp.*
+		breaksw
+	default:
+		decho "~ERROR: Unknown input image orientation." $log
+		exit 1
+endsw
+
+#all went well, cleanup
+decho "Cleaning up temporary files." $log
+rm -f *restore.nii.gz *_strip.nii.gz *_brain_mixeltype.nii.gz *_brain.nii.gz *_brain_pve*.nii.gz *_seg.nii.gz ${InputImage}.nii.gz
+
+decho "Finished." $log
+exit 0

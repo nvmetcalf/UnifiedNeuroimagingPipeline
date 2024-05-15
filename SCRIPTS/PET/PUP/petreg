@@ -1,0 +1,129 @@
+#!/bin/bash
+################################################################################
+# PET to target registration. This program register summed PET image to a user #
+# supplied reference image for further analysis. The reference could be an MRI #
+# image or an atlas template image.					       #
+#                                                                              #
+# USAGE:								       #
+#	petreg paramsfn                                                        #
+#                                                                              #
+# This script reads a params file that includes:                               #
+#	petid:	petid is a string associated with the file name PET data in    #
+#               4dfp format.						       #
+#	tolreg: tolerance of the pet to target registration error. If the      #
+#		registration error is greater than the tolerance, a WARNING    #
+#		will be printed.					       #
+#	refimg: refimg is a string associated with the file name of the        #
+#		reference image in 4dfp format.				       #
+#	roiimg: roiimg is a string associated with the file name of the        #
+#		roi definetion image in 4dfp format.			       #
+#	tgflag: tgflag is a flag that specify the target for PET data to be    #
+#		registered to for processing. If unspecified as default, it is #
+#		assumed that the target is in patient space and is typically   #
+#		an MR image based on which the ROIs are defined.	       #
+#		if tgflag=1, then the target is a PET template in some atlas   #
+#		space. 				       			       #
+#		if tgflag=2, then the target is in MR space, but the ROI is    #
+#		defined in an atlas space. A t4 file that specifies the	       #
+#		transformation from the patient MR space to the atlas space    #
+#		need to be specified.					       #
+#	atlt4:	atlas transformation t4 file to accomondate the case when      #
+#		tgflag=2.						       #
+#	rmf:	reference image masking flag				       #
+#	mmf:	moving image masking flag				       #
+#	rbf:	reference image blurring flag				       #
+#	mbf:	moving image blurring flat				       #
+#	modf:   registration model flag (cross or intra model)		       #
+#	maskfile:	Mask image file used for registration		       #
+#                                                                              #
+# The output of this program is the t4 files for the registration	       #
+################################################################################
+# Yi Su, 11/05/2013
+VERSION=1.0
+
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Fri Jan 31 09:40:42 CST 2014 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+###############################################################################
+# Read PARAMS file
+source $paramsfn || die "$program ERROR: Cannot source params file $paramsfn"
+
+# Further development will improve this program which checks the validity of
+# the inputs specified in the params file
+
+###############################################################################
+# Perform registration
+if (( tgflag == 1 )) # target is PET atlas
+then
+	pet2petatl $refimg ${petid}_sumall $rmf $mmf $mbf $modf || die "$program ERROR: pet2petatl $refimg ${petid}_sumall $rmf $mmf $mbf $modf failed"
+else # target is patient MR (the most common case, i.e. FreeSurfer based processing)
+	if [ -n "$rmf" ] && [ -n "$maskfile" ]
+	then
+		reg2img $refimg ${petid}_sumall $rmf $maskfile $mmf $rbf $mbf $modf || die "$program ERROR: reg2img $refimg ${petid}_sumall $rmf $maskfile $mmf $rbf $mbf $modf failed"
+	else
+		reg2img $refimg ${petid}_sumall $rmf $mmf $rbf $mbf $modf || die "$program ERROR: reg2img $refimg ${petid}_sumall $rmf $mmf $rbf $mbf $modf failed"
+	fi
+
+	regerr=`gawk '/ERROR =/{print $3}' ${refimg}_${petid}_sumall_reg2img_resolve.log`
+
+	# Try registration without masking if registration with mask failed
+	if (( $regerr > $tolreg ))
+	then
+		# clean up
+		rm ${petid}_sumall_to_${refimg}_t4
+		rm ${refimg}_to_${petid}_sumall_t4
+		rm ${refimg}_${petid}_sumall_reg2img_resolve.log
+
+		# registration without masking
+		reg2img $refimg ${petid}_sumall $rbf $mbf $modf || die "$program ERROR: reg2img $refimg ${petid}_sumall $rbf $mbf $modf failed"
+		regerr=`gawk '/ERROR =/{print $3}' ${refimg}_${petid}_sumall_reg2img_resolve.log`
+	fi
+	if (( $regerr > $tolreg ))
+	then
+		echo "ERROR: PETREG Failure. Abort!"
+		echo "ERROR: PETREG Failure. Abort!" >&2
+		exit 3
+	fi
+fi
+
+# eliminating scale factor in the t4 file
+sed /scale:/d ${petid}_sumall_to_${refimg}_t4>tmpt4 || die "$program ERROR: sed /scale:/d ${petid}_sumall_to_${refimg}_t4 tmpt4 failed"
+cp tmpt4 ${petid}_sumall_to_${refimg}_t4 || die "$program ERROR: cp tmpt4 ${petid}_sumall_to_${refimg}_t4 failed"
+
+# target is in patient space and the reference image to atlas transformation is known (atlt4)
+if (( tgflag == 2 ))
+then
+	t4_mul ${petid}_sumall_to_${refimg}_t4 $atlt4 ${petid}_to_roi_t4 || die "$program ERROR: t4_mul ${petid}_sumall_to_${refimg}_t4 $atlt4 ${petid}_to_roi_t4 failed"
+else
+	cp ${petid}_sumall_to_${refimg}_t4 ${petid}_to_roi_t4  || die "$program ERROR: cp ${petid}_sumall_to_${refimg}_t4 ${petid}_to_roi_t4  failed"
+fi
+
+
+
+###############################################################################
+# Generating PET field of view converage in roi space PETFOV.4dfp.img
+
+t4img_4dfp ${petid}_to_roi_t4 petfov temp$$ -O$roiimg || die "$program ERROR: t4img_4dfp ${petid}_to_roi_t4 petfov temp$$ -O$roiimg failed"
+maskimg_4dfp -R -v1 -t.99 temp$$ temp$$ PETFOV || die "$program ERROR: maskimg_4dfp -R -v1 -t.99 temp$$ temp$$ PETFOV failed"
+rm temp$$.4dfp.*
+
+echo "pet2roit4=${petid}_to_roi_t4" >> $paramsfn
+

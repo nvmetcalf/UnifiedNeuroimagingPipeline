@@ -1,0 +1,54 @@
+#!/bin/bash
+################################################################################
+# This program creates .tac file based on the frame by frame regional values   #
+################################################################################
+# Yi Su, 08/31/2011
+
+idstr='$Id: GENTAC,v 1.2 2012/08/21 21:10:59 suy Exp $'
+echo $idstr
+
+PET=$1 #petroot
+lines=`wc -l ${PET}"_ROI2_f10" | gawk '{print $1}'`
+l=2
+echo "l=${l}; lines=${lines}"
+((lines++))
+
+source ${PET}.tb
+lf=${lastframe[8]}
+((lf++))
+
+while (( $l < $lines ))
+do
+	label=`gawk 'NR=='$l' {print $1}'  ${PET}"_ROI2_f10"`
+	echo "label = ${label}"
+	outfile=${PET}"_"${label}"_RSF.tac"
+	echo "outfile = ${outfile}"
+	if [ -e $outfile ]
+	then
+		rm $outfile
+	fi
+	touch $outfile
+	
+	NVOX=`gawk 'NR=='$l' {print $2}'  ${PET}"_ROI2_f10"`
+	printf "%9s %15s %15s %15s %15s %15s%10d\n" "Frame_#" "Start_Time_(s)" "Duration_(s)"  "Mean" "Mean_(RSF)" "NVoxels=" $NVOX>> $outfile
+	f=1
+	f1=1
+	while (( $f < $lf ))
+	do
+		ROIfn=${PET}"_ROI2_f"$f
+		ROIRSF=${PET}"_RSF_ROI2_f"$f
+		if [ -e $ROIfn  ] 
+		then
+			ts=`gawk 'NR=='$f1' {print $1}'  ${PET}".info"`
+			td=`gawk 'NR=='$f1' {print $3}'  ${PET}".info"`
+			meanroi=`gawk 'NR=='$l' {print $3}' $ROIfn `
+			meanroiRSF=`gawk 'NR=='$l' {print $3}' $ROIRSF`
+			printf "%9d %15f %15f %15f %15f\n" $f $ts $td $meanroi $meanroiRSF >> $outfile
+			((f1++))
+		fi
+		((f++))
+		
+	done
+	((l++))
+done
+exit 0

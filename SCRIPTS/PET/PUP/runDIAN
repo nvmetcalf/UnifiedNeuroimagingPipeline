@@ -1,0 +1,16 @@
+#!/bin/bash
+
+DIANID=( 202 707 13211 13413 26119 43927 40618 40214 48230 48432 )
+fld=( 85811_pib1 85826_pib1 85975_pib1 13413_pib1 85994 86008_pib1 86036_pib1 86037_pib1 86054_pib1 86090_pib1 )
+img=( 202pib1 707pib1 13211pib1 13413pib1 26119pib1 86008pib1 86036pib1 86037pib1 86054pib1 86090pib1 )
+for (( i=0; i<10; i++ ))
+do
+	echo ${DIANID[$i]}
+	mkdir /data/nil-bluearc/benzinger2/suy/FS_MCBP/DIAN_WUSTL2/${DIANID[$i]}
+	mkdir /data/nil-bluearc/benzinger2/suy/FS_MCBP/DIAN_WUSTL2/${DIANID[$i]}/${fld[$i]}	
+	pushd /data/nil-bluearc/benzinger2/suy/FS_MCBP/DIAN_WUSTL2/${DIANID[$i]}/${fld[$i]}
+	cp /data/nil-bluearc/benzinger2/suy/FS_MCBP/DIAN_WUSTL/${DIANID[$i]}/${fld[$i]}/${img[$i]}.4dfp.* .
+	cp /data/nil-bluearc/benzinger2/suy/FS_MCBP/DIAN_WUSTL/${DIANID[$i]}/${fld[$i]}/*.mgz .
+	PIBCTFS ${img[$i]}.4dfp.img wmparc.mgz T1.mgz > PIBCTFS.log
+	popd
+done

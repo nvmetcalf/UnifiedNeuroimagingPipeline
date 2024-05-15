@@ -1,0 +1,314 @@
+#!/usr/bin/csh -f
+###################--------------------------------------------------------------
+# The purpose of this program is to create early, middle, and late PIB PET
+# images from dynamic ECAT PIB PET scans. PET images are registered to each
+# other and to the MPRAGE MRI.
+# 222 atlas MRI and 222 atlas g8 PIB PET images are made.
+
+#   PIB 54 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        5  5  5  5  5  5 10 10 10
+#   set startframe = (  2 36 41 46 47 48 49 51 53 )
+#   set lastframe =  ( 35 40 45 46 47 48 50 52 54 )
+
+#   DLBPIB and Test-Retest 32 and 34 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        5  5  4  6  5  5 10 10 10
+#   set startframe = (  2 13 18 22 24 25 26 28 30 32 34 )
+#   set lastframe =  ( 12 17 21 23 24 25 27 29 31 32 34 )
+
+#   PIB 26 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        4  5  5  5  5  5 10 10 10
+#   set startframe = (  2 17 18 19 20 21 22 24 26 )
+#   set lastframe =  ( 16 17 18 19 20 21 23 25 27 )
+###################--------------------------------------------------------------
+# Inputs to the program
+#
+# $1: PET session ID
+# $2: Path to the raw scan file /path/to/scan/$pnum"pib"$scan.v
+# $3: Scan num
+# $4: Path to the mprage file /path/to/scan/p5400_mpr.4dfp.img
+# $5: Mask percent [Optional] Defaults to 0.9
+#
+###################--------------------------------------------------------------
+set idstr = '$Id: bta,v 1.21 2009/07/20 21:45:40 jon Exp jon $'
+echo $idstr
+
+if ($#argv < 2) then
+	goto USAGE
+endif
+
+set program = $0
+/usr/bin/date
+
+###################--------------------------------------------------------------
+
+set pnum = $1		# PET session ID
+set scan = $2 		# PET file path
+set target = $3		# Scan num for CNDA will =1
+set mpr =  $4		# MPRAGE file path
+
+if ($#argv == 4) then 	# if(! $5) Set default masking to 9%
+   set mask_percent = "0.09"
+else
+   set mask_percent = $5
+endif
+
+echo mask_percent = $mask_percent
+
+set computationfile = bta_computation.dat
+
+#==========================#
+# Prepare computation file
+#==========================#
+if( -e $computationfile) then
+   /bin/rm $computationfile
+endif
+
+touch $computationfile
+
+echo "NAME, VALUE, SOURCE, UNITS" >> $computationfile
+
+###################--------------------------------------------------------------
+
+/usr/bin/ls -l *
+
+set avibin = ~avi/bin
+set jonbin = ~jon/bin
+set localbin = /usr/local/npg/bin	# location of sumimgframes
+set fpbin = /data/petsun4/data1/solaris
+
+set scannum = 1 # Scan num for CNDA will =1
+set mode = pib	# mode will always be pib for $pnum$mode$scannum".v "
+###################--------------------------------------------------------------
+echo Check $mpr existance
+
+set mprparent = $mpr:h
+set mprroot = $mpr:t
+set mprroot = $mprroot:r
+set mprroot = $mprroot:r
+
+if ("$mprparent" == "$mpr") then
+	if(! -e $mprroot".4dfp.img"||! -e $mprroot".4dfp.ifh"||! -e $mprroot".4dfp.hdr")then
+
+	       echo ERROR $mprroot".4dfp.img" $mprroot".4dfp.ifh" NOT In pwd
+	       goto USAGE
+	else
+	      echo $mpr Exists
+	endif
+else
+	if(! -e $mprparent/$mprroot".4dfp.img"||! -e $mprparent/$mprroot".4dfp.ifh"||! -e $mprparent/$mprroot".4dfp.hdr")then
+
+	       echo ERROR $mprparent/$mprroot".4dfp.img" $mprparent/$mprroot".4dfp.ifh" NOT In pwd
+	       goto USAGE
+	else
+	      echo $mpr Exists
+	endif
+endif
+if(! -e $mprroot".4dfp.img" || ! -e $mprroot".4dfp.ifh" || ! -e $mprroot".4dfp.hdr")then
+   /usr/bin/cp $mprparent/$mprroot".4dfp".{img,img.rec,ifh,hdr} . 
+   if ($status != 0) goto ERROR
+endif
+#=================================================================
+
+echo Check $scan existance
+if (! -e $scan)then
+         echo ERROR  $scan not found
+         goto USAGE
+else
+        echo $scan Exists
+endif
+
+echo =============================================================
+# Find the number of frames.
+
+set frame  = `$localbin/imghdr $scan | awk '/frames/{print $3}'`
+if($status)echo Error $localbin/imghdr set frame exit status failure
+
+set slices = `$localbin/imghdr $scan | awk '/frames/{print $1}'`
+if($status)echo Error $localbin/imghdr set slices exit status failure
+echo $scan has $frame frames with $slices slices in each frame
+
+echo "Frames, $frame,," >> $computationfile
+echo "Slices, $slices,," >> $computationfile
+echo "Target, $target,," >> $computationfile
+
+set PIBFLAG = 0
+
+if ($frame == 54)set PIBFLAG = 1
+if ($frame == 32)set PIBFLAG = 2
+if ($frame == 33)set PIBFLAG = 2
+if ($frame == 34)set PIBFLAG = 2
+if ($frame == 27)set PIBFLAG = 3
+
+if ($PIBFLAG == 0)then
+   echo " " ; echo ERROR PIBFLAG = 0 Must Exit
+   echo Check Frames in imghdr $scan
+   echo " "
+   goto USAGE
+endif
+#=============================================================
+# Find the first legitimate start frame.
+
+while ($frame > 0)
+   /usr/local/npg/bin/imghdr $scan $frame >& /dev/null
+   if($status > 0) then
+      @ strt = $frame + 1
+      echo startframe = $strt
+      @ frame = 1
+   endif
+   @ frame--
+   if($frame == 1)@ strt = $frame + 1
+end
+
+echo PIBFLAG = $PIBFLAG
+#=============================================================
+# Set frame arrays.
+
+if ($PIBFLAG == 1)then
+   echo 54 Frame ECAT Sequence
+   set groups = (a b c)
+
+   if (! $strt) then
+      set startframe =     (2 36 41 46 47 48 49 51 53)
+   else
+      set startframe = ($strt 36 41 46 47 48 49 51 53)
+   endif
+      set lastframe =     (35 40 45 46 47 48 50 52 54)
+   if($startframe[1] > 30)then
+       echo "ERROR ERROR Start Frame > 30"
+       exit
+   endif
+endif
+
+if ($PIBFLAG == 2)then
+   echo 34 or 32 Frame ECAT Sequence
+   echo Only first 60 minutes are used
+   set groups = (a b c)
+
+   if (! $strt) then
+      set startframe =     (2 13 18 22 24 25 26 28 30)
+   else
+      set startframe = ($strt 13 18 22 24 25 26 28 30)
+   endif
+      set lastframe =     (12 17 21 23 24 25 27 29 31)
+   if($startframe[1] > 11)then
+       echo "ERROR ERROR Start Frame > 11"
+       exit
+   endif
+endif
+
+if ($PIBFLAG == 3)then
+    echo 27 Frame ECAT Sequence
+    set groups = (a b c)
+
+    if (! $strt) then
+       set startframe = (2 17 18 19 20 21 22 24 26)
+    else
+       set startframe = ($strt 17 18 19 20 21 22 24 26)
+    endif
+       set lastframe =  (16 17 18 19 20 21 23 25 27)
+    if($startframe[1] > 15)then
+       echo "ERROR ERROR Start Frame > 15"
+       exit
+    endif
+endif
+
+echo "$mode Start Frame = " $startframe
+echo "$mode Last  Frame = " $lastframe
+
+echo "Start Frame," $startframe",," >> $computationfile
+echo "Last Frame," $lastframe",," >> $computationfile
+
+echo =================================================================
+# Create an a1 a2 a3  b1 b2 b3  c1 c2 c3 images.
+
+set filnam = $scan
+
+@ i = 0     # i is used to index the startframe and lastframe array.
+
+foreach group ($groups)
+  echo
+  @ n = 1   # index for group number (a1 a2 a3  b1 etc.)
+
+  while ($n <= 3)
+    @ i++
+
+    if (! -e $pnum"_"$mode$scannum"_"$group$n".v") then
+      echo RUNNING sumimgframes $filnam $pnum$mode$scannum"_"$group$n".v" $startframe[$i] $lastframe[$i] -1
+         $localbin/sumimgframes $filnam $pnum$mode$scannum"_"$group$n".v" $startframe[$i] $lastframe[$i] -1
+                   if ($status != 0) goto ERROR
+    endif
+
+    if (! -e $pnum$mode$scannum"_"$group$n".4dfp.img") then
+      echo RUNNING ecat to 4dfp conversion script matrix7to4dfp on $pnum$mode$scannum"_"$group$n".v"
+      $avibin/matrix7to4dfp $pnum$mode$scannum"_"$group$n".v"
+      if ($status != 0) goto ERROR
+    endif
+
+    echo =============================================================
+    @ n++
+  end
+end
+
+####################=============================================================================
+#Create the a b c registration info for pib pet scans
+
+foreach group (a b c)
+
+      echo RUNNING
+      echo cross pet reg 4dfp for group $group to create $pnum$mode$scannum"_"$group
+
+      echo    cross_pet_reg1_4dfp $mask_percent "B" $pnum$mode$scannum"_"$group
+      $jonbin/cross_pet_reg1_4dfp $mask_percent "B" $pnum$mode$scannum"_"$group \
+	  $pnum$mode$scannum"_"$group"1.4dfp.img" \
+	  $pnum$mode$scannum"_"$group"2.4dfp.img" \
+	  $pnum$mode$scannum"_"$group"3.4dfp.img"
+      if ($status != 0) goto ERROR
+end
+
+echo
+####################=============================================================================
+# Now align the three pet images from each group with t4imgs_4dfp and sub file from cross pet reg
+# to create an a b and c image.
+
+foreach group (a b c)
+
+   echo   t4imgs_4dfp $pnum$mode$scannum"_"$group".sub" $pnum$mode$scannum"_"$group "-O"$pnum$mode$scannum"_"$group"1.4dfp.img"
+   $fpbin/t4imgs_4dfp $pnum$mode$scannum"_"$group".sub" $pnum$mode$scannum"_"$group "-O"$pnum$mode$scannum"_"$group"1.4dfp.img"
+   if ($status != 0) goto ERROR
+end
+
+echo " "
+
+###################--------------------------------------------------------------------------------
+# Regsister the sagittal MPRAGE to PET.
+
+echo MRTOPIB
+
+echo    mrtopib $mpr $pnum$mode$scannum"_a" $pnum$mode$scannum"_b" $pnum$mode$scannum"_c"
+/home/usr/suy/bin/mrtopib $mpr $pnum$mode$scannum"_a" $pnum$mode$scannum"_b" $pnum$mode$scannum"_c"
+if ($status != 0) goto ERROR
+
+exit
+
+USAGE:
+	echo "Usage:	$0 PIB_session PATH_TO_RAW_PET_SCAN_FILE MPR_TARGET PATH_TO_MPRAGE [cross PET masking]"
+	echo "e.g.,	$0 PIB102 $cwd/PIB102pib1.v 711-2B /data/petsun33/data2/mpr.4dfp.img 0.1"
+	echo "or,	$0 PIB773 ../RAW/PET/PIB773pib1.v 711-2B ../RAW/MR/TC123456.4dfp.img "
+	echo
+	echo "Nameing: PIB_session_pib_SCAN_NUM.v, e.g. PIB102pib1.v or p7388_petpib1.v"
+	echo "MPRAGE.4dfp.img, MPRAGE.4dfp.ifh, MPRAGE.4dfp.hdr "
+	echo
+	echo "The dynamic ECAT PIB PET scan must have 27, 32, 34, or 54 frames."
+
+	echo "Default masking is 0.09 (9%) for PET to PET registration"
+
+exit 1
+
+
+ERROR:
+	echo "$program Encountered error"
+
+exit 1

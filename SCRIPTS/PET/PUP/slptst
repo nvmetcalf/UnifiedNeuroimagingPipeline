@@ -1,0 +1,16 @@
+#!/bin/csh
+
+set petid = $1
+set slpid = $2
+
+set groups = (a b c)
+
+foreach group ($groups)
+	@ n = 1
+	while ($n <= 3)
+		t4_mul $1"fdg1_"$group$n"_sumall_to_"$2"_tfl3d_2_t4" $2"_tfl3d_2_to_"$2"_TOF_3D_t4" $1"fdg1_"$group$n"_sumall_to_"$2"_TOF_3D_t4"
+		t4img_4dfp $1"fdg1_"$group$n"_sumall_to_"$2"_TOF_3D_t4" $1"fdg1_"$group$n"_sumall" $1"fdg1_"$group$n"_sumall_on_TOF_lArt" -O$2"_TOF_3D_lArt"
+		t4img_4dfp $1"fdg1_"$group$n"_sumall_to_"$2"_TOF_3D_t4" $1"fdg1_"$group$n"_sumall" $1"fdg1_"$group$n"_sumall_on_TOF_rArt" -O$2"_TOF_3D_rArt"
+		@ n++
+	end
+end

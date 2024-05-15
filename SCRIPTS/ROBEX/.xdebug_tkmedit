@@ -1,0 +1,7 @@
+tkmedit started: Fri Mar  3 14:35:20 2017
+
+	/usr/local/pkg/freesurfer53-HCP/tktools/tkmedit.bin FCS_222_A brainmask.mgz 
+
+$Id: tkmedit.c,v 1.343 2011/03/01 01:41:22 nicks Exp $ $Name: stable5 $
+Set user home dir to /data/nil-bluearc/corbetta/PP_SCRIPTS/ROBEX
+Set subject home dir to /usr/local/pkg/freesurfer53-HCP/subjects/FCS_222_A

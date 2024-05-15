@@ -1,0 +1,89 @@
+#!/bin/bash
+################################################################################
+# PET processing							       #
+#                                                                              #
+# USAGE:								       #
+#	centiloidproc paramsfn                                                       #
+#                                                                              #
+# This script reads a params file for PET processing                           #
+################################################################################
+# Yi Su, 05/19/2015
+VERSION=1.0
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Tue May 19 11:49:55 CST 2015 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+
+###############################################################################
+# Read PARAMS file
+source $paramsfn || die "$program ERROR: Cannot source params file $paramsfn"
+
+# Further development will improve this program to check the validity of
+# the inputs specified in the params file
+
+mkdir pet_proc
+cp $paramsfn pet_proc
+cd pet_proc
+
+cp ${petdir}/${petfn}.4dfp.* .
+cp ${petdir}/${petfn}.info .
+${mrid}_${mrscanid}_mpr
+###############################################################################
+# PET motion correction
+petmoco $paramsfn || die "$program ERROR: PET motion correction failed"
+
+###############################################################################
+# ROI target preprocessing
+cp $roidir/${roiimg}.4dfp.* .
+cp $roidir/${roilist} .
+cp ${mrdir}/${mrid}_${mrscanid}_mpr.4dfp.* .
+cp /data/nil-bluearc/benzinger2/suy/Centiloid/MNI152lin_T1_2mm.4dfp.* .
+cp /data/nil-bluearc/benzinger2/suy/Centiloid/MNI152lin_T1_2mm_mskt.4dfp.* .
+pet2petatl MNI152lin_T1_2mm ${mrid}_${mrscanid}_mpr
+t4_inv ${mrid}_${mrscanid}_mpr_to_MNI152lin_T1_2mm_t4
+t4img_4dfp MNI152lin_T1_2mm_to_${mrid}_${mrscanid}_mpr_t4 MNI152lin_T1_2mm_mskt ${mrid}_${mrscanid}_mpr_mskt -O${mrid}_${mrscanid}_mpr
+echo "refimg=${mrid}_${mrscanid}_mpr" >> $paramsfn
+echo "maskfile=${mrid}_${mrscanid}_mpr_mskt.4dfp.img" >> $paramsfn
+echo "atlt4=${mrid}_${mrscanid}_mpr_to_${atltarg}_t4" >> $paramsfn
+
+#targpreproc $paramsfn || die "$program ERROR: ROI target preprocessing failed"
+
+###############################################################################
+# PET to target space registration
+petreg $paramsfn || die "$program ERROR: PET to target registration failed"
+
+###############################################################################
+#				Start Modeling				      #
+###############################################################################
+
+###############################################################################
+# Determine model frames
+petmdlframes $paramsfn || die "$program ERROR: Model Frames failed"
+
+# ROI TAC extraction
+petroitac $paramsfn || die "$program ERROR: ROI TAC extraction failed"
+
+# SUVR analysis
+petmdlsum $paramsfn || die "$program ERROR: petmdlsum failed"
+petroiint $paramsfn || die "$program ERROR: Static ROI intensity extraction failed"
+petrefroi $paramsfn || die "$program ERROR: petrefroi failed"
+petsuvr $paramsfn || die "$program ERROR: SUVR Analysis failed"
+petsuvrrep $paramsfn || die "$program ERROR: SUVR Analysis failed"
+

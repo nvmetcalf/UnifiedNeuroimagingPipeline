@@ -1,0 +1,147 @@
+#!/bin/bash
+# Yi Su, 12/15/2011
+#
+# Program to get mean time activity curve for all cortical regions and apply
+# do BP and SUVR calculations
+
+idstr='$Id: CALL_BP,v 1.2 2012/08/21 20:51:52 suy Exp $'
+echo $idstr
+
+pibid=$1
+
+echo "--------------------------------------"
+echo  Region List
+rlst=( 
+bankssts
+caudalanteriorcingulate
+caudalmiddlefrontal
+corpuscallosum
+cuneus
+entorhinal
+fusiform
+inferiorparietal
+inferiortemporal
+isthmuscingulate
+lateraloccipital
+lateralorbitofrontal
+lingual
+medialorbitofrontal
+middletemporal
+parahippocampal
+paracentral
+parsopercularis
+parsorbitalis
+parstriangularis
+pericalcarine
+postcentral
+posteriorcingulate
+precentral
+precuneus
+rostralanteriorcingulate
+rostralmiddlefrontal
+superiorfrontal
+superiorparietal
+superiortemporal
+supramarginal
+frontalpole
+temporalpole
+transversetemporal
+insula
+)
+
+nr=${#rlst[*]}
+
+for (( i=0; i<nr; i++ ))
+do
+	echo ${rlst[$i]}
+done
+
+echo "--------------------------------------"
+echo "Read PVC2C correction factor"
+if [ ! -e PVC2CFS.txt ]
+then
+	echo PVC2CFS.txt does not exist. Abort!
+	exit 255
+fi
+printf '%-35s%16s%16s\n' Region Left Right
+
+for (( i=0; i<nr; i++ ))
+do
+	lc[$i]=`gawk '/ctx-lh-'${rlst[$i]}'/ {print $2}' PVC2CFS.txt`
+	rc[$i]=`gawk '/ctx-rh-'${rlst[$i]}'/ {print $2}' PVC2CFS.txt`	
+	printf '%-35s%16s%16s\n' ${rlst[$i]} ${lc[$i]} ${rc[$i]}
+done
+
+echo "--------------------------------------"
+echo "Initialize total voxels, start time list, frame duration list, mean roi "
+echo "intensity (all three version, raw, RSF, PVC2C)"
+
+tnv=0
+lines=`wc -l ${pibid}"_ctx-lh-precuneus_RSF.tac" | gawk '{print $1}'`
+for (( i=2; i<=lines; i++ ))
+do
+	st[$i-1]=`gawk 'NR=='$i' {print $2}' ${pibid}"_ctx-lh-precuneus_RSF.tac"`
+	dt[$i-1]=`gawk 'NR=='$i' {print $3}' ${pibid}"_ctx-lh-precuneus_RSF.tac"`
+	m[$i-1]=0
+	mrsf[$i-1]=0
+	mpvc2c[$i-1]=0
+	printf '%f\t%f\n' ${st[$i-1]} ${dt[$i-1]}
+done
+
+echo "--------------------------------------"
+echo "Get Cortical TAC "
+if [ -e CALL.tac ]
+then
+	rm CALL.tac
+fi
+touch CALL.tac
+if [ -e tmp.tac ]
+then
+	rm tmp.tac
+fi
+touch tmp.tac
+
+
+for (( f=1; f<lines; f++ ))
+do
+	tnv=0
+	(( l=f+1 ))
+	for (( i=0; i<nr; i++ ))
+	do
+		tacfn=${pibid}"_ctx-lh-"${rlst[$i]}"_RSF.tac"
+		if [ -e $tacfn ]
+		then
+			nv=`gawk 'NR==1 {print $7}' $tacfn`
+			mf=`gawk 'NR=='$l' {print $4}' $tacfn`
+			mfrsf=`gawk 'NR=='$l' {print $5}' $tacfn`			
+			mfpvc2c=$(echo "scale=8; $mf/${lc[$i]}" | bc)
+			(( tnv=tnv+nv ))
+			m[$f]=$(echo "scale=8; ${m[$f]}+$mf*$nv" | bc)
+			mrsf[$f]=$(echo "scale=8; ${mrsf[$f]}+$mfrsf*$nv" | bc)
+			mpvc2c[$f]=$(echo "scale=8; ${mpvc2c[$f]}+$mfpvc2c*$nv" | bc)
+		fi	
+		tacfn=${pibid}"_ctx-rh-"${rlst[$i]}"_RSF.tac"
+		if [ -e $tacfn ]
+		then
+			nv=`gawk 'NR==1 {print $7}' $tacfn`
+			mf=`gawk 'NR=='$l' {print $4}' $tacfn`
+			mfrsf=`gawk 'NR=='$l' {print $5}' $tacfn`			
+			mfpvc2c=$(echo "scale=8; $mf/${rc[$i]}" |bc)
+			(( tnv=tnv+nv ))
+			m[$f]=$(echo "scale=8; ${m[$f]}+$mf*$nv" | bc)
+			mrsf[$f]=$(echo "scale=8; ${mrsf[$f]}+$mfrsf*$nv" | bc)
+			mpvc2c[$f]=$(echo "scale=8; ${mpvc2c[$f]}+$mfpvc2c*$nv" | bc)
+		fi			
+	done
+	m[$f]=$(echo "scale=8; ${m[$f]}/$tnv " | bc)
+	mrsf[$f]=$(echo "scale=8; ${mrsf[$f]}/$tnv " | bc)
+	mpvc2c[$f]=$(echo "scale=8; ${mpvc2c[$f]}/$tnv " | bc)
+	
+	printf "%9d %15f %15f %15f %15f %15f\n" $f ${st[$f]} ${dt[$f]} ${m[$f]} ${mrsf[$f]} ${mpvc2c[$f]}
+	printf "%9d %15f %15f %15f %15f %15f\n" $f ${st[$f]} ${dt[$f]} ${m[$f]} ${mrsf[$f]} ${mpvc2c[$f]} >> tmp.tac
+done
+printf "%9s %15s %15s %15s %15s %15s %15s%10d\n" "Frame_#" "Start_Time_(s)" "Duration_(s)"  "Mean" "Mean_(RSF)" "Mean_(PVC2C)" "NVoxels=" $tnv >> CALL.tac
+cat tmp.tac >> CALL.tac
+rm tmp.tac
+
+ROIPIB1 $pibid

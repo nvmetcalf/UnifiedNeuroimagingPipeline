@@ -1,0 +1,114 @@
+#!/bin/bash
+# Yi Su, 02/25/2013                                                            
+
+idstr='$Id: AVATLPROC1,v 0.1 2013/02/06 suy Exp $'
+echo $idstr
+
+petfstr=$1 # PET image file
+mrroot=$2 # MR image root
+atlast4=$3 # MR to atlas transformation t4 file
+threshold=$4 # Threshold to the probabilistic ROI mask
+stdroidir=/data/nil-bluearc/benzinger2/suy/stdpibrois
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%%.*}
+
+
+###########################
+# Processing
+ 
+t4img_4dfp $atlast4 PETFOV PETFOV_on_atlas -O${stdroidir}/brainstem
+maskimg_4dfp -t.5 ${stdroidir}/brainstem PETFOV_on_atlas BS
+maskimg_4dfp -t.5 ${stdroidir}/caudateleft_average PETFOV_on_atlas CAUL
+maskimg_4dfp -t.5 ${stdroidir}/caudateright_average PETFOV_on_atlas CAUR
+maskimg_4dfp -t.5 ${stdroidir}/cerebellumleft_average PETFOV_on_atlas CERL
+maskimg_4dfp -t.5 ${stdroidir}/cerebellumright_average PETFOV_on_atlas CERR
+maskimg_4dfp -t.5 ${stdroidir}/gyrusrectusleft_average PETFOV_on_atlas GRL
+maskimg_4dfp -t.5 ${stdroidir}/gyrusrectusright_average PETFOV_on_atlas GRR
+maskimg_4dfp -t.5 ${stdroidir}/lattempleft_average PETFOV_on_atlas LTPL
+maskimg_4dfp -t.5 ${stdroidir}/lattempright_average PETFOV_on_atlas LTPR
+maskimg_4dfp -t.5 ${stdroidir}/occipitalleft_average PETFOV_on_atlas OCCL
+maskimg_4dfp -t.5 ${stdroidir}/occipitalright_average PETFOV_on_atlas OCCR
+maskimg_4dfp -t.5 ${stdroidir}/parietalleft_average PETFOV_on_atlas PARL
+maskimg_4dfp -t.5 ${stdroidir}/parietalright_average PETFOV_on_atlas PARR
+maskimg_4dfp -t.5 ${stdroidir}/precuneusleft_average PETFOV_on_atlas PRECL
+maskimg_4dfp -t.5 ${stdroidir}/precuneusright_average PETFOV_on_atlas PRECR
+maskimg_4dfp -t.5 ${stdroidir}/prefrontalleft_average PETFOV_on_atlas PREFL
+maskimg_4dfp -t.5 ${stdroidir}/prefrontalright_average PETFOV_on_atlas PREFR
+maskimg_4dfp -t.5 ${stdroidir}/rostralleft_average PETFOV_on_atlas RACL
+maskimg_4dfp -t.5 ${stdroidir}/rostralright_average PETFOV_on_atlas RACR
+
+bsd=`wtm_4dfp BS BS $threshold | gawk '{print $4}'`
+cauld=`wtm_4dfp CAUL CAUL $threshold | gawk '{print $4}'`
+caurd=`wtm_4dfp CAUR CAUR $threshold | gawk '{print $4}'`
+cerld=`wtm_4dfp CERL CERL $threshold | gawk '{print $4}'`
+cerrd=`wtm_4dfp CERR CERR $threshold | gawk '{print $4}'`
+grld=`wtm_4dfp GRL GRL $threshold | gawk '{print $4}'`
+grrd=`wtm_4dfp GRR GRR $threshold | gawk '{print $4}'`
+ltpld=`wtm_4dfp LTPL LTPL $threshold | gawk '{print $4}'`
+ltprd=`wtm_4dfp LTPR LTPR $threshold | gawk '{print $4}'`
+occld=`wtm_4dfp OCCL OCCL $threshold | gawk '{print $4}'`
+occrd=`wtm_4dfp OCCR OCCR $threshold | gawk '{print $4}'`
+parld=`wtm_4dfp PARL PARL $threshold | gawk '{print $4}'`
+parrd=`wtm_4dfp PARR PARR $threshold | gawk '{print $4}'`
+precld=`wtm_4dfp PRECL PRECL $threshold | gawk '{print $4}'`
+precrd=`wtm_4dfp PRECR PRECR $threshold | gawk '{print $4}'`
+prefld=`wtm_4dfp PREFL PREFL $threshold | gawk '{print $4}'`
+prefrd=`wtm_4dfp PREFR PREFR $threshold | gawk '{print $4}'`
+racld=`wtm_4dfp RACL RACL $threshold | gawk '{print $4}'`
+racrd=`wtm_4dfp RACR RACR $threshold | gawk '{print $4}'`
+
+		
+t4_mul ${petroot}_to_MR_t4 $atlast4 PET_to_atlas_t4
+t4img_4dfp PET_to_atlas_t4 ${petroot}  ${petroot}"_on_atlas" -O${stdroidir}/brainstem  # Transform PET image to atlas space
+		
+		bsn=`wtm_4dfp ${petroot}_on_atlas BS $threshold | gawk ' {print $2}'`
+		cauln=`wtm_4dfp ${petroot}_on_atlas CAUL $threshold | gawk '  {print $2}'`
+		caurn=`wtm_4dfp ${petroot}_on_atlas CAUR $threshold | gawk '  {print $2}'` 
+		cerln=`wtm_4dfp ${petroot}_on_atlas CERL $threshold | gawk '  {print $2}'`
+		cerrn=`wtm_4dfp ${petroot}_on_atlas CERR $threshold | gawk '  {print $2}'`
+		grln=`wtm_4dfp ${petroot}_on_atlas GRL $threshold | gawk '  {print $2}'`
+		grrn=`wtm_4dfp ${petroot}_on_atlas GRR $threshold | gawk '  {print $2}'`
+		ltpln=`wtm_4dfp ${petroot}_on_atlas LTPL $threshold | gawk '  {print $2}'`
+		ltprn=`wtm_4dfp ${petroot}_on_atlas LTPR $threshold | gawk '  {print $2}'`
+		occln=`wtm_4dfp ${petroot}_on_atlas OCCL $threshold | gawk '  {print $2}'`
+		occrn=`wtm_4dfp ${petroot}_on_atlas OCCR $threshold | gawk '  {print $2}'`
+		parln=`wtm_4dfp ${petroot}_on_atlas PARL  $threshold | gawk '  {print $2}'`
+		parrn=`wtm_4dfp ${petroot}_on_atlas PARR $threshold | gawk '  {print $2}'`
+		precln=`wtm_4dfp ${petroot}_on_atlas PRECL $threshold | gawk '  {print $2}'`
+		precrn=`wtm_4dfp ${petroot}_on_atlas PRECR $threshold | gawk '  {print $2}'`
+		prefln=`wtm_4dfp ${petroot}_on_atlas PREFL $threshold | gawk '  {print $2}'`
+		prefrn=`wtm_4dfp ${petroot}_on_atlas PREFR  $threshold| gawk '  {print $2}'`
+		racln=`wtm_4dfp ${petroot}_on_atlas RACL  $threshold| gawk '  {print $2}'`
+		racrn=`wtm_4dfp ${petroot}_on_atlas RACR $threshold | gawk '  {print $2}'`
+		REF=$(echo "scale=6; ($cerln*$cerld+$cerrn*$cerrd)/($cerld+$cerrd)" | bc )
+		BS=$(echo "scale=6; $bsn/$REF" |bc)
+		CAU=$(echo "scale=6; ($cauln*$cauld+$caurn*$caurd)/($cauld+$caurd)/$REF" | bc )
+		GR=$(echo "scale=6; ($grln*$grld+$grrn*$grrd)/($grld+$grrd)/$REF" | bc )
+		LTP=$(echo "scale=6; ($ltpln*$ltpld+$ltprn*$ltprd)/($ltpld+$ltprd)/$REF" | bc )
+		OCC=$(echo "scale=6; ($occln*$occld+$occrn*$occrd)/($occld+$occrd)/$REF" | bc )
+		PAR=$(echo "scale=6; ($parln*$parld+$parrn*$parrd)/($parld+$parrd)/$REF" | bc )
+		PREC=$(echo "scale=6; ($precln*$precld+$precrn*$precrd)/($precld+$precrd)/$REF" | bc )
+		PREF=$(echo "scale=6; ($prefln*$prefld+$prefrn*$prefrd)/($prefld+$prefrd)/$REF" | bc )
+		RAC=$(echo "scale=6; ($racln*$racld+$racrn*$racrd)/($racld+$racrd)/$REF" | bc )
+		MC=$(echo "scale=6; ($GR+$PREC+$PREF+$LTP)/4.0 " |bc)
+
+if [ -e  ${petroot}"_ATLSUVR.txt" ]
+then
+	rm ${petroot}"_ATLSUVR.txt"
+fi
+touch ${petroot}"_ATLSUVR.txt"
+
+printf "%16s%16s\n" ROI SUVR >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" BS $BS >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" CAU $CAU >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" GR $GR >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" LTP $LTP >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" OCC $OCC >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" PAR $PAR >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" PREC $PREC >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" PREF $PREF >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" RAC $RAC >>${petroot}"_ATLSUVR.txt"
+printf "%16s%16f\n" MC $MC >>${petroot}"_ATLSUVR.txt"
+
+

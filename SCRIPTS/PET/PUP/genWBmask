@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# Script to generate whole brain mask based on FreeSurfer Segmentation.
+#
+# Yi Su, 03/27/2013
+
+# Preprocessing wmparc
+if [ $# -lt 1 ]
+then
+	t1root=orig001
+	fsfroot=wmparc001
+elif [ $# -lt 2 ]
+then
+	fsfroot=wmparc001
+	t1root=$1
+else
+	fsfroot= $2
+	t1root=$1
+fi
+
+fslut=/data/nil-bluearc/benzinger2/suy/SuY/FreeSurferColorLUT.txt
+if [ ! -e ${t1root}"_g9.4dfp.img" ] 
+then
+	gauss_4dfp $t1root 0.9
+fi
+
+maskimg_4dfp -v1 -t15 ${t1root}_g9  ${t1root}_g9 Head_Mask
+PreprocessRSFtest2 $fsfroot Head_Mask  RSFMask ROIlist.txt $fslut
+
+# Find whole brain mask
+t=`gawk '/Right-UnsegmentedWhiteMatter/ {print $2}' ROIlist.txt`
+t=$(echo "scale=3; $t+0.5" |bc)
+zero_gt_4dfp $t RSFMask
+maskimg_4dfp  PETFOV RSFMaskz WBMask
+rm RSFMaskz.*

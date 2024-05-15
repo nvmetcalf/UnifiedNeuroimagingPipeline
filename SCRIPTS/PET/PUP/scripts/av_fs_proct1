@@ -1,0 +1,57 @@
+#!/bin/bash
+################################################################################
+# FreeSurfer based F18-Florbetapir data processing master script	       #
+#                                                                              #
+################################################################################
+# Yi Su, 09/03/2013
+
+idstr='$Id: pib_fs_proc,v 1.1.1.1 2013/09/03 18:07:48 suy Exp $'
+
+echo $idstr
+
+paramfn=$1
+
+source $paramfn # Read parameter file
+wmparcroot=${wmparc%.*}
+wmparcroot=${wmparcroot}001 
+
+mkdir av_proc # Creating PIB processing directory
+cd av_proc	# Enter PIB processing directory
+
+if (( $format == 1 ))
+then
+	$RELEASE/ecatto4dfp $petdir/$petfn $petid
+elif (( $format == 0 ))
+then
+	dcm_pet -b $petid -m -a $petdir/$petfn
+elif (( $format == 2 ))
+then
+	sif_4dfp $petdir/$petfn $petid
+fi
+
+cp $fsdir/$t1 .
+cp $fsdir/$wmparc .
+
+AVTB $petid $isstat $format $mst $mdt
+
+if (( $isstat == 0 ))
+then
+	if (( $? == 0 )); then PIBMPRREG $petid $t1; fi
+	if (( $? == 0 )); then PIBROIFS $petid $wmparc $t1 $fslut $fwhm; fi
+	if (( $? == 0 )); then GENTAC $petid; fi
+	if (( $? == 0 )); then GetROIList $petid"_ROI2_f10" $fslut > fsrois.txt; fi
+	if (( $? == 0 )); then PVC2CFS $wmparcroot PETFOV fsrois.txt $fwhm; fi
+	if (( $? == 0 )); then ROIPIB $petid $roisfn; fi
+	if (( $? == 0 )); then genSUVRimg $petid $t1; fi
+	if (( $? == 0 )); then CALL_BP $petid; fi
+	if (( $? == 0 )); then gauss_4dfp ${petid}_SUVR 0.8; fi
+	
+elif (( $isstat == 1 ))
+then
+	if (( $? == 0 )); then PIBSMPRREG $petid $t1 ; fi
+	if (( $? == 0 )); then PIBCTSROIANA $petid $wmparc $t1 $fslut $fwhm $roisfn; fi
+	if (( $? == 0 )); then genSUVRimgS $petid $t1 ; fi
+	if (( $? == 0 )); then gauss_4dfp ${petid}_SUVR 0.8; fi
+fi
+
+exit $?

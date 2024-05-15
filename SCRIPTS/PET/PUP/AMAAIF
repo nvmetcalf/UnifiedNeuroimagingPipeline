@@ -1,0 +1,90 @@
+#!/bin/bash
+################################################################################
+# This program extract arterial input function for dynamic PET images based on 
+# MPRAGE and TOF MRA. Intended for AMA's ho and lac data                                                                           
+################################################################################
+# Yi Su, 4/8/2011                                                            
+
+TOFfn=$1
+MPRfn=$2
+ArtInfo=$3
+holist=( $(cat "$4" ) )
+laclist=( $(cat "$5" ) )
+nho=${#holist[*]}
+horoot=( ${holist[*]%%.*} )
+nlac=${#laclist[*]}
+lacroot=( ${laclist[*]%%.*} )
+TOF=${TOFfn%%.*}
+MPR=${MPRfn%%.*}
+sumho=( ${holist[*]/.*/_sumall} )
+sumlac=( ${laclist[*]/.*/_sumall} )
+
+echo "TOF= "$TOF
+echo "MPR= "$MPR
+echo "hos = " $horoot 
+echo "nhos= " $nho
+echo "lacs= " $lacroot 
+echo "nlac= " $nlac
+echo $sumho
+echo $sumlac
+
+for (( i=0; i<$nho; i++ ))
+do
+	ecatto4dfp ${holist[$i]} 
+	sumecatto4dfp ${holist[$i]} ${sumho[$i]}
+done
+
+
+for (( i=0; i<$nlac; i++ ))
+do
+	ecatto4dfp ${laclist[$i]}
+	sumecatto4dfp ${laclist[$i]} ${sumlac[$i]}
+done
+
+
+regimg ho_target ${sumho[*]}
+regimg lac_target ${sumlac[*]}
+
+~/bin/pet2mpr_reg.csh ${MPR} ho_target
+t4_resolve ${MPR} ho_target -oMPR
+
+~/bin/pet2mpr_reg.csh ${MPR} lac_target
+t4_resolve ${MPR} lac_target -oMPR
+
+gauss_4dfp ${TOF} 1.3
+~larsc/bin/tof2mpr_reg.csh ${MPR} ${TOF}
+
+mkdir AIF
+~suy/bin/GetAIFPre $TOF $ArtInfo $MPR
+
+for (( i=0; i<$nho; i++ ))
+do
+	t4_mul ${sumho[$i]}"_to_ho_target_t4" "ho_target_to_MPR_t4"
+	t4_inv 	${sumho[$i]}"_to_MPR_t4"
+	t4_mul ${TOF}"_to_"${MPR}"_t4"  "MPR_to_"${sumho[$i]}"_t4" ${TOF}"_to_"${sumho[$i]}"_t4"
+	~suy/bin/GetAIF $TOF ${TOF}"_to_"${sumho[$i]}"_t4" $ArtInfo ${horoot[$i]} 0
+	t4img_4dfp "MPR_to_"${sumho[$i]}"_t4" ${MPR}"_mskt" ${MPR}"_mskt_on_"${sumho[$i]} -O${sumho[$i]} -n
+	qnt_4dfp ${horoot[$i]} ${MPR}"_mskt_on_"${sumho[$i]} | gawk '/Mean/ {print $2}' > ${horoot[$i]}"_Whole_Brain_Mean.tac"
+	
+	cd AIF
+	imgopr_4dfp -a"Art_"${horoot[$i]} "lArt_"${horoot[$i]}"z" "rArt_"${horoot[$i]}"z"
+	maskimg_4dfp ${TOF}"_Art_g_"${horoot[$i]} "Art_"${horoot[$i]} ${TOF}"_Art_g_"${horoot[$i]}"_msk"
+	cd ..
+done 
+
+for (( i=0; i<$nlac; i++ ))
+do
+	t4_mul ${sumlac[$i]}"_to_lac_target_t4" "lac_target_to_MPR_t4"	
+	t4_inv 	${sumlac[$i]}"_to_MPR_t4"
+	t4_mul ${TOF}"_to_"${MPR}"_t4"  "MPR_to_"${sumlac[$i]}"_t4" ${TOF}"_to_"${sumlac[$i]}"_t4"
+	~suy/bin/GetAIF $TOF ${TOF}"_to_"${sumlac[$i]}"_t4" $ArtInfo ${lacroot[$i]} 0
+	t4img_4dfp "MPR_to_"${sumlac[$i]}"_t4" ${MPR}"_mskt" ${MPR}"_mskt_on_"${sumlac[$i]} -O${sumlac[$i]} -n
+	qnt_4dfp ${lacroot[$i]} ${MPR}"_mskt_on_"${sumlac[$i]} | gawk '/Mean/ {print $2}' > ${lacroot[$i]}"_Whole_Brain_Mean.tac"
+	
+	cd AIF
+	imgopr_4dfp -a"Art_"${lacroot[$i]} "lArt_"${lacroot[$i]}"z" "rArt_"${lacroot[$i]}"z"
+	maskimg_4dfp ${TOF}"_Art_g_"${lacroot[$i]} "Art_"${lacroot[$i]} ${TOF}"_Art_g_"${lacroot[$i]}"_msk"
+	cd ..
+done
+
+

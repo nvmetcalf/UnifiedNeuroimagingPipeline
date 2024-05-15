@@ -1,0 +1,48 @@
+################################################################################
+# FreeSurfer based AV45 data processing parameter file			       #
+#                                                                              #
+################################################################################
+
+
+# Location of the PET data file (absolute path)
+petdir=/data/nil-bluearc/benzinger2/suy/AV45/026-003/Dixon
+
+# PET data file name
+petfn=026-003-Dixon
+
+# petid is used as the target name of the 4dfp file and the root for various file
+# names
+petid=026-003-Dixon
+
+# Location of the FreeSurfer generated mgz files. (orig.mgz and wmparc.mgz will
+# be used
+fsdir=/data/nil-bluearc/benzinger2/suy/freesurfer/026-003/mri
+
+# The name of the MR data file in FreeSurfer space (orig.mgz is used)
+t1=orig.mgz
+
+# The FreeSurfer segmentation output file (wmparc.mgz is used)
+wmparc=wmparc.mgz
+
+# whether the original data is ECAT (1) or DICOM (0) or Siemens Interfile (2)
+format=0
+
+
+# Absolute path for the FreeSurferColorLUT.txt file. It has to match the version
+# used to do the FreeSurfer processing
+fslut=/data/nil-bluearc/benzinger2/suy/SuY/FreeSurferColorLUT.txt
+
+# Absolute path for the file with list of regions to be analyzed
+roisfn=/home/suy/bin/ROIs
+
+# Full-width-half-max (fwhm) of the assumed PET scanner point spread function
+# to be used for partial volume correction
+fwhm=6.0
+
+# Model Starting Time in Minutes from time of injection and scan for dynamic scans
+mst=40;
+
+# Model Duration in Minutes  for dynamic scans
+mdt=30;
+
+

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+PID=$1
+
+bpPREC=`gawk '/ctx-precuneus/ {print $3}' ${PID}"_ROIPIB.txt"`
+bpGR=`gawk '/GR_FS/ {print $3}' ${PID}"_MERGEFS.txt"`
+bpTEMP=`gawk '/TEMP_FS/ {print $3}' ${PID}"_MERGEFS.txt"`
+bpPREF=`gawk '/PREF_FS/ {print $3}' ${PID}"_MERGEFS.txt"`
+mcbp=$(echo "scale=6; $bpPREC + $bpGR + $bpTEMP + $bpPREF" | bc)
+mcbp=$(echo "scale=6; $mcbp / 4.0" |bc)
+
+bpPREC=`gawk '/ctx-precuneus/ {print $4}' ${PID}"_ROIPIB.txt"`
+bpGR=`gawk '/GR_FS/ {print $4}' ${PID}"_MERGEFS.txt"`
+bpTEMP=`gawk '/TEMP_FS/ {print $4}' ${PID}"_MERGEFS.txt"`
+bpPREF=`gawk '/PREF_FS/ {print $4}' ${PID}"_MERGEFS.txt"`
+mcbpRSF=$(echo "scale=6; $bpPREC + $bpGR + $bpTEMP + $bpPREF" | bc)
+mcbpRSF=$(echo "scale=6; $mcbpRSF / 4.0" |bc)
+
+bpPREC=`gawk '/ctx-precuneus/ {print $3}' ${PID}"_ROIPIBPVC2C.txt"`
+bpGR=`gawk '/GR_FS/ {print $5}' ${PID}"_MERGEFS.txt"`
+bpTEMP=`gawk '/TEMP_FS/ {print $5}' ${PID}"_MERGEFS.txt"`
+bpPREF=`gawk '/PREF_FS/ {print $5}' ${PID}"_MERGEFS.txt"`
+mcbpPVC2C=$(echo "scale=6; $bpPREC + $bpGR + $bpTEMP + $bpPREF" | bc)
+mcbpPVC2C=$(echo "scale=6; $mcbpPVC2C / 4.0" |bc)
+
+
+printf "%11s %11s %11s\n" MCBP MCBP_RSF MCBP_PVC2C >${PID}"_MCBP.txt"
+printf "%11.4f %11.4f %11.4f\n" $mcbp $mcbpRSF $mcbpPVC2C >>${PID}"_MCBP.txt"

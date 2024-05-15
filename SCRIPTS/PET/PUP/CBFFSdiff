@@ -1,0 +1,55 @@
+#!/bin/bash
+# Yi Su, 08/04/2011                                                            
+
+petfstr1=$1 # 4dfp PET image file (.4dfp.img)
+petfstr2=$2 # 4dfp PET image file (.4dfp.img)
+fsfstr=$3   # Freesurfer ROI definition file (usually wmparc.mgz)
+mrfstr=$4   # Anatomical MR file (usually T1.mgz)
+
+mgzto4dfp $fsfstr	# Converting to 4dfp file
+			# The anatomical file (T1.mgz) has already been converted
+			
+
+petname1=`basename $petfstr1`
+petname2=`basename $petfstr2`
+petdir1=`dirname $petfstr1`
+petdir2=`dirname $petfstr2`
+petroot1=${petname1%%.*}
+petroot2=${petname2%%.*}
+mrname=`basename $mrfstr`
+mrdir=`dirname $mrfstr`
+mrroot=${mrname%%.*}
+mrroot=${mrroot}"001"
+fsfname=`basename $fsfstr`
+fsfdir=`dirname $fsfstr`
+fsfroot=${fsfname%%.*}
+fsfroot=${fsfroot}"001"
+
+###########################
+# Generating PET field of view converage file PETFOV.4dfp.img
+
+tv=`imgmax_4dfp -m hosum | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} hosum hosum temp$$
+zero_slice_4dfp temp$$ z 1 2  temp$$"_mskz"
+t4img_4dfp hosum_to_MR_t4 temp$$"_mskz" tmp$$"_on_MR" -O${mrroot}
+maskimg_4dfp -v1 -t0.9999 tmp$$"_on_MR" tmp$$"_on_MR" PETFOV
+
+rm temp$$*.4dfp.*
+
+###########################
+# Processing freesurfer rois, whole head roi, and prepare for roi analysis
+
+maskimg_4dfp -v1 -t15 ${mrroot}"_g9"  ${mrroot}"_g9" Head_Mask
+PreprocessRSFtest2 $fsfroot Head_Mask  RSFMask ROIlist.txt /data/nil-bluearc/mintun/SuY/FreeSurferColorLUT.txt
+calrsfmat RSFMask ROIlist.txt RSFMat.dat 6.0
+t4img_4dfp hosum_to_MR_t4 ${petroot1} ${petroot1}"_on_MR" -O${mrroot}
+t4img_4dfp hosum_to_MR_t4 ${petroot2} ${petroot2}"_on_MR" -O${mrroot}
+NROI=`wc -l ROIlist.txt | gawk '{print $1}'`
+rsfroieval2 ${petroot1}"_on_MR" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${petroot1} 0
+rsfroieval2 ${petroot2}"_on_MR" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${petroot2} 0
+
+############################
+# PVC2C
+
+GetROIList ${petroot1}"_ROI2_f0" > fsrois.txt
+PVC2CFS wmparc001 PETFOV fsrois.txt 6.0

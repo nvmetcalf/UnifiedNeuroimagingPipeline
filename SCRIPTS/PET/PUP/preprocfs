@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+# Script to preprocess freesurfer output for further processing.
+#
+# Yi Su, 12/22/2011
+
+# Preprocessing wmparc
+mgzto4dfp wmparc.mgz
+fsfroot=wmparc001
+fslut=/data/nil-bluearc/benzinger2/suy/SuY/FreeSurferColorLUT.txt
+if [ ! -e "T1001_g9.4dfp.img" ] 
+then
+	gauss_4dfp T1001 0.9
+fi
+
+maskimg_4dfp -v1 -t15 T1001_g9  T1001_g9 Head_Mask
+PreprocessRSFtest2 $fsfroot Head_Mask  RSFMask ROIlist.txt $fslut
+
+# Find whole brain mask
+t=`gawk '/Right-UnsegmentedWhiteMatter/ {print $2}' ROIlist.txt`
+t=$(echo "scale=3; $t+0.5" |bc)
+zero_gt_4dfp $t RSFMask
+maskimg_4dfp  PETFOV RSFMaskz WBMask
+rm RSFMaskz.*

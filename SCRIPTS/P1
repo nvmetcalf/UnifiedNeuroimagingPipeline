@@ -1,0 +1,165 @@
+#! /bin/csh
+
+#load the configuration file
+if(-e ${PP_SCRIPTS}/Config/P1.cfg) then
+	source ${PP_SCRIPTS}/Config/P1.cfg
+	echo "Loaded P1 configuration."
+else
+	echo "Cannot open P1 configuration. Ensure your login files are setup correctly."
+	exit 1
+endif
+
+if(! $?PROJECTS_HOME) then
+	echo "PROJECTS_HOME environment variable not set in login shell. Unable to continue."
+	exit 1
+endif
+
+
+if(! -e ../Study.cfg) then
+	echo "Could not find a Study.cfg for the current study."
+	exit 1
+endif
+
+source ../Study.cfg
+
+if($#argv < 1) then
+	echo "################# USAGE ####################"
+	echo "P1 <1> <2 - optional in most cases>"
+	echo " "
+	echo "1. The folder names that contain the dicom folder (where the .IMG's should be)."
+	echo "		If you are doing a set, enclose the list in quotation marks"
+	echo "		Subjects are space delimitted with in quotes"
+	echo "		Example: PR-69A"
+	echo " "
+	echo "2. Set which target atlas to use from the following list. This is not necessary most the time as the atlas set in the Study configuration is used by default. Enter only the number of the atlas"
+	#output all known atlases - stored in P1.cfg
+	@ i = 1
+	foreach Atlas($AtlTargets)
+		echo "		${i}. ${AtlTargets[${i}]}"
+		@ i++
+	end
+	echo ""
+	echo "############################################"
+	exit 1
+endif
+
+if(`basename $cwd` != "Participants" && `basename $cwd` != "InProcess" && `basename $cwd` != "Pending_PI_Review" && ${3} != "yes") then
+	echo "Please run Participants or InProcess within your study folder under $PROJECTS_HOME/${PROJECTS_DIR}"
+	exit 1
+endif
+
+if ($#argv > 0) then
+	set PatientList = (${1})
+
+	if($#argv > 1) then
+		set Target = $AtlTargets[$2]
+	else
+		set Target = $AtlTargets[$TargetAtlas]
+	endif
+
+ 	#check to see if the current study has a scratch space created
+	if(-e ${ScratchFolder}) then
+		echo "Scratch Directory Exists! Continuing..."
+	else
+		echo "Scratch Directory does not exist! Creating..."
+		mkdir ${ScratchFolder}
+	endif
+
+endif
+
+echo "Parameters:"
+echo "Subjects = $1"
+
+echo "Scratch dir: ${ScratchFolder}"
+
+########## SWITCH TO SET THE TARGET ATLAS
+
+set Date = `date | tr '[ ]' '[_]'`
+
+set DEBUG_FILE = ${cwd}/DEBUG_P1_${Date}.txt
+
+touch ${DEBUG_FILE}
+
+chmod -f 775 ${DEBUG_FILE}
+
+set UseAutoDetect = 1
+
+set Home = ${cwd}
+
+echo "=================== Settings ========================="
+echo "Subject List: "${PatientList}
+echo "Target: "${Target}
+echo "Debug File: "${DEBUG_FILE}
+echo "=================== Settings ========================="
+###################################################
+## Begin cycling through all the specified subjects
+###################################################
+
+foreach Patient(${PatientList})
+	echo "Opening Subject: "${cwd}/${Patient}
+
+	set IsNII = 0
+
+	if(! -d ${Patient}) then
+		decho "$Patient does not exist!" ${DEBUG_FILE}
+		goto NEXT_SUBJECT
+	endif
+	cd $Patient
+
+	if(-e dicom) set DICOM_Dir = "dicom"
+
+	echo "Initializing subject..."
+
+	#clear out everything except the dicom folder
+	foreach Item(`ls`)
+		if($Item != $DICOM_Dir) rm -rf $Item
+	end
+
+	#create the folder structure
+	mkdir Masks
+	mkdir QC
+	mkdir Functional
+		mkdir Functional/Movement
+		mkdir Functional/Regressors
+		mkdir Functional/Volume
+		mkdir Functional/Surface
+		mkdir Functional/TemporalMask
+	mkdir Anatomical
+		mkdir Anatomical/Volume
+		mkdir Anatomical/Surface
+	mkdir Logs
+
+	if(-e ${ScratchFolder}/${Patient}) then
+		decho "Clearing out existing scratch for ${Patient}." ${DEBUG_FILE}
+		rm -Rf ${ScratchFolder}/${Patient}/*
+	else
+		mkdir ${ScratchFolder}/${Patient}
+	endif
+
+	if(! -e Logs) mkdir Logs
+
+	$PP_SCRIPTS/GenerateParams
+	if($status) then
+		decho "Unable to generate params!" ${DEBUG_FILE}
+		exit 1
+	endif
+
+	echo "Checking for P1_custom.csh..."
+	## Source the custom script
+	if(-e ../P1_custom.csh) then
+		source ../P1_custom.csh
+	endif
+
+	rm -rf study* temp *dicom_list.txt *lst	#remove the linked study folders full of linked dicoms. The links won't work later
+
+	echo Fixing Permissions...
+	chmod -Rf 775 ../${Patient}
+	chgrp -Rf $StudyGroup ../${Patient}
+
+	decho "Finished with subject ${Patient}..." ${DEBUG_FILE}
+	cd ${Home}
+
+	NEXT_SUBJECT:
+
+end
+

@@ -1,0 +1,11 @@
+#!/bin/csh
+
+if(`echo $1` == "-env") then
+	echo "#########################"
+	echo "# CURRENT VARIABLES"
+	echo "#########################"
+	set -o posix ; set
+endif
+
+echo "PAUSED - press enter to continue"
+set a = $<

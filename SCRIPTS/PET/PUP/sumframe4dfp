@@ -1,0 +1,55 @@
+#!/bin/bash
+###################--------------------------------------------------------------
+# The purpose of this program is to create sumframes based on the dynamic 4dfp file
+
+###################--------------------------------------------------------------
+# Inputs to the program
+#
+# $1: 4dfp PET file name (*.4dfp.img) assuming the frame duration and decay correction info is in the .rec file
+# $2: starting frame number
+# $3: ending frame number
+#
+###################--------------------------------------------------------------
+# Yi Su, 11/03/2010                                                            
+
+petfstr=$1
+outroot=$2
+sf=$3
+ef=$4
+petdir=`dirname $petfstr`
+petname=`basename $petfstr`
+petroot=${petname%.*}
+petroot=${petroot%.*}
+
+frames=`gawk '/matrix size \[4\]/ {print $5}' $petdir"/"$petroot".4dfp.ifh"`
+
+gawk '/Frame_[1-9]/ {print $2/60000}' $petdir"/"$petroot".4dfp.img.rec" > temp$$"_fd.txt"
+gawk '/Frame_[1-9]/ {print $7}' $petdir"/"$petroot".4dfp.img.rec" > temp$$"_dc.txt"
+
+let "nz = $sf - 1"
+let "nf = $ef - $nz"
+
+if [ -e  wl$$".txt" ]
+then
+	rm wl$$".txt"
+fi
+touch wl$$".txt"
+
+for (( i=0; i<nz; i++ ))
+do
+	printf '0\n' >> wl$$".txt"
+done
+
+s=0;
+for (( i=$sf; i<=$ef; i++ ))
+do
+	fd=`gawk 'NR=='$i' {print $1}'   temp$$"_fd.txt"`
+	dc=`gawk 'NR=='$i' {print $1}'   temp$$"_dc.txt"`
+	wf=$(echo "scale=6; $fd/$dc" | bc)
+	s=$(echo "scale=6; $fd+$s" | bc)
+	echo $wf >> wl$$".txt"
+done
+s=$(echo "scale=6; $nf/$s" | bc)
+actmapf_4dfp -a$outroot -c$s -w"wl"$$".txt" "${nz}x${nf}+" $petfstr
+
+rm temp$$* wl$$".txt"

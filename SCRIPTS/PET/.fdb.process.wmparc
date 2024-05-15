@@ -1,0 +1,96 @@
+#!/bin/csh
+set echo
+#if (! -e .fdb.processing && ! -e .fdb.processed) then
+	set program = $0
+
+	setenv SUBJECTS_DIR $2
+	set subject = $1
+
+	if(-e ${SUBJECTS_DIR}/${subject}/mri) then
+		set FS_sub = $subject
+	else
+		set FS_sub = vglab
+	endif
+	
+	if (! -e ${SUBJECTS_DIR}/${FS_sub}/mri/gtmseg.mgz) then
+		gtmseg --s $subject --xcerseg >! gtmseg.log
+		if($status) exit 1
+	endif
+	
+	cp ${SUBJECTS_DIR}/${FS_sub}/mri/wmparc.mgz ${SUBJECTS_DIR}/${FS_sub}/mri/gtmseg.mgz .
+
+	if(! -e wmparc.nii) then
+		mri_convert wmparc.mgz wmparc.nii
+		if($status) exit 1
+	endif
+	
+	#python .fdb/big_wmparc.py wmparc.mgz wmparc_big.mgz
+	fslmaths wmparc.nii -thr 3000 -uthr 5000 wmparc_big.nii.gz
+	if($status) exit 1
+	
+	mri_convert wmparc_big.nii.gz wmparc_big.mgz
+	if ($status) exit $status
+	
+	mri_vol2vol --mov wmparc_big.mgz --lta-inv ${SUBJECTS_DIR}/${FS_sub}/mri/gtmseg.lta --targ ${SUBJECTS_DIR}/${FS_sub}/mri/gtmseg.mgz --o wmparc_on_gtmseg.mgz --nearest
+	if ($status) exit $status
+	#rm wmparc_big.mgz
+
+	#python .fdb/add_wm.py wmparc_on_gtmseg.mgz gtmseg.mgz "gtmseg+wmparc.mgz"
+	mri_convert wmparc_on_gtmseg.mgz wmparc_on_gtmseg.nii.gz
+	if ($status) exit $status
+	
+	mri_convert ${SUBJECTS_DIR}/${FS_sub}/mri/gtmseg.mgz gtmseg.nii.gz
+	if($status) exit 1
+
+	#take the white matter regions from freesurfer and fill the petsufer white
+	#matter regions with those values
+ 	
+ 	#need to add back in gtmseg voxels that are 0 in the wmparc as the wmparc and gtmseg don't always agree
+ 	#do a 1 voxel modal dilation of the wmseg and gtm seg to fill in any holes or gaps between regions
+ 	fslmaths gtmseg.nii.gz -kernel sphere 1 -dilD gtmseg_dil.nii.gz
+ 	if($status) exit 1
+ 	
+ 	fslmaths wmparc_on_gtmseg.nii.gz -kernel sphere 1 -dilD wmparc_on_gtmseg_dil.nii.gz 
+ 	if($status) exit 1
+ 	
+ 	#generate the wmparc mask and regions
+ 	fslmaths gtmseg_dil.nii.gz -thr 2 -uthr 2 gtmseg_2
+ 	if($status) exit 1
+ 	
+ 	fslmaths wmparc_on_gtmseg_dil.nii.gz -mas gtmseg_2 gtmseg_2_wmparc
+ 	if($status) exit 1
+ 	
+ 	#generate the remaining white matter gtm classified as white matter, but wmparc didn't
+ 	fslmaths gtmseg_dil.nii.gz -mas gtmseg_2_wmparc gtmseg_2_gtm
+ 	if($status) exit 1
+ 
+ 	fslmaths gtmseg_dil.nii.gz -thr 41 -uthr 41 gtmseg_41
+ 	if($status) exit 1
+
+ 	fslmaths wmparc_on_gtmseg_dil.nii.gz -mas gtmseg_41 gtmseg_41_wmparc
+ 	if($status) exit 1
+ 	
+ 	fslmaths gtmseg_dil.nii.gz -mas gtmseg_41_wmparc gtmseg_41_gtm
+ 	if($status) exit 1
+	
+ 	#make a mask to remove region 2 and 41 from gtmseg
+ 	fslmaths gtmseg_2_wmparc -add gtmseg_2_gtm -add gtmseg_41_wmparc -add gtmseg_41_gtm -bin -mul -1 -add 1 gtmseg_wm_mask.nii.gz
+ 	if($status) exit 1
+ 	
+ 	#mask the petsurfer segmentation by the white matter mask and add in the freesurfer regions
+ 	fslmaths gtmseg.nii.gz -mas gtmseg_wm_mask.nii.gz -add gtmseg_2_wmparc -add gtmseg_41_wmparc gtmseg+wmparc.nii.gz
+ 	if($status) exit 1
+ 	
+	mri_convert gtmseg+wmparc.nii.gz gtmseg+wmparc.mgz
+	if($status) exit 1
+	
+	#rm wmparc_on_gtmseg.mgz
+	cp .fdb/"gtmseg+wmparc.ctab" .
+	cp ${SUBJECTS_DIR}/${FS_sub}/mri/gtmseg.lta "gtmseg+wmparc.lta"
+
+	#popd
+
+#endif
+
+exit 0
+

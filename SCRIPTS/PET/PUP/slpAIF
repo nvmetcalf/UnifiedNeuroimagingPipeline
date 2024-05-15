@@ -1,0 +1,27 @@
+#!/bin/bash
+
+TOF=$1
+MPR=$2
+ArtInfo=$3
+SID1=$4
+SID2=$5
+
+~suy/bin/GetAIFPre $TOF $ArtInfo
+
+for scan in "ho1" "ho2" "oc1" "oc2" "oo1" "oo2" 
+do
+	t4_mul ${SID1}${scan}"_sumall_to_"${MPR}"_t4" ${MPR}"_to_"${TOF}"_t4" ${SID1}${scan}"_sumall_to_"${TOF}"_t4"
+	t4_inv ${SID1}${scan}"_sumall_to_"${TOF}"_t4" ${TOF}"_to_"${SID1}${scan}"_sumall_t4"
+	t4_mul ${SID2}${scan}"_sumall_to_"${MPR}"_t4" ${MPR}"_to_"${TOF}"_t4" ${SID2}${scan}"_sumall_to_"${TOF}"_t4"
+	t4_inv ${SID2}${scan}"_sumall_to_"${TOF}"_t4" ${TOF}"_to_"${SID2}${scan}"_sumall_t4"
+	~suy/bin/GetAIF $TOF ${TOF}"_to_"${SID1}${scan}"_sumall_t4" $ArtInfo ${SID1}${scan} 0
+	~suy/bin/GetAIF $TOF ${TOF}"_to_"${SID2}${scan}"_sumall_t4" $ArtInfo ${SID2}${scan} 0
+done
+	
+	scan=fdg1	
+	t4_mul ${SID1}${scan}"_sumall_to_"${MPR}"_t4" ${MPR}"_to_"${TOF}"_t4" ${SID1}${scan}"_sumall_to_"${TOF}"_t4"
+	t4_inv ${SID1}${scan}"_sumall_to_"${TOF}"_t4" ${TOF}"_to_"${SID1}${scan}"_sumall_t4"
+	t4_mul ${SID2}${scan}"_sumall_to_"${MPR}"_t4" ${MPR}"_to_"${TOF}"_t4" ${SID2}${scan}"_sumall_to_"${TOF}"_t4"
+	t4_inv ${SID2}${scan}"_sumall_to_"${TOF}"_t4" ${TOF}"_to_"${SID2}${scan}"_sumall_t4"
+	~suy/bin/GetAIF $TOF ${TOF}"_to_"${SID1}${scan}"_sumall_t4" $ArtInfo ${SID1}${scan} 1
+	~suy/bin/GetAIF $TOF ${TOF}"_to_"${SID2}${scan}"_sumall_t4" $ArtInfo ${SID2}${scan} 1

@@ -1,0 +1,70 @@
+#!/bin/bash
+################################################################################
+# PET reference TAC extraction. 					       #
+#                                                                              #
+# USAGE:								       #
+#	petrefroi paramsfn                                        	       #
+#                                                                              #
+################################################################################
+# Yi Su, 01/08/2014
+VERSION=1.1
+
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Mon Feb  3 09:46:07 CST 2014 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+###############################################################################
+# Read PARAMS file
+source $paramsfn || die "$program ERROR: Cannot source params file $paramsfn"
+
+# Further development will improve this program which checks the validity of
+# the inputs specified in the params file
+
+###############################################################################
+if (( FS == 1 ))
+then
+	fsrefroi $petid $roilist $refroistr .tac || die "$program ERROR: fsrefroi $petid $roilist $refroistr .tac failed"
+	if (( rsfflag == 1 ))
+	then
+		fsrefroi $petid $roilist $refroistr _RSF.tac || die "$program ERROR: fsrefroi $petid $roilist $refroistr _RSF.tac failed"
+	fi
+	if (( pvc2cflag == 1 ))
+	then
+		fsrefroi $petid $roilist $refroistr _PVC2C.tac || die "$program ERROR: fsrefroi $petid $roilist $refroistr _PVC2C.tac failed"
+	fi
+
+fi
+
+if (( tgflag == 1 ))
+then
+	fsrefroi $petid $roilist $refroistr .tac || die "$program ERROR: fsrefroi $petid $roilist $refroistr .tac failed"
+fi
+
+if (( tgflag == 2 ))
+then
+	fsrefroi $petid $roilist $refroistr .tac || die "$program ERROR: fsrefroi $petid $roilist $refroistr .tac failed"
+fi
+
+###############################################################################
+# Additional ROI target based processing will be included in the future
+
+
+
+###############################################################################

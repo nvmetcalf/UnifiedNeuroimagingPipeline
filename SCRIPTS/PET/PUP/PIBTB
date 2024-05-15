@@ -1,0 +1,204 @@
+#!/bin/bash
+###################--------------------------------------------------------------
+# The purpose of this program is to create early, middle, and late PIB PET
+# images from dynamic PIB scans. 
+#
+#   PIB 54 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        5  5  5  5  5  5 10 10 10
+#   set startframe = (  1 36 41 46 47 48 49 51 53 )
+#   set lastframe =  ( 35 40 45 46 47 48 50 52 54 )
+#
+#   DLBPIB and Test-Retest 32 and 34 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        5  5  4  6  5  5 10 10 10
+#   set startframe = (  1 13 18 22 24 25 26 28 30 32 33 34 )
+#   set lastframe =  ( 12 17 21 23 24 25 27 29 31 32 33 34 )
+
+#   PIB 27 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        4  5  5  5  5  5 10 10 10
+#   set startframe = (  1 17 18 19 20 21 22 24 26 )
+#   set lastframe =  ( 16 17 18 19 20 21 23 25 27 )
+###################--------------------------------------------------------------
+#
+#   PIBCT 33 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        5  5  4  6  5  5 10 10 10
+#   set startframe = (  1 13 18 22 24 25 26 28 30 32 )
+#   set lastframe =  ( 12 17 21 23 24 25 27 29 31 33 )
+#
+#   PIBCT 26 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        5  5  5  5  5  5 10 10 10
+#   set startframe = (  1 16 17 18 19 20 21 23 25 )
+#   set lastframe =  ( 15 16 17 18 19 20 22 24 26 )
+###################--------------------------------------------------------------
+# Inputs to the program
+#
+# $1: 4dfp PET file name (*.4dfp.img)
+# $2: isecat flat indicates whether it is a ECAT or a PETCT scan
+#
+###################--------------------------------------------------------------
+# Yi Su, 08/31/2011                                                            
+
+if (( $# < 2 ))
+then
+	echo "Usage: `basename $0` petfile isecat"
+	exit 1
+fi
+
+petfstr=$1
+petdir=`dirname $petfstr`
+outname=`basename $petfstr`
+outroot=${outname%%.*}
+isecat=$2 # ECAT or PETCT
+
+frames=`gawk '/matrix size \[4\]/ {print $5}' $petdir"/"$outroot".4dfp.ifh"`
+if (( $isecat == 1 ))
+then
+	missing=( `grep "Missing Frames:" $petdir"/"$outroot".4dfp.img.rec"` )
+	n=${#missing[*]}
+	nmissing=$(($n-3))
+	
+	frames=$(($frames+$nmissing))
+	echo ${missing[*]}
+	case "$frames" in
+	
+	    "54" )
+	    echo "54 Frame ECAT Sequence"
+	    groups=( a b c )
+	    startframe=(  1 36 41 46 47 48 49 51 53 )
+	    lastframe=( 35 40 45 46 47 48 50 52 54 )
+	    
+	    offset=0
+	    i=3
+	    
+	    while (( $i < $n ))
+	    do
+	    	for (( j=0; j<9; j++ ))
+	    	do
+			tmpmiss=$((${missing[$i]}-$offset))
+			if (( ${startframe[$j]} >= $tmpmiss ))
+			then
+				startframe[$j]=$((${startframe[$j]}-1))			
+			fi
+			if (( ${lastframe[$j]} >= $tmpmiss ))
+			then
+				lastframe[$j]=$((${lastframe[$j]}-1))			
+			fi
+	    	done
+	    	((i++))
+		((offset++))
+	    done
+	    ;;
+	    
+	    "32" | "33" | "34" )
+	    echo "32 to 34 Frame ECAT Sequence"
+	    groups=( a b c )
+	    startframe=(  1 13 18 22 24 25 26 28 30 )
+	    lastframe=( 12 17 21 23 24 25 27 29 31 )
+	    offset=0
+	    i=3
+	    while (( $i < $n ))
+	    do
+	    	for (( j=0; j<9; j++ ))
+	    	do
+			tmpmiss=$((${missing[$i]}-$offset))
+			if (( ${startframe[$j]} >= $tmpmiss ))
+			then
+				startframe[$j]=$((${startframe[$j]}-1))			
+			fi
+			if (( ${lastframe[$j]} >= $tmpmiss ))
+			then
+				lastframe[$j]=$((${lastframe[$j]}-1))			
+			fi
+	    	done
+	    	((i++))
+		((offset++))
+	    done
+	    ;;
+	    
+	    "27" )
+	    echo "27 Frame ECAT Sequence"
+	    groups=( a b c )
+	    startframe=(  1 17 18 19 20 21 22 24 26 )
+	    lastframe=( 16 17 18 19 20 21 23 25 27 )
+	    
+	    offset=0
+	    i=3
+	    while (( $i < $n ))
+	    do
+	    	for (( j=0; j<9; j++ ))
+	    	do
+			tmpmiss=$((${missing[$i]}-$offset))
+			if (( ${startframe[$j]} >= $tmpmiss ))
+			then
+				startframe[$j]=$((${startframe[$j]}-1))			
+			fi
+			if (( ${lastframe[$j]} >= $tmpmiss ))
+			then
+				lastframe[$j]=$((${lastframe[$j]}-1))			
+			fi
+	    	done
+	    	((i++))
+		((offset++))
+	    done
+	    ;;
+	    
+	    * )
+	    # Default option.	  
+   	    echo "Unexpected ECAT Sequence. Must Exit."
+	    exit 1
+  	    ;;
+	   
+	esac
+else
+	case "$frames" in
+	    
+	    "31" | "32" | "33" )
+	    echo "31 to 33 Frame PETCT Sequence"
+	    groups=( a b c )
+            startframe=(  1 13 18 22 24 25 26 28 30 )
+            lastframe=(  12 17 21 23 24 25 27 29 31 )
+	    ;;
+	    
+	    "26" )
+	    echo "26 Frame PETCT Sequence"
+	    groups=( a b c )
+            startframe=(  1 16 17 18 19 20 21 23 25 )
+            lastframe=(  15 16 17 18 19 20 22 24 26 )
+	    ;;
+	    
+	    * )
+	    # Default option.	  
+   	    echo "Unexpected PETCT Sequence. Must Exit."
+	    exit 1
+  	    ;;
+	   
+	esac
+
+fi 
+
+echo "startframe=( "${startframe[*]}" )"
+echo "lastframe=( "${lastframe[*]}" )"
+
+if [ -e ${outroot}.tb ]
+then
+	rm ${outroot}.tb
+fi
+touch ${outroot}.tb
+echo "startframe=( "${startframe[*]}" )" >> ${outroot}.tb
+echo "lastframe=( "${lastframe[*]}" )" >> ${outroot}.tb
+
+
+for (( g=0; g<3; g++ ))
+do
+	for (( i=0; i<3; i++ ))
+	do
+		echo ${outroot}"_"${groups[$g]}$((i+1))
+		echo sum_pet_4dfp $petfstr ${startframe[$((i+g*3))]}  ${lastframe[$((i+g*3))]} -h1223 ${outroot}_${groups[$g]}$((i+1)) 
+		sum_pet_4dfp $petfstr ${startframe[$((i+g*3))]}  ${lastframe[$((i+g*3))]}  -h1223 ${outroot}_${groups[$g]}$((i+1)) 
+	done
+done
+exit 0

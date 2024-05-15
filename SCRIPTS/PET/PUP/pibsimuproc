@@ -1,0 +1,57 @@
+#!/bin/bash
+################################################################################
+# This program process simulated PIB images and performs regional analysis     #
+#                                                                              #
+################################################################################
+# Yi Su, 08/31/2012
+
+simupet=$1
+mrloc=$2
+pibloc=$3
+pibid=$4
+
+simuname=`basename $simupet`
+simudir=`dirname $simupet`
+simuroot=${simuname%%.*}
+
+fslut=/data/nil-bluearc/raichle/suy/FreeSurferColorLUT.txt
+roisfn=/data/nil-bluearc/benzinger2/suy/ROIs
+fwhm=8.0
+curloc=`pwd`
+mkdir ${simudir}/${simuroot}
+cp ${pibloc}/${pibid}.tb ${simudir}/${simuroot}/${simuroot}.tb
+cp ${pibloc}/${pibid}.info ${simudir}/${simuroot}/${simuroot}.info
+ln -s ${mrloc}/RSFMask* ${simudir}/${simuroot}/
+ln -s ${mrloc}/ROIlist.txt ${simudir}/${simuroot}/
+ln -s ${mrloc}/wmparc001* ${simudir}/${simuroot}/
+ln -s ${mrloc}/T1* ${simudir}/${simuroot}/
+ln -s ${simudir}/${simuroot}.* ${simudir}/${simuroot}/
+t1=T1.mgz
+cd ${simudir}/${simuroot}
+source ${simuroot}.tb
+
+# Preprocessing
+calrsfmat RSFMask ROIlist.txt RSFMat.dat $fwhm
+
+# ROI analysis
+maskimg_4dfp -v1 -t-1 RSFMask RSFMask PETFOV
+frames=${lastframe[8]}
+for (( f=1; f<=frames; f++ ))
+do
+	if [ $? -eq 0 ]
+	then
+		chop_4dfp ${simuroot} $f $f -o${simuroot}"_"$f
+		gauss_4dfp ${simuroot}"_"$f 0.5516 #blur to PET resolution
+		NROI=`wc -l ROIlist.txt | gawk '{print $1}'`
+		rsfroieval2 ${simuroot}"_"$f"_g6" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${simuroot} $f
+		rm ${simuroot}"_"${f}.*
+		rm ${simuroot}"_"${f}_g6.*
+	fi
+done
+
+GENTAC $simuroot
+GetROIList $simuroot"_ROI2_f10" $fslut > fsrois.txt
+PVC2CFS wmparc001 PETFOV fsrois.txt $fwhm
+ROIPIB $simuroot $roisfn
+CALL_BP $simuroot
+cd $curloc

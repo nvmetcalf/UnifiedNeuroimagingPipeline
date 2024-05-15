@@ -1,0 +1,17 @@
+#!/bin/bash
+
+idstr='$Id: GetROIList,v 1.2 2012/08/21 21:10:59 suy Exp $'
+echo $idstr
+
+ROIfile=$1
+LKUP=$2
+n=`wc -l "$ROIfile" | gawk '{print $1}'`
+for (( l=2; l<=$n; l++ ))
+do
+	label=`gawk 'NR=='$l' {print $1}' $ROIfile`	 
+	val=`gawk '/ '$label' / {print $1}' $LKUP`
+	if [ -n "$val" ]
+	then
+		echo $label $val
+	fi
+done

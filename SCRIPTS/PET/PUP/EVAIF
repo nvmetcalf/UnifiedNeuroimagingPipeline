@@ -1,0 +1,19 @@
+#!/bin/bash
+
+TOF=$1
+MPR=$2
+ArtInfo=$3
+SID=$4
+
+#~suy/bin/GetAIFPre $TOF $ArtInfo
+
+for scan in "ho1" "ho2" "ho3" "ho4" #"lac1" "lac2"
+do
+	#t4_mul ${SID}${scan}"_sumall_to_"${MPR}"_t4" ${MPR}"_to_"${TOF}"_t4" ${SID}${scan}"_sumall_to_"${TOF}"_t4"
+	#t4_inv ${SID}${scan}"_sumall_to_"${TOF}"_t4" ${TOF}"_to_"${SID}${scan}"_sumall_t4"
+	~suy/bin/GetAIF $TOF ${TOF}"_to_"${SID}${scan}"_sumall_t4" $ArtInfo ${SID}${scan} 0
+	#t4_mul ${MPR}"_to_"${TOF}"_t4" ${TOF}"_to_"${SID}${scan}"_sumall_t4" ${MPR}"_to_"${SID}${scan}"_sumall_t4"
+	#t4img_4dfp ${MPR}"_to_"${SID}${scan}"_sumall_t4" ${MPR}"_mskt" ${MPR}"_mskt_on_"${SID}${scan}"_sumall" -O${SID}${scan}"_sumall" -n
+	#qnt_4dfp ${SID}${scan} ${MPR}"_mskt_on_"${SID}${scan}"_sumall" | gawk '/Mean/ {print $2}' > ${SID}${scan}"_Whole_Brain_Mean.tac"
+done
+ 

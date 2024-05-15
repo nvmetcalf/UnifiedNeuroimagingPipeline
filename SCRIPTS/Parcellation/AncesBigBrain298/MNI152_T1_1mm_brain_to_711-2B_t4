@@ -1,0 +1,8 @@
+imgreg_4dfp /data/nil-bluearc/ances_prod/Pipelines/UNPv2/ATLAS/REFDIR/711-2B /data/nil-bluearc/ances_prod/Pipelines/UNPv2/ATLAS/REFDIR/711-2B_mask_g5_111z MNI152_T1_1mm_brain_g11 MNI152_T1_1mm_brain_mskz MNI152_T1_1mm_brain_to_711-2B_t4 2311 
+$Id: imgreg_4dfp.c,v 1.15 2007/08/10 03:27:30 avi Exp $
+t4
+  1.050653  0.010121  0.018679    0.1625
+  0.003724  1.043265  0.008873    3.5529
+ -0.022231 -0.049206  1.073283   -1.0280
+  0.000000  0.000000  0.000000    1.0000
+scale:      0.162664

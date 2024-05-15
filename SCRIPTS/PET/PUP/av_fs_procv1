@@ -1,0 +1,31 @@
+#!/bin/bash
+################################################################################
+# FreeSurfer based AV45 data processing master script			       #
+#                                                                              #
+################################################################################
+# Yi Su, 07/05/2012
+
+idstr='$Id: av_fs_procv1,v 1.1.1.1 2012/08/21 18:07:39 suy Exp $'
+
+echo $idstr
+
+paramfn=$1
+
+source $paramfn # Read parameter file
+wmparcroot=${wmparc%.*}
+wmparcroot=${wmparcroot}001 
+mrroot=${t1%.*}
+mrroot=${mrroot}"001"
+
+mkdir av_proc # Creating AV45 processing directory
+cd av_proc	# Enter AV45 processing directory
+
+cp $petdir/$petfn* .
+cp $fsdir/$t1 .
+cp $fsdir/$wmparc .
+
+mgzto4dfp $t1
+if (( $? == 0 )); then REGPETMR $avid $mrroot ; fi
+if (( $? == 0 )); then AV45ROIANA $avid $wmparc $t1 $fslut $fwhm $roisfn; fi
+
+exit $?

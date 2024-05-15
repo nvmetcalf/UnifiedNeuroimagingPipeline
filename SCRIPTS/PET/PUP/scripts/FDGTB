@@ -1,0 +1,51 @@
+#!/bin/bash
+###################--------------------------------------------------------------
+# The purpose of this program is to create  c1, c2 images 
+###################--------------------------------------------------------------
+# Inputs to the program
+#
+# $1: 4dfp PET file name (*.4dfp.img)
+# $2: isecat flag indicates whether the original pet data is ECAT (1) or DICOM (0)
+# $3: modeling data duration (in mins)
+###################--------------------------------------------------------------
+# Yi Su, 10/25/2011                                                            
+
+idstr='$Id: FDGTB,v 1.2 2012/08/21 21:10:59 suy Exp $'
+echo $idstr
+
+if (( $# < 2 ))
+then
+	echo "Usage: `basename $0` petfile isecat model_duration(mins)"
+	exit 255
+fi
+
+petfstr=$1
+petdir=`dirname $petfstr`
+petname=`basename $petfstr`
+petroot=${petname%%.*}
+
+isecat=$2 # ecat or dicom
+mdt=$3
+
+PIBinfo $petfstr $isecat
+FDG20 ${petroot}".info" $mdt > ${petroot}.tb
+
+HL=6586.2
+groups=c
+if [ -e ${petroot}.tb ]
+then
+	cat ${petroot}.tb
+	source ${petroot}.tb
+	for (( i=0; i<2; i++ ))
+	do
+		echo ${petroot}"_"${groups}$((i+1))
+		echo sum_pet_4dfp $petfstr  ${startframe[$i]}  ${lastframe[$i]} -h$HL ${petroot}_${groups}$((i+1)) 
+		sum_pet_4dfp $petfstr  ${startframe[$i]}  ${lastframe[$i]} -h$HL ${petroot}_${groups}$((i+1)) 
+	done
+else
+	echo "FDG20 Failure. Must Exit"
+	exit 255
+fi
+exit $?
+
+

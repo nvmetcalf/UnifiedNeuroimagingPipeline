@@ -1,0 +1,50 @@
+#!/bin/bash
+# Yi Su, 08/04/2011                                                            
+
+ecatfstr=$1 # 4dfp PETCT image file (.4dfp.img)
+fsfstr=$2   # Freesurfer ROI definition file (usually wmparc.mgz)
+mrfstr=$3   # Anatomical MR file (usually T1.mgz)
+
+mgzto4dfp $fsfstr	# Converting to 4dfp file
+			# The anatomical file (T1.mgz) has already been converted
+			
+
+petname=`basename $ecatfstr`
+petdir=`dirname $ecatfstr`
+petroot=${petname%.*}
+petroot=${petroot%.*}
+mrname=`basename $mrfstr`
+mrdir=`dirname $mrfstr`
+mrroot=${mrname%.*}
+mrroot=${mrroot}"001"
+fsfname=`basename $fsfstr`
+fsfdir=`dirname $fsfstr`
+fsfroot=${fsfname%.*}
+fsfroot=${fsfroot}"001"
+
+###########################
+# Generating PET field of view converage file PETFOV.4dfp.img
+
+tv=`imgmax_4dfp -m ${petroot} | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${petroot} ${petroot} temp$$
+zero_slice_4dfp temp$$ z 1 2  temp$$"_mskz"
+tv=`imgmax_4dfp -m ${mrroot} | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${mrroot} ${mrroot} PETFOV
+
+rm temp$$*.4dfp.*
+
+###########################
+# Processing freesurfer rois, whole head roi, and prepare for roi analysis
+
+maskimg_4dfp -v1 -t15 ${mrroot}"_g9"  ${mrroot}"_g9" Head_Mask
+PreprocessRSFtest2 $fsfroot Head_Mask  RSFMask ROIlist.txt
+calrsfmat RSFMask ROIlist.txt RSFMat.dat
+t4img_4dfp ${petroot}"_to_MR_t4" ${petroot} ${petroot}"_on_MR" -O${mrroot}
+NROI=`wc -l ROIlist.txt | gawk '{print $1}'`
+rsfroieval2 ${petroot}"_on_MR" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${petroot} 0
+
+############################
+# PVC2C
+
+GetROIList ${petroot}"_ROI2_f0" > fsrois.txt
+PVC2CFS wmparc001 PETFOV fsrois.txt 6.0

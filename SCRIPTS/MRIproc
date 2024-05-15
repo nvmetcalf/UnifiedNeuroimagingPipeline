@@ -1,0 +1,155 @@
+#!/bin/csh 
+
+if($#argv < 4) then
+	echo "MRIproc <number of cores to use per server> <servers to use> <subject list> <parameters>"
+	echo " "
+	echo "MRIproc is a wrapper for P2 that will parallelize the "
+	echo "	the processing of all the subjects in the list with "
+	echo "	the parameters specified."
+	echo " "
+	echo "Number of cores to use"
+	echo "	CPU cores. Must be an integer."
+	echo "	if you specify a single number, that many queues will"
+	echo "		be put into each server and all participants divided among the queues."
+	echo "	If you specify the same server multiple times, multiple "
+	echo "		queues will be created and each queue processed in parallel"
+	echo "	If you specify a number for each server, then each server in the"
+	echo "		server list will have a number of queues of the respective number "
+	echo "		with all participants divided among all queues. "
+	echo " "
+	echo "The subject list must be surrouned with double quotes"
+	echo "MRIproc works the same as P2 at the command-line."
+	echo "	meaning you specifiy your subjects and the arguments."
+	exit 1
+endif
+#set echo
+ftouch mriproc_subs.txt
+ftouch MRIproc.log
+
+foreach sub($3)
+	echo $sub >> mriproc_subs.txt
+end
+
+set NumSubs = `wc mriproc_subs.txt | awk '{print $2}'`
+
+@ CurrStart = 1
+set NumProc = ($1)
+set ServerList = ($2)
+
+set command = ""
+@ i = 4
+
+while($i <= $#argv) 
+	set command = `echo $command $argv[$i]`
+	@ i++
+end
+
+if($#NumProc > 1 && $#ServerList > 0) then
+	@ TotalCores = 0
+	
+	foreach count($NumProc)
+		@ TotalCores += $count
+	end
+else if($#NumProc == 1 && $#ServerList >= 1) then
+	set CoreDist = ()
+	@ TotalCores = 0
+	foreach server($ServerList)
+		set CoreDist = ($CoreDist $NumProc)
+		@ TotalCores += $NumProc
+	end
+	
+	set NumProc = ($CoreDist)
+	
+else
+	set TotalCores = $NumProc
+	
+	set ServerList = (`hostname`)
+endif
+
+set NumPerQueue = `echo $NumSubs $TotalCores | awk '{printf("%3.0f",($1/$2))}'`
+
+decho "=================================" MRIproc.log
+decho "" MRIproc.log
+decho "Total Number of Cores to be used: $TotalCores" MRIproc.log
+decho "Total Number of Participants: $NumSubs" MRIproc.log
+decho "Servers to use: $ServerList" MRIproc.log
+decho "Number of Queues Per Server:" MRIproc.log
+
+@ i = 1
+foreach server($ServerList)
+	decho "	$server : $NumProc[$i]" MRIproc.log
+	@ i++
+end
+
+decho "Total Number of Queues to be created across all servers: $TotalCores" MRIproc.log
+decho "Number of Participants Per Queue: $NumPerQueue" MRIproc.log
+decho "" MRIproc.log
+decho "=================================" MRIproc.log
+decho "" MRIproc.log
+
+set User = `whoami`
+
+#loop through the servers and collect connection information
+decho "Checking Server connections and latency" MRIproc.log
+foreach server($ServerList)
+	decho "Server Name: $server" MRIproc.log
+	ping -c 5 $server >> MRIproc.log
+	
+	if($status) then
+		decho "Unable to ping $server . Make sure the server address is correct and try again." MRIproc.log
+		exit 1
+	endif
+	
+	set avg_latency = `tail -1 MRIproc.log | cut -d/ -f5`
+
+	if(`echo $avg_latency | awk '{if($1 > 3.0) print("1"); else print("0");}'`) then #high latency > 3s
+		decho "	Latency is HIGH ($avg_latency seconds). Suggest not using this server!" MRIproc.log
+	else if(`echo $avg_latency | awk '{if($1 > 1.0) print("1"); else print("0");}'`) then #medium latency > 1s
+		decho "	Latency is MEDIUM ($avg_latency seconds). Queue may process slowly." MRIproc.log
+	else
+		decho "	Latency is LOW ($avg_latency seconds)." MRIproc.log
+	endif
+	
+	decho "" MRIproc.log
+end
+
+#loop through servers
+	#loop through making a queue for each core on the current server
+
+@ CurrServer = 1
+
+while($CurrServer <= $#ServerList)
+	@ QueuesStarted = 1
+	while($CurrStart <= $NumSubs && $QueuesStarted <= $NumProc[$CurrServer])
+		@ CurrEnd = $CurrStart + $NumPerQueue - 1
+		set SubList = (`head -$CurrEnd mriproc_subs.txt | tail -$NumPerQueue`)
+		
+		decho "Command: $command" MRIproc.log
+		decho "	queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh Start: `date`" MRIproc.log
+		ftouch queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
+		
+		chmod 755 queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
+		echo "#\!/bin/csh" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
+		echo "source ~/.login" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
+		echo "set echo" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
+		echo "pushd $cwd" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
+		echo "P2 '$SubList' $command" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
+		echo "decho '	queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh End: `date`' MRIproc.log" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
+		
+		ftouch server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
+		chmod 755 server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
+		echo "#\!/bin/csh" >> server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
+		echo "cd $cwd" >> server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
+		echo "ssh -X ${User}@${ServerList[$CurrServer]} ${cwd}/queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh" >> server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
+		
+		echo "konsole -e $cwd/server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh"
+		
+		konsole -e "$cwd/server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh"
+		@ CurrStart += $NumPerQueue
+		@ QueuesStarted++
+		sleep 5
+	end
+	@ CurrServer++
+end
+
+echo "All jobs started!"

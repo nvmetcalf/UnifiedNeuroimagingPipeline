@@ -1,0 +1,91 @@
+#!/bin/bash
+################################################################################
+# This program registers multiple images
+#                                                                              
+################################################################################
+# Yi Su, 1/11/2011                                                            
+
+args=$#
+program=`basename $0`
+
+for (( i=2; i<=$args; i++ ))
+do
+	imgfstr[$i]=${!i}
+	imgname[$i]=`basename ${!i}`
+	imgpath[$i]=`dirname ${!i}`
+	tmp=${imgname[$i]}
+	tmp=${tmp%%.*}
+	imgroot[$i]=$tmp
+	imgf[$i]=${tmp}"_b50"
+	imgblur_4dfp $tmp 5
+done
+echo ${imgroot[@]}
+log=${program}".log"
+touch	$log
+date >> $log
+echo ;
+echo imgreg_4dfp OUTPUT to $log ;
+echo "Please wait"
+
+search=2
+coarse=2
+nfine=1
+hessian=1
+oristr=( T C S )
+for (( i=2; i<=$args; i++ ))
+do
+	for (( j=2; j<=$args; j++ ))
+	do
+		if [ "$i" -ne "$j" ]
+		then
+			pos=${imgroot[$i]}
+			neg=${imgroot[$j]}
+			t4file=$neg"_to_"$pos"_t4"
+			if [ ! -e $t4file ]
+			then
+				ori=`awk '/orientation/{print $NF - 1}' ${pos}".4dfp.ifh"`
+				ori=$((ori-1))
+				t4_inv /data/petsun4/data1/solaris/${oristr[$ori]}"_t4" temp$$"_t4"
+				ori=`awk '/orientation/{print $NF - 1}' ${neg}".4dfp.ifh"`
+				ori=$((ori-1))
+				t4_mul /data/petsun4/data1/solaris/${oristr[$ori]}"_t4" temp$$"_t4" $t4file
+				rm temp$$_t4			
+			fi
+			for (( k=0; k<search; k++ ))
+			do
+				mode=$((4096+3))
+				echo >> $log ; echo "nfile k="$k "search="$nfile "mode = 4096 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+			done
+			for (( k=0; k<coarse; k++ ))
+			do
+				mode=$((3072+3))
+				echo >> $log ; echo "nfile k="$k "search="$nfile "mode = 3072 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+			done
+			for (( k=0; k<nfine; k++ ))
+			do
+				mode=$((2048+3))
+				echo >> $log ; echo "nfile k="$k "search="$nfile "mode = 2048 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+			done
+			if [ $hessian ] 
+			then
+				mode=$((8192+2048+3))
+				echo >> $log ; echo "hessian k="$k "hessian="$hessian "mode = 8192 + 2048 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} none ${imgf[$j]} none $t4file $mode >> $log			
+			fi
+		fi
+	done
+done
+echo t4_resolve $imgn -o$1 > ${1}_mov.log
+t4_resolve ${imgroot[@]} -o$1 > ${1}_mov.log
+t4imgs_4dfp $1.sub $1 -O${imgf[2]} 

@@ -1,0 +1,43 @@
+#!/bin/csh
+
+set TOF = $1
+set MPR = $2
+set PID = $3
+
+maskimg_4dfp ${TOF}"_lArt" ${TOF}"_lArt" tmp1 -v1
+maskimg_4dfp ${TOF}"_lArt_halo" ${TOF}"_lArt_halo" tmp2 -v1
+imgopr_4dfp -almask tmp1 tmp2
+
+maskimg_4dfp ${TOF}"_rArt" ${TOF}"_rArt" tmp1 -v1
+maskimg_4dfp ${TOF}"_rArt_halo" ${TOF}"_rArt_halo" tmp2 -v1
+imgopr_4dfp -armask tmp1 tmp2
+
+rm tmp1.*
+rm tmp2.*
+
+set scans = (ho1 ho2 oc1 oc2 oo1 oo2 fdg1)
+foreach scan ($scans)
+	t4_inv ${PID}${scan}"_sumall_to_"${MPR}"_t4" ${MPR}"_to_"${PID}${scan}"_sumall_t4"
+	t4_mul ${TOF}"_to_"${MPR}"_t4" ${MPR}"_to_"${PID}${scan}"_sumall_t4" ${TOF}"_to_"${PID}${scan}"_sumall_t4"
+	t4img_4dfp ${TOF}"_to_"${PID}${scan}"_sumall_t4" Art_Mask_TOF_fwhm65 "Art_fwhm65_on_"${PID}${scan} -O${PID}${scan}"_sumall"
+	#maskimg_4dfp ${TOF}"_lArt" ${TOF}"_lArt" tmp -t-1 -v1
+	#t4img_4dfp ${TOF}"_to_"${PID}${scan}"_sumall_t4" tmp "lArt_box_on_"${PID}${scan} -O${PID}${scan}"_sumall"
+	#maskimg_4dfp ${TOF}"_rArt" ${TOF}"_rArt" tmp -t-1 -v1
+	#t4img_4dfp ${TOF}"_to_"${PID}${scan}"_sumall_t4" tmp "rArt_box_on_"${PID}${scan} -O${PID}${scan}"_sumall"
+	
+	t4img_4dfp ${TOF}"_to_"${PID}${scan}"_sumall_t4" lmask "lArt_box_on_"${PID}${scan} -O${PID}${scan}"_sumall" -n
+	t4img_4dfp ${TOF}"_to_"${PID}${scan}"_sumall_t4" rmask "rArt_box_on_"${PID}${scan} -O${PID}${scan}"_sumall" -n
+	
+	t4img_4dfp ${MPR}"_to_"${PID}${scan}"_sumall_t4" headmask_tfl3d_2 "headmask_on_"${PID}${scan} -O${PID}${scan}"_sumall"
+end
+#rm tmp.*
+	set mfile = qa.m
+	set fwhm = 6.0
+	if (-e $mfile) then
+		rm $mfile
+	endif
+	touch $mfile
+	echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+	echo "slpqa('"${PID}"');" >>$mfile #load PET frame
+	nohup Matlab -nojvm -nodisplay < $mfile
+	

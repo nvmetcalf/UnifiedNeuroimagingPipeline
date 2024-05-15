@@ -1,0 +1,27 @@
+#!/bin/bash
+###############################################################################
+# Program to correct e7 dicom outputs				              #
+###############################################################################
+# Yi Su, 2015/2/9
+
+dcmpath=$1 #location of the dicom files
+e7path=$2 #location of the e7 reconstruction interfile format data
+fileroot=$3 # root name of the interfile format e7 interfile format data
+
+for dcmfile in ${dcmpath}/*
+do
+	ImageIndex=`dcmdump +P 0054,1330 $dcmfile | sed 's/\[//' | sed 's/\]//' | gawk '{print $3}'`
+	NOS=`dcmdump +P 0054,0081 $dcmfile | sed 's/\[//' | sed 's/\]//' | gawk '{print $3}'`
+	# Frame of the current dicom file
+	ImageIndex=`expr $ImageIndex - 1`
+	Frame=`expr $ImageIndex / $NOS + 1`
+	# Corresponding e7 output interfile format data
+	SIFfn=`grep "data set\[${Frame}\]" ${e7path}/${fileroot}.mhdr | cut -f 2 -d,`
+	DecayFactor=`grep "image info\[${Frame}\]" ${e7path}/${SIFfn} | cut -f 10 -d,`
+	ScatterFraction=`grep "image info\[${Frame}\]" ${e7path}/${SIFfn} | cut -f 11 -d,`
+	#update dicom header
+	dcmodify -i "(0054,1321)=${DecayFactor}" $dcmfile >& /dev/null
+	dcmodify -i "(0054,1323)=${ScatterFraction}" $dcmfile >& /dev/null
+	echo $ImageIndex $NOS $Frame $SIFfn $DecayFactor $ScatterFraction
+done
+rm ${dcmpath}/*.bak

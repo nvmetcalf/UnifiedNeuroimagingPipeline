@@ -1,0 +1,160 @@
+#!/bin/bash
+# Yi Su, 03/22/2012
+#
+# Program to get mean time activity curve for all cortical grey and white regions
+
+idstr='$Id: getcorttac,v 1.2 2012/08/21 21:11:01 suy Exp $'
+echo $idstr
+
+petid=$1
+
+echo "--------------------------------------"
+echo  Region List
+rlst=( 
+bankssts
+caudalanteriorcingulate
+caudalmiddlefrontal
+corpuscallosum
+cuneus
+entorhinal
+fusiform
+inferiorparietal
+inferiortemporal
+isthmuscingulate
+lateraloccipital
+lateralorbitofrontal
+lingual
+medialorbitofrontal
+middletemporal
+parahippocampal
+paracentral
+parsopercularis
+parsorbitalis
+parstriangularis
+pericalcarine
+postcentral
+posteriorcingulate
+precentral
+precuneus
+rostralanteriorcingulate
+rostralmiddlefrontal
+superiorfrontal
+superiorparietal
+superiortemporal
+supramarginal
+frontalpole
+temporalpole
+transversetemporal
+insula
+)
+
+nr=${#rlst[*]}
+
+for (( i=0; i<nr; i++ ))
+do
+	echo ${rlst[$i]}
+done
+
+
+echo "--------------------------------------"
+echo "Initialize total voxels, start time list, frame duration list, mean roi "
+echo "intensity"
+
+tnv=0
+lines=`wc -l ${petid}"_ctx-lh-precuneus.tac" | gawk '{print $1}'`
+for (( i=2; i<=lines; i++ ))
+do
+	st[$i-1]=`gawk 'NR=='$i' {print $2}' ${petid}"_ctx-lh-precuneus.tac"`
+	dt[$i-1]=`gawk 'NR=='$i' {print $3}' ${petid}"_ctx-lh-precuneus.tac"`
+	m[$i-1]=0
+	mw[$i-1]=0
+	printf '%f\t%f\n' ${st[$i-1]} ${dt[$i-1]}
+done
+
+echo "--------------------------------------"
+echo "Get Cortical TAC "
+if [ -e ${petid}_CALLg.tac ]
+then
+	rm ${petid}_CALLg.tac
+fi
+touch ${petid}_CALLg.tac
+if [ -e ${petid}_CALLw.tac ]
+then
+	rm ${petid}_CALLw.tac
+fi
+touch ${petid}_CALLw.tac
+if [ -e tmp.tac ]
+then
+	rm tmp.tac
+fi
+touch tmp.tac
+
+
+for (( f=1; f<lines; f++ ))
+do
+	tnv=0
+	(( l=f+1 ))
+	for (( i=0; i<nr; i++ ))
+	do
+		tacfn=${petid}"_ctx-lh-"${rlst[$i]}".tac"
+		if [ -e $tacfn ]
+		then
+			nv=`gawk 'NR==1 {print $6}' $tacfn`
+			mf=`gawk 'NR=='$l' {print $4}' $tacfn`
+			(( tnv=tnv+nv ))
+			m[$f]=$(echo "scale=8; ${m[$f]}+$mf*$nv" | bc)
+		fi	
+		tacfn=${petid}"_ctx-rh-"${rlst[$i]}".tac"
+		if [ -e $tacfn ]
+		then
+			nv=`gawk 'NR==1 {print $6}' $tacfn`
+			mf=`gawk 'NR=='$l' {print $4}' $tacfn`
+			(( tnv=tnv+nv ))
+			m[$f]=$(echo "scale=8; ${m[$f]}+$mf*$nv" | bc)
+		fi			
+	done
+	m[$f]=$(echo "scale=8; ${m[$f]}/$tnv " | bc)
+	
+	printf "%9d %15f %15f %15f\n" $f ${st[$f]} ${dt[$f]} ${m[$f]} 
+	printf "%9d %15f %15f %15f\n" $f ${st[$f]} ${dt[$f]} ${m[$f]} >> tmp.tac
+done
+printf "%9s %15s %15s %15s %15s%10d\n" "Frame_#" "Start_Time_(s)" "Duration_(s)"  "Mean"  "NVoxels=" $tnv >> ${petid}_CALLg.tac
+cat tmp.tac >> ${petid}_CALLg.tac
+rm tmp.tac
+
+if [ -e tmp.tac ]
+then
+	rm tmp.tac
+fi
+touch tmp.tac
+for (( f=1; f<lines; f++ ))
+do
+	tnv=0
+	(( l=f+1 ))
+	for (( i=0; i<nr; i++ ))
+	do
+		tacfn=${petid}"_wm-lh-"${rlst[$i]}".tac"
+		if [ -e $tacfn ]
+		then
+			nv=`gawk 'NR==1 {print $6}' $tacfn`
+			mf=`gawk 'NR=='$l' {print $4}' $tacfn`
+			(( tnv=tnv+nv ))
+			m[$f]=$(echo "scale=8; ${m[$f]}+$mf*$nv" | bc)
+		fi	
+		tacfn=${petid}"_wm-rh-"${rlst[$i]}".tac"
+		if [ -e $tacfn ]
+		then
+			nv=`gawk 'NR==1 {print $6}' $tacfn`
+			mf=`gawk 'NR=='$l' {print $4}' $tacfn`
+			(( tnv=tnv+nv ))
+			m[$f]=$(echo "scale=8; ${m[$f]}+$mf*$nv" | bc)
+		fi			
+	done
+	m[$f]=$(echo "scale=8; ${m[$f]}/$tnv " | bc)
+	
+	printf "%9d %15f %15f %15f\n" $f ${st[$f]} ${dt[$f]} ${m[$f]} 
+	printf "%9d %15f %15f %15f\n" $f ${st[$f]} ${dt[$f]} ${m[$f]} >> tmp.tac
+done
+printf "%9s %15s %15s %15s %15s%10d\n" "Frame_#" "Start_Time_(s)" "Duration_(s)"  "Mean"  "NVoxels=" $tnv >> ${petid}_CALLw.tac
+cat tmp.tac >> ${petid}_CALLw.tac
+rm tmp.tac

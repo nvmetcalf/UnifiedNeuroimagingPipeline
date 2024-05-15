@@ -1,0 +1,56 @@
+#!/bin/bash
+# USAGE: dlop_proc_fswb orig001 PETlist
+
+MR=$1
+PETlist=( $(cat "$2"))
+nPET=${#PETlist[*]}
+PETroot=( ${PETlist[*]%%.*} )
+PETsum=( ${PETlist[*]/.*/_sumall} )
+echo ${PETlist[*]}
+echo ${PETroot[*]}
+echo ${PETsum[*]}
+
+# Generate info file
+for (( i=0; i<$nPET; i++ ))
+do
+	petinfo ${PETroot[$i]} 0
+done
+
+
+# Generate common PETFOV
+tv=`imgmax_4dfp -m $MR | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} $MR $MR PETFOV
+tv=`imgmax_4dfp -m ${PETsum[0]} | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${PETsum[0]} ${PETsum[0]}  petfov
+nsl=`gawk '/matrix size \[3\]/ {print $NF}' petfov.4dfp.ifh`
+zero_slice_4dfp petfov z 1 4 temp$$
+k=$((nsl-3))
+zero_slice_4dfp temp$$ z $k $nsl petfov
+
+for (( i=0; i<$nPET; i++ ))
+do
+        petf=${PETsum[$i]}
+        t4=${petf}_to_${MR}_t4
+        t4img_4dfp $t4 petfov petfov_on_MR -O$MR
+        imgopr_4dfp -ptemp$$ PETFOV petfov_on_MR
+        maskimg_4dfp  temp$$ temp$$ PETFOV
+
+done
+
+maskimg_4dfp -v1 -t0.99 PETFOV PETFOV temp$$
+maskimg_4dfp -v1 temp$$ temp$$ PETFOV
+rm temp$$.4dfp.*
+
+
+# Generate whole brain mask
+
+maskimg_4dfp -t.99 PETFOV fs_wbmask wbmask
+
+# Transfer whole brain mask to individual PET data space and obtain whole brain TAC
+for ((  i=0; i<$nPET; i++ ))
+do
+        petf=${PETsum[$i]}
+        t4=${MR}_to_${petf}_t4
+	t4img_4dfp $t4 wbmask "wbmask_on_PET"$i -O${PETsum[$i]}
+	qnt_4dfp -t0.99 ${PETroot[$i]} "wbmask_on_PET"$i | gawk '/Mean/ {print $2}' >> ${PETroot[$i]}_fswb.tac
+done

@@ -1,0 +1,189 @@
+#!/bin/bash
+# Check manual roi files downloaded and transform it to the MR space (T1001) for further processing
+# 03/04/2011 Yi Su
+
+#contents=( 10064 PIB424 )
+contents=( $(cat "$1") )
+n=`wc -l "$1" | gawk '{print $1}'`
+echo ----
+for (( i=0; i<$n; i++ ))
+do
+#i=0
+
+	let "a = $i * 2"
+	let "b = $a + 1"
+	echo  -e "${contents[$a]}\t${contents[$b]}"
+	pushd ${contents[$a]}/${contents[$b]}
+	mpr2atl_4dfp T1001
+	t4_inv -u T1001_to_711-2B_t4
+	
+	
+	fn=`ls *brainstem*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		cat tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		cat tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR brainstemROI -v1 -t0.5
+	fi
+	
+	fn=`ls *caudate*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR caudateROI -v1 -t0.5
+	fi
+
+	fn=`ls *cerebellum*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR cerebellumROI -v1 -t0.5
+	fi
+	
+	fn=`ls *gyrusrectus*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR gyrusrectusROI -v1 -t0.5
+	fi
+	
+	fn=`ls *lattemp*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR lattempROI -v1 -t0.5
+	fi
+	
+	fn=`ls *occipital*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR occipitalROI -v1 -t0.5
+	fi
+	
+	fn=`ls *parietal*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR parietalROI -v1 -t0.5
+	fi
+	
+	fn=`ls *precuneus*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR precuneusROI -v1 -t0.5
+	fi
+
+	fn=`ls *prefrontal*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR prefrontalROI -v1 -t0.5
+	fi
+	
+	fn=`ls *rostral*.img`
+	fnroot=${fn%.*}
+	if [ -e ${fnroot}.img ]
+	then
+		analyzeto4dfp ${fnroot}.img
+		gawk '$0!~/scaling factor/' ${fnroot}.4dfp.ifh > tmp.ifh
+		gawk '/scaling factor/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/center/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		gawk '/mmppix/' ${RELEASE}/222.4dfp.ifh >>tmp.ifh
+		mv tmp.ifh  ${fnroot}.4dfp.ifh
+		ifh2hdr ${fnroot}.4dfp.ifh
+		maskimg_4dfp ${fnroot} ${fnroot} tmpmask -v1 -t0.5
+		t4img_4dfp 711-2B_to_T1001_t4 tmpmask tmpmask_on_MR -OT1001
+		maskimg_4dfp tmpmask_on_MR tmpmask_on_MR rostralROI -v1 -t0.5
+	fi
+	
+	rm tmpmask*
+	popd
+	
+	ls ${contents[$a]}/${contents[$b]}/*ROI.4dfp.img
+	echo ----
+done
+exit 0

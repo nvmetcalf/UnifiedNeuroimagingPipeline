@@ -1,0 +1,338 @@
+#!/bin/csh
+set histfile=
+
+##########
+# check OS
+##########
+set OS = `uname -s`
+if ($OS != "Linux") then
+	echo "This must be run on a linux machine."
+	exit 1
+endif
+
+#source the echo formatting variables
+source $PP_SCRIPTS/Utilities/echo_format_variables
+if($status) then
+	echo "ERROR: Could not source echo_format_variables!"
+	exit 1
+endif
+
+source $PP_SCRIPTS/Config/P2.cfg
+if($status) then
+	echo "ERROR: Could not source P2.cfg. Check the file for syntax errors!."
+	exit 1
+endif
+
+#source the Study.cfg to set the study variables properly.
+if( -e ../Study.cfg) then
+	source ../Study.cfg
+else
+	decho "Could not find a study configuration. Please run propagate_scans to create one."
+	exit 1
+endif
+
+if($#argv < 1) then
+		echo "################### ${BLUE_F}USAGE${NORMAL} ######################"
+		echo "P2 "\""<Participants to process seperated by spaces>"\"" [options]"
+		echo ""
+		#display the custom modules available.	
+		@ i = 1
+		echo "==============================================="
+		echo "		Modules"
+		echo "==============================================="
+		echo ""
+		while($i < $#PipelineModules)
+			@ k = $i + 2
+			echo "$PipelineModules[$i]	$PipelineModules[$k]"
+			echo ""
+			@ i = $i + 3
+		end
+		
+		#display the overrids available.	
+		@ i = 1
+		echo ""
+		echo "==============================================="
+		echo "		Overrides"
+		echo "==============================================="
+		echo ""
+		while($i < $#PipelineOverrides)
+			@ k = $i + 3
+			echo "$PipelineOverrides[$i]	$PipelineOverrides[$k]"
+			echo ""
+			@ i = $i + 4
+		end
+		echo "*** BE SURE TO CHECK/EDIT YOUR SUBJECTS PARAMS FILE! ***"
+		echo "################################################"
+		exit 1
+endif
+
+if($#argv == 0) then
+	echo "No Participants to process!"
+	exit 1
+endif
+
+set PatientList = (${1})
+
+set Date = `date | tr '[ ]' '[_]'`
+
+echo "Participants List": $PatientList
+if(`echo $PatientList | awk '{print(length($0))}'` > 2048) then
+	echo "ERROR: The list of participants is too long. Shorten the list. Max number of characters is 2048."
+	exit 1
+endif
+
+#for surface projection
+setenv MKL_THREADING_LAYER GNU
+setenv OMP_NUM_THREADS 4
+
+@ PatientIndex = 1
+
+set SubjectFolderHome = $cwd
+
+if(-e /bin/time) then
+	set ResourceCommand = "/bin/time -v"
+else
+	set ResourceCommand = ""
+endif
+
+decho "Current Execution Location: $SubjectFolderHome"
+
+while($PatientIndex <= $#PatientList)
+
+	set Patient = $PatientList[$PatientIndex]
+	set DEBUG_FILE = ${cwd}/${Patient}/Logs/Processing_Summary_${Date}.txt
+
+	#######################################
+	# Check to make sure the subject exists
+	#######################################
+	if(! -d ${cwd}/${Patient}) then
+		decho "		-=ERROR: $Patient could not be found in $cwd"
+		set ProcessingError = 1
+		goto NEXT_SUBJECT
+	endif
+	
+	if(! -e ${Patient}/Logs) mkdir ${Patient}/Logs
+
+	ftouch ${DEBUG_FILE}
+	if($status) then
+		echo "Could not create a log for $Patient. Check permissions and that the folder exists."
+		set ProcessingError = 1
+		goto NEXT_SUBJECT
+	endif
+		
+	set ProcessingError = 0
+	
+	if(-e ${cwd}/${Patient}/.inprocess) then
+		echo "	$Patient is already being processed by another instance of P2."
+		echo "	The participant will be unlocked. If you still wish to process"
+		echo "	this participant, run P2 again."
+		echo ""
+		set ProcessingError = 1
+		goto NEXT_SUBJECT
+	endif
+	
+	decho "	Processing Participant: $Patient"
+	ftouch ${Patient}/.inprocess
+	if($status) then
+		echo "ERROR: Cannot lock participant for processing! You may not have write permissions."
+		set ProcessingError = 1
+		goto NEXT_SUBJECT
+	endif
+	
+	echo ${GREEN_B}"Subject exists!"${LF}${NORMAL}
+
+	#into the participants folder
+	cd $Patient
+
+		if( ! -e ${Patient}_Execution.log) then
+			ftouch ${Patient}_Execution.log
+		endif
+
+		echo "${Date} : `whoami` : ${argv}" >>  ${Patient}_Execution.log
+
+		if( ! -e PrevParams) mkdir PrevParams
+		rm -f Processing_*.params
+		
+		echo "Creating processing parameters..."
+		set ProcessingParamsFile = ${cwd}/Processing_${Date}.params
+		ftouch $ProcessingParamsFile
+
+		cat ../../Study.cfg >> $ProcessingParamsFile
+		echo "" >> $ProcessingParamsFile	#safety line feed in case Study.cfg was edited improperly
+		#output the current pipeline path and revision
+		svn info $PP_SCRIPTS | sed 's/^/#/' >> $ProcessingParamsFile
+		
+		cp $ProcessingParamsFile PrevParams/
+		
+		echo "set DebugFile = $DEBUG_FILE" >> $ProcessingParamsFile
+
+		if(! -e ${Patient}.params) then
+			decho "	ERROR! A params file for ${Patient} was not found! Skipping subject..." ${DEBUG_FILE}
+			set ProcessingError = 1
+			goto NEXT_SUBJECT
+		endif
+		cp ${Patient}.params PrevParams/${Patient}_${Date}.params
+		set ParamsFile = ${Patient}.params
+		
+		echo "set ParamsFile = ${ParamsFile}" >> $ProcessingParamsFile
+
+		echo "Sourcing $ParamsFile ..."
+		source ${ParamsFile}
+		
+		if($status) then
+			decho "		-=ERROR: Could not open ${Patient}.params. Check the file for syntax errors!" ${DEBUG_FILE}
+			set ProcessingError = 1
+			goto NEXT_SUBJECT
+		endif
+
+		# this is so we can override the values in the params from commandline
+		if($#argv > 1) then
+
+			@ i = 2
+			@ k = 2 #value of the option i is at
+			decho "===== DIRECTIVES =====" ${DEBUG_FILE}
+			while($i <= ${#argv})
+				#go through the list of possible command line overrides
+					
+				@ override = 1
+				set FoundOption = 0
+				
+				while($override < $#PipelineOverrides)
+					
+					if(`echo ${argv[$i]}` == `echo $PipelineOverrides[$override]`) then
+					
+						set FoundOption = 1
+						@ variable = $override + 1
+						@ value = $override + 2
+						
+						set HasValue = $PipelineOverrides[$value]
+						set ParamOutput = ($PipelineOverrides[$variable])
+						
+                                                if( $HasValue != "0") then
+						      @ i++	
+                                                      set ParamOutput = ($ParamOutput " = "$argv[$i])
+						endif
+						
+						echo "$ParamOutput" >> $ProcessingParamsFile
+						
+						break
+					endif
+						
+					@ override += 4
+				end
+				
+				#couldn't find the current commandline option in the overrides
+				#check the modules to make sure it's a valid option
+				if(! $FoundOption) then
+				
+					@ n = 1
+					while($n < $#PipelineModules)
+						if(`echo $PipelineModules[$n]` == `echo $argv[$i]`) then
+							echo "Module: $PipelineModules[$n] will run"
+							set FoundOption = 1
+							break
+						endif
+						@ n += 3
+					end
+				endif
+				
+				if(! $FoundOption) then
+					decho "-= ERROR: ${argv[$i]} is not a valid option!" ${DEBUG_FILE}
+					exit 1
+				endif
+				
+				@ i++	#increment to the next field
+			end
+			decho "==========================" ${DEBUG_FILE}
+		endif
+
+		#############################
+		##
+		## Performs basic checks to make sure
+		## all needed variables exist in the
+		## params file
+		##
+		#############################
+
+		$PP_SCRIPTS/Utilities/check_params.csh $ParamsFile $ProcessingParamsFile
+		if($status) then
+			decho "		-=ERROR: $Patient params file is invalid!" ${DEBUG_FILE}
+			set ProcessingError = 1
+			goto NEXT_SUBJECT
+		endif
+
+		#forces the stdout. This will allow all terminal outputs to go to the execution logs automagically
+		echo "set echo" >> $ProcessingParamsFile
+		
+		@ n = 2
+		#run the modules selected.
+		while($n <= $#argv)
+			@ m = 1
+			while($m <= $#PipelineModules)
+				if("$argv[$n]" == "$PipelineModules[$m]") then
+					@ k = $m + 1
+					decho "		Running Module $PipelineModules[$m] ($PipelineModules[$k])" ${DEBUG_FILE}
+					ftouch Logs/`basename $PipelineModules[$k]`.log Logs/`basename $PipelineModules[$k]`.execution
+					
+					($ResourceCommand $PipelineModules[$k] $ParamsFile $ProcessingParamsFile > Logs/`basename $PipelineModules[$k]`.log) >& Logs/`basename $PipelineModules[$k]`.execution
+					
+					if($status) then
+						decho "		-=ERROR: Module $PipelineModules[$m] failed! (log: ${cwd}/Logs/`basename $PipelineModules[$k]`.execution)" ${DEBUG_FILE}
+						if($?UserEmailAddress) then
+							decho "User has an email address set. Sending error notification to the user at $UserEmailAddress" $DEBUG_FILE
+							tail -50 ${cwd}/Logs/`basename $PipelineModules[$k]`.execution >! email_temp.txt
+							
+							$PP_SCRIPTS/Utilities/email_file.csh "$UserEmailAddress" "P2 Report: Processing Error! ${Patient}" "P2 on `uname -n` had an error processing ${Patient}. \n\nCommand: $argv\n\n See below output and the log file located at: ${cwd}/Logs/`basename $PipelineModules[$k]`.execution " email_temp.txt
+							
+							rm email_temp.txt
+						endif
+						set ProcessingError = 1
+						goto NEXT_SUBJECT
+					endif
+					decho "		Module $PipelineModules[$m] completed!" ${DEBUG_FILE}
+					break
+				endif
+				@ m = $m + 3
+			end
+			
+			@ n++
+		end
+		
+	NEXT_SUBJECT:
+
+	cd $SubjectFolderHome #make sure we end up back in the location we ran P2 from
+		
+	if($ProcessingError == 1) then
+		decho "$Patient was unable to finish due to one or more errors."
+		
+	else
+		decho "$Patient completed requested operations successfully." ${DEBUG_FILE}
+		if($?UserEmailAddress) then
+			decho "User has an email address set. Sending success notification to the user at $UserEmailAddress" $DEBUG_FILE
+				
+			$PP_SCRIPTS/Utilities/email_file.csh "$UserEmailAddress" "P2 Report: Processing Success! ${Patient}" "P2 on `uname -n` has successfully processed all requested operations on ${Patient}.\n\nCommand: $argv\n\n"
+		endif
+	endif
+
+	decho "Fixing permissions..." 
+	
+	#fix_permissions
+	#check to see if the StudyGroup was set, if not then default to the first group that the user is apart of. It should be the generic "default" group
+	if($StudyGroup == "" || ! $?StudyGroup) then
+		set StudyGroup = `groups | awk '{print $1}'`
+	endif
+
+	chmod -Rf 775 $Patient
+	chgrp -Rf $StudyGroup $Patient
+	chmod -Rf 775 $ScratchFolder/${Patient}
+	chgrp -RfL $StudyGroup $ScratchFolder/${Patient}
+
+	unset ProcessingError
+	
+	echo "Unlocking participant..."
+	rm -f ${Patient}/.inprocess
+	
+	@ PatientIndex++
+end
+
+exit 0

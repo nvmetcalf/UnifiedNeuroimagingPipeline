@@ -1,0 +1,67 @@
+#!/bin/bash
+################################################################################
+# PET roi modeling using Logan Reference Model				       #
+#                                   				               #
+# USAGE:								       #
+#	petroiloganREF paramsfn                                                #
+#                                                                              #
+# This script reads a params file that includes:                               #
+#	petid:	petid is a string associated with the file name PET data in    #
+#               4dfp format.						       #
+#	roilist:the text file that lists ROI names                             #
+#	rsfflag: whether RSF PVC is performed				       #
+#	pvc2cflag: whether PVC2C is performed				       #
+#	k2: tracer eflux rate constant					       #
+#	sf:	model starting frame					       #
+#	ef:	model ending frame					       #
+#									       #
+#									       #
+# The output of this program is binding potentials for each ROI		       #
+################################################################################
+# Yi Su, 01/03/2014
+VERSION=1.1
+
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Mon Feb  3 09:46:15 CST 2014 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+###############################################################################
+# Read PARAMS file
+source $paramsfn || die "$program ERROR: Cannot source params file $paramsfn"
+
+# Further development will improve this program which checks the validity of
+# the inputs specified in the params file
+
+###############################################################################
+
+NROI=`wc -l $roilist | gawk '{print $1}'`
+for (( i=1; i<=$NROI; i++ ))
+do
+	label=`gawk 'NR=='$i' {print $1}' $roilist`
+	loganREFROI ${petid}_REF.tac ${petid}_${label}.tac ${label} $k2 $sf $ef ${petid}_${label}.mdl || die "$program ERROR: loganREFROI ${petid}_REF.tac ${petid}_${label}.tac ${label} $k2 $sf $ef ${petid}_${label}.mdl failed"
+	if (( rsfflag == 1 ))
+	then
+		loganREFROI ${petid}_REF_RSF.tac ${petid}_${label}_RSF.tac ${label} $k2 $sf $ef ${petid}_${label}_RSF.mdl || die "$program ERROR: loganREFROI ${petid}_REF_RSF.tac ${petid}_${label}_RSF.tac ${label} $k2 $sf $ef ${petid}_${label}_RSF.mdl failed"
+	fi
+	if (( pvc2cflag == 1 ))
+	then
+		loganREFROI ${petid}_REF_PVC2C.tac ${petid}_${label}_PVC2C.tac ${label} $k2 $sf $ef ${petid}_${label}_PVC2C.mdl || die "$program ERROR: loganREFROI ${petid}_REF_PVC2C.tac ${petid}_${label}_PVC2C.tac ${label} $k2 $sf $ef ${petid}_${label}_PVC2C.mdl failed"
+	fi
+done

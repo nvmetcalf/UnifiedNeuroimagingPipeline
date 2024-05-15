@@ -1,0 +1,30 @@
+#!/bin/bash
+################################################################################
+# This program generate SUVR images from short scan PET data.		       #
+#                                                                              #
+################################################################################
+# Yi Su, 10/20/2011
+
+idstr='$Id: genSUVRimgS,v 1.2 2012/08/21 21:11:01 suy Exp $'
+echo $idstr
+
+petfstr=$1 # PET image file (4dfp.img)
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%%.*}
+
+maskimg_4dfp ${petroot}"_c_on_MR" PETFOV ${petroot}_SUVR
+
+# Get mean cerebellum intensity
+nl=`gawk '/Left-Cerebellum-Cortex/ {print $2}' ${petroot}"_ROI2_f0"`
+vall=`gawk '/Left-Cerebellum-Cortex/ {print $3}' ${petroot}"_ROI2_f0"`
+nr=`gawk '/Right-Cerebellum-Cortex/ {print $2}' ${petroot}"_ROI2_f0"`
+valr=`gawk '/Right-Cerebellum-Cortex/ {print $3}' ${petroot}"_ROI2_f0"`
+tmp1=$(echo "scale=8; $vall*$nl+$valr*$nr" | bc)
+tmp2=$(echo "scale=8; $nl+$nr" | bc)
+cbl=$(echo "scale=8; $tmp1/$tmp2" | bc)
+
+scf=$(echo "scale=8; 1/$cbl" | bc)
+scale_4dfp ${petroot}_SUVR $scf
+
+exit $?
