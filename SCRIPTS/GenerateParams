@@ -1226,9 +1226,9 @@ echo "set patid = "`basename $cwd` >> ${Patient}.params
 echo "#set day1_patid = ${Patient}" >> ${Patient}.params
 echo "#set day1_path = "\$cwd:h"/"\${day1_patid} >> ${Patient}.params
 
-if($TargetAtlas == 0) then
-	echo "set target = "\$cwd:h"/Anatomical/T1/${Patient}_T1" >> ${Patient}.params
-endif
+# if($TargetAtlas == 0) then
+# 	echo set target = \"\" >> ${Patient}.params
+# endif
 
 echo ""  >> ${Patient}.params
 echo "################################" >> ${Patient}.params

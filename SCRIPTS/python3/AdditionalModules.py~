@@ -447,12 +447,3 @@ def check_tau_dicom_files(regex_match, this):
 
     #Now do the check for dimensionality.
     return check_nifti_dims('TAU',this)
-
-def check_fbx_dicom_files(regex_match, this):
-    rcode = check_dicom_files(regex_match, this)
-
-    if rcode:
-        return rcode
-
-    #Now do the check for dimensionality.
-    return check_nifti_dims('FBX',this)

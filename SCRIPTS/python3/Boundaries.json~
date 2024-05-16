@@ -2,7 +2,7 @@
     "numeric":{
         "DTI_TE":{
             "min": 1,
-            "max": 100
+            "max": 150
         },
         "ASL_TE":{
             "min": 1,
@@ -80,11 +80,11 @@
             "min": 1,
             "max": 8
         },
-        "H20_Duration":{
+        "H2O_Duration":{
             "min": 0,
             "max": 100
         },
-        "H20_Smoothing":{
+        "H2O_Smoothing":{
             "min": 1,
             "max": 8
         },
@@ -103,14 +103,10 @@
         "TAU_Smoothing":{
             "min": 1,
             "max": 8
-        },
-        "FBX_Duration":{
-            "min": 0,
-            "max": 100
-        },
-        "FBX_Smoothing":{
-            "min": 1,
-            "max": 8
         }
-    }
+    },
+    "Allowed_Dicom_Scan_Extensions": [
+        "nii.gz",
+        "nii"
+    ]
 }
