@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xdat:bundle ID="" xmlns:visit="http://nrg.wustl.edu/visit" xmlns:cnda_ext="http://nrg.wustl.edu/cnda_ext" xmlns:ghf="http://nrg.wustl.edu/ghf" xmlns:kblack="http://nrg.wustl.edu/wu_kblack" xmlns:dian="http://nrg.wustl.edu/dian" xmlns:rad="http://nrg.wustl.edu/rad" xmlns:scr="http://nrg.wustl.edu/scr" xmlns:xnat_a="http://nrg.wustl.edu/xnat_assessments" xmlns:pipe="http://nrg.wustl.edu/pipe" xmlns:bcl="http://nrg.wustl.edu/bcl" xmlns:cog="http://nrg.wustl.edu/cog" xmlns:cnda="http://nrg.wustl.edu/cnda" xmlns:srs="http://nrg.wustl.edu/srs" xmlns:prov="http://www.nbirn.net/prov" xmlns:icr="http://icr.ac.uk/icr" xmlns:sf="http://nrg.wustl.edu/sf" xmlns:cbat="http://nrg.wustl.edu/cbat" xmlns:ls2="http://nrg.wustl.edu/ls2" xmlns:neuroinfo="http://www.neuroinfo.org/neuroinfo" xmlns:fs="http://nrg.wustl.edu/fs" xmlns:behavioral="http://nrg.wustl.edu/behavioral" xmlns:condr_mets="http://nrg.wustl.edu/condr_mets" xmlns:arc="http://nrg.wustl.edu/arc" xmlns:val="http://nrg.wustl.edu/val" xmlns:iq="http://nrg.wustl.edu/iq" xmlns:wmh="http://nrg.wustl.edu/wmh" xmlns:mpet="http://nrg.wustl.edu/mpet" xmlns:uds="http://nrg.wustl.edu/uds" xmlns:opti="http://nrg.wustl.edu/opti" xmlns:xnat="http://nrg.wustl.edu/xnat" xmlns:cat="http://nrg.wustl.edu/catalog" xmlns:pup="http://nrg.wustl.edu/pup" xmlns:ipip="http://nrg.wustl.edu/ipip" xmlns:clin="http://nrg.wustl.edu/clin" xmlns:cgs="http://nrg.wustl.edu/cgs" xmlns:tissue="http://nrg.wustl.edu/tissue" xmlns:adir="http://nrg.wustl.edu/adir" xmlns:xdat="http://nrg.wustl.edu/security" xmlns:ados="http://nrg.wustl.edu/ados" xmlns:pet="http://nrg.wustl.edu/pet" xmlns:mayo="http://nrg.wustl.edu/mayo" xmlns:tx="http://nrg.wustl.edu/tx" xmlns:wrk="http://nrg.wustl.edu/workflow" xmlns:condr="http://nrg.wustl.edu/condr" xmlns:mfp="http://nrg.wustl.edu/mfp" xmlns:nihSS="http://nrg.wustl.edu/nihSS" xmlns:adrc="http://nrg.wustl.edu/adrc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nrg.wustl.edu/pet https://cnda.wustl.edu/schemas/pet.xsd http://nrg.wustl.edu/ados https://cnda.wustl.edu/schemas/ados.xsd http://nrg.wustl.edu/sf https://cnda.wustl.edu/schemas/subjforms.xsd http://nrg.wustl.edu/srs https://cnda.wustl.edu/schemas/srs.xsd http://nrg.wustl.edu/catalog https://cnda.wustl.edu/schemas/catalog.xsd http://nrg.wustl.edu/bcl https://cnda.wustl.edu/schemas/bcl.xsd http://nrg.wustl.edu/arc https://cnda.wustl.edu/schemas/project.xsd http://nrg.wustl.edu/xnat_assessments https://cnda.wustl.edu/schemas/ygtss.xsd http://nrg.wustl.edu/workflow https://cnda.wustl.edu/schemas/workflow.xsd http://nrg.wustl.edu/cnda https://cnda.wustl.edu/schemas/vitals.xsd http://nrg.wustl.edu/adir https://cnda.wustl.edu/schemas/adir.xsd http://icr.ac.uk/icr https://cnda.wustl.edu/schemas/roi.xsd http://nrg.wustl.edu/mayo https://cnda.wustl.edu/schemas/mayo.xsd http://nrg.wustl.edu/tissue https://cnda.wustl.edu/schemas/tissue.xsd http://nrg.wustl.edu/rad https://cnda.wustl.edu/schemas/radRead.xsd http://nrg.wustl.edu/cnda https://cnda.wustl.edu/schemas/cnda_xnat.xsd http://nrg.wustl.edu/cgs https://cnda.wustl.edu/schemas/cgs.xsd http://nrg.wustl.edu/ls2 https://cnda.wustl.edu/schemas/ls2.xsd http://nrg.wustl.edu/xnat https://cnda.wustl.edu/schemas/xnat.xsd http://nrg.wustl.edu/pup https://cnda.wustl.edu/schemas/pup.xsd http://nrg.wustl.edu/ghf https://cnda.wustl.edu/schemas/ghf.xsd http://nrg.wustl.edu/ipip https://cnda.wustl.edu/schemas/ipip.xsd http://nrg.wustl.edu/dian https://cnda.wustl.edu/schemas/dian.xsd http://nrg.wustl.edu/wmh https://cnda.wustl.edu/schemas/wmh.xsd http://nrg.wustl.edu/opti https://cnda.wustl.edu/schemas/opti.xsd http://nrg.wustl.edu/clin https://cnda.wustl.edu/schemas/clin.xsd http://nrg.wustl.edu/fs https://cnda.wustl.edu/schemas/fs.xsd http://nrg.wustl.edu/mpet https://cnda.wustl.edu/schemas/mpet.xsd http://nrg.wustl.edu/visit https://cnda.wustl.edu/schemas/visit.xsd http://www.nbirn.net/prov https://cnda.wustl.edu/schemas/birnprov.xsd http://nrg.wustl.edu/condr_mets https://cnda.wustl.edu/schemas/condr_mets.xsd http://nrg.wustl.edu/mfp https://cnda.wustl.edu/schemas/mfp.xsd http://nrg.wustl.edu/iq https://cnda.wustl.edu/schemas/iq.xsd http://nrg.wustl.edu/cbat https://cnda.wustl.edu/schemas/cbat.xsd http://nrg.wustl.edu/xnat_assessments https://cnda.wustl.edu/schemas/assessments.xsd http://www.neuroinfo.org/neuroinfo https://cnda.wustl.edu/schemas/neuroinfo.xsd http://nrg.wustl.edu/cnda_ext https://cnda.wustl.edu/schemas/cnda_ext.xsd http://nrg.wustl.edu/val https://cnda.wustl.edu/schemas/protocolValidation.xsd http://nrg.wustl.edu/cog https://cnda.wustl.edu/schemas/cog.xsd http://nrg.wustl.edu/behavioral https://cnda.wustl.edu/schemas/behavioral.xsd http://nrg.wustl.edu/tx https://cnda.wustl.edu/schemas/treatments.xsd http://nrg.wustl.edu/security https://cnda.wustl.edu/schemas/security.xsd http://nrg.wustl.edu/uds https://cnda.wustl.edu/schemas/uds.xsd http://nrg.wustl.edu/pipe https://cnda.wustl.edu/schemas/repository.xsd http://nrg.wustl.edu/nihSS https://cnda.wustl.edu/schemas/nihSS.xsd http://nrg.wustl.edu/wu_kblack https://cnda.wustl.edu/schemas/kblack.xsd http://nrg.wustl.edu/scr https://cnda.wustl.edu/schemas/screeningAssessment.xsd http://nrg.wustl.edu/condr https://cnda.wustl.edu/schemas/condr.xsd http://nrg.wustl.edu/adrc https://cnda.wustl.edu/schemas/adrc.xsd">
+<xdat:root_element_name>xnat:mrSessionData</xdat:root_element_name>
+<xdat:search_field>
+<xdat:element_name>xnat:mrSessionData</xdat:element_name>
+<xdat:field_ID>LABEL</xdat:field_ID>
+<xdat:sequence>0</xdat:sequence>
+<xdat:type>string</xdat:type>
+<xdat:header>Label</xdat:header>
+</xdat:search_field>
+<xdat:search_field>
+<xdat:element_name>xnat:mrSessionData</xdat:element_name>
+<xdat:field_ID>PROJECT</xdat:field_ID>
+<xdat:sequence>1</xdat:sequence>
+<xdat:type>string</xdat:type>
+<xdat:header>Project</xdat:header>
+</xdat:search_field>
+<xdat:search_field>
+<xdat:element_name>xnat:mrSessionData</xdat:element_name>
+<xdat:field_ID>DATE</xdat:field_ID>
+<xdat:sequence>2</xdat:sequence>
+<xdat:type>date</xdat:type>
+<xdat:header>Date</xdat:header>
+</xdat:search_field>
+<xdat:search_field>
+<xdat:element_name>xnat:subjectData</xdat:element_name>
+<xdat:field_ID>SUBJECT_LABEL</xdat:field_ID>
+<xdat:sequence>3</xdat:sequence>
+<xdat:type>string</xdat:type>
+<xdat:header>Subject</xdat:header>
+</xdat:search_field>
+<xdat:search_field>
+<xdat:element_name>xnat:subjectData</xdat:element_name>
+<xdat:field_ID>GENDER_TEXT</xdat:field_ID>
+<xdat:sequence>4</xdat:sequence>
+<xdat:type>string</xdat:type>
+<xdat:header>M/F</xdat:header>
+</xdat:search_field>
+<xdat:search_field>
+<xdat:element_name>xnat:mrSessionData</xdat:element_name>
+<xdat:field_ID>AGE</xdat:field_ID>
+<xdat:sequence>5</xdat:sequence>
+<xdat:type>integer</xdat:type>
+<xdat:header>Age</xdat:header>
+</xdat:search_field>
+<xdat:search_field>
+<xdat:element_name>xnat:mrSessionData</xdat:element_name>
+<xdat:field_ID>SCANNER</xdat:field_ID>
+<xdat:sequence>6</xdat:sequence>
+<xdat:type>string</xdat:type>
+<xdat:header>Scanner</xdat:header>
+</xdat:search_field>
+<xdat:search_field>
+<xdat:element_name>xnat:mrSessionData</xdat:element_name>
+<xdat:field_ID>MR_SCAN_COUNT_AGG</xdat:field_ID>
+<xdat:sequence>7</xdat:sequence>
+<xdat:type>string</xdat:type>
+<xdat:header>Scans</xdat:header>
+</xdat:search_field>
+<xdat:search_where method="AND">
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.PROJECTS</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%<KARIDF>%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.SESSION_ID</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%20020013A_MR_v2%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.XNAT_COL_MRSESSIONDATALABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%20020013A_MR_v2%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.SHARED_LABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%20020013A_MR_v2%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+</xdat:child_set>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.SUBJECTID</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.ADD_IDS</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.XNAT_COL_SUBJECTDATALABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.SHARED_LABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+</xdat:child_set>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.PROJECTS</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%<KARIDF>%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.SESSION_ID</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%20020013A_MR_v2%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.XNAT_COL_MRSESSIONDATALABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%20020013A_MR_v2%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.SHARED_LABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%20020013A_MR_v2%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+</xdat:child_set>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.SUBJECTID</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.ADD_IDS</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.XNAT_COL_SUBJECTDATALABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.SHARED_LABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+</xdat:child_set>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.PROJECTS</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%<KARIDF>%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.SESSION_ID</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%20020013A_MR_v2%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.XNAT_COL_MRSESSIONDATALABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%20020013A_MR_v2%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:mrSessionData.SHARED_LABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%20020013A_MR_v2%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+</xdat:child_set>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.SUBJECTID</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.ADD_IDS</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.XNAT_COL_SUBJECTDATALABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+<xdat:child_set method="OR">
+<xdat:criteria override_value_formatting="0">
+<xdat:schema_field>xnat:subjectData.SHARED_LABEL</xdat:schema_field>
+<xdat:comparison_type> LIKE </xdat:comparison_type>
+<xdat:value>%65927%</xdat:value>
+</xdat:criteria>
+</xdat:child_set>
+</xdat:child_set>
+</xdat:child_set>
+</xdat:search_where>
+</xdat:bundle>
+
