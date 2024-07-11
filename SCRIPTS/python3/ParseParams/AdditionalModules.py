@@ -390,8 +390,8 @@ def check_nifti_dims(scan_key, this):
 
         fdims.append((int(parsed_string[0]),
                       int(parsed_string[1]),
-                      int(parsed_string[2]),
-                      int(parsed_string[3])))
+                      int(parsed_string[2])))
+
     fdiml = len(fdims)
     if fdiml <= 1:
         return 0

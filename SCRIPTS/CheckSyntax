@@ -3,7 +3,7 @@
 if($#argv != 3) then
     decho "Expects 3 arguments"
     decho "1. Subject parameter file path"
-    decho "2. Syntax Verbosity level [N >= 0, higher is greater verbosity]"
+    decho "2. Syntax verbosity level [N >= 0, higher is greater verbosity]"
     decho "3. Syntax strictness number [N >= 0, higher is greater strictness]"
     exit 1
 endif
@@ -11,7 +11,7 @@ endif
 #Expects arguments in this order: subject parameter file path, syntax verbosity number, syntax strictness number 
 set AbsPath = `readlink -f ${1}`
 
-set PythonBin = ${FSLBIN}/python3
+set PythonBin = ${FSLBIN}/python3.11
     
 #Run dos2unix on the file to strip any windows characters which might be there for some reason.
 dos2unix $AbsPath -o -s -F
@@ -21,9 +21,8 @@ dos2unix $AbsPath -o -s -F
 #TemplateParams.json.
 decho "Checking params file syntax for ${1}" 
 $PythonBin $PP_SCRIPTS/python3/ParseParams/CheckParamsSyntax.py $AbsPath $2 $3
-set ExitCode = $status
-if($ExitCode) then
-    switch ( $ExitCode )
+if($status) then
+    switch ( $status )
         case 1:
             decho "Could not find regex template file." 
         breaksw

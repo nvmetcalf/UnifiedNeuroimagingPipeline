@@ -327,3 +327,98 @@ class SessionInformationPrompter(object):
             Definitions.CLEAR_SCREEN()
 
         return resolved_values
+
+
+class ExtractionInformationPrompter(object):
+    def __init__(self, projects_data: dict, project: str) -> None:
+        self.__scan_location_data = copy.deepcopy(projects_data[Definitions.PROJECTS][project][Definitions.SCAN_LOCATIONS])
+        self.__scan_locations = list(self.__scan_location_data.keys())
+        self.__project = project
+
+    def print_scan_locations(self):
+        print(f'------------------------- Project {self.__project} Scan Locations -------------------------')
+        print(f'The following is all scan locations listed with associated scanner aliases.')
+        print(f'The scan location is shown in {Definitions.COLORS["CYAN"]}cyan{Definitions.COLORS["RESET"]} and the associated scan locations are is shown in {Definitions.COLORS["GREEN"]}green{Definitions.COLORS["RESET"]}.')
+        
+        for index, field in enumerate(self.__scan_locations):
+            print(f'\t{index + 1}. {Definitions.COLORS["CYAN"]}{field}{Definitions.COLORS["RESET"]}: {Definitions.COLORS["GREEN"]}{self.__scan_location_data[field]}{Definitions.COLORS["RESET"]}')
+    
+    #Prompts the user to add a new scan source to the current project. Returns a string associated with the scan location to add the scan source to.
+    #Returns '' if no scan source is specified.
+    def prompt_scan_source(self, scanner_name: str) -> str:
+        
+        add_scanner = True 
+        while True:
+            option = input(f'Would you like to add the current scanner {scanner_name} to a scan source [(Y)es/(N)o]? ')
+            
+            if not option.lower() in ['y', 'yes', 'n', 'no']:
+                continue
+
+            if option.lower() in ['n', 'no']:
+                add_scanner = False
+
+            break
+        
+        if not add_scanner:
+            return ''
+        
+        accepted_scan_location = ''
+        self.print_scan_locations()
+        while True:
+            valid_options = [str(index + 1) for index in range(len(self.__scan_locations))] + ['n', 'new']
+
+            option = input(f'Enter the index of the scan source you want to add the scanner {scanner_name} ([N]ew to add a new scan source) ')
+
+            if not option.lower() in valid_options:
+                print(f'The scan source {option} is invalid.')
+                continue 
+
+            if option.lower() in ['n', 'new']:
+
+                accept_changes = False
+                abbort         = False
+                scan_location = ''
+                while not (accept_changes or abbort):
+                    scan_location = input('Enter the new scan location: ')
+                    
+                    while True:
+                        option = input(f'Would you like to accept the new scan location {scan_location} ([Y]es/[N]o/[A]bbort)? ')
+
+                        if not option.lower() in ['y', 'yes', 'n', 'no', 'a', 'abbort']:
+                            print(f'The option {option} is invalid.')
+                            continue
+                        
+                        if option.lower() in ['a', 'abbort']:
+                            abbort = True  
+
+                        if option.lower() in ['y', 'yes']:
+                            accept_changes = True
+
+                        break
+                    
+                if abbort:
+                    continue
+
+                return scan_location
+
+            #Otherwise we want to add to an index.
+            scan_location = self.__scan_locations[int(option) -  1]
+            accept_changes = False
+            while True:
+                option = input(f'Would you like to accept the new scan location {scan_location} ([Y]es/[N]o)? ')
+
+                if not option.lower() in ['y', 'yes', 'n', 'no']:
+                    print(f'The option {option} is invalid.')
+                    continue
+
+                if option.lower() in ['y', 'yes']:
+                    accept_changes = True
+
+                break
+            
+            if accept_changes:
+                accepted_scan_location = scan_location
+                break
+
+        return accepted_scan_location
+            

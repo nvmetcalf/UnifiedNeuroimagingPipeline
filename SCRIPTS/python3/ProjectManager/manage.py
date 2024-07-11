@@ -1,11 +1,19 @@
 from src.ProjectManager import ProjectManager
+import src.Utils.Checks as Checks
 import argparse
 import sys
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description='A managment System for the Ances MR Processing Pipeline. Provides functionality manage data in the ProjectManager database.')
+    parser = argparse.ArgumentParser(description='A managment System for the Ances MR Processing Pipeline. Provides functionality to manage data in the ProjectManager database.',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
+    parser.add_argument('--execution_path',
+                        required = False,
+                        help = 'Specify the root directory where this script is being executed from. Used when executing this script outside of the source path.',
+                        type = str,
+                        default = '')     
+    
     parser.add_argument('--entry_point',
                         required = False,
                         help = 'The database name to connect to.',
@@ -187,6 +195,9 @@ if __name__ == '__main__':
     if project_manager.error_state:
         print('An error occured initializing the Project Manager')
         sys.exit(project_manager.error_state)
+    
+    if require_report_path:
+        report_path = Checks.expand_data_path(args.report_path, args.execution_path)
 
     #Perform update operations.
     if args.update_subjects:
@@ -214,7 +225,7 @@ if __name__ == '__main__':
     if args.generate_project_report:
         project_manager.get_project_wide_report(
             args.project,
-            args.report_path,
+            report_path,
             args.separate_subjects
         )
 
@@ -222,7 +233,7 @@ if __name__ == '__main__':
         project_manager.get_subject_report_by_map_ids(
             args.project,
             args.map_id,
-            args.report_path,
+            report_path,
             args.separate_subjects
 
         )
@@ -232,20 +243,20 @@ if __name__ == '__main__':
             args.project,
             args.map_id[0], 
             args.session_id,
-            args.report_path,
+            report_path,
             args.fuzzy_match_level
         )
     
     if args.generate_project_duplicate_sessions_report:
         project_manager.get_duplicate_sessions_report_by_project(
             args.project,
-            args.report_path,
+            report_path,
             args.separate_subjects
         )
     
     if args.generate_all_duplicate_sessions_report:
         project_manager.get_all_duplicate_sessions_report(
-            args.report_path,
+            report_path,
             args.separate_subjects
         )
     
@@ -253,7 +264,7 @@ if __name__ == '__main__':
         project_manager.get_project_report_by_processing_status(
             args.project,
             args.processing_status,
-            args.report_path,
+            report_path,
             args.separate_subjects
 
         )
@@ -261,7 +272,7 @@ if __name__ == '__main__':
     if args.generate_report_by_processing_status:
         project_manager.get_all_processing_status_report(
             args.processing_status,
-            args.report_path,
+            report_path,
             args.separate_subjects
         )
     

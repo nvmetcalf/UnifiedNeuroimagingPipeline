@@ -5,6 +5,11 @@ import src.DataModels.Definitions as Definitions
 #Subject and Session data. Additionally assumes that the data has been 
 #expanded into the (SESSION_ID : {DATA}) format.
 def expanded_subject_to_dataframe(subject_data: dict) -> pandas.DataFrame:
+
+    if subject_data == {}:
+        return pandas.DataFrame()
+
+
     #First get all the unique fields.
     subject_metadata = {}
     fields = list()

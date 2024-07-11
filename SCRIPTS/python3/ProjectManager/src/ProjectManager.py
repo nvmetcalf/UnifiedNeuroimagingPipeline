@@ -394,9 +394,11 @@ class ProjectManager(object):
         
         for map_id in map_ids:
             subject.load_by_map_id(project, map_id)
-            
             subject_df = subject.get_expanded_dataframe()
+            subject.clear()
+
             result = self.__concatenate_dataframe_with_separation(result, subject_df, separate_subjects)
+
 
         result.to_csv(report_path, index = False)
 

@@ -2,7 +2,7 @@
 
 set PythonBin = ${FSLBIN}/python3.11
 set ExecutionPath = ${PP_SCRIPTS}/python3/ProjectManager
-set Operations = ( "manage move download analyze" )
+set Operations = ( "manage run download" )
 
 #source the echo formatting variables
 source $PP_SCRIPTS/Utilities/echo_format_variables
@@ -45,5 +45,6 @@ endif
 
 #Ensure that the path is correct.
 set ScriptPath = `readlink -f $0`
+set CurrentPath = $cwd
 cd `dirname ${ScriptPath}`
-eval "$PythonBin ${ExecutionPath}/${OperationTaken}.py ${OperationArguments}"
+eval "$PythonBin ${ExecutionPath}/${OperationTaken}.py --execution_path ${CurrentPath} ${OperationArguments}"

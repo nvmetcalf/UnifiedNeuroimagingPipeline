@@ -94,9 +94,11 @@ class DataExtractor(object):
     #Attempts to guess what the scanner is from the path. Looks at the project file for
     #predefined naming conventions.
     #Returns an empy string if no substring closely matches what is defined in the naming conventions.
-    def guess_scanner_from_path(self) -> str: 
-        if Definitions.DICOM_TAGS['MODEL_NAME'] in self.dicom_metadata:
-            return self.dicom_metadata[Definitions.DICOM_TAGS['MODEL_NAME']]
+    def guess_scanner_from_path(self) -> str:
+
+        for variation in Definitions.DICOM_TAGS['MODEL_NAME']:
+            if  variation in self.dicom_metadata:
+                return self.dicom_metadata[Definitions.DICOM_TAGS['MODEL_NAME']]
 
         print(f'Cannot determine the scanner from json metadata, attempting to guess scanner from path.')
         

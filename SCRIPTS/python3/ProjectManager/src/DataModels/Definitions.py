@@ -87,7 +87,7 @@ MISSING_BY_TYPE = {
 }
 
 DICOM_TAGS = {
-    'MODEL_NAME'       : 'ManufacturersModelName',
+    'MODEL_NAME'       : ['ManufacturersModelName', 'ManufacturerModelName'],
     'ACQUISITION_TIME' : 'AcquisitionDateTime',
     'SOFTWARE_VERSION' : 'SoftwareVersions',
 }
@@ -110,6 +110,7 @@ ALLOWED_PROC_STATUSES = 'Processing_Status'
 ALLOWED_MODALITIES    = 'Modalities_Collected'
 SCANNER_NAMES         = 'Scanner_Names'
 FS_VERSION_TAGS       = 'Freesurfer_Version_Tags'
+DOWNLOAD_DIR          = 'Default_Download_Dir'
 
 #Subject specific definitions
 MAP_ID                = 'map_id'
@@ -128,3 +129,9 @@ DATE_COLLECTED        = 'aquisition_date'
 PROC_STATUS           = 'processing_status'
 DATA_PATH             = 'data-path'
 MODS_COLLECTED        = 'modalities_collected'
+
+#File structure definitions
+RAW_DATA = 'rawdata'
+IN_PROCESS = 'InProcess'
+FS_PATH_NAME = 'Freesurfer'
+
