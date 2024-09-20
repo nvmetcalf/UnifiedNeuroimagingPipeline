@@ -57,7 +57,7 @@ if( $?RunIndex) then
 
 	$RELEASE/format2lst `echo $RunCondensedFormat` >! temp_expanded.format
 
-	echo "Run#\t#BadFrames\t#GoodFrames\t%Remaining\tSecondsRemaing" >! ${SubjectHome}/QC/${patid}_BOLD_frame_count_by_run.txt
+	echo "Run#\t#BadFrames\t#GoodFrames\t%Remaining\tSecondsRemaining" >! ${SubjectHome}/QC/${patid}_BOLD_frame_count_by_run.txt
 	foreach Run($RunIndex)
 		@ RunLength = `wc ${SubjectHome}/Functional/Movement/bold${Run}_upck_faln_dbnd_xr3d.ddat.fd | cut -d" " -f2`
 		@ EndingFrame = $StartingFrame + $RunLength
