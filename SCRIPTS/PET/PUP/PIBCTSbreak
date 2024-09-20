@@ -1,0 +1,74 @@
+#!/bin/bash
+###################--------------------------------------------------------------
+# The purpose of this program is to create early, middle, and late PIB PET
+# images from dynamic PIB PETCT scans. 
+#
+#
+#   PIB 6 frames:
+#   PET Images:        c1 c2 c3
+#   PET Minutes:       10 10 10
+#   set startframe = (  1 3 5 )
+#   set lastframe =  (  2 4 6 )
+###################--------------------------------------------------------------
+# Inputs to the program
+#
+# $1: 4dfp PETCT file name (*.4dfp.img)
+#
+###################--------------------------------------------------------------
+# Yi Su, 07/18/2011                                                            
+
+if (( $# < 1 ))
+then
+	echo "Usage: `basename $0` petfile"
+	exit 1
+fi
+
+petfstr=$1
+petdir=`dirname $petfstr`
+outname=`basename $petfstr`
+outroot=${outname%.*}
+outroot=${outroot%.*}
+
+frames=`gawk '/matrix size \[4\]/ {print $5}' $petdir"/"$outroot".4dfp.ifh"`
+
+PIBFLAG=0
+if (( $frames == 6 ))
+then
+	PIBFLAG=1
+#elif (( $frames == 31 ))
+#then
+#	PIBFLAG=2
+fi
+
+if (( $PIBFLAG == 0 ))
+then
+	echo "ERROR PIBFLAG = 0 Must Exit"
+	exit 1
+fi
+
+if (( $PIBFLAG == 1 ))
+then
+	echo "6 Frame PETCT Sequence"
+	groups=c
+	startframe=(  1 3 5 )
+	lastframe=(   2 4 6 )
+fi
+
+#if (( $PIBFLAG == 2 ))
+#then
+#	echo "31 to 33 Frame PETCT Sequence"
+#	groups=( a b c )
+#        startframe=(  1 13 18 22 24 25 26 28 30 )
+#        lastframe=(  12 17 21 23 24 25 27 29 31 )
+#fi
+
+
+
+
+for (( i=0; i<3; i++ ))
+do
+	echo ${outroot}"_"${groups}$((i+1))
+	echo ~suy/bin/sumframe4dfp $petfstr ${groups}$((i+1)) ${startframe[$i]}  ${lastframe[$i]} 
+	~suy/bin/sumframe4dfp $petfstr ${groups}$((i+1)) ${startframe[$i]}  ${lastframe[$i]} 
+done
+

@@ -1,0 +1,23 @@
+rec BigBrain298__MNI_allROIs.4dfp.img Mon Aug 8 14:36:25 CDT 2016 cgratton
+t4img_4dfp -n /data/nil-bluearc/raichle/lin64-tools/711-2B_to_MNI152lin_T1_t4 BigBrain298_711-2b_allROIs.4dfp.img BigBrain298__MNI_allROIs.4dfp.img
+$Id: t4img_4dfp,v 1.14 2015/11/03 04:45:16 avi Exp $
+rec BigBrain298__MNI_allROIs.4dfp.img  Mon Aug  8 14:36:25 2016  cgratton@typhoon Linux 2.6.32-279.19.1.el6.x86_64 x86_64
+t4imgs_4dfp BigBrain298__MNI_allROIs.lst BigBrain298__MNI_allROIs -n 
+$Id: t4imgs_4dfp.c,v 1.37 2015/11/03 03:50:32 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+BigBrain298_711-2b_allROIs	t4=/data/nil-bluearc/raichle/lin64-tools/711-2B_to_MNI152lin_T1_t4
+endsub
+t4
+#t4_inv MNI152lin_T1_to_711-2B_t4
+#$Id: t4_inv.c,v 1.1 2007/05/01 01:20:20 avi Exp $
+t4
+  0.953903 -0.003872 -0.021291   -0.1135
+ -0.010402  0.950932 -0.016412   -3.4194
+  0.020852  0.055067  0.946383    2.5682
+  0.000000  0.000000  0.000000    1.0000
+scale:      1.000000
+BigBrain298_711-2b_allROIs.4dfp.img.rec not found
+endrec Mon Aug  8 14:36:25 2016  cgratton
+endrec Mon Aug 8 14:36:25 CDT 2016 cgratton

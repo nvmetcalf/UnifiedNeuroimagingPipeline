@@ -1,0 +1,73 @@
+#!/bin/bash
+# Find freesurver and man roi overlaps.
+# 03/04/2011 Yi Su
+
+contents=( 63607 PIB427 )
+#contents=( $(cat "$1") )
+#n=`wc -l "$1" | gawk '{print $1}'`
+echo ----
+#for (( i=0; i<$n; i++ ))
+#do
+i=0
+
+	let "a = $i * 2"
+	let "b = $a + 1"
+	echo  -e "${contents[$a]}\t${contents[$b]}"
+	pushd ${contents[$a]}/${contents[$b]}
+	#mgzto4dfp wmparc.mgz
+	if [ -e brainstemROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 brainstemROI PETFOV
+	fi
+
+	if [ -e caudateROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 caudateROI PETFOV
+	fi
+	
+	if [ -e cerebellumROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 cerebellumROI PETFOV
+	fi
+
+	if [ -e gyrusrectusROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 gyrusrectusROI PETFOV
+	fi
+
+	if [ -e lattempROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 lattempROI PETFOV
+	fi
+
+	if [ -e occipitalROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 occipitalROI PETFOV
+	fi
+
+	if [ -e parietalROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 parietalROI PETFOV
+	fi
+
+	if [ -e precuneusROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 precuneusROI PETFOV
+	fi
+
+	if [ -e prefrontalROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 prefrontalROI PETFOV
+	fi
+
+	if [ -e rostralROI.4dfp.img ]
+	then
+		FSvsMAN wmparc001 rostralROI PETFOV
+	fi
+
+	popd
+	
+	ls ${contents[$a]}/${contents[$b]}/*ROI.txt
+	echo ----
+#done
+exit 0

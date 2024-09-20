@@ -1,0 +1,72 @@
+#!/bin/bash
+# Summarize calculated Abeta retention values.
+# 03/23/2011 Yi Su
+
+contents=( $(cat "$1") )
+n=`wc -l "$1" | gawk '{print $1}'`
+
+if [ -e BPMERGE.csv ] 
+then 
+	rm BPMERGE.csv
+fi
+
+printf "MAPID,PIB_SESSION_ID," >> BPMERGE.csv
+for (( i=2; i<5; i++ ))
+do
+	value=`gawk 'NR=='$i' {print $1}'  10064/PIB424/PIB424pib1_MERGEFS.txt`
+	printf "%s," $value >> BPMERGE.csv
+done
+value=`gawk 'NR=='$i' {print $1}'  10064/PIB424/PIB424pib1_MERGEFS.txt`
+printf "%s\n" $value >> BPMERGE.csv
+cp BPMERGE.csv NVOXMERGE.csv
+cp BPMERGE.csv BPMERGERSF.csv
+cp BPMERGE.csv BPMERGEPVC.csv
+cp BPMERGE.csv SUVMERGE.csv
+cp BPMERGE.csv SUVMERGERSF.csv
+cp BPMERGE.csv SUVMERGEPVC.csv
+
+for (( j=0; j<$n; j++ ))
+do
+	let "a = $j * 3"
+	let "b = $a + 1"
+	let "c = $a + 2"
+	echo  -e "${contents[$a]}\t${contents[$b]}\t${contents[$c]}.v"
+	printf "%s,%s," ${contents[$a]} ${contents[$b]} >> BPMERGE.csv
+	printf "%s,%s," ${contents[$a]} ${contents[$b]} >> NVOXMERGE.csv
+	printf "%s,%s," ${contents[$a]} ${contents[$b]} >> BPMERGERSF.csv
+	printf "%s,%s," ${contents[$a]} ${contents[$b]} >> BPMERGEPVC.csv
+	printf "%s,%s," ${contents[$a]} ${contents[$b]} >> SUVMERGE.csv
+	printf "%s,%s," ${contents[$a]} ${contents[$b]} >> SUVMERGERSF.csv
+	printf "%s,%s," ${contents[$a]} ${contents[$b]} >> SUVMERGEPVC.csv
+	for (( i=2; i<5; i++ ))
+	do
+		value=`gawk 'NR=='$i' {print $2}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s," $value >> NVOXMERGE.csv
+		value=`gawk 'NR=='$i' {print $3}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s," $value >> BPMERGE.csv
+		value=`gawk 'NR=='$i' {print $4}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s," $value >> BPMERGERSF.csv
+		value=`gawk 'NR=='$i' {print $5}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s," $value >> BPMERGEPVC.csv
+		value=`gawk 'NR=='$i' {print $6}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s," $value >> SUVMERGE.csv
+		value=`gawk 'NR=='$i' {print $7}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s," $value >> SUVMERGERSF.csv
+		value=`gawk 'NR=='$i' {print $8}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s," $value >> SUVMERGEPVC.csv
+	done
+		value=`gawk 'NR=='$i' {print $2}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s\n" $value >> NVOXMERGE.csv
+		value=`gawk 'NR=='$i' {print $3}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s\n" $value >> BPMERGE.csv
+		value=`gawk 'NR=='$i' {print $4}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s\n" $value >> BPMERGERSF.csv
+		value=`gawk 'NR=='$i' {print $5}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s\n" $value >> BPMERGEPVC.csv
+		value=`gawk 'NR=='$i' {print $6}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s\n" $value >> SUVMERGE.csv
+		value=`gawk 'NR=='$i' {print $7}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s\n" $value >> SUVMERGERSF.csv
+		value=`gawk 'NR=='$i' {print $8}'  ${contents[$a]}/${contents[$b]}/${contents[$c]}"_MERGEFS.txt"`
+		printf "%s\n" $value >> SUVMERGEPVC.csv
+done

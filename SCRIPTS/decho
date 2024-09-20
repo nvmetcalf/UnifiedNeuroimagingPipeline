@@ -1,0 +1,19 @@
+#!/bin/csh
+
+if($#argv == 0) then
+	echo "decho <string to echo to stdout> <file to echo to>"
+	exit 1
+endif
+
+if($#argv > 2) then
+	echo "too many arguements."
+	exit 1
+endif
+
+echo $1
+
+if($2 != "") then
+	if(! -e $2) touch $2
+
+	echo `date | tr '[ ]' '[_]'`": "${1} >> $2
+endif

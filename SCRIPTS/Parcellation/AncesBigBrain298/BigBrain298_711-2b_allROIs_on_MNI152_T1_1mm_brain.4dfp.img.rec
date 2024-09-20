@@ -1,0 +1,23 @@
+rec BigBrain298_711-2b_allROIs_on_MNI152_T1_1mm_brain.4dfp.img Sat Dec 5 12:21:23 EST 2020 metcalfn
+t4img_4dfp 711-2B_to_MNI152_T1_1mm_brain_t4 BigBrain298_711-2b_allROIs.4dfp.img BigBrain298_711-2b_allROIs_on_MNI152_T1_1mm_brain -OMNI152_T1_1mm_brain -n
+$Id: t4img_4dfp,v 1.14 2015/11/03 04:45:16 avi Exp $
+rec BigBrain298_711-2b_allROIs_on_MNI152_T1_1mm_brain.4dfp.img  Sat Dec  5 12:21:22 2020  metcalfn@maulinux02 Linux 3.10.0-957.12.2.el7.x86_64 x86_64
+t4imgs_4dfp BigBrain298_711-2b_allROIs_on_MNI152_T1_1mm_brain.lst BigBrain298_711-2b_allROIs_on_MNI152_T1_1mm_brain -OMNI152_T1_1mm_brain -n 
+$Id: t4imgs_4dfp.c,v 1.38 2017/01/27 23:32:53 avi Exp $
+littleendian
+resampling by nearest-neighbor interpolation
+sub
+BigBrain298_711-2b_allROIs	t4=711-2B_to_MNI152_T1_1mm_brain_t4
+endsub
+t4
+#t4_inv MNI152_T1_1mm_brain_to_711-2B_t4
+#$Id: t4_inv.c,v 1.1 2007/05/01 01:20:20 avi Exp $
+t4
+  0.951476 -0.010008 -0.016476   -0.1360
+ -0.003563  0.958193 -0.007860   -3.4119
+  0.019545  0.043722  0.931019    0.7986
+  0.000000  0.000000  0.000000    1.0000
+scale:      6.147642
+BigBrain298_711-2b_allROIs.4dfp.img.rec not found
+endrec Sat Dec  5 12:21:23 2020  metcalfn
+endrec Sat Dec 5 12:21:23 EST 2020 metcalfn

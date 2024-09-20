@@ -1,0 +1,205 @@
+#!/bin/bash
+################################################################################
+# This program registers PET images to MR images. Both images should be in 4dfp
+# format                                                                             
+################################################################################
+# Yi Su, 11/29/2010                                                            
+
+petfstr=$1
+mrfstr=$2
+program=`basename $0`
+
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%%.*}
+mrname=`basename $mrfstr`
+mrdir=`dirname $mrfstr`
+mrroot=${mrname%%.*}
+
+mask=1
+
+###################################################################################################
+# PREPROCESSING
+
+mrg=0.9				# This is the MR gauss FWHM (g9)
+mrgx=`echo $mrg | awk '{print 10*$1}'`		# This is the MR filter extension
+
+b=7						# This is the PET gauss (imgblur) FWHM (b70)
+bx=`echo $b | awk '{print 10*$1}'`		# This is the PET filter extension
+
+targetpath=/data/cninds01/data2/atlas 
+target=CAPIIO		
+
+gauss_4dfp $mrroot $mrg
+
+# Create mpr to target if it does not exist
+# params file supplies $targetpath/$target
+
+echo "Using targetpath $targetpath for target $target"
+if [ ! -e $targetpath/$target".4dfp.img" ] 
+then
+	   echo $targetpath/$target".4dfp.img" Does Not Exist
+           exit 1
+fi
+
+mpratlt4=${mrroot}_to_${target}_t4
+
+if [ ! -e $mpratlt4 ] 
+then
+		echo $mpratlt4 not found
+		echo "mpr2atl_4dfp ${mrroot} -T$targetpath/$target"
+		      mpr2atl_4dfp ${mrroot} -T$targetpath/$target
+#		mpr2atl_4dfp ${mrroot}
+		if (( $? != 0 )); then  exit $?; fi
+else
+        	echo Atlas t4 file $mpratlt4 Exists
+fi
+
+# Mask the mpr if $mask is set
+if (( $mask !=0 )) 
+then
+	if [ ! -e ${mrroot}_mskt.4dfp.img ] 
+	then
+		echo "msktgen_4dfp ${mrroot} -T$targetpath/$target"
+		      msktgen_4dfp ${mrroot} -T$targetpath/$target
+#		msktgen_4dfp ${mrroot}
+		if (( $? != 0 )); then  exit $?; fi
+	fi
+	mrm=${mrroot}_mskt
+else
+	mrm=none
+fi
+
+# Preprocess PET
+imgblur_4dfp $petroot $b			# blur the PET image
+nsl=`gawk '/matrix size \[3\]/ {print $NF}' ${petroot}".4dfp.ifh"`	# Generate petroot_mskt file (PET mask) for registration
+msl=1
+maskimg_4dfp ${petroot}"_b"$bx ${petroot}"_b"$bx -p.1 ${petroot}"_mskt" -v1
+echo "Masking 1 to "${msl}" slices from bottom in z to create mskz image"
+zero_slice_4dfp ${petroot}"_mskt" z 1 $msl  ${petroot}"_mskz"
+k=$((nsl-msl+1))
+echo Masking $k to $nsl slices from top in z to create final mskt.img
+zero_slice_4dfp ${petroot}"_mskz" z $k $nsl ${petroot}"_mskt"
+
+if (( $mask !=0 ))
+then
+	petm=${petroot}"_mskt"
+else
+	petm=none
+fi	
+
+##################################################################
+
+log=${mrroot}_${petroot}_${program}".log"
+touch	$log
+date >> $log
+echo ;
+echo imgreg_4dfp OUTPUT to $log ;
+echo "Please wait"
+
+###################################################################################################
+# COMPUTE REGISTRATIONS
+oristr=( T C S )
+redo=1
+search=2
+coarse=2
+nfine=1
+hessian=1
+
+t4file1=${petroot}"_to_"${mrroot}"_t4"
+t4file2=${mrroot}"_to_"${petroot}"_t4"
+if [ ! -e $t4file1 ]
+then
+	ori=`awk '/orientation/{print $NF - 1}' ${mrroot}".4dfp.ifh"`
+	ori=$((ori-1))
+	t4_inv ${RELEASE}/${oristr[$ori]}"_t4" temp$$"_t4"
+	ori=`awk '/orientation/{print $NF - 1}' ${petroot}".4dfp.ifh"`
+	ori=$((ori-1))
+	t4_mul ${RELEASE}/${oristr[$ori]}"_t4" temp$$"_t4" $t4file1
+	rm temp$$_t4			
+fi
+if [ ! -e $t4file2 ]
+then
+	ori=`awk '/orientation/{print $NF - 1}' ${petroot}".4dfp.ifh"`
+	ori=$((ori-1))
+	t4_inv ${RELEASE}/${oristr[$ori]}"_t4" temp$$"_t4"
+	ori=`awk '/orientation/{print $NF - 1}' ${mrroot}".4dfp.ifh"`
+	ori=$((ori-1))
+	t4_mul ${RELEASE}/${oristr[$ori]}"_t4" temp$$"_t4" $t4file2
+	rm temp$$_t4			
+fi
+mri=${mrroot}"_g"$mrgx
+peti=${petroot}"_b"$bx
+
+for (( k=0; k<search; k++ ))
+do
+	mode=$((4096+3))
+	echo >> $log ; echo "search k="$k "search="$search "mode = 4096 + 3" >> $log
+	echo imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode
+	echo imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode >> $log
+	     imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode >> $log
+	echo imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode
+	echo imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode >> $log
+	     imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode >> $log
+done
+			
+for (( k=0; k<coarse; k++ ))
+do
+	mode=$((3072+3))
+	echo >> $log ; echo "coarse k="$k "coarse="$coarse "mode = 3072 + 3" >> $log
+	echo imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode
+	echo imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode >> $log
+	     imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode >> $log
+	echo imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode
+	echo imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode >> $log
+	     imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode >> $log
+done
+
+for (( k=0; k<nfine; k++ ))
+do
+	mode=$((2048+3))
+	echo >> $log ; echo "nfile k="$k "search="$nfile "mode = 2048 + 3" >> $log
+	echo imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode
+	echo imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode >> $log
+	     imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode >> $log
+	echo imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode
+	echo imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode >> $log
+	     imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode >> $log
+done
+			
+if [ $hessian ] 
+then
+	mode=$((8192+2048+3))
+	echo >> $log ; echo "hessian k="$k "hessian="$hessian "mode = 8192 + 2048 + 3" >> $log
+	echo imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode
+	echo imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode >> $log
+	     imgreg_4dfp $mri  $mrm $peti $petm $t4file1 $mode >> $log
+	echo imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode
+	echo imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode >> $log
+	     imgreg_4dfp $peti $petm $mri  $mrm $t4file2 $mode >> $log
+fi
+
+##################################################################################################
+#Reconciliation: t4_resolve target t4 files and movelog are created
+
+resolvelog=${mrroot}"_"${petroot}"_resolve.log"
+echo t4_resolve $mrroot ${petroot} -oMR
+t4_resolve $mrroot ${petroot} -oMR > $resolvelog
+
+error=`gawk '/estimate total rotation error/{rot = $5} /estimate total translation error/{trans = $5} END{printf ("%3d", 100*(trans + 1.4*rot))}' $resolvelog`
+echo                           >> $resolvelog
+echo " ERROR = " $error
+echo " ERROR = " $error >> $resolvelog
+if (( $error < 100 )) 
+then
+	echo "ERROR is LOW, image reconciliation is good"
+	echo "ERROR is LOW, image reconciliation is good"             >> $resolvelog
+elif (( $error > 200 )) 
+then
+	echo "ERROR is HIGH, cross-image reconciliation is poor"
+	echo "ERROR is HIGH, cross-image reconciliation is poor"      >> $resolvelog
+else
+	echo "ERROR is MED, cross-image reconciliation is acceptable"
+	echo "ERROR is MED, cross-image reconciliation is acceptable" >> $resolvelog
+fi
+

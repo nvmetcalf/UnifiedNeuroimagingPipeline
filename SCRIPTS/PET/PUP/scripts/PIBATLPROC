@@ -1,0 +1,297 @@
+#!/bin/bash
+################################################################################
+# This program performs ROI analysis for PIB images using t4 files created by  #
+# PIBMPRREG which registers PIB images to the MR and atlas. A set of standard  #
+# ROIs in atlas space are transformed into the PET space to extract regional   #
+# Time-Activity-Curves						               #
+################################################################################
+# Yi Su, 02/06/2013                                                            
+
+idstr='$Id: PIBATLPROC,v 0.1 2013/02/06 suy Exp $'
+echo $idstr
+
+petfstr=$1 # PET image file (.v or 4dfp)
+mrroot=$2 # MR image root
+atlast4=$3 # MR to atlas transformation t4 file
+threshold=$4 # Threshold to the probabilistic ROI mask
+stdroidir=/data/nil-bluearc/benzinger2/suy/stdpibrois
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%%.*}
+
+
+source ${petroot}.tb
+
+###########################
+# Generating PET field of view converage file PETFOV.4dfp.img
+
+tv=`imgmax_4dfp -m ${petroot}"_c" | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${petroot}"_c" ${petroot}"_c" temp$$
+nsl=`gawk '/matrix size \[3\]/ {print $NF}' ${petroot}"_c.4dfp.ifh"`
+zero_slice_4dfp temp$$ z 1 5  temp$$"_mskz"
+tv=`imgmax_4dfp -m ${mrroot} | gawk ' {print $2-1.0}'`
+k=$((nsl-4))
+zero_slice_4dfp temp$$"_mskz" z $k $nsl  temp$$"_msk"
+maskimg_4dfp -v1 -t${tv} ${mrroot} ${mrroot} PETFOV
+groups=( a b c )
+for (( g=0; g<3; g++ ))
+do
+	for (( i=1; i<4; i++ ))
+	do
+		t4file=${petroot}"_"${groups[$g]}$i"_to_MR_t4"
+		t4img_4dfp $t4file temp$$"_msk" temp$$"_"${groups[$g]}$i -O${mrroot} -n
+		maskimg_4dfp -v1 PETFOV PETFOV temp$$_1
+		imgopr_4dfp -pPETFOV temp$$_1 temp$$"_"${groups[$g]}$i
+	done
+done
+rm temp$$*.4dfp.*
+
+###########################
+# Processing
+ 
+t4img_4dfp $atlast4 PETFOV PETFOV_on_atlas -O${stdroidir}/brainstem
+maskimg_4dfp -t.5 ${stdroidir}/brainstem PETFOV_on_atlas BS
+maskimg_4dfp -t.5 ${stdroidir}/caudateleft_average PETFOV_on_atlas CAUL
+maskimg_4dfp -t.5 ${stdroidir}/caudateright_average PETFOV_on_atlas CAUR
+maskimg_4dfp -t.5 ${stdroidir}/cerebellumleft_average PETFOV_on_atlas CERL
+maskimg_4dfp -t.5 ${stdroidir}/cerebellumright_average PETFOV_on_atlas CERR
+maskimg_4dfp -t.5 ${stdroidir}/gyrusrectusleft_average PETFOV_on_atlas GRL
+maskimg_4dfp -t.5 ${stdroidir}/gyrusrectusright_average PETFOV_on_atlas GRR
+maskimg_4dfp -t.5 ${stdroidir}/lattempleft_average PETFOV_on_atlas LTPL
+maskimg_4dfp -t.5 ${stdroidir}/lattempright_average PETFOV_on_atlas LTPR
+maskimg_4dfp -t.5 ${stdroidir}/occipitalleft_average PETFOV_on_atlas OCCL
+maskimg_4dfp -t.5 ${stdroidir}/occipitalright_average PETFOV_on_atlas OCCR
+maskimg_4dfp -t.5 ${stdroidir}/parietalleft_average PETFOV_on_atlas PARL
+maskimg_4dfp -t.5 ${stdroidir}/parietalright_average PETFOV_on_atlas PARR
+maskimg_4dfp -t.5 ${stdroidir}/precuneusleft_average PETFOV_on_atlas PRECL
+maskimg_4dfp -t.5 ${stdroidir}/precuneusright_average PETFOV_on_atlas PRECR
+maskimg_4dfp -t.5 ${stdroidir}/prefrontalleft_average PETFOV_on_atlas PREFL
+maskimg_4dfp -t.5 ${stdroidir}/prefrontalright_average PETFOV_on_atlas PREFR
+maskimg_4dfp -t.5 ${stdroidir}/rostralleft_average PETFOV_on_atlas RACL
+maskimg_4dfp -t.5 ${stdroidir}/rostralright_average PETFOV_on_atlas RACR
+
+bsd=`wtm_4dfp BS BS $threshold | gawk '{print $4}'`
+cauld=`wtm_4dfp CAUL CAUL $threshold | gawk '{print $4}'`
+caurd=`wtm_4dfp CAUR CAUR $threshold | gawk '{print $4}'`
+cerld=`wtm_4dfp CERL CERL $threshold | gawk '{print $4}'`
+cerrd=`wtm_4dfp CERR CERR $threshold | gawk '{print $4}'`
+grld=`wtm_4dfp GRL GRL $threshold | gawk '{print $4}'`
+grrd=`wtm_4dfp GRR GRR $threshold | gawk '{print $4}'`
+ltpld=`wtm_4dfp LTPL LTPL $threshold | gawk '{print $4}'`
+ltprd=`wtm_4dfp LTPR LTPR $threshold | gawk '{print $4}'`
+occld=`wtm_4dfp OCCL OCCL $threshold | gawk '{print $4}'`
+occrd=`wtm_4dfp OCCR OCCR $threshold | gawk '{print $4}'`
+parld=`wtm_4dfp PARL PARL $threshold | gawk '{print $4}'`
+parrd=`wtm_4dfp PARR PARR $threshold | gawk '{print $4}'`
+precld=`wtm_4dfp PRECL PRECL $threshold | gawk '{print $4}'`
+precrd=`wtm_4dfp PRECR PRECR $threshold | gawk '{print $4}'`
+prefld=`wtm_4dfp PREFL PREFL $threshold | gawk '{print $4}'`
+prefrd=`wtm_4dfp PREFR PREFR $threshold | gawk '{print $4}'`
+racld=`wtm_4dfp RACL RACL $threshold | gawk '{print $4}'`
+racrd=`wtm_4dfp RACR RACR $threshold | gawk '{print $4}'`
+
+
+frames=${lastframe[8]}
+if [ -e BS.tac ]
+then
+	rm BS.tac
+fi
+if [ -e CAUL.tac ]
+then
+	rm CAUL.tac
+fi
+if [ -e CAUR.tac ]
+then
+	rm CAUR.tac
+fi
+if [ -e CERL.tac ]
+then
+	rm CERL.tac
+fi
+if [ -e CERR.tac ]
+then
+	rm CERR.tac
+fi
+if [ -e GRL.tac ]
+then
+	rm GRL.tac
+fi
+if [ -e GRR.tac ]
+then
+	rm GRR.tac
+fi
+if [ -e LTPL.tac ]
+then
+	rm LTPL.tac
+fi
+if [ -e LTPR.tac ]
+then
+	rm LTPR.tac
+fi
+if [ -e OCCL.tac ]
+then
+	rm OCCL.tac
+fi
+if [ -e OCCR.tac ]
+then
+	rm OCCR.tac
+fi
+if [ -e PARL.tac ]
+then
+	rm PARL.tac
+fi
+if [ -e PARR.tac ]
+then
+	rm PARR.tac
+fi
+if [ -e PRECL.tac ]
+then
+	rm PRECL.tac
+fi
+if [ -e PRECR.tac ]
+then
+	rm PRECR.tac
+fi
+if [ -e PREFL.tac ]
+then
+	rm PREFL.tac
+fi
+if [ -e PREFR.tac ]
+then
+	rm PREFR.tac
+fi
+if [ -e RACL.tac ]
+then
+	rm RACL.tac
+fi
+if [ -e RACR.tac ]
+then
+	rm RACR.tac
+fi
+if [ -e REF.tac ]
+then
+	rm REF.tac
+fi
+if [ -e CAU.tac ]
+then
+	rm CAU.tac
+fi
+if [ -e CER.tac ]
+then
+	rm CER.tac
+fi
+if [ -e GR.tac ]
+then
+	rm GR.tac
+fi
+if [ -e LTP.tac ]
+then
+	rm LTP.tac
+fi
+if [ -e OCC.tac ]
+then
+	rm OCC.tac
+fi
+if [ -e PAR.tac ]
+then
+	rm PAR.tac
+fi
+if [ -e PREC.tac ]
+then
+	rm PREC.tac
+fi
+if [ -e PREF.tac ]
+then
+	rm PREF.tac
+fi
+if [ -e RAC.tac ]
+then
+	rm RAC.tac
+fi
+for (( f=1; f<=frames; f++ ))
+do
+	if [ $? -eq 0 ]
+	then
+		chop_4dfp $petfstr $f $f -o${petroot}"_"$f
+		if (( $f < ${startframe[1]} )) 
+		then
+			t4file=${petroot}"_a1_to_MR_t4"
+		elif (( $f < ${startframe[2]} )) 
+		then
+			t4file=${petroot}"_a2_to_MR_t4"
+		elif (( $f < ${startframe[3]} )) 
+		then
+			t4file=${petroot}"_a3_to_MR_t4"
+		elif (( $f < ${startframe[4]} )) 
+		then
+			t4file=${petroot}"_b1_to_MR_t4"
+		elif (( $f < ${startframe[5]} )) 
+		then
+			t4file=${petroot}"_b2_to_MR_t4"
+		elif (( $f < ${startframe[6]} )) 
+		then
+			t4file=${petroot}"_b3_to_MR_t4"
+		elif (( $f < ${startframe[7]} )) 
+		then
+			t4file=${petroot}"_c1_to_MR_t4"
+		elif (( $f < ${startframe[8]} )) 
+		then
+			t4file=${petroot}"_c2_to_MR_t4"
+		else
+			t4file=${petroot}"_c3_to_MR_t4"
+		fi
+		
+		t4_mul $t4file $atlast4 PET_to_atlas_t4
+		t4img_4dfp PET_to_atlas_t4 ${petroot}"_"$f  ${petroot}"_"$f"_on_atlas" -O${stdroidir}/brainstem  # Transform PET image to atlas space
+
+		bsn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" BS $threshold | gawk ' {print $2}'`
+		echo "scale=6; $bsn" | bc >> BS.tac
+		cauln=`wtm_4dfp ${petroot}"_"$f"_on_atlas" CAUL $threshold | gawk '  {print $2}'`
+		echo "scale=6; $cauln" | bc >> CAUL.tac
+		caurn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" CAUR $threshold | gawk '  {print $2}'` 
+		echo "scale=6; $caurn" | bc >> CAUR.tac
+		cerln=`wtm_4dfp ${petroot}"_"$f"_on_atlas" CERL $threshold | gawk '  {print $2}'`
+		echo "scale=6; $cerln" | bc >> CERL.tac
+		cerrn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" CERR $threshold | gawk '  {print $2}'`
+		echo "scale=6; $cerrn" | bc >> CERR.tac
+		grln=`wtm_4dfp ${petroot}"_"$f"_on_atlas" GRL $threshold | gawk '  {print $2}'`
+		echo "scale=6; $grln" | bc >> GRL.tac
+		grrn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" GRR $threshold | gawk '  {print $2}'`
+		echo "scale=6; $grrn" | bc >> GRR.tac
+		ltpln=`wtm_4dfp ${petroot}"_"$f"_on_atlas" LTPL $threshold | gawk '  {print $2}'`
+		echo "scale=6; $ltpln" | bc >> LTPL.tac
+		ltprn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" LTPR $threshold | gawk '  {print $2}'`
+		echo "scale=6; $ltprn" | bc >> LTPR.tac
+		occln=`wtm_4dfp ${petroot}"_"$f"_on_atlas" OCCL $threshold | gawk '  {print $2}'`
+		echo "scale=6; $occln" | bc >> OCCL.tac
+		occrn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" OCCR $threshold | gawk '  {print $2}'`
+		echo "scale=6; $occrn" | bc >> OCCR.tac
+		parln=`wtm_4dfp ${petroot}"_"$f"_on_atlas" PARL  $threshold | gawk '  {print $2}'`
+		echo "scale=6; $parln" | bc >> PARL.tac
+		parrn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" PARR $threshold | gawk '  {print $2}'`
+		echo "scale=6; $parrn" | bc >> PARR.tac
+		precln=`wtm_4dfp ${petroot}"_"$f"_on_atlas" PRECL $threshold | gawk '  {print $2}'`
+		echo "scale=6; $precln" | bc >> PRECL.tac
+		precrn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" PRECR $threshold | gawk '  {print $2}'`
+		echo "scale=6; $precrn" | bc >> PRECR.tac
+		prefln=`wtm_4dfp ${petroot}"_"$f"_on_atlas" PREFL $threshold | gawk '  {print $2}'`
+		echo "scale=6; $prefln" | bc >> PREFL.tac
+		prefrn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" PREFR  $threshold| gawk '  {print $2}'`
+		echo "scale=6; $prefrn" | bc >> PREFR.tac
+		racln=`wtm_4dfp ${petroot}"_"$f"_on_atlas" RACL  $threshold| gawk '  {print $2}'`
+		echo "scale=6; $racln" | bc >> RACL.tac
+		racrn=`wtm_4dfp ${petroot}"_"$f"_on_atlas" RACR $threshold | gawk '  {print $2}'`
+		echo "scale=6; $racrn" | bc >> RACR.tac
+		echo "scale=6; ($cerln*$cerld+$cerrn*$cerrd)/($cerld+$cerrd)" | bc >> REF.tac
+		echo "scale=6; ($cauln*$cauld+$caurn*$caurd)/($cauld+$caurd)" | bc >> CAU.tac
+		echo "scale=6; ($grln*$grld+$grrn*$grrd)/($grld+$grrd)" | bc >> GR.tac
+		echo "scale=6; ($ltpln*$ltpld+$ltprn*$ltprd)/($ltpld+$ltprd)" | bc >> LTP.tac
+		echo "scale=6; ($occln*$occld+$occrn*$occrd)/($occld+$occrd)" | bc >> OCC.tac
+		echo "scale=6; ($parln*$parld+$parrn*$parrd)/($parld+$parrd)" | bc >> PAR.tac
+		echo "scale=6; ($precln*$precld+$precrn*$precrd)/($precld+$precrd)" | bc >> PREC.tac
+		echo "scale=6; ($prefln*$prefld+$prefrn*$prefrd)/($prefld+$prefrd)" | bc >> PREF.tac
+		echo "scale=6; ($racln*$racld+$racrn*$racrd)/($racld+$racrd)" | bc >> RAC.tac
+		rm ${petroot}"_"${f}.*
+	fi
+done
+atlpib.sh $petroot

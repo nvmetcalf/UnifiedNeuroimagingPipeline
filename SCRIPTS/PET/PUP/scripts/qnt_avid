@@ -1,0 +1,176 @@
+#!/bin/bash
+################################################################################
+# This program computes ROI values, SUVRs and SUVR images using Avid template  #
+# and ROIs	                                                               #     
+################################################################################
+# Yi Su, 2013/07/05
+
+idstr='$Id: qnt_avid,v 1.1.1.1 2013/07/05 13:24:52 suy Exp $'
+echo $idstr
+
+program=`basename $0`
+if [ $# -lt 2 ]
+then
+	echo "Usage: $program atlasdir subimg"
+	echo "This program computes ROI values, SUVRs and SUVR images"
+	echo "based on Avid template and ROIs."
+fi
+
+atlasdir=$1
+subimg=$2
+
+if [ -d "$atlasdir" ]
+then
+    refdir=$atlasdir
+else
+    echo "$program: Invalid atlasdir"
+    exit -1
+fi        
+if [ -n "$subimg" ]
+then
+    subdir=`dirname $subimg`
+    subname=`basename $subimg`
+    subroot=${subname%%.*}
+else
+    echo "$program: Missing Subject Image"
+    exit -1
+fi
+
+if [ -z "$subdir" ]
+then
+    subdir=`pwd`
+fi
+
+
+########################
+# Generate ROI values  #
+########################
+
+# Frontal medial orbital
+FMO=`qnt_4dfp ${subimg}  ${refdir}/xlaal_frontal_med_orb | gawk '/Mean/ {print $2}'`
+
+# Anterior cingulate
+AC=`qnt_4dfp ${subimg}  ${refdir}/lanterior_cingulate_2 | gawk '/Mean/ {print $2}'`
+
+# Posterior cingulate
+PC=`qnt_4dfp ${subimg}  ${refdir}/llposterior_cingulate_2 | gawk '/Mean/ {print $2}'`
+
+# Temporal
+T=`qnt_4dfp  ${subimg} ${refdir}/new_temporal_2 | gawk '/Mean/ {print $2}'`
+
+# Parietal
+P=`qnt_4dfp  ${subimg} ${refdir}/lnew_parietal | gawk '/Mean/ {print $2}'`
+
+# Precuneus
+PREC=`qnt_4dfp ${subimg}  ${refdir}/lprecuneus_gm | gawk '/Mean/ {print $2}'`
+
+# Entire cerebellum
+CER=`qnt_4dfp  ${subimg} ${refdir}/blcere_all | gawk '/Mean/ {print $2}'`
+
+# Occipital
+OCC=`qnt_4dfp  ${subimg} ${refdir}/xxoccipital_gm | gawk '/Mean/ {print $2}'`
+
+# Pons
+PONS=`qnt_4dfp  ${subimg} ${refdir}/lpons | gawk '/Mean/ {print $2}'`
+
+# Left Caudate
+LCAU=`qnt_4dfp  ${subimg} ${refdir}/xleftcaudate | gawk '/Mean/ {print $2}'`
+
+# Right Caudate
+RCAU=`qnt_4dfp  ${subimg} ${refdir}/xrightcaudate | gawk '/Mean/ {print $2}'`
+
+# Left anterior putamen
+LAPUT=`qnt_4dfp ${subimg}  ${refdir}/xleft_ant_putamen_av133 | gawk '/Mean/ {print $2}'`
+
+# Right anterior putamen
+RAPUT=`qnt_4dfp ${subimg}  ${refdir}/xright_ant_putamen_av133 | gawk '/Mean/ {print $2}'`
+
+# Left posterior putamen
+LPPUT=`qnt_4dfp ${subimg}  ${refdir}/lxxleftpost_putamen_gm_final | gawk '/Mean/ {print $2}'`
+
+# Right posterior putamen
+RPPUT=`qnt_4dfp  ${subimg} ${refdir}/lxxrightpost_putamen_gm_final | gawk '/Mean/ {print $2}'`
+
+# Centrum Semiovale
+CS=`qnt_4dfp  ${subimg} ${refdir}/xxxlslcentrum_semi_spm_jpeg | gawk '/Mean/ {print $2}'`
+
+##############################################
+# Generate Cerebellum Normalized ROI values  #
+##############################################
+
+FMOcn=`echo "scale=6; $FMO/$CER" | bc`
+ACcn=`echo "scale=6; $AC/$CER" | bc`
+PCcn=`echo "scale=6; $PC/$CER" | bc`
+Tcn=`echo "scale=6; $T/$CER" | bc`
+Pcn=`echo "scale=6; $P/$CER" | bc`
+PRECcn=`echo "scale=6; $PREC/$CER" | bc`
+CERcn=`echo "scale=6; 1.000" | bc`
+OCCcn=`echo "scale=6; $OCC/$CER" | bc`
+PONScn=`echo "scale=6; $PONS/$CER" | bc`
+LCAUcn=`echo "scale=6; $LCAU/$CER" | bc`
+RCAUcn=`echo "scale=6; $RCAU/$CER" | bc`
+LAPUTcn=`echo "scale=6; $LAPUT/$CER" | bc`
+RAPUTcn=`echo "scale=6; $RAPUT/$CER" | bc`
+LPPUTcn=`echo "scale=6; $LPPUT/$CER" | bc`
+RPPUTcn=`echo "scale=6; $RPPUT/$CER" | bc`
+CScn=`echo "scale=6; $CS/$CER" | bc`
+
+##############################################
+# Generate Pons Normalized ROI values        #
+##############################################
+
+FMOpn=`echo "scale=6; $FMO/$PONS" | bc`
+ACpn=`echo "scale=6; $AC/$PONS" | bc`
+PCpn=`echo "scale=6; $PC/$PONS" | bc`
+Tpn=`echo "scale=6; $T/$PONS" | bc`
+Ppn=`echo "scale=6; $P/$PONS" | bc`
+PRECpn=`echo "scale=6; $PREC/$PONS" | bc`
+CERpn=`echo "scale=6; $CER/$PONS" | bc`
+OCCpn=`echo "scale=6; $OCC/$PONS" | bc`
+PONSpn=`echo "scale=6; 1.000" | bc`
+LCAUpn=`echo "scale=6; $LCAU/$PONS" | bc`
+RCAUpn=`echo "scale=6; $RCAU/$PONS" | bc`
+LAPUTpn=`echo "scale=6; $LAPUT/$PONS" | bc`
+RAPUTpn=`echo "scale=6; $RAPUT/$PONS" | bc`
+LPPUTpn=`echo "scale=6; $LPPUT/$PONS" | bc`
+RPPUTpn=`echo "scale=6; $RPPUT/$PONS" | bc`
+CSpn=`echo "scale=6; $CS/$PONS" | bc`
+
+##############################################
+# Print text output                          #
+##############################################
+if [ -e  $subroot"_ROI.txt" ]
+then
+	rm $subroot"_ROI.txt"
+fi
+touch $subroot"_ROI.txt"
+printf '%-35s %11s %11s %11s\n' "Structure_Name" "ROI" "SUVR (CER)" "SUVR (Pons)" >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Frontal_medial_orbital" $FMO $FMOcn $FMOpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Anterior_cingulate" $AC $ACcn $ACpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Posterior_cingulate" $PC $PCcn $PCpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Temporal" $T $Tcn $Tpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Patietal" $P $Pcn $Ppn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Precuneus" $PREC $PRECcn $PRECpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Entire_cerebellum" $CER $CERcn $CERpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Occipital" $OCC $OCCcn $OCCpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Pons" $PONS $PONScn $PONSpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Left_caudate" $LCAU $LCAUcn $LCAUpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Right_caudate" $RCAU $RCAUcn $RCAUpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Left_anterior_putamen" $LAPUT $LAPUTcn $LAPUTpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Right_anterior_putamen" $RAPUT $RAPUTcn $RAPUTpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Left_posterior_putamen" $LPPUT $LPPUTcn $LPPUTpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Right_posterior_putamen" $RPPUT $RPPUTcn $RPPUTpn >> $subroot"_ROI.txt"
+printf '%-35s %11.4f %11.4f %11.4f\n' "Centrum_Semiovale" $CS $CScn $CSpn >> $subroot"_ROI.txt"
+
+ext=( img img.rec ifh hdr )
+for (( i=0; i<4; i++ ))
+do
+	cp ${subdir}/${subroot}.4dfp.${ext[$i]} ${subroot}_CER_SUVR.4dfp.${ext[$i]}
+	cp ${subdir}/${subroot}.4dfp.${ext[$i]} ${subroot}_PONS_SUVR.4dfp.${ext[$i]}
+done 
+scf=$(echo "scale=8; 1/$CER" | bc)
+scale_4dfp ${subroot}_CER_SUVR $scf
+scf=$(echo "scale=8; 1/$PONS" | bc)
+scale_4dfp ${subroot}_PONS_SUVR $scf
+
+

@@ -1,0 +1,83 @@
+#!/bin/bash
+
+maskfile=$1
+headfile=$2
+fwhm=$3
+
+if [ -f ROIlist.txt ]
+then
+	rm ROIlist.txt
+fi
+touch ROIlist.txt
+
+# Process the freesurfer defined regions (maskfile) and the binary mask (headfile) that defines all nonzero regions in the volume,
+# and creates a combined mask (RSFMask.4dfp.img)
+
+maskimg_4dfp $maskfile $maskfile FSMask -v1.0
+imgopr_4dfp -sNonBrainMask $headfile FSMask
+maskimg_4dfp $maskfile $maskfile RSFMask -v0
+val=16384
+for ((z=1; z<256; z+=64)) 
+do
+	(( zup = z + 63 ))
+	for ((y=1; y<256; y+=64))
+	do
+		(( yup = y + 63 ))
+		for ((x=1; x<256; x+=64))
+		do
+			(( xup = x + 63 ))
+			echo $val $xup $yup $zup
+			crop_4dfp NonBrainMask TEMP -x${x}to${xup} -y${y}to${yup} -z${z}to${zup} -Z
+			scale_4dfp TEMP $val
+			maskimg_4dfp RSFMask RSFMask TEMP2
+			imgopr_4dfp -aRSFMask TEMP TEMP2
+			(( val++ ))
+		done
+	done
+done
+maskimg_4dfp RSFMask RSFMask TEMP2
+imgopr_4dfp -aRSFMask $maskfile TEMP2
+rm TEMP*
+
+# Creating a text file that lists all the defined regions, their values in the mask volume, and their sizes (number of voxels)
+	
+lines=`wc -l /data/nil-bluearc/mintun/SuY/FreeSurferColorLUT.txt | gawk '{print $1}'`
+n=0
+for ((l=2; l<=lines; l++))
+do
+	SegVal=`gawk 'NR=='$l' {print $1}' /data/nil-bluearc/mintun/SuY/FreeSurferColorLUT.txt`
+	region=`gawk 'NR=='$l' {print $2}' /data/nil-bluearc/mintun/SuY/FreeSurferColorLUT.txt`
+	if [[ $SegVal == [0-9]* ]]
+	then
+		lo=`echo $SegVal 0.5 | gawk '{print $1-$2}'`
+		hi=`echo $SegVal 0.5 | gawk '{print $1+$2}'`
+		NVoxels=`qnt_4dfp RSFMask RSFMask -v${lo}to${hi} -t-1.| gawk '/Voxels/ {print $2}'`
+		if (( "$NVoxels" > 0 ))
+		then
+			(( n++ ))
+			printf "%s\t%d\t%d\n" $region $SegVal $NVoxels >> ROIlist.txt
+			printf "%s\t%d\t%d\n" $region $SegVal $NVoxels 
+		fi
+	fi
+done
+
+m=0
+for ((val=16384; val<=16447; val++))
+do
+	(( SegVal = val ))
+	region=Other${val}
+	lo=`echo $SegVal 0.5 | gawk '{print $1-$2}'`
+	hi=`echo $SegVal 0.5 | gawk '{print $1+$2}'`
+	NVoxels=`qnt_4dfp RSFMask RSFMask -v${lo}to${hi} -t-1.| gawk '/Voxels/ {print $2}'`
+	if (( "$NVoxels" > 0 ))
+	then
+		(( m++ ))
+		printf "%s\t%d\t%d\n" $region $SegVal $NVoxels >> ROIlist.txt
+		printf "%s\t%d\t%d\n" $region $SegVal $NVoxels 
+	fi
+done
+echo "n= $n	m= $m"
+
+# Calculate RSF matrix
+
+/home/usr/suy/bin/CalRSFMat $n $m $fwhm

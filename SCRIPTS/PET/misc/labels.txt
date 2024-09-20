@@ -1,0 +1,309 @@
+1 2 Left-Cerebral-White-Matter 245 245 245 0 3
+2 4 Left-Lateral-Ventricle 120 18 134 0 4
+3 5 Left-Inf-Lat-Vent 196 58 250 0 4
+4 7 Left-Cerebellum-White-Matter 220 248 164 0 3
+5 8 Left-Cerebellum-Cortex 230 148 34 0 2
+6 10 Left-Thalamus-Proper 0 118 14 0 2
+7 11 Left-Caudate 122 186 220 0 2
+8 12 Left-Putamen 236 13 176 0 2
+9 13 Left-Pallidum 12 48 255 0 2
+10 14 3rd-Ventricle 204 182 142 0 4
+11 15 4th-Ventricle 42 204 164 0 4
+12 16 Brain-Stem 119 159 176 0 3
+13 17 Left-Hippocampus 220 216 20 0 2
+14 18 Left-Amygdala 103 255 255 0 2
+15 24 CSF 60 60 60 0 4
+16 26 Left-Accumbens-area 255 165 0 0 2
+17 28 Left-VentralDC 165 42 42 0 3
+18 30 Left-vessel 160 32 240 0 4
+19 31 Left-choroid-plexus 0 200 200 0 4
+20 41 Right-Cerebral-White-Matter 245 245 245 0 3
+21 43 Right-Lateral-Ventricle 120 18 134 0 4
+22 44 Right-Inf-Lat-Vent 196 58 250 0 4
+23 46 Right-Cerebellum-White-Matter 220 248 164 0 3
+24 47 Right-Cerebellum-Cortex 230 148 34 0 2
+25 49 Right-Thalamus-Proper 0 118 14 0 2
+26 50 Right-Caudate 122 186 220 0 2
+27 51 Right-Putamen 236 13 176 0 2
+28 52 Right-Pallidum 13 48 255 0 2
+29 53 Right-Hippocampus 220 216 20 0 2
+30 54 Right-Amygdala 103 255 255 0 2
+31 58 Right-Accumbens-area 255 165 0 0 2
+32 60 Right-VentralDC 165 42 42 0 3
+33 63 Right-choroid-plexus 0 200 221 0 4
+34 80 non-WM-hypointensities 164 108 226 0 2
+35 85 Optic-Chiasm 234 169 30 0 3
+36 130 Air 147 19 173 0 5
+37 165 Skull 120 120 120 0 5
+38 172 Vermis 119 100 176 0 2
+39 174 Pons 206 195 58 0 3
+40 257 CSF-ExtraCerebral 60 60 60 0 4
+41 258 Head-ExtraCerebral 150 150 200 0 5
+42 3001 wm-lh-bankssts 230 155 215 0 3
+43 3002 wm-lh-caudalanteriorcingulate 130 155 95 0 3
+44 3003 wm-lh-caudalmiddlefrontal 155 230 255 0 3
+45 3005 wm-lh-cuneus 35 235 155 0 3
+46 3006 wm-lh-entorhinal 35 235 245 0 3
+47 3007 wm-lh-fusiform 75 35 115 0 3
+48 3008 wm-lh-inferiorparietal 35 195 35 0 3
+49 3009 wm-lh-inferiortemporal 75 215 135 0 3
+50 3010 wm-lh-isthmuscingulate 115 235 115 0 3
+51 3011 wm-lh-lateraloccipital 235 225 115 0 3
+52 3012 wm-lh-lateralorbitofrontal 220 180 205 0 3
+53 3013 wm-lh-lingual 30 115 115 0 3
+54 3014 wm-lh-medialorbitofrontal 55 220 180 0 3
+55 3015 wm-lh-middletemporal 95 155 205 0 3
+56 3016 wm-lh-parahippocampal 235 35 195 0 3
+57 3017 wm-lh-paracentral 195 35 195 0 3
+58 3018 wm-lh-parsopercularis 35 75 115 0 3
+59 3019 wm-lh-parsorbitalis 235 155 205 0 3
+60 3020 wm-lh-parstriangularis 35 195 235 0 3
+61 3021 wm-lh-pericalcarine 135 155 195 0 3
+62 3022 wm-lh-postcentral 35 235 235 0 3
+63 3023 wm-lh-posteriorcingulate 35 75 35 0 3
+64 3024 wm-lh-precentral 195 235 35 0 3
+65 3025 wm-lh-precuneus 95 115 75 0 3
+66 3026 wm-lh-rostralanteriorcingulate 175 235 115 0 3
+67 3027 wm-lh-rostralmiddlefrontal 180 205 130 0 3
+68 3028 wm-lh-superiorfrontal 235 35 95 0 3
+69 3029 wm-lh-superiorparietal 235 75 115 0 3
+70 3030 wm-lh-superiortemporal 115 35 35 0 3
+71 3031 wm-lh-supramarginal 175 95 235 0 3
+72 3032 wm-lh-frontalpole 155 255 155 0 3
+73 3033 wm-lh-temporalpole 185 185 185 0 3
+74 3034 wm-lh-transversetemporal 105 105 55 0 3
+75 3035 wm-lh-insula 20 220 160 0 3
+76 4001 wm-rh-bankssts 230 155 215 0 3
+77 4002 wm-rh-caudalanteriorcingulate 130 155 95 0 3
+78 4003 wm-rh-caudalmiddlefrontal 155 230 255 0 3
+79 4005 wm-rh-cuneus 35 235 155 0 3
+80 4006 wm-rh-entorhinal 35 235 245 0 3
+81 4007 wm-rh-fusiform 75 35 115 0 3
+82 4008 wm-rh-inferiorparietal 35 195 35 0 3
+83 4009 wm-rh-inferiortemporal 75 215 135 0 3
+84 4010 wm-rh-isthmuscingulate 115 235 115 0 3
+85 4011 wm-rh-lateraloccipital 235 225 115 0 3
+86 4012 wm-rh-lateralorbitofrontal 220 180 205 0 3
+87 4013 wm-rh-lingual 30 115 115 0 3
+88 4014 wm-rh-medialorbitofrontal 55 220 180 0 3
+89 4015 wm-rh-middletemporal 95 155 205 0 3
+90 4016 wm-rh-parahippocampal 235 35 195 0 3
+91 4017 wm-rh-paracentral 195 35 195 0 3
+92 4018 wm-rh-parsopercularis 35 75 115 0 3
+93 4019 wm-rh-parsorbitalis 235 155 205 0 3
+94 4020 wm-rh-parstriangularis 35 195 235 0 3
+95 4021 wm-rh-pericalcarine 135 155 195 0 3
+96 4022 wm-rh-postcentral 35 235 235 0 3
+97 4023 wm-rh-posteriorcingulate 35 75 35 0 3
+98 4024 wm-rh-precentral 195 235 35 0 3
+99 4025 wm-rh-precuneus 95 115 75 0 3
+100 4026 wm-rh-rostralanteriorcingulate 175 235 115 0 3
+101 4027 wm-rh-rostralmiddlefrontal 180 205 130 0 3
+102 4028 wm-rh-superiorfrontal 235 35 95 0 3
+103 4029 wm-rh-superiorparietal 235 75 115 0 3
+104 4030 wm-rh-superiortemporal 115 35 35 0 3
+105 4031 wm-rh-supramarginal 175 95 235 0 3
+106 4032 wm-rh-frontalpole 155 255 155 0 3
+107 4033 wm-rh-temporalpole 185 185 185 0 3
+108 4034 wm-rh-transversetemporal 105 105 55 0 3
+109 4035 wm-rh-insula 20 220 160 0 3
+110 20001 7Networks_LH_Vis_1 120 18 129 0
+111 20002 7Networks_LH_Vis_2 120 18 130 0
+112 20003 7Networks_LH_Vis_3 120 18 131 0
+113 20004 7Networks_LH_Vis_4 120 18 132 0
+114 20005 7Networks_LH_Vis_5 120 18 133 0
+115 20006 7Networks_LH_Vis_6 120 18 135 0
+116 20007 7Networks_LH_Vis_7 120 18 136 0
+117 20008 7Networks_LH_Vis_8 120 18 137 0
+118 20009 7Networks_LH_Vis_9 120 18 138 0
+119 20010 7Networks_LH_Vis_10 120 18 139 0
+120 20011 7Networks_LH_Vis_11 120 18 140 0
+121 20012 7Networks_LH_Vis_12 120 18 141 0
+122 20013 7Networks_LH_Vis_13 120 19 134 0
+123 20014 7Networks_LH_Vis_14 120 19 135 0
+124 20015 7Networks_LH_SomMot_1 70 130 174 0
+125 20016 7Networks_LH_SomMot_2 70 130 175 0
+126 20017 7Networks_LH_SomMot_3 70 130 176 0
+127 20018 7Networks_LH_SomMot_4 70 130 177 0
+128 20019 7Networks_LH_SomMot_5 70 130 178 0
+129 20020 7Networks_LH_SomMot_6 70 130 179 0
+130 20021 7Networks_LH_SomMot_7 70 130 181 0
+131 20022 7Networks_LH_SomMot_8 70 130 182 0
+132 20023 7Networks_LH_SomMot_9 70 130 183 0
+133 20024 7Networks_LH_SomMot_10 70 130 184 0
+134 20025 7Networks_LH_SomMot_11 70 130 185 0
+135 20026 7Networks_LH_SomMot_12 70 130 186 0
+136 20027 7Networks_LH_SomMot_13 70 130 187 0
+137 20028 7Networks_LH_SomMot_14 70 131 180 0
+138 20029 7Networks_LH_SomMot_15 70 131 181 0
+139 20030 7Networks_LH_SomMot_16 70 131 182 0
+140 20031 7Networks_LH_DorsAttn_Post_1 0 118 11 0
+141 20032 7Networks_LH_DorsAttn_Post_2 0 118 12 0
+142 20033 7Networks_LH_DorsAttn_Post_3 0 118 13 0
+143 20034 7Networks_LH_DorsAttn_Post_4 0 118 15 0
+144 20035 7Networks_LH_DorsAttn_Post_5 0 118 16 0
+145 20036 7Networks_LH_DorsAttn_Post_6 0 118 17 0
+146 20037 7Networks_LH_DorsAttn_Post_7 0 118 18 0
+147 20038 7Networks_LH_DorsAttn_Post_8 0 118 19 0
+148 20039 7Networks_LH_DorsAttn_Post_9 0 118 20 0
+149 20040 7Networks_LH_DorsAttn_Post_10 0 118 21 0
+150 20041 7Networks_LH_DorsAttn_FEF_1 0 118 22 0
+151 20042 7Networks_LH_DorsAttn_FEF_2 0 119 15 0
+152 20043 7Networks_LH_DorsAttn_PrCv_1 0 119 16 0
+153 20044 7Networks_LH_SalVentAttn_ParOper_1 196 58 251 0
+154 20045 7Networks_LH_SalVentAttn_ParOper_2 196 58 252 0
+155 20046 7Networks_LH_SalVentAttn_ParOper_3 196 58 253 0
+156 20047 7Networks_LH_SalVentAttn_FrOperIns_1 196 59 251 0
+157 20048 7Networks_LH_SalVentAttn_FrOperIns_2 196 59 252 0
+158 20049 7Networks_LH_SalVentAttn_FrOperIns_3 196 59 253 0
+159 20050 7Networks_LH_SalVentAttn_FrOperIns_4 196 59 254 0
+160 20051 7Networks_LH_SalVentAttn_PFCl_1 196 59 255 0
+161 20052 7Networks_LH_SalVentAttn_Med_1 197 58 251 0
+162 20053 7Networks_LH_SalVentAttn_Med_2 197 58 252 0
+163 20054 7Networks_LH_SalVentAttn_Med_3 197 58 253 0
+164 20055 7Networks_LH_Limbic_OFC_1 220 248 165 0
+165 20056 7Networks_LH_Limbic_OFC_2 220 248 166 0
+166 20057 7Networks_LH_Limbic_TempPole_1 220 248 167 0
+167 20058 7Networks_LH_Limbic_TempPole_2 220 248 168 0
+168 20059 7Networks_LH_Limbic_TempPole_3 220 248 169 0
+169 20060 7Networks_LH_Limbic_TempPole_4 220 248 170 0
+170 20061 7Networks_LH_Cont_Par_1 230 148 35 0
+171 20062 7Networks_LH_Cont_Par_2 230 148 36 0
+172 20063 7Networks_LH_Cont_Par_3 230 148 37 0
+173 20064 7Networks_LH_Cont_Temp_1 230 148 38 0
+174 20065 7Networks_LH_Cont_OFC_1 230 149 34 0
+175 20066 7Networks_LH_Cont_PFCl_1 230 149 36 0
+176 20067 7Networks_LH_Cont_PFCl_2 230 149 37 0
+177 20068 7Networks_LH_Cont_PFCl_3 230 149 38 0
+178 20069 7Networks_LH_Cont_PFCl_4 230 149 39 0
+179 20070 7Networks_LH_Cont_PFCl_5 230 149 40 0
+180 20071 7Networks_LH_Cont_pCun_1 231 149 35 0
+181 20072 7Networks_LH_Cont_Cing_1 231 149 36 0
+182 20073 7Networks_LH_Cont_Cing_2 231 149 37 0
+183 20074 7Networks_LH_Default_Temp_1 205 62 76 0
+184 20075 7Networks_LH_Default_Temp_2 205 62 77 0
+185 20076 7Networks_LH_Default_Temp_3 205 62 78 0
+186 20077 7Networks_LH_Default_Temp_4 205 62 80 0
+187 20078 7Networks_LH_Default_Temp_5 205 62 81 0
+188 20079 7Networks_LH_Default_Par_1 205 62 82 0
+189 20080 7Networks_LH_Default_Par_2 205 62 83 0
+190 20081 7Networks_LH_Default_Par_3 205 62 84 0
+191 20082 7Networks_LH_Default_Par_4 205 62 85 0
+192 20083 7Networks_LH_Default_PFC_1 205 63 73 0
+193 20084 7Networks_LH_Default_PFC_2 205 63 74 0
+194 20085 7Networks_LH_Default_PFC_3 205 63 75 0
+195 20086 7Networks_LH_Default_PFC_4 205 63 76 0
+196 20087 7Networks_LH_Default_PFC_5 205 63 77 0
+197 20088 7Networks_LH_Default_PFC_6 205 63 79 0
+198 20089 7Networks_LH_Default_PFC_7 205 63 80 0
+199 20090 7Networks_LH_Default_PFC_8 205 63 81 0
+200 20091 7Networks_LH_Default_PFC_9 205 63 82 0
+201 20092 7Networks_LH_Default_PFC_10 205 63 83 0
+202 20093 7Networks_LH_Default_PFC_11 205 63 84 0
+203 20094 7Networks_LH_Default_PFC_12 205 63 85 0
+204 20095 7Networks_LH_Default_PFC_13 205 64 78 0
+205 20096 7Networks_LH_Default_pCunPCC_1 205 63 86 0
+206 20097 7Networks_LH_Default_pCunPCC_2 205 64 79 0
+207 20098 7Networks_LH_Default_pCunPCC_3 205 64 80 0
+208 20099 7Networks_LH_Default_pCunPCC_4 205 64 81 0
+209 20100 7Networks_LH_Default_PHC_1 206 62 79 0
+210 20101 7Networks_RH_Vis_1 124 18 129 0
+211 20102 7Networks_RH_Vis_2 124 18 130 0
+212 20103 7Networks_RH_Vis_3 124 18 131 0
+213 20104 7Networks_RH_Vis_4 124 18 132 0
+214 20105 7Networks_RH_Vis_5 124 18 133 0
+215 20106 7Networks_RH_Vis_6 124 18 134 0
+216 20107 7Networks_RH_Vis_7 124 18 136 0
+217 20108 7Networks_RH_Vis_8 124 18 137 0
+218 20109 7Networks_RH_Vis_9 124 18 138 0
+219 20110 7Networks_RH_Vis_10 124 18 139 0
+220 20111 7Networks_RH_Vis_11 124 18 140 0
+221 20112 7Networks_RH_Vis_12 124 18 141 0
+222 20113 7Networks_RH_Vis_13 124 18 142 0
+223 20114 7Networks_RH_Vis_14 124 19 135 0
+224 20115 7Networks_RH_Vis_15 124 19 136 0
+225 20116 7Networks_RH_SomMot_1 74 129 181 0
+226 20117 7Networks_RH_SomMot_2 74 130 174 0
+227 20118 7Networks_RH_SomMot_3 74 130 175 0
+228 20119 7Networks_RH_SomMot_4 74 130 176 0
+229 20120 7Networks_RH_SomMot_5 74 130 177 0
+230 20121 7Networks_RH_SomMot_6 74 130 178 0
+231 20122 7Networks_RH_SomMot_7 74 130 179 0
+232 20123 7Networks_RH_SomMot_8 74 130 180 0
+233 20124 7Networks_RH_SomMot_9 74 130 182 0
+234 20125 7Networks_RH_SomMot_10 74 130 183 0
+235 20126 7Networks_RH_SomMot_11 74 130 184 0
+236 20127 7Networks_RH_SomMot_12 74 130 185 0
+237 20128 7Networks_RH_SomMot_13 74 130 186 0
+238 20129 7Networks_RH_SomMot_14 74 130 187 0
+239 20130 7Networks_RH_SomMot_15 74 130 188 0
+240 20131 7Networks_RH_SomMot_16 74 131 181 0
+241 20132 7Networks_RH_SomMot_17 74 131 182 0
+242 20133 7Networks_RH_SomMot_18 74 131 183 0
+243 20134 7Networks_RH_SomMot_19 74 131 184 0
+244 20135 7Networks_RH_DorsAttn_Post_1 4 119 12 0
+245 20136 7Networks_RH_DorsAttn_Post_2 4 119 13 0
+246 20137 7Networks_RH_DorsAttn_Post_3 4 119 14 0
+247 20138 7Networks_RH_DorsAttn_Post_4 4 119 16 0
+248 20139 7Networks_RH_DorsAttn_Post_5 4 119 17 0
+249 20140 7Networks_RH_DorsAttn_Post_6 4 119 18 0
+250 20141 7Networks_RH_DorsAttn_Post_7 4 119 19 0
+251 20142 7Networks_RH_DorsAttn_Post_8 4 119 20 0
+252 20143 7Networks_RH_DorsAttn_Post_9 4 119 21 0
+253 20144 7Networks_RH_DorsAttn_Post_10 4 119 22 0
+254 20145 7Networks_RH_DorsAttn_FEF_1 5 118 15 0
+255 20146 7Networks_RH_DorsAttn_FEF_2 5 118 16 0
+256 20147 7Networks_RH_DorsAttn_PrCv_1 5 118 17 0
+257 20148 7Networks_RH_SalVentAttn_TempOccPar_1 201 58 252 0
+258 20149 7Networks_RH_SalVentAttn_TempOccPar_2 201 58 253 0
+259 20150 7Networks_RH_SalVentAttn_TempOccPar_3 201 58 254 0
+260 20151 7Networks_RH_SalVentAttn_PrC_1 201 59 251 0
+261 20152 7Networks_RH_SalVentAttn_FrOperIns_1 201 59 252 0
+262 20153 7Networks_RH_SalVentAttn_FrOperIns_2 201 59 253 0
+263 20154 7Networks_RH_SalVentAttn_FrOperIns_3 201 59 254 0
+264 20155 7Networks_RH_SalVentAttn_FrOperIns_4 201 59 255 0
+265 20156 7Networks_RH_SalVentAttn_Med_1 200 57 250 0
+266 20157 7Networks_RH_SalVentAttn_Med_2 200 57 251 0
+267 20158 7Networks_RH_SalVentAttn_Med_3 200 57 252 0
+268 20159 7Networks_RH_Limbic_OFC_1 224 249 165 0
+269 20160 7Networks_RH_Limbic_OFC_2 224 249 166 0
+270 20161 7Networks_RH_Limbic_OFC_3 224 249 167 0
+271 20162 7Networks_RH_Limbic_TempPole_1 224 249 168 0
+272 20163 7Networks_RH_Limbic_TempPole_2 224 249 169 0
+273 20164 7Networks_RH_Limbic_TempPole_3 224 249 170 0
+274 20165 7Networks_RH_Cont_Par_1 234 147 35 0
+275 20166 7Networks_RH_Cont_Par_2 234 147 36 0
+276 20167 7Networks_RH_Cont_Par_3 234 147 37 0
+277 20168 7Networks_RH_Cont_Temp_1 234 147 34 0
+278 20169 7Networks_RH_Cont_PFCv_1 233 148 35 0
+279 20170 7Networks_RH_Cont_PFCl_1 233 148 31 0
+280 20171 7Networks_RH_Cont_PFCl_2 233 148 32 0
+281 20172 7Networks_RH_Cont_PFCl_3 233 148 34 0
+282 20173 7Networks_RH_Cont_PFCl_4 233 148 36 0
+283 20174 7Networks_RH_Cont_PFCl_5 233 148 37 0
+284 20175 7Networks_RH_Cont_PFCl_6 233 148 38 0
+285 20176 7Networks_RH_Cont_PFCl_7 233 148 39 0
+286 20177 7Networks_RH_Cont_pCun_1 233 147 35 0
+287 20178 7Networks_RH_Cont_Cing_1 234 148 37 0
+288 20179 7Networks_RH_Cont_Cing_2 234 148 38 0
+289 20180 7Networks_RH_Cont_PFCmp_1 234 148 39 0
+290 20181 7Networks_RH_Cont_PFCmp_2 234 148 40 0
+291 20182 7Networks_RH_Default_Par_1 209 62 78 0
+292 20183 7Networks_RH_Default_Par_2 209 62 79 0
+293 20184 7Networks_RH_Default_Par_3 209 62 80 0
+294 20185 7Networks_RH_Default_Temp_1 209 61 77 0
+295 20186 7Networks_RH_Default_Temp_2 209 61 79 0
+296 20187 7Networks_RH_Default_Temp_3 209 61 80 0
+297 20188 7Networks_RH_Default_Temp_4 209 61 81 0
+298 20189 7Networks_RH_Default_Temp_5 209 61 82 0
+299 20190 7Networks_RH_Default_PFCv_1 209 61 78 0
+300 20191 7Networks_RH_Default_PFCdPFCm_1 208 62 76 0
+301 20192 7Networks_RH_Default_PFCdPFCm_2 208 62 77 0
+302 20193 7Networks_RH_Default_PFCdPFCm_3 208 62 79 0
+303 20194 7Networks_RH_Default_PFCdPFCm_4 208 62 80 0
+304 20195 7Networks_RH_Default_PFCdPFCm_5 208 62 81 0
+305 20196 7Networks_RH_Default_PFCdPFCm_6 208 62 82 0
+306 20197 7Networks_RH_Default_PFCdPFCm_7 208 62 83 0
+307 20198 7Networks_RH_Default_pCunPCC_1 208 62 78 0
+308 20199 7Networks_RH_Default_pCunPCC_2 208 62 84 0
+309 20200 7Networks_RH_Default_pCunPCC_3 208 63 77 0

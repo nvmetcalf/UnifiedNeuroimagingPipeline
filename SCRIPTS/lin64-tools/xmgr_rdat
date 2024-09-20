@@ -1,0 +1,99 @@
+#!/bin/csh -f
+#$Log: xmgr_rdat,v $
+# Revision 1.4  2018/08/17  05:53:47  avi
+# invoke with -f
+#
+# Revision 1.3  2010/12/24  02:25:42  avi
+# option -y
+#
+# Revision 1.2  2010/04/02  03:41:03  avi
+# make directory a required argument
+#
+# Revision 1.1  2010/04/02  03:10:36  avi
+# Initial revision
+#
+
+set idstr	= '$Id: xmgr_rdat,v 1.4 2018/08/17 05:53:47 avi Exp $'
+set program	= $0; set program = $program:t
+echo $idstr
+
+#set echo
+@ debug = 0
+set OS = `uname -s`
+if ($OS != "SunOS") goto USAGE
+
+set printer = ""
+######################
+# process command line
+######################
+set ymax = 3.0
+@ k = 0
+@ i = 1
+while ($i <= ${#argv})
+	set swi = `echo $argv[$i] | awk '$1~/^-/{print substr($1,1,2)}'`
+	if (${#swi} > 0) then
+		set arg = `echo $argv[$i] | awk '{print substr($0,3)}'`
+		switch ($swi)
+			case -d:
+				@ debug++;		breaksw;
+			case -p:
+				set printer = $arg;	breaksw;
+			case -y:
+				set ymax = $arg;	breaksw;
+			default:
+				echo $swi option not recognized
+				goto USAGE
+				breaksw;
+		endsw
+	else
+		switch ($k)
+			case 0:
+			set dir = $argv[$i]; @ k++;	breaksw;
+		endsw
+	endif
+	@ i++
+end
+if ($k < 1) goto USAGE
+if (! -d $dir) then
+	echo $program": "$dir not a directory
+	exit -1
+endif
+
+cd $dir
+@ n = `ls *.rdat | wc | awk '{print $1}'`
+if ($n < 1) then
+	echo $program": no *.rdat files found"
+	goto USAGE
+endif
+
+foreach f (*.rdat)
+	set nf = `awk '$1!~/#/{n=$1};END{print n}' $f`
+	echo "/%title/s/%title/"'"'$f'"/'				>! $$.sed
+	echo "/%nframe/s/%nframe/"$nf"/"				>> $$.sed
+	@ x_tick_minor = `echo $nf | awk '{print int($1/65)}'`
+	@ x_tick_major = 5 * $x_tick_minor
+	echo "/%x_tick_minor/s/%x_tick_minor/"$x_tick_minor"/"		>> $$.sed
+	echo "/%x_tick_major/s/%x_tick_major/"$x_tick_major"/"		>> $$.sed
+	echo "/%ymax/s/%ymax/"$ymax"/"					>> $$.sed
+	set y_tick_major = `echo $ymax | awk '{printf $1/3}'`
+	set y_tick_minor = `echo $ymax | awk '{printf $1/6}'`
+	echo "/%y_tick_major/s/%y_tick_major/"$y_tick_major"/"		>> $$.sed
+	echo "/%y_tick_minor/s/%y_tick_minor/"$y_tick_minor"/"		>> $$.sed
+
+	sed -f $$.sed $RELEASE/mat2dat_prototype.xmgr			>! $$.xmgr
+	grbatch -p $$.xmgr -nxy $f -printfile $f.ps -noask
+	if ($printer != "") lp -d $printer $f.ps
+end
+
+if (! $debug) /bin/rm $$.*
+exit 0
+
+USAGE:
+echo "usage:	"$program "<dir>"
+echo "	e.g.,	"$program movement
+echo "	options"
+echo "	-p<str>	send generated postscript files to specified printer"
+echo "	-y<flt>	specify +/- y range (default +/-3 mm and +/-3 deg)"
+echo "N.B.:	postscript files will be generated for all *.rdat files in the indicated directory"
+echo "N.B.:	"$program" runs only under Solaris"
+exit 1

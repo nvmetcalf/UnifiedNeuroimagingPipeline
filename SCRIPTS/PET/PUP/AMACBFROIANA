@@ -1,0 +1,11 @@
+#!/bin/bash
+# Yi Su, 08/23/2011                                                            
+
+petroot=$1 
+
+
+t4img_4dfp ${petroot}"norm_g5_to_MR_t4" ${petroot}_norm ${petroot}"_norm_on_MR" -OT1001
+t4img_4dfp ${petroot}"hypo_g5_to_MR_t4" ${petroot}_hypo ${petroot}"_hypo_on_MR" -OT1001
+NROI=`wc -l ROIlist.txt | gawk '{print $1}'`
+rsfroieval2 ${petroot}"_norm_on_MR" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${petroot}_norm 0
+rsfroieval2 ${petroot}"_hypo_on_MR" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${petroot}_hypo 0

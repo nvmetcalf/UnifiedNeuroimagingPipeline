@@ -1,0 +1,95 @@
+#!/bin/bash
+################################################################################
+# PET processing							       #
+#                                                                              #
+# USAGE:								       #
+#	petproc paramsfn                                                       #
+#                                                                              #
+# This script reads a params file for PET processing                           #
+################################################################################
+# Yi Su, 07/18/2016
+VERSION=1.02
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Mon Jul 18 09:25:55 CDT 2016 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+
+###############################################################################
+# Read PARAMS file
+source $paramsfn || die "$program ERROR: Cannot source params file $paramsfn"
+
+# Further development will improve this program to check the validity of
+# the inputs specified in the params file
+
+mkdir pet_proc
+cp $paramsfn pet_proc
+cd pet_proc
+
+###############################################################################
+# PET file conversion
+petpreproc $paramsfn || die "$program ERROR: PET file conversion failed"
+
+###############################################################################
+# PET motion correction
+petmoco $paramsfn || die "$program ERROR: PET motion correction failed"
+
+###############################################################################
+# ROI target preprocessing
+targpreproc $paramsfn || die "$program ERROR: ROI target preprocessing failed"
+
+###############################################################################
+# PET to target space registration
+petreg $paramsfn || die "$program ERROR: PET to target registration failed"
+
+###############################################################################
+#				Start Modeling				      #
+###############################################################################
+
+###############################################################################
+# Determine model frames
+petmdlframes $paramsfn || die "$program ERROR: Model Frames failed"
+
+###############################################################################
+# Full Kinetic Processing
+
+# ROI TAC extraction
+petroitac $paramsfn || die "$program ERROR: ROI TAC extraction failed"
+
+# Logan Reference Region Analysis
+if [ "$model" = "logan" ]
+then
+	petrefroi $paramsfn || die "$program ERROR: REF TAC extraction failed"
+	petroiloganREF $paramsfn || die "$program ERROR: Logan Reference Region Analysis failed"
+	petloganrep $paramsfn || die "$program ERROR: petloganrep failed"
+fi
+# Additional analysis will be implemented in the future
+
+###############################################################################
+# Static Processing
+
+if [ "$suvr" = "1" ]
+then
+	petmdlsum $paramsfn || die "$program ERROR: petmdlsum failed"
+	petroiint $paramsfn || die "$program ERROR: Static ROI intensity extraction failed"
+	petrefroi $paramsfn || die "$program ERROR: petrefroi failed"
+	petsuvr $paramsfn || die "$program ERROR: SUVR Analysis failed"
+	petsuvrrep $paramsfn || die "$program ERROR: SUVR Analysis failed"
+fi
+

@@ -1,0 +1,28 @@
+#!/bin/csh
+set echo
+set FS_dir = "/data/nil-bluearc/vlassenko/Pipeline/Projects/Resilience/Participants/108008/visit_1/freesurfer/108008"
+
+#if (! -e .fdb.processing && ! -e .fdb.processed) then
+	touch .fdb.processing
+	#convvert the most recent orig from freesurfer
+	
+	$FREESURFER_HOME/bin/mri_convert ${FS_dir}/mri/orig.mgz orig.nii.gz
+	niftigz_4dfp -4 orig orig
+	
+# 	if (! -e orig.4dfp.img) then
+# 		if (! -e orig.nii) $FREESURFER_HOME/bin/mri_convert orig.mgz orig.nii
+# 		nifti_4dfp -4 -N orig.nii orig.4dfp.img
+# 	endif
+
+	pet_4dfp pet_4dfp.params >! pet_4dfp.log
+	
+	if ($status == 0) then
+		touch .fdb.processed
+		rm .fdb.processing
+	else
+		touch .fdb.processing.error
+	endif
+#endif
+
+exit 0
+

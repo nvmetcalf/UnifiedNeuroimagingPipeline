@@ -1,0 +1,89 @@
+#!/bin/bash
+###############################################################################
+# Program to convert interfile hdr into 4dfp format ifh and hdr and create a  #
+# .4dfp.img file by link to the original data file			      #
+###############################################################################
+
+# Yi Su, 2013/09/12                                                            
+# Modified 2014/02/25 for compatibility with earlier version of bash
+
+#idstr='$Id: IFhdr_to_4dfp,v 1.1.1.1 2013/09/13 15:32:52 suy Exp $'
+
+idstr='$Id: IFhdr_to_4dfp,v 1.1 2014/02/25 suy Exp $'
+
+echo $idstr
+program=`basename $0`
+if [ $# -lt 2 ]
+then
+	echo "Usage: $program IFfstr outroot"
+	exit -1
+fi
+IFfstr=$1
+outroot=$2
+
+if [ -n "$IFfstr" ]
+then
+    IFdir=`dirname $IFfstr`
+    IFname=`basename $IFfstr`
+    IFroot=${IFname%%.*}
+    IFroot1=${IFname%.*}
+else
+    echo "$program: Input IF header file does not exist"
+    exit -1
+fi
+
+if [ ! -n "${IFdir}/${IFroot1}" ]
+then
+    echo "$program: Input IF data file does not exist"
+    exit -1
+fi
+
+output=${outroot}fz.4dfp.ifh
+if [ -e  $output ]
+then
+	rm ${outroot}fz.4dfp.*
+fi
+touch $output
+
+echo "INTERFILE	:=" >> $output
+echo "version of keys	:= 3.3" >> $output
+echo "conversion program	:= IFhdr_to_4dfp" >> $output
+
+format=`gawk -F= '/number format/ {print $2}' $IFfstr`
+echo "number format	:= $format" >> $output
+
+echo "name of data file	:= ${outroot}.4dfp.img" >> $output
+
+bpp=`gawk -F= '/bytes per pixel/ {print $2}'  $IFfstr`
+echo "number of bytes per pixel	:= $bpp" >> $output
+
+endian=`gawk -F= '/byte order/ {print $2}'  $IFfstr`
+endian=`echo $endian | gawk '{print tolower($0)}'`
+echo "imagedata byte order	:= ${endian}" >> $output
+
+echo "orientation		:= 2" >> $output
+echo "number of dimensions	:= 4" >> $output
+
+sz=`gawk -F= '/matrix size/ && /\[1\]/ {print $2}'  $IFfstr`
+echo "matrix size [1]	:= $sz" >> $output
+
+sz=`gawk -F= '/matrix size/ && /\[2\]/ {print $2}'  $IFfstr`
+echo "matrix size [2]	:= $sz" >> $output
+
+sz=`gawk -F= '/matrix size/ && /\[3\]/ {print $2}'  $IFfstr`
+echo "matrix size [3]	:= $sz" >> $output
+
+echo "matrix size [4]	:= 1" >> $output
+
+sf=`gawk -F= '/scale/ && /\[1\]/ {print $2}'  $IFfstr`
+echo "scaling factor (mm/pixel) [1]	:= $sf" >> $output
+
+sf=`gawk -F= '/scale/ && /\[2\]/ {print $2}'  $IFfstr`
+echo "scaling factor (mm/pixel) [2]	:= $sf" >> $output
+
+sf=`gawk -F= '/scale/ && /\[3\]/ {print $2}'  $IFfstr`
+echo "scaling factor (mm/pixel) [3]	:= $sf" >> $output
+
+ifh2hdr ${outroot}fz
+ln -s ${IFdir}/${IFroot1} ${outroot}fz.4dfp.img
+flip_4dfp -z ${outroot}fz $outroot

@@ -1,0 +1,119 @@
+#!/bin/csh
+
+set Subject = $1
+
+cd $Subject
+
+#need to detect the naming convention
+
+set top_folder = `ls | head -1`
+set file_example = `ls $top_folder | head -1`
+
+if( -e `ls | head -1`/DICOM || ` ls ${top_folder}/* | head -1 | cut -d. -f2` == "MR") then
+	echo "Data has 3field dcm convention."
+	
+	foreach Scan(*)
+		if( -e ${Scan}/DICOM) then
+			cd "${Scan}"/DICOM
+			mv * ../../
+			cd ../..
+		else
+			cd $Scan
+			mv * ../
+			cd ..
+		endif
+
+		rm -r "${Scan}"
+	end
+else if( -e `ls | head -1`/IM1) then
+	echo "Data has IMx Prefix."
+
+	@ ScanIndex = 1
+
+	foreach Scan(*)
+		cd "$Scan"
+		echo "Currently on $Scan"
+
+		@ Max = `ls | wc | awk '{print $1}'`
+
+		@ i = 1
+
+		while( $i <= $Max)
+			if(! -e "IM"$i) then
+				echo "Could not find IM$i"
+				exit 1
+			endif
+
+			mv "IM"$i ../${Subject}.${ScanIndex}.${i}.dcm
+			@ i++
+		end
+		cd ..
+		rm "$Scan"
+		@ ScanIndex++
+	end
+else if ( $file_example == $file_example:r ) then
+	@ ScanIndex = 1
+
+	foreach Folder(*)
+		@ ImageIndex = 1;
+
+		cd $Folder
+
+		foreach Image(*)
+			mv $Image ../${Subject}.${ScanIndex}.${ImageIndex}
+			echo $Image
+			@ ImageIndex++
+		end		
+		cd ..
+		rm -r $Folder
+		@ ScanIndex++
+	end
+else
+	echo "Assuming continuous counter naming convention."
+
+	@ i = 1
+
+	foreach Scan (*)
+
+		@ k = 1
+		echo $Scan
+
+		cd $Scan
+			
+		set Big = `ls * | head -1 | cut -d. -f9`
+
+		#now need to start at the lowest number and begin renumbering
+		@ l = $Big
+		@ m = 0
+
+		set prefix = `ls * | head -1 | cut -d. -f1,2,3,4,5,6,7,8`
+		
+		echo $prefix
+
+		@ NumDCM = `ls * | wc | awk '{print $1}'`	
+
+		echo $NumDCM
+
+		while( $k <= $NumDCM)
+			set filename = $prefix"."$l"."$m".dcm"
+
+			if( -e $filename) then
+				mv $filename ../$Subject"."$i"."$k".dcm"
+				@ k++
+			endif
+
+			@ m++
+
+			if($m > 999) then
+				@ m = 0
+				@ l++
+			endif
+		end
+
+		cd ..
+		rm -r $Scan
+
+		@ i++
+	end
+endif
+

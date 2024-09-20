@@ -1,0 +1,49 @@
+##
+## This file is sourced for triple pack processing by
+## triple_pack, triple_fdg, triple_pet2mpr_4dfp, and triple_pet2oem_quad_msk
+## 
+##=====================================================================================================
+
+set target = TRIO_Y_NDC
+set targetpath = /data/cninds01/data2/atlas
+
+##=====================================================================================================
+## triple_pack processing:
+
+set patid	= p1234		## Processing Identifier
+set MR		= p1234_mpr_S	## Root name of 4dfp MRI
+
+set img_nums	= (1 2 3 4)	## Create and process unique numbered image(s). Use numbers 1-9.
+				## $img_nums[1-9] will correspond to raw PET arrays [1-9].
+
+## Each raw PET full file name must be listed in the raw arrays in the order corresponding to $img_nums.
+set rawho	= ($patid"ho1.v" $patid"ho2.v" $patid"ho3.v" $patid"ho4.v")
+set rawoo	= ($patid"oo1.v" $patid"oo2.v" $patid"oo3.v" $patid"oo4.v")
+set rawoc	= ($patid"oc1.v" $patid"oc2.v" $patid"oc3.v" $patid"oc4.v")
+
+set scanlength	 = 60		## scanlength seconds
+set scale_gauss = 0.4		## Gauss Level (for triple_scale and trio2oem images)
+set cross_pet_gauss = 0.9	## Gauss Level for cross_pet_resolve_4dfp
+
+set triple_pet2mpr_4dfp_masking = 0	## Use 1 or 0. triple_pet2mpr_4dfp will mask PET when value = 1
+set trio2oem_mask = 0			## 0 = trio2oem_4dfp output will include values outside the mask
+
+##=====================================================================================================
+## FDG Processing:
+
+set fdg_nums	= (1 2)			## Create and process numbered image(s). Use (0) or (none) for no FDG.
+					## The elements in $fdg_nums must correspond to elements in $rawfdg.
+
+## Each raw PET full file name must be listed in the rawfdg array using the same order in $fdg_nums.
+set rawfdg	= ($patid"fdg1.v" $patid"fdg2.v")
+
+## Frames To Process (including missing frames) to make three summed images:
+set startframe	= (49 51 53)		## FDG framing to make summed images
+set lastframe	= (50 52 54)		## FDG framing to make summed images
+## Image names    (c1 c2 c3)
+## Summed images c2 and c3 must total 20 minutes
+
+set fdgmr_gauss = 1.3			## MRI gauss for FDG to MRI (fdg_pet2mpr_4dfp)
+set fdgblur = 5				## FDG blur for FDG to MRI (fdg_pet2mpr_4dfp)
+
+#=======================================================

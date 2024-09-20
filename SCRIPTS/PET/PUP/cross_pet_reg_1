@@ -1,0 +1,144 @@
+#!/bin/csh
+# Modified to run on linux 2010/09/21 suy
+# 
+#$Header: /home/petsun9/avi/bin/RCS/cross_pet_reg_4dfp,v 1.3 1999/09/29 05:40:38 avi Exp $
+# $Log: cross_pet_reg_4dfp,v $
+# Revision 1.3  1999/09/29  05:40:38  avi
+# run awk -f etalist.awk at end
+#
+# Revision 1.2  1999/09/01  03:46:26  avi
+# generalized
+#
+set idstr = '$Id: cross_pet_reg_4dfp,v 1.3 1999/09/29 05:40:38 avi Exp $'
+echo $idstr
+set program = $0
+set program = $program:t
+set avidir = ~avi/bin
+set bindir = $RELEASE
+@ redo = 0
+@ debug = 0
+
+@ n = ${#argv}
+if (! $n) then
+	echo "Usage:	$program matroot image_1 image_2 ... image_n"
+	echo " e.g.,	$program p5654ho p5654ho?_auto.4dfp.img"
+	exit 1
+endif
+
+set trgv = ($argv[2-])
+set srgv = ($trgv:gr)
+set srgv = ($srgv:gr)
+echo $srgv
+@ n = ${#srgv}
+echo "n="$n
+
+if ($n < 1) exit
+if ($n == 1) then
+	echo $srgv | awk '{printf("%-12s%8.5f", $1, 1); for(k=0;k<6;k++) printf("%9.4f", 0); printf("\n");}' >! mat$$
+	goto MAT
+endif
+
+@ k = 0
+@ i = 1
+while ($i <= $n)
+	@ j = 1
+	while ($j <= $n)
+		if ($j != $i) then
+			set pos = $srgv[$i]:t
+			set neg = $srgv[$j]:t
+			set t4file = $neg"_to_"$pos"_t4"
+			if (! -e $t4file) @ k++
+		endif
+		@ j++
+	end
+	@ i++
+end
+if (! $k) goto MOV
+
+set log = $argv[1]_$program.log
+echo $idstr		>! $log
+echo $program $argv[1-]	>> $log
+date			>> $log
+
+@ i = 1
+while ($i <= $n)
+	if (-e $srgv[$i]_g6.4dfp.img && -e $srgv[$i]_msk.4dfp.img \
+	&& -e $srgv[$i]_g6.4dfp.ifh && -e $srgv[$i]_msk.4dfp.ifh) goto NEXT
+echo	$bindir/gauss_4dfp	$srgv[$i] 0.6
+	$bindir/gauss_4dfp	$srgv[$i] 0.6
+echo	$bindir/imgblur_4dfp	$srgv[$i] 5
+	$bindir/imgblur_4dfp	$srgv[$i] 5
+NEXT:
+	@ i++
+end
+
+@ i = 1
+while ($i <= $n)
+	@ j = 1
+	while ($j <= $n)
+		if ($j == $i) goto SKIP
+		set pos = $srgv[$i]:t
+		set neg = $srgv[$j]:t
+		set t4file = $neg"_to_"$pos"_t4"
+		@ test = `head -1 $t4file | awk '{print $7 + 0}'`
+		if (-e $t4file && ! $redo && $test == 2307) goto SKIP
+		echo t4file = $t4file
+		@ mode = 1024 + 256 + 3			# 1283
+		$bindir/imgreg_4dfp $srgv[$i]_g6 none $srgv[$j]_g6 none $t4file $mode >> $log
+		@ mode = 2048 + 256 + 3			# 2307
+		$bindir/imgreg_4dfp $srgv[$i]_g6 none $srgv[$j]_g6 none $t4file $mode >> $log
+		$bindir/imgreg_4dfp $srgv[$i]_g6 none $srgv[$j]_g6 none $t4file $mode >> $log
+SKIP:
+		@ j++
+	end
+	@ i++
+end
+
+date		>> $log
+awk -f $avidir/etalist.awk mult=2 $log >! temp$$
+cat temp$$	>> $log
+
+CLEAN:
+@ i = 1
+while ($i <= $n)
+	/bin/rm $srgv[$i]_g6.4dfp* $srgv[$i]_msk.4dfp*
+	@ i++
+end
+
+MOV:
+~suy/bin/cross_img_mov_4dfp $srgv >!	$1"_cross_img_mov".log
+cat					$1"_cross_img_mov".log
+
+echo 1
+
+~suy/bin/cross_img_movm_4dfp $srgv >!	mat$$
+cat					mat$$
+
+echo 2
+
+mov2sub -sw			mat$$ $1
+
+echo 3
+
+MAT:
+/bin/rm	temp$$
+touch	temp$$
+@ i = 1
+while ($i <= $n)
+	awk -f $avidir/matcenter.awk $srgv[$i].4dfp.ifh >> temp$$
+	@ i++
+end
+
+echo `date; whoami`					>! $1.mat
+echo $program $argv[1-]					>> $1.mat
+echo $idstr						>> $1.mat
+set mmpstr = `cat $srgv[1].4dfp.ifh | awk '/mm\/pixel/{printf("%10.6f", $NF)}'`
+echo "mmppix:   "$mmpstr				>> $1.mat
+echo "mat"						>> $1.mat
+paste -d"\0" mat$$ temp$$				>> $1.mat
+echo "endmat"						>> $1.mat
+cat $1.mat
+/bin/rm mat$$ temp$$
+
+exit
+

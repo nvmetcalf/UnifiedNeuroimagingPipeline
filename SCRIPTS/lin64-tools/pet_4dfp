@@ -1,0 +1,341 @@
+#!/bin/csh
+#$Header: /data/petsun4/data1/src_solaris/pet_4dfp/RCS/pet_4dfp,v 1.6 2018/12/10 20:44:14 larsc Exp $
+
+set idstr = '$Id: pet_4dfp,v 1.6 2018/12/10 20:44:14 larsc Exp $'
+echo $idstr
+
+set program = $0
+set program = $program:t
+
+set GOTO = 0
+
+@ i = 1
+@ j = 0
+while ($i <= ${#argv})
+	switch ($argv[$i])
+	case -goto:
+		@ i ++
+		if ($i <= ${#argv}) set GOTO = $argv[$i]
+		breaksw
+	default:
+		switch ($j)
+		case 0:
+			@ j ++
+			set params = $argv[$i]
+			breaksw
+		endsw
+		breaksw
+        endsw
+        @ i ++
+end
+if ($j != 1) then
+	echo "Usage:	$program <params file>"
+	echo " e.g.,	$program p6308_pet.params"
+	echo " -goto <REGISTRATION|IMAGES|DERIVED_IMAGES>	skips registration"
+	exit 1
+endif
+
+unalias cp
+
+set auto_int   = 8
+set auto_iso   = "O-15"
+set  fdg_iso   = "F-18"
+set atlas_mask = /data/petsun43/data1/atlas/711-2B_mask_g5
+
+echo source $RELEASE/default.params
+     source $RELEASE/default.params
+if ($status) then
+	echo $program": couldn't execute default params "$RELEASE/"default.params"
+	exit -1
+endif
+
+#set params = $1
+if (-e $params) then
+	echo source $params
+	     source $params
+	if ($status) then
+		echo $program": couldn't execute "$params
+		exit -1
+	endif
+	cat $params
+else
+	echo $program": $params not found"
+	exit -1
+endif
+
+foreach ext (rec img ifh hdr 4dfp)
+	if (     $MPR:e == $ext) set      MPR = $MPR:r
+	if (  $TARGET:e == $ext) set   TARGET = $TARGET:r
+	if ($MPR_MASK:e == $ext) set MPR_MASK = $MPR_MASK:r
+end
+foreach img ($TARGETPATH/$TARGET $MPR $MPR_MASK)
+	if (! -e $img".4dfp.img" || ! -e $img".4dfp.ifh") then
+		echo $program": "$img".4dfp.img or "$img".4dfp.ifh not found"
+		exit -1
+	endif
+end
+
+if (`echo $MPR_MASK | gawk '{if (length($0) > 0) print 0; else print 1}'`) then
+	unset MPR_MASK
+endif
+
+if ($GOTO != 0) goto $GOTO
+
+foreach mode ("ho" "oo" "oc" "fdg")
+	switch ($mode)
+	case  "ho":
+		set lbl = ($HO_LABELS);  set tag = "HO";  set raw = ($HO_RAW);  breaksw;
+	case  "oo":
+		set lbl = ($OO_LABELS);  set tag = "OO";  set raw = ($OO_RAW);  breaksw;
+	case  "oc":
+		set lbl = ($OC_LABELS);  set tag = "OC";  set raw = ($OC_RAW);  breaksw;
+	case "fdg":
+		set lbl = ($FDG_LABELS); set tag = "FDG"; set raw = ($FDG_RAW); breaksw;
+	endsw
+	if ($#raw != $#lbl) then
+		echo $program": "$tag"_LABELS and "$tag"_RAW must have the same number of entries in "$params
+		exit -1
+	endif
+	@ i = 1
+	while ($i <= $#raw)
+		if (! -e $raw[$i]) then
+			echo $program": "$raw[$i]" not found"
+			exit -1
+		endif
+		set rawr = $raw[$i]:r
+		if ($rawr:e == "4dfp") then
+			if (! -e $rawr".img" || ! -e $rawr".ifh") then
+				echo $program": "$rawr".img or "$rawr".ifh not found"
+				exit -1
+			endif
+			if ($rawr:t != $PATID$mode$lbl[$i]".4dfp") then
+				foreach ext (img ifh hdr img.rec)
+					if (-e $PATID$mode$lbl[$i]".4dfp."$ext) rm $PATID$mode$lbl[$i]".4dfp."$ext
+					if (-e $rawr"."$ext)    ln -s $rawr"."$ext $PATID$mode$lbl[$i]".4dfp."$ext
+				end
+			endif
+		else
+			echo ecatto4dfp $raw[$i] $PATID$mode$lbl[$i]
+			     ecatto4dfp $raw[$i] $PATID$mode$lbl[$i];	if ($status) exit $status
+		endif
+		@ i ++
+	end
+end
+
+foreach lbl ($HO_LABELS)
+	if ($HO_LENGTH == "ALL") then
+		echo make_late $PATID"ho"$lbl $HO_LENGTH           $auto_iso $HO_NAME
+		     make_late $PATID"ho"$lbl $HO_LENGTH           $auto_iso $HO_NAME;	if ($status) exit $status
+	else
+		echo make_auto $PATID"ho"$lbl $HO_LENGTH $auto_int $auto_iso $HO_NAME
+		     make_auto $PATID"ho"$lbl $HO_LENGTH $auto_int $auto_iso $HO_NAME;	if ($status) exit $status
+	endif
+end
+foreach lbl ($OO_LABELS)
+	if ($OO_LENGTH == "ALL") then
+		echo make_late $PATID"oo"$lbl $OO_LENGTH           $auto_iso $OO_NAME
+		     make_late $PATID"oo"$lbl $OO_LENGTH           $auto_iso $OO_NAME;	if ($status) exit $status
+	else
+		echo make_auto $PATID"oo"$lbl $OO_LENGTH $auto_int $auto_iso $OO_NAME
+		     make_auto $PATID"oo"$lbl $OO_LENGTH $auto_int $auto_iso $OO_NAME;	if ($status) exit $status
+	endif
+end
+foreach lbl ($OC_LABELS)
+	foreach ext (img ifh hdr img.rec)
+		cp $PATID"oc"$lbl".4dfp."$ext $PATID"oc"$lbl"_"$OC_NAME".4dfp."$ext
+	end
+end
+foreach lbl ($FDG_LABELS)
+	echo make_late $PATID"fdg"$lbl $FDG_LENGTH $fdg_iso $FDG_NAME
+	     make_late $PATID"fdg"$lbl $FDG_LENGTH $fdg_iso $FDG_NAME;	if ($status) exit $status
+end
+
+MASK:
+
+if ($?MASK_COMMAND) then
+	foreach mode ("ho" "oo" "oc" "fdg")
+		switch ($mode)
+		case  "ho":
+			set lbl = ($HO_LABELS);  set name =  $HO_NAME; set blur =  $HO_BLUR; set norm =  $HO_NORM; breaksw;
+		case  "oo":
+			set lbl = ($OO_LABELS);  set name =  $OO_NAME; set blur =  $OO_BLUR; set norm =  $OO_NORM; breaksw;
+		case  "oc":
+			set lbl = ($OC_LABELS);  set name =  $OC_NAME; set blur =  $OC_BLUR; set norm =  $OC_NORM; breaksw;
+		case "fdg":
+			set lbl = ($FDG_LABELS); set name = $FDG_NAME; set blur = $FDG_BLUR; set norm = $FDG_NORM; breaksw;
+		endsw
+		set imgs = `echo $lbl  | gawk '{for (i = 1; i <= NF; i++) printf ("'$PATID$mode'%s_'$name'\n", $i)}'`
+		foreach img ($imgs)
+			$MASK_COMMAND $img
+		end
+	end
+endif
+
+
+REGISTRATION:
+
+echo pet2atl_4dfp $params
+     pet2atl_4dfp $params;		if ($status) exit $status
+
+IMAGES:
+
+zero_lt_4dfp 500 $atlas_mask $TARGET"_mskt";	if ($status) exit $status
+foreach mode ("ho" "oo" "oc" "fdg")
+	switch ($mode)
+	case  "ho":
+		set lbl = ($HO_LABELS);  set name =  $HO_NAME; set blur =  $HO_BLUR; set norm =  $HO_NORM; breaksw;
+	case  "oo":
+		set lbl = ($OO_LABELS);  set name =  $OO_NAME; set blur =  $OO_BLUR; set norm =  $OO_NORM; breaksw;
+	case  "oc":
+		set lbl = ($OC_LABELS);  set name =  $OC_NAME; set blur =  $OC_BLUR; set norm =  $OC_NORM; breaksw;
+	case "fdg":
+		set lbl = ($FDG_LABELS); set name = $FDG_NAME; set blur = $FDG_BLUR; set norm = $FDG_NORM; breaksw;
+	endsw
+	set bext = `echo $blur | gawk '{print "_g"int(10*$1+0.499999)}'`
+	set imgs = `echo $lbl  | gawk '{for (i = 1; i <= NF; i++) printf ("'$PATID$mode'%s_'$name'\n", $i)}'`
+	foreach img ($imgs)
+		gauss_4dfp $img $blur 
+		if (! -e $img"_to_"$TARGET"_t4") then
+			echo $program": "$img"_to_"$TARGET"_t4 not found. Cannot normalize or transform."
+		else
+			echo $img$bext"	       t4="$img"_to_"$TARGET"_t4"								>! temp$$.lst
+#			wrpsmg_4dfp temp$$.lst $img$bext"_on_"$TARGET        -O$TARGETPATH/$TARGET;	if ($status) exit $status;	rm temp$$.lst
+			wrpsmg_4dfp temp$$.lst $img$bext"_on_"$TARGET        -O222;			if ($status) exit $status;	rm temp$$.lst
+#			maskimg_4dfp $TARGET"_mskt" $img$bext"_on_"$TARGET temp$$;			if ($status) exit $status;
+			set s = `qnt_4dfp $img$bext"_on_"$TARGET $TARGET"_mskt" -D | gawk '/Mean/ {printf ("%f\n", '$norm'/$NF)} END {print "SAFE"}'`
+#			set s = `qnt_4dfp $img$bext"_on_"$TARGET temp$$ | gawk '/Mean/ {printf ("%f\n", '$norm'/$NF)} END {print "SAFE"}'`
+			if ($#s < 2) then
+				echo $program": failed to scale "$img
+				exit -1
+			endif
+			scale_4dfp $img $s[1] -anorm
+			gauss_4dfp $img"_norm" $blur
+			echo $img"_norm"$bext" t4="$img"_to_"$TARGET"_t4"								>! temp$$.lst
+#			wrpsmg_4dfp temp$$.lst $img"_norm"$bext"_on_"$TARGET -O$TARGETPATH/$TARGET;	if ($status) exit $status;	rm temp$$.lst
+			wrpsmg_4dfp temp$$.lst $img"_norm"$bext"_on_"$TARGET -O222;			if ($status) exit $status;	rm temp$$.lst
+			rm $img$bext"_on_"$TARGET".4dfp."{img,ifh,hdr,img.rec}
+			rm $img$bext".4dfp."{img,ifh,hdr,img.rec}
+			rm $img"_norm"$bext".4dfp."{img,ifh,hdr,img.rec}
+#			rm temp$$".4dfp."{img,ifh,hdr,img.rec}
+		endif
+	end
+end
+
+foreach mode ("ho" "oo" "oc" "fdg")
+	switch ($mode)
+	case  "ho":
+		set lbls = ($HO_LABELS);  set name =  $HO_NAME; set blur =  $HO_BLUR; set mix = ( $HO_AVERAGES); breaksw;
+	case  "oo":
+		set lbls = ($OO_LABELS);  set name =  $OO_NAME; set blur =  $OO_BLUR; set mix = ( $OO_AVERAGES); breaksw;
+	case  "oc":
+		set lbls = ($OC_LABELS);  set name =  $OC_NAME; set blur =  $OC_BLUR; set mix = ( $OC_AVERAGES); breaksw;
+	case "fdg":
+		set lbls = ($FDG_LABELS); set name = $FDG_NAME; set blur = $FDG_BLUR; set mix = ($FDG_AVERAGES); breaksw;
+	endsw
+	set bext = `echo $blur | gawk '{print "_g"int(10*$1+0.499999)}'`
+
+	echo $lbls >! temp$$.txt
+	set avgs = ()
+	foreach lbl ($mix)
+		set avgs = ($avgs `gawk '{go = 1; for (i = 1; i <= NF; i++) if ($i == "'$lbl'") {go = 0; break}} go==1 {print "'$lbl'"}' temp$$.txt`)
+	end
+	echo $mix | gawk '{for (i = 1; i <= NF; i++) print $i}' >! temp$$.txt
+	@ i = 1
+	while ($i <= $#avgs)
+		if ($i < $#avgs) then
+			@ j = $i + 1
+			set avglbls = `gawk 'BEGIN {go = 0} $0=="'$avgs[$j]'" {exit} go==1 {print $0} $0=="'$avgs[$i]'" {go = 1}' temp$$.txt`
+		else
+			set avglbls = `gawk 'BEGIN {go = 0}                          go==1 {print $0} $0=="'$avgs[$i]'" {go = 1}' temp$$.txt`
+		endif
+		
+		set imgs = `echo $avglbls  | gawk '{for (i = 1; i <= NF; i++) printf ("'$PATID$mode'%s_'$name'_norm'$bext'_on_'$TARGET'\n", $i)}'`
+		imgopr_4dfp -e$PATID$mode$avgs[$i]"_"$name"_norm"$bext"_on_"$TARGET $imgs -Z -u;	if ($status) exit $status
+		@ i ++
+	end
+	rm temp$$.txt
+end
+
+DERIVED_IMAGES:
+
+zero_lt_4dfp 400 $atlas_mask $TARGET"_mskt";	if ($status) exit $status
+set bext = ()
+foreach blur ($OO_BLUR $HO_BLUR $OC_BLUR $FDG_BLUR)
+	set bext = ($bext `echo $blur | gawk '{print "_g"int(10*$1+0.499999)}'`)
+end
+foreach lbl ($OEM_LABELS)
+	set oemoptions = "-u"
+	if ($?OEM_BLUR) then
+		set oemoptions = ($oemoptions -g$OEM_BLUR)
+	endif
+	echo oem_4dfp      $PATID"oo"$lbl"_"$OO_NAME"_norm"$bext[1]"_on_"$TARGET \
+	                   $PATID"ho"$lbl"_"$HO_NAME"_norm"$bext[2]"_on_"$TARGET \
+	                   $PATID"oc"$lbl"_"$OC_NAME"_norm"$bext[3]"_on_"$TARGET \
+	                   $TARGET"_mskt" $oemoptions \
+	                   $PATID"om"$lbl"_on_"$TARGET \
+	                   $PATID"oe"$lbl"_on_"$TARGET
+	     oem_4dfp      $PATID"oo"$lbl"_"$OO_NAME"_norm"$bext[1]"_on_"$TARGET \
+	                   $PATID"ho"$lbl"_"$HO_NAME"_norm"$bext[2]"_on_"$TARGET \
+	                   $PATID"oc"$lbl"_"$OC_NAME"_norm"$bext[3]"_on_"$TARGET \
+	                   $TARGET"_mskt" $oemoptions \
+	                   $PATID"om"$lbl"_on_"$TARGET \
+	                   $PATID"oe"$lbl"_on_"$TARGET
+	if ($status) exit $status
+	if ($?OM_NORM) then
+#		maskimg_4dfp $TARGET"_mskt $PATID"om"$lbl"_on_"$TARGET temp$$
+		set s = `qnt_4dfp $PATID"om"$lbl"_on_"$TARGET $TARGET"_mskt" -D | gawk '/Mean/ {printf ("%f\n", '$OM_NORM'/$NF)} END {print "SAFE"}'`
+#		set s = `qnt_4dfp $PATID"om"$lbl"_on_"$TARGET temp$$ | gawk '/Mean/ {printf ("%f\n", '$OM_NORM'/$NF)} END {print "SAFE"}'`
+		if ($#s < 2) then
+			echo $program": failed to scale "$PATID"om"$lbl"_on_"$TARGET
+			exit -1
+		endif
+		scale_4dfp $PATID"om"$lbl"_on_"$TARGET $s[1]
+#		rm temp$$".4dfp."{img,ifh,hdr,img.rec}
+	endif
+	if ($?OE_NORM) then
+#		maskimg_4dfp $TARGET"_mskt" $PATID"oe"$lbl"_on_"$TARGET temp$$
+		set s = `qnt_4dfp $PATID"oe"$lbl"_on_"$TARGET $TARGET"_mskt" -D | gawk '/Mean/ {printf ("%f\n", '$OE_NORM'/$NF)} END {print "SAFE"}'`
+#		set s = `qnt_4dfp $PATID"oe"$lbl"_on_"$TARGET temp$$ | gawk '/Mean/ {printf ("%f\n", '$OE_NORM'/$NF)} END {print "SAFE"}'`
+		if ($#s < 2) then
+			echo $program": failed to scale "$PATID"oe"$lbl"_on_"$TARGET
+			exit -1
+		endif
+		scale_4dfp $PATID"oe"$lbl"_on_"$TARGET $s[1]
+#		rm temp$$".4dfp."{img,ifh,hdr,img.rec}
+	endif
+end
+
+foreach lbl ($GI_LABELS)
+	set gioptions = ()
+	if ($?GI_BLUR) then
+		set gioptions = ($gioptions -g$GI_BLUR)
+	endif
+	echo gi_4dfp  $PATID"om"$lbl"_on_"$TARGET \
+	              $PATID"fdg"$lbl"_"$FDG_NAME"_norm"$bext[4]"_on_"$TARGET \
+	              $TARGET"_mskt" $gioptions \
+                      $PATID"gi"$lbl"_on_"$TARGET \
+	              -n$GI_NORM -o$PATID"goi"$lbl"_on_"$TARGET
+	     gi_4dfp  $PATID"om"$lbl"_on_"$TARGET \
+	              $PATID"fdg"$lbl"_"$FDG_NAME"_norm"$bext[4]"_on_"$TARGET \
+	              $TARGET"_mskt" $gioptions \
+                      $PATID"gi"$lbl"_on_"$TARGET \
+	              -n$GI_NORM -o$PATID"goi"$lbl"_on_"$TARGET
+	if ($status) exit $status
+end
+foreach lbl ($OGI_LABELS)
+	echo ogi_4dfp $PATID"om"$lbl"_on_"$TARGET \
+	              $PATID"fdg"$lbl"_"$FDG_NAME"_norm"$bext[4]"_on_"$TARGET \
+                      $TARGET"_mskt" \
+                      $PATID"ogi"$lbl"_on_"$TARGET \
+	              -n$OGI_NORM
+	     ogi_4dfp $PATID"om"$lbl"_on_"$TARGET \
+	              $PATID"fdg"$lbl"_"$FDG_NAME"_norm"$bext[4]"_on_"$TARGET \
+                      $TARGET"_mskt" \
+                      $PATID"ogi"$lbl"_on_"$TARGET \
+	              -n$OGI_NORM
+	if ($status) exit $status
+end
+
+rm $TARGET"_mskt.4dfp."{img,ifh,hdr,img.rec}
+
+exit 0

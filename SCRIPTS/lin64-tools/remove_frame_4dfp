@@ -1,0 +1,68 @@
+#!/bin/csh
+#$Header: /data/petsun4/data1/src_solaris/pet_4dfp/RCS/remove_frame_4dfp,v 1.1 2012/09/19 17:34:48 larsc Exp larsc $
+#$Log: remove_frame_4dfp,v $
+# Revision 1.1  2012/09/19  17:34:48  larsc
+# Initial revision
+#
+
+set program = $0; set program = $program:t
+set outroot = ""
+set frames  = ()
+@ k = 0
+@ i = 1
+while ($i <= ${#argv})
+	set swi = `echo $argv[$i] | awk '{print substr($1,1,2)}'`
+	set arg = `echo $argv[$i] | awk '{print substr($0,3)}'`
+	switch ($swi)
+		case -o:
+			set outroot = $arg;		breaksw;
+		default:
+		switch ($k)
+			case 0:
+				set imgroot = $argv[$i];		@ k++; breaksw;
+			default:
+				set frames = ($frames $argv[$i]);	@ k++; breaksw;
+		endsw
+	endsw
+	@ i++
+end
+if ($k < 2) goto USAGE
+
+if ($imgroot:e == "img")	set imgroot = $imgroot:r
+if ($imgroot:e == "4dfp")	set imgroot = $imgroot:r
+if ($outroot == "") then
+	set outroot = $imgroot"_remove"
+else
+	if ($outroot:e == "img")	set outroot = $outroot:r
+	if ($outroot:e == "4dfp")	set outroot = $outroot:r
+endif
+
+set extraframe = `gawk '/matrix size \[4\]/ {print $NF+1}' $imgroot".4dfp.ifh"`
+
+set frames = `echo $frames $extraframe | gawk '{for(i=1;i<=NF;i++) print $i}' | sort -nu`
+echo $frames
+#echo $frames | gawk '{j=1; for(i=1;i<=NF;i++) {if($i>j) print "'$imgroot'",j,$i-1; j=$i+1}}' >! $$.lst
+echo $frames | gawk '{j=1; for(i=1;i<=NF;i++) {if($i>j) print "'$imgroot'",j,$i-j; j=$i+1}}' >! $$.lst
+cat $$.lst
+
+paste_4dfp -ap1 $$.lst $outroot
+if ($status) exit $status
+ifh2hdr $outroot
+/bin/rm $$.lst
+
+unalias mv
+foreach frame ($frames)
+	gawk '$1!~/^Frame_'$frame'$/' $outroot".4dfp.img.rec" >! $$.rec
+	mv $$.rec $outroot".4dfp.img.rec"
+end
+gawk 'BEGIN {i = 1} /^Frame_/ {sub ($1, "Frame_"i); i++} {print $0}' $outroot".4dfp.img.rec" >! $$.rec
+mv $$.rec $outroot".4dfp.img.rec"
+
+exit
+
+USAGE:
+echo "usage:	"$program" <(4dfp) stack> <(int) frame> [<(int) frame> ...]"
+echo "e.g.:	"$program" p7498 20"
+echo "	option"
+echo "	-o<str>	specifiy output 4dfp fileroot (default = <stack>_remove)"
+exit 1

@@ -1,0 +1,119 @@
+#!/bin/csh
+#$Header: /data/petsun4/data1/src_solaris/pet_4dfp/RCS/oem_4dfp,v 1.5 2014/08/27 21:03:01 larsc Exp $
+#$Log: oem_4dfp,v $
+#Revision 1.5  2014/08/27 21:03:01  larsc
+#Fixerd output root.
+#
+#Revision 1.4  2014/08/27 20:56:38  larsc
+#Added coefficient output to etext file.
+#
+#Revision 1.3  2014/06/09 21:09:09  larsc
+#Blurred OEF output.
+#
+#Revision 1.2  2014/05/29 17:56:31  larsc
+#Fixed ocroot mistake.
+#
+#Revision 1.1  2013/10/23 17:39:18  larsc
+#Initial revision
+#
+set echo
+set idstr = '$Id: oem_4dfp,v 1.5 2014/08/27 21:03:01 larsc Exp $'
+echo $idstr
+
+set program = $0
+set program = $program:t
+
+set f_half  = 0.4
+@ f_flag = 0
+
+@ i = 1
+@ j = 0
+while ($i <= ${#argv})
+	set c = `echo $argv[$i] | gawk '{print substr ($0, 1, 1)}'`
+	switch ($c)
+	case "-":
+		set c = `echo $argv[$i] | gawk '{print substr ($0, 1, 2)}'`
+		switch ($c)
+		case "-g":
+			@ f_flag ++
+			set f_half  = `echo $argv[$i] | gawk '{if (length($0) > 2) print substr ($0, 3); else print '$f_half'}'`;	breaksw
+		case "-n":
+			set norm    = `echo $argv[$i] | gawk '{print substr ($0, 3)}'`;	breaksw
+		endsw
+		breaksw
+	default:
+		switch ($j)
+		case 0:
+			set  ooroot = $argv[$i];				@ j ++;	breaksw
+		case 1:
+			set  horoot = $argv[$i];				@ j ++;	breaksw
+		case 2:
+			set  ocroot = $argv[$i];				@ j ++;	breaksw
+		case 3:
+			set mskroot = $argv[$i];				@ j ++; breaksw
+		case 4:
+			set  omroot = $argv[$i];				@ j ++;	breaksw
+		case 5:
+			set  oeroot = $argv[$i];				@ j ++;	breaksw
+		endsw
+	endsw
+	@ i ++
+end
+if ($j != 6) then
+	echo "Usage:	$program <(4dfp)OO> <(4dfp)HO> <(4dfp)OC> <(4dfp)MASK> <(4dfp)OM_OUT> <(4dfp)OE_OUT>"
+	echo " -g[<(float)f_half>]	use blurred images to calculate OM coefficients and OE image"
+	echo " -n<(float)>		normalize to float"
+	exit 1
+endif
+
+foreach ext (rec img ifh hdr 4dfp)
+	if ($ooroot:e  == $ext) set  ooroot = $ooroot:r
+	if ($horoot:e  == $ext) set  horoot = $horoot:r
+	if ($ocroot:e  == $ext) set  ocroot = $ocroot:r
+	if ($omroot:e  == $ext) set  omroot = $omroot:r
+	if ($oeroot:e  == $ext) set  oeroot = $oeroot:r
+	if ($mskroot:e == $ext) set mskroot = $mskroot:r
+end
+
+foreach img ($ooroot $horoot $ocroot $mskroot)
+foreach ext (img ifh)
+	if (! -e $img.4dfp.$ext) then
+		echo $program": "$img".4dfp."$ext" not found"
+		exit -1
+	endif
+end
+end
+
+if ($f_flag > 0) then
+	gauss_4dfp $ooroot $f_half temp$$oo
+	gauss_4dfp $horoot $f_half temp$$ho
+	gauss_4dfp $ocroot $f_half temp$$oc
+#	set params = `trio2oem_4dfp temp$$oo temp$$ho temp$$oc $mskroot temp$$1 temp$$2 | gawk '$1=="m1" {print $NF; getline; print $NF}'`
+	set params = `trio2oem_4dfp temp$$oo temp$$ho temp$$oc $mskroot temp$$1 $oeroot -u | gawk '$1=="m1" {print $NF; getline; print $NF}'`
+	foreach ext (img ifh hdr img.rec)
+		cp $ooroot.4dfp.$ext temp$$oo.4dfp.$ext
+		cp $horoot.4dfp.$ext temp$$ho.4dfp.$ext
+		cp $ocroot.4dfp.$ext temp$$oc.4dfp.$ext
+	end
+	scale_4dfp temp$$ho $params[1]
+	scale_4dfp temp$$oc $params[2]
+	imgopr_4dfp -s$omroot $ooroot temp$$oc -Z
+#	imgopr_4dfp -r$oeroot $omroot $horoot -c0.4
+	rm temp$${ho,oo,oc,1,2}.4dfp.{img,ifh,hdr,img.rec}
+else
+	set params = `trio2oem_4dfp $ooroot $horoot $ocroot $mskroot $omroot $oeroot -u | gawk '$1=="m1" {print $NF; getline; print $NF}'`
+endif
+
+echo "HO: "$params[1] >! $oeroot.txt
+echo "OC: "$params[2] >> $oeroot.txt
+echo "OC: "$params[2] >! $omroot.txt
+
+if ($?norm) then
+	foreach img ($omroot $oeroot)
+		set s = `qnt_4dfp -D $img $mskroot | gawk '/Mean/ {print '$norm'/$NF}'`
+		scale_4dfp $img $s
+		echo "SCALE: "$s >> $img.txt
+	end
+endif
+
+exit 0

@@ -1,0 +1,128 @@
+#!/bin/csh -f
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/NTcenterH,v 1.2 2018/08/17 05:26:37 avi Exp $
+#$Log: NTcenterH,v $
+# Revision 1.2  2018/08/17  05:26:37  avi
+# invoke with -f
+#
+# Revision 1.1  2005/10/05  03:08:04  avi
+# Initial revision
+#
+set rcsid = '$Id: NTcenterH,v 1.2 2018/08/17 05:26:37 avi Exp $'
+
+set program =	$0; set program = $program:t
+set bindir =	/data/petsun4/data1/solaris
+set refdir =	/data/petsun9/data2/petmri
+set ref =	$refdir/711-2B_b9
+set refmsk =	$refdir/711-2B_mask_g5z
+set pntfile =	$bindir/centerH.pnt
+
+if (${#argv} < 1) then
+	echo "Usage:	"$program" dicom_root [options]"
+	echo " e.g.,	"$program" dicom/VB16601.MR.HEAD_RAICHLE.2 -B"
+	echo "option"
+	echo "	-B	target 711-2B (default 711-2A)"
+	echo "	-p<point_file>	specify non-default pnt file (default="$pntfile")"
+	exit
+endif
+
+set date0 = `date`
+@ thresh_mask = 0
+@ to2B = 0
+@ debug = 0
+
+@ i = 1
+while ($i <= $#argv)
+	switch ($argv[$i])
+	case -d:
+		@ debug++
+		breaksw
+	case -B:
+		@ to2B++
+		breaksw
+	case -p:
+		set pntfile = `echo $argv[$i] | awk '{print substr($1,3)}'`
+		
+	endsw
+	@ i++
+end
+echo to2B=$to2B
+echo pntfile=$pntfile
+
+set cur = coarse_mprT
+set t4filA = $cur"_to_711-2A_t4"
+set t4filB = $cur"_to_711-2B_t4"
+set loclog = $cur"_loci2trot.log"
+set reglog = $cur"_"$program.log
+if (-e $loclog) goto LOCI
+
+set echo
+dcm_to_4dfp -b coarse_mpr $1.*
+if ($status) goto ERR
+$bindir/S2T_4dfp coarse_mpr
+
+date >!			$reglog
+echo $0 $argv[1-] >>	$reglog
+echo $rcsid >>		$reglog
+/bin/cp $bindir/Vision_to_711-2A_ave_t4 $t4filB
+
+if (! -e $cur"_g11".4dfp.img || ! -e $cur"_g11".4dfp.ifh) $bindir/gauss_4dfp $cur 1.1
+
+@ mode = 4096 + 256 + 3
+date >> $reglog
+	$bindir/imgreg_4dfp $ref $refmsk $cur"_g11" none $t4filB $mode >> $reglog
+if ($status) goto ERR
+
+@ mode = 1024 + 256 + 3
+date >> $reglog
+	$bindir/imgreg_4dfp $ref $refmsk $cur"_g11" none $t4filB $mode >> $reglog
+if ($status) goto ERR
+tail -14 $reglog
+$bindir/t4_mul $t4filB $bindir/09_t4 temp_t4
+/bin/mv temp_t4 $t4filB
+
+@ mode = 1024 + 256 + 7
+date >> $reglog
+	$bindir/imgreg_4dfp $ref $refmsk $cur"_g11" none $t4filB $mode >> $reglog
+if ($status) goto ERR
+tail -17 $reglog
+
+@ mode = 1024 + 256 + 7
+date >> $reglog
+	$bindir/imgreg_4dfp $ref $refmsk $cur"_g11" none $t4filB $mode >> $reglog
+if ($status) goto ERR
+tail -17 $reglog
+
+@ k = `tail -1 $reglog | awk '{k=0; if ($2 > 0.99) k++; print k;}'`
+if ($k > 0) goto LOCI
+@ k = `tail -1 $reglog | awk '{k=0; if ($2 < 0.98) k++; print k;}'`
+if ($k > 0) @ mode = 3072 + 256 + 7
+date >> $reglog
+	$bindir/imgreg_4dfp $ref $refmsk $cur"_g11" none $t4filB $mode >> $reglog
+if ($status) goto ERR
+if (! $debug) /bin/rm $cur"_g11".4dfp.*
+tail -17 $reglog
+
+LOCI:
+if (! $to2B) then
+	if (! -e $t4filA) $bindir/t4_mul $t4filB $refdir/711-2B_to_711-2A_t4 $t4filA
+endif
+
+if ($to2B) then
+	$bindir/loci2trot $t4filB $pntfile >! $loclog
+else
+	$bindir/loci2trot $t4filA $pntfile >! $loclog
+endif
+cat $loclog
+
+set fs_args = `cat $loclog | awk '/param6:/{print $2, $3, $4, $5, $6, $7}'`
+$bindir/free_slab $fs_args
+
+unset echo
+echo "start time "$date0
+echo "end   time "`date`
+tail -1 $reglog
+
+exit
+
+ERR:
+exit -1

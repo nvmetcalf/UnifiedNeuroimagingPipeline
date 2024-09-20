@@ -1,0 +1,6 @@
+pandas==2.2.2
+pydicom==2.4.4
+pymongo==4.7.1
+regex==2024.5.10
+Requests==2.32.3
+tqdm==4.65.0

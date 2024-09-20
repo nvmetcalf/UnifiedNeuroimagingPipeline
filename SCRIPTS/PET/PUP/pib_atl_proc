@@ -1,0 +1,41 @@
+#!/bin/bash
+################################################################################
+# FreeSurfer based PIB data processing master script			       #
+#                                                                              #
+################################################################################
+# Yi Su, 2/20/2013
+
+idstr='$Id: pib_atl_proc,v 0.1 2013/02/20 suy Exp $'
+
+echo $idstr
+
+paramfn=$1
+
+source $paramfn # Read parameter file
+
+mkdir pib_proc # Creating PIB processing directory
+cd pib_proc	# Enter PIB processing directory
+
+# File conversion/copying for PET data
+if (( $petformat == 1 ))
+then
+	$RELEASE/ecatto4dfp $petdir/$petfn $pibid
+elif (( $petformat == 0 ))
+then
+	dcm_pet -b $pibid $petdir/$petfn
+elif (( $petformat == 2 ))
+then
+	cp $petdir/$petfn*.4dfp.* .
+fi
+
+# File conversion/copying for MR data
+mrroot=${mrfn%%.*}
+cp $mrdir/${mrroot}.4dfp.* .
+
+PETTB $pibid $isstat $isecat $mst $mdt
+
+
+PIBMPRREG1 $pibid ${mrroot}
+PIBATLPROC $pibid ${mrroot} ${mrroot}_to_711-2B_t4
+	
+exit $?

@@ -1,0 +1,113 @@
+#!/bin/csh
+#$Header: /data/petsun4/data1/src_solaris/pet_4dfp/RCS/gi_4dfp,v 1.6 2014/08/27 20:34:48 larsc Exp $
+#$Log: gi_4dfp,v $
+#Revision 1.6  2014/08/27 20:34:48  larsc
+#Added regression output text file.
+#
+#Revision 1.5  2013/10/23 17:24:09  larsc
+#Edited usage.
+#
+# Revision 1.4  2013/10/23  16:14:09  larsc
+# Add f_half option and funcionality. Cleaned up. Removed text option, fixed usage.
+#
+
+set idstr = '$Id: gi_4dfp,v 1.6 2014/08/27 20:34:48 larsc Exp $'
+echo $idstr
+
+set program = $0
+set program = $program:t
+
+set mskroot = ""
+set goiroot = ""
+set norm    = 1000
+set f_half  = 0.4
+@ f_flag = 0
+
+@ i = 1
+@ j = 0
+while ($i <= ${#argv})
+	set c = `echo $argv[$i] | gawk '{print substr ($0, 1, 1)}'`
+	switch ($c)
+	case "-":
+		set c = `echo $argv[$i] | gawk '{print substr ($0, 1, 2)}'`
+		switch ($c)
+		case "-g":
+			@ f_flag ++
+			set f_half  = `echo $argv[$i] | gawk '{if (length($0) > 2) print substr ($0, 3); else print '$f_half'}'`;	breaksw
+		case "-n":
+			set norm    = `echo $argv[$i] | gawk '{print substr ($0, 3)}'`;	breaksw
+		case "-o":
+			set goiroot = `echo $argv[$i] | gawk '{print substr ($0, 3)}'`; breaksw
+		endsw
+		breaksw
+	default:
+		switch ($j)
+		case 0:
+			set  omroot = $argv[$i];				@ j ++;	breaksw
+		case 1:
+			set fdgroot = $argv[$i];				@ j ++;	breaksw
+		case 2:
+			set mskroot = $argv[$i];				@ j ++; breaksw
+		case 3:
+			set outroot = $argv[$i];				@ j ++;	breaksw
+		endsw
+	endsw
+	@ i ++
+end
+if ($j != 4) then
+	echo "Usage:	$program <(4dfp)CMRO2> <(4dfp)FDG> <(4dfp)MASK> <(4dfp)OUTROOT>"
+	echo " e.g.,	$program "
+	echo " -g[<(float)f_half>]	use blurred images to calculate coefficients"
+	echo " -n<(float)>		scale FDG mean to float (default is $norm)"
+	echo " -o<(4dfp)OUTROOT>	output residual normalized by FDG"
+	exit 1
+endif
+
+foreach ext (rec img ifh hdr 4dfp)
+	if ($omroot:e  == $ext) set  omroot = $omroot:r
+	if ($fdgroot:e == $ext) set fdgroot = $fdgroot:r
+	if ($outroot:e == $ext) set outroot = $outroot:r
+	if ($mskroot:e == $ext) set mskroot = $mskroot:r
+end
+
+foreach img ($omroot $fdgroot $mskroot)
+foreach ext (img ifh)
+	if (! -e $img.4dfp.$ext) then
+		echo $program": "$img".4dfp."$ext" not found"
+		exit -1
+	endif
+end
+end
+
+set options = ("-n"$norm "-m"$mskroot)
+
+if ($f_flag > 0) then
+	gauss_4dfp $fdgroot $f_half temp$$y
+	gauss_4dfp $omroot  $f_half temp$$x
+	set params = `residual_4dfp temp$$x temp$$y temp$$ $options | gawk '$1=="scale" {print $NF; getline; print $NF; getline; print $NF}'`
+	foreach ext (img ifh hdr img.rec)
+		cp $fdgroot.4dfp.$ext temp$$y.4dfp.$ext
+		cp $omroot.4dfp.$ext  temp$$x.4dfp.$ext
+	end
+	scale_4dfp temp$$y $params[1]
+	scale_4dfp temp$$x $params[2] -b$params[3]
+	imgopr_4dfp -stemp$$1 temp$$y temp$$x -Z
+	maskimg_4dfp temp$$1 $fdgroot temp$$2 -A
+	maskimg_4dfp temp$$2 $omroot  $outroot -A
+
+	rm temp$$[xy12].4dfp.{img,ifh,hdr,img.rec}
+	rm temp$$.4dfp.{img,ifh,hdr,img.rec}
+else
+	set params = `residual_4dfp $omroot $fdgroot $outroot $options | gawk '$1=="scale" {print $NF; getline; print $NF; getline; print $NF}'`
+endif
+
+echo "FDG: "$params[1]			>! $outroot.txt
+echo "OM:  "$params[2]" "$params[3]	>> $outroot.txt
+
+if ($goiroot != "") then
+	imgopr_4dfp -r$goiroot $outroot $fdgroot -Z
+	set s = `qnt_4dfp -D $fdgroot $mskroot | gawk '/Mean/ {print $NF/'$norm'}'`
+	scale_4dfp $goiroot $s
+endif
+
+exit 0

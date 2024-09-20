@@ -1,0 +1,28 @@
+#!/bin/bash
+
+path=$1 #location of the dicom files
+target=$2 # target location of sorted dicoms
+ext=$3 #dicom file extension dcm or IMA
+
+# convert the dicoms into temporary 4dfp files
+dcm_to_4dfp -b tmp ${path}/*.${ext}
+
+# make target dir if not already exists (parent dir must exist)
+if [ ! -e $target ]
+then
+	mkdir $target
+fi
+
+# read the rec file of the 4dfp file and copy the dcm files to target location
+nf=`grep FileName tmp.4dfp.img.rec | wc -l`
+for (( i=1; i<=nf; i++ ))
+do
+	a=`printf "FileName %d " $i`
+	fn=`gawk '/'"${a}"'/ {printf $4}' tmp.4dfp.img.rec`
+	ofn=`printf "%06d" $i`
+	cp ${fn} ${target}/${ofn}.dcm 
+done
+
+rm tmp.*
+
+	

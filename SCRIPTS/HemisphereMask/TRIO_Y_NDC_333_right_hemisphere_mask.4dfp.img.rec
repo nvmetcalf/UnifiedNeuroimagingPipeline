@@ -1,0 +1,14 @@
+rec TRIO_Y_NDC_333_right_hemisphere_mask.4dfp.img  Wed May  7 13:35:59 2014  metcalfn@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+maskimg_4dfp TRIO_Y_NDC_333_4dfp_wholebrain_mask.4dfp.img /data/nil-bluearc/corbetta/Hacker/atlas/R_mask_333 TRIO_Y_NDC_333_right_hemisphere_mask.4dfp.img 
+$Id: maskimg_4dfp.c,v 1.17 2012/06/27 22:33:19 avi Exp $
+littleendian
+/data/nil-bluearc/corbetta/Hacker/atlas/R_mask_333 threshold=0.000000
+rec TRIO_Y_NDC_333_4dfp_wholebrain_mask.4dfp.img  Mon Dec 17 18:00:07 2012  metcalfn@maulinux1 Linux 2.6.18-308.11.1.el5 x86_64
+analyzeto4dfp TRIO_Y_NDC_333_4dfp_wholebrain_mask 
+$Id: analyzeto4dfp.c,v 1.20 2009/03/18 04:00:25 avi Exp $
+littleendian
+Byte order swapped
+TRIO_Y_NDC_333_4dfp_wholebrain_mask.img.rec not found
+endrec Mon Dec 17 18:00:07 2012  metcalfn
+/data/nil-bluearc/corbetta/Hacker/atlas/R_mask_333.4dfp.img.rec not found
+endrec Wed May  7 13:35:59 2014  metcalfn

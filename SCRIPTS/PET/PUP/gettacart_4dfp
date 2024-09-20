@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+# Script to obtain ROI TACs for the arterial region.
+#
+# Yi Su, 12/22/2011
+
+petfstr=$1 # pet 4dfp data
+mrtopett4=$2 # MR to PET t4 file
+toftopett4=$3 # TOF to PET t4 file
+
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%%.*}
+
+t4img_4dfp $mrtopett4 AIFPETFOV AIFPETFOV_on_${petroot} -O${petroot}"_sumall" -n
+t4img_4dfp $toftopett4 TOF_ART_gECAT TOF_ART_gECAT_on_${petroot} -O${petroot}"_sumall"
+t4img_4dfp $toftopett4 TOF_AB_gECAT TOF_AB_gECAT_on_${petroot} -O${petroot}"_sumall"
+t1=`findtroisize TOF_ART_gECAT_on_${petroot} AIFPETFOV_on_${petroot} 1500`
+t2=`findtroisize TOF_ART_gECAT_on_${petroot} AIFPETFOV_on_${petroot} 750`
+maskimg_4dfp -t$t1 AIFPETFOV_on_${petroot} TOF_ART_gECAT_on_${petroot} ${petroot}_artm1
+maskimg_4dfp -t$t2 AIFPETFOV_on_${petroot} TOF_ART_gECAT_on_${petroot} ${petroot}_artm2
+imgopr_4dfp -s${petroot}_bartm1 ${petroot}_artm1 ${petroot}_artm2
+
+a1ECAT=`qnt_4dfp TOF_ART_gECAT_on_${petroot} ${petroot}_artm1 | gawk '/Mean/ {print $2}'`
+a2ECAT=`qnt_4dfp TOF_ART_gECAT_on_${petroot} ${petroot}_artm2 | gawk '/Mean/ {print $2}'`
+a3ECAT=`qnt_4dfp TOF_ART_gECAT_on_${petroot} ${petroot}_bartm1 | gawk '/Mean/ {print $2}'`
+
+b1ECAT=`qnt_4dfp TOF_AB_gECAT_on_${petroot} ${petroot}_artm1 | gawk '/Mean/ {print $2}'`
+b2ECAT=`qnt_4dfp TOF_AB_gECAT_on_${petroot} ${petroot}_artm2 | gawk '/Mean/ {print $2}'`
+b3ECAT=`qnt_4dfp TOF_AB_gECAT_on_${petroot} ${petroot}_bartm1 | gawk '/Mean/ {print $2}'`
+
+if [ -e ${petroot}_abECAT.txt ]
+then
+	rm  ${petroot}_abECAT.txt
+fi
+touch ${petroot}_abECAT.txt
+printf "%16s%16s\n" Region RC >> ${petroot}_abECAT.txt
+printf "%16s%16f\n" ART1 $a1ECAT >> ${petroot}_abECAT.txt
+printf "%16s%16f\n" ART2 $a2ECAT >> ${petroot}_abECAT.txt
+printf "%16s%16f\n" BART1 $a3ECAT >> ${petroot}_abECAT.txt
+
+if [ -e ${petroot}_bECAT.txt ]
+then
+	rm  ${petroot}_bECAT.txt
+fi
+touch ${petroot}_bECAT.txt
+printf "%16s%16s\n" Region RC >> ${petroot}_bECAT.txt
+printf "%16s%16f\n" ART1 $b1ECAT >> ${petroot}_bECAT.txt
+printf "%16s%16f\n" ART2 $b2ECAT >> ${petroot}_bECAT.txt
+printf "%16s%16f\n" BART1 $b3ECAT >> ${petroot}_bECAT.txt
+
+if [ -e ${petroot}_art1.tac ]
+then
+	rm ${petroot}_art1.tac
+fi
+touch ${petroot}_art1.tac
+if [ -e ${petroot}_art2.tac ]
+then
+	rm ${petroot}_art2.tac
+fi
+touch ${petroot}_art2.tac
+if [ -e ${petroot}_bart1.tac ]
+then
+	rm ${petroot}_bart1.tac
+fi
+touch ${petroot}_bart1.tac
+
+qnt_4dfp ${petroot} ${petroot}_artm1 | gawk '/Mean/ {print $2}' >> ${petroot}_art1.tac
+qnt_4dfp ${petroot} ${petroot}_artm2 | gawk '/Mean/ {print $2}' >> ${petroot}_art2.tac
+qnt_4dfp ${petroot} ${petroot}_bartm1 | gawk '/Mean/ {print $2}' >> ${petroot}_bart1.tac
+
+
+

@@ -1,0 +1,309 @@
+#!/bin/csh -f
+
+# $Header: /home/usr/jon/bin/RCS/triple_pet2oem_quad_msk,v 1.6 2011/10/17 20:23:54 jon Exp jon $
+# 
+# Algorithm:
+# The purpose of this script is to make target transformed masked, CRMO2 and OEF images from one triple pack.
+# 
+# The oo ho oc images and their target t4 files must exist. The srgs array names the t4 files to use,
+# and the srgv array names the files to be processed. FDG is included if it exists.
+# $patid"_triple.params is sourced for the mode designations, gauss, image designation, masks, and target.
+# PET images are smoothed and warped into t88 222 target space. A good voxel mask image is made for 
+# each image and transformed to 222 target space. All masks are averaged and trimmed with the atlas mask
+# to make the quadmask ( four_mode_mean_gv_mskz_t88_222 ). 
+# This averaged, trimmed, quadmask is applied to all PET scans.
+# The trio2oem program will produce the "om" (CRMO2) and "oe" (OEF, oxygen extraction fraction) images.
+# Gaussed 222 PET images in target space ($srgv[$j]$gstr"_t88_222.4dfp") are calculated.
+# Final images are:  quadmask, OE, and OM images. 
+# 
+# Adapted From: /home/petsun43/russ/bin/RCS/triple_pet2oem_quad_mask,v 1.0 2004/09/01 18:15:18 russ Exp russ $
+
+# $Log: triple_pet2oem_quad_msk,v $
+# Revision 1.6  2011/10/17 20:23:54  jon
+# naming economy and scaling adjustments
+#
+# Revision 1.5  2011/09/12 13:23:03  jon
+# Masks may be set externally.
+#
+# Revision 1.4  2011/09/02 15:16:36  jon
+# masks in params
+#
+# Revision 1.3  2011/08/26 20:25:54  jon
+# improved functionality
+#
+# Revision 1.2  2011/08/12 17:42:08  jon
+# *** empty log message ***
+#
+# Revision 1.1  2011/07/29 16:08:38  jon
+# Initial revision
+#
+
+set idstr = '$Id: triple_pet2oem_quad_msk,v 1.6 2011/10/17 20:23:54 jon Exp jon $'
+echo $idstr
+
+##############################################################################################
+# process command line
+
+set program = $0
+set program = $program:t
+
+@ k = 0
+@ i = 1
+while ($i <= ${#argv})
+	switch ($k)
+                        case 0:
+                                set patid	= $argv[$i];    @ k++; breaksw;
+                        case 1:
+                                set scan_num	= $argv[$i];    @ k++; breaksw;
+                        case 2:
+                                set fdgimg	= $argv[$i];    @ k++; breaksw;
+	endsw
+	@ i++
+end
+if ($k < 2) goto USAGE
+
+###############################
+# Set defaults
+				# For debugging 0= no file removals
+@ triple_pet2oem_economy = 2	# 2= save  gaussed 222 target PET and target PET QA images
+
+set trio2oem_mask = 1		# 1= output from trio2oem_4dfp will be within mask
+
+set triple_pet2oem_gv_msk = $RELEASE/masks/pet_good_voxel_mask		# Default gv_msk
+set triple_pet2oem_atlas_msk = $RELEASE/masks/711-2B_mask_g5_t500	# Default atlas_msk
+
+set scale_quad_msk_oe = 1	# final oe image may be scaled by number > 1
+
+set triple_pet2oem_imgnam = auto
+set triple_pet2oem_regnam = auto
+
+##############################################################################################
+# Read externally set parameters
+
+if(-e $patid"_triple.params")then
+   source $patid"_triple.params"
+else
+   echo $patid"_triple.params" does not exist
+   echo " "
+   goto Usage
+endif
+
+set imgnam = $triple_pet2oem_imgnam		# auto image designation 
+set regnam = $triple_pet2oem_regnam		# auto t4 file names
+
+set gv_msk =    $triple_pet2oem_gv_msk		# FOV good voxel mask
+set atlas_msk = $triple_pet2oem_atlas_msk	# atlas mask
+
+set economy = $triple_pet2oem_economy		# file removals
+
+##############################################################################################
+# Reality check
+
+echo patid = $patid scan_num = $scan_num fdgimg = $fdgimg scale_gauss = $scale_gauss
+
+###############################
+# FDG check for proper indexing
+
+@ fdgflag = 4
+if( $fdgimg == none || ! -e $fdgimg".4dfp.img")then
+   echo " "
+   echo No FDG Processing
+   @ fdgflag = 3
+endif
+echo fdgflag = $fdgflag
+
+###############################
+# File array order oo, ho, oc
+set srga = ( $patid"oo"$scan_num $patid"ho"$scan_num $patid"oc"$scan_num $fdgimg )
+
+###############################
+# Set array of t4 files
+set srgs = ( $srga[1]"_"$regnam $srga[2]"_"$regnam $srga[3]"_"$regnam $fdgimg )
+
+###############################
+# Array of files to transform
+set srgv = ( $srga[1]"_"$imgnam $srga[2]"_"$imgnam $srga[3]"_"$imgnam $fdgimg )
+
+echo " "
+echo t4s srgs = $srgs
+echo img srgv = $srgv
+echo " "
+
+###############################
+# Check for images and t4 files
+
+@ j = 1
+while($j <= $fdgflag)
+    if (! -e $srgv[$j].4dfp.img || ! -e $srgv[$j].4dfp.ifh || ! -e resolved_t4/$srgs[$j]"_to_"$target"_t4") then
+	echo ERROR $program
+	echo ERROR $srgv[$j].4dfp.img or $srgv[$j].4dfp.ifh or resolved_t4/$srgs[$j]"_to_"$target"_t4" not found.
+	echo
+	exit -1
+    endif
+    @ j++
+end
+
+##############################################################################################
+
+set log = ${patid}_triple_pet2oem_quad_msk.log
+if (-e $log) /bin/rm $log
+touch $log
+
+echo "gauss set to "$scale_gauss
+set g = `echo $scale_gauss | gawk '{print int(10 * '$scale_gauss')}'`
+set gstr = "_g"$g
+echo $program >> $log
+
+##############################################################################################
+## transform and gauss 
+
+@ j = 1
+while($j <= $fdgflag)
+    if(! -e $srgv[$j]$gstr"_on_"$target".4dfp.img" && -e $srgv[$j]".4dfp.img" && -e $srgv[$j]".4dfp.ifh") then
+
+	echo          t4img_4dfp resolved_t4/$srgs[$j]"_to_"$target"_t4" $srgv[$j] $srgv[$j]"_on_"$target -O222
+	     $RELEASE/t4img_4dfp resolved_t4/$srgs[$j]"_to_"$target"_t4" $srgv[$j] $srgv[$j]"_on_"$target -O222
+	if ($status) exit $status
+
+        if(! -e $srgv[$j]$gstr".4dfp.img")gauss_4dfp $srgv[$j] $scale_gauss
+        echo " "
+        echo          t4img_4dfp resolved_t4/$srgs[$j]"_to_"$target"_t4" $srgv[$j]$gstr $srgv[$j]$gstr"_on_"$target -O222
+             $RELEASE/t4img_4dfp resolved_t4/$srgs[$j]"_to_"$target"_t4" $srgv[$j]$gstr $srgv[$j]$gstr"_on_"$target -O222
+        if ($status) exit $status
+        echo "=========================================================================="
+    endif
+    @ j++
+end
+
+##############################################################################################
+## construct a mask from the $RELEASE/masks/pet_good_voxel_mask.4dfp.img AND
+## the atlas mask 711-2B_mask_g5_t500.4dfp.img
+
+echo " "
+echo Transform good voxel mask to target for each image
+echo gv_msk = $gv_msk"	"atlas_msk = $atlas_msk
+
+@ j = 1
+echo fdgflag = $fdgflag
+while($j <= $fdgflag)
+	echo " "
+	# Remove t4 scale to prevent scaling the masks to < 1
+	sed '/scale/d' resolved_t4/$srgs[$j]"_to_"$target"_t4" >! $srgs[$j]"_msk_to_"$target"_t4"
+
+        echo          t4img_4dfp $srgs[$j]"_msk_to_"$target"_t4" $gv_msk $srgv[$j]"_gv_msk_t88_222" -n -O222
+	     $RELEASE/t4img_4dfp $srgs[$j]"_msk_to_"$target"_t4" $gv_msk $srgv[$j]"_gv_msk_t88_222" -n -O222
+	if ($status) exit $status
+	echo "=========================================================================="
+	@ j++
+end
+
+##############################################################################################
+echo Average all available target masks
+
+if (-e $srgv[4]"_gv_msk_t88_222.4dfp.img")then
+    echo " "
+    echo imgopr_4dfp -emean_gv_msk_t88_222 $srgv[1]"_gv_msk_t88_222" $srgv[2]"_gv_msk_t88_222" \
+         $srgv[3]"_gv_msk_t88_222" $srgv[4]"_gv_msk_t88_222"
+         imgopr_4dfp -emean_gv_msk_t88_222 $srgv[1]"_gv_msk_t88_222" $srgv[2]"_gv_msk_t88_222" \
+         $srgv[3]"_gv_msk_t88_222" $srgv[4]"_gv_msk_t88_222"
+	 if ($status) exit $status
+    echo zero_ltgt_4dfp 1.0to1.0 mean_gv_msk_t88_222 mean$scan_num"_gv_mskz_t88_222"
+ 	 zero_ltgt_4dfp 1.0to1.0 mean_gv_msk_t88_222 mean$scan_num"_gv_mskz_t88_222"
+	 if ($status) exit $status
+else
+    echo " "
+    echo imgopr_4dfp -emean_gv_msk_t88_222 $srgv[1]"_gv_msk_t88_222" $srgv[2]"_gv_msk_t88_222" \
+         $srgv[3]"_gv_msk_t88_222"
+         imgopr_4dfp -emean_gv_msk_t88_222 $srgv[1]"_gv_msk_t88_222" $srgv[2]"_gv_msk_t88_222" \
+         $srgv[3]"_gv_msk_t88_222"
+	 if ($status) exit $status
+    echo zero_ltgt_4dfp 1.0to1.0 mean_gv_msk_t88_222 mean$scan_num"_gv_mskz_t88_222"
+	 zero_ltgt_4dfp 1.0to1.0 mean_gv_msk_t88_222 mean$scan_num"_gv_mskz_t88_222"
+	 if ($status) exit $status
+endif
+
+echo " "
+echo Trim the averaged mskz mask with the atlas mask to make the quadmask for this triple pack
+
+echo maskimg_4dfp mean$scan_num"_gv_mskz_t88_222" $atlas_msk four_mode$scan_num"_mean_gv_mskz_t88_222"
+     maskimg_4dfp mean$scan_num"_gv_mskz_t88_222" $atlas_msk four_mode$scan_num"_mean_gv_mskz_t88_222"
+
+set  quadmask = four_mode$scan_num"_mean_gv_mskz_t88_222"
+echo quadmask = $quadmask
+
+# QA: Apply the quadmask to the target transformed PET images.
+echo " "
+@ j = 1
+while($j <= $fdgflag)
+   #if(-e $srgv[$j]$gstr"_t88_222.4dfp.img")then
+      echo maskimg_4dfp $srgv[$j]$gstr"_on_"$target $quadmask $srgv[$j]$gstr"_t88_222_msk"
+           maskimg_4dfp $srgv[$j]$gstr"_on_"$target $quadmask $srgv[$j]$gstr"_t88_222_msk"
+      if ($status) exit $status
+      echo "=========================================================================="
+   #endif
+   @ j++
+end
+
+##############################################################################################
+## run trio2oem_4dfp on images to produce OM (CMRO2) and OE (oxygen extraction fraction) images
+echo " " 
+if ($trio2oem_mask == 1)then
+	set u = "" 	# output will only be within mask
+else
+	set u = "-u"	# output will include values outside of the mask
+endif
+
+echo trio2oem_4dfp $u $srgv[1]$gstr"_on_"$target $srgv[2]$gstr"_on_"$target $srgv[3]$gstr"_on_"$target $quadmask $patid"_om"$scan_num"_"$target $patid"_oe"$scan_num"_"$target
+     trio2oem_4dfp $u $srgv[1]$gstr"_on_"$target $srgv[2]$gstr"_on_"$target $srgv[3]$gstr"_on_"$target $quadmask $patid"_om"$scan_num"_"$target $patid"_oe"$scan_num"_"$target >> $log
+if ($status) exit $status
+
+echo "" >> $log
+echo "Completed $patid"_om"$scan_num"_"$target $patid"_oe"$scan_num"_"$target trio2oem Processing"
+ifh2hdr -r10000 $patid"_om"$scan_num"_"$target ; ifh2hdr -r1 $patid"_oe"$scan_num"_"$target
+
+if($scale_quad_msk_oe > 1)then
+	echo $patid"_oe"$scan_num"_"$target scaled by $scale_quad_msk_oe
+	scale_4dfp $patid"_oe"$scan_num"_"$target $scale_quad_msk_oe -a$scale_quad_msk_oe
+endif
+
+##############################################################################################
+## Save the OE, OM images and quadmask.
+## Remove PET images.
+
+@ j = 1
+while ($j <= $#srgv)
+   if($economy >= 4)/bin/rm $srgv[$j]"_on_"$target".4dfp"*		# 222 target PET
+   if($economy >= 3)/bin/rm $srgv[$j]$gstr"_on_"$target".4dfp"*		# 222 target gaussed PET
+   if($economy >= 2)/bin/rm $srgv[$j]$gstr".4dfp"*			# Gaussed PET
+   if($economy >= 1)/bin/rm $srgv[$j]$gstr"_t88_222_msk.4dfp"*		# Masked gaussed 222 target PET QA images
+   @ j++
+end
+
+## The intermediate processing may be removed.
+if($economy >= 0)then
+   /bin/rm mean*_gv_mskz_*4dfp* # averaged mskz masks
+   /bin/rm *_gv_msk_*		# good voxel masks
+   /bin/rm *_msk_to_*_t4	# t4 files without scale for transforming the masks
+endif
+
+echo DONE $program 
+echo DONE >> $log
+
+exit 0
+
+##############################################################################################
+
+USAGE:
+	echo "Usage:	$program <subject> <scan_num> <fdg_image>"
+	echo "e.g.,	$program p5999 4 p5999_fdg1_c "
+	echo "or,	$program p7760 1 none "
+
+        echo "		subject_triple.params file must exist."
+        echo "		The scan_num is the scan designation of the triple pack."
+	echo "          The TARGET_t4 files must exist"
+	echo "          in a subdirectory called resolved_t4"
+
+	echo "		For no FDG processing the fdg image may be <none>"
+
+exit 1
+

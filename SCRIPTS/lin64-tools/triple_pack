@@ -1,0 +1,383 @@
+#!/bin/csh -f
+#$Header: /home/usr/jon/bin/RCS/triple_pack,v 1.6 2011/10/17 15:40:31 jon Exp jon $
+
+#------------------------------------------------------------------------------
+# The purpose of this program is to process 1-9 triple-packs of metabolic PET scans. 
+# Target transformed PET, CMRO2, OEF, optional FDG are produced.
+
+# Algorithm:
+# $patid"_triple.params" is sourced. Existance of prerequisite files is checked.
+
+# ECAT ho, oo, oc PET scans are converted to the 4dfp analyze orientation if
+# the 4dfp does not exist.
+ 
+# make_auto: The auto images are made using the scanlength and timeint. 
+# If there is more than one triple pack, the intra modal PET are averaged. 
+
+# triple_pet2mpr_4dfp:
+# The MPRAGE is then registered to the atlas target and to the average (or single) 
+# triple pack PET scans. PET to target registration is calculated and resolved t4 
+# files are placed in resolved_t4 directory.
+
+# FDG image, of the last 20 minutes of the scan, is assembled if the scan exists. 
+# Average FDG is assembled if there are more than one. 
+# The FDG (average or single) is registered to the MPRAGE and the target.
+# FDG to target registration is calculated. HO to FDG t4 files are generated with
+# matrix multiplication and translational and rotational error are calculated. 
+
+# triple_scale: script masks to remove extracranial activity and calculates the
+# optimum intensity scaleing of all PET. 
+# Average PET are then remade and transformed to target and blurred.
+
+# triple_pet2oem_quad_msk:
+# The om (CMRO2) and oe (OEF) images are assembled, for each individual triple pack, 
+# using the atlas transformed PET (ho oo oc) and the quadmask that was made for 
+# that triple pack.
+# Author: Jon Christensen
+#-------------------------------------------------------------------------------
+set idstr = '$Id: triple_pack,v 1.6 2011/10/17 15:40:31 jon Exp jon $'
+echo $idstr
+
+set program = $0
+set program = $program:t
+
+#-------------------------------------------------------------------------------
+
+@ n = ${#argv}
+if ( $n < 1) then
+	goto USAGE
+endif
+
+set use_oc = 1			# cross_pet_t4_resolve will use -oc if $use_oc=1
+set cross_pet_gauss = 0.9	# cross_pet_t4_resolve gauss
+#-------------------------------------------------------------------------------
+
+set patid = $1
+set params = $patid"_triple.params"
+
+if ( -e $params )then
+   echo source $params
+        source $params
+   set params = $patid"_triple.params"
+   cat $params
+else
+   echo $program Error $patid"_triple.params" Does not exist
+   exit 1
+endif
+if (! -e $params )then
+   echo $params file does not exist Check patid in params file
+   exit 1
+endif
+
+if (! -e $targetpath/$target".4dfp.img" || ! -e $targetpath/$target".4dfp.ifh") then
+   echo ERROR $target".4dfp.img" or $target".4dfp.ifh" not found
+   exit -1
+endif
+
+#---------------------------------------------------------------------------------
+# Check for MRI and existance of ECAT or 4dfp analyze dynamic PET scans.
+if($fdg_nums[1] == 0 || $fdg_nums[1] == none)then
+   @ fdgnum = 0
+   goto TRIPLE
+else
+   @ fdgnum = $#fdg_nums
+endif
+
+if ($fdgnum > 0)then
+   @ k =0
+   foreach num ($fdg_nums)
+      @ k++
+      if (! -e $patid"fdg"$num".4dfp.img" && ! -e $rawfdg[$k])then
+         echo $program Error $patid fdg $num does not exist
+         echo Check for PET images and params file image list
+         exit 1
+      else
+         if (-e $rawfdg[$k])echo $rawfdg[$k] exists
+         if (-e $patid"fdg"$num".4dfp.img") echo $patid"fdg"$num".4dfp" exists
+      endif
+   end
+endif
+
+TRIPLE:
+@ n = ${#img_nums}
+foreach mode (ho oo oc)
+   @ k =0
+   foreach num ($img_nums)
+      @ k++
+      if($mode == ho)set rawfile = ($rawho)
+      if($mode == oo)set rawfile = ($rawoo)
+      if($mode == oc)set rawfile = ($rawoc)
+
+      if(! -e $rawfile[$k] && ! -e $patid$mode$num".4dfp.img")then
+         echo $program Error $patid $mode $num does not exist
+         echo Check for PET images and the params file image list
+         exit 1
+      else
+         if (-e $rawfile[$k])echo $rawfile[$k] exists
+         if (-e $patid$mode$num".4dfp.img") echo $patid$mode$num".4dfp" exists
+      endif
+   end
+end
+
+if (! -e $MR".4dfp.img" && ! -e $MR".4dfp.hdr" )then
+   echo Warning $MR".4dfp.img" does not exist
+   if(! -e $MR".img" && ! -e $MR".hdr" )then
+      echo Error $MR.img is Missing
+      echo Must exit $program
+      exit 1
+   endif
+endif
+
+#---------------------------------------------------------------------------------
+# Convert ECAT images to 4dfp analyze orientation for each mode and scan.
+
+set rawfile = ()
+
+foreach mode (ho oo oc)
+
+   if($mode == ho)set rawfile = ($rawho)
+   if($mode == oo)set rawfile = ($rawoo)
+   if($mode == oc)set rawfile = ($rawoc)
+
+   @ i = 1
+   foreach num ($img_nums)
+      if(-e $rawfile[$i])then
+         if( ! -e $patid$mode$num".4dfp.img" || ! -e $patid$mode$num".4dfp.hdr")then
+
+            echo ecatto4dfp $rawfile[$i] $patid$mode$num
+                 ecatto4dfp $rawfile[$i] $patid$mode$num
+		            if ($status) exit $status
+         endif
+      endif
+      @ i++
+      echo "-----------------------------------------------------------"
+   end
+
+end
+
+#---------------------------------------------------------------------------------
+# Do all 4dfp images really exist?
+
+foreach mode (ho oo oc)
+   foreach num ($img_nums)
+      if( ! -e $patid$mode$num".4dfp.img" || ! -e $patid$mode$num".4dfp.hdr")then
+         echo Error $patid$mode$num".4dfp.img" || $patid$mode$num".4dfp.hdr" does not exist
+         goto USAGE
+      else
+         echo $patid$mode$num".4dfp.img" Exists
+      endif
+   end
+end
+
+#---------------------------------------------------------------------------------
+# The auto creation:
+
+echo "scanlength = $scanlength the length of the auto image (start and end frame from peakchk)"
+set timeint = 8
+echo "timeint = $timeint the time after half peak before the start of auto (for peakchk)"
+
+set isotope = O-15
+foreach mode (ho oo oc)
+   
+   foreach num ($img_nums)
+
+      if($mode == ho || $mode == oo)then
+         if(-e $patid$mode$num"_auto.4dfp.img" && -e $patid$mode$num"_auto.4dfp.img")goto NEXT
+      
+            echo make_auto $patid$mode$num $scanlength $timeint $isotope auto
+            	 make_auto $patid$mode$num $scanlength $timeint $isotope auto
+		                     if ($status) exit $status
+         endif
+      endif
+
+      if ($mode == oc) then 			# oc image has one frame
+         foreach ext (ifh img hdr img.rec)
+           cp $patid$mode$num".4dfp."$ext $patid$mode$num"_auto.4dfp."$ext
+         end
+      endif
+NEXT:
+   end
+
+end
+#-------------------------------------------------------------------------------------------------------
+# If there is more than one triple pack, the intra modal PET are averaged.
+
+if($#img_nums == 1)goto Register
+
+foreach mode ( ho oo oc)
+        set imglist = (`ls {$patid$mode}[1-9]"_auto.4dfp.img"`)
+	set imglist = ($imglist:gr) ; set imglist = ($imglist:gr)
+	echo " "
+	echo "========================================="
+	if ($mode == oc && $use_oc == 1)then
+                echo cross_pet_resolve_4dfp $patid$mode -g$cross_pet_gauss -oc $imglist
+                     cross_pet_resolve_4dfp $patid$mode -g$cross_pet_gauss -oc $imglist
+                                            if ($status) exit $status
+	else
+                echo cross_pet_resolve_4dfp $patid$mode -g$cross_pet_gauss -mask $imglist
+                     cross_pet_resolve_4dfp $patid$mode -g$cross_pet_gauss -mask $imglist
+                                            if ($status) exit $status
+        endif
+	echo "========================================="
+        echo     t4imgs_4dfp $patid$mode".sub" $patid$mode -O$imglist[1]".4dfp.img"
+        $RELEASE/t4imgs_4dfp $patid$mode".sub" $patid$mode -O$imglist[1]".4dfp.img"
+                             if ($status) exit $status
+end
+echo " "
+#-------------------------------------------------------------------------------------------------------
+# MPRAGE to target and to the average or single triple pack PET. Resolved t4 files are placed in resolved_t4.
+Register:
+
+if($#img_nums > 1)then
+   echo triple_pet2mpr_4dfp $patid $MR $patid"ho" $patid"oo" $patid"oc"
+   	triple_pet2mpr_4dfp $patid $MR $patid"ho" $patid"oo" $patid"oc"
+                               if ($status) exit $status
+else
+   set num = $img_nums[1]
+   echo triple_pet2mpr_4dfp $patid $MR $patid"ho"$num"_auto" $patid"oo"$num"_auto" $patid"oc"$num"_auto"
+   	triple_pet2mpr_4dfp $patid $MR $patid"ho"$num"_auto" $patid"oo"$num"_auto" $patid"oc"$num"_auto"
+                               if ($status) exit $status
+endif
+
+#-------------------------------------------------------------------------------------------------------
+# If they exist, assemble FDG. Register multiple FDG to make average fdg_c.
+# Register average or single fdg1_c to $MR and then to target.
+
+if($fdgnum > 0)then
+        echo " "
+	echo    triple_fdg $params
+		triple_fdg $params
+		if ($status) exit $status
+else
+	echo " "
+        echo FDG Not Available
+        set fdgfile = none
+endif
+if($fdgnum > 1)then
+
+		set filelist = (`ls {$patid"fdg"}[1-9]"_c.4dfp.img"`)
+		echo cross_pet_resolve_4dfp $patid"fdg" -mask $filelist
+		     cross_pet_resolve_4dfp $patid"fdg" -mask $filelist
+		                            if ($status) exit $status
+		echo     t4imgs_4dfp $patid"fdg.sub" $patid"fdg" -O$patid"fdg"$fdg_nums[1]"_c.4dfp.img"
+		$RELEASE/t4imgs_4dfp $patid"fdg.sub" $patid"fdg" -O$patid"fdg"$fdg_nums[1]"_c.4dfp.img"
+		                     if ($status) exit $status
+
+		set fdgfile = $patid"fdg"
+endif
+if($fdgnum == 1)set fdgfile = $patid"fdg1_c"
+if($fdgnum >= 1)then
+	echo " " 
+	echo    fdg_pet2mpr_4dfp $MR $fdgfile -G$fdgmr_gauss -B$fdgblur -T$targetpath/$target
+		fdg_pet2mpr_4dfp $MR $fdgfile -G$fdgmr_gauss -B$fdgblur -T$targetpath/$target
+	                         if ($status) exit $status
+endif
+
+#-------------------------------------------------------------------------------------------------------
+# If more than one triple_pack or FDG, PET to target are made and masked to provide scaling
+echo " "
+
+if($fdgnum > 1)then
+	echo    triple_scale $patid $MR fdg c $scale_gauss -T$target
+		triple_scale $patid $MR fdg c $scale_gauss -T$target
+		             if ($status) exit $status
+endif
+
+if($#img_nums > 1)then
+    foreach mode ( ho oo oc )
+	echo    triple_scale $patid $MR $mode auto $scale_gauss -T$target
+		triple_scale $patid $MR $mode auto $scale_gauss -T$target
+		             if ($status) exit $status
+    end
+endif
+
+#-------------------------------------------------------------------------------------------------------
+# MR HO FDG resolve if FDG exists
+if($fdgnum == 0)goto QUADMASK
+
+if ($#img_nums == 1)set patidho = $patid"ho"$img_nums[1]"_auto"
+if ($#img_nums > 1 )set patidho = $patid"ho"
+if (! -e $fdgfile"_to_"$MR"_t4")cp -f unresolved_t4/$fdgfile"_to_"$MR"_t4" .
+
+if (-e $fdgfile"_to_"$MR"_t4" && -e $patidho"_to_"$MR"_t4")then
+        cp -f unresolved_t4/$MR"_to_"$patid* .
+	echo "========================================="
+	echo	t4_mul $fdgfile"_to_"$MR"_t4" $MR"_to_"$patidho"_t4"
+		t4_mul $fdgfile"_to_"$MR"_t4" $MR"_to_"$patidho"_t4"
+		if ($status) exit $status
+
+	echo	t4_mul $patidho"_to_"$MR"_t4" $MR"_to_"$fdgfile"_t4"
+		t4_mul $patidho"_to_"$MR"_t4" $MR"_to_"$fdgfile"_t4"
+		if ($status) exit $status
+
+	echo t4_resolve $MR $patidho $fdgfile -omprhofdg
+	     t4_resolve $MR $patidho $fdgfile -omprhofdg >&! ${patid}_mprhofdg_t4_resolve.log
+	     if ($status) exit $status
+
+	set error = `gawk '/rotation/{rot = $5} /translation/{trans = $5} END {printf("%3d",100*(trans+1.4*rot))}' ${patid}_mprhofdg_t4_resolve.log` 
+	echo                           >> ${patid}_mprhofdg_t4_resolve.log
+	echo "mprhofdg ERROR = " $error
+	echo "mprhofdg ERROR = " $error >> ${patid}_mprhofdg_t4_resolve.log
+	mv *mprhofdg_t4 mprhofdg.sub resolved_t4
+else
+	echo $program Error resolving MR HO FDG
+	echo $fdgfile"_to_"$MR"_t4" or $patidho"_to_"$MR"_t4" do not exist
+	exit 1
+endif
+
+#-------------------------------------------------------------------------------------------------------
+# Make target transformed MR, OE, OM, and the quadmask.
+QUADMASK:
+
+foreach num ($img_nums)
+	echo 
+	echo    triple_pet2oem_quad_msk $patid $num $fdgfile
+        	triple_pet2oem_quad_msk $patid $num $fdgfile
+
+	if ($status) then
+		echo Unexpected error in triple_pet2oem_quad_msk
+                exit $status
+	endif
+end
+
+echo     t4img_4dfp $MR"_to_"$target"_t4" $MR $MR"_on_"$target -O222
+$RELEASE/t4img_4dfp $MR"_to_"$target"_t4" $MR $MR"_on_"$target -O222
+                    if ($status) exit $status
+
+#-------------------------------------------------------------------------------------------------------
+# Registration quality
+
+if($fdgnum > 0)then
+	echo "========================================="
+	echo FDG MPR
+	echo From fdg_pet2mpr_4dfp t4_resolve.log
+	/bin/grep "fdgmpr ERROR" ${MR}_fdg_pet2mpr_4dfp"_"*"_t4_resolve".log
+
+	echo "========================================="
+	echo FDG MPR HO
+	echo From mprhofdg t4_resolve.log
+	/bin/grep "mprhofdg ERROR" ${patid}_mprhofdg_t4_resolve.log
+endif
+
+echo "========================================="
+echo HO OO MPR
+
+echo From triple_pet2mpr_4dfp t4_resolve.log
+/bin/grep "hooompr ERROR" ${patid}_triple_pet2mpr_4dfp_t4_resolve.log
+
+echo
+/bin/date
+echo DONE $program
+
+exit 0
+
+#-------------------------------------------------------------------------------------------------------
+
+USAGE:
+	echo "Usage:	$0 <patid> "
+	echo "e.g.,	triple_pack p6308 "
+	echo "or	triple_pack p6308 "
+	
+	echo "The patid_triple.params file is required"
+
+exit 1

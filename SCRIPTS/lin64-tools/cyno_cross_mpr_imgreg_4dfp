@@ -1,0 +1,89 @@
+#!/bin/csh
+#$Header$
+#$Log$
+set rcsid	= '$Id$'
+set program	= $0; set program = $program:t
+
+if (${#argv} < 3) then
+	echo "Usage:	"$program" <session1_abspath> <session2_abspath>"
+	echo "e.g.:	"$program /data/jsp/primate/mri/koba/koba_100204 /data/jsp/primate/mri/koba/koba_100614
+	echo "N.B.:	"$program "assumes that each session patid is <sessionpath>:t"
+	exit 1
+endif
+
+set dirs	= ($1 $2)
+set sessid	= ($dirs:gt)
+
+@ debug = 0
+@ m  = 3
+while ($m <= ${#argv})
+	switch ($argv[$m])
+	case setecho:
+		set echo;		breaksw;
+	case debug:
+		@ debug++;		breaksw;
+		breaksw;
+	endsw
+	@ m++
+end
+set target      = /data/petsun59/data2/macaqueF6/macaqueF6
+set refmsk      = /data/petsun59/data2/macaqueF6/macaqueF6_brain_g10z
+
+set modes	= (0 0 0 0 0)
+@ modes[1]	= 4096 + 256 + 3 
+@ modes[2]	= 1024 + 256 + 3 
+@ modes[3]	= 2048 + 256 + 3
+@ modes[4]	= 2048 + 256 + 3 + 8
+@ modes[5]	= 2048 + 256 + 3 + 8 + 8192
+
+echo "dirs"=$dirs
+echo "sessid"=$sessid
+echo "target="$target
+set mpr1 = ($sessid[1]_mpr1_crop_gfc $sessid[2]_mpr1_crop_gfc)
+
+########################################################
+# check for existence of session1 atlas transform t4file
+########################################################
+if (! -e $dirs[1]/atlas/$mpr1[1]_to_${target:t}_t4) then
+	echo $mpr1[1]_to_${target:t}_t4 not found
+	exit -1
+endif
+cd $dirs[1]/atlas
+cyno_msktgen_4dfp $mpr1[1] 100
+if ($status) exit $status
+
+####################################
+# compute cross-session registration
+####################################
+set modes	= (0 0 0 0 0)
+@ modes[1]	= 4096 + 256 + 3 
+@ modes[2]	= 2024 + 256 + 3 
+@ modes[3]	=  512 + 256 + 3
+@ modes[4]	=  512 + 256 + 3 + 8
+@ modes[5]	=  512 + 256 + 3 + 8 + 8192
+set M = $dirs[1]/atlas/$mpr1[1]_mskt
+set usemsk = ("none" $M $M $M $M)
+
+pushd $dirs[2]/atlas	# into session 2 directory
+set t4file	= $mpr1[2]_to_$mpr1[1]_t4
+set log		= $mpr1[2]_to_$mpr1[1].log
+date						>! $log
+echo $rcsid					>> $log
+echo $program $argv[1-]				>> $log
+@ j = 1
+while ($j <= ${#modes})
+	echo	imgreg_4dfp $dirs[1]/atlas/$mpr1[1] $dirs[1]/atlas/$mpr1[1]_mskt $mpr1[2] none $t4file $modes[$j]
+	echo	imgreg_4dfp $dirs[1]/atlas/$mpr1[1] $dirs[1]/atlas/$mpr1[1]_mskt $mpr1[2] none $t4file $modes[$j] >> $log
+		imgreg_4dfp $dirs[1]/atlas/$mpr1[1] $dirs[1]/atlas/$mpr1[1]_mskt $mpr1[2] none $t4file $modes[$j] >> $log
+		if ($status) exit $status
+	@ j++
+end
+
+t4_mul	$t4file $dirs[1]/atlas/$mpr1[1]_to_${target:t}_t4 $mpr1[2]_to_${target:t}_t4
+if ($status) exit $status
+t4img_4dfp $mpr1[2]_to_${target:t}_t4	$mpr1[2]_on_${target:t} -Otarget
+if ($status) exit $status
+ifh2hdr -r700				$mpr1[2]_on_${target:t}
+popd				# out of session 2 directory
+
+exit

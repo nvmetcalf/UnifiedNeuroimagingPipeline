@@ -1,0 +1,341 @@
+#!/bin/csh
+# $Header: /data/petsun4/data1/src_solaris/pet_4dfp/RCS/pet_resolve_scheme_4dfp,v 1.5 2018/12/11 20:58:14 larsc Exp $
+# $Log: pet_resolve_scheme_4dfp,v $
+# Revision 1.5  2018/12/11 20:58:14  larsc
+# Added mask_command option.
+#
+# Revision 1.4  2018/12/10 20:45:01  larsc
+# Added MASK_COMMAND variable.
+#
+# Revision 1.3  2014/06/07 23:44:55  larsc
+# Fixed bext bug.
+#
+# Revision 1.2  2012/09/19  17:43:21  larsc
+# Added PIB image type, and corrected USE_T4 existing t4 search logic.
+#
+# Revision 1.1  2011/11/10  18:36:07  larsc
+# Initial revision
+#
+
+set idstr   = '$Id: pet_resolve_scheme_4dfp,v 1.5 2018/12/11 20:58:14 larsc Exp $'
+echo $idstr
+set program = $0
+set program = $program:t
+
+set bindir        = $RELEASE
+set scheme        = $RELEASE/default.scheme
+set scheme_script = $RELEASE/scheme.awk
+set oristr        = (T C S)
+
+set PATID     = ""
+set MPR_IMAGE = ""
+set FDG_IMAGE = ""
+set  HO_IMAGE = ""
+set  OO_IMAGE = ""
+set  OC_IMAGE = ""
+set PIB_IMAGE = ""
+
+@ i = 1
+@ j = 0
+while ($i <= ${#argv})
+	switch ($argv[$i])
+	case -scheme:
+		@ i ++
+		if ($i <= ${#argv}) set scheme = $argv[$i]
+		breaksw
+	case -mpr:
+		@ i ++
+		if ($i <= ${#argv}) set MPR_IMAGE = $argv[$i]
+		breaksw
+	case -fdg:
+		@ i ++
+		if ($i <= ${#argv}) set FDG_IMAGE = $argv[$i]
+		breaksw
+	case -ho:
+		@ i ++
+		if ($i <= ${#argv}) set  HO_IMAGE = $argv[$i]
+		breaksw
+	case -oo:
+		@ i ++
+		if ($i <= ${#argv}) set  OO_IMAGE = $argv[$i]
+		breaksw
+	case -oc:
+		@ i ++
+		if ($i <= ${#argv}) set  OC_IMAGE = $argv[$i]
+		breaksw
+	case -pib:
+		@ i ++
+		if ($i <= ${#argv}) set PIB_IMAGE = $argv[$i]
+		breaksw
+	case -mask_command:
+		@ i ++
+		if ($i <= ${#argv}) set MASK_COMMAND = "$argv[$i]"
+		breaksw
+	default:
+		@ j ++
+		set PATID = $argv[$i]
+		breaksw         
+        endsw
+        @ i ++
+end
+if ($PATID == "" || $j > 1) then
+	echo "Usage:	$program <patid>"
+	echo " e.g.,	$program p1234 -scheme my.scheme"
+	echo " e.g.,	$program p1234 -mpr mprage_image -fdg fdg_image"
+	echo " -[mpr|fdg|ho|oo|oc|pib] <(4dfp)image>	register image of specified mode"
+	echo " -scheme <scheme file>			modify default behavior (defined in $scheme)."
+	echo " -mask_command <command>			command that takes one argument (4dfp)"
+	exit 1
+endif
+
+foreach ext (rec img ifh hdr 4dfp)
+	if ($MPR_IMAGE != "" && $MPR_IMAGE:e == $ext) set MPR_IMAGE = $MPR_IMAGE:r
+	if ($FDG_IMAGE != "" && $FDG_IMAGE:e == $ext) set FDG_IMAGE = $FDG_IMAGE:r
+	if ( $HO_IMAGE != "" &&  $HO_IMAGE:e == $ext) set  HO_IMAGE =  $HO_IMAGE:r
+	if ( $OO_IMAGE != "" &&  $OO_IMAGE:e == $ext) set  OO_IMAGE =  $OO_IMAGE:r
+	if ( $OC_IMAGE != "" &&  $OC_IMAGE:e == $ext) set  OC_IMAGE =  $OC_IMAGE:r
+	if ($PIB_IMAGE != "" && $PIB_IMAGE:e == $ext) set PIB_IMAGE = $PIB_IMAGE:r
+end
+if ($MPR_IMAGE != "") set MPRT = $MPR_IMAGE:t
+if ($FDG_IMAGE != "") set FDGT = $FDG_IMAGE:t
+if ( $HO_IMAGE != "") set  HOT =  $HO_IMAGE:t
+if ( $OO_IMAGE != "") set  OOT =  $OO_IMAGE:t
+if ( $OC_IMAGE != "") set  OCT =  $OC_IMAGE:t
+if ($PIB_IMAGE != "") set PIBT = $PIB_IMAGE:t
+
+foreach img ($MPR_IMAGE $FDG_IMAGE $HO_IMAGE $OO_IMAGE $OC_IMAGE $PIB_IMAGE)
+	if (! -e $img.4dfp.img || ! -e $img.4dfp.ifh) then
+		echo "${program}: $img not found"
+		exit -1
+	endif
+end
+if (! -e $scheme) then
+	echo "${program}: $scheme not found"
+	exit -1
+endif
+
+############################
+# MUST CHECK SCHEME SYNTAX #
+############################
+set registrations = `gawk '$1=="REGISTRATION:" {print $2, $3}' $scheme`
+foreach x ($registrations)
+	if ($x != "MPR" && $x != "FDG" && $x != "HO" && $x != "OO" && $x != "OC" && $x != "PIB") then
+		echo "${program}: unable to register unknown mode $x"
+		exit -1
+	endif
+end
+set schemes = `gawk '$1=="END" {go=0} go {print $0} $1=="SCHEMES:" {go=1}' $scheme | sed 's/[\{\}]/ /g'`
+foreach x ($schemes)
+	if ($x != "MPR" && $x != "FDG" && $x != "HO" && $x != "OO" && $x != "OC" && $x != "PIB") then
+		echo "${program}: unable to resolve unknown mode $x"
+		exit -1
+	endif
+	
+end
+
+if (! -d unresolved_t4) mkdir unresolved_t4
+if (! -d   resolved_t4) mkdir   resolved_t4
+
+set creations = ()
+set deletions = ()
+set image     = ("" "")
+set imaget    = ("" "")
+set mask      = ("" "")
+set bext      = ("" "")
+
+@ n = `gawk '$1=="REGISTRATION:" {i++} END {print i}' $scheme`
+@ i = 1
+while ($i <= $n)
+	gawk 'BEGIN {go=1} $1=="REGISTRATION:" {i++; if (i =='$i') print "set pair = ("$2" "$3")"; else go=0; next} $1=="SCHEMES:" {go=0; next} $1=="END" {go=1-go; next} go {print $0}' $scheme >! temp$$
+	if ($status) exit $status
+	source temp$$
+	if ($status) exit $status
+	rm temp$$
+
+	@ j = 1
+	foreach kind ($pair)
+		if ($kind == "MPR") set image[$j] = $MPR_IMAGE
+		if ($kind == "FDG") set image[$j] = $FDG_IMAGE
+		if ($kind ==  "HO") set image[$j] =  $HO_IMAGE
+		if ($kind ==  "OO") set image[$j] =  $OO_IMAGE
+		if ($kind ==  "OC") set image[$j] =  $OC_IMAGE
+		if ($kind == "PIB") set image[$j] = $PIB_IMAGE
+		set imaget[$j] = $image[$j]:t
+
+		if ($image[$j] == "") goto SKIP_REGISTRATION
+
+		if (`echo $USE_MASK | gawk 'BEGIN {o=0} /'$kind'/ {o=1} END {print o}'` == 1) then
+			set mext = "msk"
+			if ($kind == "MPR") set mext = "mskt"
+			@ mask_needed = 0
+			if (`echo $MAKE_MASK | gawk 'BEGIN {o=0} /'$kind'/ {o=1} END {print o}'` == 1) then
+				if (`echo $creations | gawk 'BEGIN {o=0} /'$imaget[$j]'_'$mext'/ {o=1} END {print o}'` == 0 ) @ mask_needed = 1
+			else
+				if (! -e $imaget[$j]_$mext.4dfp.img && ! -e $image[$j]_$mext.4dfp.img) @ mask_needed = 1
+			endif
+			if ($mask_needed == 1) then
+				if ($kind == "MPR") then
+					if (! -e ${imaget[$j]}_to_${TARGET}_t4) then
+						mpr2atl_4dfp $imaget[$j] -T$TARGETPATH/$TARGET
+						if ($status) exit $status
+					else
+						echo "${program}: using existing mpr2atl t4 (${imaget[$j]}_to_${TARGET}_t4)"
+					endif
+					msktgen_4dfp $imaget[$j] -T$TARGETPATH/$TARGET -S711-2B
+					if ($status) exit $status
+				else if ($?MASK_COMMAND) then
+					foreach ext (img ifh hdr img.rec)
+						if (! -e $imaget[$j].4dfp.$ext) ln -s $image[$j].4dfp.$ext .
+					end
+					$MASK_COMMAND $imaget[$j]
+				else
+					set blur = 5
+					set cext = `echo $blur | gawk '{print "b"int(10*$1+0.499999)}'`
+					@ blur_needed = 0
+					if (`echo $MAKE_BLUR | gawk 'BEGIN {o=0} /'$kind'/ {o=1} END {print o}'` == 1) then
+						if (`echo $creations | gawk 'BEGIN {o=0} /'$imaget[$j]'_'$ext'/ {o=1} END {print o}'` == 0) @ blur_needed = 1
+					else
+						if (! -e $imaget[$j]_$cext.4dfp.img && ! -e $image[$j]_$cext.4dfp.img) @ blur_needed = 1
+					endif
+					if ($blur_needed == 1) then
+						foreach ext (img ifh hdr img.rec)
+							if (! -e $imaget[$j].4dfp.$ext) ln -s $image[$j].4dfp.$ext .
+						end
+						imgblur_4dfp $imaget[$j] $blur
+						if ($ERASE_BLUR) set deletions = ($deletions $imaget[$j]_$cext)
+			          			         set creations = ($creations $imaget[$j]_$cext)
+					endif
+					if ($kind == "FDG" || $kind == "PIB") then
+						maskimg_4dfp $imaget[$j]_$cext $imaget[$j]_$cext -p0.1 $imaget[$j]_temp$$
+					else
+						maskimg_4dfp $imaget[$j]_$cext $imaget[$j]_$cext -p5.0 $imaget[$j]_temp$$
+					endif
+					set lims = `gawk '/matrix size \[3\]/ {m = int(0.08*$NF); print (m+1)"to"($5-m)}' $imaget[$j].4dfp.ifh`
+					crop_4dfp -Z -z$lims $imaget[$j]_temp$$ $imaget[$j]_$mext
+					if ($status) exit $status
+					rm $imaget[$j]_temp$$.4dfp.{img,ifh,hdr,img.rec}
+				endif
+				if ($ERASE_MASK) set deletions = ($deletions $imaget[$j]_$mext)
+				                 set creations = ($creations $imaget[$j]_$mext)
+			endif
+			if (-e $imaget[$j]_$mext.4dfp.img) then
+				set mask[$j] = $imaget[$j]_$mext
+			else
+				set mask[$j] = $image[$j]_$mext
+			endif
+		else
+			set mask[$j] = "none"
+		endif
+
+		if ($kind == "MPR") set blur = $MPR_BLUR
+		if ($kind == "FDG") set blur = $FDG_BLUR
+		if ($kind ==  "HO") set blur =  $HO_BLUR
+		if ($kind ==  "OO") set blur =  $OO_BLUR
+		if ($kind ==  "OC") set blur =  $OC_BLUR
+		if ($kind == "PIB") set blur = $PIB_BLUR
+		if ($kind == "MPR") then
+			set bext[$j] = `echo $blur | gawk '{print "g"int(10*$1+0.499999)}'`
+		else
+			set bext[$j] = `echo $blur | gawk '{print "b"int(10*$1+0.499999)}'`
+		endif
+		@ blur_needed = 0
+		if (`echo $MAKE_BLUR | gawk 'BEGIN {o=0} /'$kind'/ {o=1} END {print o}'` == 1) then
+			if (`echo $creations | gawk 'BEGIN {o=0} /'$imaget[$j]'_'$bext[$j]'/ {o=1} END {print o}'` == 0) @ blur_needed = 1
+		else
+			if (! -e $imaget[$j]_$bext[$j].4dfp.img && ! -e $image[$j]_$bext[$j].4dfp.img) @ blur_needed = 1
+		endif
+		if ($blur_needed == 1) then
+			if ($kind == "MPR") then
+				gauss_4dfp $image[$j] $blur $imaget[$j]_$bext[$j]
+			else
+				foreach ext (img ifh hdr img.rec)
+					if (! -e $imaget[$j].4dfp.$ext) ln -s $image[$j].4dfp.$ext .
+				end
+				imgblur_4dfp $imaget[$j] $blur
+			endif
+			if ($ERASE_BLUR) set deletions = ($deletions $imaget[$j]_$bext[$j])
+			                 set creations = ($creations $imaget[$j]_$bext[$j])
+		endif
+		@ j ++
+	end
+
+	date >! $imaget[2]_to_$imaget[1]_imgreg.log
+	date >! $imaget[1]_to_$imaget[2]_imgreg.log
+	if ($USE_T4 == 0 || ! -e unresolved_t4/$imaget[2]_to_$imaget[1]_t4 && ! -e unresolved_t4/$imaget[2]_to_$imaget[1]_t4 \
+                         && ! -e               $imaget[2]_to_$imaget[1]_t4 && ! -e               $imaget[2]_to_$imaget[1]_t4) then
+		set ori = `gawk '/orientation/ {print $NF-1}' $imaget[1].4dfp.ifh $imaget[2].4dfp.ifh`
+		t4_inv $bindir/$oristr[$ori[1]]_t4 temp$$_t4
+		t4_mul $bindir/$oristr[$ori[2]]_t4 temp$$_t4 $imaget[2]_to_$imaget[1]_t4
+		t4_inv $imaget[2]_to_$imaget[1]_t4
+		rm temp$$_t4
+	else
+		set t4lst = `ls -t1 unresolved_t4/$imaget[2]_to_$imaget[1]_t4 unresolved_t4/$imaget[1]_to_$imaget[2]_t4 $imaget[2]_to_$imaget[1]_t4 $imaget[1]_to_$imaget[2]_t4 | \
+				gawk 'BEGIN{un=0} NR==1&&/unresolved_t4/{un=1} un==0&&/unresolved_t4/{exit} un==1&&$0!~/unresolved_t4/{exit} {print $0}'`
+		cp $t4lst .
+#		cp unresolved_t4/$imaget[2]_to_$imaget[1]_t4 unresolved_t4/$imaget[1]_to_$imaget[2]_t4 .
+		if (! -e $imaget[2]_to_$imaget[1]_t4) t4_inv $imaget[1]_to_$imaget[2]_t4
+		if (! -e $imaget[1]_to_$imaget[2]_t4) t4_inv $imaget[2]_to_$imaget[1]_t4
+	endif
+	
+	@ j = 1
+	while ($j <= $#MODES)
+		echo imgreg_4dfp $imaget[1]_$bext[1] $mask[1] $imaget[2]_$bext[2] $mask[2] $imaget[2]_to_$imaget[1]_t4 $MODES[$j]
+		echo imgreg_4dfp $imaget[1]_$bext[1] $mask[1] $imaget[2]_$bext[2] $mask[2] $imaget[2]_to_$imaget[1]_t4 $MODES[$j] >> $imaget[2]_to_$imaget[1]_imgreg.log
+		     imgreg_4dfp $imaget[1]_$bext[1] $mask[1] $imaget[2]_$bext[2] $mask[2] $imaget[2]_to_$imaget[1]_t4 $MODES[$j] >> $imaget[2]_to_$imaget[1]_imgreg.log
+		if ($status) exit $status
+		echo imgreg_4dfp $imaget[2]_$bext[2] $mask[2] $imaget[1]_$bext[1] $mask[1] $imaget[1]_to_$imaget[2]_t4 $MODES[$j]
+		echo imgreg_4dfp $imaget[2]_$bext[2] $mask[2] $imaget[1]_$bext[1] $mask[1] $imaget[1]_to_$imaget[2]_t4 $MODES[$j] >> $imaget[1]_to_$imaget[2]_imgreg.log
+		     imgreg_4dfp $imaget[2]_$bext[2] $mask[2] $imaget[1]_$bext[1] $mask[1] $imaget[1]_to_$imaget[2]_t4 $MODES[$j] >> $imaget[1]_to_$imaget[2]_imgreg.log
+		if ($status) exit $status
+		@ j ++
+	end
+
+	mv -f $imaget[2]_to_$imaget[1]_t4 $imaget[2]_to_$imaget[1]_imgreg.log unresolved_t4
+	mv -f $imaget[1]_to_$imaget[2]_t4 $imaget[1]_to_$imaget[2]_imgreg.log unresolved_t4
+
+	SKIP_REGISTRATION:
+
+	@ i ++
+end
+
+gawk '$1=="END" {go=0} go&&/{/ {i = index ($0, "{"); j = index ($0, "}"); print "RESOLVE", substr ($0, i+1, j-i-1); print "TARGET", substr ($0, j+1)} go&&$0!~/{/ {print "PATH", $0} $1=="SCHEMES:" {go=1}' $scheme >! temp$$
+if ($MPR_IMAGE == "") then
+	gawk '$0!~/MPR/' temp$$ >! temp$$1; mv -f temp$$1 temp$$
+endif
+if ($FDG_IMAGE == "") then
+	gawk '$0!~/FDG/' temp$$ >! temp$$1; mv -f temp$$1 temp$$
+endif
+if ( $HO_IMAGE == "") then
+	gawk '$0!~/HO/'  temp$$ >! temp$$1; mv -f temp$$1 temp$$
+endif
+if ( $OO_IMAGE == "") then
+	gawk '$0!~/OO/'  temp$$ >! temp$$1; mv -f temp$$1 temp$$
+endif
+if ( $OC_IMAGE == "") then
+	gawk '$0!~/OC/'  temp$$ >! temp$$1; mv -f temp$$1 temp$$
+endif
+if ($PIB_IMAGE == "") then
+	gawk '$0!~/PIB/' temp$$ >! temp$$1; mv -f temp$$1 temp$$
+endif
+
+gawk -f $scheme_script temp$$ >! temp$$1; mv -f temp$$1 temp$$
+date >! unresolved_t4/${PATID}_${program}_t4_resolve.log
+cat temp$$
+source temp$$
+if ($status) exit $status
+rm temp$$
+mv -f unresolved_t4/${PATID}_${program}_t4_resolve.log resolved_t4/${PATID}_${program}_t4_resolve.log
+
+gawk '/rotation/{r = $5} /translation/{t = $5} $1=="Writing:"&&/sub/{print $NF, 100*(t+1.4*r)}' resolved_t4/${PATID}_${program}_t4_resolve.log >! temp$$
+gawk '{i = length ("'$PATID'") + 1; j = index ($1, "_target.sub"); print substr ($1, i, j-i), $2}'              temp$$ >! temp$$1; mv -f temp$$1 temp$$
+gawk '{print $1" ERROR = "$2} $2<100          {print "error is LOW, image reconciliation is good"}'             temp$$ >! temp$$1; mv -f temp$$1 temp$$
+gawk '{print $0}    /ERROR/&&$NF>100&&$NF<200 {print "error is MED, cross-image reconciliation is acceptable"}' temp$$ >! temp$$1; mv -f temp$$1 temp$$
+gawk '{print $0}    /ERROR/&&$NF>200          {print "error is HIGH, cross-image reconciliation is poor"}'      temp$$ >! temp$$1; mv -f temp$$1 temp$$
+mv -f temp$$ resolved_t4/${PATID}_${program}_t4_resolve_summary.txt
+
+if ($#deletions > 0) echo "${program}: removing $deletions"
+foreach img (`echo $deletions | gawk '{for (i = 1; i <= NF; i++) print $i}' | sort -u`)
+	rm $img.4dfp.{img,ifh,hdr,img.rec}
+end
+
+exit 0

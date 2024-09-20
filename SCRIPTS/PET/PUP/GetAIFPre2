@@ -1,0 +1,170 @@
+#!/bin/bash
+
+TOFfn=$1
+ArtInfo=$2
+MPRfn=$3
+threshold=$4
+
+AIFdir=AIF${threshold}
+if [ ! -d $AIFdir ]
+then
+	mkdir $AIFdir
+fi
+	
+	
+# make arterial mask
+maskimg_4dfp -t$threshold -v1 $TOFfn $TOFfn ./${AIFdir}/$TOFfn"_Art"
+
+
+# gaussian blur arterial mask to match PET FWHM
+fwhm=6.5
+f_half=$(echo "scale=6; 4.412712/$fwhm" | bc)
+#echo $f_half
+gauss_4dfp ./${AIFdir}/$TOFfn"_Art" $f_half ./${AIFdir}/$TOFfn"_Art_g"
+
+# generate lArt and rArt mask based on coordinates supplied
+pad=60
+padz=30
+xlim=`grep "matrix size \[1\]" $TOFfn".4dfp.ifh" | gawk ' {print $5}'`
+ylim=`grep "matrix size \[2\]" $TOFfn".4dfp.ifh" | gawk ' {print $5}'`
+zlim=`grep "matrix size \[3\]" $TOFfn".4dfp.ifh" | gawk ' {print $5}'`
+
+
+# left side
+x1=`grep lArt $ArtInfo | gawk ' {print $2}'`
+y1=`grep lArt $ArtInfo | gawk ' {print $3}'`
+z1=`grep lArt $ArtInfo | gawk ' {print $4}'`
+x2=`grep lArt $ArtInfo | gawk ' {print $5}'`
+y2=`grep lArt $ArtInfo | gawk ' {print $6}'`
+z2=`grep lArt $ArtInfo | gawk ' {print $7}'`
+
+if [ "$x1" -lt "$x2" ]
+then
+	let "xlo = $x1 - 60"
+	let "xhi = $x2 + 60"
+else
+	let "xlo = $x2 - 60"
+	let "xhi = $x1 + 60"
+fi
+
+if [ "$xlo" -lt 1 ]
+then
+	xlo=1
+fi
+if [ "$xhi" -gt "$xlim" ]
+then
+	xhi=$xlim
+fi	 
+
+if [ "$y1" -lt "$y2" ]; then
+	let "ylo = $y1 - 60"
+	let "yhi = $y2 + 60"
+else
+	let "ylo = $y2 - 60"
+	let "yhi = $y1 + 60"
+fi
+
+if [ "$ylo" -lt 1 ]
+then
+	ylo=1
+fi
+if [ "$yhi" -gt "$ylim" ]
+then
+	yhi=$ylim
+fi
+	 
+if [ "$z1" -lt "$z2" ]; then
+	let "zlo = $z1 - 30"
+	let "zhi = $z2 + 30"
+else
+	let "zlo = $z2 - 30"
+	let "zhi = $z1 + 30"
+fi
+
+if [ "$zlo" -lt 1 ]
+then
+	zlo=1
+fi
+if [ "$zhi" -gt "$zlim" ]
+then
+	zhi=$zlim
+fi	 
+
+lxlo=$xlo
+lxhi=$xhi
+lylo=$ylo
+lyhi=$yhi
+lzlo=$zlo
+lzhi=$zhi
+
+# right side
+x1=`grep rArt $ArtInfo | gawk ' {print $2}'`
+y1=`grep rArt $ArtInfo | gawk ' {print $3}'`
+z1=`grep rArt $ArtInfo | gawk ' {print $4}'`
+x2=`grep rArt $ArtInfo | gawk ' {print $5}'`
+y2=`grep rArt $ArtInfo | gawk ' {print $6}'`
+z2=`grep rArt $ArtInfo | gawk ' {print $7}'`
+
+if [ "$x1" -lt "$x2" ]; then
+	let "xlo = $x1 - 60"
+	let "xhi = $x2 + 60"
+else
+	let "xlo = $x2 - 60"
+	let "xhi = $x1 + 60"
+fi
+
+if [ "$xlo" -lt 1 ]
+then
+	xlo=1
+fi
+if [ "$xhi" -gt "$xlim" ]
+then
+	xhi=$xlim
+fi	 
+
+if [ "$y1" -lt "$y2" ]; then
+	let "ylo = $y1 - 60"
+	let "yhi = $y2 + 60"
+else
+	let "ylo = $y2 - 60"
+	let "yhi = $y1 + 60"
+fi
+
+if [ "$ylo" -lt 1 ]
+then
+	ylo=1
+fi
+if [ "$yhi" -gt "$ylim" ]
+then
+	yhi=$ylim
+fi
+	 
+if [ "$z1" -lt "$z2" ]; then
+	let "zlo = $z1 - 30"
+	let "zhi = $z2 + 30"
+else
+	let "zlo = $z2 - 30"
+	let "zhi = $z1 + 30"
+fi
+
+if [ "$zlo" -lt 1 ]
+then
+	zlo=1
+fi
+if [ "$zhi" -gt "$zlim" ]
+then
+	zhi=$zlim
+fi	 
+
+rxlo=$xlo
+rxhi=$xhi
+rylo=$ylo
+ryhi=$yhi
+rzlo=$zlo
+rzhi=$zhi
+
+# create subvolume mask
+maskimg_4dfp -v1 -t-10000000 $TOFfn $TOFfn ./${AIFdir}/ones
+crop_4dfp -fZ ./${AIFdir}/ones ./${AIFdir}/lArt -x${lxlo}"to"${lxhi} -y${lylo}"to"${lyhi} -z${lzlo}"to"${lzhi}
+crop_4dfp -fZ ./${AIFdir}/ones ./${AIFdir}/rArt -x${rxlo}"to"${rxhi} -y${rylo}"to"${ryhi} -z${rzlo}"to"${rzhi}
+

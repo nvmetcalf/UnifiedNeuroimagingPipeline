@@ -1,0 +1,66 @@
+#!/bin/bash
+
+ecatfstr=$1
+if (( $# >= 2 ))
+then
+	outroot=$2
+fi
+
+if (( $# >= 3 ))
+then
+	dc_flag=$3
+fi
+
+if (( $# >= 4 ))
+then
+	sf=$4
+fi
+
+if (( $# == 5 ))
+then
+	ef=$5
+fi
+
+if [ -z $ecatfstr ]
+then
+	echo "Usage: `basename $0` ecatfstr [outroot] [dc_flag (default 1)] [sf (default 1)] [ef (default inf)]"
+	exit 1
+fi
+
+if [ -z $outroot ]
+then
+	outname=${ecatfstr%.*}
+	outroot=`basename $outname`
+fi	
+
+if [ -z $dc_flag ]
+then
+	dc_flag=1
+fi
+
+if [ -z $sf ]
+then
+	sf=1
+fi
+
+if [ -z $ef ]
+then
+	ef=inf
+fi
+
+# Prepare .m file for converting ecat .v image file to 4dfp file
+
+mfile=${outroot}"_ecatto4dfp.m"
+if [ -e $mfile ] 
+then
+	rm $mfile
+fi
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "ecatto4dfp('"$ecatfstr"', '"$outroot"', "$dc_flag", "$sf", "$ef");" >>$mfile
+
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+$MLBIN/matlab -nojvm -nodisplay < $mfile > /dev/null
+rm $mfile

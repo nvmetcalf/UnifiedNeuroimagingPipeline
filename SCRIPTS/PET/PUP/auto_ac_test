@@ -1,0 +1,767 @@
+#!/bin/bash
+# $Header: /home/usr/jon/binlin/RCS/auto_ac,v 1.2 2016/04/18 19:52:20 jon Exp jon $
+
+###################################################################################################
+# "auto_ac" is not for general release at this time.Unit testing with AV45 Data has been done.
+# Upload testing is required. PIB, FDG, and TAU, are not implimented yet. Jon Christensen
+#
+# The purpose of this script is to download data from the CNDA for E7 processing, create the dicomguide, 
+# and reconguide text files, run ConvertE7Session.csh for attenuation correction, and write a Linux
+# script to update the E7 processing prior to upload into the CNDA. The input csv list is described in
+# the usage function. The last column will have the readable CNDA PET session ID, and will match the
+# (0010,0020) patient ID. An "AC.log" file tracks important output and data validation. 
+#
+# Future implimentation will 1)include all tracers, 2)fully tested and documented, 3)cURL for upload, 
+# 4)improved exception handling, 5)UID and date check, 6)improved dicomguide selection.
+#
+# Check usage output for explaination of how to use the program.
+#
+###################################################################################################
+# $Log: auto_ac,v $
+# Revision 1.2  2016/04/18 19:52:20  jon
+# debugging and comments. Testing with AV45.
+#
+# Revision 1.1  2016/04/07 15:53:55  jon
+# Initial revision
+#
+# auto_ac_test -U jchristensen -i FDG_TEST1.csv -P password -D n/Jon/e7recon/PROC/fdg_test
+# auto_ac_test -U jchristensen -i TAU_TEST.csv -P password -D z/jon/E7RECON -v
+
+idstr='$Id: auto_ac,v 1.2 MODIFIED FOR FDG TAU TESTS   $'
+echo $idstr
+
+SCRIPTNAME=`basename $0`
+ function usage
+ {
+echo "    ${SCRIPTNAME} downloads the necessary data for attenuation correction, processes the data."
+echo "	  Linux script run_after_conversion.csh is run before uploading data to CNDA."
+echo "    User MUST map z drive to \\neuroimage\nil\raichle. "
+echo " "
+echo "    Usage: ${SCRIPTNAME} <-U CNDA_username -i inputDataFile -P password -D outDir> [-s 4_E7_1] [-m] [-v]"  
+echo "	  i.e.	${SCRIPTNAME} -U jchristensen -i test.csv -P password -D n/Jon/e7recon/PROC/test"
+echo " "
+echo "       REQUIRED"
+echo "    -U || --userid     User id to make connection."
+echo "    -i || --input      Name of csv file required as input to script"
+echo "                       Expected nine columns of CNDA ascension numbers: "
+echo "                          Pet Project,Pet Subject,Pet Session,"
+echo "				and three more columns: CT Project,CT Subject,CT Session,"
+echo "				and three columns: MR Project,MR Subject,MR Session,"
+echo "				the last column is the named CNDA PET session"
+echo "    -D || --outDir     Path to the output and where the program is run."
+echo "    			This will be a directory path on \"/cygdrive/\"."
+echo "    -P || --password   Password for the CNDA. You can secretly enter later if you wish."
+echo "    -v || --verbose    Prints results of commands during processing."
+echo "    -m || --mandown    Scan files were manually downloaded and unzipped into the following"
+echo "                          directories: CT, MPR, RawData, UMAP. Script will not download."
+echo "    -s || --scanId    Default is 4_E7. Change default scan number for all processing from the csv file."
+
+echo "    "
+}
+########################################################################
+# If no arguments are passed, display usage screen
+ 
+if [ $# -eq 0 ]
+ then
+    usage
+    exit 1
+fi
+########################################################################
+# Scan through user provided arguments.
+
+debug=0
+mandown=0
+scanId=4_E7
+while [ "$1" != "" ]; do
+    case $1 in
+       -U | --userid )
+          shift
+          user=$1
+          ;;
+       -i | --input )
+          shift
+          AC_file=$1
+          ;;
+       -D | --outDir )
+          shift
+          procOn=$1			#           n/pathToProc
+          outDir=/cygdrive/${procOn}	# /cygdrive/n/pathToProc
+          ;;
+       -P | --password )
+	  shift
+	  password=$1
+	  ;;
+       -v | --verbose )
+          shift
+          debug=1 # create debug statements for users
+	  set -x  # turn on xtrace for program development
+          ;;
+       -m | --mandown)
+          shift
+          mandown=1
+          ;;
+       -s | --scanId )
+          shift
+          scanId=$1
+	  ;;
+       -h | --help )
+          usage
+          exit 1
+
+     esac
+     shift
+done
+ 
+########################################################################
+# User id is required. If not, echo error message and usage output.
+if [ -z "$user" ]
+then
+  echo "    User id required."
+  echo "    "  
+  usage
+  exit 1
+fi
+ 
+########################################################################
+# File directory is required. If not, echo error message and usage output.
+if [ -z "$outDir" ]
+then
+  echo "    The directory location of the processing."
+  echo "    "
+  usage
+  exit 1
+fi
+
+########################################################################
+# If input file supplied, make sure it exists.
+if [ ! -z "$AC_file" ]
+then
+    if [ ! -s "$AC_file" ]
+    then
+       echo "             The input file you specified either does not exist or is empty."
+       echo "            "
+       usage
+       exit 1
+    fi
+else 
+  echo "   Input file is required."
+  echo "   "
+  usage
+  exit 1
+fi
+
+if [ -z "$upload_xml" ]
+then
+   echo "   No -xml flag given. Default is to upload the xml."
+   echo "    $upload_xml"  
+   upload_xml=1
+fi
+ 
+if [ -z "$password" ]
+then 
+   echo "	No password passed to script, please enter password:"
+   stty -echo
+   read password
+   stty echo
+fi
+
+########################################################################
+#set up the environment for running
+
+export RELEASE="/cygdrive/z/suy/4dfp/4dfp_cygwin64"
+export SUYE="/cygdrive/z/suy/PPG/scripts"
+PATH=$PATH:$RELEASE:$SUYE
+alias convert='/cygdrive/z/suy/PPG/scripts/ConvertE7Session.csh'
+
+cd ${outDir}
+
+#CURDATE=`date +"%y%m%d"`
+#TMPDIR=${outDir}/tmp_${user}_${CURDATE}
+#mkdir $TMPDIR
+
+########################################################################
+# Get variable from awked column of each row in the csv file
+
+while read line 
+do 
+
+echo line: ${line}
+ 
+project=`echo ${line} | awk -F',' '{print $1}'`
+echo pet project: ${project}
+if [ -z ${project} ]; then
+    echo No pet project found
+    exit 1
+fi
+ 
+subject=`echo ${line} | awk -F',' '{print $2}'`
+echo subject: ${subject}
+if [ -z ${subject} ]; then
+    echo No pet subject found
+    exit 1
+fi
+
+pet_session=`echo ${line} | awk -F',' '{print $3}'`
+echo PET session: ${pet_session}
+if [ -z ${pet_session} ]; then
+    echo No PET session label found
+    exit 1
+fi 
+
+project_ct=`echo ${line} | awk -F',' '{print $4}'`
+echo CT project: ${project_ct}
+if [ -z ${project_ct} ]; then
+    echo No CT project found
+    exit 1
+fi
+ 
+subject_ct=`echo ${line} | awk -F',' '{print $5}'`
+echo subject: ${subject_ct}
+if [ -z ${subject_ct} ]; then
+    echo No CT subject found
+    exit 1
+fi
+
+CT_session=`echo ${line} | awk -F',' '{print $6}'`
+echo CT session: ${CT_session}
+if [ -z ${CT_session} ]; then
+    echo No CT session label found
+    exit 1
+fi
+
+project_mr=`echo ${line} | awk -F',' '{print $7}'`
+echo MR project: ${project_mr}
+if [ -z ${project_mr} ]; then
+    echo No MR project found
+    exit 1
+fi
+
+subject_mr=`echo ${line} | awk -F',' '{print $8}'`
+echo subject: ${subject_mr}
+if [ -z ${subject_mr} ]; then
+    echo No MR subject found
+    exit 1
+fi
+
+mr_session=`echo ${line} | awk -F',' '{print $9}'`
+echo mr_session: ${mr_session}
+if [ -z ${mr_session} ]; then
+    echo No MR session label found
+    exit 1
+fi
+
+# Tag (0010,0020) Patient ID
+pet_session_id=`echo ${line} | awk -F',' '{print $10}'` 
+echo pet_session_id: ${pet_session_id}
+if [ -z ${pet_session_id} ]; then
+    echo No PET session ID label found
+    echo "Will use ${pet_session} for tag (0010,0020)"
+    pet_session_id=pet_session
+fi
+
+################################################
+
+mkdir -p ${outDir}/${pet_session_id}/Processing
+cd ${outDir}/${pet_session_id}
+echo $idstr >> ${outDir}/${pet_session_id}/AC.log
+
+################################################
+
+echo "Debug: Ready to start curling" `pwd`
+
+SECONDS=0
+start_time=$(date)
+
+echo "Start date = $start_time" >> ${outDir}/${pet_session_id}/AC.log
+
+# Get a token from CNDA so we don't have to keep logging in
+
+jsession=`curl -k -u ${user}:${password} ""https://cnda.wustl.edu/REST/JSESSION""` 
+echo "	Running curl -k -u ${user}:your_password \"https://cnda.wustl.edu/REST/JSESSION\""
+
+responseCount=`echo ${jsession} | wc -m`
+if [ $responseCount -gt 33 ]; then
+	echo "	   CNDA log in failed. Please check your password and retry."
+   	exit 1
+fi
+ 
+echo "	jsession id is: $jsession"
+
+### dont_run is the variable I keep track of the raw data that did not download correctly. 
+dont_run=0
+
+### If mandown option is enacted, skip all the downloading and unzipping steps and proceed directly to the processing - Karl
+if [ $mandown -eq 0 ]; then
+echo "Proceeding with download"
+
+#######################################################################
+#after getting token, start downloading important parts. 
+#######################################################################
+#Download MPRAGE
+
+echo "Running curl -k -b JSESSIONID=${jsession} \"https://cnda.wustl.edu/data/archive/projects/${project_mr}/subjects/${subject_mr}/experiments/${mr_session}/scans?format=csv\" >> ${outDir}/${pet_session_id}/${mr_session}_mr.csv" >> download.log
+curl -k -b JSESSIONID=${jsession}  "https://cnda.wustl.edu/data/archive/projects/${project_mr}/subjects/${subject_mr}/experiments/${mr_session}/scans?format=csv" >> ${outDir}/${pet_session_id}/${mr_session}_mr.csv
+
+mprage_loc=`grep -i "MPRAGE" ${outDir}/${pet_session_id}/${mr_session}_mr.csv | head -n 1 | awk -F ',' '{print \$8}'`
+mprage_loc=`echo $mprage_loc | sed -e 's/\/data\//https:\/\/cnda.wustl.edu\/data\//'`
+
+echo "Running: curl -k -b JSESSIONID=${jsession}  ${mprage_loc}/files?format=zip >> ${outDir}/${pet_session_id}/${mr_session}_mr.zip" >> download.logs
+eval `echo "curl -k -b JSESSIONID=${jsession} \"${mprage_loc}/files?format=zip\" >> ${outDir}/${pet_session_id}/${mr_session}_mr.zip"`
+
+mkdir MPR
+chmod 777 MPR
+
+echo "Debug: Ready to unzip mr_session" `pwd`
+unzip -j ${mr_session}_mr.zip -d ./MPR
+pushd MPR
+ are_files=`ls -1 | wc -l`
+ if [ $are_files -gt 0 ]; then
+   rm ../${mr_session}_mr.zip
+ else
+   echo "MPRAGE did not download and unzip correctly" >> ${outDir}/${pet_session_id}/AC.log
+   dont_run=1
+ fi
+popd
+
+#######################################################################
+#Download MRAC (UMAP)
+
+echo "Running curl -k -b JSESSIONID=${jsession} \"https://cnda.wustl.edu/data/archive/projects/${project}/subjects/${subject}/experiments/${pet_session}/scans?format=csv\" >> ${outDir}/${pet_session_id}/${pet_session}_pet.csv" >> download.log
+curl -k -b JSESSIONID=${jsession} "https://cnda.wustl.edu/data/archive/projects/${project}/subjects/${subject}/experiments/${pet_session}/scans?format=csv" >> ${outDir}/${pet_session_id}/${pet_session}_pet.csv
+
+UMAP_loc=`tac ${outDir}/${pet_session_id}/${pet_session}_pet.csv | grep -i "UTE"   | grep -i "UMAP" | grep -i -m 1 "AC" | awk -F ',' '{print \$8}'`
+
+UMAP_loc=`echo $UMAP_loc | sed -e 's/\/data\//https:\/\/cnda.wustl.edu\/data\//'`
+
+echo "Running: curl -k -b JSESSIONID=${jsession}  ${UMAP_loc}/files?format=zip >> ${outDir}/${pet_session_id}/${pet_session}_umap.zip" >> download.log
+eval `echo "curl -k -b JSESSIONID=${jsession}  \"${UMAP_loc}/files?format=zip\" >> ${outDir}/${pet_session_id}/${pet_session}_umap.zip"`
+
+mkdir UMAP
+chmod 777 UMAP
+
+echo "Debug: Ready to unzip pet_session_umap" `pwd`
+unzip -j ${pet_session}_umap.zip -d ./UMAP
+
+pushd UMAP
+ are_files=`ls -1 | wc -l`
+ if [ $are_files -gt 0 ]; then
+   rm ../${pet_session}_umap.zip
+ else
+   echo "UMAP did not download and unzip correctly" >> ${outDir}/${pet_session_id}/AC.log
+   dont_run=1
+ fi
+popd
+
+#######################################################################
+#Download AC_CT
+
+echo "Running curl -k -b JSESSIONID=${jsession} \"https://cnda.wustl.edu/data/archive/projects/${project_ct}/subjects/${subject_ct}/experiments/${CT_session}/scans?format=csv\" >> ${outDir}/${pet_session_id}/${CT_session}_ct.csv" >> download.log
+curl -k -b JSESSIONID=${jsession}  "https://cnda.wustl.edu/data/archive/projects/${project_ct}/subjects/${subject_ct}/experiments/${CT_session}/scans?format=csv" >> ${outDir}/${pet_session_id}/${CT_session}_ct.csv
+
+CT_loc=`grep -i "AC_CT" ${outDir}/${pet_session_id}/${CT_session}_ct.csv | awk -F ',' '{print \$8}'`
+
+CT_loc=`echo $CT_loc | sed -e 's/\/data\//https:\/\/cnda.wustl.edu\/data\//'`
+
+echo "Running: curl -k -b JSESSIONID=${jsession}  ${CT_loc}/files?format=zip >> ${outDir}/${pet_session_id}/${CT_session}_CT.zip" >> download.log
+eval `echo "curl -k -b JSESSIONID=${jsession} \"${CT_loc}/files?format=zip\" >> ${outDir}/${pet_session_id}/${CT_session}_CT.zip"`
+
+mkdir CT
+chmod 777 CT
+
+echo "Debug: Ready to unzip CT_session_CT" `pwd`
+unzip -j ${CT_session}_CT.zip -d CT/.
+
+pushd CT
+ are_files=`ls -1 | wc -l`
+ if [ $are_files -gt 0 ]; then
+   rm *.gif
+   rm ../${CT_session}_CT.zip
+ else
+   echo "CT did not download and unzip correctly" >> ../AC.log
+   dont_run=1
+ fi
+popd
+
+#########################################################################################################
+######### create the dicomguide.txt. Since we're using the -j option in all the unzip commands, we no 
+######### longer have to find the full path, the files will just be in their separate directories. I'm leaving the
+######### old code in here just in case the code structure is needed in some other way. 
+
+#find MPR | grep -v dcm | grep -v bf | grep -v SNAPSHOTS >> mr_dir_pathways.txt
+#mr_other_subfolder=`tac mr_dir_pathways.txt | grep -m 1 MPR`
+
+echo "MPR ${pet_session_id}/MPR" >> dicomguide.txt
+
+#find UMAP | grep -v dcm | grep -v bf | grep -v SNAPSHOTS >> umap_dir_pathways.txt
+#UMAP_other_subfolder=`tac umap_dir_pathways.txt | grep -m 1 UMAP`
+
+echo "MRAC ${pet_session_id}/UMAP" >> dicomguide.txt
+
+#find CT | grep -v dcm | grep -v bf | grep -v SNAPSHOTS >> CT_dir_pathways.txt
+#CT_other_subfolder=`tac CT_dir_pathways.txt | grep -m 1 CT`
+
+echo "CT ${pet_session_id}/CT" >> dicomguide.txt
+
+#########################################################################################
+### the last line of the dicomguide is more complicated because it depends on the tracer,
+### it will be taken care of after the Raw data has been downloaded.
+##########################################################################################
+#get a handle on where the raw data files are.
+
+echo "Running curl -k -b JSESSIONID=${jsession} \"https://cnda.wustl.edu/data/archive/projects/${project}/subjects/${subject}/experiments/${pet_session}/resources/RawData/files?format=csv\" >> ${outDir}/${pet_session_id}/${pet_session}_raw.csv" >> download.log
+
+curl -k -b JSESSIONID=${jsession}  "https://cnda.wustl.edu/data/archive/projects/${project}/subjects/${subject}/experiments/${pet_session}/resources/RawData/files?format=csv" >> ${outDir}/${pet_session_id}/${pet_session}_raw.csv 
+
+raw_zip_count=`grep -c "zip" ${outDir}/${pet_session_id}/${pet_session}_raw.csv`
+
+if [ $raw_zip_count -eq 1 ]
+then
+ raw_loc=`grep  "zip" ${outDir}/${pet_session_id}/${pet_session}_raw.csv | awk -F ',' '{print \$3}'`
+ raw_loc=`echo $raw_loc | sed -e 's/\/data\//https:\/\/cnda.wustl.edu\/data\//' | sed 's/ /%20/g'`
+ 
+ ##### now I'm downloading the raw data
+ echo "Running: curl -k -u ${user}:password  \"${raw_loc}\" >> ${outDir}/${pet_session_id}/${pet_session}_raw.zip" >> download.log
+ eval `echo "curl -k -u ${user}:${password} \"${raw_loc}\" >> ${outDir}/${pet_session_id}/${pet_session}_raw.zip"`
+
+ ###### this next bit of code handles a stray bf file that occationally shows up outside the raw zip file on the cnda.
+
+ extra_file_count=`grep -c "bf" ${outDir}/${pet_session_id}/${pet_session}_raw.csv`
+
+ mkdir RawData
+ chmod 777 RawData
+
+ echo "Debug: Ready To Unzip RawData" `pwd`
+
+ unzip -j ${pet_session}_raw.zip -d RawData
+
+ has_unzipped=`ls -1 RawData/* | wc -l`
+
+ if  [ $has_unzipped -gt 0 ]
+ then
+   rm ${pet_session}_raw.zip
+ else 
+   dont_run=1
+   echo "Raw files did not unzip" >> ${outDir}/${pet_session_id}/AC.log
+ fi
+
+ chmod -R 777 ${outDir}/${pet_session_id}
+
+ if [ $extra_file_count -gt 0 ]
+ then
+   extra_file_loc=`tac ${outDir}/${pet_session_id}/${pet_session}_raw.csv | grep "bf" | awk -F',' '{print\$3}'`
+   extra_file_loc=`echo $extra_file_loc | sed -e 's/\/data\//https:\/\/cnda.wustl.edu\/data\//'`
+   extra_file_name=`tac ${outDir}/${pet_session_id}/${pet_session}_raw.csv | grep "bf" | awk -F',' '{print\$1}'`
+   echo "Running: curl -k -b JSESSIONID=${jsession}  \"${extra_file_loc}\" >> ${outDir}/${pet_session_id}/${extra_file_name}" >> download.log
+   eval `echo "curl -k -b JSESSIONID=${jsession} \"${extra_file_loc}\" >> ${outDir}/${pet_session_id}/${extra_file_name}"`
+   eval `echo "mv  ${outDir}/${pet_session_id}/${extra_file_name} ${outDir}/${pet_session_id}/RawData/."`
+ fi
+
+fi
+
+###########################  
+
+if [ $raw_zip_count -gt 1 ]
+then
+	echo "Too many zip files in the raw folder" >> ${outDir}/${pet_session_id}/AC.log
+	echo "Can't run this scan" >> ${outDir}/${pet_session_id}/AC.log
+	dont_run=1
+elif [ $raw_zip_count -eq 0 ]
+then
+	echo "No Zip file found for RAW files on the CNDA" >> ${outDir}/${pet_session_id}/AC.log
+	echo "Can't run this scan" >> ${outDir}/${pet_session_id}/AC.log
+	dont_run=1
+fi
+
+check_this_raw_dcm=0
+check=0
+echo Debug: check= $check
+
+#######################################################################################################################################
+#This is the end of the --mandown option. If mandown is invoked, here is where the script begins processing steps -Karl
+else
+ echo "Manual download selected. Proceeding to processing."
+ echo "MPR ${pet_session_id}/MPR" >> dicomguide.txt
+ echo "MRAC ${pet_session_id}/UMAP" >> dicomguide.txt
+ echo "CT ${pet_session_id}/CT" >> dicomguide.txt
+fi
+
+#######################################################################################################################################
+######### Knowing the scan length is crucial for creating the correct recon_guide, you can find the length of the scan in the 
+######### raw dicoms just below where the dicom has "listmode word counts", which is why I look for that phrase in the dicoms available.
+
+if [ $debug -eq 1 ]; then
+	set -x
+fi
+
+for dcm_file in $( ls ${outDir}/${pet_session_id}/RawData/*.dcm )
+do
+  has_listmode_word_count=`cat "${dcm_file}" | grep -c "listmode word counts"`
+  if [ $has_listmode_word_count -eq 1 ]
+  then
+	check_this_raw_dcm=$dcm_file
+        check=1
+  fi
+done
+
+echo check_this_raw_dcm=$check_this_raw_dcm
+
+if [ $check -eq 0 ]
+then
+  dont_run=1
+  echo "can't find listmode word counts, and can't find duration" >> ${outDir}/${pet_session_id}/AC.log
+fi
+
+######################################################################################################################################
+echo dont_run = $dont_run
+if [ $dont_run -eq 0 ]
+then
+ # 0054 0081 "NMI Number of Slices" (PET images in a frame), is is determined from the length of the scan
+
+ # check (0020,000D) which is the Study Instance UID.
+ # Check (0008 0020) ID Study Date. Date and UID must match the UID and date of the CNDA destination data set.
+
+ time_length=`grep -a 'image duration (sec)'  $check_this_raw_dcm | awk -F'=' '{print$2}'`
+ time_length_in_minutes=$(($time_length / 60))
+
+ ############### the tracer type is usually given by one of the raw dicom files. You can grep the same dicom file as before for it, and then throw it into the switch/case below. 
+
+ tracer=`grep -a 'Radiopharmaceutical:' $check_this_raw_dcm | awk -F ':' '{print$2}'`
+ is_PIB=0 ; is_TAU=0 ; is_FDG=0
+ skip=0 # skip is used to verify that a recon_guide is written
+
+ case "$tracer" in
+ AV45)	echo -n "AV ${pet_session_id}/RawData" >> dicomguide.txt
+	if [ $time_length_in_minutes -eq 75 ]; then
+		echo AV F18dyn26fr75 >> recon_guide.txt		# 75 min scan will have 26 frames
+	elif [ $time_length_in_minutes -eq 70 ]; then
+		echo AV F18dyn26fr70 >> recon_guide.txt		# 70 min scan will have 26 frames
+	elif [ $time_length_in_minutes -eq 60 ]; then
+		echo AV F18dyn24fr60 >> recon_guide.txt		# 60 min scan will have 24 frames
+	elif [ $time_length_in_minutes -eq 30 ]; then
+		echo AV F18dyn30 >> recon_guide.txt		# 30 min scan will have six frames
+	elif [ $time_length_in_minutes -eq 20 ]; then
+		echo AV F18dyn20 >> recon_guide.txt		# 20 min scan will have four frames
+	else
+		echo "An AV parameter file for image duration must be updated for case $tracer" >> ${outDir}/${pet_session_id}/AC.log
+		skip=1
+	fi
+ ;;
+ PIB)	echo -n "PIB ${pet_session_id}/RawData" >> dicomguide.txt
+	echo "PIB C11dyn" >> recon_guide.txt
+	is_PIB=1
+	#******************************************************
+	skip=1	# PIB processing requires upgrade and testing
+	echo "Upgrade for $tracer Processing Required" >> ${outDir}/${pet_session_id}AC.log
+	#******************************************************
+ ;;
+
+ AV1451)	echo -n "TAU ${pet_session_id}/RawData" >> dicomguide.txt
+	if [ $time_length_in_minutes -eq 75 ]; then
+		echo TAU F18dyn26fr75 >> recon_guide.txt
+	elif [ $time_length_in_minutes -eq 70 ]; then
+		echo TAU F18dyn26fr70 >> recon_guide.txt
+	elif [ $time_length_in_minutes -eq 60 ]; then
+		echo TAU F18dyn24fr60 >> recon_guide.txt
+	elif [ $time_length_in_minutes -eq 30 ]; then
+		echo TAU F18dyn30 >> recon_guide.txt
+	elif [ $time_length_in_minutes -eq 20 ]; then
+		echo TAU F18dyn20 >> recon_guide.txt
+	else
+		echo "A TAU parameter file for image duration must be updated for case $tracer" >> ${outDir}/${pet_session_id}/AC.log
+		skip=1
+	fi
+	is_TAU=1
+ ;;
+
+ Fluorodeoxyglucose)	echo -n "FDG ${pet_session_id}/RawData" >> dicomguide.txt
+	if [ $time_length_in_minutes -eq 75 ]; then
+		echo FDG F18dyn26fr75 >> recon_guide.txt		# 75 min scan will have 26 frames
+	elif [ $time_length_in_minutes -eq 70 ]; then
+		echo FDG F18dyn26fr70 >> recon_guide.txt		# 70 min scan will have 26 frames
+	elif [ $time_length_in_minutes -eq 60 ]; then
+		echo FDG F18dyn24fr60 >> recon_guide.txt		# 60 min scan will have 24 frames
+	elif [ $time_length_in_minutes -eq 30 ]; then
+		echo FDG F18dyn30 >> recon_guide.txt			# 30 min scan will have 6 frames
+	elif [ $time_length_in_minutes -eq 20 ]; then
+		echo FDG F18dyn20 >> recon_guide.txt			# 20 min scan will have 4 frames
+	else
+		echo "An FDG parameter file for image duration must be updated for case $tracer" >> ${outDir}/${pet_session_id}/AC.log
+		skip=1
+	fi
+	is_FDG=1
+	#******************************************************
+	# FDG processing requires upgrade and testing
+	echo "Testing for $tracer" >> ${outDir}/${pet_session_id}/AC.log
+	#******************************************************
+ ;;
+
+ *)	echo "A parameter file for $tracer will need to be added and tested" >> ${outDir}/${pet_session_id}/AC.log
+	skip=1	# This tracer is not in our case list and requires upgrade and testing
+ esac
+ 
+ echo "*** recon_guide ***" >> ${outDir}/${pet_session_id}/AC.log
+ cat recon_guide.txt >> ${outDir}/${pet_session_id}/AC.log
+ echo "*** recon_guide ***" >> ${outDir}/${pet_session_id}/AC.log
+ ###############################################################################
+ if [ $skip -eq 0 ]
+ then
+
+ echo "Ready for ConvertE7Session" `pwd`
+ cd ${outDir}/${pet_session_id}
+ cd Processing
+
+ echo "Running ConvertE7Session.csh ../dicomguide.txt ${subject} _v1 v1 -d ${procOn} -r ../recon_guide.txt" >> ${outDir}/${pet_session_id}/AC.log
+               ConvertE7Session.csh ../dicomguide.txt ${subject} _v1 v1 -d ${procOn} -r ../recon_guide.txt >> ${outDir}/${pet_session_id}/AC.log 2>&1
+ echo "Completed ConvertE7Session" `pwd`
+
+ cd v1/*-Converted/*_v1-LM-00
+ chmod 777 Run*.bat
+ run Run-*-Histogramming.bat >> ${outDir}/${pet_session_id}/AC.log
+ run Run-*-IF2Dicom.bat >> ${outDir}/${pet_session_id}/AC.log
+ cd ${outDir}/${pet_session_id}
+ 
+ ################################################################################
+ # Create csh script to be run on Linux for E7 update.
+
+ if [ "$is_PIB" -eq 1 ]
+ then
+	echo '#!/bin/csh' >> run_after_conversion.csh
+	echo "set PATH = ( /home/usr/suy/bin/scripts \$PATH )" >> run_after_conversion.csh
+	echo "setenv DCMDICTPATH \$RELEASE/lib/dicom.dic" >> run_after_conversion.csh
+	echo "cd Processing/v1/PIB_v1-Converted" >> run_after_conversion.csh
+	path_to_dicom=`find PIB_v1-LM-00 -name "PIB_v1*LM*00*DICOM"`
+	echo "updatee7dcm $path_to_dicom PIB_v1-LM-00 PIB_v1-LM-00-OP" >> run_after_conversion.csh
+	echo "foreach image_file (\`ls -d ${path_to_dicom}/*.ima\`)" >> run_after_conversion.csh
+	echo "dcmodify -ma \"(0008,1030)=${project}\" \$image_file" >> run_after_conversion.csh
+	echo "dcmodify -ma \"(0010,0010)=${subject}\" \$image_file" >> run_after_conversion.csh
+	echo "dcmodify -ma \"(0010,0020)=${pet_session_id}\" \$image_file" >> run_after_conversion.csh
+	echo "dcmodify -ma \"(0020,0011)=${scanID}\" \$image_file" >> run_after_conversion.csh
+	echo "end" >> run_after_conversion.csh
+	echo "rm PIB_v1-LM-00/PIB_v1-LM-00-OP-DICOM/*.bak" >> run_after_conversion.csh
+
+ #	echo "cd PIB_v1-LM-00" >> run_after_conversion.csh
+ #	echo "zip -r ${pet_session}.zip PIB_v1-LM-00-OP-DICOM/*.ima" >> run_after_conversion.csh
+ #	echo "curl -k -b JSESSIONID=${jsession} --data-binary @\"${pet_session}.zip\" \"https://cnda.wustl.edu/data/services/import?PROJECT_ID=${project}&SUBJECT_ID=${subject}&EXPT_LABEL=${pet_session}&overwrite=append&prearchive=true&inbody=true\" -H Content-Type:application/zip" >> run_after_conversion.csh
+
+ elif [ "$is_TAU" -eq 1 ]
+ then
+	echo '#!/bin/csh -f' >> run_after_conversion.csh
+	echo ' ' >> run_after_conversion.csh 
+	echo "set PATH = ( /home/usr/suy/bin/scripts \$PATH )" >> run_after_conversion.csh
+	echo "setenv DCMDICTPATH \$RELEASE/lib/dicom.dic" >> run_after_conversion.csh
+	echo "cd Processing/v1/TAU_v1-Converted"  >> run_after_conversion.csh
+	path_to_dicom=TAU_v1-LM-00/TAU_v1-LM-00-OP-DICOM
+	echo "updatee7dcm $path_to_dicom TAU_v1-LM-00 TAU_v1-LM-00-OP" >> run_after_conversion.csh
+
+	echo "pushd $path_to_dicom " >> run_after_conversion.csh
+	echo "foreach image_file (*.ima)" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0008,1030=${project}  \$image_file" >> run_after_conversion.csh		# ID Study Description
+	echo "dcmodify -ma \"(0008,1030)=${project}\" \$image_file" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0010,0010=${subject}  \$image_file" >> run_after_conversion.csh		# PAT Patient Name
+	echo "dcmodify -ma \"(0010,0010)=${subject}\" \$image_file" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0010,0020=${pet_session_id}  \$image_file" >> run_after_conversion.csh	# PAT Patient ID
+	echo "dcmodify -ma \"(0010,0020)=${pet_session_id}\" \$image_file" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0020,0011=${scanId}  \$image_file" >> run_after_conversion.csh		# REL Series Number
+	echo "dcmodify -ma \"(0020,0011)=${scanId}\" \$image_file" >> run_after_conversion.csh
+
+	echo "end" >> run_after_conversion.csh
+	echo "rm *.bak" >> run_after_conversion.csh
+	echo "popd" >> run_after_conversion.csh
+
+ #	echo "cd TAU_v1-LM-00" >> run_after_conversion.csh
+ #	echo "zip -r ${pet_session}.zip TAU_v1-LM-00-OP-DICOM/*.ima" >> run_after_conversion.csh
+ #	echo "curl -k -b JSESSIONID=${jsession} --data-binary @\"${pet_session}.zip\" \"https://cnda.wustl.edu/data/services/import?PROJECT_ID=${project}&SUBJECT_ID=${subject}&EXPT_LABEL=${pet_session}&overwrite=append&prearchive=true&inbody=true\" -H Content-Type:application/zip" >> run_after_conversion.csh
+
+ elif [ "$is_FDG" -eq 1 ]
+ then
+	echo '#!/bin/csh -f' >> run_after_conversion.csh
+	echo ' ' >> run_after_conversion.csh
+	echo "set PATH = ( /home/usr/suy/bin/scripts \$PATH )" >> run_after_conversion.csh
+	echo "setenv DCMDICTPATH \$RELEASE/lib/dicom.dic" >> run_after_conversion.csh
+	echo "cd Processing/v1/FDG_v1-Converted"  >> run_after_conversion.csh
+	path_to_dicom=FDG_v1-LM-00/FDG_v1-LM-00-OP-DICOM
+	echo "updatee7dcm $path_to_dicom FDG_v1-LM-00 FDG_v1-LM-00-OP" >> run_after_conversion.csh
+
+	echo "pushd $path_to_dicom " >> run_after_conversion.csh
+	echo "foreach image_file (*.ima)" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0008,1030=${project}  \$image_file" >> run_after_conversion.csh		# ID Study Description
+	echo "dcmodify -ma \"(0008,1030)=${project}\" \$image_file" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0010,0010=${subject}  \$image_file" >> run_after_conversion.csh		# PAT Patient Name
+	echo "dcmodify -ma \"(0010,0010)=${subject}\" \$image_file" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0010,0020=${pet_session_id}  \$image_file" >> run_after_conversion.csh	# PAT Patient ID
+	echo "dcmodify -ma \"(0010,0020)=${pet_session_id}\" \$image_file" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0020,0011=${scanId}  \$image_file" >> run_after_conversion.csh		# REL Series Number
+	echo "dcmodify -ma \"(0020,0011)=${scanId}\" \$image_file" >> run_after_conversion.csh
+
+	echo "end" >> run_after_conversion.csh
+	echo "rm *.bak" >> run_after_conversion.csh
+	echo "popd" >> run_after_conversion.csh
+
+ #	echo "cd FDG_v1-LM-00" >> run_after_conversion.csh
+ #	echo "zip -r ${pet_session}.zip FDG_v1-LM-00-OP-DICOM/*.ima" >> run_after_conversion.csh
+ #	echo "curl -k -b JSESSIONID=${jsession} --data-binary @\"${pet_session}.zip\" \"https://cnda.wustl.edu/data/services/import?PROJECT_ID=${project}&SUBJECT_ID=${subject}&EXPT_LABEL=${pet_session}&overwrite=append&prearchive=true&inbody=true\" -H Content-Type:application/zip" >> run_after_conversion.csh
+
+ else   # AV45 
+	echo '#!/bin/csh -f' >> run_after_conversion.csh
+	echo ' ' >> run_after_conversion.csh
+	echo "set PATH = ( /home/usr/suy/bin/scripts \$PATH )" >> run_after_conversion.csh
+	echo "setenv DCMDICTPATH \$RELEASE/lib/dicom.dic" >> run_after_conversion.csh
+	echo "cd Processing/v1/AV_v1-Converted"  >> run_after_conversion.csh
+	path_to_dicom=AV_v1-LM-00/AV_v1-LM-00-OP-DICOM
+	echo "updatee7dcm $path_to_dicom AV_v1-LM-00 AV_v1-LM-00-OP" >> run_after_conversion.csh
+
+	echo "pushd $path_to_dicom " >> run_after_conversion.csh
+	echo "foreach image_file (*.ima)" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0008,1030=${project}  \$image_file" >> run_after_conversion.csh		# ID Study Description
+	echo "dcmodify -ma \"(0008,1030)=${project}\" \$image_file" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0010,0010=${subject}  \$image_file" >> run_after_conversion.csh		# PAT Patient Name
+	echo "dcmodify -ma \"(0010,0010)=${subject}\" \$image_file" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0010,0020=${pet_session_id}  \$image_file" >> run_after_conversion.csh	# PAT Patient ID
+	echo "dcmodify -ma \"(0010,0020)=${pet_session_id}\" \$image_file" >> run_after_conversion.csh
+
+	echo "echo dcmodify -ma 0020,0011=${scanId}  \$image_file" >> run_after_conversion.csh		# REL Series Number
+	echo "dcmodify -ma \"(0020,0011)=${scanId}\" \$image_file" >> run_after_conversion.csh
+
+	echo "end" >> run_after_conversion.csh
+	echo "rm *.bak" >> run_after_conversion.csh
+	echo "popd" >> run_after_conversion.csh
+
+ #	echo "cd AV_v1-LM-00" >> run_after_conversion.csh
+ #	echo "zip -r ${pet_session}.zip AV_v1-LM-00-OP-DICOM/*.ima" >> run_after_conversion.csh
+ #	echo "curl -k -b JSESSIONID=${jsession} --data-binary @\"${pet_session}.zip\" \"https://cnda.wustl.edu/data/services/import?PROJECT_ID=${project}&SUBJECT_ID=${subject}&EXPT_LABEL=${pet_session} &overwrite=append&prearchive=true&inbody=true\" -H Content-Type:application/zip" >> run_after_conversion.csh
+
+ fi	# the end of if [ "$is_PIB" -eq 1 ]
+
+ chmod 777 run_after_conversion.csh
+
+ fi	# the end of if [ $skip -eq 0 ]
+
+else
+echo "unable to process AC, exiting now" >> ${outDir}/${pet_session_id}/AC.log
+fi	# the end of if [ $dont_run -eq 0 ]
+
+#######################################################################################################################################
+
+rm /cygdrive/c/Siemens/PET/data/DataQC/*
+
+end_time=$(date)
+duration=$SECONDS
+echo "End date = $end_time" >> ${outDir}/${pet_session_id}/AC.log
+
+hours_since_start=$((($duration/60)/60))
+minutes_since_start=$((($duration/60)%60))
+seconds_since_start=$(($duration%60))
+echo "Total time elapsed: $hours_since_start hours, $minutes_since_start minutes, and $seconds_since_start seconds" >> ${outDir}/${pet_session_id}/AC.log
+
+done < ${AC_file}

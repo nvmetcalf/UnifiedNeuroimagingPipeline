@@ -1,0 +1,104 @@
+#!/bin/csh
+
+set ecatfile = $1
+set PET = $2
+set MR = $3
+set flo = $4
+set fhi = $5
+set outroot = $6
+set isotope = "C-11"
+set f_start = 3
+
+# Convert isotope from lowercase to uppercase 
+switch ($isotope)
+	case F-18:
+		# Convert half_life from minutes to seconds
+		set half_life = `echo 109.75 60 | awk '{print $1*$2}'`
+		breaksw
+	case O-15:
+		set half_life = 123
+		breaksw
+	case C-11:
+		# Convert half_life from minutes to seconds
+		set half_life = `echo 20.4 60 | awk '{print $1*$2}'`
+		breaksw
+	case NONE:
+		# No decay correction will be used
+		set half_life = 0
+		set div_fac = 1
+		breaksw
+	default:
+		echo "Incorrect isotope"
+		echo "Correct isotope: F-18, O-15, C-11"
+		exit -1
+		breaksw
+endsw
+echo isotope = $isotope, half_life = $half_life
+set nframes   = `/usr/local/npg/bin/imghdr $1| awk '/frames/{print $3}'`
+set cal_fac   = `/usr/local/npg/bin/imghdr $1| awk '/ECAT calibration factor/{print $5}'`
+set t_start0 = `/usr/local/npg/bin/imghdr $1 $f_start | awk '/Start time/{print $4}'` 
+set dyn_root = $1:r
+set dyn_tail = $dyn_root:t
+echo dyn_tail = $dyn_tail
+
+@ count = 0
+@ f = $flo
+@ fhi++
+echo $f $fhi
+while ($f<$fhi)
+
+	if ($f > 1 && $f < 36) then
+		set t4file = $PET"pib1_a1_to_"$MR"_t4"
+	else if ($f < 41) then
+		set t4file = $PET"pib1_a2_to_"$MR"_t4"
+	else if ($f < 46) then
+		set t4file = $PET"pib1_a3_to_"$MR"_t4"
+	else if ($f == 46) then
+		set t4file = $PET"pib1_b1_to_"$MR"_t4"
+	else if ($f == 47) then
+		set t4file = $PET"pib1_b2_to_"$MR"_t4"
+	else if ($f == 48) then
+		set t4file = $PET"pib1_b3_to_"$MR"_t4"
+	else if ($f < 51) then
+		set t4file = $PET"pib1_c1_to_"$MR"_t4"
+	else if ($f < 53) then
+		set t4file = $PET"pib1_c2_to_"$MR"_t4"
+	else 
+		set t4file = $PET"pib1_c3_to_"$MR"_t4"	
+	endif
+	
+	set f_len   = `/usr/local/npg/bin/imghdr $1 $f | awk '/Frame length/{print $4}'` 
+	set t_start = `/usr/local/npg/bin/imghdr $1 $f | awk '/Start time/{print $4}'` 
+
+	set t_start = `echo $t_start $t_start0 | awk '{print ($1 - $2)}'`
+	#echo $f $t_start $f_len | awk '{printf "%5d%15.4f%15.4f\n", $1, $2/60, $3/60}' 
+    
+  	set decay = `echo $half_life $t_start $f_len |awk '{k=log(2)/$1; printf "%f\n", exp(-$2*k)*(1.-exp(-$3*k))/k}'`
+  	#echo "decay = $decay" 
+  	
+  	set div_fac = `echo $decay | awk '{print $1}'`
+  	
+        echo $f div_fac = decay = $div_fac half_life=$half_life t_start=$t_start f_len=$f_len
+	
+        echo Running dyn_ecatto4dfp $1 $f $f $f $div_fac -1
+  	    ~jon/bin/dyn_ecatto4dfp $1 $f $f $f $div_fac -1
+	    
+	# Transform the frame
+	echo /data/petsun4/data1/solaris/t4img_4dfp $t4file $dyn_tail"_f"$f $dyn_tail"_on_"$MR"_f"$f -O$MR 
+	     /data/petsun4/data1/solaris/t4img_4dfp $t4file $dyn_tail"_f"$f $dyn_tail"_on_"$MR"_f"$f -O$MR  # original grame
+	
+	if ($count>0) then
+		imgopr_4dfp -atemp1 temp2 $dyn_tail"_on_"$MR"_f"$f
+		maskimg_4dfp -p-2. temp1 temp1 temp2
+	else
+		maskimg_4dfp -p-2. $dyn_tail"_on_"$MR"_f"$f $dyn_tail"_on_"$MR"_f"$f temp2
+	endif
+	
+	rm $dyn_tail"_f"$f.*
+	rm $dyn_tail"_on_"$MR"_f"$f*
+	
+	@ f++
+	@ count++
+end
+maskimg_4dfp -p-2. temp1 temp1 $outroot
+rm temp?.*

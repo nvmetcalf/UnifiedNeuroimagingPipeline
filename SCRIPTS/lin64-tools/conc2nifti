@@ -1,0 +1,85 @@
+#!/bin/csh -f
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/conc2nifti,v 1.2 2018/08/17 05:34:06 avi Exp $
+#$Log: conc2nifti,v $
+# Revision 1.2  2018/08/17  05:34:06  avi
+# invoke with -f
+#
+# Revision 1.1  2013/07/27  23:43:17  avi
+# Initial revision
+#
+set program = $0; set program = $program:t
+
+@ verb = 0
+@ local = 0
+@ keep = 0
+@ k = 0
+@ i = 1
+while ($i <= ${#argv})
+	set swi = `echo $argv[$i] | awk '{print substr($1,1,2)}'`
+	set arg = `echo $argv[$i] | awk '{print substr($0,3)}'`
+	switch ($swi)
+		case -v:
+			@ verb++;				breaksw;
+		case -L:
+			@ local++;				breaksw;
+		case -K:
+			@ keep++;				breaksw;
+		case -o
+			set outroot = $arg;			breaksw;
+
+		default:
+		switch ($k)
+			case 0:
+				set conc = $argv[$i];		@ k++; breaksw;
+			default:
+								@ k++; breaksw;
+		endsw
+	endsw
+	@ i++
+end
+if ($k < 1) goto USAGE
+
+if (! -e $conc) then
+	echo $program":	"$conc not found
+	exit -1
+endif
+@ n = `awk '/number_of_files/{print $NF}' $conc`
+
+grep file: $conc >! $$.lst
+if ($status) exit $status
+gawk '{gsub(/.4dfp.img/,"");gsub(/file:/,"");print}' $$.lst >! $$1.lst
+if ($verb) cat $$1.lst
+
+touch $$2.lst
+@ k = 1
+while ($k <= $n)
+	set file = `head -$k $$1.lst | tail -1`
+	@ nf = `awk '/matrix size \[4\]/{print $NF}' $file.4dfp.ifh`
+	echo $file $nf | awk '{printf("%s\t1\t%d\n", $1, $2)}' >> $$2.lst
+	@ k++
+end
+if ($verb) cat $$2.lst
+
+if (! ${?outroot}) then
+	set outroot = $conc:r
+	if ($local) set outroot = $outroot:t
+endif
+paste_4dfp -a $$2.lst $outroot
+if ($status) exit $status
+nifti_4dfp -n $outroot $outroot
+if ($status) exit $status
+
+if (! $keep) /bin/rm $outroot.4dfp.*
+/bin/rm $$*.lst
+exit 0
+
+USAGE:
+echo "usage:	"$program" <conc file>"
+echo "e.g.:	"$program" vb13157_faln_dbnd_xr3d_atl.conc"
+echo "	option"
+echo "	-o<str> specify output root (default = conc root)"
+echo "	-L	(absent option -o) output on current working directory (default conc directory)"
+echo "	-K	keep concatenated 4dfp (default delete)"
+echo "	-v	verbose mode"
+echo "N.B.:	separate options in separate fields"
+exit 1

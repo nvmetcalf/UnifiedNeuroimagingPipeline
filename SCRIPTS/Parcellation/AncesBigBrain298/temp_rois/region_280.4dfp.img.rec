@@ -1,0 +1,16 @@
+rec temp_rois/region_280.4dfp.img  Fri Aug  6 13:29:09 2021  metcalfn@maulinux02 Linux 3.10.0-957.12.2.el7.x86_64 x86_64
+burn_sphere_4dfp -34.00 -72.01 -48.00 MNI152_T1_1mm_brain temp_rois/region_280 -v280 -o3 
+$Id: burn_sphere_4dfp.c,v 1.13 2010/11/08 23:51:53 avi Exp $
+littleendian
+3.0000 mm radius sphere burned in at coords   -34.0000   -72.0100   -48.0000
+rec MNI152_T1_1mm_brain.4dfp.img  Fri Dec  4 16:22:41 2020  metcalfn@maulinux02 Linux 3.10.0-957.12.2.el7.x86_64 x86_64
+nifti_4dfp -4 ../../../ATLAS/MNI152/MNI152_T1_1mm_brain MNI152_T1_1mm_brain 
+$Id: nifti_4dfp.c,v 1.9 2011/09/13 03:40:37 avi Exp $
+littleendian
+datatype: 16	 bitpix: 32
+scale: 1.000000	 offset: 0.000000
+common sform[0]:    -1.000000	    0.000000	    0.000000	   90.000000
+common sform[1]:     0.000000	    1.000000	    0.000000	 -126.000000
+common sform[2]:     0.000000	    0.000000	    1.000000	  -72.000000
+endrec Fri Dec  4 16:22:41 2020  metcalfn
+endrec Fri Aug  6 13:29:09 2021  metcalfn

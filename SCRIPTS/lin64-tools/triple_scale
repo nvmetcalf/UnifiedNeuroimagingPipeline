@@ -1,0 +1,367 @@
+#!/bin/csh -f
+#$Header: /home/usr/jon/bin/RCS/triple_scale,v 1.3 2011/08/26 20:26:26 jon Exp jon $
+
+# Given more than one PET of the same modality, mask PET images to remove extra-
+# cranial noise, and calculate scale factor for each t4 file to achieve optimal 
+# intensity scaling.
+
+# Algorithm:
+# This script creates PET to atlas registration files if they do not exist. 
+# Same modality PET registration is done with masked PET.
+# t4_resolve creates the $patid$mode.sub file.
+# The averaged PET is remade and the first scan is masked with at tight brain mask. 
+# Mean of the averaged scan is used to calulate the scalefactor of the 
+# other t4 files. The average PET is then remade in PET space.
+
+# Quality assurance gaussed PET images are be made.
+# PET are transformed to target and blurred using $gauss. 
+
+# Author: Jon Christensen
+#################################################################################
+set idstr = '$Id: triple_scale,v 1.3 2011/08/26 20:26:26 jon Exp jon $'
+echo $idstr
+
+set program = $0; set program = $program:t;
+
+set bin = $RELEASE
+
+set target	= TRIO_Y_NDC
+set targetpath = /data/cninds01/data2/atlas
+#set targetpath = /data/petsun43/data1/atlas
+#set pettarget = $targetpath/$target".4dfp.img"
+
+set mode = ho
+set img = auto
+set gauss = 0.4
+
+#---------------------
+# process command line
+
+@ k = 0
+@ i = 1
+while ($i <= ${#argv})
+	set swi = `echo $argv[$i] | awk '$1~/^-/ {print substr($1,1,2)}'`
+	if (0) echo swi = $swi
+	if ($swi != "") then
+		set arg = `echo $argv[$i] | awk '{print substr($0,3)}'`
+		switch ($swi) 
+			case -T
+				set pettarget = $arg
+				set target = $pettarget:gt
+				set target = $target:gr
+				set target = $target:gr
+				set target = $target:gr
+				breaksw;
+			default:
+				echo $swi option not recognized
+				exit 1; 
+				breaksw;
+		endsw
+	else
+		switch ($k)
+			case 0:
+				set patid = $argv[$i];		@ k++; breaksw;
+			case 1:
+				set mpr	= $argv[$i];		@ k++; breaksw;
+			case 2:
+				set mode = $argv[$i];		@ k++; breaksw;
+			case 3:
+				set img = $argv[$i];		@ k++; breaksw;
+			case 4:
+				set gauss = $argv[$i];		@ k++; breaksw;
+		endsw
+	endif
+	@ i++
+end
+if ($k < 1) then 
+	goto USAGE
+endif
+
+#--------------------------------------
+# initialize image list array
+
+set imglist = (`ls {$patid$mode}[1-9]"_"$img".4dfp.img"`)
+set imglist = ($imglist:gr)
+set imglist = ($imglist:gr)
+echo "Image List: " $imglist
+
+#----------------------------------------------------------------------------
+echo Check the image list and set $patid$mode"_"$img"_scale.log"
+if ($#imglist < 2)then
+	echo The number in imglist = $#imglist Must Exit
+	exit 1
+endif
+
+set log = $patid$mode"_"$img"_scale.log"
+if (-e $log) /bin/rm $log
+touch $log
+
+echo "Image list: " $imglist >> $log
+echo "Modality: " $mode >> $log
+
+#----------------------------------------------------------------------------
+echo Has cross PET registration been run
+
+foreach file ($imglist)
+	if (-e $file"_to_"$patid$mode"_t4")then
+		echo $program $file"_to_"$patid$mode"_t4" exists
+	else
+		cp -f unresolved_t4/$file"_to_"$patid$mode"_t4" .
+		if (! -e $file"_to_"$patid$mode"_t4")then
+	   	   echo $program Error $file"_to_"$patid$mode"_t4" does not exist
+	   	   exit 1
+		endif
+	endif
+end
+
+#----------------------------------------------------------------------------
+echo Is average PET image in PET space for this modality
+
+if (-e $patid$mode".4dfp.img")then
+	echo $program $patid$mode".4dfp.img" exists
+else
+	echo $program Error $patid$mode".4dfp.img" does not exist
+	exit 1
+endif
+
+#----------------------------------------------------------------------------
+echo Is average PET registered to MPRAGE for this modality
+
+if (-e $patid$mode"_to_"$mpr"_t4")then
+	echo $program $patid$mode"_to_"$mpr"_t4" exists
+else
+	cp -f unresolved_t4/$patid$mode"_to_"$mpr"_t4" .
+	if (! -e $patid$mode"_to_"$mpr"_t4")then
+	   echo $program Error $patid$mode"_to_"$mpr"_t4" does not exist
+	   exit 1
+	endif
+endif
+
+#----------------------------------------------------------------------------
+echo Is mprage registered to target
+
+if (-e $mpr"_to_"$target"_t4")then
+	echo $program $mpr"_to_"$target"_t4" exists
+else
+	echo $program Error $mpr"_to_"$target"_t4" does not exist
+	exit 1
+endif
+
+#----------------------------------------------------------------------------
+# Create atlas registration files for $imglist. (ho1totarget, ho2totarget, etc.)
+
+set t4file = $patid$mode"_to_"$target"_t4"
+
+if (! -e $t4file) then
+    echo t4_mul $patid$mode"_to_"$mpr"_t4" $mpr"_to_"$target"_t4" $t4file
+    $bin/t4_mul $patid$mode"_to_"$mpr"_t4" $mpr"_to_"$target"_t4" $t4file
+		if ($status) exit $status
+endif
+
+foreach file ($imglist)
+	echo t4_mul $file"_to_"$patid$mode"_t4" $t4file $file"_to_"$target"_t4"
+	$bin/t4_mul $file"_to_"$patid$mode"_t4" $t4file $file"_to_"$target"_t4"
+		if ($status) exit $status
+end
+
+#----------------------------------------------------------------------------
+# Same modality PET registration (all pairs) using tailored masks
+
+set petreg_gauss = 0.6
+set g =  `echo $petreg_gauss | gawk '{print int(10 * '$petreg_gauss')}'`
+set gstr = "_g"$g
+
+set srgv = ($imglist)
+set srgv = ($srgv:gr); set srgv = ($srgv:gr);
+echo $srgv
+@ n = ${#srgv}
+echo "n="$n
+if ($n < 1) exit
+
+echo "===========================================================" >> $log
+echo $idstr		>> $log
+echo $program $argv[1-]	>> $log
+date			>> $log
+
+@ i = 1
+while ($i <= $n)
+	if (! -e $srgv[$i]$gstr".4dfp.img" || ! -e $srgv[$i]$gstr".4dfp.ifh") then
+		echo gauss_4dfp	$srgv[$i] $petreg_gauss
+		$bin/gauss_4dfp	$srgv[$i] $petreg_gauss
+				if ($status) exit $status
+	endif
+
+	if (! -e $srgv[$i]_to_$target"_t4") then
+		echo $program": "$srgv[$i]_to_$target"_t4" not found
+		exit -1
+	endif
+	echo msktgen_4dfp $srgv[$i] 500 -T$targetpath/$target -S711-2B
+	$bin/msktgen_4dfp $srgv[$i] 500 -T$targetpath/$target -S711-2B
+			if ($status) exit $status
+	echo "===================================================================" 
+
+	@ nsl = `gawk '/matrix size \[3\]/ {print $NF}'		$srgv[$i].4dfp.ifh`
+	@ msl = `echo $nsl | gawk '{print int(0.09*$1)}'`
+
+	echo zero_slice_4dfp $srgv[$i]_mskt z 1 $msl		$srgv[$i]_msktz
+	$bin/zero_slice_4dfp $srgv[$i]_mskt z 1 $msl		$srgv[$i]_msktz
+
+	@ k = $nsl - $msl; @ k++
+	echo zero_slice_4dfp $srgv[$i]_msktz z $k $nsl	$srgv[$i]_mskt
+	$bin/zero_slice_4dfp $srgv[$i]_msktz z $k $nsl	$srgv[$i]_mskt
+		/bin/rm $srgv[$i]_msktz*
+	@ i++
+end
+
+if ($mode == oc) set scale_reg_modes = (4335 1283 2307)
+                 set scale_reg_modes = (1283 2307)
+
+@ i = 1
+while ($i <= $n)
+	@ j = 1
+	while ($j <= $n)
+	   if ($j == $i) goto SKIP
+	   set pos = $srgv[$i]:t
+	   set neg = $srgv[$j]:t
+	   set t4file = $neg"_to_"$pos"_t4"
+
+	   @ k = 1
+	   while ($k <= ${#scale_reg_modes})
+
+	      echo imgreg_4dfp $srgv[$i]$gstr $srgv[$i]_mskt $srgv[$j]$gstr $srgv[$j]_mskt $t4file $scale_reg_modes[$k]
+	      $bin/imgreg_4dfp $srgv[$i]$gstr $srgv[$i]_mskt $srgv[$j]$gstr $srgv[$j]_mskt $t4file $scale_reg_modes[$k] >> $log
+	      if ($status) exit $status
+	      @ k++
+
+	   end
+SKIP:
+	   @ j++
+	end
+	@ i++
+end
+#----------------------------------------------------------------------------
+
+echo " "
+echo    t4_resolve $srgv -sw -o$patid$mode
+echo    t4_resolve $srgv -sw -o$patid$mode >> $log
+   $bin/t4_resolve $srgv -sw -o$patid$mode >> $log
+
+# Determine quality of the t4_resolve
+set error = `gawk '/rotation/{rot = $5} /translation/{trans = $5} END {printf("%3d",100*(trans+1.4*rot))}' $log` 
+echo                           >> $log
+echo "$program t4_resolve $patid$mode ERROR = " $error
+echo "$program t4_resolve $patid$mode ERROR = " $error >> $log
+
+#----------------------------------------------------------------------------
+# Make average $patid$mode image in PET space for scalefactor calculations
+
+echo " " 
+echo t4imgs_4dfp $patid$mode.sub	$patid$mode -O$imglist[1]
+$bin/t4imgs_4dfp $patid$mode.sub	$patid$mode -O$imglist[1]
+		if ($status) exit $status
+$bin/ifh2hdr	-r20000			$patid$mode
+
+#----------------------------------------------------------------------------
+# Use tight brain mask to make $imglist[1]_mskt for scalefactor calculations
+
+echo msktgen_4dfp $imglist[1] 500 -T$target -S711-2B
+$bin/msktgen_4dfp $imglist[1] 500 -T$target -S711-2B
+
+#----------------------------------------------------------------------------
+# Use tight masked brain to find $patid$mode mean for scalefactor calculations
+
+set mean = `qnt_4dfp $patid$mode $imglist[1]_mskt | gawk '/Mean=/{printf("%f",$NF)}'` 
+set scalefac = `echo $mean | gawk '{printf("%f", 5000/$1)}'`
+   	
+echo mean=$mean scalefac=$scalefac
+
+foreach x ($imglist)
+	set t4file = $x"_to_"$patid$mode"_t4"
+	set fac0 = `gawk '/scale:/{printf $NF}' $t4file`	# Retrieve scale from x_img_to_mode_t4
+	set fac1 = `echo $scalefac $fac0 | gawk '{print $1*$2}'`# scale*scalefactor
+	echo $t4file $fac0 $fac1
+	/bin/cp -p $t4file unresolved_t4/			# Save x_img_to_mode_t4
+	sed '/scale:/d' $t4file >! $$temp_t4			# Remove scale from x_img_to_mode_t4
+	/bin/mv $$temp_t4 $t4file				# Replace scale with scale*scalefactor
+	echo $fac1 | gawk '{printf ("scale:    %10.6f\n", $1)}' >> $t4file	
+	echo "# intensity scale multiplied by "$scalefac" to achieve mean 5000" >> $t4file
+	echo $t4file is ; cat $t4file
+	
+	set t4file1 = $x"_to_"$target"_t4"
+	/bin/cp -p $t4file1 unresolved_t4/			# Save x_img_to_target_t4
+	sed '/scale:/d' $t4file1 >! $$temp_t4			# Remove scale from x_img_to_target_t4
+								# Replace scale with scale*scalefactor
+	echo $fac1 | gawk '{printf ("scale:    %10.6f\n", $1)}' >> $$temp_t4	
+	/bin/mv $$temp_t4 $t4file1
+	echo "# intensity scale multiplied by "$scalefac" to achieve mean 5000" >> $t4file1	
+	echo $t4file1 is ; cat $t4file1 ; echo " "
+end
+
+#----------------------------------------------------------------------------
+#echo remake average PET images in PET space with new scale factors
+
+$bin/t4imgs_4dfp $patid$mode.sub	$patid$mode -O$imglist[1]
+$bin/ifh2hdr	-r10000			$patid$mode
+
+#----------------------------------------------------------------------------
+# QA images
+
+echo "gauss set to "$gauss
+set g = `echo $gauss | gawk '{print int(10 * '$gauss')}'`
+set gstr = "_g"$g
+
+$bin/gauss_4dfp			$patid$mode $gauss
+$bin/ifh2hdr	-r10000		$patid$mode$gstr
+
+# Manually create atlas space sub file from $patid$mode.sub
+
+echo "s/"$patid$mode"_t4"/$target"_t4"/	>! $$.sed
+cat $$.sed
+sed -f $$.sed $patid$mode.sub >!		$patid$mode"_on_"$target.sub
+/bin/rm $$.sed
+
+echo t4imgs_4dfp $patid$mode"_on_"$target.sub	$patid$mode"_on_"$target   -O222
+$bin/t4imgs_4dfp $patid$mode"_on_"$target.sub	$patid$mode"_on_"$target   -O222
+$bin/ifh2hdr	-r10000				$patid$mode"_on_"$target
+echo gauss_4dfp					$patid$mode"_on_"$target $gauss
+$bin/gauss_4dfp					$patid$mode"_on_"$target $gauss
+$bin/ifh2hdr	-r10000				$patid$mode"_on_"$target$gstr
+
+#----------------------------------------------------------------------------
+CLEAN:
+@ i = 1
+while ($i <= $n)
+	/bin/rm -f $srgv[$i]_g6.4dfp* $srgv[$i]_mskt.4dfp*
+	@ i++
+end
+
+if (! -e unresolved_t4) mkdir unresolved_t4  
+set t4s = ({$patid$mode}[1-9]"_"$img"_to_"{$patid$mode}[1-9]"_"$img"_t4")
+
+foreach t4 ($t4s)
+	/bin/mv -f $t4 unresolved_t4
+end
+
+if (! -e resolved_t4) mkdir resolved_t4
+/bin/mv -f {$patid$mode}[1-9]"_"$img"_to_"{$patid$mode}"_t4" $patid$mode".sub" resolved_t4
+/bin/mv -f {$patid$mode}[1-9]"_"$img"_to_"$target"_t4" resolved_t4
+
+echo Done $program >> $log
+echo Done $program
+
+exit 0
+
+#----------------------------------------------------------------------------
+
+USAGE:
+
+echo "Usage:	"$program" <patid> <4dfp mpr> <modality> <image_name> <gauss> [-Ttarget]"
+
+echo " e.g.:	 VNS001 VNS001_mpr5 ho auto 0.6 "
+echo "		 p6034 p6034_mpr_S fdg c 0.4 -T/data/cninds01/data2/atlas/MSADEM_Y_DC"
+echo " N.B.:	 PET scans of same modality are named <patid><modality>#_<image_name>.4dfp.img"
+echo "  	 <patid><modality>_to_target_t4 must exist default PET target is TRIO_Y_NDC"
+echo "		 Gaussed and target transformed images are made and t4 files are moved"
+
+exit 1
+

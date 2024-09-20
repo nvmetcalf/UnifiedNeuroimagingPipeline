@@ -1,0 +1,52 @@
+#!/bin/bash
+
+TOFfn=$1
+t4fn=$2
+ArtInfo=$3
+PET=$4
+fdgflag=$5
+AIFdir=$6
+
+# Calculate thresholds for generating arterial ROI and background ROI
+p=`imgmax_4dfp ./${AIFdir}/$TOFfn"_Art_g"`
+ta=$(echo "scale=6; $p/2." | bc)
+tb=$(echo "scale=6; $ta/4." | bc)
+#tb=0.02
+
+echo $ta $tb
+
+
+# Transform gaussian blurred arterial mask and subvolume mask to the PET space
+t4img_4dfp $t4fn ./${AIFdir}/lArt ./${AIFdir}/lArt"_"$PET -O${PET}"_sumall" -n
+t4img_4dfp $t4fn ./${AIFdir}/rArt ./${AIFdir}/rArt"_"$PET -O${PET}"_sumall" -n
+zero_slice_4dfp ./${AIFdir}/lArt"_"$PET -z1to1
+zero_slice_4dfp ./${AIFdir}/rArt"_"$PET -z1to1
+t4img_4dfp $t4fn ./${AIFdir}/$TOFfn"_Art_g" ./${AIFdir}/$TOFfn"_Art_g_"$PET -O${PET}"_sumall"
+
+qnt_4dfp ./${AIFdir}/$TOFfn"_Art_g_"$PET ./${AIFdir}/lArt"_"$PET"z" -v${tb}to1 | gawk '/Voxels/ {print $2}'
+qnt_4dfp ./${AIFdir}/$TOFfn"_Art_g_"$PET ./${AIFdir}/rArt"_"$PET"z" -v${tb}to1 | gawk '/Voxels/ {print $2}'
+
+# Prepare .m file for extracting ${AIFdir}./${AIFdir}/lArt"_"$PET
+cd ${AIFdir}
+mfile=$PET"AIF.m"
+if [ -e  $mfile ]
+then
+	rm $mfile
+fi
+touch $mfile
+if [ "$fdgflag" -eq 1 ]
+then
+	dpetfn=${PET}"_on_"${PET}"_sumall"
+else
+	dpetfn=$PET
+fi
+
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "extractAIF('../"$dpetfn"','lArt_"$PET"z','rArt_"$PET"z','"$TOFfn"_Art_g_"$PET"','"$PET"',"$ta","$tb");" >>$mfile
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+$MLBIN/matlab -nojvm -nodisplay < $mfile
+#/opt/matlab8/bin/matlab -nojvm -nodisplay < $mfile
+rm $mfile
+cd ..

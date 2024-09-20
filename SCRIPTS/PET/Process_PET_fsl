@@ -1,0 +1,61 @@
+#!/bin/csh
+
+source $1
+source $2
+
+set SubjectHome = $cwd
+	
+if(! $?FDG && ! $?H20) then
+	decho "PET FDG and H20 not specified in the params file. Cannot reliably register data to T1."
+	exit 1
+endif
+
+#clean out what existed before and start fresh
+set ScratchDir = $ScratchFolder/$patid/PET_temp
+rm -rf PET $ScratchDir PET
+mkdir PET
+mkdir PET/Volume
+mkdir PET/Surfaces
+mkdir PET/Time_Decay
+mkdir PET/Movement
+mkdir PET/Parcellations
+mkdir Logs
+mkdir -p $ScratchDir
+
+#assumes -reg has been completed successfully
+if($?day1_path) then
+	if(! -e ${day1_path}/Anatomical/Volume/T1/${day1_patid}_T1.nii.gz) then
+		decho "day1 T1 does not exist! Cannot register PET."
+		exit 1
+	endif	
+else if(! -e ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1.nii.gz) then
+	decho "T1 does not exist! Cannot register PET."
+	exit 1
+endif
+
+$PP_SCRIPTS/PET/PET_FrameAlign_and_Sum.csh $1 $2	#checked
+if($status) exit 1
+	
+$PP_SCRIPTS/Registration/Register_PET.csh $1 $2	#checked
+if($status) exit 1
+	
+$PP_SCRIPTS/PET/Run_gtmseg_recombine.csh $1 $2	#checked
+if($status) exit 1
+	
+$PP_SCRIPTS/Registration/Register_PET_to_FS.csh $1 $2	
+if($status) exit 1
+	
+$PP_SCRIPTS/PET/Compute_normalization.csh $1 $2	#checked
+if($status) exit 1
+	
+$PP_SCRIPTS/PET/Compute_OM.csh $1 $2
+if($status) exit 1
+	
+$PP_SCRIPTS/PET/Compute_GI.csh $1 $2
+if($status) exit 1
+	
+$PP_SCRIPTS/PET/Run_sGTMPVC.csh $1 $2
+if($status) exit 1
+
+
+exit 0

@@ -1,0 +1,138 @@
+#!/bin/csh -f
+# $Header: /data/petsun4/data1/solaris/csh_scripts/RCS/cross_pet_resolve_4dfp,v 1.3 2018/08/17 05:38:46 avi Exp $
+# $Log: cross_pet_resolve_4dfp,v $
+# Revision 1.3  2018/08/17  05:38:46  avi
+# invoke with -f
+#
+# Revision 1.2  2011/10/14  19:49:31  larsc
+# Corrected usage error.
+#
+# Revision 1.1  2011/01/25  20:10:02  larsc
+# Initial revision
+#
+set idstr   = '$Id: cross_pet_resolve_4dfp,v 1.3 2018/08/17 05:38:46 avi Exp $'
+echo $idstr
+set program = $0
+set program = $program:t
+set BLUR    = 0.9
+set OCBLUR  = 0.6
+set modes   = (1283 2307)
+
+set imgv = ()
+set blur = $BLUR
+@ gflag = 0
+@ mask  = 0
+@ oc    = 0
+@ i     = 0
+while ($i <= ${#argv})
+	switch ($argv[$i])
+	case -mask:
+		@ mask ++
+		breaksw
+	case -g*:
+		@ gflag ++
+		set blur = `echo $argv[$i] | gawk '{print substr ($1, 3)}'`
+		breaksw
+	case -oc:
+		if ($gflag == 0) set blur = $OCBLUR
+		@ oc ++
+		breaksw
+	default:
+		set imgv = ($imgv $argv[$i])
+		breaksw		
+	endsw
+	@ i ++
+end
+if (${#imgv} < 3) then
+	echo "Usage:	$program outroot image_1 image_2 ... image_n"
+	echo " e.g.,	$program p5654ho p5654ho?_auto.4dfp.img"
+	echo " options"
+	echo " -mask     use masks"
+	echo " -g<float> set preblur (default $BLUR)"
+	echo " -oc       use sqrt images and preblur with $OCBLUR"
+	exit 1
+endif
+
+set imgv    = ($imgv:gr)
+set outroot = $imgv[1]:r
+set imgv    = ($imgv[2-]:gr)
+set imgw    = ()
+set imgm    = ()
+set imgr    = ()
+foreach img ($imgv)
+	if (! -e $img.4dfp.ifh || ! -e $img.4dfp.img) then
+		echo $program": "$img not found
+		exit -1
+	endif
+	if ($mask) then
+		if (! -e ${img}_msk.4dfp.ifh || ! -e ${img}_msk.4dfp.img) then
+			imgblur_4dfp $img 5
+			maskimg_4dfp ${img}_b50 ${img}_b50 -p5 ${img}_temp$$
+			set lims = `gawk '/matrix size \[3\]/ {m = int(0.09*$NF); print (m+1)"to"($5-m)}' $img.4dfp.ifh`
+			crop_4dfp -Z -z$lims ${img}_temp$$ ${img}_msk
+			rm ${img}_b50.4dfp.{img,ifh,hdr,img.rec}
+			rm ${img}_temp$$.4dfp.{img,ifh,hdr,img.rec}
+			set imgr = ($imgr ${img}_msk)
+		endif
+		set imgm = ($imgm ${img}_msk)
+	else
+		set imgm = ($imgm "none")
+	endif
+	if ($oc) then
+		sqrt_4dfp $img ${img}_temp$$_sqrt
+		gauss_4dfp ${img}_temp$$_sqrt $blur ${img}_temp$$
+		rm ${img}_temp$$_sqrt.4dfp.{img,ifh,hdr,img.rec}
+	else
+		gauss_4dfp $img $blur ${img}_temp$$
+	endif
+	set imgw = ($imgw ${img}_temp$$)
+end
+
+set reglog = ${outroot}_imgreg_4dfp.log
+echo $idstr		>! $reglog
+echo $program $argv[1-]	>> $reglog
+date			>> $reglog
+
+@ i = 1
+while ($i <= ${#imgw})
+@ j = 1
+while ($j <= ${#imgw})
+if ($i != $j) then
+	if (-e $imgw[$j]_to_$imgw[$i]_t4) rm $imgw[$j]_to_$imgw[$i]_t4
+	foreach mode ($modes)
+		echo "imgreg_4dfp $imgw[$i] $imgm[$i] $imgw[$j] $imgm[$j] $imgv[$j]_to_$imgv[$i]_t4 $mode" >> $reglog
+		      imgreg_4dfp $imgw[$i] $imgm[$i] $imgw[$j] $imgm[$j] $imgv[$j]_to_$imgv[$i]_t4 $mode  >> $reglog
+	end
+endif
+@ j ++
+end
+@ i ++
+end
+
+foreach img ($imgr $imgw)
+	rm ${img}.4dfp.{img,ifh,hdr,img.rec}
+end
+
+set reslog = ${outroot}_t4_resolve.log
+echo $idstr		>! $reslog
+echo $program $argv[1-]	>> $reslog
+date			>> $reslog
+
+t4_resolve $imgv -o$outroot >> $reslog
+set error = `gawk '/estimate total rotation error/{rot = $5} /estimate total translation error/{trans = $5} END{printf ("%3d", 100*(trans + 1.4*rot))}' $reslog`
+echo "" >> $reslog
+echo "ERROR = $error"
+echo "ERROR = $error" >> $reslog
+
+if ($error < 100) then
+	echo "ERROR is LOW, image reconciliation is good"
+	echo "ERROR is LOW, image reconciliation is good"             >> $reslog
+else if ($error > 200) then
+	echo "ERROR is HIGH, cross-image reconciliation is poor"
+	echo "ERROR is HIGH, cross-image reconciliation is poor"      >> $reslog
+else
+	echo "ERROR is MED, cross-image reconciliation is acceptable"
+	echo "ERROR is MED, cross-image reconciliation is acceptable" >> $reslog
+endif
+
+exit 0

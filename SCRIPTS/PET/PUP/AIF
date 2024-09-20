@@ -1,0 +1,30 @@
+#!/bin/bash
+################################################################################
+# This program extract arterial input function for dynamic PET images based on 
+# MPRAGE and TOF MRA                                                                            
+################################################################################
+# Yi Su, 12/01/2010                                                            
+
+TOF=$1
+MPR=$2
+ArtInfo=$3
+SID1=$4
+
+imgblur_4dfp ${SID1}"ho1_sumall" 5
+imgblur_4dfp ${SID1}"oo1_sumall" 5
+gauss_4dfp ${SID1}"oc1_sumall_sqrt" 0.9
+
+regpet1 ${SID1}"ho1_sumall_b50" ${SID1}"oo1_sumall_b50" ${SID1}"oc1_sumall_sqrt_g9"
+
+~larsc/bin/pet2mpr_reg.csh ${MPR} triple_target
+
+t4_resolve ${MPR} triple_target -oMPR
+
+~larsc/bin/tof2mpr_reg.csh ${MPR} ${TOF}
+
+
+t4_mul ${SID1}"ho1_sumall_to_triple_target_t4" triple_target_to_MPR_t4 ${SID1}"ho1_sumall_to_"${MPR}"_t4"
+t4_mul ${SID1}"oo1_sumall_to_triple_target_t4" triple_target_to_MPR_t4 ${SID1}"oo1_sumall_to_"${MPR}"_t4"
+t4_mul ${SID1}"oc1_sumall_sqrt_to_triple_target_t4" triple_target_to_MPR_t4 ${SID1}"oc1_sumall_to_"${MPR}"_t4"
+
+cvlAIF $TOF $MPR $ArtInfo ${SID1}

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+MPR=$1
+SID=$2
+
+maskimg_4dfp ${MPR} ${MPR} temp$$"_0" -t-10000000.0 -v1
+for scan in "ho1" "ho2" "ho3" "ho4"
+do
+	maskimg_4dfp ${SID}${scan}"_sumall" ${SID}${scan}"_sumall" temp$$ -t-10000000.0 -v1
+	t4img_4dfp ${SID}${scan}"_sumall_to_"${MPR}"_t4" temp$$ temp$$"_1" -O${MPR} -n
+	imgopr_4dfp -p${MPR}"_fov" temp$$"_0" temp$$"_1"
+	maskimg_4dfp ${MPR}"_fov" ${MPR}"_fov" temp$$"_0"
+done
+
+rm temp$$*.4dfp.*
+
+imgopr_4dfp -p${MPR}"_wbmsk" ${MPR}"_fov" ${MPR}"_mskt"
+
+for scan in "ho1" "ho2" "ho3" "ho4"
+do
+	t4_inv ${SID}${scan}"_sumall_to_"${MPR}"_t4" ${MPR}"_to_"${SID}${scan}"_sumall_t4"
+	t4img_4dfp ${MPR}"_to_"${SID}${scan}"_sumall_t4" ${MPR}"_wbmsk" ${MPR}"_wbmsk_on_"${SID}${scan} -O${SID}${scan}"_sumall" -n
+	qnt_4dfp ${SID}${scan} ${MPR}"_wbmsk_on_"${SID}${scan} | gawk '/Mean/ {print $2}' > ${SID}${scan}"_WBMean.tac"
+done

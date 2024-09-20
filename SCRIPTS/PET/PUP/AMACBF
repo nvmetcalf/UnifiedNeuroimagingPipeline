@@ -1,0 +1,51 @@
+#!/bin/bash
+
+loc=$1
+normlst=$2
+hypolst=$3
+
+pid=`gawk 'NR==1 {print $1}'  ${loc}/$normlst`
+sid=`gawk 'NR==1 {print $2}'  ${loc}/$normlst`
+$RELEASE/ecatto4dfp ${loc}/rg${pid}ha${sid}.v tmp
+m=`imgmax_4dfp tmp`
+m1=$(echo "scale=8; $m+1." |bc)
+zero_lt_4dfp $m1 tmp "rg"${pid}"_norm"
+zero_lt_4dfp $m1 tmp "rg"${pid}"_hypo"
+
+
+# Create norm composite image
+ns=`wc -l ${loc}/$normlst |gawk '{print $1}'`
+
+for (( i=1; i<=$ns; i++ ))
+do
+	pid=`gawk 'NR=='$i' {print $1}'  ${loc}/$normlst`
+	sid=`gawk 'NR=='$i' {print $2}'  ${loc}/$normlst`
+	val=`gawk 'NR=='$i' {print $3}'  ${loc}/$normlst`
+	scalefactor=$(echo "scale=8; 1000/$val/$ns" | bc)
+	
+	$RELEASE/ecatto4dfp ${loc}/rg${pid}ha${sid}.v tmp1
+	flip_4dfp -x tmp1 tmp2
+	scale_4dfp tmp2 $scalefactor
+	scale_4dfp "rg"${pid}"_norm" 1. -as
+	imgopr_4dfp -a"rg"${pid}"_norm" tmp2 "rg"${pid}"_norm_s"
+done
+
+# Create hypo composite image
+ns=`wc -l ${loc}/$hypolst |gawk '{print $1}'`
+
+for (( i=1; i<=$ns; i++ ))
+do
+	pid=`gawk 'NR=='$i' {print $1}'  ${loc}/$hypolst`
+	sid=`gawk 'NR=='$i' {print $2}'  ${loc}/$hypolst`
+	val=`gawk 'NR=='$i' {print $3}'  ${loc}/$hypolst`
+	scalefactor=$(echo "scale=8; 1000/$val/$ns" | bc)
+	
+	$RELEASE/ecatto4dfp ${loc}/rg${pid}ha${sid}.v tmp1
+	flip_4dfp -x tmp1 tmp2
+	scale_4dfp tmp2 $scalefactor
+	scale_4dfp "rg"${pid}"_hypo" 1. -as
+	imgopr_4dfp -a"rg"${pid}"_hypo" tmp2 "rg"${pid}"_hypo_s"
+done
+
+rm tmp.4dfp.* tmp1.4dfp.*  tmp2.4dfp.* 
+rm rg${pid}_hypo_s.* rg${pid}_norm_s.*

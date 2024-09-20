@@ -1,0 +1,39 @@
+#!/bin/bash
+# Program to find threshold that generate an ROI with a specific number of voxels.
+# A matlab code wrapper.
+#
+# Yi Su, 2011-11-3
+
+if (( $# < 3 )) 
+then
+	echo "Usage: `basename $0` <imagefile> <maskfile> N"
+	exit 255
+fi
+
+imgfstr=$1 # 4dfp file
+imgdir=`dirname $imgfstr`
+imgname=`basename $imgfstr`
+imgroot=${imgname%%.*}
+
+mskfstr=$2 # 4dfp file
+N=$3
+
+# Prepare .m file 
+
+mfile=${imgroot}"_t.m"
+if [ -e $mfile ] 
+then
+	rm $mfile
+fi
+touch $mfile
+echo "addpath('/data/nil-bluearc/raichle/suy/matlabcodes/');" >>$mfile #addpath
+echo "findtroisize('"$imgfstr"', '"$mskfstr"',"$N");" >>$mfile
+
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+$MLBIN/matlab -nojvm -nodisplay < $mfile  > /dev/null
+rm $mfile
+
+cat findtroisize_threshold.txt
+rm findtroisize_threshold.txt

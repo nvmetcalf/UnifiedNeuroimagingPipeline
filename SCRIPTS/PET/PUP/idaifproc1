@@ -1,0 +1,73 @@
+#!/bin/bash
+################################################################################
+# PET processing							       #
+#                                                                              #
+# USAGE:								       #
+#	idaifproc1 paramsfn                                                    #
+#                                                                              #
+# This script reads a params file for IDAIF PET processing                     #
+################################################################################
+# Yi Su, 1/18/2017
+VERSION=1.0
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Wed Jan 18 13:19:31 CST 2016 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+
+###############################################################################
+# Read PARAMS file
+source $paramsfn
+
+# Further development will improve this program to check the validity of
+# the inputs specified in the params file
+
+mkdir pet_proc
+cp $paramsfn pet_proc
+cd pet_proc
+
+###############################################################################
+# Populate and preprocess PET files
+petaifpre1 $paramsfn || die "$program ERROR: PET file conversion failed"
+
+###############################################################################
+# PET motion correction
+petmoco $paramsfn || die "$program ERROR: PET motion correction failed"
+
+###############################################################################
+# ROI target preprocessing
+fspreproc $paramsfn || die "$program ERROR: ROI target preprocessing failed"
+
+###############################################################################
+# pet to target registration
+petreg $paramsfn || die "$program ERROR: PET to target registration failed"
+
+###############################################################################
+# TOF MRA preprocessing
+TOFMRApre1 $paramsfn
+
+###############################################################################
+# tac preprocessing
+pettacpre $paramsfn || die "$program ERROR: tac preprocessing failed"
+
+
+###############################################################################
+# ROI TAC extraction
+petaiftac2 $paramsfn || die "$program ERROR: ROI TAC extraction failed"
+

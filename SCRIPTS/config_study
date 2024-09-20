@@ -1,0 +1,476 @@
+#!/bin/csh
+
+if($#argv < 1) then
+	echo "config_study <study name>"
+	echo "This script will configure a new study or will reconfigure an existing study."
+	exit 1
+endif
+
+set StudyName = $1
+
+if(! -e ${PROJECTS_HOME}/${PROJECTS_DIR}/${StudyName}) then
+	echo "ERROR: ${PROJECTS_HOME}/${PROJECTS_DIR}/${StudyName} does not exist!"
+	exit 1
+endif
+
+set StudyConfig = "${PROJECTS_HOME}/${PROJECTS_DIR}/${StudyName}/Study.cfg"
+
+if( ! -e $PP_SCRIPTS/Config/P1.cfg) then
+	echo "Could not find $PP_SCRIPTS/Config/P1.cfg!"
+	exit 1
+endif
+
+source $PP_SCRIPTS/Config/P1.cfg
+
+
+set FinishedConfig = 0
+set MenuOption = 0
+
+#set the default variables
+set TargetAtlas = 1
+set target = $AtlTargets[$TargetAtlas]
+set FD_Threshold = 0.3
+set DVAR_Threshold = 0
+set UseIterativeRegression = 0
+set ScratchFolder = ${SCRATCH}/${1}
+set LowResMesh = 32
+set ComputeWBRegressor = 1
+set ComputeVENT = 1
+set ComputeWM = 1
+set ComputeMOVERegressor = 1
+set ComputeEACSFRegressor = 1
+set ApplyWBRegressor = 1
+set ApplyVENT = 1
+set ApplyWM = 1
+set ApplyMOVERegressor = 1
+set ApplyEACSFRegressor = 1
+set DoVolumeRegression = 1
+set NonLinear = 1
+set DoVolumeBPSS = 1
+set LowFrequency = 0.009
+set HighFrequency = 0.08
+set MaskTrailer = ""
+set DoSurfaceRegression = 1
+set ConvertDTItoDWI = 1
+set DTIFramesToUse = ( 3 4 5 6 7 8 9 10 11 12 13 14 )
+set IncludeSubCortical = 1
+set VolSmoothingFWHM = 0
+set SurfSmoothingFWHM = 0
+set StudyGroup = `groups | awk '{print $1}'`
+set FinalResolution = 3
+set RegisterEcho = 1
+set MaximumRegDisplacement = 4
+set MovementLowpass = 2
+set MaxNumRegressors = 25
+set RunNORDIC = 1
+
+set ProcessUserScript = ""
+
+if(-e ${StudyConfig}) then
+	echo "Found existing Study.cfg. loading parameters..."
+	source ${StudyConfig}
+endif
+
+while(! $FinishedConfig)
+
+	switch($MenuOption)
+		case 0:	#main menu
+			clear
+			echo "###########################"
+			echo ""
+			echo "MAIN MENU"
+			echo ""
+			echo "###########################"
+			echo ""
+			echo "Please select a menu option."
+			echo ""
+			echo "1. Change Atlas Target ( Current: ${AtlTargets[${TargetAtlas}]} )"
+			echo "2. Change Frame Displacement threshold ( Current: $FD_Threshold )"
+			echo "3. Change DVAR Threshold ( Current: $DVAR_Threshold )"
+			echo "4. Force Iterative Regression? ( Current: $UseIterativeRegression)"
+			echo "5. Set Scratch path. ( Current: $ScratchFolder )"
+			echo "6. Set low resolution mesh for surface projection. (Current: $LowResMesh k )"
+			echo "7. Compute Whole Brain Regressor. ( Current: $ComputeWBRegressor )"
+			echo "8. Compute Ventricle Regressor. ( Current: $ComputeVENT )"
+			echo "9. Compute White Matter Regressor. ( Current: $ComputeWM )"
+			echo "10. Compute Movement Regressor. ( Current: $ComputeMOVERegressor )"
+			echo "11. Compute Extra Axial CSF Regressor. ( Current: $ComputeEACSFRegressor )"
+			echo "12. Apply Whole Brain Regressor. ( Current: $ApplyWBRegressor )"
+			echo "13. Apply Ventricle Regressor. ( Current: $ApplyVENT )"
+			echo "14. Apply White Matter Regressor. ( Current: $ApplyWM )"
+			echo "15. Apply Movement Regressor. ( Current: $ApplyMOVERegressor )"
+			echo "16. Apply Extra Axial CSF Regressor. ( Current: $ApplyEACSFRegressor )"
+			echo "17. Perform Signal Regression in Volume. ( Current: $DoVolumeRegression )"
+			echo "18. Use NonLinear Atlas Registration. ( Current: $NonLinear )"
+			echo "19. Perform temporal signal filtering in Volume. ( Current: $DoVolumeBPSS )"
+			echo "20. set temporal signal filtering thresholds. (Current: Low: $LowFrequency hz High: $HighFrequency hz )"
+			echo "21. Set mask trailer to be used for masking voxels during transformations and regression. ( Current: $MaskTrailer )"
+			echo "22. Perform Signal Regression on the Surface. ( Current: $DoSurfaceRegression )"
+			echo "23. Convert DTI to diffusion? ( Current: $ConvertDTItoDWI Frames To Use: $DTIFramesToUse )"
+			echo "24. Include Sub-Cortical structures in dtseries? ( Current: $IncludeSubCortical) "
+			echo "25. Volume Smoothing ( Current: $VolSmoothingFWHM mm fwhm)"
+			echo "26. Surface Smoothing ( Current: $SurfSmoothingFWHM mm fwhm)"
+			echo "27. Set Study user group ( Current: $StudyGroup )"
+			echo "28. Set script to run after processing commands. ( Current: $ProcessUserScript )"
+			echo "29. Final Voxel Dimensions ( Current: $FinalResolution)"
+			echo "30. Echo To Register (Current: ${RegisterEcho})"
+			echo "31. Maximum 2 way registration displacement error ( Current: $MaximumRegDisplacement )"
+			echo "32. Movement Lowpass method ( Current: $MovementLowpass )"
+			echo "33. Maximum Number of Regresor Components (Current: $MaxNumRegressors)"
+			echo "34. Perform NORDIC denoising ( Current: $RunNORDIC )"
+			echo ""
+			echo "To save the current study parameters and exit this menu, type 'finished'"
+			set MenuOption = $<
+			clear
+			echo ""
+			breaksw
+		case 1:	#atlas selection
+			echo "Please set the atlas that is to be used for this study. Enter the number corresponding to you desired atlas below."
+			echo "Enter a value of 0 if you want to keep metric data in each participants native T1 space. This will also set NonLinear to false."
+			echo "Current: $TargetAtlas"
+			#output all known atlases
+			@ i = 1
+			while ($#AtlTargets >= $i)
+				echo "		${i}. ${AtlTargets[${i}]}"
+				@ i++
+			end
+
+			set TargetAtlas = $<
+			
+			if($TargetAtlas == 0) then
+				set NonLinear = 0
+			endif
+			set MenuOption = 0
+			breaksw
+		case 2:
+			echo "Please set a Frame Displacement (FD) threshold in millimeters. "
+			echo "Current: $FD_Threshold"
+			set FD_Threshold = $<
+			set MenuOption = 0
+
+			breaksw
+		case 3:
+			echo "Please set a DVAR threshold. "
+			echo "Current: $DVAR_Threshold"
+			set DVAR_Threshold = $<
+			set MenuOption = 0
+			breaksw
+		case 4:
+			if($UseIterativeRegression) then
+				set UseIterativeRegression = 0
+			else
+				set UseIterativeRegression = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 5:
+			echo "Please enter the path for the desired scratch folder."
+			set ScratchFolder = $<
+			set MenuOption = 0
+			breaksw
+		case 6:
+			echo "Please enter a new mesh space."
+			echo "Valid options are 10, 32, and 164"
+
+			set new_mesh = $<
+
+			if($new_mesh != 10 & $new_mesh != 32 && $new_mesh != 164) then
+				echo "Invalid mesh space! Select a valid one."
+			else
+				set LowResMesh = $new_mesh
+				unset new_mesh
+				set MenuOption = 0
+			endif
+			breaksw
+		case 7:
+			if($ComputeWBRegressor) then
+				set ComputeWBRegressor = 0
+				set ApplyWBRegressor = 0
+			else
+				set ComputeWBRegressor = 1
+				set HemiSphereReg = 0
+			endif
+			set MenuOption = 0
+			breaksw
+		case 8:
+			if($ComputeVENT) then
+				set ComputeVENT = 0
+				set ApplyVENT = 0
+			else
+				set ComputeVENT = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 9:
+			if($ComputeWM) then
+				set ComputeWM = 0
+				set ApplyWM = 0
+			else
+				set ComputeWM = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 10:
+			if($ComputeMOVERegressor) then
+				set ComputeMOVERegressor = 0
+				set ApplyMOVERegressor = 0
+			else
+				set ComputeMOVERegressor = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 11:
+			if($ComputeEACSFRegressor) then
+				set ComputeEACSFRegressor = 0
+				set ApplyEACSFRegressor = 0
+			else
+				set ComputeEACSFRegressor = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 12:
+			if($ApplyWBRegressor) then
+				set ApplyWBRegressor = 0
+			else
+				set ApplyWBRegressor = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 13:
+			if($ApplyVENT) then
+				set ApplyVENT = 0
+			else
+				set ApplyVENT = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 14:
+			if($ApplyWM) then
+				set ApplyWM = 0
+			else
+				set ApplyWM = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 15:
+			if($ApplyMOVERegressor) then
+				set ApplyMOVERegressor = 0
+			else
+				set ApplyMOVERegressor = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 16:
+			if($ApplyEACSFRegressor) then
+				set ApplyEACSFRegressor = 0
+			else
+				set ApplyEACSFRegressor = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 17:
+			if($DoVolumeRegression) then
+				set DoVolumeRegression = 0
+			else
+				set DoVolumeRegression = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 18:
+			if($NonLinear || $TargetAtlas == 0) then
+				set NonLinear = 0
+			else
+				set NonLinear = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 19:
+			if($DoVolumeBPSS) then
+				set DoVolumeBPSS = 0
+			else
+				set DoVolumeBPSS = 1
+				set DoVolumeRegression = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 20
+			echo "Please enter the low frequency threshold. A value of 0 (zero) will do low pass filtering."
+			set LowFrequency = $<
+
+			echo "Please enter a high frequency threshold."
+			set HighFrequency = $<
+
+			set MenuOption = 0
+			breaksw
+		case 21:
+			echo "Please enter a new mask trailer. The masks must exist in the masks folder for each subject."
+			set MaskTrailer = $<
+			set MenuOption = 0
+			breaksw
+		case 22:
+			if($DoSurfaceRegression) then
+				set DoSurfaceRegression = 0
+			else
+				set DoSurfaceRegression = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 23:
+			if($ConvertDTItoDWI) then
+				set ConvertDTItoDWI = 0
+				set DTIFramesToUse = ( )
+			else
+				set ConvertDTItoDWI = 1
+				echo "Please enter the index of the frames (starting at 1) you would like to use for the conversion. Seperate multiple frames with a space."
+				set DTIFramesToUse = ( $< )
+			endif
+			set MenuOption = 0
+			breaksw
+
+		case 24:
+			if($IncludeSubCortical) then
+				set IncludeSubCortical = 0
+			else
+				set IncludeSubCortical = 1
+			endif
+			set MenuOption = 0
+			breaksw
+		case 25:
+			echo "Set how much smoothing you would like on the volume (current: $VolSmoothingFWHM mm fwhm)"
+			set VolSmoothingFWHM = $<
+			set MenuOption = 0
+			breaksw
+		case 26:
+			echo "Set how much smoothing you would like on the surface (current: $SurfSmoothingFWHM mm fwhm)"
+			set SurfSmoothingFWHM = $<
+			set MenuOption = 0
+			breaksw
+		case 27:
+			echo "set the user group for your study from the following list you have access to: "
+			groups
+			set StudyGroup = $<
+			set MenuOption = 0
+			breaksw
+		case 28:
+			echo "Set the script you would like to run after all other processing commands have finished (i.e. just before P2 fixes permissions and exits). Include the full absolute path to the script."
+			set ProcessUserScript = $<
+			set MenuOption = 0
+			breaksw
+		case 29:
+			echo "Set the dimensions for the final EPI (BOLD) isotropic resolution in mm^3."
+			echo "	NOTE: Setting to 0 will keep BOLD in its native space."
+			set FinalResolution = $<
+
+			set MenuOption = 0
+			breaksw
+		case 30:
+			echo "Set the echo to use for registration."
+			echo "	NOTE: only applies to Multiecho Datasets!"
+			set RegisterEcho = $<
+
+			set MenuOption = 0
+			breaksw
+		case 31:
+			echo "Set the maximum displacement error in mm for any registration. Set to 0 to disable."
+			set MaximumRegDisplacement = $<
+			set MenuOption = 0
+			breaksw
+		case 32:
+			echo "Set movement parameter to lowpass:"
+			echo "	0. All paramters"
+			echo "	1. X translation"
+			echo "	2. Y translation"
+			echo "	3. Z translation"
+			echo "	4. X rotation"
+			echo "	5. Y rotation"
+			echo "	6. Z rotation"
+			
+			set MovementLowpass = $<
+			if($MovementLowpass <= 6 && $MovementLowpass >= 0) then	
+				set MenuOption = 0
+			endif
+			
+			breaksw
+		case 33:
+			echo "Set maximum number of regressor components to use in denoising: "
+
+			
+			set MaxNumRegressors = $<
+			if($MaxNumRegressors > 0) then	
+				set MenuOption = 0
+			endif
+			breaksw
+		case 34:
+			echo "Use NORDIC denoising (1 = yes, 0 = no): "
+
+			if($RunNORDIC == 0) then
+				set RunNORDIC = 1
+			else
+				set RunNORDIC = 0
+			endif
+			set MenuOption = 0
+			
+			breaksw
+		case finished:
+			if(-e $StudyConfig) rm -rf $StudyConfig
+
+			touch $StudyConfig
+
+			echo "#######################" >> $StudyConfig
+			echo "#" >> $StudyConfig
+			echo "#	Study Configuration" >> $StudyConfig
+			echo "#" >> $StudyConfig
+			echo "#######################" >> $StudyConfig
+			echo "set TargetAtlas = $TargetAtlas" >> $StudyConfig
+			if($TargetAtlas == 0) then
+				echo "set target = "\"\""" >> $StudyConfig
+			else
+				echo "set target = $AtlTargets[$TargetAtlas]" >> $StudyConfig
+			endif
+			echo "set FD_Threshold = $FD_Threshold" >> $StudyConfig
+			echo "set DVAR_Threshold = $DVAR_Threshold" >> $StudyConfig
+			echo "set UseIterativeRegression = $UseIterativeRegression" >> $StudyConfig
+			echo "set ScratchFolder = $ScratchFolder" >> $StudyConfig
+			echo "set LowResMesh = $LowResMesh" >> $StudyConfig
+			echo "set ComputeWBRegressor = $ComputeWBRegressor" >> $StudyConfig
+			echo "set ComputeVENT = $ComputeVENT" >> $StudyConfig
+			echo "set ComputeWM = $ComputeWM" >> $StudyConfig
+			echo "set ComputeMOVERegressor = $ComputeMOVERegressor" >> $StudyConfig
+			echo "set ComputeEACSFRegressor = $ComputeEACSFRegressor" >> $StudyConfig
+			echo "set ApplyWBRegressor = $ApplyWBRegressor" >> $StudyConfig
+			echo "set ApplyVENT = $ApplyVENT" >> $StudyConfig
+			echo "set ApplyWM = $ApplyWM" >> $StudyConfig
+			echo "set ApplyMOVERegressor = $ApplyMOVERegressor" >> $StudyConfig
+			echo "set ApplyEACSFRegressor = $ApplyEACSFRegressor" >> $StudyConfig
+			echo "set DoVolumeRegression = $DoVolumeRegression" >> $StudyConfig
+			echo "set NonLinear = $NonLinear" >> $StudyConfig
+			echo "set DoVolumeBPSS = $DoVolumeBPSS" >> $StudyConfig
+			echo "set LowFrequency = $LowFrequency" >> $StudyConfig
+			echo "set HighFrequency = $HighFrequency" >> $StudyConfig
+			echo "set MaskTrailer = $MaskTrailer" >> $StudyConfig
+			echo "set DoSurfaceRegression = $DoSurfaceRegression" >> $StudyConfig
+			echo "set ConvertDTItoDWI = $ConvertDTItoDWI" >> $StudyConfig
+			echo "set DTIFramesToUse = ( $DTIFramesToUse )" >> $StudyConfig
+			echo "set IncludeSubCortical = $IncludeSubCortical" >> $StudyConfig
+			echo "set VolSmoothingFWHM = $VolSmoothingFWHM" >> $StudyConfig
+			echo "set SurfSmoothingFWHM = $SurfSmoothingFWHM" >> $StudyConfig
+			echo "set StudyGroup = $StudyGroup" >> $StudyConfig
+			echo "set ProcessUserScript = $ProcessUserScript" >> $StudyConfig
+			echo "set FinalResolution = $FinalResolution" >> $StudyConfig
+			echo "set RegisterEcho = ${RegisterEcho} " >> $StudyConfig
+			echo "set MaximumRegDisplacement = ${MaximumRegDisplacement} " >> $StudyConfig
+			echo "set MovementLowpass = ${MovementLowpass} " >> $StudyConfig
+			echo "set MaxNumRegressors = ${MaxNumRegressors} " >> $StudyConfig
+			echo "set RunNORDIC = ${RunNORDIC} " >> $StudyConfig
+			set FinishedConfig = 1
+			breaksw
+		default:
+			echo "INVALID SELECTION!"
+			set MenuOption = 0
+			breaksw
+	endsw
+
+end
+
+echo "Study.cfg written."
+exit 0

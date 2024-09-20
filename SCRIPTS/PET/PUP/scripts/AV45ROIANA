@@ -1,0 +1,420 @@
+#!/bin/bash
+################################################################################
+# This program performs ROI analysis for AV45 images based on freesurfer       #
+# created ROIs and t4 files created by REGPETMR which registers PET images to  #
+# the MR  images. ROI analysis is performed with and without RSF based partial #
+# correction.                                                                  #
+#                                                                              #
+################################################################################
+# Yi Su, 07/05/2012                                                            
+
+idstr='$Id: AV45ROIANA,v 1.2 2012/08/21 20:46:53 suy Exp $'
+echo $idstr
+
+petfstr=$1 # 4dfp PET image file (.4dfp.img)
+fsfstr=$2   # Freesurfer ROI definition file (usually wmparc.mgz)
+mrfstr=$3   # Anatomical MR file (usually T1.mgz)
+fslut=$4
+fwhm=$5
+roisfn=$6
+
+
+mgzto4dfp $fsfstr	# Converting to 4dfp file
+			# The anatomical file (T1.mgz) has already been converted
+			
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%.*}
+petroot=${petroot%.*}
+mrname=`basename $mrfstr`
+mrdir=`dirname $mrfstr`
+mrroot=${mrname%.*}
+mrroot=${mrroot}"001"
+fsfname=`basename $fsfstr`
+fsfdir=`dirname $fsfstr`
+fsfroot=${fsfname%.*}
+fsfroot=${fsfroot}"001"
+
+###########################
+# Generating PET field of view converage file PETFOV.4dfp.img
+
+tv=`imgmax_4dfp -m ${petroot} | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${petroot} ${petroot} temp$$
+nsl=`gawk '/matrix size \[3\]/ {print $NF}' ${petroot}".4dfp.ifh"`
+zero_slice_4dfp temp$$ z 1 5  temp$$"_mskz"
+k=$((nsl-4))
+zero_slice_4dfp temp$$"_mskz" z $k $nsl  temp$$"_msk"
+
+tv=`imgmax_4dfp -m ${mrroot} | gawk ' {print $2-1.0}'`
+maskimg_4dfp -v1 -t${tv} ${mrroot} ${mrroot} PETFOV
+
+t4file=${petroot}"_to_MR_t4"
+t4img_4dfp $t4file temp$$"_msk" temp$$"_"on_MR -O${mrroot} -n
+maskimg_4dfp -v1 PETFOV PETFOV temp$$_1
+imgopr_4dfp -pPETFOV temp$$_1 temp$$"_"on_MR
+
+
+rm temp$$*.4dfp.*
+
+###########################
+# Processing freesurfer rois, whole head roi, and prepare for roi analysis
+
+maskimg_4dfp -v1 -t15 ${mrroot}"_g9"  ${mrroot}"_g9" Head_Mask
+PreprocessRSFtest2 $fsfroot Head_Mask  RSFMask ROIlist.txt $fslut
+calrsfmat RSFMask ROIlist.txt RSFMat.dat $fwhm
+t4img_4dfp ${petroot}"_to_MR_t4" ${petroot} ${petroot}"_on_MR" -O${mrroot}
+NROI=`wc -l ROIlist.txt | gawk '{print $1}'`
+rsfroieval2 ${petroot}"_on_MR" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${petroot} 0
+
+############################
+# PVC2C
+
+GetROIList ${petroot}"_ROI2_f0" $fslut > fsrois.txt
+PVC2CFS wmparc001 PETFOV fsrois.txt $fwhm
+
+#############################
+# Calculate SUVR
+
+nline=`wc -l $roisfn | gawk '{print $1}'`
+
+# Get mean cerebellum intensity
+nl=`gawk '/Left-Cerebellum-Cortex/ {print $2}' ${petroot}"_ROI2_f0"`
+vall=`gawk '/Left-Cerebellum-Cortex/ {print $3}' ${petroot}"_ROI2_f0"`
+nr=`gawk '/Right-Cerebellum-Cortex/ {print $2}' ${petroot}"_ROI2_f0"`
+valr=`gawk '/Right-Cerebellum-Cortex/ {print $3}' ${petroot}"_ROI2_f0"`
+
+vallrsf=`gawk '/Left-Cerebellum-Cortex/ {print $3}' ${petroot}"_RSF_ROI2_f0"`
+valrrsf=`gawk '/Right-Cerebellum-Cortex/ {print $3}' ${petroot}"_RSF_ROI2_f0"`
+
+pvc2cl=`gawk '/Left-Cerebellum-Cortex/ {print $2}' PVC2CFS.txt`
+pvc2cr=`gawk '/Right-Cerebellum-Cortex/ {print $2}' PVC2CFS.txt`
+
+tmp1=$(echo "scale=8; $vall*$nl+$valr*$nr" | bc)
+tmp2=$(echo "scale=8; $nl+$nr" | bc)
+cbl=$(echo "scale=8; $tmp1/$tmp2" | bc)
+tmp1=$(echo "scale=8; $vallrsf*$nl+$valrrsf*$nr" | bc)
+cblrsf=$(echo "scale=8; $tmp1/$tmp2" | bc)
+tmp1=$(echo "scale=8; $vall*$nl/$pvc2cl+$valr*$nr/$pvc2cr" | bc)
+cblpvc2c=$(echo "scale=8; $tmp1/$tmp2" | bc)
+
+maskimg_4dfp ${petroot}"_on_MR" PETFOV ${petroot}_SUVR
+scf=$(echo "scale=8; 1/$cbl" | bc)
+scale_4dfp ${petroot}_SUVR $scf
+gauss_4dfp ${petroot}_SUVR 0.8
+
+if [ -e  $petroot"_ROIPETS.txt" ]
+then
+	rm $petroot"_ROIPETS.txt"
+fi
+touch $petroot"_ROIPETS.txt"
+
+if [ -e  wmROIPETS.txt ]
+then
+	rm wmROIPETS.txt
+fi
+touch wmROIPETS.txt
+
+if [ -e  $petroot"_ROIPETSLR.txt" ]
+then
+	rm $petroot"_ROIPETSLR.txt"
+fi
+touch $petroot"_ROIPETSLR.txt"
+
+if [ -e  wmROIPETSLR.txt ]
+then
+	rm wmROIPETSLR.txt
+fi
+touch wmROIPETSLR.txt
+
+printf '%-35s %11s %11s %11s %11s\n' "Structure_Name" "NVox" "SUVR" "SUVRrsf" "SUVRpvc2c" >> $petroot"_ROIPETS.txt"
+printf '%-35s %11s %11s %11s %11s\n' "Structure_Name" "NVox" "SUVR" "SUVRrsf" "SUVRpvc2c" >> $petroot"_ROIPETSLR.txt"
+
+MCSUVR=0.
+MCSUVRrsf=0.
+MCSUVRpvc2c=0.
+
+for (( i=1; i<=$nline; i++ ))
+do
+	ROI=`gawk 'NR=='$i' {print $1}'  $roisfn`
+	flag=`gawk 'NR=='$i' {print $2}'  $roisfn`
+	if (( $flag == 1 ))
+	then
+		nl=`gawk '/Left-'$ROI'/ {print $2}' ${petroot}"_ROI2_f0"`
+		vall=`gawk '/Left-'$ROI'/ {print $3}' ${petroot}"_ROI2_f0"`
+		nr=`gawk '/Right-'$ROI'/ {print $2}' ${petroot}"_ROI2_f0"`
+		valr=`gawk '/Right-'$ROI'/ {print $3}' ${petroot}"_ROI2_f0"`
+		vallrsf=`gawk '/Left-'$ROI'/ {print $3}' ${petroot}"_RSF_ROI2_f0"`
+		valrrsf=`gawk '/Right-'$ROI'/ {print $3}' ${petroot}"_RSF_ROI2_f0"`
+		pvc2cl=`gawk '/Left-'$ROI'/ {print $2}' PVC2CFS.txt`
+		pvc2cr=`gawk '/Right-'$ROI'/ {print $2}' PVC2CFS.txt`
+
+		if [ -z "$nl" ] || [ -z "$nr" ]
+		then
+			tmp2=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.
+		else
+			tmp1=$(echo "scale=8; $vall*$nl+$valr*$nr" | bc)
+			tmp2=$(echo "scale=8; $nl+$nr" | bc)
+			roi=$(echo "scale=8; $tmp1/$tmp2" | bc)
+			tmp1=$(echo "scale=8; $vallrsf*$nl+$valrrsf*$nr" | bc)
+			roirsf=$(echo "scale=8; $tmp1/$tmp2" | bc)
+			tmp1=$(echo "scale=8; $vall*$nl/$pvc2cl+$valr*$nr/$pvc2cr" | bc)
+			roipvc2c=$(echo "scale=8; $tmp1/$tmp2" | bc)
+	
+			SUVR=$(echo "scale=8; $roi/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $roirsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $roipvc2c/$cblpvc2c" | bc)
+		fi
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' $ROI $tmp2 $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETS.txt"
+		
+		if [ -z "$nl" ]
+		then
+			nl=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.	
+		else
+			SUVR=$(echo "scale=8; $vall/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $vallrsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $vall/$pvc2cl/$cblpvc2c" | bc)					
+		fi
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' "Left-"$ROI $nl $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETSLR.txt"
+		if [ -z "$nr" ]
+		then
+			nr=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.	
+		else
+			SUVR=$(echo "scale=8; $valr/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $valrrsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $valr/$pvc2cr/$cblpvc2c" | bc)					
+		fi
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' "Right-"$ROI $nr $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETSLR.txt"
+		
+
+	elif (( $flag == 0 ))
+	then
+		nl=`gawk '/'$ROI'/ {print $2}' ${petroot}"_ROI2_f0"`
+		vall=`gawk '/'$ROI'/ {print $3}' ${petroot}"_ROI2_f0"`
+		vallrsf=`gawk '/'$ROI'/ {print $3}' ${petroot}"_RSF_ROI2_f0"`
+		pvc2cl=`gawk '/'$ROI'/ {print $2}' PVC2CFS.txt`
+		 
+		if [ -z "$nl" ]
+		then
+			nl=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.
+		else 
+			roi=$vall
+			roirsf=$vallrsf
+			roipvc2c=$(echo "scale=8; $vall/$pvc2cl" | bc)
+	
+			SUVR=$(echo "scale=8; $roi/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $roirsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $roipvc2c/$cblpvc2c" | bc)
+		fi
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' $ROI $nl $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETS.txt"
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' $ROI $nl $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETSLR.txt"
+
+	elif (( $flag == 2 ))
+	then
+		nl=`gawk '/ctx-lh-'$ROI'/ {print $2}' ${petroot}"_ROI2_f0"`
+		vall=`gawk '/ctx-lh-'$ROI'/ {print $3}' ${petroot}"_ROI2_f0"`
+		nr=`gawk '/ctx-rh-'$ROI'/ {print $2}' ${petroot}"_ROI2_f0"`
+		valr=`gawk '/ctx-rh-'$ROI'/ {print $3}' ${petroot}"_ROI2_f0"`
+		vallrsf=`gawk '/ctx-lh-'$ROI'/ {print $3}' ${petroot}"_RSF_ROI2_f0"`
+		valrrsf=`gawk '/ctx-rh-'$ROI'/ {print $3}' ${petroot}"_RSF_ROI2_f0"`
+		pvc2cl=`gawk '/ctx-lh-'$ROI'/ {print $2}' PVC2CFS.txt`
+		pvc2cr=`gawk '/ctx-rh-'$ROI'/ {print $2}' PVC2CFS.txt`
+		 
+		if [ -z "$nl" ] || [ -z "$nr" ]
+		then
+			tmp2=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.
+		else
+			tmp1=$(echo "scale=8; $vall*$nl+$valr*$nr" | bc)
+			tmp2=$(echo "scale=8; $nl+$nr" | bc)
+			roi=$(echo "scale=8; $tmp1/$tmp2" | bc)
+			tmp1=$(echo "scale=8; $vallrsf*$nl+$valrrsf*$nr" | bc)
+			roirsf=$(echo "scale=8; $tmp1/$tmp2" | bc)
+			tmp1=$(echo "scale=8; $vall*$nl/$pvc2cl+$valr*$nr/$pvc2cr" | bc)
+			roipvc2c=$(echo "scale=8; $tmp1/$tmp2" | bc)
+	
+			SUVR=$(echo "scale=8; $roi/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $roirsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $roipvc2c/$cblpvc2c" | bc)
+		fi 
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' "ctx-"$ROI $tmp2 $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETS.txt"
+		if (( "$i" == 43 ))
+		then
+			MCSUVR=$SUVR
+			MCSUVRrsf=$SUVRrsf
+			MCSUVRpvc2c=$SUVRpvc2c
+		fi
+		
+		if [ -z "$nl" ]
+		then
+			nl=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.	
+		else
+			SUVR=$(echo "scale=8; $vall/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $vallrsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $vall/$pvc2cl/$cblpvc2c" | bc)					
+		fi
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' "ctx-lh-"$ROI $nl $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETSLR.txt"
+		if [ -z "$nr" ]
+		then
+			nr=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.	
+		else
+			SUVR=$(echo "scale=8; $valr/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $valrrsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $valr/$pvc2cr/$cblpvc2c" | bc)					
+		fi
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' "ctx-rh-"$ROI $nr $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETSLR.txt"
+	
+		nl=`gawk '/wm-lh-'$ROI'/ {print $2}' ${petroot}"_ROI2_f0"`
+		vall=`gawk '/wm-lh-'$ROI'/ {print $3}' ${petroot}"_ROI2_f0"`
+		nr=`gawk '/wm-rh-'$ROI'/ {print $2}' ${petroot}"_ROI2_f0"`
+		valr=`gawk '/wm-rh-'$ROI'/ {print $3}' ${petroot}"_ROI2_f0"`
+		vallrsf=`gawk '/wm-lh-'$ROI'/ {print $3}' ${petroot}"_RSF_ROI2_f0"`
+		valrrsf=`gawk '/wm-rh-'$ROI'/ {print $3}' ${petroot}"_RSF_ROI2_f0"`
+		pvc2cl=`gawk '/wm-lh-'$ROI'/ {print $2}' PVC2CFS.txt`
+		pvc2cr=`gawk '/wm-rh-'$ROI'/ {print $2}' PVC2CFS.txt`
+		 
+		if [ -z "$nl" ] || [ -z "$nr" ]
+		then
+			tmp2=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.
+		else
+			tmp1=$(echo "scale=8; $vall*$nl+$valr*$nr" | bc)
+			tmp2=$(echo "scale=8; $nl+$nr" | bc)
+			roi=$(echo "scale=8; $tmp1/$tmp2" | bc)
+			tmp1=$(echo "scale=8; $vallrsf*$nl+$valrrsf*$nr" | bc)
+			roirsf=$(echo "scale=8; $tmp1/$tmp2" | bc)
+			tmp1=$(echo "scale=8; $vall*$nl/$pvc2cl+$valr*$nr/$pvc2cr" | bc)
+			roipvc2c=$(echo "scale=8; $tmp1/$tmp2" | bc)
+	
+			SUVR=$(echo "scale=8; $roi/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $roirsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $roipvc2c/$cblpvc2c" | bc)
+		fi
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' "wm-"$ROI $tmp2 $SUVR $SUVRrsf $SUVRpvc2c >> wmROIPETS.txt
+	
+		if [ -z "$nl" ]
+		then
+			nl=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.	
+		else
+			SUVR=$(echo "scale=8; $vall/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $vallrsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $vall/$pvc2cl/$cblpvc2c" | bc)					
+		fi
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' "wm-lh-"$ROI $nl $SUVR $SUVRrsf $SUVRpvc2c >> wmROIPETSLR.txt
+		if [ -z "$nr" ]
+		then
+			nr=0
+			SUVR=0.
+			SUVRrsf=0.
+			SUVRpvc2c=0.	
+		else
+			SUVR=$(echo "scale=8; $valr/$cbl" | bc)
+			SUVRrsf=$(echo "scale=8; $valrrsf/$cblrsf" | bc)
+			SUVRpvc2c=$(echo "scale=8; $valr/$pvc2cr/$cblpvc2c" | bc)					
+		fi
+		printf '%-35s %11d %11.4f %11.4f %11.4f\n' "wm-rh-"$ROI $nr $SUVR $SUVRrsf $SUVRpvc2c >> wmROIPETSLR.txt
+	fi	
+done
+cat $petroot"_ROIPETS.txt" wmROIPETS.txt > tmp.txt
+mv tmp.txt $petroot"_ROIPETS.txt"
+
+cat $petroot"_ROIPETSLR.txt" wmROIPETSLR.txt > tmp.txt
+mv tmp.txt $petroot"_ROIPETSLR.txt"
+
+tmp1=`gawk '/ctx-lateralorbitofrontal/ {print $3}' $petroot"_ROIPETS.txt"`
+n1=`gawk '/ctx-lateralorbitofrontal/ {print $2}' $petroot"_ROIPETS.txt"`
+tmp1rsf=`gawk '/ctx-lateralorbitofrontal/ {print $4}' $petroot"_ROIPETS.txt"`
+tmp1pvc2c=`gawk '/ctx-lateralorbitofrontal/ {print $5}' $petroot"_ROIPETS.txt"`
+tmp2=`gawk '/ctx-medialorbitofrontal/ {print $3}' $petroot"_ROIPETS.txt"`
+n2=`gawk '/ctx-medialorbitofrontal/ {print $2}' $petroot"_ROIPETS.txt"`
+tmp2rsf=`gawk '/ctx-medialorbitofrontal/ {print $4}' $petroot"_ROIPETS.txt"`
+tmp2pvc2c=`gawk '/ctx-medialorbitofrontal/ {print $5}' $petroot"_ROIPETS.txt"`
+nv=$(echo "scale=8; $n1+$n2" | bc)
+SUVR=$(echo "scale=8; $tmp1*$n1/$nv+$tmp2*$n2/$nv" | bc)
+SUVRrsf=$(echo "scale=8; $tmp1rsf*$n1/$nv+$tmp2rsf*$n2/$nv" | bc)
+SUVRpvc2c=$(echo "scale=8; $tmp1pvc2c*$n1/$nv+$tmp2pvc2c*$n2/$nv" | bc)
+printf '%-35s %11d %11.4f %11.4f %11.4f\n' "GR_FS" $nv $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETS.txt"
+
+MCSUVR=$(echo "scale=8; $MCSUVR+$SUVR" |bc )
+MCSUVRrsf=$(echo "scale=8; $MCSUVRrsf+$SUVRrsf" |bc )
+MCSUVRpvc2c=$(echo "scale=8; $MCSUVRpvc2c+$SUVRpvc2c" |bc )
+
+
+tmp1=`gawk '/ctx-middletemporal/ {print $3}' $petroot"_ROIPETS.txt"`
+n1=`gawk '/ctx-middletemporal/ {print $2}' $petroot"_ROIPETS.txt"`
+tmp1rsf=`gawk '/ctx-middletemporal/ {print $4}' $petroot"_ROIPETS.txt"`
+tmp1pvc2c=`gawk '/ctx-middletemporal/ {print $5}' $petroot"_ROIPETS.txt"`
+tmp2=`gawk '/ctx-superiortemporal/ {print $3}' $petroot"_ROIPETS.txt"`
+n2=`gawk '/ctx-superiortemporal/ {print $2}' $petroot"_ROIPETS.txt"`
+tmp2rsf=`gawk '/ctx-superiortemporal/ {print $4}' $petroot"_ROIPETS.txt"`
+tmp2pvc2c=`gawk '/ctx-superiortemporal/ {print $5}' $petroot"_ROIPETS.txt"`
+nv=$(echo "scale=8; $n1+$n2" | bc)
+SUVR=$(echo "scale=8; $tmp1*$n1/$nv+$tmp2*$n2/$nv" | bc)
+SUVRrsf=$(echo "scale=8; $tmp1rsf*$n1/$nv+$tmp2rsf*$n2/$nv" | bc)
+SUVRpvc2c=$(echo "scale=8; $tmp1pvc2c*$n1/$nv+$tmp2pvc2c*$n2/$nv" | bc)
+printf '%-35s %11d %11.4f %11.4f %11.4f\n' "TEMP_FS" $nv $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETS.txt"
+MCSUVR=$(echo "scale=8; $MCSUVR+$SUVR" |bc )
+MCSUVRrsf=$(echo "scale=8; $MCSUVRrsf+$SUVRrsf" |bc )
+MCSUVRpvc2c=$(echo "scale=8; $MCSUVRpvc2c+$SUVRpvc2c" |bc )
+
+tmp1=`gawk '/ctx-cuneus/ {print $3}' $petroot"_ROIPETS.txt"`
+n1=`gawk '/ctx-cuneus/ {print $2}' $petroot"_ROIPETS.txt"`
+tmp1rsf=`gawk '/ctx-cuneus/ {print $4}' $petroot"_ROIPETS.txt"`
+tmp1pvc2c=`gawk '/ctx-cuneus/ {print $5}' $petroot"_ROIPETS.txt"`
+tmp2=`gawk '/ctx-lingual/ {print $3}' $petroot"_ROIPETS.txt"`
+n2=`gawk '/ctx-lingual/ {print $2}' $petroot"_ROIPETS.txt"`
+tmp2rsf=`gawk '/ctx-lingual/ {print $4}' $petroot"_ROIPETS.txt"`
+tmp2pvc2c=`gawk '/ctx-lingual/ {print $5}' $petroot"_ROIPETS.txt"`
+nv=$(echo "scale=8; $n1+$n2" | bc)
+SUVR=$(echo "scale=8; $tmp1*$n1/$nv+$tmp2*$n2/$nv" | bc)
+SUVRrsf=$(echo "scale=8; $tmp1rsf*$n1/$nv+$tmp2rsf*$n2/$nv" | bc)
+SUVRpvc2c=$(echo "scale=8; $tmp1pvc2c*$n1/$nv+$tmp2pvc2c*$n2/$nv" | bc)
+printf '%-35s %11d %11.4f %11.4f %11.4f\n' "OCC_FS" $nv $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETS.txt"
+
+tmp1=`gawk '/ctx-rostralmiddlefrontal/ {print $3}' $petroot"_ROIPETS.txt"`
+n1=`gawk '/ctx-rostralmiddlefrontal/ {print $2}' $petroot"_ROIPETS.txt"`
+tmp1rsf=`gawk '/ctx-rostralmiddlefrontal/ {print $4}' $petroot"_ROIPETS.txt"`
+tmp1pvc2c=`gawk '/ctx-rostralmiddlefrontal/ {print $5}' $petroot"_ROIPETS.txt"`
+tmp2=`gawk '/ctx-superiorfrontal/ {print $3}' $petroot"_ROIPETS.txt"`
+n2=`gawk '/ctx-superiorfrontal/ {print $2}' $petroot"_ROIPETS.txt"`
+tmp2rsf=`gawk '/ctx-superiorfrontal/ {print $4}' $petroot"_ROIPETS.txt"`
+tmp2pvc2c=`gawk '/ctx-superiorfrontal/ {print $5}' $petroot"_ROIPETS.txt"`
+nv=$(echo "scale=8; $n1+$n2" | bc)
+SUVR=$(echo "scale=8; $tmp1*$n1/$nv+$tmp2*$n2/$nv" | bc)
+SUVRrsf=$(echo "scale=8; $tmp1rsf*$n1/$nv+$tmp2rsf*$n2/$nv" | bc)
+SUVRpvc2c=$(echo "scale=8; $tmp1pvc2c*$n1/$nv+$tmp2pvc2c*$n2/$nv" | bc)
+printf '%-35s %11d %11.4f %11.4f %11.4f\n' "PREF_FS" $nv $SUVR $SUVRrsf $SUVRpvc2c >> $petroot"_ROIPETS.txt"
+
+
+MCSUVR=$(echo "scale=8; $MCSUVR+$SUVR" |bc )
+MCSUVRrsf=$(echo "scale=8; $MCSUVRrsf+$SUVRrsf" |bc )
+MCSUVRpvc2c=$(echo "scale=8; $MCSUVRpvc2c+$SUVRpvc2c" |bc )
+
+MCSUVR=$(echo "scale=8; $MCSUVR/4.0" |bc)
+MCSUVRrsf=$(echo "scale=8; $MCSUVRrsf/4.0" |bc)
+MCSUVRpvc2c=$(echo "scale=8; $MCSUVRpvc2c/4.0" |bc)
+printf '%-35s %11d %11.4f %11.4f %11.4f\n' "MCBP" 0 $MCSUVR $MCSUVRrsf $MCSUVRpvc2c >> $petroot"_ROIPETS.txt"

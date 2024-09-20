@@ -1,0 +1,97 @@
+#!/bin/bash
+###################--------------------------------------------------------------
+# The purpose of this program is to create early, middle, and late PIB PET
+# images from dynamic PIB PETCT scans. 
+#
+#   PIB 33 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        5  5  4  6  5  5 10 10 10
+#   set startframe = (  1 13 18 22 24 25 26 28 30 32 33 )
+#   set lastframe =  ( 12 17 21 23 24 25 27 29 31 32 33 )
+#
+#   PIB 26 frames:
+#   PET Images:        a1 a2 a3 b1 b2 b3 c1 c2 c3
+#   PET Minutes:        5  5  5  5  5  5 10 10 10
+#   set startframe = (  1 16 17 18 19 20 21 23 25 )
+#   set lastframe =  ( 15 16 17 18 19 20 22 24 26 )
+###################--------------------------------------------------------------
+# Inputs to the program
+#
+# $1: 4dfp PETCT file name (*.4dfp.img)
+#
+###################--------------------------------------------------------------
+# Yi Su, 11/03/2010                                                            
+
+if (( $# < 1 ))
+then
+	echo "Usage: `basename $0` petfile"
+	exit 1
+fi
+
+petfstr=$1
+petdir=`dirname $petfstr`
+outname=`basename $petfstr`
+outroot=${outname%.*}
+outroot=${outroot%.*}
+
+frames=`gawk '/matrix size \[4\]/ {print $5}' $petdir"/"$outroot".4dfp.ifh"`
+
+PIBFLAG=0
+if (( $frames == 53 ))
+then
+	PIBFLAG=1
+elif (( $frames == 31 ))
+then
+	PIBFLAG=2
+elif (( $frames == 32 ))
+then
+	PIBFLAG=2
+elif (( $frames == 33 ))
+then
+	PIBFLAG=2
+elif (( $frames == 26 ))
+then
+	PIBFLAG=3
+fi
+
+if (( $PIBFLAG == 0 ))
+then
+	echo "ERROR PIBFLAG = 0 Must Exit"
+	exit 1
+fi
+
+if (( $PIBFLAG == 1 ))
+then
+	echo "53 Frame PETCT Sequence"
+	groups=( a b c )
+	startframe=( 1 35 40 45 46 47 48 50 52 )
+	lastframe=( 34 39 44 45 46 47 49 51 53 )
+fi
+
+if (( $PIBFLAG == 2 ))
+then
+	echo "31 to 33 Frame PETCT Sequence"
+	groups=( a b c )
+        startframe=(  1 13 18 22 24 25 26 28 30 )
+        lastframe=(  12 17 21 23 24 25 27 29 31 )
+fi
+
+
+if (( $PIBFLAG == 3 ))
+then
+	echo "26 Frame PETCT Sequence"
+	groups=( a b c )
+        startframe=(  1 16 17 18 19 20 21 23 25 )
+        lastframe=(  15 16 17 18 19 20 22 24 26 )
+fi
+
+
+for (( g=0; g<3; g++ ))
+do
+	for (( i=0; i<3; i++ ))
+	do
+		echo ${outroot}"_"${groups[$g]}$((i+1))
+		echo ~suy/bin/sumframe4dfp $petfstr ${groups[$g]}$((i+1)) ${startframe[$((i+g*3))]}  ${lastframe[$((i+g*3))]} 
+		~suy/bin/sumframe4dfp $petfstr ${groups[$g]}$((i+1)) ${startframe[$((i+g*3))]}  ${lastframe[$((i+g*3))]} 
+	done
+done

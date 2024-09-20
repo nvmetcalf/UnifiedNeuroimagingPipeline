@@ -1,0 +1,25 @@
+#!/bin/bash
+
+holist=( g003ho1.v g003ho2.v g003ho3.v g003ho4.v g003ho5.v g003ho6.v g003ho7.v g003ho8.v )
+horoot=( ${holist[*]%%.*} )
+sumho=( ${holist[*]/.*/_sumall} )
+TOF=TJ06_fl3d1_6
+MPR=T1001
+ho_target=g003ho
+nho=${#holist[*]}
+ArtInfo=Artery_Info.txt
+
+for (( i=0; i<$nho; i++ ))
+do
+	t4_mul ${sumho[$i]}"_to_"${ho_target}"_t4" ${ho_target}"_to_MR_t4"
+	t4_inv 	${sumho[$i]}"_to_MR_t4"
+	t4_mul ${TOF}"_to_"${MPR}"_t4"  "MR_to_"${sumho[$i]}"_t4" ${TOF}"_to_"${sumho[$i]}"_t4"
+	~suy/bin/GetAIF $TOF ${TOF}"_to_"${sumho[$i]}"_t4" $ArtInfo ${horoot[$i]} 0
+	t4img_4dfp "MR_to_"${sumho[$i]}"_t4" ${MPR}"_mskt" ${MPR}"_mskt_on_"${sumho[$i]} -O${sumho[$i]} -n
+	qnt_4dfp ${horoot[$i]} ${MPR}"_mskt_on_"${sumho[$i]} | gawk '/Mean/ {print $2}' > ${horoot[$i]}"_Whole_Brain_Mean.tac"
+	
+	cd AIF
+	imgopr_4dfp -a"Art_"${horoot[$i]} "lArt_"${horoot[$i]}"z" "rArt_"${horoot[$i]}"z"
+	maskimg_4dfp ${TOF}"_Art_g_"${horoot[$i]} "Art_"${horoot[$i]} ${TOF}"_Art_g_"${horoot[$i]}"_msk"
+	cd ..
+done 

@@ -1,0 +1,152 @@
+#!/bin/csh
+set idstr = '$Id: cyno_cross_img_reg_4dfp,v 1.1 2011/10/25 03:46:33 avi Exp $'
+echo $idstr
+set program = $0
+set program = $program:t
+
+set target      = /data/petsun59/data2/macaqueF6/macaqueF6
+
+if (${#argv} < 3) goto USAGE
+@ redo = 0
+@ usemskt = 0
+@ debug = 0
+set trgv = ($argv[2-])
+set srgv = ($trgv:gr)
+set srgv = ($srgv:gr)
+echo $srgv
+
+@ n = ${#srgv}
+@ k = 0
+@ i = 1
+while ($i <= $n)
+	@ j = 1
+	while ($j <= $n)
+		if ($j != $i) then
+			set pos = $srgv[$i]:t
+			set neg = $srgv[$j]:t
+			set t4file = $neg"_to_"$pos"_t4"
+			if (! -e $t4file) @ k++
+		endif
+		@ j++
+	end
+	@ i++
+end
+if (! $k && ! $redo) exit 0
+if (! -e $srgv[1]_to_macaqueF6_t4) goto USAGE
+
+set log = $argv[1]_$program.log
+if (! $redo) echo $idstr	>! $log
+echo $program $argv[1-]		>> $log
+date				>> $log
+
+set oristr	= (T C S)
+set modes	= (0 0 0 0)
+@ modes[1]	= 4096 + 3
+@ modes[2]	= 4096 + 3
+@ modes[3]	= 512  + 3
+@ modes[4]	= 512  + 3
+
+@ i = 1
+while ($i <= $n)
+	echo "i = "$i >> $log
+	if ($usemskt) then
+		set mskt_str = $srgv[$i]_mskt
+	else
+		set mskt_str = "none"
+	endif
+
+	@ j = 1
+	while ($j <= $n)
+		if ($j == $i) goto SKIP
+		echo "j = "$j >> $log
+		set pos = $srgv[$i]:t
+		set neg = $srgv[$j]:t
+		set t4file = $neg"_to_"$pos"_t4"
+		if (-e $t4file && ! $redo) goto SKIP
+
+		echo t4file = $t4file
+		if (! -e $t4file) then
+			@ ori = `awk '/orientation/{print $NF - 1}' $srgv[$i].4dfp.ifh`
+			t4_inv $RELEASE/$oristr[$ori]_t4 temp$$"_t4"
+			@ ori = `awk '/orientation/{print $NF - 1}' $srgv[$j].4dfp.ifh`
+			t4_mul $RELEASE/$oristr[$ori]_t4 temp$$"_t4" $t4file
+			/bin/rm temp$$"_t4"
+		endif
+
+		@ k = 1
+		if ($redo) @ k = 4
+		while ($k <= ${#modes})
+			echo	imgreg_4dfp $srgv[$i] $mskt_str $srgv[$j] none $t4file $modes[$k]
+			echo	imgreg_4dfp $srgv[$i] $mskt_str $srgv[$j] none $t4file $modes[$k] >> $log
+				imgreg_4dfp $srgv[$i] $mskt_str $srgv[$j] none $t4file $modes[$k] >> $log
+				if ($status) exit $status
+			@ k++
+		end
+	SKIP:
+		@ j++
+	end
+	@ i++
+end
+date			>> $log
+
+####################
+# compile eta matrix
+####################
+gawk -f $RELEASE/parse_cyno_cross_img_reg_4dfp_log.awk $log >! $$.log
+cat $$.log >> $log
+/bin/rm $$.log
+
+################
+# run t4_resolve
+################
+t4_resolve -o$argv[1] $srgv >! $argv[1]_t4_resolve.log
+if ($status) exit $status
+
+HERE:
+##########################
+# compute atlas transforms
+##########################
+@ i = 2
+while ($i <= $n)
+	t4_mul $srgv[$i]_to_$argv[1]_t4 $srgv[1]_to_macaqueF6_t4 $srgv[$i]_to_macaqueF6_t4
+	if ($status) exit $status
+	@ i++
+end
+
+##################################
+# make movie of all in atlas space
+##################################
+@ i = 1
+while ($i <= $n)
+	t4img_4dfp $srgv[$i]_to_macaqueF6_t4 $srgv[$i] $srgv[$i]_on_${target:t} -O$target
+	if ($status) exit $status
+	@ i++
+end
+
+set lst = $argv[1]_on_${target:t}.lst
+if (-e $lst) /bin/rm $lst
+@ i = 1
+while ($i <= $n)
+	echo $srgv[$i]_on_${target:t} >>! $lst
+	@ i++
+end
+paste_4dfp -ap1 $lst $lst:r
+if ($status) exit $status
+
+#######################
+# compute geneous masks
+#######################
+@ i = 1
+while ($i <= $n)
+	cyno_msktgen_4dfp $srgv[$i] 50
+	if ($status) exit $status
+	@ i++
+end
+
+exit 0
+
+USAGE:
+echo "Usage:	$program <outroot> <image_1> <image_2> ... <image_n>"
+echo " e.g.,	$program casey_N5 casey_100712_mpr1_crop_gfc casey_t2 casey_ct casey_dt casey_fd"
+echo "N.B.:	<image_1>_to_${target:t}_t4 must exist"
+exit 1

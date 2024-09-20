@@ -1,0 +1,12 @@
+# hexahedral DWI on Siemens Symphony/Sonata
+# ACQ Sequence Name//ep_b1000
+# ACQ Software Version//syngo MR 2002B 4VA21A
+# john.kirsch@siemens.com
+7
+0.0	# I0
+1000.0	 1.0	 0.0	 1.0
+1000.0	-1.0	 0.0	 1.0
+1000.0	 0.0	 1.0	 1.0
+1000.0	 0.0     1.0	-1.0
+1000.0	 1.0	 1.0	 0.0
+1000.0	-1.0	 1.0	 0.0

@@ -1,0 +1,155 @@
+#!/bin/bash
+# Program to Calculate CBF images from pASL data                              #
+# It preprocesses ASL data and then calls Tyler's cbf_calc.py script for the  #
+# actual CBF calculation.                                                     #
+# Yi Su, 2013/10/08
+
+dcmpath=$1 # location of DICOM format ASL data
+id=$2 # study id
+fsloc=$3
+WBloc=$4
+SCRIPTS=~blazeyt/scripts # location of Tyler's scripts
+target=TRIO_Y_NDC
+tardir=/data/cninds01/data2/atlas/
+log=${id}.log
+
+# create link to DICOM data
+cmd="ln -s $dcmpath/*.dcm ."
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log
+
+# convert DICOM data to nifti (.nii.gz)
+cmd="dcm2nii *.dcm"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+cmd="mv *.nii.gz ${id}_pasl.nii.gz"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+cmd="rm *.dcm"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#Motion Correction
+cmd="mcflirt -in ${id}_pasl.nii.gz -plots -o ${id}_mcf"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log
+
+
+#Motion scrub
+cmd="python $SCRIPTS/aslSkip.py ${id}_mcf.nii.gz ${id}_mcf.par ${id}_scrbd -plot"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#Extract reference frame m0
+cmd="fslroi ${id}_scrbd ${id}_m0 0 1"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#Create Brain Mask
+cmd="bet ${id}_m0 ${id}_brain -m -f 0.4 -R"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#Use FSL to extract collated, motion tags and controls
+echo "nvols=`fslval ${id}_scrbd dim4`" | tee -a $log
+nvols=`fslval ${id}_scrbd dim4`
+echo "(( tcvols=$nvols-1 ))" | tee -a $log
+(( tcvols=$nvols-1 ))
+
+#strip out m0 frame
+cmd="fslroi ${id}_scrbd ${id}_tc 1 $tcvols"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#split the volume
+cmd="fslsplit ${id}_tc ${id}_vol -t"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#get tag volumes
+cmd="fslmerge -t ${id}_t `imglob ${id}_vol*[02468].*`"
+echo $cmd
+$cmd &> ${id}_tag.log
+cat ${id}_tag.log >> $log
+
+#get control volumes
+cmd="fslmerge -t ${id}_c `imglob ${id}_vol*[13579].*`"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#Delete split volumes
+cmd="rm ${id}_vol*.nii.gz"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#Do sinc subtraction by shifting the tags forward
+cmd="slicetimer -i ${id}_t -o ${id}_t_sinc --tglobal=0.5"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log
+
+#Subtract to generate perfusion image
+cmd="fslmaths ${id}_c -sub ${id}_t_sinc ${id}_perf -odt float"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#Calculate CBF image
+cmd="python $SCRIPTS/cbf_calc.py ${id}_perf.nii.gz ${id}_m0.nii.gz ${id}_brain_mask.nii.gz ${id} -mthresh 2.5 -sthresh 1.5 -minTR 3400.0 -TI2 1900"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#Converting m0, CBF, image to 4dfp format
+cmd="niftigz_4dfp -4 ${id}_m0.nii.gz ${id}_m0"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+cmd="niftigz_4dfp -4 ${id}_cbf_avg.nii.gz ${id}_cbf"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#Calculate Whole Brain Blood Flow (WBCBF)
+
+#get orig image
+cmd="ln -s $fsloc/orig.mgz ."
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#get WBMask image
+cmd="ln -s $WBloc/WBMask.4dfp.* ."
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#convert mgz to 4dfp
+cmd="mgzto4dfp orig.mgz"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#get orig to atlas transform t4 file 
+cmd="cp $WBloc/orig001_to_${target}_t4 ."
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#generate brain mask from orig
+cmd="msktgen_4dfp orig001 -T${tardir}/$target"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#register asl data to MPRAGE (m0 to orig)
+cmd="reg2img orig001 ${id}_m0 -rm orig001_mskt.4dfp.img"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#transform brain mask to asl space
+cmd="t4img_4dfp orig001_to_${id}_m0_t4 WBMask WBMaskonASL -O${id}_m0"
+echo $cmd | tee -a $log
+($cmd 2>&1) | tee -a $log 
+
+#get WBCBF
+cmd="WBCBF=`qnt_4dfp ${id}_cbf WBMaskonASL | gawk '/Mean/ {print $2}'`"
+echo $cmd | tee -a $log
+
+
+
+
+

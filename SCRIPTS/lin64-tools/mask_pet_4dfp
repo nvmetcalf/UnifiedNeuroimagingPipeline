@@ -1,0 +1,47 @@
+#!/bin/csh
+
+@ i = 0
+while ($i <= ${#argv})
+	switch ($argv[$i])
+	case -v:
+		@ i ++
+		set volume = $argv[$i]
+	default:
+		set img = `echo $argv[$i] | gawk '{sub(/\.4dfp(\.(hdr|ifh|img(\.rec)?)?)?/,""); print $0}'`
+		breaksw		
+	endsw
+	@ i ++
+end
+if ($i < 1) then
+	echo "Usage:	$program image"
+	echo " e.g.,	$program p5654ho?_auto.4dfp.img"
+	echo " options"
+	echo " -v <float> mask by percent of total volume"
+	exit 1
+endif
+
+if (! -e $img.4dfp.ifh || ! -e $img.4dfp.img) then
+	echo $program": "$img not found
+	exit -1
+endif
+
+imgblur_4dfp $img 5
+
+if ($?volume) then
+	img_hist_4dfp -x ${img}_b50
+	set p = `echo $volume | gawk '{printf("%2d", 100-$0)}'`
+	set t = `gawk '$1~/^'$p'/ {print $2}' ${img}_b50.xtile`
+	rm ${img}_b50.xtile
+	maskimg_4dfp ${img}_b50 ${img}_b50 -t$t ${img}_temp$$
+else
+	maskimg_4dfp ${img}_b50 ${img}_b50 -p5  ${img}_temp$$
+endif
+
+set lims = `gawk '/matrix size \[3\]/ {m = int(0.09*$NF); print (m+1)"to"($5-m)}' $img.4dfp.ifh`
+crop_4dfp -Z -z$lims ${img}_temp$$ ${img}_msk
+
+rm ${img}_b50.4dfp.{img,ifh,hdr,img.rec}
+rm ${img}_temp$$.4dfp.{img,ifh,hdr,img.rec}
+
+exit 0
+

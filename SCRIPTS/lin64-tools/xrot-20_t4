@@ -1,0 +1,8 @@
+#t4_mul /data/nil-bluearc/raichle/lin64-tools/xrot-10_t4 /data/nil-bluearc/raichle/lin64-tools/xrot-10_t4 /data/nil-bluearc/raichle/lin64-tools/xrot-20_t4
+#$Id: t4_mul.c,v 1.1 2007/04/30 17:37:57 avi Exp $
+#product transform=[/data/nil-bluearc/raichle/lin64-tools/xrot-10_t4][/data/nil-bluearc/raichle/lin64-tools/xrot-10_t4]
+t4
+  1.000000  0.000000  0.000000    0.0000
+  0.000000  0.939693 -0.342020    0.0000
+  0.000000  0.342020  0.939693    0.0000
+  0.000000  0.000000  0.000000    1.0000

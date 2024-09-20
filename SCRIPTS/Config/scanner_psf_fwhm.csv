@@ -1,0 +1,50 @@
+scanner_name,psf_fwhm
+HRRT,6
+1094,5.5
+Allegro Body(C),3
+SOMATOM,5.5
+Advance,2
+Definition AS_mCT,5.5
+Biograph 64,5.5
+null,5
+Biograph64_mCT,5.5
+SOMATOM Definition AS_mCT,5.5
+Biograph64,5.5
+Guardian Body(C),3
+Biograph_mMR,5.5
+Discovery 710,5
+Biograph 40,5.5
+Discovery 690,5
+Biograph 64_mCT,5.5
+2008,5.5
+GEMINI TF TOF 64,5
+Biograph40_TruePoint,5.5
+Siemens HR 961,3.5
+GEMINI TF TOF 16,5
+Discovery STE,5
+Discovery ST,5
+1024,3
+1080,5.5
+GEMINI TF Big Bore,5
+Ingenuity TF PET/CT,5
+Discovery LS,3
+Discovery RX,5
+Biograph64_TruePoint,5.5
+Biograph128_mCT,5.5
+1093,5.5
+Biograph20_mCT,5.5
+Discovery 600,5
+SCIN,3.5
+Siemens ECAT Exact HR+,5
+ECAT Exact HR+,5
+SIGNA PET/MR,5
+GEMINI GXL 6,3
+Biograph 6,5.5
+Vision,3.5
+Biograph128_Vision 600 Edge,3.5
+SIEMENS 1080,5.5
+CPS 1023,3
+SIEMENS 1094,5.5
+Dicovery MI DR,5.5
+1023,3
+NNICU HR+,5

@@ -1,0 +1,207 @@
+#!/bin/bash
+################################################################################
+# This program registers the nine subsequence of the PIB images ( a1 a2 a3 b1 b2 b3 c1 c2 c3 ) 
+# to each other and to the MR images to create t4 files needed for ROI analysis
+#                                                                              
+################################################################################
+# Yi Su, 2/21/2013                                                            
+
+idstr='$Id: PIBMPRREG1,v 0.1 2013/02/21 suy Exp $'
+echo $idstr
+
+ecatfstr=$1	# PET image file (.v or 4dfp)
+mr=$2		# Anatomical MR file (4dfp)
+program=`basename $0`
+#any argument after the third are ignored
+petname=`basename $ecatfstr`
+petdir=`dirname $ecatfstr`
+petroot=${petname%%.*}
+mrname=`basename $mr`
+mrdir=`dirname $mr`
+mrroot=${mrname%%.*}
+
+
+################################
+# Within group registration
+echo "============================================================="
+echo Within group registration
+echo 
+
+groups=( a b c )
+for (( g=0; g<3; g++ ))
+do
+	echo RUNNING
+	echo cross_pet_resolve_4dfp for group ${groups[$g]} 
+	echo cross_pet_resolve_4dfp -g0.6 -mask ${petroot}"_"${groups[$g]} ${petroot}"_"${groups[$g]}[123]".4dfp.img"
+	cross_pet_resolve_4dfp -g0.6 -mask ${petroot}"_"${groups[$g]} ${petroot}"_"${groups[$g]}[123]".4dfp.img"
+done
+
+################################
+# Creating group sum images petroot_a petroot_b and petroot_c
+echo "============================================================="
+echo Creating group sum images petroot_a petroot_b and petroot_c
+echo 
+
+for (( g=0; g<3; g++ ))
+do
+	echo t4imgs_4dfp ${petroot}"_"${groups[$g]}".sub" ${petroot}"_"${groups[$g]} -O${petroot}"_"${groups[$g]}"1.4dfp.img"
+	     t4imgs_4dfp ${petroot}"_"${groups[$g]}".sub" ${petroot}"_"${groups[$g]} -O${petroot}"_"${groups[$g]}"1.4dfp.img"
+done
+
+###################################################################################################
+echo "============================================================="
+echo PET to MR registration
+echo 
+
+mrg=0.9					# This is the MR gauss FWHM (g9)
+mrgx=`echo $mrg | awk '{print 10*$1}'`		# This is the MR filter extension
+
+b=5						# This is the PET gauss (imgblur) FWHM (b50)
+bx=`echo $b | awk '{print 10*$1}'`		# This is the PET filter extension
+
+###################################################################################################
+# PREPROCESS MR
+
+if [ ! -e ${mrroot}"_to_711-2B_t4" ]
+then
+	mpr2atl_4dfp $mrdir/$mrroot
+fi
+gauss_4dfp $mrroot $mrg			# Gaussian blur the MR image
+msktgen_4dfp $mrroot			# Generate mrroot_mskt file (MR mask) for registration
+
+###################################################################################################
+# PREPROCESS PET IMAGE(S)
+
+echo " " 
+for (( g=0; g<3; g++ ))
+do
+	echo imgblur_4dfp ${petroot}"_"${groups[$g]} $b
+	     imgblur_4dfp ${petroot}"_"${groups[$g]} $b
+	echo maskimg_4dfp ${petroot}"_"${groups[$g]}"_b"${bx} ${petroot}"_"${groups[$g]}"_b"${bx} -p0.1 ${petroot}"_"${groups[$g]}"_msk"
+	     maskimg_4dfp ${petroot}"_"${groups[$g]}"_b"${bx} ${petroot}"_"${groups[$g]}"_b"${bx} -p0.1 ${petroot}"_"${groups[$g]}"_msk"
+	nsl=`gawk '/matrix size \[3\]/ {print $NF}' ${petroot}"_"${groups[$g]}".4dfp.ifh"`
+	msl=`echo $nsl | gawk '{print int(0.09*$1)}'`
+	echo "Masking 1 to "${msl}" slices from bottom in z to create mskz image"
+	zero_slice_4dfp ${petroot}"_"${groups[$g]}"_msk" z 1 $msl  ${petroot}"_"${groups[$g]}"_mskz"
+	k=$((nsl-msl+1))
+	echo Masking $k to $nsl slices from top in z to create final msk.img
+	zero_slice_4dfp ${petroot}"_"${groups[$g]}"_mskz" z $k $nsl ${petroot}"_"${groups[$g]}"_msk"
+done
+
+##################################################################
+# DEFINE ARRAYS: imgf imgm
+imgf=( ${mrroot}"_g"$mrgx ${petroot}"_a_b"${bx} ${petroot}"_b_b"${bx} ${petroot}"_c_b"${bx} )
+imgm=( ${mrroot}"_mskt" ${petroot}"_a_msk" ${petroot}"_b_msk" ${petroot}"_c_msk" )
+imgn=( ${mrroot} ${petroot}"_a" ${petroot}"_b" ${petroot}"_c" )
+##################################################################
+
+log=${program}"_to_pet.log"
+touch	$log
+date >> $log
+echo ;
+echo imgreg_4dfp OUTPUT tp $log ;
+echo "Please wait"
+
+##################################################################
+# COMPUTE PET TO PET TO MR REGISTRATIONS
+oristr=( T C S )
+redo=1
+search=2
+coarse=2
+nfine=1
+hessian=1
+for (( i=0; i<4; i++ ))
+do
+	for (( j=0; j<4; j++ ))
+	do
+		if [ "$i" != "$j" ]
+		then
+			pos=${imgn[$i]}
+			neg=${imgn[$j]}
+			t4file=${neg}"_to_"${pos}"_t4"
+			
+			if [ ! -e $t4file ]
+			then
+				ori=`awk '/orientation/{print $NF - 1}' ${pos}".4dfp.ifh"`
+				ori=$((ori-1))
+				t4_inv ${RELEASE}/${oristr[$ori]}"_t4" temp$$"_t4"
+				ori=`awk '/orientation/{print $NF - 1}' ${neg}".4dfp.ifh"`
+				ori=$((ori-1))
+				t4_mul ${RELEASE}/${oristr[$ori]}"_t4" temp$$"_t4" $t4file
+				rm temp$$_t4			
+			fi
+			
+			for (( k=0; k<search; k++ ))
+			do
+				mode=$((4096+3))
+				echo >> $log ; echo "search k="$k "search="$search "mode = 4096 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode >> $log
+			done
+			
+			for (( k=0; k<coarse; k++ ))
+			do
+				mode=$((3072+3))
+				echo >> $log ; echo "coarse k="$k "coarse="$coarse "mode = 3072 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode >> $log
+			done
+
+			for (( k=0; k<nfine; k++ ))
+			do
+				mode=$((2048+3))
+				echo >> $log ; echo "nfine k="$k "search="$nfine "mode = 2048 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode >> $log
+			done
+			
+			if [ $hessian ] 
+			then
+				mode=$((8192+2048+3))
+				echo >> $log ; echo "hessian k="$k "hessian="$hessian "mode = 8192 + 2048 + 3" >> $log
+				echo imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode
+				echo imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode >> $log
+				     imgreg_4dfp ${imgf[$i]} ${imgm[$i]} ${imgf[$j]} ${imgm[$j]} $t4file $mode >> $log			
+			fi
+		fi
+	done
+done
+rm *_mskz*
+rm *"_b"$bx".4dfp."*
+
+##################################################################################################
+#Reconciliation: t4_resolve target t4 files and movelog are created
+
+movlog=$mrroot"_PIB_MR_mov.log"
+echo t4_resolve $mrroot ${petroot}"_a" ${petroot}"_b" ${petroot}"_c" -oMR
+t4_resolve $mrroot ${petroot}"_a" ${petroot}"_b" ${petroot}"_c" -oMR >> $movlog
+error=`gawk '/estimate total rotation error/{rot = $5} /estimate total translation error/{trans = $5} END{printf ("%3d", 100*(trans + 1.4*rot))}' $movlog`
+echo                           >> $movlog
+echo " ERROR = " $error
+echo " ERROR = " $error >> $movlog
+if (( $error < 100 )) 
+then
+	echo "ERROR is LOW, image reconciliation is good"
+	echo "ERROR is LOW, image reconciliation is good"             >> $movlog
+elif (( $error > 200 )) 
+then
+	echo "ERROR is HIGH, cross-image reconciliation is poor"
+	echo "ERROR is HIGH, cross-image reconciliation is poor"      >> $movlog
+else
+	echo "ERROR is MED, cross-image reconciliation is acceptable"
+	echo "ERROR is MED, cross-image reconciliation is acceptable" >> $movlog
+fi
+
+for (( g=0; g<3; g++ ))
+do
+	for (( i=1; i<4; i++ ))
+	do
+		echo t4_mul ${petroot}"_"${groups[$g]}$i"_to_"${petroot}"_"${groups[$g]}"_t4" ${petroot}"_"${groups[$g]}"_to_MR_t4" ${petroot}"_"${groups[$g]}$i"_to_MR_t4"
+		t4_mul ${petroot}"_"${groups[$g]}$i"_to_"${petroot}"_"${groups[$g]}"_t4" ${petroot}"_"${groups[$g]}"_to_MR_t4" ${petroot}"_"${groups[$g]}$i"_to_MR_t4"
+	done
+done
+
+exit $?

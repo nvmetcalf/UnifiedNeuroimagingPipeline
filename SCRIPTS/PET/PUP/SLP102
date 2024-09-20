@@ -1,0 +1,119 @@
+#!/bin/csh
+
+t4img_4dfp p7586ho1_sumall_to_p7586ho2_sumall_t4 p7586ho1_Mask p7586ho2_Mask -Op7586ho2_sumall -n
+t4img_4dfp p7586ho1_sumall_to_p7587ho1_sumall_t4 p7586ho1_Mask p7587ho1_Mask -Op7587ho1_sumall -n
+t4img_4dfp p7586ho1_sumall_to_p7587ho2_sumall_t4 p7586ho1_Mask p7587ho2_Mask -Op7587ho2_sumall -n
+
+t4_mul p7586ho1_sumall_to_SLP102ho_sumall_t4 SLP102ho_sumall_to_SLP102oo_sumall_t4 p7586ho1_sumall_to_SLP102oo_sumall_t4
+t4_inv p7586oo1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7586oo1_sumall_t4
+t4_mul p7586ho1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7586oo1_sumall_t4 p7586ho1_sumall_to_p7586oo1_sumall_t4
+t4_inv p7586oo2_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7586oo2_sumall_t4
+t4_mul p7586ho1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7586oo2_sumall_t4 p7586ho1_sumall_to_p7586oo2_sumall_t4
+
+t4img_4dfp p7586ho1_sumall_to_p7586oo1_sumall_t4 p7586ho1_Mask p7586oo1_Mask -Op7586oo1_sumall -n
+t4img_4dfp p7586ho1_sumall_to_p7586oo2_sumall_t4 p7586ho1_Mask p7586oo2_Mask -Op7586oo2_sumall -n
+
+t4_inv p7587oo1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7587oo1_sumall_t4
+t4_mul p7586ho1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7587oo1_sumall_t4 p7586ho1_sumall_to_p7587oo1_sumall_t4
+t4_inv p7587oo2_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7587oo2_sumall_t4
+t4_mul p7586ho1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7587oo2_sumall_t4 p7586ho1_sumall_to_p7587oo2_sumall_t4
+
+t4img_4dfp p7586ho1_sumall_to_p7587oo1_sumall_t4 p7586ho1_Mask p7587oo1_Mask -Op7587oo1_sumall -n
+t4img_4dfp p7586ho1_sumall_to_p7587oo2_sumall_t4 p7586ho1_Mask p7587oo2_Mask -Op7587oo2_sumall -n
+
+t4_mul p7586ho1_sumall_to_SLP102ho_sumall_t4 SLP102ho_sumall_to_SLP102oo_sumall_t4 p7586ho1_sumall_to_SLP102oo_sumall_t4
+t4_mul p7586ho1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7586oo1_sumall_t4 p7586ho1_sumall_to_p7586oo1_sumall_t4
+t4_mul p7586oc1_sumall_to_SLP102oc_sumall_t4 SLP102oc_sumall_to_SLP102oo_sumall_t4 p7586oc1_sumall_to_SLP102oo_sumall_t4
+t4_mul p7586oc1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7586oo1_sumall_t4 p7586oc1_sumall_to_p7586oo1_sumall_t4
+
+t4_mul p7586ho2_sumall_to_SLP102ho_sumall_t4 SLP102ho_sumall_to_SLP102oo_sumall_t4 p7586ho2_sumall_to_SLP102oo_sumall_t4
+t4_mul p7586ho2_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7586oo2_sumall_t4 p7586ho2_sumall_to_p7586oo2_sumall_t4
+t4_mul p7586oc2_sumall_to_SLP102oc_sumall_t4 SLP102oc_sumall_to_SLP102oo_sumall_t4 p7586oc2_sumall_to_SLP102oo_sumall_t4
+t4_mul p7586oc2_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7586oo2_sumall_t4 p7586oc2_sumall_to_p7586oo2_sumall_t4
+
+t4_mul p7587ho1_sumall_to_SLP102ho_sumall_t4 SLP102ho_sumall_to_SLP102oo_sumall_t4 p7587ho1_sumall_to_SLP102oo_sumall_t4
+t4_mul p7587ho1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7587oo1_sumall_t4 p7587ho1_sumall_to_p7587oo1_sumall_t4
+t4_mul p7587oc1_sumall_to_SLP102oc_sumall_t4 SLP102oc_sumall_to_SLP102oo_sumall_t4 p7587oc1_sumall_to_SLP102oo_sumall_t4
+t4_mul p7587oc1_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7587oo1_sumall_t4 p7587oc1_sumall_to_p7587oo1_sumall_t4
+
+t4_mul p7587ho2_sumall_to_SLP102ho_sumall_t4 SLP102ho_sumall_to_SLP102oo_sumall_t4 p7587ho2_sumall_to_SLP102oo_sumall_t4
+t4_mul p7587ho2_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7587oo2_sumall_t4 p7587ho2_sumall_to_p7587oo2_sumall_t4
+t4_mul p7587oc2_sumall_to_SLP102oc_sumall_t4 SLP102oc_sumall_to_SLP102oo_sumall_t4 p7587oc2_sumall_to_SLP102oo_sumall_t4
+t4_mul p7587oc2_sumall_to_SLP102oo_sumall_t4 SLP102oo_sumall_to_p7587oo2_sumall_t4 p7587oc2_sumall_to_p7587oo2_sumall_t4
+
+set mfile = p7586_1.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load p7586.mat" >>$mfile
+ 
+echo "[CBFimg, Faimg]=Process_H2O('p7586ho1', 'p7586ho1_Mask', ho1IF, frd, 'p7586ho1');" >>$mfile 
+echo "[Fvimg]=Process_CO('p7586oc1',oc1IF,'p7586oc1');" >> $mfile 
+echo "[CBFimg, Faimg]=Process_H2O('p7586ho2', 'p7586ho2_Mask', ho2IF, frd, 'p7586ho2');" >>$mfile 
+echo "[Fvimg]=Process_CO('p7586oc2',oc2IF,'p7586oc2');" >> $mfile 
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup Matlab -nojvm -nodisplay < $mfile
+
+t4img_4dfp p7586oc1_sumall_to_p7586oo1_sumall_t4 p7586oc1_Fv p7586oo1_Fv -Op7586oo1_sumall
+t4img_4dfp p7586ho1_sumall_to_p7586oo1_sumall_t4 p7586ho1_CBF p7586oo1_CBF -Op7586oo1_sumall	
+t4img_4dfp p7586oc2_sumall_to_p7586oo2_sumall_t4 p7586oc2_Fv p7586oo2_Fv -Op7586oo2_sumall
+t4img_4dfp p7586ho2_sumall_to_p7586oo2_sumall_t4 p7586ho2_CBF p7586oo2_CBF -Op7586oo2_sumall	
+
+set mfile = p7586_2.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load p7586.mat" >>$mfile
+echo "[OEFimg, OEFRimg]=Process_O2('p7586oo1', 'p7586oo1_Mask', oo1IF, 'p7586oo1_CBF', 'p7586oo1_Fv', frd, 'p7586oo1');" >>$mfile #load PET frame
+echo "[OEFimg, OEFRimg]=Process_O2('p7586oo2', 'p7586oo2_Mask', oo2IF, 'p7586oo2_CBF', 'p7586oo2_Fv', frd, 'p7586oo2');" >>$mfile #load PET frame
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup Matlab -nojvm -nodisplay < $mfile
+
+
+
+set mfile = p7587_1.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load p7587.mat" >>$mfile
+ 
+echo "[CBFimg, Faimg]=Process_H2O('p7587ho1', 'p7587ho1_Mask', ho1IF, frd, 'p7587ho1');" >>$mfile 
+echo "[Fvimg]=Process_CO('p7587oc1',oc1IF,'p7587oc1');" >> $mfile 
+echo "[CBFimg, Faimg]=Process_H2O('p7587ho2', 'p7587ho2_Mask', ho2IF, frd, 'p7587ho2');" >>$mfile 
+echo "[Fvimg]=Process_CO('p7587oc2',oc2IF,'p7587oc2');" >> $mfile 
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup Matlab -nojvm -nodisplay < $mfile
+
+t4img_4dfp p7587oc1_sumall_to_p7587oo1_sumall_t4 p7587oc1_Fv p7587oo1_Fv -Op7587oo1_sumall
+t4img_4dfp p7587ho1_sumall_to_p7587oo1_sumall_t4 p7587ho1_CBF p7587oo1_CBF -Op7587oo1_sumall	
+t4img_4dfp p7587oc2_sumall_to_p7587oo2_sumall_t4 p7587oc2_Fv p7587oo2_Fv -Op7587oo2_sumall
+t4img_4dfp p7587ho2_sumall_to_p7587oo2_sumall_t4 p7587ho2_CBF p7587oo2_CBF -Op7587oo2_sumall	
+
+set mfile = p7587_2.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/SIMU/frd.mat'" >>$mfile
+echo "load p7587.mat" >>$mfile
+echo "[OEFimg, OEFRimg]=Process_O2('p7587oo1', 'p7587oo1_Mask', oo1IF, 'p7587oo1_CBF', 'p7587oo1_Fv', frd, 'p7587oo1');" >>$mfile #load PET frame
+echo "[OEFimg, OEFRimg]=Process_O2('p7587oo2', 'p7587oo2_Mask', oo2IF, 'p7587oo2_CBF', 'p7587oo2_Fv', frd, 'p7587oo2');" >>$mfile #load PET frame
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup Matlab -nojvm -nodisplay < $mfile
+

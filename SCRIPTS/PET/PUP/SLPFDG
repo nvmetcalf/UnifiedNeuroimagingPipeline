@@ -1,0 +1,57 @@
+#!/bin/csh
+
+set pid1 = $1
+set pid2 = $2
+set sid = $3
+set Cglu1 = $4
+set Cglu2 = $5
+
+# Create relevant t4 files and create binary masks
+
+t4img_4dfp ${pid1}fdg1_sumall_to_${pid2}fdg1_sumall_t4 ${pid1}fdg1_Mask ${pid2}fdg1_Mask -O${pid2}fdg1_sumall -n
+
+# Perform parametric image analysis for CMRglu
+
+
+set mfile = ${pid1}.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/qmeta/SLP101/SLP101/fdgfrd.mat'" >>$mfile
+echo "load "${pid1}".mat" >>$mfile
+
+echo "[Kiimg]=Process_FDG('"${pid1}"fdg1', '"${pid1}"fdg1_Mask', fdg1IF, fdgfrd, '"${pid1}"fdg1');" >>$mfile 
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup /usr/local/pkg/matlab7/bin/matlab -nojvm -nodisplay < $mfile
+
+set mfile = ${pid2}.m
+if (-e $mfile) then
+	rm $mfile
+endif
+touch $mfile
+echo "addpath('/data/nil-bluearc/mintun/SuY/matlabcodes/');" >>$mfile #addpath
+echo "load '/net/nil-bluearc/mintun-DIAN/qmeta/SLP101/SLP101/fdgfrd.mat'" >>$mfile
+echo "load "${pid2}".mat" >>$mfile
+
+echo "[Kiimg]=Process_FDG('"${pid2}"fdg1', '"${pid2}"fdg1_Mask', fdg1IF, fdgfrd, '"${pid2}"fdg1');" >>$mfile 
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#--Execute matlab file -------------------------------------------------------------------------------------------------#
+nohup Matlab -nojvm -nodisplay < $mfile
+
+# Calculate CMRglu and transform to common space
+
+set sf = `echo "scale=6; $Cglu1*10.86" | bc`
+t4img_4dfp ${pid1}fdg1_sumall_to_${sid}fdg_sumall_t4 ${pid1}fdg1_Ki ${sid}_CMRglu_Eve -O${sid}fdg_sumall
+scale_4dfp ${sid}fdg_CMRglu_Eve $sf
+
+set sf = `echo "scale=6; $Cglu2*10.86" | bc`
+t4img_4dfp ${pid2}fdg1_sumall_to_${sid}fdg_sumall_t4 ${pid2}fdg1_Ki ${sid}_CMRglu_Mor -O${sid}fdg_sumall
+scale_4dfp ${sid}fdg_CMRglu_Mor $sf
+
+# Create subtraction images to determine changes
+imgopr_4dfp -s${sid}_CMRglu_Mor-Eve ${sid}_CMRglu_Mor ${sid}_CMRglu_Eve

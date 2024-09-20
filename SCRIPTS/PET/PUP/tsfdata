@@ -1,0 +1,19 @@
+#!/bin/bash
+
+datalist=$1
+
+nf=`wc -l $datalist| gawk '{print $1}'`
+loc=/data/nil-bluearc/benzinger2/suy/Data
+for (( i=1; i<=$nf; i++ ))
+do
+	cd ${loc}
+	sid=`gawk 'NR=='$i' {printf $1}' $datalist`
+	cid=`gawk 'NR=='$i' {printf $2}' $datalist`
+	mkdir ${loc}/nd/${cid}
+	cd ${loc}/${sid}/${cid}/scans
+	for folder in *
+	do
+		mkdir ${loc}/nd/${cid}/${folder}
+		sortncpdcm ${loc}/${sid}/${cid}/scans/${folder}/DICOM ${loc}/nd/${cid}/${folder} dcm
+	done
+done

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pet=$1
+scan=$2
+t4img_4dfp ${pet}/${pet}"_mpr_to_"${pet}${scan}"_sumall_t4" ${pet}/${pet}"_mpr_mskt" ${pet}/${pet}"_mpr_mskt_on_"${pet}${scan}"_sumall" -O${pet}/${pet}${scan}"_sumall" -n
+qnt_4dfp ${pet}/${pet}${scan} ${pet}/${pet}"_mpr_mskt_on_"${pet}${scan}"_sumall" | gawk '/Mean/ {print $2}' > Artery/${pet}${scan}"_whole_brain_mean.txt"

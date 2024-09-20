@@ -1,0 +1,25 @@
+#! /bin/csh
+
+echo Sorting CNDA images...
+
+set dir = ""
+				if(-e SCANS) then
+					set dir = SCANS
+				else
+					set dir = scans
+				endif
+				
+				cd $dir
+				if(-e 1/DICOM) then
+					foreach Folder(*/DICOM)
+						cp ${Folder}/* ../
+					end
+				else
+					foreach Folder(*)
+					cp $Folder/resources/DICOM/files/* ../
+				end
+				endif
+				cd ..	
+				rm -r $dir
+				rm *.xml
+				rm *.SR.CCIR*

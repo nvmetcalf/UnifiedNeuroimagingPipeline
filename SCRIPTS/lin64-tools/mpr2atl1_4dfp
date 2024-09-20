@@ -1,0 +1,141 @@
+#!/bin/csh -f
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/mpr2atl1_4dfp,v 1.3 2018/08/17 05:50:20 avi Exp $
+#$Log: mpr2atl1_4dfp,v $
+# Revision 1.3  2018/08/17  05:50:20  avi
+# invoke with -f
+#
+# Revision 1.2  2010/09/15  00:38:19  avi
+# correct useold logic
+#
+# Revision 1.1  2010/09/01  22:48:47  avi
+# Initial revision
+#
+set idstr = '$Id: mpr2atl1_4dfp,v 1.3 2018/08/17 05:50:20 avi Exp $'
+set program = $0; set program = $program:t
+echo $idstr
+if (${#argv} < 1) then
+	echo "Usage:	"$program" <mpr_anat> [options]"
+	echo "e.g.,	"$program" vc1234_654-3[.4dfp.img]"
+	echo "e.g.,	"$program" vc1234_654-3[.4dfp.img] -T/data/petsun23/data1/atlas/NP345[.4dfp.img]"
+	echo "	options"
+	echo "	-T<target including path>	specify arbitrary atlas representative target image"
+	echo "	crossmodal	use cross-modal mpr->target registration"
+	echo "	useold		suppress recomputation of existing t4 file"
+	echo "	redo		suppress t4 file initialization"
+	echo "	setecho		set echo"
+	exit
+endif
+
+set modes	= (0 0 0 0 0)
+@ modes[1]	= 4096 + 256 + 3
+@ modes[2]	= 1024 + 256 + 3
+@ modes[3]	= 3072 + 256 + 7
+@ modes[4]	= 2048 + 256 + 7
+@ modes[5]	= 2048 + 256 + 7
+
+@ debug		= 0
+@ useold	= 0
+@ crossmodal	= 0
+@ redo		= 0
+set atlasspace	= 711-2B
+set target	= 711-2B		# default target
+set targetpath	= ""
+@ n = ${#argv}
+@ m = $n
+while ($m > 0)
+	switch ($argv[$m])
+	case setecho:
+		set echo;		breaksw;
+	case redo:
+		@ redo++;		breaksw;
+	case crossmodal:
+		@ crossmodal++;		breaksw;
+	case debug:
+		@ debug++;		breaksw;
+	case useold:			# use existing t4file
+		@ useold++;		breaksw;
+	case 711-2?:
+		set target	= $argv[$m];
+		breaksw;
+	case -T*:
+		set targetpath	= `echo $argv[$m] | awk '{print substr($1,3)}'`;
+		set target	= $targetpath:t;
+		if ($target:e == "img")  set target = $target:r
+		if ($target:e == "4dfp") set target = $target:r
+		breaksw;
+	endsw
+	@ m--
+end
+if ($target == "711-2A") then
+	echo unsupported target
+	exit -1;
+endif
+
+set wrkdir	= $cwd
+set oristr	= (T C S)
+set date0	= `date`
+set usr		= `whoami`
+echo "target="$target "atlasspace="$atlasspace
+
+switch ($target)
+	case 711-2?:
+		set ref =	$REFDIR/$target
+		breaksw;
+	default:
+		set ref =	$targetpath
+endsw
+
+set mpr = $1:t
+if ($mpr:e == "img")	set mpr = $mpr:r
+if ($mpr:e == "4dfp")	set mpr = $mpr:r
+@ ori = `awk '/orientation/{print $NF - 1}' $mpr.4dfp.ifh`
+
+set log = $wrkdir/$mpr"_to_"$target".log"
+date >!				$log
+echo $0 $argv[1-] >>		$log
+echo $idstr >>			$log
+
+set t4file = $mpr"_to_"$target"_t4"
+
+if ($crossmodal) then
+	@ k = 1
+	while ($k <= ${#modes})
+		@ modes[$k] -= 256
+	@ k++
+	end
+endif
+
+if (! $useold || ! -e $t4file) then
+####################
+# initialize $t4file
+####################
+	if (! $redo) then
+	echo	/bin/cp $RELEASE/$oristr[$ori]_t4	$t4file
+		/bin/cp $RELEASE/$oristr[$ori]_t4	$t4file
+		chmod 664				$t4file
+	endif
+
+	@ k = 1
+	while ($k <= ${#modes})
+		if ($debug) then
+			imgreg_4dfp $ref none $mpr none $t4file $modes[$k]
+			if ($status) goto ERR;
+		else
+			imgreg_4dfp $ref none $mpr none $t4file $modes[$k] >> $log
+			if ($status) goto ERR;
+		endif
+		@ k++
+	end
+endif
+
+echo "start time "$date0
+echo "end   time "`date`
+exit
+
+ERR:
+if ($debug) then
+	echo $program": execution aborted due to procedural/write error"
+else
+	echo $program": execution aborted due to procedural/write error" >> $log
+endif
+exit -1

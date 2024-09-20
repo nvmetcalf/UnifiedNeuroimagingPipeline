@@ -1,0 +1,7 @@
+imgreg_4dfp p7070_mprage_on_TRIO_Y_NDC_g4 /data/petsun43/data1/atlas/711-2B_222_brain p7070fdg2_c_g4_on_TRIO_Y_NDC none /data/nil-bluearc/raichle/lin64-tools/T_t4 0 
+$Id: imgreg_4dfp.c,v 1.15 2007/08/10 03:27:30 avi Exp $
+t4
+  1.000000  0.000000  0.000000    0.0000
+  0.000000  1.000000  0.000000    0.0000
+  0.000000  0.000000  1.000000    0.0000
+  0.000000  0.000000  0.000000    1.0000

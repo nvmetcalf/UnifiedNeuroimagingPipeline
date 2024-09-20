@@ -1,0 +1,23 @@
+#!/bin/bash
+################################################################################
+# This program performs ROI analysis for PIB images based on freesurfer created#
+# ROIs. It calls PIBbreak to preprocess the .v file (PET), calls PIBMPRREG to  #
+# perform registration between MR and PET images and generates t4 files, then  #
+# it calls PIBROIANA to perform ROI analysis.                                  #
+#                                                                              #
+################################################################################
+# Yi Su, 07/18/2011                                                            
+
+petfstr=$1 # PIB PETCT image file (.4dfp.img)
+fsfstr=$2   # Freesurfer ROI definition file (usually wmparc.mgz)
+mrfstr=$3   # Anatomical MR file (usually T1.mgz)
+
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%.*}
+petroot=${petroot%.*}
+
+PIBCTSbreak $petfstr
+PIBCTSinfo $petfstr
+PIBSMPRREG $petfstr $mrfstr
+PIBCTSROIANA $petfstr $fsfstr $mrfstr

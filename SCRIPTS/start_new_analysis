@@ -1,0 +1,260 @@
+#!/bin/csh
+
+if($#argv < 2) then
+	echo "==========================================="
+	echo "start_new_analysis Usage:"
+	echo "start_new_analysis <AnalysisName> <SubjectList/List File> <options>"
+	echo ""
+	echo "	This script will make a new entry in the analysis"
+	echo "directory of the specified study and make links to  "
+	echo "to the FC & movement files of the specified subjects"
+	echo "inside the new specified analysis in the analysis folder"
+	echo ""
+	echo "	If using a list file, each line should have a single "
+	echo "subject and the file itself should be located in the same"
+	echo "location this script is ran from. The file will be moved to"
+	echo "the correct analysis folder after the subjects are"
+	echo "extracted from it."
+	echo " "
+	echo "	If you are wanting to link against an analysis that already exists"
+	echo "then you may specify the path to the analysis starting from inside"
+	echo "the Analysis folder of the study. "
+	echo " "
+	echo "ex. start_new_analysis MyAnalysis <Subject1 Subject2 Subject3> ExistingAnalysis"
+	echo "This will make a new analysis inside your analysis folder called MyAnalysis."
+	echo "Because ExistingAnalysis was specified after the subjects, the subjects"
+	echo "Subject1 Subject2 and Subject3 will be link to from your MyAnalysis"
+	echo "to the subjects with the same names inside ExistingAnalysis. Thus"
+	echo "allowing you to use existing information, that doesn't need to be regenerated,"
+	echo "in a new and exciting way. :)"
+	echo ""
+	echo "-A	Specify the FCmaps folder you want to link to."
+	echo "-r	Specify the analysis you want to link against (it must exist already.)"
+	echo ""
+	echo "==========================================="
+	exit
+endif
+
+set AnalysisName = ${1}
+set SubjectList = (${2})
+
+set FCmaps = "FCmaps"
+@ i = 3
+@ k = 4
+while($i <= ${#argv})
+	if($k >= ${#argv}) then
+		@ k = ${#argv}
+	else
+		@ k = $i + 1
+	endif
+
+	switch(${argv[$i]})
+		case -dbg:
+			echo "Enabling Debug Mode"
+			set echo
+			breaksw
+
+		case -A:
+			set FCmaps = $argv[$k]
+			echo "Linking against $FCmaps in each subject."
+			breaksw
+		case -r:
+			set Redirect = ${cwd}/Analysis/$argv[$k]
+			set RedirectStudy = $argv[$k]
+			echo "Linking aginst $Redirect"
+			breaksw
+	endsw
+	@ i++
+end
+
+set User = `whoami`
+
+if(! -e Analysis) then
+	echo "There is not an Analysis folder!"
+	echo "Please create it or run propagate_scans from the Scans folder to create one."
+	exit
+endif
+
+set Home = ${cwd}
+cd Analysis
+
+if(! -e ${User}) then
+	mkdir ${User}
+endif
+
+cd ${User}
+
+if(! -e ${AnalysisName}) then
+	mkdir ${AnalysisName}
+endif
+
+cd ${AnalysisName}
+
+
+#make a blank group params file
+if(! -e ${AnalysisName}_group.params && ! $?Redirect) then
+	cp ${PP_SCRIPTS}/Params/group.params ./${AnalysisName}_group.params
+else if($?Redirect) then
+	cp ${Redirect}/${RedirectStudy}"_group.params" ./${AnalysisName}"_group.params"
+endif
+
+# see if the user specified a list file
+
+if(${#SubjectList} == 1) then
+	if( -d ${Home}/Subjects/${SubjectList} || -d ${Home}/Controls/${SubjectList}) then
+		echo "Single subject"
+	else if(-e ${Home}/${SubjectList} && ! -d ${Home}/${SubjectList}) then
+		@ i = 1
+		echo "Number Of Subjects in List: "`wc ${Home}/${SubjectList} | awk '{print $1}'`
+		dos2unix ${SubjectList}
+		@ Lines =  `wc ${Home}/${SubjectList} | awk '{print $1}'`
+		set TempList = ""
+		while($i <= $Lines)
+			set entry = `head -${i} ${Home}/${SubjectList} | tail -1`
+			set TempList = `echo ${TempList}" "${entry}`
+			@ i++
+		end
+
+		#move the list
+		mv ${Home}/${SubjectList} ${cwd}
+
+		set SubjectList = ($TempList)
+		echo $SubjectList
+
+	else
+		echo "Cannot find list file ${2}"
+		exit
+	endif
+endif
+
+if(${#SubjectList} < 1) then
+	echo "No subjects specified!"
+	goto DONE
+endif
+
+#make a home for each of the subjects
+foreach Subject(${SubjectList})
+
+	if(! -e ${Subject}) then
+		mkdir ${Subject}
+	endif
+
+	set SubjectHome = ""
+	#find out where the subject exists
+
+	if($?Redirect) then
+		if( -e ${Redirect}/${Subject}) then
+			echo "Found ${Subject} in $RedirectStudy, preparing..."
+
+
+			if( -e ${Redirect}/${Subject}/${Subject}_1.params) then
+				set Params = ${Subject}_1.params
+			else
+				set Params = ${Subject}.params
+			endif
+
+			cp ${Redirect}/${Subject}/${Params} ${Subject}/${Params}
+
+			sed 's/set GroupName = '${RedirectStudy}'/set GroupName = '${AnalysisName}'/' ${Subject}/${Params} >! ${Subject}/${Params}.temp
+			mv -f ${Subject}/${Params}.temp ${Subject}/${Params}
+
+			set SubjectHome = ${Redirect}/${Subject}
+		else
+			echo ""
+			echo "Could not find the subject ${Subject} in ${Redirect} folder"
+			echo "of the study. Please verify they exist as listed."
+			echo ""
+			rm -rf ${Subject}
+		set AnalysisHome = ${cwd}
+
+			goto NEXT
+		endif
+	else
+		set AnalysisHome = ${cwd}
+		if( -e ${Home}/Controls/${Subject}) then
+			echo "Found ${Subject} in Controls, preparing..."
+			set SubjectHome = ${Home}/Controls/${Subject}
+		else if( -e ${Home}/Subjects/${Subject}) then
+			echo "Found ${Subject} in Subjects, preparing..."
+			set SubjectHome = ${Home}/Subjects/${Subject}
+		else
+			echo ""
+			echo "Could not find the subject ${Subject} in either the controls nor subjects folder"
+			echo "of the study. Please verify they exist as listed."
+			echo ""
+			rm -rf ${Subject}
+			goto NEXT
+		endif
+
+		if( -e ${SubjectHome}/${Subject}_1.params) then
+			set Params = ${Subject}_1.params
+		else
+			set Params = ${Subject}.params
+		endif
+
+		cp ${SubjectHome}/${Params} ${Subject}/${Params}
+		#add the group name into the analysis subjects params file.
+		echo "set GroupName = "${AnalysisName}"	#The name of the analysis/group" >> ${Subject}/${Params}
+	endif
+
+	cd $Subject
+
+	if(! -e $FCmaps && -e ${SubjectHome}/$FCmaps) then
+		mkdir $FCmaps
+	endif
+
+	if(! -e movement && -e ${SubjectHome}/movement) then
+		mkdir movement
+	endif
+
+	if(! -e atlas && -e ${SubjectHome}/atlas) then
+		mkdir atlas
+	endif
+
+	if(! -e DWI && -e ${SubjectHome}/DWI) then
+		mkdir DWI
+	endif
+
+	if(! -e ASL && -e ${SubjectHome}/ASL) then
+		mkdir ASL
+	endif
+
+	if( -e atlas) then
+		cd atlas
+		cp -sRf ${SubjectHome}/atlas/* ${cwd}
+		cd ..
+	endif
+
+	if( -e movement) then
+		cd movement
+		cp -sRf ${SubjectHome}/movement/* ${cwd}
+		cd ..
+	endif
+
+	if( -e DWI) then
+		cd DWI
+		cp -sRf ${SubjectHome}/DWI/* ${cwd}
+		cd ..
+	endif
+
+	if( -e ASL) then
+		cd ASL
+		cp -sRf ${SubjectHome}/ASL/* ${cwd}
+		cd ..
+	endif
+
+	if( -e $FCmaps) then
+		cd $FCmaps
+		cp -sRf ${SubjectHome}/$FCmaps/* ${cwd}
+		cd ..
+	endif
+
+	cd ..
+
+	NEXT:
+end
+
+echo "Analysis directory location: ${AnalysisHome}"
+
+DONE:
+echo "Done!"

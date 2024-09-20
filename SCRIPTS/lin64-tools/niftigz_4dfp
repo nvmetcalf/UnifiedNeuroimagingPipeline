@@ -1,0 +1,164 @@
+#!/bin/csh
+#$Header: /data/petsun4/data1/solaris/csh_scripts/RCS/niftigz_4dfp,v 1.6 2015/12/04 19:33:19 avi Exp $
+#$Log: niftigz_4dfp,v $
+# Revision 1.6  2015/12/04  19:33:19  avi
+# correct typo in error code
+#
+# Revision 1.5  2014/02/17  01:58:15  avi
+# accommodate symbolically linked gzipped NIfTI input
+#
+# Revision 1.4  2014/01/23  02:38:56  avi
+# gzip -> gzip -f
+#
+# Revision 1.3  2013/08/11  04:55:33  avi
+# option -s
+#
+# Revision 1.2  2013/08/06  03:04:51  avi
+# increase tolerance for variable nii extensions in input arguments
+# pro-actively remove pre-existing nii when converting 4dfp files
+#
+# Revision 1.1  2013/08/02  04:34:17  avi
+# Initial revision
+#
+set program = $0; set program = $program:t
+
+@ verb = 0
+@ skip = 0
+@ k = 0
+if ($#argv < 1) goto USAGE
+set string = ($argv[1-])
+@ i = 2
+while ($i <= ${#argv})
+	@ isswitch = `echo $argv[$i] | awk '/^-/{k++;};END{print k+0}'`
+	if ($isswitch) then
+		set swi = `echo $argv[$i] | awk '{print substr($1,2,1)}'`
+		set arg = `echo $argv[$i] | awk '{print substr($1,3)}'`
+		switch ($swi)
+			case v:
+				@ verb++; set string[$i] = "";		breaksw;
+			case s:
+				@ skip = $arg; set string[$i] = "";	breaksw;
+			default:
+									breaksw;
+		endsw
+	else
+		switch ($k)
+			case 0:
+				set inimg = $argv[$i]; @ ini = $i;	@ k++; breaksw;
+			case 1:
+				set outimg = $argv[$i]; @ outi = $i;	@ k++; breaksw;
+			default:
+									@ k++; breaksw;
+		endsw
+	endif
+	@ i++
+end
+if ($k != 2) goto USAGE
+echo "skip="$skip
+
+@ rezip = 0
+@ iscopy = 0
+if ($argv[1] == "-4") then
+#############################################
+# unzip NIfTI input before running nifti_4dfp
+#############################################
+	set niftir = $inimg
+	if ($niftir:e == "gz") 	set niftir = $niftir:r
+	if ($niftir:e == "nii")	set niftir = $niftir:r
+	set string[$ini] = $niftir.nii
+	if (-e $niftir.nii.gz) then
+		gunzip -f $niftir.nii.gz
+		if ($status) then
+			echo $program": gunzip fail - assuming "$niftir.nii.gz is a symbolic link
+			echo	cp $niftir.nii.gz $$.nii.gz
+				cp $niftir.nii.gz $$.nii.gz
+			if ($status) exit $status
+			gunzip -f $$.nii.gz
+			if ($status) exit $status
+			set string[$ini] = $$.nii
+			@ iscopy++
+		else
+			@ rezip++
+		endif
+	endif
+	if (! -e $string[$ini]) then
+		 echo $string[$ini] not found
+		 exit -1
+	endif
+endif
+
+##########################################################
+# remove pre-existing NIfTI files to unobstruct nifti_4dfp
+##########################################################
+if ($argv[1] == "-n") then
+	set niftir = $outimg
+	if ($niftir:e == "gz") 	set niftir = $niftir:r
+	if ($niftir:e == "nii")	set niftir = $niftir:r
+	if (-e $niftir.nii) then
+		if ($verb) echo	/bin/rm -f $niftir.nii
+				/bin/rm -f $niftir.nii
+	endif
+	if (-e $niftir.nii.gz) then
+		if ($verb) echo	/bin/rm -f $niftir.nii.gz
+				/bin/rm -f $niftir.nii.gz
+	endif
+
+	if ($skip > 0) then
+		if ($inimg:e == "img")  set inimg = $inimg:r
+		if ($inimg:e == "4dfp") set inimg = $inimg:r
+		set ifh = $inimg.4dfp.ifh
+		if (! -e $ifh) then
+			echo $ifh not found
+			exit -1
+		endif
+		@ nframe = `cat $ifh | awk '/matrix size \[4\]/{print $NF}'`
+		@ nfm = $nframe - $skip
+		echo "skip="$skip
+		if ($nfm < 1) then
+			echo $inimg has no non-skipped frames
+			exit -1
+		endif
+		@ k = $skip + 1
+		echo $inimg $k $nfm >! $$.lst
+		paste_4dfp -a $$.lst $$
+		if ($status) exit $status
+		set string[$ini] = $$
+	endif
+endif
+
+################
+# run nifti_4dfp
+################
+if ($verb) echo	nifti_4dfp $string
+		nifti_4dfp $string
+if ($status) exit $status
+if ($rezip) then
+	if ($verb) echo	gzip -f $niftir.nii
+			gzip -f $niftir.nii
+endif
+if ($status) exit $status
+if ($iscopy) /bin/rm $$.nii
+
+if ($argv[1] == "-n") then
+###########################################
+# zip NIfTI output after running nifti_4dfp
+###########################################
+	if ($verb) echo	gzip -f $niftir.nii
+			gzip -f $niftir.nii
+		if ($status) exit $status
+	endif
+endif
+
+rm -f $niftir.nii
+if (-e $$.lst) /bin/rm $$.*
+exit 0
+
+USAGE:
+echo "usage:	"$program" <nifti_4dfp args>"
+echo "e.g.:	"$program" -4 VB18896_mpr_n1_333_t88.nii.gz VB18896_mpr_n1_333_t88"
+echo "	option"
+echo "	-v	verbose mode"
+echo "	-s<int>	skip specified number of frames at run start on 4dfp->NIfTI coversion"
+echo "N.B.:	"$program is a wrapper for nifti_4dfp
+echo "N.B.:	"$program always gzips NIfTI output but unzipped NIfTI input is left unchanged
+exit 1

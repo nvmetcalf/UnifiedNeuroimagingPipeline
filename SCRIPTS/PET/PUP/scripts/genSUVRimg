@@ -1,0 +1,74 @@
+#!/bin/bash
+################################################################################
+# This program generate SUVR images from dynamic PET data.		       #
+#                                                                              #
+################################################################################
+# Yi Su, 10/20/2011
+
+idstr='$Id: genSUVRimg,v 1.2 2012/08/21 21:11:01 suy Exp $'
+echo $idstr
+
+petfstr=$1 # PET image file (4dfp.img)
+mrfstr=$2   # Anatomical MR file (usually T1.mgz)
+
+petname=`basename $petfstr`
+petdir=`dirname $petfstr`
+petroot=${petname%%.*}
+mrname=`basename $mrfstr`
+mrdir=`dirname $mrfstr`
+mrroot=${mrname%.*}
+mrroot=${mrroot}"001"
+
+source ${petroot}.tb
+
+sf=${startframe[6]}
+ef=${lastframe[8]}
+
+scale_4dfp PETFOV 0.0 -azero
+maskimg_4dfp -R PETFOV_zero PETFOV_zero ${petroot}_SUVR
+for (( f=$sf; f<=ef; f++ )) 
+do
+	if [ $? -eq 0 ]
+	then
+		chop_4dfp $petfstr $f $f -o${petroot}"_"$f
+		if (( $f < ${startframe[7]} )) 
+		then
+			t4file=${petroot}"_c1_to_MR_t4"
+		elif (( $f < ${startframe[8]} )) 
+		then
+			t4file=${petroot}"_c2_to_MR_t4"
+		else
+			t4file=${petroot}"_c3_to_MR_t4"
+		fi
+		t4img_4dfp $t4file ${petroot}"_"$f  ${petroot}"_"$f"_on_MR" -O${mrroot} # Transform the frame to MR space
+		maskimg_4dfp -R ${petroot}_SUVR PETFOV temp$$_1
+		dcf=`gawk 'NR=='$f' {print $4}'  ${petroot}".info"`
+		dcf=$(echo "scale=8; 1/$dcf" | bc)
+		scale_4dfp ${petroot}"_"$f"_on_MR" $dcf
+		imgopr_4dfp -a${petroot}_SUVR temp$$_1 ${petroot}"_"$f"_on_MR"
+		rm ${petroot}"_"${f}.*
+		rm ${petroot}"_"${f}_on_MR.*
+		
+	fi
+done
+rm temp$$*.4dfp.*
+
+if [ $? -eq 0 ]
+then
+	NROI=`wc -l ROIlist.txt | gawk '{print $1}'`
+	rsfroieval2 ${petroot}"_SUVR" RSFMask RSFMat.dat PETFOV ROIlist.txt $NROI 10 ${petroot}_SUVR 0
+fi
+
+# Get mean cerebellum intensity
+nl=`gawk '/Left-Cerebellum-Cortex/ {print $2}' ${petroot}"_SUVR_ROI2_f0"`
+vall=`gawk '/Left-Cerebellum-Cortex/ {print $3}' ${petroot}"_SUVR_ROI2_f0"`
+nr=`gawk '/Right-Cerebellum-Cortex/ {print $2}' ${petroot}"_SUVR_ROI2_f0"`
+valr=`gawk '/Right-Cerebellum-Cortex/ {print $3}' ${petroot}"_SUVR_ROI2_f0"`
+tmp1=$(echo "scale=8; $vall*$nl+$valr*$nr" | bc)
+tmp2=$(echo "scale=8; $nl+$nr" | bc)
+cbl=$(echo "scale=8; $tmp1/$tmp2" | bc)
+
+scf=$(echo "scale=8; 1/$cbl" | bc)
+scale_4dfp ${petroot}_SUVR $scf
+
+exit $?

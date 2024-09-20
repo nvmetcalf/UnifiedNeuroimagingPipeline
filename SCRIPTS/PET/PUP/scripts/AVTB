@@ -1,0 +1,90 @@
+#!/bin/bash
+###################--------------------------------------------------------------
+# The purpose of this program is to create early, middle, and late PET
+# images from dynamic PET scans, or to create c1, c2 and c3 images for static
+# scans 
+###################--------------------------------------------------------------
+# Inputs to the program
+#
+# $1: 4dfp PET file name (*.4dfp.img)
+# $2: isstat flag indicates whether it is static or a dynamic scan
+# $3: format flag indicates whether the original pet data format ECAT (1), DICOM (0), Siemens InterFile (2)
+# $4: start time for modeling (in mins)
+# $5: modeling data duration (in mins)
+###################--------------------------------------------------------------
+# Yi Su, 09/03/2013                                                            
+
+idstr='$Id: AVTB,v 1.1 2013/09/03 21:10:59 suy Exp $'
+echo $idstr
+
+if (( $# < 5 ))
+then
+	echo "Usage: `basename $0` petfile isstat isecat starttime(mins) model_duration(mins)"
+	exit 1
+fi
+
+petfstr=$1
+petdir=`dirname $petfstr`
+petname=`basename $petfstr`
+petroot=${petname%%.*}
+isstat=$2 # Static or Dynamic
+format=$3 # ecat or dicom
+mst=$4
+mdt=$5
+
+
+PETinfo $petfstr $format
+if (( $isstat == 0 ))
+then
+	groups=( a b c )
+	DPETTB ${petroot}".info" $mst $mdt > ${petroot}.tb
+	if (( $? == 0 ))
+	then
+		echo "Dynamic PET"
+		cat ${petroot}.tb
+		source ${petroot}.tb
+		for (( g=0; g<3; g++ ))
+		do
+			for (( i=0; i<3; i++ ))
+			do
+				echo ${petroot}"_"${groups[$g]}$((i+1))
+				echo sum_pet_4dfp $petfstr ${startframe[$((i+g*3))]}  ${lastframe[$((i+g*3))]} -h6586 -d ${petroot}_${groups[$g]}$((i+1)) 
+				sum_pet_4dfp $petfstr ${startframe[$((i+g*3))]}  ${lastframe[$((i+g*3))]}  -h6586 -d ${petroot}_${groups[$g]}$((i+1)) 
+			done
+		done
+	else
+		echo "DPETTB Failure. Must Exit"
+		exit 255
+	fi	
+elif (( $isstat==1 ))
+then
+	frames=`gawk '/matrix size \[4\]/ {print $5}' $petdir"/"$petroot".4dfp.ifh"`
+	if (( $frames == 4 ))
+	then
+		echo "Static 4 frame PET"
+		groups=c
+		startframe=(  1 3 )
+		lastframe=(   2 4 )
+		if [ -e ${petroot}.tb ]
+		then
+			rm ${petroot}.tb
+		fi
+		touch ${petroot}.tb
+		echo "startframe=(  1 3 )" >> ${petroot}.tb
+		echo "lastframe=(  2 4 )" >> ${petroot}.tb
+		for (( i=0; i<2; i++ ))
+		do
+			echo ${petroot}"_"${groups}$((i+1))
+			echo sum_pet_4dfp $petfstr  ${startframe[$i]}  ${lastframe[$i]} -h6586 -d ${petroot}_${groups}$((i+1)) 
+			sum_pet_4dfp $petfstr  ${startframe[$i]}  ${lastframe[$i]} -h6586 -d ${petroot}_${groups}$((i+1)) 
+		done
+
+	else
+		echo "Unexpected Static PET Sequence. Must Exit."
+	    	exit 255
+	fi		
+fi
+exit $?
+	
+
+

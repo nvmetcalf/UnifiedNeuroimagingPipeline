@@ -1,0 +1,197 @@
+#!/bin/csh
+#$Header: /home/usr/jon/bin/RCS/triple_fdg,v 1.4 2011/08/26 20:19:28 jon Exp jon $
+
+# Algorithm:
+# The purpose of this script is to assemble FDG PET scan(s) and sum and register the frames
+# to produced the average image of the last 20 minutes of the FDG scan.
+
+# $patid_triple.params is sourced for scan numbers, raw file names,
+# and frame arrays.
+
+# Conversion to 4dfp analyze orientation, with formated rec file, is done if needed.
+# Frames are summed. Only the c1 c2 c3 images are made.
+
+# Frame array examples:
+# minutes	= ( 10 10 10)	duration of FDG summed images
+# Image names     ( c1 c2 c3)
+# startframe	= ( 49 51 53)
+# lastframe	= ( 50 52 54)
+
+# Frames for the last 20 minutes of the scan are registered and transformed to make the c image.
+
+# Author: Jon Christensen
+#-------------------------------------------------------------------------------------------------------
+set idstr = '$Id: triple_fdg,v 1.4 2011/08/26 20:19:28 jon Exp jon $'
+echo $idstr
+
+set program = $0
+set program = $program:t
+
+if ($#argv < 1) goto Usage
+
+#-------------------------------------------
+
+set params = $1
+
+if(-e $params)then
+   source $params
+else
+   echo Error $program $params does not exist
+   echo " "
+   goto Usage
+endif
+
+set mode = fdg
+
+# File naming
+if ($#startframe != 3 && $#startframe != 9)then
+   echo The number of summed frames must be 3 or 9
+   echo Check frame arrays in params file
+   exit 1
+endif
+
+if ($#startframe == 3) set groups = (c)
+if ($#startframe == 9) set groups = (a b c)	## only c images are made
+
+#-------------------------------------------
+
+set bin = $RELEASE
+set HL = 6586.2		# half life of F-18
+set numallowed = 16	# allowable FDG frames that may be missing
+
+#-------------------------------------------------------------------------------------------------------
+# ECAT or 4dfp multivolume PET must exist
+
+@ k = 1
+foreach num ($fdg_nums)
+   if (! -e $rawfdg[$k] && ! -e $patid$mode$num".4dfp.img")then
+      echo Error {$program} $rawfdg[$k] AND $patid$mode$num".4dfp.img" Do Not Exist
+      goto Usage
+   endif
+   @ i++
+end
+
+#-------------------------------------------------------------------------------------------------------
+# Assemble 4dfp oriented dynamic FDG scan if it does not exist
+@ k = 0
+foreach num ($fdg_nums)
+	
+	@ k++
+	if (-e $patid$mode$num".4dfp.img" || -e $patid$mode$num".4dfp.ifh")goto SKIP
+
+	if (-e $rawfdg[$k])then
+		echo $rawfdg[$k] Exists to make $patid$mode$num
+		if (! -e $patid$mode$num".4dfp.img")then
+			echo ecatto4dfp $rawfdg[$k] $patid$mode$num
+			     ecatto4dfp $rawfdg[$k] $patid$mode$num
+			if ($status) exit $status
+		endif
+	endif
+	if (! -e $patid$mode$num".4dfp.img" || ! -e $patid$mode$num".4dfp.ifh")then
+	   echo Error {$program}: 4dfp $patid$mode$num".4dfp" Does Not Exist
+	   echo Error {$program}: Must exit
+	   exit 1
+	endif
+SKIP:
+	#--------------------------------------------------------------------------------
+	# Count missing frames listed in rec file.
+
+	@ cnt = 0	# number of missing frames
+	@ actualframes = `gawk '/matrix size \[4\]/ {print $NF}' $patid$mode$num".4dfp.ifh"`
+	@ slices =       `gawk '/matrix size \[3\]/ {print $NF}' $patid$mode$num".4dfp.ifh"`
+	echo frames = $actualframes slices = $slices
+
+	if ( $actualframes < 6 || $actualframes > 54)then
+	  	  echo " "; echo Error {$program}: Number of Frames is $actualframes
+		  echo " "
+		  goto Usage
+	endif
+
+	# Check for missing frames
+	@ missingframes = 0
+	set missing = `grep "Missing Frames: " $patid$mode$num".4dfp.img.rec"`
+
+	if (! $status)then
+		echo Missing $missing
+		@ cnt = 3	# the default number of items on the "Missing Frames" line
+		set M = ($missing)
+		set f = $#M	# the total number of items on the "Missing Frames" line
+		@ missingframes = $f - $cnt
+
+		if($missingframes > $numallowed)then
+			echo $program Error there are > $numallowed frames missing missingframes = $missingframes
+			echo Must Exit
+			exit 1
+		endif
+	
+		@ framesinscan = $actualframes + $missingframes
+		echo missingframes = $missingframes
+		echo framesinscan = $framesinscan
+	endif
+
+	#-------------------------------------------------------------------
+	# Adjust frame arrays if needed
+
+	if($missingframes > 0)then
+		@ i = 1
+		while ($i <= $#startframe)
+	
+			if($i >= 1)@ startframe[$i] = $startframe[$i] - $missingframes
+			           @ lastframe[$i] = $lastframe[$i] - $missingframes
+			@ i++
+		end
+	endif
+
+	echo "============================================================="
+	echo "$patid$mode$num Start Frame = " $startframe
+	echo "$patid$mode$num Last  Frame = " $lastframe
+
+	#---------------------------------------------------------------------
+	# Make c1 c2 and c3 images
+
+	@ i = 0		# summed image index
+	set filnam = $patid$mode$num
+	foreach group ($groups)
+	   @ n = 1	# group index
+	   while ($n <= 3)
+		@ i++
+		if($group == c)then
+		   echo sum_pet_4dfp $filnam $startframe[$i] $lastframe[$i] -h$HL -d $patid$mode$num"_"$group$n
+		   $bin/sum_pet_4dfp $filnam $startframe[$i] $lastframe[$i] -h$HL -d $patid$mode$num"_"$group$n
+			if ($status) exit $status
+		endif
+		@ n++
+	   end
+	end
+	echo "============================================================================="
+
+      	set group = c		# Register images from last 20 minutes of scan
+        echo cross_pet_resolve_4dfp $patid$mode$num"_"$group $patid$mode$num"_"$group"2" $patid$mode$num"_"$group"3"
+        $bin/cross_pet_resolve_4dfp $patid$mode$num"_"$group $patid$mode$num"_"$group"2" $patid$mode$num"_"$group"3"
+		if ($status) exit $status
+        echo "============================================================================="
+				# Transform the PET images to create a "group" image in native PET space
+        echo t4imgs_4dfp $patid$mode$num"_"$group".sub" $patid$mode$num"_"$group "-O"$patid$mode$num"_c1.4dfp.img"
+        $bin/t4imgs_4dfp $patid$mode$num"_"$group".sub" $patid$mode$num"_"$group "-O"$patid$mode$num"_c1.4dfp.img"
+		if ($status) exit $status
+	echo "============================================================================="
+	
+end
+
+echo DONE $program
+exit 0
+
+#-------------------------------------------------------------------------------------------------------
+
+Usage:
+echo " "
+echo "Use:	"$program" <params_file> "
+echo "		"$program" p6400 "
+echo "fdg_c image(s) (last 20 minutes) is made from"
+echo "dynamic F-18 FDG scan(s)."
+echo "params_file must be sourced"
+echo "Three summed images will be made."
+
+echo " "
+
+exit 1

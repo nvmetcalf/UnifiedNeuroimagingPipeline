@@ -1,0 +1,135 @@
+#!/bin/csh
+#$Header: /data/petsun4/data1/src_solaris/pet_4dfp/RCS/make_late,v 1.1 2012/09/19 17:33:46 larsc Exp larsc $
+
+set idstr = '$Id: make_late,v 1.1 2012/09/19 17:33:46 larsc Exp larsc $'
+echo $idstr
+
+set program = $0
+set program = $program:t
+
+@ CLEAN = 1
+
+@ missallowed = 16	# allowable FDG frames that may be missing
+@ minallowed  = 1
+@ maxallowed  = 108
+
+set minlength = 600
+
+if ($#argv != 4) then
+	echo "Usage:	$program <(4dfp)pet> <(seconds)length> <isotope> <name>"
+	echo " e.g.,	$program p1234fdg1 1800 F-18 c"
+	exit 1
+endif
+
+set length  = $2
+set iso     = $3
+set inroot  = $1
+foreach ext (rec img ifh hdr 4dfp)
+	if ($inroot:e == $ext) set inroot = $inroot:r
+end
+set outroot = $inroot"_"$4
+
+switch ($iso)
+case F-18:
+	set HL = 6586.2;	breaksw
+case C-11:
+	set HL = 1223;		breaksw
+case O-15:
+	set HL = 123;		breaksw
+default:
+	echo $program": can't recognize isotope "$iso
+	exit -1
+endsw
+
+if (! -e $inroot.4dfp.img || ! -e $inroot.4dfp.ifh) then
+	echo $program": "$inroot" not found"
+	exit -1
+endif
+
+@ actualframes = `gawk '/matrix size \[4\]/ {print $NF}' $inroot".4dfp.ifh"`
+if ( $actualframes < $minallowed || $actualframes > $maxallowed) then
+	echo $program": number of frames is "$actualframes
+	echo "		should be >= "$minallowed" or <= "$maxallowed
+	exit -1
+endif
+
+set missing = `gawk '/ Missing Frames: / {for (i = 4; i <= NF; i++) print $i}' $inroot".4dfp.img.rec"`
+if ($#missing > $missallowed) then
+	echo $program": missing "$#missing" frames. Only "$missallowed" allowed"
+	exit -1
+endif
+
+#set starttime = `gawk '$1~/Frame_/ {s = $4; l = $2} END {print (s+l)/1000-'$length'}' $inroot".4dfp.img.rec"`
+#set frames     = `gawk '$1~/Frame_/&&$4>='$starttime'*1000 {print substr ($1, 7)}'                             $inroot".4dfp.img.rec"`
+#set lengths    = `gawk '$1~/Frame_/&&$4>='$starttime'*1000 {print $2/1000}'                                    $inroot".4dfp.img.rec"`
+set startframe = `gawk '$1~/Frame_/ {print $1, $2/1000}' $inroot".4dfp.img.rec"`
+if ($length == "ALL") then
+	set startframe = `echo $startframe | gawk '{print substr ($1 , 7)}'`
+else
+	set startframe = `echo $startframe | gawk '{s = 0; for (i = NF; i > 2; i = i - 2) {s = s + $i; if (s >= '$length') exit;}} END {print substr ($(i-1), 7)}'`
+endif
+set frames     = `gawk '$1~/Frame_/&&int(substr($1, 7))>='$startframe' {print substr ($1, 7)}' $inroot".4dfp.img.rec"`
+set lengths    = `gawk '$1~/Frame_/&&int(substr($1, 7))>='$startframe' {print $2/1000}'        $inroot".4dfp.img.rec"`
+if ($#frames > 1) then
+	set indices = `echo $lengths | gawk '{t=0; l=0; for (i=NF;i>0;i--) {t+=$i; if (t>='$minlength') {t=0; if (l) print l; l=i}}} END {print i+1}'`
+
+	set startframes = ()
+	@ i = $#indices
+	while ($i >= 1)
+		set startframes = ($startframes $frames[$indices[$i]])
+		@ i --
+	end
+	set   endframes = (`echo $startframes | gawk '{for (i = 2; i <= NF; i++) print $i-1}'` $frames[$#frames])
+else
+	set startframes = (1)
+	set   endframes = (1)
+endif
+
+echo $startframes
+echo $endframes
+
+set imgs = ()
+@ i = 1
+while ($i <= $#startframes)
+	echo sum_pet_4dfp $inroot $startframes[$i] $endframes[$i] -h$HL $outroot$i
+	     sum_pet_4dfp $inroot $startframes[$i] $endframes[$i] -h$HL $outroot$i
+	if ($status) exit $status
+	set imgs = ($imgs $outroot$i)
+	@ i ++
+end
+
+if ($#imgs > 1) then
+	echo cross_pet_resolve_4dfp $outroot $imgs
+	     cross_pet_resolve_4dfp $outroot $imgs
+	if ($status) exit $status
+
+	echo t4imgs_4dfp $outroot".sub" $outroot "-O"$imgs[1]
+	     t4imgs_4dfp $outroot".sub" $outroot "-O"$imgs[1]
+	if ($status) exit $status
+
+	if (! -d unresolved_t4) mkdir unresolved_t4
+	if (! -d   resolved_t4) mkdir   resolved_t4
+
+	mv -f $outroot".sub" $outroot"_t4_resolve.log"		  resolved_t4
+	foreach img  ($imgs)
+		mv -f $img"_to_"$outroot"_t4"			  resolved_t4
+	end
+	mv -f $outroot"_imgreg_4dfp.log"			unresolved_t4
+	foreach img1 ($imgs)
+	foreach img2 ($imgs)
+		if ($img1 != $img2) mv -f $img1"_to_"$img2"_t4"	  resolved_t4
+	end
+	end
+else
+	foreach ext (img ifh hdr img.rec)
+		cp $imgs[1].4dfp.$ext $outroot.4dfp.$ext
+	end
+endif
+
+if ($CLEAN == 1) then
+	foreach img ($imgs)
+		rm $img.4dfp.{img,ifh,hdr,img.rec}
+	end
+endif
+
+exit 0

@@ -1,0 +1,24 @@
+#!/bin/bash
+################################################################################
+# This program updates time stamp of a scripts				       #     
+################################################################################
+# Yi Su, 2013/07/05    
+program=`basename $0`
+if [ $# -lt 2 ]
+then
+	echo "Usage: $program script vnum"
+	exit -1
+fi
+
+script=$1
+vnum=$2
+if [ -n "$script" ]
+then
+    sdir=`dirname $script`
+    sname=`basename $script`
+    sroot=${sname%%.*}
+else
+    echo "$program: script does not exist"
+    exit -1
+fi 
+perl -i -ne '$a = `whoami`; $b=`date`; chomp($a); chomp($b); s/idstr=.*/idstr='\''\$Id: '${sroot}',v '${vnum}' $b $a \$'\''/g ; print ; ' $script

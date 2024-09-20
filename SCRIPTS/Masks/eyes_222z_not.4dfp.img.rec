@@ -1,0 +1,10 @@
+rec eyes_222z_not.4dfp.img  Thu Aug  5 21:54:55 2021  metcalfn@maulinux02 Linux 3.10.0-957.12.2.el7.x86_64 x86_64
+nifti_4dfp -4 eyes_222z.nii eyes_222z_not 
+$Id: nifti_4dfp.c,v 1.9 2011/09/13 03:40:37 avi Exp $
+littleendian
+datatype: 16	 bitpix: 32
+scale: 1.000000	 offset: 0.000000
+common sform[0]:     2.000000	    0.000000	    0.000000	  -90.000000
+common sform[1]:     0.000000	    2.000000	    0.000000	 -126.000000
+common sform[2]:     0.000000	    0.000000	    2.000000	  -72.000000
+endrec Thu Aug  5 21:54:55 2021  metcalfn

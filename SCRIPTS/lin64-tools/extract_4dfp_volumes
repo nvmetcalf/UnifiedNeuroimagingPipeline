@@ -1,0 +1,70 @@
+#!/bin/csh
+
+if( $#argv < 1) then
+	echo "Usage:"
+	echo "	extract_4dfp_volumes <image> (start frame) (end frame) (combined_outname) (paste_4dfp option)"
+	echo "		A folder will be created and the extracted volumes placed within it."
+	echo "		DO NOT include the 4dfp.img extension"
+	echo "	Can use paste_4dfp options (such as -a to append)"
+	exit 1
+endif
+
+set Multivolume = $1
+
+if(! -e ${Multivolume}.4dfp.img) then
+	echo "$Multivolume.4dfp.img does not exist!"
+	exit 1
+endif
+
+if($#argv > 1) then
+	@ Low = $2
+else
+	@ Low = 1
+endif
+
+if($#argv > 2) then
+	@ High = $3
+else
+	@ High = `grep "matrix size" ${Multivolume}.4dfp.ifh | tail -1 | awk '{print $NF}'`
+endif
+
+if($#argv > 3) then
+	set Paste = 1
+	set CombinedName = $4
+else
+	set Paste = 0
+endif
+
+@ i = $Low
+
+rm -rf $Multivolume
+mkdir $Multivolume
+
+if($Paste) then
+	rm -rf frame.lst
+	touch frame.lst
+endif
+
+while($i <= $High)
+	extract_frame_4dfp ${Multivolume}.4dfp.img $i
+	if($status) exit
+	if($Paste) echo ${Multivolume}_frame${i}.4dfp.img >> frame.lst
+
+	@ i++
+end
+
+if($Paste) then
+	if($4 == "-a") then
+		paste_4dfp $4 frame.lst $CombinedName
+	else
+		paste_4dfp frame.lst $CombinedName
+	endif
+	
+	if($status) exit
+	rm -f ${Multivolume}_frame*
+else
+	mv *frame* $Multivolume
+endif
+
+rm -f *.lst
+exit 0

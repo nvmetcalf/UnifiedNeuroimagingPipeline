@@ -1,0 +1,60 @@
+#!/bin/csh
+
+if($#argv != 3) then
+    decho "Expects 3 arguments"
+    decho "1. Subject parameter file path"
+    decho "2. Syntax verbosity level [N >= 0, higher is greater verbosity]"
+    decho "3. Syntax strictness number [N >= 0, higher is greater strictness]"
+    exit 1
+endif
+
+#Expects arguments in this order: subject parameter file path, syntax verbosity number, syntax strictness number 
+set AbsPath = `readlink -f ${1}`
+
+set PythonBin = ${FSLBIN}/python3.11
+    
+#Run dos2unix on the file to strip any windows characters which might be there for some reason.
+dos2unix $AbsPath -o -s -F
+
+#check subjects params file for problems
+#First check to see if there are any csh syntax error or parameters that do not adhere to the rules in:
+#TemplateParams.json.
+decho "Checking params file syntax for ${1}" 
+$PythonBin $PP_SCRIPTS/python3/ParseParams/CheckParamsSyntax.py $AbsPath $2 $3
+set exit_code = $status
+if($exit_code) then
+    switch ( $exit_code )
+        case 1:
+            decho "Could not find regex template file." 
+        breaksw
+        case 2:
+            decho "csh syntax error detected." 
+        breaksw
+        case 3:
+            decho "Could not find params file: %s." ${1} 
+        breaksw
+        case 4:
+            decho "Syntax error detected." 
+        breaksw
+        case 5:
+            decho "File arguments incorrectly supplied to CheckParamsSyntax.py, check check_params.csh" 
+        breaksw
+        case 6:
+            decho "Unable to load rule module." 
+        breaksw
+        case 7:
+            decho "Required parameter not found." 
+        breaksw
+        case 8:
+            decho "File path or symlink does not exist." 
+        breaksw
+        case 9:
+            decho "Parameter boundry specification JSON does not exist." 
+        breaksw
+        case 10:
+            decho "Parameter not in bounds." 
+        breaksw
+    endsw
+    exit 1
+endif
+

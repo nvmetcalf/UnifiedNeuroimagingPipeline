@@ -1,0 +1,30 @@
+#!/bin/bash
+
+sid=$1
+nf=$2
+optf=${sid}_cstat.txt
+if [ -e  $optf ]
+then
+	rm $optf
+fi
+touch $optf
+
+printf '%-15s %15s %15s %15s %15s %15s %15s %15s %15s %15s\n' "start(s)" "duration(s)" "prompts" "randoms" "trues" "prompts_rate" "randoms_rate" "trues_rate" "singles_rate" "scatter(%)">> $optf
+
+for (( i=0; i<$nf; i++ ))
+do
+	frid=`printf '%02d' $i` 
+	sinohdr=${sid}_${frid}.s.hdr
+	start=`gawk -F= '/image relative start time/ {printf ("%d", $2)}' ${sinohdr}`
+	duration=`gawk -F= '/image duration \(sec\)/ {printf ("%d", $2)}' ${sinohdr}`
+	singles=`gawk -F= '/total uncorrected singles rate/ {printf ("%d", $2)}' ${sinohdr}`
+	prompts=`gawk -F= '/total prompts/ {printf ("%d", $2)}' ${sinohdr}`
+	randoms=`gawk -F= '/total randoms/ {printf ("%d", $2)}' ${sinohdr}`
+	trues=`gawk -F= '/total net trues/ {printf ("%d", $2)}' ${sinohdr}`
+	prate=$(echo "scale=8; $prompts/$duration" |bc)
+	rrate=$(echo "scale=8; $randoms/$duration" |bc)
+	trate=$(echo "scale=8; $trues/$duration" |bc)
+	scatter=`gawk -F= '/scatter fraction/ {printf ("%f", $2)}' ${sinohdr}`
+	printf '%-15d %15d %15d %15d %15d %15.0f %15.0f %15.0f %15d %15.4f\n' $start $duration $prompts $randoms $trues $prate $rrate $trate $singles $scatter>> $optf
+done
+

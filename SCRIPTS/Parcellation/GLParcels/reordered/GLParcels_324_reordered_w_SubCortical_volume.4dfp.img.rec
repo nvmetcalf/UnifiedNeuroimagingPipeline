@@ -1,0 +1,10 @@
+rec GLParcels_324_reordered_w_SubCortical_volume.4dfp.img  Fri Dec 18 14:02:55 2020  metcalfn@maulinux02 Linux 3.10.0-957.12.2.el7.x86_64 x86_64
+nifti_4dfp -4 GLParcels_324_reordered_w_SubCortical_volume.nii GLParcels_324_reordered_w_SubCortical_volume 
+$Id: nifti_4dfp.c,v 1.9 2011/09/13 03:40:37 avi Exp $
+littleendian
+datatype: 16	 bitpix: 32
+scale: 1.000000	 offset: 0.000000
+common sform[0]:     3.000000	    0.000000	    0.000000	  -70.500000
+common sform[1]:     0.000000	    3.000000	    0.000000	 -105.000000
+common sform[2]:     0.000000	    0.000000	    3.000000	  -60.000000
+endrec Fri Dec 18 14:02:55 2020  metcalfn

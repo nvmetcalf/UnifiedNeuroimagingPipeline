@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Script to process co-register O15-CO image, and register them to O15-water image.
+# It assumes O15-water images has already been aligned and an average image has been
+# generated in the form of ${pid}ho.4dfp.img. It convert the CO from .v file to 4dfp 
+# format in the form of ${pid}oc.4dfp.img 
+# 
+#
+# Yi Su, 11/16/2012
+
+pid=$1
+
+# converting to 4dfp
+ecatto4dfp ${pid}oc1.v  ${pid}oc1
+ecatto4dfp ${pid}oc2.v  ${pid}oc2
+
+# Register oc to oc
+cross_pet_resolve_4dfp -g0.7   ${pid}"oc" ${pid}"oc"[12]".4dfp.img"
+t4imgs_4dfp ${pid}"oc.sub" ${pid}"oc" -O${pid}"oc1.4dfp.ifh"
+
+# Register oc to ho
+reg2img  ${pid}"ho" ${pid}oc -rm -mm -rb 6 -mb 6
+
+# Generating individual oc to ho t4 file
+t4_mul ${pid}oc1_to_${pid}oc_t4 ${pid}oc_to_${pid}ho_t4
+t4_mul ${pid}oc2_to_${pid}oc_t4 ${pid}oc_to_${pid}ho_t4
+
+# Generating individual oc to MR t4 file
+t4_mul ${pid}oc1_to_${pid}ho_t4 ${pid}ho_to_MR_t4
+t4_mul ${pid}oc2_to_${pid}ho_t4 ${pid}ho_to_MR_t4

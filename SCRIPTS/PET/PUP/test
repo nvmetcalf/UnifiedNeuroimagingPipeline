@@ -1,0 +1,17 @@
+#!/bin/bash
+################################################################################
+# PET processing							       #
+#                                                                              #
+# USAGE:								       #
+#	petproc paramsfn                                                       #
+#                                                                              #
+# This script reads a params file for PET processing                           #
+################################################################################
+# Yi Su, 01/08/2014
+
+idstr='$Id: ,v 1.0 Fri Jan 31 09:24:56 CST 2014 suy $'
+
+echo $idstr
+
+program=`basename $0`
+

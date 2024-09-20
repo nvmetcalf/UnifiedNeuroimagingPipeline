@@ -1,0 +1,44 @@
+ #!/bin/csh
+ 
+ #Transform CBF and CMRO2 images into common spaces (SLP102oo_sumall)
+ 
+ imgopr_4dfp -pp7586oo1_CMRO2 p7586oo1_CBF p7586oo1_OEF
+ scale_4dfp p7586oo1_CMRO2 20.9
+ t4img_4dfp p7586oo1_sumall_to_SLP102oo_sumall_t4 p7586oo1_CMRO2 SLP102_CMRO2_11 -OSLP102oo_sumall
+ 
+ imgopr_4dfp -pp7586oo2_CMRO2 p7586oo2_CBF p7586oo2_OEF
+ scale_4dfp p7586oo2_CMRO2 20.3
+ t4img_4dfp p7586oo2_sumall_to_SLP102oo_sumall_t4 p7586oo2_CMRO2 SLP102_CMRO2_12 -OSLP102oo_sumall
+ 
+ imgopr_4dfp -pp7587oo1_CMRO2 p7587oo1_CBF p7587oo1_OEF
+ scale_4dfp p7587oo1_CMRO2 20.0
+ t4img_4dfp p7587oo1_sumall_to_SLP102oo_sumall_t4 p7587oo1_CMRO2 SLP102_CMRO2_21 -OSLP102oo_sumall
+ 
+ imgopr_4dfp -pp7587oo2_CMRO2 p7587oo2_CBF p7587oo2_OEF
+ scale_4dfp p7587oo2_CMRO2 20.5
+ t4img_4dfp p7587oo2_sumall_to_SLP102oo_sumall_t4 p7587oo2_CMRO2 SLP102_CMRO2_22 -OSLP102oo_sumall
+ 
+ 
+ 
+ t4img_4dfp p7586oo1_sumall_to_SLP102oo_sumall_t4 p7586oo1_CBF SLP102_CBF_11 -OSLP102oo_sumall
+ 
+ t4img_4dfp p7586oo2_sumall_to_SLP102oo_sumall_t4 p7586oo2_CBF SLP102_CBF_12 -OSLP102oo_sumall
+ 
+ t4img_4dfp p7587oo1_sumall_to_SLP102oo_sumall_t4 p7587oo1_CBF SLP102_CBF_21 -OSLP102oo_sumall
+ 
+ t4img_4dfp p7587oo2_sumall_to_SLP102oo_sumall_t4 p7587oo2_CBF SLP102_CBF_22 -OSLP102oo_sumall
+
+#Create subtraction images to observe change in behavior
+
+imgopr_4dfp -aSLP102_CMRO2_Eve SLP102_CMRO2_11 SLP102_CMRO2_12
+scale_4dfp SLP102_CMRO2_Eve 0.5
+imgopr_4dfp -aSLP102_CMRO2_Mor SLP102_CMRO2_21 SLP102_CMRO2_22
+scale_4dfp SLP102_CMRO2_Mor 0.5
+imgopr_4dfp -sSLP102_CMRO2_Mor-Eve SLP102_CMRO2_Mor SLP102_CMRO2_Eve
+
+
+imgopr_4dfp -aSLP102_CBF_Eve SLP102_CBF_11 SLP102_CBF_12
+scale_4dfp SLP102_CBF_Eve 50
+imgopr_4dfp -aSLP102_CBF_Mor SLP102_CBF_21 SLP102_CBF_22
+scale_4dfp SLP102_CBF_Mor 50
+imgopr_4dfp -sSLP102_CBF_Mor-Eve SLP102_CBF_Mor SLP102_CBF_Eve

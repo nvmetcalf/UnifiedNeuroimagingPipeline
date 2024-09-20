@@ -1,0 +1,67 @@
+set TARGET	= 
+set TARGETPATH	= 
+
+set PATID	= 
+set MPR		= 
+set MPR_MASK    = 
+
+set  HO_RAW	= ()
+set  OO_RAW	= ()
+set  OC_RAW	= ()
+set FDG_RAW	= ()
+
+set  HO_LABELS	= ()
+set  OO_LABELS	= ($HO_LABELS)
+set  OC_LABELS	= ($HO_LABELS)
+set FDG_LABELS	= ()
+set PIB_LABELS  = ()
+
+set  HO_NAME	= "auto"
+set  OO_NAME	= $HO_NAME
+set  OC_NAME	= $HO_NAME
+set FDG_NAME	= "c"
+set PIB_NAME    = $FDG_NAME
+
+set  HO_LENGTH	= ALL
+set  OO_LENGTH	= ALL
+set FDG_LENGTH	= ALL
+set PIB_LENGTH	= ALL
+
+set  HO_NORM	= 5000
+set  OO_NORM	= $HO_NORM
+set  OC_NORM	= $HO_NORM
+set FDG_NORM	= $HO_NORM
+set PIB_NORM	= $HO_NORM
+
+set  HO_CROSS_PET_OPTIONS	= ()
+set  OO_CROSS_PET_OPTIONS	= ()
+set  OC_CROSS_PET_OPTIONS	= ("-oc")
+set FDG_CROSS_PET_OPTIONS	= ()
+set PIB_CROSS_PET_OPTIONS	= ()
+
+set PET_RESOLVE_SCHEME		= $RELEASE/default.scheme
+
+set KEEP_MPR_T4	= 0
+
+set  HO_BLUR	= 0.4
+set  OO_BLUR	= $HO_BLUR
+set  OC_BLUR	= $HO_BLUR
+set FDG_BLUR	= $HO_BLUR
+set PIB_BLUR	= $HO_BLUR
+
+set  HO_AVERAGES	= ()
+set  OO_AVERAGES	= ($HO_AVERAGES)
+set  OC_AVERAGES	= ($HO_AVERAGES)
+set FDG_AVERAGES	= ()
+set PIB_AVERAGES	= ()
+
+set OEM_LABELS		= ()
+set  GI_LABELS		= ()
+set OGI_LABELS		= ()
+
+set TRIO2OEM_MASK	= 0
+
+set  GI_NORM		= 1000
+set OGI_NORM		= 5.323
+#set  OM_NORM		= 1
+#set  OE_NORM		= 1

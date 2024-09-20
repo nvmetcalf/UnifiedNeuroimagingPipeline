@@ -1,0 +1,13 @@
+#!/bin/csh
+
+if(-e $1) then
+	echo "Removing file: $1"
+	rm -f $1
+	
+	if($status) exit 1
+endif
+
+echo "Creating file: $1"
+touch $1
+
+exit $status

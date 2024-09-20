@@ -1,0 +1,368 @@
+#!/bin/csh
+
+#this will propagate a set of subjects to the designated location
+if(${#argv} < 1) then
+	echo "************************************************"
+	echo "**                                                                             "
+	echo "**                propagate Scans Usage                 	  "
+	echo "**															  "
+	echo "**	propagate_scans Target_Study_Name <options>  "
+	echo "**															  "
+	echo "**	This script takes the subjects specified and   "
+	echo "**	creates folders for them in the destination	 "
+	echo "**	and links to the dicom images to the source "
+	echo "**	maintaining the data organization scheme	 "
+	echo "**	outlined in Documents							 "
+	echo "**															 "
+	echo "**	It will also create the default directory		"
+	echo "**	structure in the study directory if it doesn't	"
+	echo "**	exist.													"
+	echo "**"
+	echo "**	By default, this script will search the study denoted"
+	echo "**	in StudyName for scan data and propagate it to the "
+	echo "**	Studies directory with the same name."
+	echo "**"
+	echo "**	Should the study not have a Study.cfg, the user"
+	echo "**	will be asked questions regarding what operations"
+	echo "**	should be automatically performed after propagation."
+	echo "**"
+	echo "**	If you are wanting to propagate subject scans from multiple"
+	echo "**  studies for use in a single new study, you may"
+	echo "**	specify a list of studies to search in for subject data"
+	echo "**	to propagate into StudyName."
+	echo "**"
+	echo "**	Options:"
+	echo "**		-P Specify projects to search for participants. Seperated by a space and enclosed in double quotes."
+	echo "**		-L specify a participant(s) to propagate. Seperated by a space and enclosed in double quotes."
+	echo "**		-S specify a sessions within participants to propagate. Seperated by a space and enclosed in double quotes."
+	echo "**			If a session isn't found in a given participant, the session is skipped."
+	echo "**		-f force propagation of participants"
+	echo "**		-n do not initialize the participants (P1 is not ran)"
+	echo "**				Participants are propagated, but P1 does not initialize them."
+	echo "**					You will need to manually run P1 or GenerateParams."
+	echo "**		-dbg verbose output."
+	echo "**"
+	echo "************************************************"
+
+	exit 1
+endif
+
+
+set Destination = ${PROJECTS_HOME}/${PROJECTS_DIR}/${1}
+
+#move to where the scans are - means we can run this from basically anywhere
+pushd ${PROJECTS_HOME}/Scans
+
+set DebugFile = $Destination/propagate_scans_`date | tr '[ ]' '[_]'`.txt
+
+if(! -d ${1} && $#argv == 1) then
+	echo "The scan folder ${1} does NOT exist. Do you wish to create it? (yes/no)"
+	set Create = $<
+
+	if($Create == "yes" || $Create == "y" || $Create == "Y") then
+		echo "Creating scan file structure."
+
+		mkdir ${1}
+
+	else if($Create == "no" || $Create == "n" || $Create == "N") then
+		echo "User does not want the Study created. Aborting..."
+		exit 1
+	else
+		echo "	Enter only yes or no"
+		exit 1
+	endif
+endif
+
+set force = 0
+set no_init = 0
+
+set StudyList = ($1)
+
+if($#argv > 1) then
+	
+	@ i = 2
+	@ k = 2 #value of the option i is at
+	while($i <= ${#argv})
+		if($k >= ${#argv}) then
+			@ k = ${#argv}
+		else
+			@ k = $i + 1
+		endif
+
+		switch(${argv[$i]})
+			case -L:
+				set SubjectList = ($argv[$k])
+				set UsingList = 1
+				decho "Propagating only the following participants "$SubjectList
+				@ i = $k
+				@ i++
+				breaksw
+			case -f:
+				set force = 1
+				decho "forcing propagation."
+				breaksw
+			case -n:
+				set no_init = 1
+				decho "no initializing after propagation."
+				breaksw
+			case -P:
+				set StudyList = ($argv[$k])
+				decho "Searching the following projects: $StudyList"
+				@ i++
+				breaksw
+			case -S:
+				set SessionList = ($argv[$k])
+				set UsingSesList = 1
+				@ i = $k
+				@ i++
+			case -dbg:
+				set echo
+				breaksw
+		endsw
+		@ i++
+	end
+endif
+
+## check the Scans folder to make sure the StudyList exists
+foreach Study($StudyList)
+	if(! -e ${PROJECTS_HOME}/Scans/$Study) then
+		echo "$Study does not exist in ${PROJECTS_HOME}/Scans..."
+		exit 1
+	endif
+end
+
+decho "Propagating $StudyList into ${1}..."
+
+if(! -d ${Destination}) then
+	echo "The project folder ${1} does NOT exist. Do you wish to create it? (yes/no)"
+	set Create = $<
+
+	if($Create == "yes" || $Create == "y" || $Create == "Y") then
+		decho "Creating Study file structure."
+		
+		if(! -e ${Destination}) then
+			mkdir ${Destination}
+			chmod -Rf 775 $Destination
+			
+			decho "	Making Project Directory" $DebugFile
+		endif
+
+		if(! -e ${SCRATCH}/${1}) then
+			decho "	Making Scratch Directory" $DebugFile
+			mkdir ${SCRATCH}/${1}
+			chmod -Rf 775 ${SCRATCH}/${1}
+		endif
+		
+		if(! -e ${Destination}/Participants) then
+			decho "	Making Participants Directory" $DebugFile
+			mkdir ${Destination}/Participants
+			chmod -Rf 775 ${Destination}/Participants
+		endif
+
+		if(! -e ${Destination}/Analysis) then
+			decho "	Making Analysis Directory" $DebugFile
+			mkdir ${Destination}/Analysis
+			chmod -Rf 775 ${Destination}/Analysis
+		endif
+
+		if(! -e ${Destination}/Excluded) then
+			decho "	Making Excluded Subjects Directory" $DebugFile
+			mkdir ${Destination}/Excluded
+			chmod -Rf 775 ${Destination}/Excluded
+		endif
+
+		if(! -e ${Destination}/InProcess) then
+			decho "	Making InProcess Directory" $DebugFile
+			mkdir ${Destination}/InProcess
+			chmod -Rf 775 ${Destination}/InProcess
+		endif
+	else if($Create == "no" || $Create == "n" || $Create == "N") then
+		decho "User does not want the Study created. Aborting..." $DebugFile
+		exit 1
+	else
+		decho "	Enter only yes or no"
+		exit 1
+	endif
+endif
+
+#If the old Pending_PI_Review folder exists, use that instead of InProcess
+if(-e ${Destination}/Pending_PI_Review) then
+	set ProcessingFolder = "Pending_PI_Review"
+else
+	set ProcessingFolder = "InProcess"
+endif
+	
+#see if we need to configure the study
+if(! -e ${Destination}/Study.cfg) then
+	decho "This study appears to not be configured yet. Please enter the configuration informations as prompted." 
+	decho ""
+
+	config_study ${1}
+endif
+
+decho "Loading Study Configuration..." $DebugFile
+source ${Destination}/Study.cfg
+
+#collect a list of folders that exist in the destination study.
+#We will need to search through these to find out if the subject
+#has been propagated already.
+pushd $Destination
+	set StudyFolders = (`ls`)
+popd
+
+foreach Study($StudyList)
+	
+	if(-e ${Study}/derivatives || -e ${Study}/rawdata) then
+		pushd ${Study}/rawdata
+	else
+		pushd ${Study}
+	endif
+	
+	set Source = ${cwd}
+
+	if(${Source} == ${Destination} && $#argv == 1) then
+		decho "Warning: Source and Destination locations are the same. Moving to the Scans directory..." $DebugFile
+		cd ${PROJECTS_HOME}/Scans/${Study}
+	endif
+
+	#cycle through all the folders in the Scan Study
+	#See if the user has asked to use their specified list of subjects instead of all available subjects
+	if(! $?UsingList) set SubjectList = (` ls`)
+
+	foreach Subject($SubjectList)
+		if(! -e $Subject) continue
+		
+		decho "Found $Subject in $Study..." $DebugFile
+		
+		pushd $Subject
+			
+			if(! $?UsingSesList) set SessionList = (`ls`)
+			
+			foreach Session($SessionList)
+			
+				set SubjectID = `basename $Subject`_`basename $Session`
+				
+				if(! -e $Session) then
+					echo "$Session does not exist for $Subject. Skipping..."
+					continue
+				endif
+				
+				pushd $Session
+					@ Exists = 0
+
+					foreach DestStdFolder($StudyFolders)
+						if(-e ${Destination}/${DestStdFolder}/${SubjectID} && $force == 0) then
+							decho "	Subject ${SubjectID} exists in the destination ${DestStdFolder}. Skipping..." $DebugFile
+							@ Exists = 1
+							break
+						endif
+					end
+
+					if(! $Exists) then
+						decho "Propagating ${Study}/${SubjectID} into the study..." $DebugFile
+						mkdir ${Destination}/${ProcessingFolder}/${SubjectID}
+						mkdir ${Destination}/${ProcessingFolder}/${SubjectID}/dicom
+
+						decho $cwd
+							
+						set ImageFileList = (`find . -type f -name "*.nii*"`)
+						set JsonFileList = (`find . -type f -name "*.json"`)
+						set bvecFileList = (`find . -type f -name "*.bvec"`)
+						set bvalFileList = (`find . -type f -name "*.bval"`)
+						
+						if($#ImageFileList == 0 || $#JsonFileList == 0 || $force) then
+							#make a pseudo bids structure
+							decho "No BIDS nifti or json files found. Attempting to find dicoms and create pseudo BIDS structure." $DebugFile
+							rm -f BIDS_Conversion.log
+							mkdir DICOMS
+							mv * DICOMS
+							rm -rf BIDS
+							
+							set ItemList = (`find . -type l`)
+							
+							if($#ItemList == 0) then
+								set ItemList = (`find . -type f`)
+							endif
+							
+							mkdir $SubjectID
+							
+							foreach Item($ItemList)
+								ln -s ${cwd}/$Item $SubjectID/`basename $Item`
+								
+							end
+							
+							mkdir BIDS
+							$RELEASE/dcm2niix -o BIDS -z y -v y -ba n $SubjectID >! BIDS_Conversion.log
+							if($status) then
+								decho "BIDS conversion failed. Attempting without compression..." $DebugFile
+								$RELEASE/dcm2niix -o BIDS -z n -v 1 -ba n $SubjectID >! BIDS_Conversion.log
+								if($status) then
+									decho "dcm2niix failed again. You will need to do a manual BIDS conversion using some other means."  $DebugFile
+									
+								endif	
+							endif
+							
+							cd BIDS
+								rm -r *_i?????.* *T1w*_e?.* *T2w*_e?.* *_setter_*
+								foreach file(*.*)
+									set stripped = `echo "$file" | sed 's/\[//g' | sed 's/\]//g' | sed 's/(//g' | sed 's/)//g'`
+									if("$stripped" != "$file") then
+										mv "${file}" "${stripped}"
+									endif
+								end
+								
+							cd ..
+							
+							rm -r $SubjectID
+							decho $cwd
+							set ImageFileList = (`find . -type f -name "*.nii*"`)
+							set JsonFileList = (`find . -type f -name "*.json"`)
+							set bvecFileList = (`find . -type f -name "*.bvec"`)
+							set bvalFileList = (`find . -type f -name "*.bval"`)
+							
+						endif
+						
+						if(($#ImageFileList > 0 && $#JsonFileList > 0) || $force) then
+							decho "Found nifti and json, assuming pseudo BIDS structure" $DebugFile
+
+							foreach File($ImageFileList)
+							
+								ln -s ${cwd}/$File ${Destination}/${ProcessingFolder}/${SubjectID}/dicom/`basename ${File}`
+							end	
+								
+							foreach File($JsonFileList)
+								ln -s ${cwd}/$File ${Destination}/${ProcessingFolder}/${SubjectID}/dicom/`basename ${File}`
+							end
+							
+							foreach File($bvecFileList)
+								ln -s ${cwd}/$File ${Destination}/${ProcessingFolder}/${SubjectID}/dicom/`basename ${File}`
+							end
+							
+							foreach File($bvalFileList)
+								ln -s ${cwd}/$File ${Destination}/${ProcessingFolder}/${SubjectID}/dicom/`basename ${File}`
+							end
+							
+						else 
+							decho "Unable to find BIDS compliant images and jsons" $DebugFile
+							decho "Undoing changes..." $DebugFile
+							rm -r ${Destination}/${ProcessingFolder}/${SubjectID}
+							
+						endif
+
+						if($TargetAtlas != "-1" && ! $no_init) then
+							pushd ${Destination}/${ProcessingFolder}
+								decho "Running P1"  $DebugFile
+								P1 ${SubjectID} ${TargetAtlas}
+							popd
+						endif
+					endif
+				popd
+			end
+		popd
+	end
+	popd
+end
+
+popd
+decho "Propagation Complete."  $DebugFile
+exit 0

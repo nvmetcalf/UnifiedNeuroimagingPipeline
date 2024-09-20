@@ -1,0 +1,93 @@
+#!/bin/bash
+# Yi Su, 08/04/2011                                                            
+
+IDS=( AG001 AT019 CO018 DH010 DP013 JJ015 KM023  MS011 TJ009 RB003 CS004 )
+pid=( rg001 rg019 rg013 rg015 rg011 rg005 rg023 rg017 rg003 rg007 rg009 )
+norms=( ${pid[@]/%/_norm} )
+hypos=( ${pid[@]/%/_hypo} )
+echo ${norms[*]}
+
+opts=( norms.txt hypos.txt )
+lr1=( Left- Right- )
+lr2=( ctx-lh- ctx-rh- )
+lr3=( wm-lh- wm-rh- )
+
+nline=`wc -l /data/nil-bluearc/benzinger2/suy/ROIs | gawk '{print $1}'`
+ns=11
+for (( i=1; i<=$nline; i++ ))
+do
+	ROI=`gawk 'NR=='$i' {print $1}'  /data/nil-bluearc/benzinger2/suy/ROIs`
+	flag=`gawk 'NR=='$i' {print $2}'  /data/nil-bluearc/benzinger2/suy/ROIs`
+	if (( $flag == 1 ))
+	then		
+		for (( k=0; k<2; k++ ))
+		do
+			for (( l=0; l<2; l++ ))
+			do
+				region=${lr1[$l]}$ROI
+				string="`printf '%-35s' $region`"
+				for (( j=0; j<$ns; j++ ))
+				do
+					if (( $k == 0 )); then f0=${norms[$j]}; fi
+					if (( $k == 1 )); then f0=${hypos[$j]}; fi
+					v=`gawk '/'$region'/ {print $3}' ${IDS[$j]}/${f0}"_ROI2_f0"`
+					string=${string}`printf ' %11.5f' $v`
+				done
+				echo $string >> ${opts[$k]}
+			done
+		done
+		
+	elif (( $flag == 0 ))
+	then
+		for (( k=0; k<2; k++ ))
+		do
+				region=$ROI
+				string="`printf '%-35s' $region`"
+				for (( j=0; j<$ns; j++ ))
+				do
+					if (( $k == 0 )); then f0=${norms[$j]}; fi
+					if (( $k == 1 )); then f0=${hypos[$j]}; fi
+					v=`gawk '/'$region'/ {print $3}' ${IDS[$j]}/${f0}"_ROI2_f0"`
+					string=${string}`printf ' %11.5f' $v`
+				done
+				echo $string >> ${opts[$k]}
+		done
+
+	elif (( $flag == 2 ))
+	then
+		for (( k=0; k<2; k++ ))
+		do
+			for (( l=0; l<2; l++ ))
+			do
+				region=${lr2[$l]}$ROI
+				string="`printf '%-35s' $region`"
+				for (( j=0; j<$ns; j++ ))
+				do
+					if (( $k == 0 )); then f0=${norms[$j]}; fi
+					if (( $k == 1 )); then f0=${hypos[$j]}; fi
+					v=`gawk '/'$region'/ {print $3}' ${IDS[$j]}/${f0}"_ROI2_f0"`
+					string=${string}`printf ' %11.5f' $v`
+				done
+				echo $string >> ${opts[$k]}
+			done
+		done
+
+		for (( k=0; k<2; k++ ))
+		do
+			for (( l=0; l<2; l++ ))
+			do
+				region=${lr3[$l]}$ROI
+				string="`printf '%-35s' $region`"
+				for (( j=0; j<$ns; j++ ))
+				do
+					if (( $k == 0 )); then f0=${norms[$j]}; fi
+					if (( $k == 1 )); then f0=${hypos[$j]}; fi
+					v=`gawk '/'$region'/ {print $3}' ${IDS[$j]}/${f0}"_ROI2_f0"`
+					string=${string}`printf ' %11.5f' $v`
+				done
+				echo $string >> ${opts[$k]}
+			done
+		done
+
+	fi	
+done

@@ -1,0 +1,22 @@
+rec 711-2B_mask_g5_t500.4dfp.img  Wed May 19 14:50:03 2004  russ
+zero_lt_4dfp 500 711-2B_mask_g5.4dfp.img 711-2B_mask_g5_t500 
+$Id: zero_lt_4dfp.c,v 1.8 2001/08/02 01:11:51 avi Exp $
+rec 711-2B_mask_g5.4dfp.img  Sun Feb 21 02:24:51 1999  avi
+gauss_4dfp 711-2B_mask 0.5 
+$Id: gauss_4dfp.c,v 1.8 1999/01/18 03:23:54 avi Exp $
+rec 711-2B_mask.4dfp.img  Sun Feb 21 02:21:18 1999  avi
+maskimg_4dfp 711-2B_imgm_ANALYZE 711-2B_imgm_ANALYZE 711-2B_mask -v1000 
+$Id: maskimg_4dfp.c,v 1.6 1999/02/21 08:17:26 avi Exp $
+rec 711-2B_imgm_ANALYZE.4dfp.img  Fri Feb  5 21:23:56 1999  avi
+analyzeto4dfp 711-2B_imgm_ANALYZE 
+$Id: analyzeto4dfp.c,v 1.1 1998/05/14 18:33:45 tscull Exp $
+711-2B_imgm_ANALYZE.img.rec not found
+endrec Fri Feb  5 21:23:56 1999  avi
+rec 711-2B_imgm_ANALYZE.4dfp.img  Fri Feb  5 21:23:56 1999  avi
+analyzeto4dfp 711-2B_imgm_ANALYZE 
+$Id: analyzeto4dfp.c,v 1.1 1998/05/14 18:33:45 tscull Exp $
+711-2B_imgm_ANALYZE.img.rec not found
+endrec Fri Feb  5 21:23:56 1999  avi
+endrec Sun Feb 21 02:21:18 1999  avi
+endrec Sun Feb 21 02:24:51 1999  avi
+endrec Wed May 19 14:50:03 2004  russ

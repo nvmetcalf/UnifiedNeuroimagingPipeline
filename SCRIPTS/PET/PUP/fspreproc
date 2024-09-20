@@ -1,0 +1,90 @@
+#!/bin/bash
+################################################################################
+# Preprocessing FREESURFER output files for PET ROI analysis                   #
+#                                   				               #
+# USAGE:								       #
+#	fspreproc paramsfn                                                     #
+#                                                                              #
+# This script reads a params file that includes:                               #
+#	fsdir: location of FREESURFER mgz out files			       #
+#	wmparc:	FREESURFER segmentation file (wmparc.mgz)		       #
+#	t1: FREESURFER MR file (t1.mgz or orig.mgz)			       #
+#       roiimg: the root name of the image file that defines the ROIs. It      #
+#		includes non-brain regions for RSF correction		       #
+#	rsflist:the text file that lists ROI names and corresponding roi label #
+#		in the roiimg file, it should include non-brain regions for rsf#
+#		correction purpose in addition to brain regions		       #
+#	roilist:the text file that lists ROI names and corresponding roi label #
+#               in the roiimg file, it only include brain regions for regional #
+#		analysis.			                               #
+#	fslut:	FREESUFER lookup table					       #
+#	rsfflag: whether RSF PVC will be performed			       #
+#	pvc2cflag: whether PVC2C will be performed			       #
+#									       #
+#									       #
+################################################################################
+# Yi Su, 12/24/2013
+VERSION=1.1
+
+if [ "$1" == "--version" ]; then
+    echo $VERSION
+    exit 0
+fi
+
+die(){
+    echo >&2 "$@"
+    exit -1
+}
+
+program=`basename $0`
+idstr='$Id: '$program',v '$VERSION' Mon Feb  3 09:45:25 CST 2014 suy $'
+echo $idstr
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: $program paramsfn"
+	exit -1
+fi
+
+paramsfn=$1
+###############################################################################
+# Read PARAMS file
+source $paramsfn || die "$program ERROR: Cannot source params file $paramsfn"
+
+# Further development will improve this program which checks the validity of
+# the inputs specified in the params file
+
+###############################################################################
+cp $fsdir/$t1 .
+cp $fsdir/$wmparc .
+
+mgzto4dfp $t1 || die "$program ERROR: mgzto4dfp $t1 failed"
+mgzto4dfp $wmparc || die "$program ERROR: mgzto4dfp $wmparc failed"
+
+mrroot=${t1%.*}
+mrroot=${mrroot}001
+wmparcroot=${wmparc%.*}
+wmparcroot=${wmparcroot}001
+
+###############################################################################
+# Processing freesurfer rois, whole head roi, and prepare for roi analysis
+if [ ! -e ${mrroot}"_g9.4dfp.img" ]
+then
+	gauss_4dfp ${mrroot} 0.9 || die "$program ERROR: gauss_4dfp ${mrroot} 0.9 failed"
+fi
+maskimg_4dfp -v1 -t15 ${mrroot}_g9  ${mrroot}_g9 Head_Mask || die "$program ERROR: maskimg_4dfp -v1 -t15 ${mrroot}_g9  ${mrroot}_g9 Head_Mask failed"
+PreprocessRSFtest2 $wmparcroot Head_Mask  $roiimg $rsflist $fslut || die "$program ERROR: PreprocessRSFtest2 $wmparcroot Head_Mask  $roiimg $rsflist $fslut failed"
+#if (( rsfflag != 1 ))
+#then
+#	rsf2roilist $rsflist $fslut $roilist || die "$program ERROR: rsf2roilist $rsflist $fslut $roilist failed"
+#fi
+
+if (( pvc2cflag == 1 ))
+then
+	fs2brain $wmparcroot || die "$program ERROR: fs2brain $wmparcroot failed"
+fi
+
+###############################################################################
+# populate maskfile parameter in the params file for further processing
+echo "maskfile=${wmparcroot}.4dfp.img" >> $paramsfn
+

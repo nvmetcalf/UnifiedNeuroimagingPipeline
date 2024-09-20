@@ -1,0 +1,160 @@
+#!/bin/tcsh
+#$Header: /data/nil-bluearc/mintunf/jon/bin/RCS/make_auto,v 1.1 2011/10/17 15:41:01 jon Exp jon $
+set echo
+# A "sumall" image is created gaussed and masked. 
+# Make the global parameter prm file with header.
+# The mean of each frame is found, using the sumall, and placed in the prm file.
+# Find the frames that should be summed to make the auto image using peakchk.
+# Sum frames to make the auto image $filename"_"$auto
+# xmgr_pet $filename".glob.prm" is used to visualize the activity curves.
+# Author: Jon Christensen
+#--------------------------------------------------------------------------------
+set idstr = '$Id: make_auto,v 1.1 2011/10/17 15:41:01 jon Exp jon $'
+echo $idstr
+
+@ n = ${#argv}
+if ($n < 4) then
+	goto USAGE
+endif
+
+set filename = $1	# $pnum$mode$scan
+set scanlength = $2	# length of the auto image in seconds
+set timeint = $3	# This is the time after half peak before the start of auto (for peakchk)
+set isotope = $4	# Must be F-18, O-15, or C-11
+set auto = $5		# Naming convension used for naming autoradiographic images
+
+set sumall = sumall	
+#-------------------------------------------------------------------------------------------------------
+# Convert half_life from minutes to seconds
+switch ($isotope)
+	case F-18:
+		set half_life = `echo 109.75 60 | awk '{print $1*$2}'`
+		breaksw
+	case O-15:
+		set half_life = 123
+		breaksw
+	case C-11:
+		set half_life = `echo 20.4 60 | awk '{print $1*$2}'`
+		breaksw
+	default:
+		echo "Incorrect isotope"
+		goto USAGE
+		breaksw
+endsw
+echo isotope = $isotope, half_life = $half_life
+
+#-------------------------------------------------------------------------------------------------------
+if(! -e $filename".4dfp.img" || ! -e $filename".4dfp.hdr")then
+     echo Error $filename".4dfp.img" || -e $filename".4dfp.hdr" does not exist
+     goto USAGE
+endif
+#-------------------------------------------------------------------------------------------------------
+@ frame_tot = `gawk '/matrix size \[4\]/ {print $NF}' $filename".4dfp.ifh"`
+echo frames = $frame_tot
+
+echo Create $filename sumall image
+echo sum_pet_4dfp $filename 1 $frame_tot -h$half_life $filename"_sumall"
+     sum_pet_4dfp $filename 1 $frame_tot -h$half_life $filename"_sumall"
+
+if(! -e $filename"_sumall.4dfp.img")then
+         echo ERROR in triple_make_auto $filename"_sumall" Does Not Exist
+         exit 1
+endif
+
+if(! -e $filename"_sumall_g3.4dfp.img") gauss_4dfp $filename"_sumall.4dfp.img" 0.3
+     
+echo maskimg_4dfp $filename"_sumall_g3" $filename"_sumall_g3" $filename"_sumall_g3_msk"
+     maskimg_4dfp $filename"_sumall_g3" $filename"_sumall_g3" $filename"_sumall_g3_msk"
+     
+if(! -e $filename"_sumall_g3_msk.4dfp.img")then
+        echo ERROR in triple_make_auto $filename"_sumall_g3_msk" Does Not Exist
+        echo Must Exit
+        exit 1
+endif
+
+#-------------------------------------------------------------------------------------------------------
+echo make auto image
+
+if( -e $filename"_"$auto".4dfp.img" )echo Warning $filename"_"$auto".4dfp.img" exists
+
+echo Scanlength is $scanlength timeint is $timeint ; echo " "
+      
+# Make the global parameter file with header:
+
+if ( -e $filename".glob.prm") rm -f $filename".glob.prm"
+if ( -e $filename".glob.dat") rm -f $filename".glob.dat"
+touch $filename".glob.prm"
+touch $filename".glob.dat"
+
+echo "#start	mean	length	frame">>$filename".glob.prm"
+echo "#start	mean	length	frame">>$filename".glob.dat"
+
+if(! -e $filename".4dfp.ifh")then
+         echo ERROR $filename".4dfp.ifh" Does Not Exist
+         echo Must Exit
+         exit 1
+endif
+      
+@ frame_tot = `gawk '/matrix size \[4\]/ {print $NF}' $filename".4dfp.ifh"`
+@ frame = 1
+      
+while ($frame <= $frame_tot)
+         
+         echo sum_pet_4dfp $filename $frame $frame -h$half_life $filename"_"$frame
+              sum_pet_4dfp $filename $frame $frame -h$half_life $filename"_"$frame
+
+         set starttime = `grep "Frame_$frame " $filename".4dfp.img.rec" | gawk '{printf("%.3f",$4/1000)}'`
+         set length =    `grep "Frame_$frame " $filename".4dfp.img.rec" | gawk '{printf("%.3f",$2/1000)}'`
+         
+ 	     set mean = `qnt_4dfp $filename"_"$frame $filename"_sumall_g3_msk"|awk '/Mean=/{printf("%f",$2)}'`  
+ 	 
+ 	     echo "----------------------------------"
+ 	     echo "$starttime	$mean	$length	$frame">>$filename".glob.prm"
+ 	     echo "$starttime	$mean">>$filename".glob.dat"
+ 	     echo "$frame	$length	$starttime	$mean "
+         echo "----------------------------------"
+         rm $filename"_"$frame"."*
+
+ 	 @ frame++
+
+end
+      
+# Find the frames that should be summed to make the auto image:
+echo peakchk $filename".glob.prm" $scanlength $timeint
+     peakchk $filename".glob.prm" $scanlength $timeint >&! $filename'.prm'
+    
+set startfrm =  `cat $filename'.prm' | gawk '/Start Frame=/ {printf("%d",$4)}'`
+set endfrm =    `cat $filename'.prm' | gawk '/Last Frame=/ {printf("%d",$4)}'`
+
+cat $filename'.prm'
+cat $filename'.prm' >> $filename".glob.prm"
+rm  $filename'.prm'
+
+#-------------------------------------------------------------------------------------------------------
+#xmgr -block $filename".glob.prm" -bxy 1:2 -hardcopy -printfile $filename".ps"
+ xmgr_pet $filename".glob.prm"
+#-------------------------------------------------------------------------------------------------------
+echo "-------------------------------------------------"
+echo sum frames to make the auto image $filename"_"$auto
+echo sum_pet_4dfp $filename $startfrm $endfrm -h$half_life $filename"_"$auto
+     sum_pet_4dfp $filename $startfrm $endfrm -h$half_life $filename"_"$auto
+
+#-------------------------------------------------------------------------------------------------------
+
+echo rm $filename"_sumall"
+     rm $filename"_sumall"*
+
+
+echo Done $0
+exit 0
+
+USAGE:
+echo "-------------------------------------------------"
+echo "Usage: $0 filename scanlength timeint isotope auto_name"
+echo "e.g.,  make_auto VNS001_ho1on 40 8 C-11 auto"
+echo "or,    make_auto p6400ho1 60 8 O-15 AUTO"
+echo isotope must be F-18, O-15, or C-11
+echo filename 4dfp image is a multivolume analyze PET
+echo image with formatted frame information
+    
+exit 1

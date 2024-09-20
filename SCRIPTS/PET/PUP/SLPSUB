@@ -1,0 +1,53 @@
+#!/bin/csh -x
+ 
+ set pid1 = $1
+ set pid2 = $2
+ set sid = $3
+ set CaO21 = $4
+ set CaO22 = $5
+ set CaO23 = $6
+ set CaO24 = $7
+
+
+ #Transform CBF and CMRO2 images into common spaces 
+ 
+ imgopr_4dfp -p${pid1}oo1_CMRO2 ${pid1}oo1_CBF ${pid1}oo1_OEF
+ scale_4dfp ${pid1}oo1_CMRO2 $CaO21
+ t4img_4dfp ${pid1}oo1_sumall_to_${sid}oo_sumall_t4 ${pid1}oo1_CMRO2 ${sid}_CMRO2_11 -O${sid}oo_sumall
+ 
+ imgopr_4dfp -p${pid1}oo2_CMRO2 ${pid1}oo2_CBF ${pid1}oo2_OEF
+ scale_4dfp ${pid1}oo2_CMRO2 $CaO22
+ t4img_4dfp ${pid1}oo2_sumall_to_${sid}oo_sumall_t4 ${pid1}oo2_CMRO2 ${sid}_CMRO2_12 -O${sid}oo_sumall
+ 
+ imgopr_4dfp -p${pid2}oo1_CMRO2 ${pid2}oo1_CBF ${pid2}oo1_OEF
+ scale_4dfp ${pid2}oo1_CMRO2 $CaO23
+ t4img_4dfp ${pid2}oo1_sumall_to_${sid}oo_sumall_t4 ${pid2}oo1_CMRO2 ${sid}_CMRO2_21 -O${sid}oo_sumall
+ 
+ imgopr_4dfp -p${pid2}oo2_CMRO2 ${pid2}oo2_CBF ${pid2}oo2_OEF
+ scale_4dfp ${pid2}oo2_CMRO2 $CaO24
+ t4img_4dfp ${pid2}oo2_sumall_to_${sid}oo_sumall_t4 ${pid2}oo2_CMRO2 ${sid}_CMRO2_22 -O${sid}oo_sumall
+ 
+ 
+ 
+ t4img_4dfp ${pid1}oo1_sumall_to_${sid}oo_sumall_t4 ${pid1}oo1_CBF ${sid}_CBF_11 -O${sid}oo_sumall
+ 
+ t4img_4dfp ${pid1}oo2_sumall_to_${sid}oo_sumall_t4 ${pid1}oo2_CBF ${sid}_CBF_12 -O${sid}oo_sumall
+ 
+ t4img_4dfp ${pid2}oo1_sumall_to_${sid}oo_sumall_t4 ${pid2}oo1_CBF ${sid}_CBF_21 -O${sid}oo_sumall
+ 
+ t4img_4dfp ${pid2}oo2_sumall_to_${sid}oo_sumall_t4 ${pid2}oo2_CBF ${sid}_CBF_22 -O${sid}oo_sumall
+
+#Create subtraction images to observe change in behavior
+
+imgopr_4dfp -a${sid}_CMRO2_Eve ${sid}_CMRO2_11 ${sid}_CMRO2_12
+scale_4dfp ${sid}_CMRO2_Eve 0.5
+imgopr_4dfp -a${sid}_CMRO2_Mor ${sid}_CMRO2_21 ${sid}_CMRO2_22
+scale_4dfp ${sid}_CMRO2_Mor 0.5
+imgopr_4dfp -s${sid}_CMRO2_Mor-Eve ${sid}_CMRO2_Mor ${sid}_CMRO2_Eve
+
+
+imgopr_4dfp -a${sid}_CBF_Eve ${sid}_CBF_11 ${sid}_CBF_12
+scale_4dfp ${sid}_CBF_Eve 50
+imgopr_4dfp -a${sid}_CBF_Mor ${sid}_CBF_21 ${sid}_CBF_22
+scale_4dfp ${sid}_CBF_Mor 50
+imgopr_4dfp -s${sid}_CBF_Mor-Eve ${sid}_CBF_Mor ${sid}_CBF_Eve

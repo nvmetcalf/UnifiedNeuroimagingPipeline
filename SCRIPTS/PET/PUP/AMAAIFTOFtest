@@ -1,0 +1,40 @@
+#!/bin/bash
+################################################################################
+# This program extract arterial input function for dynamic PET images based on 
+# MPRAGE and TOF MRA. Intended for AMA's ho and lac data                                                                           
+################################################################################
+# Yi Su, 5/17/2011                                                            
+
+TOFfn=$1
+MPRfn=$2
+ArtInfo=$3
+holist=( $(cat "$4" ) )
+nho=${#holist[*]}
+horoot=( ${holist[*]%%.*} )
+TOF=${TOFfn%%.*}
+MPR=${MPRfn%%.*}
+sumho=( ${holist[*]/.*/_sumall} )
+
+echo "TOF= "$TOF
+echo "MPR= "$MPR
+echo "hos = " $horoot 
+echo "nhos= " $nho
+echo $sumho
+
+~suy/bin/GetAIFPre2 $TOF $ArtInfo $MPR 400
+
+for (( i=0; i<$nho; i++ ))
+do
+	t4_mul ${sumho[$i]}"_to_ho_target_t4" "ho_target_to_MPR_t4"
+	t4_inv 	${sumho[$i]}"_to_MPR_t4"
+	t4_mul ${TOF}"_to_"${MPR}"_t4"  "MPR_to_"${sumho[$i]}"_t4" ${TOF}"_to_"${sumho[$i]}"_t4"
+	~suy/bin/GetAIF2 $TOF ${TOF}"_to_"${sumho[$i]}"_t4" $ArtInfo ${horoot[$i]} 0 AIF400
+	t4img_4dfp "MPR_to_"${sumho[$i]}"_t4" ${MPR}"_mskt" ${MPR}"_mskt_on_"${sumho[$i]} -O${sumho[$i]} -n
+	
+	cd AIF400
+	imgopr_4dfp -a"Art_"${horoot[$i]} "lArt_"${horoot[$i]}"z" "rArt_"${horoot[$i]}"z"
+	maskimg_4dfp ${TOF}"_Art_g_"${horoot[$i]} "Art_"${horoot[$i]} ${TOF}"_Art_g_"${horoot[$i]}"_msk"
+	cd ..
+done 
+
+

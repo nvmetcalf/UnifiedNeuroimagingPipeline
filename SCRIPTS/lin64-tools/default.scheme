@@ -1,0 +1,110 @@
+##########################################
+# Default settings for registration. Can #
+# be overwritten for specific pairs.     #
+##########################################
+set MODES      = (4099 4099 3075 2051 10243)
+
+set MPR_BLUR   = 1.3				#gauss_4dfp   half frequency in 1/cm
+set FDG_BLUR   = 5.0				#imgblur_4dfp full width half-maximum in mm
+set  HO_BLUR   = 7.0				#imgblur_4dfp full width half-maximum in mm
+set  OO_BLUR   = 6.0				#imgblur_4dfp full width half-maximum in mm
+set  OC_BLUR   = 9.0				#imgblur_4dfp full width half-maximum in mm
+set PIB_BLUR   = 5.0				#imgblur_4dfp full width half-maximum in mm
+
+set TARGET     = "TRIO_Y_NDC"			#For creating MPR mask, if necessary.
+#set TARGETPATH = "/data/cninds01/data2/atlas"
+set TARGETPATH = $REFDIR
+
+set USE_MASK   = (                )		#Use masks named <image>_msk (or <image>_mskt for MPR).
+set MAKE_MASK  = (MPR FDG HO OO OC)		#Overwrite existing masks (for MPR this is done with msktgen_4dfp).
+set MAKE_BLUR  = (MPR FDG HO OO OC)		#Overwrite existing blurred images.
+set ERASE_BLUR = 1				#If 1, erase created blurred images when done.
+set ERASE_MASK = 1				#If 1, erase created masks when done.
+
+set USE_T4     = 0				#If 1, start registration from existing t4 file.
+
+#######################################################
+# Bidirectional registration of image pairs (if both  #
+# exist). Provides a space to customize the settings. #
+#######################################################
+REGISTRATION: MPR FDG
+END
+REGISTRATION: MPR FDG
+	set MODES    = (3075 2051 10243)
+	set USE_MASK = (MPR FDG)
+	set USE_T4   = 1
+END
+
+REGISTRATION: MPR HO
+	set MPR_BLUR = 0.9
+END
+REGISTRATION: MPR HO
+	set MODES    = (3075 2051 10243)
+	set MPR_BLUR = 0.9
+	set USE_MASK = (MPR HO)
+	set USE_T4   = 1
+END
+
+REGISTRATION: MPR OO
+	set MPR_BLUR = 0.9
+END
+REGISTRATION: MPR OO
+	set MODES    = (3075 2051 10243)
+	set MPR_BLUR = 0.9
+	set USE_MASK = (MPR OO)
+	set USE_T4   = 1
+END
+
+REGISTRATION: FDG HO
+END
+REGISTRATION: FDG HO
+	set MODES    = (3075 2051 10243)
+	set USE_MASK = (FDG HO)
+	set USE_T4   = 1
+END
+
+REGISTRATION: HO OO
+	set MODES    = (3075 2051 10243)
+	set HO_BLUR  = 8.0
+	set OO_BLUR  = 9.0
+END
+REGISTRATION: HO OO
+	set MODES    = (3075 2051 10243)
+	set HO_BLUR  = 8.0
+	set OO_BLUR  = 9.0
+	set USE_MASK = (HO OO)
+	set USE_T4   = 1
+END
+
+REGISTRATION: HO OC
+	set MODES    = (3075 2051 10243)
+	set HO_BLUR  = 6.0
+	set OC_BLUR  = 6.0
+END
+
+REGISTRATION: OO OC
+	set MODES    = (3075 2051 10243)
+	set OO_BLUR  = 7.0
+	set OC_BLUR  = 7.0
+END
+
+REGISTRATION: MPR PIB
+END
+REGISTRATION: MPR PIB
+	set MODES    = (3075 2051 10243)
+	set USE_MASK = (MPR PIB)
+	set USE_T4   = 1
+END
+
+##################################################################
+##################################################################
+SCHEMES:
+	{HO OO OC}
+	{HO OO}		OO
+	{HO OC}		OC
+	{MPR OO}	OO
+	{MPR HO}	HO
+	{MPR FDG HO}
+	{MPR FDG}	FDG
+	MPR HO OC
+END

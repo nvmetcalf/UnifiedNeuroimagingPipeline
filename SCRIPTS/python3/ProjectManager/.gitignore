@@ -1,0 +1,5 @@
+Manifests/
+**/__pycache__/
+**/download_test/
+*.csv
+*.log
