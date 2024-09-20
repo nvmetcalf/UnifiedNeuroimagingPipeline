@@ -3,7 +3,7 @@ Initial readme. Will be updated.
 You will need the following package:
 https://wustl.box.com/s/8yc08ju7hz0cj3j8gvubppomddd81aaq
 
-Extract it into the UnifiedNeuroimagingPipeline folder as is. It should add REFDIR to ATLAS and a few folders to SCRIPTS.
+Extract it into the UnifiedNeuroimagingPipeline folder as is. It should add REFDIR to ATLAS, fslview, ROBEX, ANTs, and Synb0-DSCO folders to SCRIPTS, and empty Scans and Projects folders to the UnifiedNeuroimagingPipeline folder.
 
 You will also need to run the fslinstaller.py script using python in the SCRIPTS folder to install FSL (some functionality in the pipeline is linked to the python distro in FSL). By default, it will want to install into SCRIPTS.
 
