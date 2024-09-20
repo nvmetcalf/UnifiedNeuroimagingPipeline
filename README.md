@@ -1,11 +1,6 @@
 Initial readme. Will be updated.
 
-You will need the following two seperate packages:
+You will need the following package:
+https://wustl.box.com/s/8yc08ju7hz0cj3j8gvubppomddd81aaq
 
-ANTs:
-https://wustl.box.com/s/h0w9kvujuyo456sihflgyia8y80k1z6o
-After repository cloning, place the extracted ANTs folder into SCRIPTS
-
-REFDIR:
-https://wustl.box.com/s/l5eii2gq0kphgsowe5rpdf1zc95miymd
-After repository cloning, place the extracted ANTs folder into ATLAS
+Extract it into the UnifiedNeuroimagingPipeline folder as is. It should add REFDIR to ATLAS and a few folders to SCRIPTS.
