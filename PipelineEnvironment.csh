@@ -24,10 +24,10 @@ setenv SCRATCH /data/vglab/data2/temp
 setenv PROJECTS_DIR "Projects"
 
 #path to 711-2* atlases
-setenv REFDIR /data/nil-bluearc/vlassenko/Pipeline/ATLAS/REFDIR
+setenv REFDIR ${PROJECTS_HOME}/ATLAS/REFDIR
 
 #Path to the Processing Pipeline Scripts
-setenv PP_SCRIPTS /data/nil-bluearc/vlassenko/Pipeline/SCRIPTS
+setenv PP_SCRIPTS ${PROJECTS_HOME}/SCRIPTS
 
 #set where workbench is installed. At one time it was called caret, history is fun.
 setenv CARET7DIR ${PP_SCRIPTS}/caret7/bin_rh_linux64
@@ -45,7 +45,6 @@ setenv ANTSPATH $PP_SCRIPTS/ANTs
 #	Freesurfer is included, BUT you will need to get a license file from
 #	freesurfer (is free).
 setenv FREESURFER_HOME ${PP_SCRIPTS}/freesurfer
-#setenv FREESURFER_HOME /usr/local/pkg/freesurfer53-HCP
 setenv FSFAST_HOME ${FREESURFER_HOME}/fsfast
 setenv MNI_DIR ${FREESURFER_HOME}/mni
 
