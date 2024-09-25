@@ -56,7 +56,7 @@ pushd ASL/Volume
 		endif
 		
 		
-		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));compute_CBF( '*_asl${i}_upck_xr3d_dc_atl.nii.gz', 'asl${i}_*.fd','${Trailer}', $ASL_PLD[$i], $T1b, $pCASL, $ASL_TI1[$i], $ASL_TR[$i], '$BrainMask');end;exit"
+		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));compute_CBF( '*_asl${i}_upck_xr3d_dc_atl.nii.gz', 'asl${i}_*.fd','${Trailer}', $ASL_PLD[$i], $T1b, $pCASL, $ASL_TI1[$i], $ASL_TR[$i], '$BrainMask', $FD_Threshold);end;exit"
 		
 		if($PrevSeq != $Trailer) then
 			@ TypesOfSeq++
@@ -93,7 +93,7 @@ pushd ASL/Volume
 	
 	if($TypesOfSeq == 1 && $Trailer == "3dpcasl_gse" && $#UniquePLDs > 1) then
 		echo "Detecting probably multi-PLD sequencing. Attempting to compute Weighted PLD and Mean CBF..."
-		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));compute_ATT_CBF( '*_asl*_upck_xr3d_dc_atl.nii.gz', [$ASL_PLD], $T1b,  '*asl*.fd');end;exit"
+		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));compute_ATT_CBF( '*_asl*_upck_xr3d_dc_atl.nii.gz', [$ASL_PLD], $T1b,  '*asl*.fd', $FD_Threshold);end;exit"
 	else
 		#make 3D pcasl mean CBF
 		set images = `ls *3dpcasl_gse*_cbf.nii.gz`

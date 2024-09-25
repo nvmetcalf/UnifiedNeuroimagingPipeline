@@ -90,7 +90,7 @@ while($#ASL > $Run)
 		if($NonLinear) then	
 			if($ASL_FieldMapping == "6dof" || $ASL_FieldMapping == "none" || $ASL_FieldMapping == "") then
 				#just has a affine transform to the T1
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat --warp2=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			else
 				convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}_warp.nii.gz --warp2=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			endif
@@ -98,7 +98,7 @@ while($#ASL > $Run)
 			if($status) exit 1
 			set out_trailer = "_fnirt"
 			
-		else if($target != "") then
+		else if($target != "" && ! $NonLinear) then
 			if($ASL_FieldMapping == "6dof" || $ASL_FieldMapping == "none" || $ASL_FieldMapping == "") then
 				#just has a affine transform to the T1 -> atlas
 				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat --postmat=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
@@ -128,7 +128,7 @@ while($#ASL > $Run)
 		if ($status) exit $status
 		
 		#clean up files
-		rm ${patid}_*.4dfp.* `basename $ASL_Target`
+		rm ${patid}_*.4dfp.* `basename $ASL_Reg_Target`
 	popd
 
 end
@@ -217,7 +217,7 @@ pushd $ScratchFolder/${patid}/ASL_temp
 			$RELEASE/set_undefined_4dfp ${epi}_xr3d_dc_atl # set undefined voxels (lost by passage through NIfTI) to 1.e-37
 			if ($status) exit $status
 
-			rm -f ${epi}.nii* ${epi}????.nii* ${epi}_on_${RegTarget:t}????.nii* ${epi}_tmp.mat* ${epi}_tmp_t4* asl${Run}_upck.4dfp.* asl${Run}.4dfp.* asl${Run}_upck_faln.4dfp.* asl${Run}_upck_faln.4dfp.*
+			rm -f ${epi}.nii* ${epi}????.nii* ${epi}_on_${RegTarget:t}????.nii* ${epi}_tmp.mat* ${epi}_tmp_t4* asl${Run}.4dfp.* # asl${Run}_upck.4dfp.* #  asl${Run}_upck_faln.4dfp.* asl${Run}_upck_faln.4dfp.*
 
 		popd
 	end
