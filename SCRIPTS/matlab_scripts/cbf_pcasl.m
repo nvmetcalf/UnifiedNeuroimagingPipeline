@@ -1,5 +1,5 @@
 
-function [CBF CBF_by_Pair numPair Pairwise_FD Mo]=cbf_pcasl(rawPcasl, brainMask, w, T1b, FD)
+function [CBF CBF_by_Pair numPair Pairwise_FD Mo]=cbf_pcasl(rawPcasl, brainMask, w, T1b, FD, FD_Thresh)
 
 % Calculate CBF for 2D pCASL
 % CBF data are calculated according to the formula from
@@ -55,17 +55,17 @@ if(mod(tSize,2) == 1)
 end
 
 deltaM = zeros(length(brainMask),1);
-numPair = tSize/2;
+numPair = tSize-1/2;
 
 CBF_by_Pair = zeros(length(brainMask),numPair);
 Pairwise_FD = [];
 
-for ii = 1:numPair
+for ii = 2:numPair
     Pairwise_FD = vertcat(Pairwise_FD, FD(ii));
     control = rawPcasl(:,2*ii);
     label = rawPcasl(:,2*ii-1);
     
-    if(FD(2*ii) > 0.5)
+    if(FD(2*ii) > FD_Thresh)
         disp([num2str(2*ii) ' : ' num2str(FD(2*ii))]);
         numPair = numPair - 1;
         

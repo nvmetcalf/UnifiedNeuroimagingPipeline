@@ -1,5 +1,5 @@
 
-function [MeanCBF SdCBF NumPairs Pairwise_FD] = compute_CBF( ASL_SearchTerm, ASL_FD_SearchTerm, Trailer, PLD, T1b, pCASL, TI1, TR, BrainMask)
+function [MeanCBF SdCBF NumPairs Pairwise_FD] = compute_CBF( ASL_SearchTerm, ASL_FD_SearchTerm, Trailer, PLD, T1b, pCASL, TI1, TR, BrainMask, FD_Thresh)
 %     ASL_SearchTerm = '*_asl*_atl.nii.gz'
 %     PLD = [1 1.3 1.6 1.9 2.2 2.5]
 %     T1b = 1.6
@@ -9,6 +9,10 @@ function [MeanCBF SdCBF NumPairs Pairwise_FD] = compute_CBF( ASL_SearchTerm, ASL
     if(~exist('pCASL'))
         pCASL = true;
     end
+    if(~exist('FD_Thresh'))
+        FD_Thresh = 0.5
+    end
+    
     %==========================================================================
     %find all asl sequences
 
@@ -40,11 +44,11 @@ function [MeanCBF SdCBF NumPairs Pairwise_FD] = compute_CBF( ASL_SearchTerm, ASL
         FD = importdata(FD_files{i});
         
         if(pCASL == 1) %pCASL GRASE
-            [asl_out.vol asl_sd_out.vol NumPairs Pairwise_FD Mo] = cbf_3d_pcasl(ASL.vol, brainmask.vol, PostLabelingDelay, T1b, FD);
+            [asl_out.vol asl_sd_out.vol NumPairs Pairwise_FD Mo] = cbf_3d_pcasl(ASL.vol, brainmask.vol, PostLabelingDelay, T1b, FD, FD_Thresh);
         elseif(pCASL == 2) %pCASL 2D
-            [asl_out.vol asl_sd_out.vol NumPairs Pairwise_FD Mo] = cbf_pcasl(ASL.vol, brainmask.vol, PostLabelingDelay, T1b, FD);
+            [asl_out.vol asl_sd_out.vol NumPairs Pairwise_FD Mo] = cbf_pcasl(ASL.vol, brainmask.vol, PostLabelingDelay, T1b, FD, FD_Thresh);
         else
-            [asl_out.vol asl_sd_out.vol NumPairs Pairwise_FD Mo] = cbf_pasl(ASL.vol, brainmask.vol, PostLabelingDelay, TI1, T1b, TR, FD);
+            [asl_out.vol asl_sd_out.vol NumPairs Pairwise_FD Mo] = cbf_pasl(ASL.vol, brainmask.vol, PostLabelingDelay, TI1, T1b, TR, FD, FD_Thresh);
         end
         
         save_nifti(asl_out,[strip_extension(strip_extension(ASL_files{i})) '_' Trailer '_cbf.nii.gz']);

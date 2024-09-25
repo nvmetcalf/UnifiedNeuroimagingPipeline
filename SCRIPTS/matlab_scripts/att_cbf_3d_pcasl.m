@@ -1,5 +1,5 @@
 
-function [MeanCBF WeightedDelay]=att_cbf_3d_pcasl(rawPcasl_CellArray,brainMask,w,T1b, FD_in)
+function [MeanCBF WeightedDelay]=att_cbf_3d_pcasl(rawPcasl_CellArray,brainMask,w,T1b, FD_in,FD_Thresh)
 
 % Calculate ATT & CBF for 3D pCASL
 % CBF data are calculated according to the formula from
@@ -31,6 +31,10 @@ if T1b == 0
 	T1b = 1.490; % T1 of blood (sec)
 end
 
+if(~exist('FD_Thresh'))
+    FD_Thresh = 0.5
+end
+
 % The following parameters are hard coded using parameters from
 % Wang et al. (2012)
 t = 1.5; % label time (sec)
@@ -53,14 +57,14 @@ for i = 1:length(rawPcasl_CellArray)
     rawPcasl = double(rawPcasl_CellArray{i});
     
     Mo = squeeze(rawPcasl(:,:,:,1)); % equilibrium magnetization of brain
-    Mo = Mo .* brainMask;
+    %Mo = Mo .* brainMask;
     [xSize,ySize,zSize,tSize] = size(rawPcasl);
     deltaM = zeros(xSize,ySize,zSize);
     numPair = tSize/2 - 1;
     
     for ii = 2:numPair+1
         
-        if(FD(ii*2) > 0.5)
+        if(FD(ii*2) > FD_Thresh)
             disp(['run ' num2str(i) '. ' num2str(ii*2) ' : ' num2str(FD(ii*2))]);
             numPair = numPair - 1;
             continue;
@@ -68,12 +72,14 @@ for i = 1:length(rawPcasl_CellArray)
         
         control = squeeze(rawPcasl(:,:,:,2*ii));
         label = squeeze(rawPcasl(:,:,:,2*ii-1));
+%         control = squeeze(rawPcasl(:,:,:,2*ii-1));
+%         label = squeeze(rawPcasl(:,:,:,2*ii));
         deltaM = deltaM + control - label;
     end
     %this is the mean difference image
     deltaM = deltaM / numPair;
     deltaM(deltaM<0) = 0;
-    deltaM = deltaM .* brainMask;
+    %deltaM = deltaM .* brainMask;
 
     %this is to comput weighted delay: sum(w(i) * deltaM(i))/sum(deltaM)
     All_w_deltaM = horzcat(All_deltaM,reshape(deltaM,[],1).*w(i)); % w(i) * deltaM(i)
@@ -83,8 +89,8 @@ end
 
 WeightedDelay = sum(All_w_deltaM')./sum(All_deltaM');
 
-DefinedVoxels = find(reshape(brainMask,[],1) ~= 0);
-
+%DefinedVoxels = find(reshape(brainMask,[],1) ~= 0);
+DefinedVoxels = 1:length(reshape(brainMask,[],1));
 %compute the CBF of each PLD using the WeightedDelay
 % Now calculate CBF 
 All_CBF = All_deltaM .* 0;

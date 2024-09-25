@@ -1,10 +1,12 @@
 
-function [MeanCBF] = compute_ATT_CBF( ASL_SearchTerm, PLD, T1b, ASL_FD_SearchTerm, FD_thresh)
+function [MeanCBF] = compute_ATT_CBF( ASL_SearchTerm, PLD, T1b, ASL_FD_SearchTerm, FD_Thresh)
 %     ASL_SearchTerm = '*_asl*_atl.nii.gz'
 %     PLD = [1 1.3 1.6 1.9 2.2 2.5]
 %     T1b = 1.6
 
-
+    if(~exist('FD_Thresh'))
+        FD_Thresh = 0.5
+    end
     %==========================================================================
     %find all asl sequences
 
@@ -30,7 +32,7 @@ function [MeanCBF] = compute_ATT_CBF( ASL_SearchTerm, PLD, T1b, ASL_FD_SearchTer
     
     disp('Computing optimal ATT and CBF...');
     asl_out = brainmask;
-    [MeanCBF, WeightedDelay] = att_cbf_3d_pcasl(rawPcasl_CellArray, brainmask.vol, PLD, T1b, pcasl_FD);
+    [MeanCBF, WeightedDelay] = att_cbf_3d_pcasl(rawPcasl_CellArray, brainmask.vol, PLD, T1b, pcasl_FD, FD_Thresh);
     
     asl_out.vol = reshape(WeightedDelay,asl_out.dim(2),asl_out.dim(3), asl_out.dim(4));
     save_nifti(asl_out,['WeightedDelay.nii.gz']); 
