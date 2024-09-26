@@ -126,7 +126,7 @@ pushd $SubjectHome/Anatomical/Volume/FLAIR
 		decho "2 way registration displacement: $Displacement" registration_displacement.txt
 		
 		if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}"_FLAIR" ../T1/${patid}_T1 ${patid}"_FLAIR"_to_${patid}_T1.mat ${patid}"_FLAIR"_to_${patid}_T1_rev.mat 0 50 0 $MaximumRegDisplacement`) then
-			decho "	Error: Registration from T1 to $AtlasName and $AtlasName to T1 has a displacement of "$Displacement
+			decho "	Error: Registration from FLAIR to T1 and T1 to FLAIR has a displacement of "$Displacement
 			exit 1
 		endif
 	endif

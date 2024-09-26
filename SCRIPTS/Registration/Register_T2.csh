@@ -127,7 +127,7 @@ pushd ${SubjectHome}/Anatomical/Volume/T2
 		decho "2 way registration displacement: $Displacement" registration_displacement.txt
 		
 		if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}"_T2" ../T1/${patid}_T1 ${patid}_T2_to_${patid}_T1.mat ${patid}"_T2"_to_${patid}_T1_rev.mat 0 50 0 $MaximumRegDisplacement`) then
-			decho "	Error: Registration from T2 to $AtlasName and $AtlasName to T1 has a displacement of "$Displacement
+			decho "	Error: Registration from T2 to T1 and T1 to T2 has a displacement of "$Displacement
 			exit 1
 		endif
 	endif
