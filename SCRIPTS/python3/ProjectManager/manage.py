@@ -1,10 +1,10 @@
-from src.ProjectManager import ProjectManager
+import src.ProjectManager as ProjectManager
 import src.Utils.Checks as Checks
+import src.DataModels.Definitions as Definitions
 import argparse
 import sys
 
 if __name__ == '__main__':
-
     parser = argparse.ArgumentParser(description='A management System for the Ances MR Processing Pipeline. Provides functionality to manage data in the ProjectManager database.',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
@@ -28,6 +28,8 @@ if __name__ == '__main__':
     require_report_path       = False
     require_ses_id            = False
     require_proc_status       = False
+    require_id_csv            = False
+    require_id_col            = False
     default_fuzzy_match_level = 0
     
     update_and_build = parser.add_argument_group('Update operations')
@@ -52,6 +54,11 @@ if __name__ == '__main__':
                         required = False,
                         help = 'update a specific project alias individually.',
                         action='store_true')
+    
+    update_and_build.add_argument('--update_accession_from_csv',
+                        required = False,
+                        help = 'update a specific project alias individually.',
+                        action='store_true')
 
     if '--update_subject' in sys.argv:
         require_project = True
@@ -64,6 +71,11 @@ if __name__ == '__main__':
         require_project       = True
         require_project_alias = True
     
+    if '--update_accession_from_csv' in sys.argv:
+        require_project       = True
+        require_id_csv        = True
+        require_id_col        = True
+    
     reports = parser.add_argument_group('Queries')
     #Report arguments.
     reports.add_argument('--generate_project_report',
@@ -71,7 +83,7 @@ if __name__ == '__main__':
                         help = 'Generate a report detailing all information pertaining to a specific project in the DB.',
                         action = 'store_true')
 
-    reports.add_argument('--generate_subject_report_by_map_ids',
+    reports.add_argument('--generate_subject_report_by_participant_ids',
                         required = False,
                         help = 'Given the project and a list of map ids. Generate a report about all information pertaining to each subject in the DB.',
                         action = 'store_true')
@@ -99,6 +111,11 @@ if __name__ == '__main__':
     reports.add_argument('--generate_report_by_processing_status',
                         required = False,
                         help = 'Generate a report detailing all subjects which match the given processing status in all projects.',
+                        action = 'store_true')
+    
+    reports.add_argument('--generate_session_link_report',
+                        required = False,
+                        help = 'Generate a report detailing all scan sources and their links in a project.',
                         action = 'store_true')
 
     #Now set the required arguments based on what was specified.
@@ -134,6 +151,47 @@ if __name__ == '__main__':
     if '--generate_report_by_processing_status' in sys.argv:
         require_report_path = True
         require_proc_status = True 
+
+    if '--generate_session_link_report' in sys.argv:
+        require_report_path = True
+        require_project     = True
+
+    accession_ids = parser.add_argument_group('CNDA ID mapping settings and options')
+        
+    accession_ids.add_argument('--id_csv',
+                               required = require_id_csv,
+                               help = 'The csv file which associates CNDA accession ids to server ids.',
+                               type = str)
+    
+    accession_ids.add_argument('--id_col',
+                               required = False,
+                               help = 'The column which stores subject IDs.',
+                               type = str,
+                               default = Definitions.MAP_ID)
+
+    accession_ids.add_argument('--id_accession_col',
+                               required = False,
+                               help = 'The column which stores subject accession IDs.',
+                               type = str,
+                               default = Definitions.SUBJECT_ACCESSION)
+    
+    accession_ids.add_argument('--session_col',
+                               required = False,
+                               help = 'The column which stores session IDs.',
+                               type = str,
+                               default = Definitions.SESSION_ID)
+    
+    accession_ids.add_argument('--session_accession_col',
+                               required = False,
+                               help = 'The column which stores session accession IDs.',
+                               type = str,
+                               default = Definitions.SESSION_ACCESSION)
+    
+    accession_ids.add_argument('--fs_accession_col',
+                               required = False,
+                               help = 'The column which stores fs accession IDs.',
+                               type = str,
+                               default = Definitions.FS_ACCESSION)
     
     #General Settings
     settings = parser.add_argument_group('Settings')
@@ -192,24 +250,38 @@ if __name__ == '__main__':
                         type = int,
                         default = default_fuzzy_match_level)
     
+    settings.add_argument('--deep_search',
+                        required = False,
+                        help = 'Default behavior is to stop searching deeper directories when a session folder is found. This option will recursively search everywhere.',
+                        action = 'store_true')
+    
+    extension = parser.add_argument_group('Extended Report Options.')
+    
+    extension.add_argument('--extend_report',
+                        required = False,
+                        help = 'Include a list of all nifti files found for each session. Requires a search of every subject included in the report.',
+                        action = 'store_true')
+    
     args = parser.parse_args() 
 
     #Create the ProjectManager instance.
-    project_manager = ProjectManager(args.entry_point)
+    project_manager = ProjectManager.ProjectManager(args.entry_point,
+                                                    args.deep_search,
+                                                    args.extend_report)
 
-    #Check if anything has gone wrong.
-    if project_manager.error_state:
-        print('An error occured initializing the Project Manager')
-        sys.exit(project_manager.error_state)
-    
+    report_path = ''
     if require_report_path:
         report_path = Checks.expand_data_path(args.report_path, args.execution_path)
+
+    accession_csv_path = ''
+    if '--id_csv' in sys.argv:
+        accession_csv_path = Checks.expand_data_path(args.id_csv, args.execution_path)
 
     #Perform update operations.
     if args.update_subjects:
         project_manager.update_subjects(
             args.project,
-            args.map_id,
+            args.participant_id,
             args.fill_missing_info,
             args.force_merge
         )
@@ -243,19 +315,18 @@ if __name__ == '__main__':
             args.separate_subjects
         )
 
-    if args.generate_subject_report_by_map_ids:
+    if args.generate_subject_report_by_participant_ids:
         project_manager.get_subject_report_by_map_ids(
             args.project,
-            args.map_id,
+            args.participant_id,
             report_path,
             args.separate_subjects
-
         )
     
     if args.generate_subject_report_by_sub_ses:
         project_manager.get_subject_report_by_sub_ses(
             args.project,
-            args.map_id[0], 
+            args.participant_id[0], 
             args.session_id,
             report_path,
             args.fuzzy_match_level
@@ -280,7 +351,6 @@ if __name__ == '__main__':
             args.processing_status,
             report_path,
             args.separate_subjects
-
         )
     
     if args.generate_report_by_processing_status:
@@ -289,4 +359,21 @@ if __name__ == '__main__':
             report_path,
             args.separate_subjects
         )
-    
+
+    if args.generate_session_link_report:
+        project_manager.get_session_link_mapping(
+            args.project,
+            report_path
+        )
+
+    if args.update_accession_from_csv:
+        project_manager.update_accession_values_from_csv(
+            args.project,
+            accession_csv_path,
+            args.id_col,
+            args.id_accession_col,
+            args.session_col,
+            args.session_accession_col,
+            args.fs_accession_col,
+            args.force_merge)
+

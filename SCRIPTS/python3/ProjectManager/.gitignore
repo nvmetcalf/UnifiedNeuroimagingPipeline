@@ -1,5 +1,8 @@
 Manifests/
 **/__pycache__/
 **/download_test/
+/data/nil-bluearc/ances/PeteCanfield/ProjectManager/src/Query_XML/examples/*
+src/DataModels/__pycache__/*
 *.csv
 *.log
+import_profile.txt

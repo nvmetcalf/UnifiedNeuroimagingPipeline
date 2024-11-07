@@ -27,8 +27,6 @@ import re
 import json
 import AdditionalModules 
 
-import pdb
-
 #Currently 2 verbosity levels, 0 and 1. If verbosity is set to 0 then do not show any warnings
 #and if verbosity is 1 then show level 1 warnings.
 #The strictness is the the level at which the syntax checker will fail. For instance if the 
@@ -141,7 +139,6 @@ class ParseParams():
         if not os.path.isfile(file_path):
             return 3
 
-
         correct_syntax = 0 
         try:
             # Use subprocess to run csh with the '-n' flag to check syntax
@@ -178,6 +175,32 @@ class ParseParams():
     def status(self):
         return self._ecode
 
+    #Check the folder structure for required folders. Use definitions in Boundaries.json for folder structure.
+    def check_folder_structure(self, session_path):
+        if self._ecode:
+            return
+        
+        required    = self.boundary_data['Folder_Structure']['Required']
+        recommended = self.boundary_data['Folder_Structure']['Recommended']
+        warning = 0
+
+        for dir in required:
+            if not os.path.isdir(os.path.join(session_path, dir)):
+                print(f'Error could not find the required folder "{dir}" in the current session.')
+                warning = 3
+                break
+
+        if warning != 0:
+            self._ecode = warning
+            return 
+        
+        for dir in recommended:
+            if not os.path.isdir(os.path.join(session_path, dir)):
+                warning = self.process_warning(f'The folder "{dir}" does not exist in the current session.', 2)
+                if warning != 0:
+                    break
+
+        self._ecode = warning
 
     #Loads in a params_path file. 
     def loadFile(self, params_path):
@@ -210,7 +233,6 @@ class ParseParams():
         #Now lets go back through and expand out each line.
         for index, line in enumerate(self._file_data):
             for to_expand in self.match_map:
-                line = line.replace(f'${to_expand}', self.match_map[to_expand])
                 line = line.replace(f'${{to_expand}}', self.match_map[to_expand])
 
             self._file_data[index] = line
@@ -313,8 +335,12 @@ if __name__ == '__main__':
         print("Incorrect arguments passed to CheckParamsSyntax, exiting...")
         exit_code = 5
     else:
+        params_file = sys.argv[1]
+        session_dir = os.path.dirname(os.path.realpath(params_file))
+        
         parser = ParseParams(verbosity=int(sys.argv[2]), strictness=int(sys.argv[3]))
-        parser.loadFile(sys.argv[1])
+        parser.check_folder_structure(session_dir)
+        parser.loadFile(params_file)
         parser.checkSyntax()
         exit_code = parser.status()
 

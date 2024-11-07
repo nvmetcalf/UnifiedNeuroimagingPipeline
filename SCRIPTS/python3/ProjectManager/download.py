@@ -1,15 +1,13 @@
 import argparse
 import sys
 import src.DataModels.Definitions as Definitions
-from src.DownloadManager import DownloadManager
+import src.DownloadManager as DownloadManager
 import src.Utils.Checks as Checks
-
-
 
 if __name__ == '__main__':
 
     
-    parser = argparse.ArgumentParser(description='A management System for the Ances MR Processing Pipeline. Provides functionality for downloading and managing data.',
+    parser = argparse.ArgumentParser(description='A management System for the Ances MR Processing Pipeline. Provides functionality for downloading and managing new data.',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     #This is a hidden argument which is used by project manager to get relative paths to work.
@@ -36,44 +34,89 @@ if __name__ == '__main__':
                         help = 'Specify the target path to download data to. Default defined in ProjectManager database.',
                         type = str,
                         default = None)     
+    
+    parser.add_argument('--target_csv_file',
+                        required = True,
+                        help = 'Specify data paths of interest.',
+                        type = str)     
 
-    require_target_csv                = False
     require_project                   = False
     require_user_name                 = False
     require_project_alias_data_column = False
     require_global_project_alias      = False
     
-    actions = parser.add_argument_group('Download operations')
+    download_actions = parser.add_argument_group('Download operations')
 
-    #Processing Options
-    actions.add_argument('--download_from_csv',
-                         required = False,
-                         help = f'Given a csv file specifying the: cnda session accession id, and the fs accession id. Download the specified subjects and data files.',
-                         action='store_true')
+    download_actions.add_argument('--download_all',
+                                  required = False,
+                                  help = f'Given a csv file specifying the: cnda session accession id, and the fs accession id. Download the specified subjects and data files.',
+                                  action='store_true')
     
-    actions.add_argument('--extract_and_propagate',
-                         required = False,
-                         help = f'Given a csv file specifying the: map id, session_id, cnda session accession id, and the fs accession id. Extract downloaded files to Scans and propagate specified sessions into',
-                         action='store_true')
+    download_actions.add_argument('--extract_and_propagate_all',
+                                  required = False,
+                                  help = f'Given a csv file specifying the: map id, session_id, cnda session accession id, and the fs accession id. Extract downloaded files to Scans and propagate specified sessions into',
+                                  action='store_true')
     
-    actions.add_argument('--download_and_propagate',
-                         required = False,
-                         help = f'Given a csv file specifying the: map id, session_id, cnda session accession id, and the fs accession id. Download the specified subjects and data files.',
-                         action='store_true')
+    download_actions.add_argument('--download_and_propagate_all',
+                                  required = False,
+                                  help = f'Given a csv file specifying the: map id, session_id, cnda session accession id, and the fs accession id. Download the specified subjects and data files.',
+                                  action='store_true')
+    
+    download_actions.add_argument('--download_and_propagate_mr',
+                                  required = False,
+                                  help = f'Given a csv file specifying the: map id, session_id, cnda session accession id, and the fs accession id. Download the specified subjects and data files.',
+                                  action='store_true')
+    
+    download_actions.add_argument('--download_mr',
+                                  required = False,
+                                  help = f'Given a csv file specifying the: cnda session accession id, and the fs accession id. Download the specified subjects and data files.',
+                                  action='store_true')
+    
+    download_actions.add_argument('--extract_and_propagate_mr',
+                                  required = False,
+                                  help = f'Given a csv file specifying the: map id, session_id, cnda session accession id, and the fs accession id. Extract downloaded files to Scans and propagate specified sessions into',
+                                  action='store_true')
+    
+    download_actions.add_argument('--download_fs',
+                                  required = False,
+                                  help = f'Given a csv file specifying the: cnda session accession id, and the fs accession id. Download the specified subjects and data files.',
+                                  action='store_true')
+    
+    download_actions.add_argument('--extract_fs',
+                                  required = False,
+                                  help = f'Given a csv file specifying the: map id, session_id, cnda session accession id, and the fs accession id. Extract downloaded files to Scans and propagate specified sessions into',
+                                  action='store_true')
+    
+    
+    sync_actions = parser.add_argument_group('Sync operations')
     
     #Require either data_paths or a source csv file to run.
-    if '--download_from_csv' in sys.argv:
-        require_target_csv = True
+    if '--download_all' in sys.argv:
         require_user_name  = True
     
-    if '--extract_and_propagate' in sys.argv:
-        require_target_csv = True
+    if '--extract_and_propagate_all' in sys.argv:
         require_project    = True
     
-    if '--download_and_propagate' in sys.argv:
-        require_target_csv = True
+    if '--download_and_propagate_all' in sys.argv:
         require_project    = True
         require_user_name  = True
+    
+    if '--download_and_propagate_mr' in sys.argv:
+        require_project    = True
+        require_user_name  = True
+    
+    if '--download_mr' in sys.argv:
+        require_user_name  = True
+    
+    if '--extract_and_propagate_mr' in sys.argv:
+        require_project    = True
+    
+    if '--download_fs' in sys.argv:
+        require_user_name  = True
+    
+    if '--extract_fs' in sys.argv:
+        require_project    = True
+
 
     if '--project_alias_data_column' in sys.argv and '--global_project_alias' in sys.argv:
         print('You cannot specify both a global propagation alias and a project alias propagation data column.')
@@ -90,10 +133,24 @@ if __name__ == '__main__':
                         help = 'The user that is logging in to the xnat server.',
                         type = str)     
     
-    settings.add_argument('--target_csv_file',
-                        required = require_target_csv,
-                        help = 'Specify data paths of interest.',
-                        type = str)     
+
+    settings.add_argument('--subject_id_data_column',
+                        required = False,
+                        help = 'Specify the data column to read subject ids from in the target_csv_file.',
+                        default = 'participant_id',
+                        type = str) 
+    
+    settings.add_argument('--subject_accession_data_column',
+                        required = False,
+                        help = 'Specify the data column to read subject ids from in the target_csv_file.',
+                        default = 'subject_accession',
+                        type = str) 
+    
+    settings.add_argument('--session_id_data_column',
+                        required = False,
+                        help = 'Specify the data column to read session ids from in the target_csv_file.',
+                        default = 'session_id',
+                        type = str)
     
     settings.add_argument('--session_accession_data_column',
                         required = False,
@@ -104,20 +161,8 @@ if __name__ == '__main__':
     settings.add_argument('--fs_accession_data_column',
                         required = False,
                         help = 'Specify the data column to read fs accession ids from in the target_csv_file.',
-                        default = 'FS_Accession',
+                        default = 'fs_accession',
                         type = str) 
-
-    settings.add_argument('--subject_id_data_column',
-                        required = False,
-                        help = 'Specify the data column to read subject ids from in the target_csv_file.',
-                        default = 'Subject_ID',
-                        type = str) 
-    
-    settings.add_argument('--session_id_data_column',
-                        required = False,
-                        help = 'Specify the data column to read session ids from in the target_csv_file.',
-                        default = 'Session_ID',
-                        type = str)
     
     settings.add_argument('--scan_source_data_column',
                         required = False,
@@ -128,7 +173,7 @@ if __name__ == '__main__':
     settings.add_argument('--project_alias_data_column',
                         required = require_project_alias_data_column,
                         help = 'Specify the data column to read what project to propagate into in the target_csv_file.',
-                        default = Definitions.PROJ_ALIAS,
+                        default = 'project_alias',
                         type = str)
     
     settings.add_argument('--alias_in_csv',
@@ -158,7 +203,7 @@ if __name__ == '__main__':
                         help = 'Specify a log file to log propagation information to.',
                         type = str)
     
-    actions.add_argument('--no_clean_up',
+    settings.add_argument('--no_clean_up',
                          required = False,
                          help = f'Dont remove successful propagations out of the download cache.',
                          action='store_true')
@@ -179,49 +224,131 @@ if __name__ == '__main__':
     
     clean_up = not args.no_clean_up
     
-    downloader = DownloadManager(database_name = args.entry_point,
-                                 server = args.server, 
-                                 download_chunk_size = args.download_chunk_size,
-                                 download_dir = target_download_path,
-                                 log_file = log_file)
-    
-    def download() -> None:
-        downloader.login(args.user_name)
+    with  DownloadManager.DownloadManager(database_name = args.entry_point,
+                                          server = args.server, 
+                                          download_csv = target_csv_file,
+                                          download_chunk_size = args.download_chunk_size,
+                                          download_dir = target_download_path,
+                                          log_file = log_file) as downloader:
 
-        downloader.download_from_csv(
-                target_csv_file,
+        
+
+        if args.download_all:
+            downloader.login(args.user_name)
+            downloader.download_all_data(
+                    args.session_accession_data_column,
+                    args.fs_accession_data_column
+            )
+            downloader.logout()
+
+        if args.extract_and_propagate_all:
+            alias = args.project_alias_data_column if args.alias_in_csv else args.global_project_alias
+            downloader.extract_and_propagate_all(
+                args.project,
+                args.subject_id_data_column,
+                args.subject_accession_data_column,
+                args.session_id_data_column,
                 args.session_accession_data_column,
-                args.fs_accession_data_column
-        )
-
-        downloader.logout()
-
-    def extract_and_prop() -> None:
+                args.fs_accession_data_column,
+                alias,
+                args.alias_in_csv,
+                args.scan_source_data_column,
+                clean_up
+            )
         
-        alias = args.project_alias_data_column if args.alias_in_csv else args.global_project_alias
-
+        if args.download_and_propagate_all:
+            downloader.login(args.user_name)
+            downloader.download_all_data(
+                    args.session_accession_data_column,
+                    args.fs_accession_data_column
+            )
+            downloader.logout()
+            alias = args.project_alias_data_column if args.alias_in_csv else args.global_project_alias
+            downloader.extract_and_propagate_all(
+                args.project,
+                args.subject_id_data_column,
+                args.subject_accession_data_column,
+                args.session_id_data_column,
+                args.session_accession_data_column,
+                args.fs_accession_data_column,
+                alias,
+                args.alias_in_csv,
+                args.scan_source_data_column,
+                clean_up
+            )
         
-        downloader.extract_and_propagate_from_csv(
-            args.project,
-            target_csv_file,
-            args.subject_id_data_column,
-            args.session_id_data_column,
-            args.session_accession_data_column,
-            args.fs_accession_data_column,
-            alias,
-            args.alias_in_csv,
-            args.scan_source_data_column,
-            clean_up
-        )
-
-    if args.download_from_csv:
-        download()
-
-    if args.extract_and_propagate:
-        extract_and_prop()
-    
-    if args.download_and_propagate:
-        download()
-        extract_and_prop()
-
-    
+        if args.download_and_propagate_mr:
+            downloader.login(args.user_name)
+            downloader.download_mr(
+                    args.session_accession_data_column,
+            )
+            downloader.logout()
+            alias = args.project_alias_data_column if args.alias_in_csv else args.global_project_alias
+            downloader.extract_and_propagate_mr(
+                args.project,
+                args.subject_id_data_column,
+                args.subject_accession_data_column,
+                args.session_id_data_column,
+                args.session_accession_data_column,
+                alias,
+                args.alias_in_csv,
+                args.scan_source_data_column,
+                clean_up
+            )
+        
+        if args.download_mr:
+            downloader.login(args.user_name)
+            downloader.download_mr(
+                    args.session_accession_data_column
+            )
+            downloader.logout()
+        
+        if args.extract_and_propagate_mr:
+            alias = args.project_alias_data_column if args.alias_in_csv else args.global_project_alias
+            downloader.extract_and_propagate_mr(
+                args.project,
+                args.subject_id_data_column,
+                args.subject_accession_data_column,
+                args.session_id_data_column,
+                args.session_accession_data_column,
+                alias,
+                args.alias_in_csv,
+                args.scan_source_data_column,
+                clean_up
+            )
+        
+        if args.download_and_propagate_mr:
+            downloader.login(args.user_name)
+            downloader.download_mr(
+                    args.session_accession_data_column
+            )
+            downloader.logout()
+            alias = args.project_alias_data_column if args.alias_in_csv else args.global_project_alias
+            downloader.extract_and_propagate_mr(
+                args.project,
+                args.subject_id_data_column,
+                args.subject_accession_data_column,
+                args.session_id_data_column,
+                args.session_accession_data_column,
+                alias,
+                args.alias_in_csv,
+                args.scan_source_data_column,
+                clean_up
+            )
+        
+        if args.download_fs:
+            downloader.login(args.user_name)
+            downloader.download_fs(
+                    args.fs_accession_data_column
+            )
+            downloader.logout()
+        
+        if args.extract_fs:
+            alias = args.project_alias_data_column if args.alias_in_csv else args.global_project_alias
+            downloader.extract_fs(
+                args.project,
+                args.subject_id_data_column,
+                args.session_id_data_column,
+                args.fs_accession_data_column,
+                clean_up
+            )

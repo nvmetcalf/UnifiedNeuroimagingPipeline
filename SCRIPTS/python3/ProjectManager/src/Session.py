@@ -4,12 +4,20 @@ import os
 import copy
 
 import src.DataModels.Definitions as Definitions
-from src.InformationPrompter import SessionInformationPrompter 
-
+import src.InformationPrompter as IP 
+import src.DataExtraction as DataExtraction 
 
 class Session(object):
-    def __init__(self, collection: pymongo.collection.Collection, uid = None) -> None:
+    def __init__(self, 
+                 collection: pymongo.collection.Collection, 
+                 uid = None, 
+                 load_extended_data = False) -> None:
+
         self.__collection   = collection
+        self.extended_data  = {
+            Definitions.DICOM_LIST          : [],
+            Definitions.UNLINKED_DICOM_LIST : []
+        }
 
         #If the session document cant be found then create it.
         if  uid == None:
@@ -26,6 +34,11 @@ class Session(object):
 
         self.__uid = self.data['_id']
 
+        if load_extended_data:
+            found_files = DataExtraction.get_dicom_files_from_path(self.data[Definitions.DATA_PATH])
+            self.extended_data[Definitions.DICOM_LIST] = found_files
+            self.extended_data[Definitions.UNLINKED_DICOM_LIST] = DataExtraction.get_unlinked_dicom_files_from_path(self.data[Definitions.DATA_PATH], found_files)
+
     def __copy__(self):
         session_copy = Session(self.__collection, self.__uid) 
         session_copy.data = copy.copy(self.data)
@@ -34,15 +47,21 @@ class Session(object):
     #Validates data to ensure that all the required fields are present.
     def __validate_data(self) -> bool:
         required_keys = {
-            Definitions.SESSION_ID          : str,
-            Definitions.FS_VERSION          : str,
-            Definitions.SCANNER             : str,
-            Definitions.PIPELINE_VERSION    : str,
-            Definitions.SOFTWARE_VERSION    : str,
-            Definitions.DATE_COLLECTED      : str,
-            Definitions.DATA_PATH           : str,
-            Definitions.PROC_STATUS         : str,
-            Definitions.MODS_COLLECTED      : list
+            Definitions.SESSION_ID           : str,
+            Definitions.SESSION_ACCESSION    : str,
+            Definitions.FS_VERSION           : str,
+            Definitions.FS_ACCESSION         : str,
+            Definitions.SCANNER              : str,
+            Definitions.PIPELINE_VERSION     : str,
+            Definitions.SOFTWARE_VERSION     : str,
+            Definitions.DATE_COLLECTED       : str,
+            Definitions.DATA_PATH            : str,
+            Definitions.PROC_STATUS          : str,
+            Definitions.MODS_COLLECTED       : dict,
+            Definitions.BOLD_MB_FACTOR       : int,
+            Definitions.BOLD_BPASS_SMOOTHING : bool,
+            Definitions.BOLD_RESID_SMOOTHING : bool,
+            Definitions.ANALYSIS             : dict
         }
 
 
@@ -119,7 +138,7 @@ class Session(object):
         
         #If there are conflicting fields we need to deal with them.
         if conflicting_fields != {}:
-            session_info_prompt = SessionInformationPrompter(self)
+            session_info_prompt = IP.SessionInformationPrompter(self)
             conflicting_fields = session_info_prompt.prompt_conflicting_information(conflicting_fields)
 
             #Now add all the resolved conflicts to teh final data to update.

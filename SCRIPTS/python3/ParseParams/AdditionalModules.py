@@ -141,13 +141,15 @@ def check_dicom_files(regex_match, this):
 
     #The match groups for the file names are 7 if surrounded by parentheses (will also pull out the qoutes so these 
     #need to be removed) and group 5 if there is only one value.
-    file_names = regex_match.group(5).replace('"','')[1:-1] # <- remove the first and last parenthesis 
-    file_name_list = file_names.split()
+    file_names = regex_match.group(7).replace('"','') # <- remove the first and last parenthesis 
     
     #There are no files to check.
-    if file_names == '':
+    if file_names == '' or file_names == None:
         this.match_map[parameter] = []
         return 0
+    
+    #If there are no file names to match then exit early.
+    file_name_list = file_names.split()
     
     #Otherwise add the paramter to the match map with the file list.
     this.match_map[parameter] = file_name_list
@@ -329,13 +331,11 @@ def check_consistent_multiband(regex_match, this):
     r_code = check_dicom_files(regex_match, this)
     if r_code:
         return r_code
-  
     
     #Now check that the dimensionality is consistent.
     r_code = check_nifti_dims('BOLD', this)
     if r_code:
         return r_code
-
 
     bold_files = this.match_map['BOLD']
     mb_factors = [] 
@@ -345,8 +345,12 @@ def check_consistent_multiband(regex_match, this):
         
         try:
             json_fname = os.path.join('dicom', fname.split('.')[0] + '.json')
-            with open(json_fname) as f:
-                header_data = json.load(f)
+
+            try: 
+                header_data = json.load(open(json_fname))
+            except json.decoder.JSONDecodeError:
+                print(f'Could not decode the header data at "{json_fname}"')
+                return 8
 
             #Now extract the multiband acceleration factor
             mba = 1
@@ -378,7 +382,6 @@ def check_consistent_multiband(regex_match, this):
         r_code = this.process_warning(warning_message, e_level = 1) 
     
     return r_code
-
 
 #Checks if all the nifti files in dicoms saved at a given location have the same dimensions.
 #Takes only a scan_key (key for the match map entry) and returns 0 on success and 8 on failure. 

@@ -2,7 +2,7 @@
 
 set PythonBin = ${FSLBIN}/python3.11
 set ExecutionPath = ${PP_SCRIPTS}/python3/ProjectManager
-set Operations = ( "manage run download" )
+set Operations = ( "manage run download sync analyze" )
 
 #source the echo formatting variables
 source $PP_SCRIPTS/Utilities/echo_format_variables

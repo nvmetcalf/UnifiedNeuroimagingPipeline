@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xdat:bundle ID="" xmlns:arc="http://nrg.wustl.edu/arc" xmlns:cat="http://nrg.wustl.edu/catalog" xmlns:pipe="http://nrg.wustl.edu/pipe" xmlns:prov="http://www.nbirn.net/prov" xmlns:scr="http://nrg.wustl.edu/scr" xmlns:val="http://nrg.wustl.edu/val" xmlns:wrk="http://nrg.wustl.edu/workflow" xmlns:xdat="http://nrg.wustl.edu/security" xmlns:xnat="http://nrg.wustl.edu/xnat" xmlns:xnat_a="http://nrg.wustl.edu/xnat_assessments" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xdat:root_element_name>fs:fsData</xdat:root_element_name>
+    <xdat:search_field>
+        <xdat:element_name>fs:fsData</xdat:element_name>
+        <xdat:field_ID>SUBJECT_ID</xdat:field_ID>
+        <xdat:sequence>1</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>Subject</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>fs:fsData</xdat:element_name>
+        <xdat:field_ID>SESSION_ID</xdat:field_ID>
+        <xdat:sequence>2</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>Session</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>fs:fsData</xdat:element_name>
+        <xdat:field_ID>LABEL</xdat:field_ID>
+        <xdat:sequence>3</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>FS Label</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>fs:fsData</xdat:element_name>
+        <xdat:field_ID>DATE</xdat:field_ID>
+        <xdat:sequence>4</xdat:sequence>
+        <xdat:type>date</xdat:type>
+        <xdat:header>FS Date</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>fs:fsData</xdat:element_name>
+        <xdat:field_ID>VERSION</xdat:field_ID>
+        <xdat:sequence>6</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>FS Version</xdat:header>
+    </xdat:search_field>
+    <xdat:search_where method="OR">
+        <xdat:criteria override_value_formatting="0">
+            <xdat:schema_field>fs:fsData/sharing/share/project</xdat:schema_field>
+            <xdat:comparison_type>=</xdat:comparison_type>
+            <xdat:value>${PROJECT}</xdat:value>
+        </xdat:criteria>
+        <xdat:criteria override_value_formatting="0">
+            <xdat:schema_field>fs:fsData/PROJECT</xdat:schema_field>
+            <xdat:comparison_type>=</xdat:comparison_type>
+            <xdat:value>${PROJECT}</xdat:value>
+        </xdat:criteria>
+    </xdat:search_where>
+</xdat:bundle>

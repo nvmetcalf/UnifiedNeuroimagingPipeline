@@ -1,7 +1,6 @@
 from bson.objectid import ObjectId
 import copy
 
-#from src.Subject import Subject
 import src.DataModels.Definitions as Definitions
 
 #Subject could not be type hinted due to circular imports. the subject_object is a Subject.
@@ -116,15 +115,27 @@ class SubjectInformationPrompter(object):
         
         return False
     
-    def print_subject(self) -> None:
+    def print_subject(self, highlight_fields = '', show_specific_sessions = [], show_help = True) -> None:
         print('------------------------- Subject Information -------------------------')
-        print(f'The first group ({Definitions.COLORS["GREEN"]}green{Definitions.COLORS["RESET"]}) is data that was automatically detected and set')
-        print(f'The second group ({Definitions.COLORS["RED"]}red{Definitions.COLORS["RESET"]}) is data that could not be determined automatically')
+        if show_help:
+            print(f'The first group ({Definitions.COLORS["GREEN"]}green{Definitions.COLORS["RESET"]}) is data that was automatically detected and set')
+            print(f'The second group ({Definitions.COLORS["RED"]}red{Definitions.COLORS["RESET"]}) is data that could not be determined automatically')
         
         #Print out the subject and its map ID.
-        print(f'{Definitions.COLORS["BOLD"]}Subject: {self.__subject.data[Definitions.MAP_ID]}{Definitions.COLORS["RESET"]}')
+        print(f'{highlight_fields}{Definitions.COLORS["BOLD"]}Subject: {self.__subject.data[Definitions.MAP_ID]}{Definitions.COLORS["RESET"]}')
+        print(f'{highlight_fields}{Definitions.COLORS["BOLD"]}Subject Accession: {self.__subject.data[Definitions.SUBJECT_ACCESSION]}{Definitions.COLORS["RESET"]}')
         
-        for index, session in enumerate(self.__session_ids):
+        sessions_to_print = []
+        for session in self.__session_ids:
+            session_object = self.__subject.sessions[self.__session2uid[session]]
+
+            for key in session_object.data:
+                if session_object.data[key] in show_specific_sessions:
+                    sessions_to_print.append(session)
+            
+
+        for index, session in enumerate(sessions_to_print):
+            
             print(f'\t{index + 1}. {Definitions.COLORS["CYAN"]}{session}{Definitions.COLORS["RESET"]}')
             
             #Get the session object.
@@ -232,6 +243,129 @@ class SubjectInformationPrompter(object):
                     self.print_subject()
 
         return modified_data
+    
+    def print_merge_conflict_prompt(self, conflicting_keys: list, conflicting_data:dict) -> None:
+        print(f'------------------------- Subject {self.__subject.data[Definitions.MAP_ID]} Merge Issue -------------------------')
+        print(f'It appears that the current subject could not automatically merge because the existing')
+        print(f'data and the incoming data both seem plausable. Please choose the desired data you want to keep to continue.')
+        print(f'The current data is shown in {Definitions.COLORS["GREEN"]}green{Definitions.COLORS["RESET"]} and the incoming data is showin in {Definitions.COLORS["RED"]}red{Definitions.COLORS["RESET"]}.')
+       
+        self.print_subject(highlight_fields=Definitions.COLORS["GREEN"], show_session_data = False)
+
+        print('\nIncoming Data:')
+        for index, field in enumerate(conflicting_keys):
+            print(f'\t{index + 1}. {Definitions.COLORS["RED"]}{field}{Definitions.COLORS["RESET"]}: {conflicting_data[field]}')
+
+    #This function takes a dictionary of fields that conflict in a given session with plausable
+    #data and asks the user to merge the data based on what they want to keep. It returns a dictionary
+    #of the final decided values the user wants to keep.
+    def prompt_conflicting_information(self, conflicting_data:dict ) -> dict:
+        resolved_values = {} 
+        #Set the resolved to the current data.
+        for key in conflicting_data:
+            #Skip session data.
+            if key == Definitions.SESSION_DATA:
+                continue
+
+            resolved_values[key] = self.__subject.data[key]
+
+        conflicting_keys = list(conflicting_data)
+        #Set the resolved data to be all the incoming data at the moment.
+        while True:
+            self.print_merge_conflict_prompt(conflicting_keys, conflicting_data)
+
+            valid_fields = [str(index + 1) for index in range(len(conflicting_keys))] + ['done', 'd', 'accept', 'a']
+
+            while True:
+                user_field = input('Enter the index of the field you want to select [(D)one to accept current state or (A)ccept all incoming changes]: ')
+                if not user_field.lower() in valid_fields:
+                    print(f'The choice {user_field} is not a valid option. Try again.')
+                    continue
+
+                break
+            
+            if user_field.lower() in ['done', 'd']:
+                break
+            
+            #Then we need to add all the current conflicting values to resolved and exit.
+            if user_field.lower() in ['accept', 'a']:
+                for key in conflicting_data:
+                    resolved_values[key] = conflicting_data[key]
+
+                break
+
+            selected_field = conflicting_keys[int(user_field) - 1]
+
+            #Otherwise we have selected a field to judge.
+            while True:
+                judgment = input('Would you like to (A)ccept the incoming change or (R)eject it? ')
+                if not judgment.lower() in ['accept', 'a', 'reject', 'r']:
+                    print(f'The choice {user_field} is not a valid option. Try again.')
+                    continue
+
+                break
+            
+            #If we accepted the change then we should set the resolved data at the given key to be the new data.
+            #Swap them so that we still have the old data as an option.
+            if judgment.lower() in ['accept', 'a']:
+                old_data = self.__subject.data[selected_field] 
+                new_data = conflicting_data[selected_field]
+
+                self.__subject.data[selected_field] = new_data
+                resolved_values[selected_field] = new_data 
+                
+                conflicting_data[selected_field] = old_data
+            
+            Definitions.CLEAR_SCREEN()
+
+        return resolved_values
+
+    #Given a set of possible values to choose from. Choose a single value from this list.
+    def choose_value(self, key:str, possible_values: list, allow_no_value = False, additional_info = ''):
+
+        chosen_index = 0
+        while True:
+            self.print_subject(show_specific_sessions = possible_values, show_help = False)
+            print(additional_info)
+            print(f'It appears that multiple possible values for {key} were found.')
+            print(f'Please choose a single value from the list below.')
+
+            for index, field in enumerate(possible_values):
+                print(f'\t{index + 1}. {Definitions.COLORS["RED"]}{field}{Definitions.COLORS["RESET"]}')
+           
+            option = ''
+            while True:
+                no_value = ' ([N]o value)' if allow_no_value else '' 
+                option = input(f'Please choose the index of the value for {key} you want to choose{no_value}. ').lower()
+
+                possible_options = [str(index + 1) for index in range(len(possible_values))]
+                if allow_no_value:
+                    possible_options += ['n', 'no']
+
+                if option in possible_options:
+                    break
+            
+            correct = ''
+            if option in ['n', 'no']:
+                while True:
+                    correct = input(f'You chose no value is this correct ([Y]es/[N]o)? ').lower()
+                    if correct in ['y', 'yes', 'n', 'no']:
+                        break
+                if correct in ['y', 'yes']:
+                    return None
+                
+                #Otherwise re-prompt
+                continue
+            
+            while True:
+                correct = input(f'You chose {Definitions.COLORS["RED"]}{possible_values[chosen_index]}{Definitions.COLORS["RESET"]} is this correct ([Y]es/[N]o)? ').lower()
+                if correct in ['y', 'yes', 'n', 'no']:
+                    break
+
+            if correct in ['y', 'yes']:
+                break
+
+        return possible_values[chosen_index]
 
 #Session could not be type hinted due to circular imports. the sessionn_object is a Session.
 class SessionInformationPrompter(object):
@@ -267,6 +401,8 @@ class SessionInformationPrompter(object):
         print('\nIncoming Data:')
         for index, field in enumerate(conflicting_keys):
             print(f'\t{index + 1}. {Definitions.COLORS["RED"]}{field}{Definitions.COLORS["RESET"]}: {conflicting_data[field]}')
+
+
 
     #This function takes a dictionary of fields that conflict in a given session with plausable
     #data and asks the user to merge the data based on what they want to keep. It returns a dictionary
@@ -376,27 +512,27 @@ class ExtractionInformationPrompter(object):
             if option.lower() in ['n', 'new']:
 
                 accept_changes = False
-                abbort         = False
+                abort         = False
                 scan_location = ''
-                while not (accept_changes or abbort):
+                while not (accept_changes or abort):
                     scan_location = input('Enter the new scan location: ')
                     
                     while True:
-                        option = input(f'Would you like to accept the new scan location {scan_location} ([Y]es/[N]o/[A]bbort)? ')
+                        option = input(f'Would you like to accept the new scan location {scan_location} ([Y]es/[N]o/[A]bort)? ')
 
-                        if not option.lower() in ['y', 'yes', 'n', 'no', 'a', 'abbort']:
+                        if not option.lower() in ['y', 'yes', 'n', 'no', 'a', 'abort']:
                             print(f'The option {option} is invalid.')
                             continue
                         
-                        if option.lower() in ['a', 'abbort']:
-                            abbort = True  
+                        if option.lower() in ['a', 'abort']:
+                            abort = True  
 
                         if option.lower() in ['y', 'yes']:
                             accept_changes = True
 
                         break
                     
-                if abbort:
+                if abort:
                     continue
 
                 return scan_location

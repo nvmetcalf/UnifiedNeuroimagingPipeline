@@ -116,5 +116,13 @@
     "Allowed_Dicom_Scan_Extensions": [
         "nii.gz",
         "nii"
-    ]
+    ],
+    "Folder_Structure": {
+        "Required": [
+            "dicom"
+        ],
+        "Recommended": [
+            "Freesurfer"
+        ]
+    }
 }

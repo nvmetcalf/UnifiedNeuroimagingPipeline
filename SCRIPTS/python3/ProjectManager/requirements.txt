@@ -4,3 +4,4 @@ pymongo==4.7.1
 regex==2024.5.10
 Requests==2.32.3
 tqdm==4.65.0
+scipy==1.13.0

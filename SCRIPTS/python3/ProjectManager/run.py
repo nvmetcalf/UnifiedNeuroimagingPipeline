@@ -29,7 +29,6 @@ if __name__ == '__main__':
                         default = 'run.log',
                         type = str)     
 
-    require_command    = False
     require_data_file  = False
 
     pp_scripts_path = os.path.expandvars('$PP_SCRIPTS')
@@ -38,8 +37,9 @@ if __name__ == '__main__':
     #Processing Options
     procs.add_argument('--run_processing_command',
                         required = False,
-                        help = f'Runs a script specified in $PP_SCRIPTS ({pp_scripts_path})',
-                        action = 'store_true')
+                        help = 'Specify what processing command to run',
+                        type = str,
+                        default = None)     
 
     procs.add_argument('--run_in_data_paths',
                         required = False,
@@ -61,11 +61,17 @@ if __name__ == '__main__':
     placeholders = parser.add_argument_group('placeholder arguments', description = 'The arguments here perform an action and replace the result of that action in place of the argument.')
 
     placeholder_argument_mapping = {
+        '--find_sub'     : f'@{chr(pm.ProcessingState.FIND_SUB)}@',
+        '--find_ses'     : f'@{chr(pm.ProcessingState.FIND_SES)}@',
+        '--find_alias'   : f'@{chr(pm.ProcessingState.FIND_ALIAS)}@',
         '--find_params'  : f'@{chr(pm.ProcessingState.FIND_PARAMS)}@',
         '--use_basename' : f'@{chr(pm.ProcessingState.PATH_ARG)}@'
     }
 
-    placeholder_help_messages = ('Will replace this argument with the ".params" file found at the execution path for this commnad.',
+    placeholder_help_messages = ('Extract the subject id (format: sub_xxxxx) from the file path and use it in place of this argument.',
+                                 'Extract the session id (format: -ses_yyyyy) from the file path and use it in place of this argument.',
+                                 'Find the project alias from the given file path and use it in place of this argument.',
+                                 'Will replace this argument with the ".params" file found at the execution path for this commnad.',
                                  'Use the specified data path as a parameter for the execution command.')
     
 
@@ -76,9 +82,6 @@ if __name__ == '__main__':
                                 action = 'store_true')
 
 
-    
-    if '--run_processing_command' in sys.argv:
-        require_command = True
 
     if '--args_in_csv' in sys.argv:
         require_data_file = True
@@ -88,12 +91,6 @@ if __name__ == '__main__':
 
     #General Settings
     settings = parser.add_argument_group('settings')
-    
-    settings.add_argument('--command',
-                        required = require_command,
-                        help = 'Specify what processing command to run',
-                        type = str,
-                        default = None)     
 
     settings.add_argument('--data_paths',
                         required = False,
@@ -124,9 +121,18 @@ if __name__ == '__main__':
                         help = 'Specify the data column which contains specific command execution arguments.',
                         default = Definitions.EXEC_ARGS,
                         type = str) 
-    
 
-    
+    settings.add_argument('--exec_status_column',
+                        required = False,
+                        help = 'Specify the data column which contains the execution status.',
+                        default = Definitions.EXEC_STATUS,
+                        type = str)
+
+    settings.add_argument('--exec_on_match',
+                        help = 'Only process this row in the data file if the execution status matches this value.',
+                        type = str,
+                        default = None)
+                         
 
     args, unknown = parser.parse_known_args() 
 
@@ -150,7 +156,7 @@ if __name__ == '__main__':
                                         placeholder_argument_mapping)
 
     #Check that if a command is specified that it is valid.
-    if args.command and not args.command in process_manager.executables:
+    if args.run_processing_command and not args.run_processing_command in process_manager.executables:
         print(f'The command {Definitions.COLORS["RED"]}{args.command}{Definitions.COLORS["RESET"]} is not a valid executable found in PP_SCRIPTS.')
         process_manager.list_executables()
         print('Run again with a valid command.')
@@ -187,14 +193,15 @@ if __name__ == '__main__':
         #those through. Finally if no args are specified then we done want to pass anything through (None).
         if args.args_in_csv:
             pass_through = data_source
-
         if pass_through == []:
             pass_through = None
 
 
-        process_manager.execute_command(args.command,
+        process_manager.execute_command(args.run_processing_command,
                                         data_source,
                                         args.data_path_column,
                                         pass_through,
-                                        args.exec_arguments_column)
+                                        args.exec_arguments_column,
+                                        args.exec_status_column,
+                                        args.exec_on_match)
 

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xdat:bundle ID="" xmlns:arc="http://nrg.wustl.edu/arc" xmlns:cat="http://nrg.wustl.edu/catalog" xmlns:pipe="http://nrg.wustl.edu/pipe" xmlns:prov="http://www.nbirn.net/prov" xmlns:scr="http://nrg.wustl.edu/scr" xmlns:val="http://nrg.wustl.edu/val" xmlns:wrk="http://nrg.wustl.edu/workflow" xmlns:xdat="http://nrg.wustl.edu/security" xmlns:xnat="http://nrg.wustl.edu/xnat" xmlns:xnat_a="http://nrg.wustl.edu/xnat_assessments" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xdat:root_element_name>xnat:mrSessionData</xdat:root_element_name>
+    <xdat:search_field>
+        <xdat:element_name>xnat:subjectData</xdat:element_name>
+        <xdat:field_ID>SUBJECT_LABEL</xdat:field_ID>
+        <xdat:sequence>1</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>Subject</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>SUBJECT_ID</xdat:field_ID>
+        <xdat:sequence>2</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>Subject</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>LABEL</xdat:field_ID>
+        <xdat:sequence>3</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>Label</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>SESSION_ID</xdat:field_ID>
+        <xdat:sequence>4</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>Session</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>DATE</xdat:field_ID>
+        <xdat:sequence>5</xdat:sequence>
+        <xdat:type>date</xdat:type>
+        <xdat:header>Date</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>SCANNER</xdat:field_ID>
+        <xdat:sequence>6</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>Scanner</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>MR_SCAN_COUNT_AGG</xdat:field_ID>
+        <xdat:sequence>7</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>Scans</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>EP2D_COUNT</xdat:field_ID>
+        <xdat:sequence>8</xdat:sequence>
+        <xdat:type>integer</xdat:type>
+        <xdat:header>EP2D Count</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>_3DT2_COUNT</xdat:field_ID>
+        <xdat:sequence>9</xdat:sequence>
+        <xdat:type>integer</xdat:type>
+        <xdat:header>3DT2 Count</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>MPR_COUNT</xdat:field_ID>
+        <xdat:sequence>10</xdat:sequence>
+        <xdat:type>integer</xdat:type>
+        <xdat:header>MPR Count</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>FLH_COUNT</xdat:field_ID>
+        <xdat:sequence>11</xdat:sequence>
+        <xdat:type>integer</xdat:type>
+        <xdat:header>FLH Count</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>TSE_COUNT</xdat:field_ID>
+        <xdat:sequence>12</xdat:sequence>
+        <xdat:type>integer</xdat:type>
+        <xdat:header>TSE Count</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+    <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>FLR_COUNT</xdat:field_ID>
+        <xdat:sequence>13</xdat:sequence>
+        <xdat:type>integer</xdat:type>
+        <xdat:header>FLR Count</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>DTI_COUNT</xdat:field_ID>
+        <xdat:sequence>14</xdat:sequence>
+        <xdat:type>integer</xdat:type>
+        <xdat:header>DTI Count</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>BLD_COUNT</xdat:field_ID>
+        <xdat:sequence>15</xdat:sequence>
+        <xdat:type>integer</xdat:type>
+        <xdat:header>BLD Count</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>MPR_STATUS</xdat:field_ID>
+        <xdat:sequence>16</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>MPR Status</xdat:header>
+    </xdat:search_field>
+    <xdat:search_field>
+        <xdat:element_name>xnat:mrSessionData</xdat:element_name>
+        <xdat:field_ID>BLD_STATUS</xdat:field_ID>
+        <xdat:sequence>17</xdat:sequence>
+        <xdat:type>string</xdat:type>
+        <xdat:header>BLD Status</xdat:header>
+    </xdat:search_field>
+    <xdat:search_where method="OR">
+        <xdat:criteria override_value_formatting="0">
+            <xdat:schema_field>xnat:mrSessionData/sharing/share/project</xdat:schema_field>
+            <xdat:comparison_type>=</xdat:comparison_type>
+            <xdat:value>${PROJECT}</xdat:value>
+        </xdat:criteria>
+        <xdat:criteria override_value_formatting="0">
+            <xdat:schema_field>xnat:mrSessionData/PROJECT</xdat:schema_field>
+            <xdat:comparison_type>=</xdat:comparison_type>
+            <xdat:value>${PROJECT}</xdat:value>
+        </xdat:criteria>
+    </xdat:search_where>
+</xdat:bundle>

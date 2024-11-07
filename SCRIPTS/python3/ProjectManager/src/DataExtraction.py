@@ -5,7 +5,6 @@ import regex
 from datetime import datetime
 import src.DataModels.Definitions as Definitions
 
-        
 #Attempts to guess what the map_id is from the path. Assumes that the naming convention is sub-<MAP_ID>_ses-<SES_ID>.
 #Returns -1 if no map_id is found.
 def guess_map_id_from_path(sub_ses_path: str) -> str: 
@@ -25,7 +24,7 @@ def guess_map_id_from_path(sub_ses_path: str) -> str:
 #Returns -1 if no map_id is found.
 def guess_sess_id_from_path(sub_ses_path: str) -> str: 
     sess_id = '' 
-    strings_to_search = sub_ses_path.split('/') #Assumes a unix style FS.
+    strings_to_search = sub_ses_path.split(os.sep) 
     
 
     #find the index for '_ses-'.
@@ -37,6 +36,68 @@ def guess_sess_id_from_path(sub_ses_path: str) -> str:
         sess_id = dir[ses_index + 5:] #cut out the '_ses-' from the id
         break
     return sess_id
+
+def get_dicom_files_from_path(sub_ses_path: str) -> list:
+    dicom_files = []
+    for ext in Definitions.NIFTI_EXTENSIONS:
+        full_paths = glob.glob(os.path.join(sub_ses_path, f'dicom/*.{ext}'))
+        dicom_files += [ os.path.basename(path) for path in full_paths ]
+
+    return dicom_files
+
+#Returns a list of NIFTI files which do not appear in the original dicom folder.
+#Takes in a list of found files as an argument.
+def get_unlinked_dicom_files_from_path(sub_ses_path: str, found_files: list) -> list:
+    
+    #Now lets find the scan source files.
+    source_dir = ''
+    for nifti_file in found_files:
+        try:
+            source_dir = os.path.dirname(os.readlink(os.path.join(sub_ses_path, 'dicom', nifti_file)))
+            break
+        except OSError:
+            pass
+
+    if source_dir == '':
+        return []
+
+    #Otherwise we need to find all the files not in the found_file list.
+    source_nifti_files = []
+    for ext in Definitions.NIFTI_EXTENSIONS:
+        found_files = glob.glob(os.path.join(source_dir, f'*.{ext}'))
+        source_nifti_files += [ os.path.basename(file) for file in found_files ]
+
+    return list(set(source_nifti_files) - set(found_files))
+
+#Attempts to determine the modality based on the given analysis path.
+#Returns '' if no modality can be determined.
+def guess_modality_from_path(analysis_path: str) -> str:
+    modality = ''
+    for mod in Definitions.ANALYSIS_FILE_TYPES:
+        for flag in Definitions.ANALYSIS_FILE_TYPES[mod]:
+            if flag in analysis_path:
+                modality = mod
+                break
+
+        if modality != '':
+            break
+
+    return modality
+
+def guess_session_id_from_analysis_path(analysis_path: str) -> str:
+    session_id = ''
+    ses_and_ext = guess_sess_id_from_path(analysis_path)
+    #Now loop through and check if any of the file endings and extensions match.
+    for mod in Definitions.ANALYSIS_FILE_TYPES:
+        for flag in Definitions.ANALYSIS_FILE_TYPES[mod]:
+            for ext in Definitions.ANALYSIS_FILE_EXTENSIONS[mod]:
+                ending = flag+ext
+                if ses_and_ext.endswith(ending):
+                    return ses_and_ext.replace(f'_{ending}','')
+
+
+    return session_id
+                
 
 class DataExtractor(object):
     def __init__(self, 
@@ -90,6 +151,38 @@ class DataExtractor(object):
 
         if not found_file:
             print(f'Could not find any json metadata at {os.path.join(data_path, "dicom")}.')
+
+        #Now lets parse the params file and store associated data.
+        self.__parameter_data = {
+            'RULES'      : {},
+            'MODALITIES' : {}
+        }
+
+        params_path = os.path.join(self.__data_path, f'{os.path.basename(os.path.normpath(self.__data_path))}.params')
+        regex_string = ''
+        line = ''
+
+        try:
+            params_file = open(params_path, 'r')
+            for line in params_file:
+                found_match = False
+                for category in Definitions.REGEX_RULES: 
+                    for key in Definitions.REGEX_RULES[category]:
+                        regex_string = rf'{Definitions.REGEX_RULES[category][key]}'
+                        match = regex.match(regex_string, line, timeout = 1)
+                        if match:
+                            self.__parameter_data[category][key] = match
+                            found_match = True
+                            break
+
+                    if found_match:
+                        break
+                        
+            params_file.close()
+        except TimeoutError:
+            print(f'Could not resolve the file names at: {line} due to catastrophic backtracking with regex: {regex_string}')
+        except FileNotFoundError:
+            print(f'Could not find a params file at the location {params_path}, could not check collected modalities')
 
     #Attempts to guess what the scanner is from the path. Looks at the project file for
     #predefined naming conventions.
@@ -154,35 +247,19 @@ class DataExtractor(object):
 
         return fs_version 
 
-    def check_modalities(self) -> list:
-        mods_collected = []
+    def check_modalities(self) -> dict:
+        mods_collected = {}
         
-        #The easiest way is probably to check the params file because that will store only the usable bold (Hopefully if its set up
-        #correctly).
-        regex_string = ''
-        line = ''
-        params_path = os.path.join(self.__data_path, f'{os.path.basename(os.path.normpath(self.__data_path))}.params')
-        try:
-            params_file = open(params_path, 'r')
-            for line in params_file:
-                
-                for key in Definitions.REGEX_RULES["MODALITIES"]:
-                    regex_string = rf'{Definitions.REGEX_RULES["MODALITIES"][key]}'
-                    match = regex.match(regex_string, line, timeout = 1)
-                    if match and len(match.group(5).replace('(','').replace(')','')): #This will trigger if there is a regex match and that match has file names in the list.
-                        mods_collected.append(key)
-                        break
-                        
-            params_file.close()
-        except TimeoutError:
-            print(f'Could not resolve the file names at: {line} due to catastrophic backtracking with regex: {regex_string}')
-            return []
-        except FileNotFoundError:
-            print(f'Could not find a params file at the location {params_path}, could not check collected modalities')
-            return [] 
+        for key in self.__parameter_data['MODALITIES']:
+            mods_collected[key] = len(self.__parameter_data['MODALITIES'][key].group(5).replace('(','').replace(')','').split()) #This gets the number of files specified
 
         return mods_collected
     
+    def get_MB_level(self) -> int:
+        if 'MB_FACTOR' in self.__parameter_data['RULES']:
+            return int(self.__parameter_data['RULES']['MB_FACTOR'].group(5))
+
+        return 0
 
     def guess_processing_status_from_path(self) -> str:
         processing_status = ''
@@ -200,10 +277,7 @@ class DataExtractor(object):
         
         return processing_status
     
-    def guess_date_acquired_from_path(self, 
-                                      project: str, 
-                                      subject_id: str, 
-                                      session_id: str) -> str:
+    def guess_date_acquired_from_path(self) -> str:
 
         if 'ACQUISITION_TIME' in self.dicom_metadata:
             date_acquired = self.dicom_metadata['ACQUISITION_TIME']
@@ -214,86 +288,6 @@ class DataExtractor(object):
                 date_obj = datetime.strptime(date_acquired.split('T')[0], '%Y-%m-%d')
                 return date_obj.strftime('%m/%d/%Y')
 
-        print('Could not extract a date from json metadata. Attempting to extract from DICOM file names.')
-        #If the date could not be extracted from the metadata, then we can try to scrape it from the DCM file names.
-        
-        project_scan_locations = self.__projects_data[Definitions.PROJECTS][project][Definitions.SCAN_LOCATIONS]
-        dicom_ext_length = len(Definitions.DICOM_EXTENSION)
-        def find_dcm_starting_at_dir(current_dir: str) -> str:
-            #Switch the directory to the one we are looking in.
-            os.chdir(current_dir)
-
-            #Get the immediate subdirectories and files.
-            files = []
-            dirs  = []
-            for path in os.listdir():
-                if os.path.isdir(path):
-                    dirs.append(path)
-                if os.path.isfile(path):
-                    files.append(path)
-
-            #Check if any files have the DICOM extension.
-            for fname in files:
-                if len(fname) > dicom_ext_length and fname[dicom_ext_length * -1:] == Definitions.DICOM_EXTENSION:
-                    #We found what we are looking for!
-                    return fname
-            
-            #We have checked all the files that exist and done of them are dicoms.
-            if len(dirs) == 0:
-                return '' 
-
-            #Otherwise look through all the subfolders and see if any of them have dicoms.
-            for folder in dirs:
-                fname = find_dcm_starting_at_dir(os.path.join(current_dir, folder)) 
-                if fname == '':
-                    continue
-
-                return fname
-
-            #There werent any dicoms here.
-            return ''
-
-        for scan_source in project_scan_locations:
-            scan_root_dir = os.path.join(Definitions.PROJECTS_HOME, Definitions.SCANS_DIR, scan_source)
-            
-            #At the very least, the scan_root_dir should exist, otherwise we have a problem.
-            if not os.path.isdir(scan_root_dir):
-                print(f'Could not find the path {scan_root_dir}, moving on...')
-                continue
-
-            #Check if there is a rawdata folder that we need to look in.
-            raw_data_path = os.path.join(scan_root_dir, 'rawdata')
-            if os.path.isdir(raw_data_path):
-                scan_root_dir = raw_data_path
-            
-            #Now we should have the right path for looking for the correct subject folder.
-            #Get all the folder names.
-            dcm_root = os.path.join(scan_root_dir, f'sub-{subject_id}', f'ses-{session_id}')
-            
-            if not os.path.isdir(dcm_root):
-                print(f'Could not find a matching subject/session pair in {scan_source}, moving on...')
-                continue
-
-            #Otherwise we have to find a single .dcm file and extract the date from it.
-            current_dir = os.getcwd()
-            dcm_fname = find_dcm_starting_at_dir(dcm_root)
-            os.chdir(current_dir)
-            
-            if dcm_fname == '':
-                continue
-
-            #Otherwise we found a suitable dicom file.
-            split_on_dot = dcm_fname.split('.')
-            for fname_chunk in split_on_dot:
-                try:
-                    date_obj = datetime.strptime(fname_chunk, '%Y%m%d')
-                    if int(date_obj.strftime('%Y')) > 2000: #Really hacky, basically if the year is older than 2000 then we trust it.
-                        return date_obj.strftime('%m/%d/%Y')
-                except ValueError:
-                    pass
-
-        
-        print(f'Unable to find any DICOM files associated with subject {subject_id} session {session_id}. Could not determine date acquired.')
         return ''
 
     def get_metadata_source_directory(self) -> str:
@@ -339,13 +333,45 @@ class DataExtractor(object):
             print(f'No processing parameters found at {self.__data_path}, could not determine the software version used.')
 
         return ''
+    
+    def get_analysis_information(self, session_id,  analysis_paths: list) -> dict:
+        analysis = {}
+        
+        for path in analysis_paths:
+            analysis_session_id = guess_session_id_from_analysis_path(path)
+            if session_id != analysis_session_id:
+                continue
+            
+            modality = guess_modality_from_path(path)
+            if modality != '':
+                if not modality in analysis:
+                    analysis[modality] = [ path ]
+                else:
+                    analysis[modality].append(path)
+        
+        return analysis
+
+    def check_for_session_bpass_smoothing(self, sub_ses: str) -> bool:
+
+        if os.path.isfile(os.path.join(self.__data_path, 'Functional/Volume', f'{sub_ses}_rsfMRI_uout_bpss_resid_sm7.nii.gz')):
+            return True
+
+        return False
+    
+    def check_for_session_resid_smoothing(self, sub_ses: str) -> bool:
+
+        if os.path.isfile(os.path.join(self.__data_path, 'Functional/Volume', f'{sub_ses}_rsfMRI_uout_resid_resid_sm7.nii.gz')):
+            return True
+
+        return False
 
     # ------------------------- SUBJECT and SESSION data models -------------------------
     def generate_session_data(self,
-                              project: str, 
-                              subject_id: str) -> dict:
+                              discovered_analysis: list) -> dict:
 
         session_id = guess_sess_id_from_path(self.__data_path) 
+        sub_ses = os.path.basename(self.__data_path)
+
         if session_id == '':
             print(f'Unable to determine the session id from the path {self.__data_path}, skipping...')
             return {}
@@ -354,15 +380,21 @@ class DataExtractor(object):
         #There may be a way to do this dynamically which would be cool for extensibility.
         #For now lets just hard code in the data we get here.
         session_metadata_to_update = {
-            Definitions.SESSION_ID          : session_id,
-            Definitions.DATA_PATH           : self.__data_path,
-            Definitions.FS_VERSION          : self.guess_fs_version_from_path(),
-            Definitions.SCANNER             : self.guess_scanner_from_path(),
-            Definitions.PIPELINE_VERSION    : self.guess_pipeline_version_from_path(),
-            Definitions.SOFTWARE_VERSION    : self.guess_software_version_from_path(),
-            Definitions.DATE_COLLECTED      : self.guess_date_acquired_from_path(project, subject_id, session_id),
-            Definitions.PROC_STATUS         : self.guess_processing_status_from_path(),
-            Definitions.MODS_COLLECTED      : self.check_modalities()
+            Definitions.SESSION_ID           : session_id,
+            Definitions.SESSION_ACCESSION    : '',
+            Definitions.DATA_PATH            : self.__data_path,
+            Definitions.FS_VERSION           : self.guess_fs_version_from_path(),
+            Definitions.FS_ACCESSION         : '',
+            Definitions.SCANNER              : self.guess_scanner_from_path(),
+            Definitions.PIPELINE_VERSION     : self.guess_pipeline_version_from_path(),
+            Definitions.SOFTWARE_VERSION     : self.guess_software_version_from_path(),
+            Definitions.DATE_COLLECTED       : self.guess_date_acquired_from_path(),
+            Definitions.PROC_STATUS          : self.guess_processing_status_from_path(),
+            Definitions.MODS_COLLECTED       : self.check_modalities(),
+            Definitions.BOLD_MB_FACTOR       : self.get_MB_level(),
+            Definitions.BOLD_BPASS_SMOOTHING : self.check_for_session_bpass_smoothing(sub_ses),
+            Definitions.BOLD_RESID_SMOOTHING : self.check_for_session_resid_smoothing(sub_ses),
+            Definitions.ANALYSIS             : self.get_analysis_information(session_id, discovered_analysis)
         }
         
 

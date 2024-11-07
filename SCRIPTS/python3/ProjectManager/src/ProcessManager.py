@@ -2,7 +2,7 @@ import multiprocessing
 import subprocess
 import os
 import src.DataModels.Definitions as Definitions
-from src.Utils.ParseCSV import ParseCSV
+import src.Utils.ParseCSV as ParseCSV
 from enum import IntFlag
 
 #Defines the different processing states which can be set.
@@ -15,6 +15,9 @@ class ProcessingState(IntFlag):
     PATH_ARG             = 1 << 1 
     FIND_PARAMS          = 1 << 2
     SWITCH_TO_INPROCESS  = 1 << 3
+    FIND_SUB             = 1 << 4
+    FIND_SES             = 1 << 5
+    FIND_ALIAS           = 1 << 6
 
 
 class ProcessManager(object):
@@ -36,6 +39,7 @@ class ProcessManager(object):
         self.proc_command = ''
         self.arg_list = []
         self.processing_state = ProcessingState.REGULAR
+        self.__exec_on_match = None
 
         self.manager = multiprocessing.Manager()
         self.successes = self.manager.list()
@@ -63,21 +67,61 @@ class ProcessManager(object):
     def __parse_cmd_string(self,
                            cmd: str,
                            data_path: str) -> str:
+        
         result = cmd 
+        if self.processing_state & ProcessingState.PATH_ARG:
+            result = result.replace(f'@{chr(ProcessingState.PATH_ARG)}@', os.path.basename(data_path))
+        
+        if self.processing_state & ProcessingState.FIND_PARAMS:
+            params_path = ''
+            for path in os.listdir(data_path):
+                if path == f'{os.path.basename(data_path)}.{Definitions.PARAMS_EXTENSION}':
+                    params_path = os.path.join(data_path, path)
 
-        result = result.replace(f'@{chr(ProcessingState.PATH_ARG)}@', os.path.basename(data_path))
 
-        params_path = ''
-        for path in os.listdir(data_path):
-            if path == f'{os.path.basename(data_path)}.{Definitions.PARAMS_EXTENSION}':
-                params_path = os.path.join(data_path, path)
+            result = result.replace(f'@{chr(ProcessingState.FIND_PARAMS)}@', params_path)
+        
+        if self.processing_state & ProcessingState.FIND_ALIAS: 
+            split_path = data_path.split(os.sep)
+            
+            id_index = 0
+            for index, path_chunk in enumerate(split_path):
+                if 'sub-' in path_chunk and '_ses-' in path_chunk:
+                    id_index = index
+                    break
+            
+            #Go back two places and set this to the alias (assumes a lot about the file structure).
+            alias = ''
+            if len(split_path) > 2 and id_index - 2 >= 0:
+                alias = split_path[id_index - 2]
 
+            result = result.replace(f'@{chr(ProcessingState.FIND_ALIAS)}@', alias)
+        
+        if self.processing_state & ProcessingState.FIND_SUB: 
+            split_path = data_path.split(os.sep)
 
-        result = result.replace(f'@{chr(ProcessingState.FIND_PARAMS)}@', params_path)
+            sub = ''
+            for path_chunk in split_path:
+                if 'sub-' in path_chunk and '_ses-' in path_chunk:
+                    sub_str = path_chunk.split('-ses-')[0]
+                    sub = sub_str[sub_str.index('sub-') : ]
+                    
+                    break
 
+            result = result.replace(f'@{chr(ProcessingState.FIND_SUB)}@', sub)
+        
+        if self.processing_state & ProcessingState.FIND_SES: 
+            split_path = data_path.split(os.sep)
+
+            ses = ''
+            for path_chunk in split_path:
+                if 'sub-' in path_chunk and '_ses-' in path_chunk:
+                    ses = f'ses-{path_chunk.split("_ses-")[1]}'
+                    break
+
+            result = result.replace(f'@{chr(ProcessingState.FIND_SES)}@', ses)
 
         return result
-
     
     def __run_and_dump(self, 
                        f, 
@@ -89,6 +133,7 @@ class ProcessManager(object):
         f.write(f'Executing command: {cmd_str}\n')
         f.write(f'Current working directory: {os.getcwd()}\n')
         
+
         #Run the process.
         result = subprocess.run(
             cmd_str.split(),
@@ -244,14 +289,16 @@ class ProcessManager(object):
     #Additionally args can either be a CSV file containing a specification for what arguments to run for each data entry or it can be
     #a list of arguments to apply globally.
     def execute_command(self, 
-                        command          : str, 
-                        data_source      : list | str | None, 
-                        data_column      : str  | None, 
-                        args_spec        : list | str | None, 
-                        args_data_column : str  | None):
-        
+                        command            : str, 
+                        data_source        : list | str | None, 
+                        data_column        : str  | None, 
+                        args_spec          : list | str | None, 
+                        args_data_column   : str  | None,
+                        exec_status_column : str,
+                        exec_on_match      : str  | None):
+
         if data_source and type(data_source) == str:
-            csv_parser = ParseCSV(data_source)
+            csv_parser = ParseCSV.ParseCSV(data_source, match_col = exec_status_column, match_str = exec_on_match)
             
             if data_column == None:
                 print(f'The data column has not been specified but the data source {data_source} is assumed to be a csv.')
@@ -260,9 +307,17 @@ class ProcessManager(object):
 
             self.paths = csv_parser.get_column_as_list(data_column)
 
+            
+
             #Test if the number of cores is greater than or equal to the number of jobs. If it is
             #then adjust it so that we dont try to run on too many cores.
             amount_of_work = len(self.paths)
+            #First check if there are no data paths, if so then we should say something to avoid not being able to figure out what is wrong.
+            
+            if amount_of_work == 0:
+                print(f'It appers that no data paths were found under the column "{data_column}" which satisfy the specified requirements. Exiting...')
+                return
+
             if self.__num_cores > amount_of_work:
                 print(f'The number of cores set {self.__num_cores} is greater than the number of jobs to process {amount_of_work}.')
                 print('Adjusting the number of cores to match the number of jobs.')
@@ -275,14 +330,14 @@ class ProcessManager(object):
             
             #Lets get all the argument column info and split it up and add it to args
             self.arg_list = [ arg.strip() for arg in csv_parser.get_column_as_list(args_data_column) ]
-                
+            
             #Replace placeholder arguments.
             for index in range(len(self.arg_list)): 
                 for placeholder in self.placeholder_argument_mapping:
-                    self.arg_list[index] = self.arg_list[index].replace(placeholder, self.placeholder_argument_mapping[placeholder])
+                    if placeholder in self.arg_list[index]:
+                        self.arg_list[index] = self.arg_list[index].replace(placeholder, self.placeholder_argument_mapping[placeholder])
+                        self.processing_state |= ord(self.placeholder_argument_mapping[placeholder][1])
                     
-
-
         #Paths can be either a list or a string which points to a csv file.
         if type(data_source) == list:
             self.paths = data_source 
