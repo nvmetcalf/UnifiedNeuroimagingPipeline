@@ -5,7 +5,7 @@ source $2
 
 set FM_Suffix = $3
 
-set AtlasName = `basename $target`
+set AtlasName = $target:t
 
 set dwell = ($4)
 set ped = ($5)
@@ -56,7 +56,7 @@ foreach direction($peds)
 	foreach fold (`seq 1 5`)
 		echo Performing inference on FOLD: $fold
 		python $SynthB0_Path/src/inference.py $cwd/OUTPUTS_${direction}/T1_norm_lin_atlas_2_5.nii.gz $cwd/OUTPUTS_${direction}/b0_d_lin_atlas_2_5.nii.gz $cwd/OUTPUTS_${direction}/b0_u_lin_atlas_2_5_FOLD_${fold}.nii.gz $SynthB0_Path/src/train_lin/num_fold_${fold}_total_folds_5_seed_1_num_epochs_100_lr_0.0001_betas_\(0.9\,\ 0.999\)_weight_decay_1e-05_num_epoch_*.pth
-		if($status) exit 1
+		if($status) exit 1 zx 
 	end
 
 	# Take mean

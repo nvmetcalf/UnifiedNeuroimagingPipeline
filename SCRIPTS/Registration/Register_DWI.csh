@@ -6,10 +6,15 @@ source $2
 
 set SubjectHome = $cwd
 
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
+
 rm -r $SubjectHome/Anatomical/Volume/DWI
 mkdir -p $SubjectHome/Anatomical/Volume/DWI
 
-set AtlasName = `basename $target`
+set AtlasName = $target:t
 
 if(! -e $ScratchFolder/${patid}) mkdir -p $ScratchFolder/${patid}
 pushd $ScratchFolder/${patid}
@@ -85,7 +90,7 @@ pushd $SubjectHome/Anatomical/Volume/DWI
 			echo "2 way registration displacement: $Displacement"
 			
 			if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_brain_restore ${patid}_DWI ${patid}_DWI_to_${patid}_T1.mat ${patid}_T1_to_${patid}_DWI_rev.mat 0 50 0 $MaximumRegDisplacement`) then
-				decho "	Error: Registration from DWI to T1 and DWI to T1 has a displacement of "$Displacement
+				decho "	Error: Registration from DWI to T1 and DWI to T1 has a displacement of "$Displacement $DebugFile
 				exit 1
 			endif
 		endif

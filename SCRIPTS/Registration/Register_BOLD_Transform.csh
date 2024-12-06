@@ -58,33 +58,33 @@ endif
 #make out distorted bold -> T1 -> Atlas warp
 set peds = (`echo $BOLD_ped | tr " " "\n" | sort | uniq`)
 
-#goto SKIP_RESAMPLE		
+#goto SKIP_RESAMPLE
 #compute BOLD_ref to atlas registration
 pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
-	
+
 	foreach ped($peds)
 		if(-e ${patid}_BOLD_ref_distorted_${ped}.4dfp.img) then
 			$RELEASE/niftigz_4dfp -4 ${patid}_BOLD_ref_distorted_${ped} ${patid}_BOLD_ref_distorted_${ped}
 			if($status) exit 1
-	
+
 			if(-e ${patid}_BOLD_ref_distorted_${ped}.nii.gz) then
 				gunzip -f ${patid}_BOLD_ref_distorted_${ped}.nii.gz
 			endif
 		endif
 	end
-	
+
 	if($day1_patid != "" || $day1_path != "") then
 		#do cross day registration by registering to the first sessions BOLD reference
-		
+
 		rm -r ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD
 		mkdir -p ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD
-		
+
 		foreach direction($peds)
 			set BOLD_Target = $day1_path/Anatomical/Volume/BOLD_ref/${day1_patid}_BOLD_ref_distorted_${direction}
-			
+
 			flirt -in ${patid}_BOLD_ref_distorted_${ped}.nii.gz -ref $BOLD_Target -out ${patid}_BOLD_ref_distorted_${ped}_to_${day1_patid}_BOLD_ref_distorted_${direction} -dof 6 -interp spline -omat ${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat
 			if($status) exit 1
-			
+
 			if($target != "") then
 				convertwarp -r ${target}_${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				if($status) exit 1
@@ -92,9 +92,9 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				if($status) exit 1
 			endif
-		
+
 		end
-		
+
 		if(`ls ${day1_path}/Anatomical/Volume/T1/*fnirt*` != "") then
 			set out_trailer = "_fnirt"
 		else
@@ -106,9 +106,9 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 			$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 "BOLD" "$BOLD_dwell" "$BOLD_ped" "$BOLD_fm" "$BOLD_FieldMapping" "$BOLD_Reg_Target" $BOLD_delta "$BOLD"
 			if($status) exit 1
 		popd
-		
+
 		foreach direction($peds)
-		
+
 			if($NonLinear) then
 				if($BOLD_FieldMapping == "6dof" || $BOLD_FieldMapping == "none" || $BOLD_FieldMapping == "") then
 					#just has a affine transform to the T1
@@ -116,7 +116,7 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 				else
 					convertwarp -r ${target}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz --warp2=${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				endif
-				
+
 				set out_trailer = "_fnirt"
 			else if($target != "") then
 				if($BOLD_FieldMapping == "6dof" || $BOLD_FieldMapping == "none" || $BOLD_FieldMapping == "") then
@@ -125,40 +125,46 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 				else
 					convertwarp -r ${target}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz --postmat=${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				endif
-				
+
 				set out_trailer = ""
 			else
+				if($BOLD_Reg_Target == "T1") then
+					set postmat = ""
+				else
+					set postmat = "--postmat=${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_to_${patid}_T1.mat "
+				endif
+
 				if($BOLD_FieldMapping == "6dof" || $BOLD_FieldMapping == "none" || $BOLD_FieldMapping == "") then
 					#just has a affine transform to the T1
-					convertwarp -r ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1 --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+					convertwarp -r ${RegTarget} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}.mat $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				else
-					convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+					convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				endif
 				set out_trailer = ""
 			endif
 		end
 	endif
-	
+
 	set dirs_to_merge = ()
 	#create a test of the BOLD_ref warp for QC
 	foreach direction($peds)
 		$FSLBIN/applywarp -i ${patid}_BOLD_ref_distorted_${direction} -r ${RegTarget}_${FinalResTrailer} -w ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${patid}_BOLD_ref_${direction}_${FinalResTrailer}${out_trailer} --interp=spline
 		if ($status) exit $status
-		
+
 		set dirs_to_merge = ($dirs_to_merge ${patid}_BOLD_ref_${direction}_${FinalResTrailer}${out_trailer})
 	end
-	
+
 	if($#dirs_to_merge) then
 		fslmerge -t all_dirs ${dirs_to_merge}
 		if ($status) exit $status
-		
+
 		fslmaths all_dirs -Tmean ${patid}_BOLD_ref_${FinalResTrailer}${out_trailer}.nii.gz
 		if ($status) exit $status
 	else
 		cp $dirs_to_merge ${patid}_BOLD_ref_${FinalResTrailer}${out_trailer}.nii.gz
 		if ($status) exit $status
 	endif
-	
+
 	#clean up files
 	rm -f ${patid}_*.4dfp.* all_dirs*
 popd
@@ -173,12 +179,12 @@ endif
 #################################
 
 pushd $ScratchFolder/${patid}/BOLD_temp
-	
+
 	foreach Run($RunIndex)
 		pushd bold${Run}
-			
+
 			set FrameOrder = ()
-			
+
 			if($?ME_ScanSets) then
 				#find the first echo (used for xr3d)
 				# then set it as the xr3d target.
@@ -187,7 +193,7 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 				while ($k <= $#ME_ScanSets)
 
 					set ME_set = (`echo $ME_ScanSets[$k] | sed -r 's/,/ /g'`)
-					
+
 					#search the current multi-echo set for the bold run we are on
 					foreach Echo($ME_set)
 						if($Echo == $Run) then	#found it, so use the first echo's xr3d
@@ -195,11 +201,11 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 							break
 						endif
 					end
-					
+
 					if($#ME_echo > 0) then
 						break
 					endif
-					
+
 					@ k++
 				end
 				set target_epi = bold${ME_set[$RegisterEcho]}_upck_faln_dbnd
@@ -233,7 +239,7 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 
 				$RELEASE/aff_conv xf $epi $epi ${epi}_tmp_t4 ${epi}$padded ${epi}$padded ${epi}_tmp.mat
 				if ($status) exit $status
-				
+
 				#######################################
 				# apply all transformations in one step
 				#######################################
@@ -242,9 +248,9 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 				#warp is the t1 -> nonlinear atlas warp
 				$FSLBIN/applywarp --ref=${RegTarget}_${FinalResTrailer} --premat=${epi}_tmp.mat --warp=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${BOLD_ped[$Run]}_to_${AtlasName}_warp --in=${epi}$padded --out=${epi}_on_${RegTarget:t}${padded}_${FinalResolution} --interp=spline
 				if ($status) exit $status
-				
+
 				set FrameOrder = ($FrameOrder ${epi}_on_${RegTarget:t}${padded}_${FinalResolution})
-				
+
 				rm -f movement_dist_linatl_nonlin_warp.nii*
 
 				@ i++		# next frame
@@ -266,57 +272,57 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 
 	SKIP_RESAMPLE:
 	#pushd $ScratchFolder/${patid}/BOLD_temp
-	
+
 	#if we have multiecho data, we need to make a new combined bold run for
 	# each echo set
 	if($?ME_ScanSets) then
 		if (! ${?ME_reg}) @ ME_reg = 0
-	
+
 		rm -r me_source_bold
 		mkdir me_source_bold
-		
+
 		#need to reset the runs we will be fully processing to the multiecho timeseries
 		set RunIndex = ()
-		
+
 		#need to remake this list
 		rm $patid"_func_vols.lst"
 		touch $patid"_func_vols.lst"
-		
+
 		@ k = 1
 		while ($k <= $#ME_ScanSets)
 			rm -r me_$k
 			mkdir me_$k
-			
+
 			pushd me_$k
 				#put together the runs for the current multiecho
 				set curr_me_indices = (`echo $ME_ScanSets[$k] | sed -r 's/,/ /g'`)
-				
+
 				set ScanList = ()
 				foreach Index($curr_me_indices)
 					set ScanList = ($ScanList $ScratchFolder/${patid}/BOLD_temp/bold${Index}/bold${Index}"_upck_faln_dbnd_xr3d_dc_atl.4dfp.img")
 				end
-				
+
 				echo	MEfmri_4dfp -E$#BOLD_TE -T $BOLD_TE $ScanList -r$ME_reg -obold${k}_upck_faln_dbnd_xr3d_dc_atl -e30
 					MEfmri_4dfp -E$#BOLD_TE -T $BOLD_TE $ScanList -r$ME_reg -obold${k}_upck_faln_dbnd_xr3d_dc_atl -e30
 					if ($status) exit $status
-					
+
 				normalize_4dfp.csh bold${k}_upck_faln_dbnd_xr3d_dc_atl_Swgt -n4
 				if ($status) exit $status
-				
+
 				niftigz_4dfp -n bold${k}_upck_faln_dbnd_xr3d_dc_atl_Swgt_norm bold${k}_upck_faln_dbnd_xr3d_dc_atl
 				if($status) exit 1
-				
+
 				niftigz_4dfp -4 bold${k}_upck_faln_dbnd_xr3d_dc_atl bold${k}_upck_faln_dbnd_xr3d_dc_atl
 				if($status) exit 1
 			popd
-			
+
 			#move the bolds used to make the single ME timeseries out of the way
 			foreach Index($curr_me_indices)
 				mv bold${Index} me_source_bold/
 			end
-			
+
 			mv me_$k bold$k
-			
+
 			set RunIndex = ($RunIndex $k)
 			@ k++
 		end
@@ -325,16 +331,16 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 			cd bold$Run
 				$RELEASE/normalize_4dfp.csh bold${Run}_upck_faln_dbnd_xr3d_dc_atl -n4
 				if ($status) exit $status
-				
+
 				niftigz_4dfp -n bold${Run}_upck_faln_dbnd_xr3d_dc_atl_norm bold${Run}_upck_faln_dbnd_xr3d_dc_atl
 				if($status) exit 1
-				
+
 				niftigz_4dfp -4 bold${Run}_upck_faln_dbnd_xr3d_dc_atl bold${Run}_upck_faln_dbnd_xr3d_dc_atl
 				if($status) exit 1
 			cd ..
 		end
 	endif
-	
+
 	####################################################################
 	# remake single resampled atlas space fMRI volumetric timeseries
 	####################################################################
@@ -349,15 +355,15 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 	end
 
 	if(! -e ${SubjectHome}/Functional/Volume) mkdir ${SubjectHome}/Functional/Volume
-	
+
 	$FSLBIN/fslmerge -t ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz $FileList
 	if($status) exit 1
-	
+
 	$RELEASE/conc_4dfp ${patid}_upck_faln_dbnd_xr3d_dc_atl.conc -l${patid}_upck_faln_dbnd_xr3d_dc_atl.lst
 	if ($status) exit $status
 
 	if(! -e ${SubjectHome}/Functional/TemporalMask) mkdir ${SubjectHome}/Functional/TemporalMask
-	
+
 	echo `conc2format ${patid}_upck_faln_dbnd_xr3d_dc_atl.conc $skip` >! ${SubjectHome}/Functional/TemporalMask/${patid}_AllVolumes.format
 	if ($status) exit $status
 

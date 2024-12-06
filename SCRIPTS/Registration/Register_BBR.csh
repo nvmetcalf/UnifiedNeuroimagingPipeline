@@ -5,7 +5,7 @@ source $2
 
 set FM_Suffix = $3
 
-set AtlasName = `basename $target`
+set AtlasName = $target:t
 
 set ped = ($4)
 

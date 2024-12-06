@@ -13,9 +13,14 @@ if (! -e $2) then
 	exit 1
 endif
 
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
+
 set SubjectHome = $cwd
 
-set AtlasName = `basename $target`
+set AtlasName = $target:t
 
 if (! ${?interleave}) set interleave = ""
 if(! $?RunNORDIC) set RunNORDIC = 0
@@ -224,7 +229,6 @@ pushd $ScratchFolder/${patid}
 			niftigz_4dfp -4 bold${Run}_upck_faln_dbnd_avg_brain_restore bold${Run}_upck_faln_dbnd_avg_brain_restore 
 			if($status) exit 1
 			
-
 			extend_fast_4dfp -G bold${Run}_upck_faln_dbnd_avg bold${Run}_upck_faln_dbnd_avg_brain_restore bold${Run}_upck_faln_dbnd_avg_BF
 			if($status) exit 1
 			

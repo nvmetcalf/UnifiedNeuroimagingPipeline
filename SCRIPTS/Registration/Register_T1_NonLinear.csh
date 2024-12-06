@@ -14,7 +14,12 @@ if (! -e $2) then
 endif
 
 set SubjectHome = $cwd
-set AtlasName = `basename $target`
+set AtlasName = $target:t
+
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
 
 #FinalResolution of the non linear warpfield for other modalities
 if(! $?FinalResolution) then
@@ -39,13 +44,13 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
 
 	#check to make sure we have the atlas in nifti form so we can generate a warpfield
 	if(! -e ${target}.nii && ! -e ${target}.nii.gz) then
-		echo "Unable to perform non-linear alignment as the target (${target}) does not exist in nifti format."
+		echo "Unable to perform non-linear alignment as the target (${target}) does not exist in nifti format." $DebugFile
 		exit 1
 	endif
 
 	$FSLBIN/fnirt --in=${patid}"_T1" --ref=${target} --inmask=${patid}"_T1_brain_mask" --jout=${cwd}/$patid"_jacobiantransform.nii.gz" --fout=${cwd}/$patid"_T1_warpfield_111.nii.gz" --aff=${patid}_T1_to_${AtlasName}.mat --cout=${cwd}/$patid"_T1_coeffield_111.nii.gz" --config=${target}.cnf
 	if($status) then
-		decho "Failed to compute non-linear transform for linearly aligned T1 to atlas."
+		decho "Failed to compute non-linear transform for linearly aligned T1 to atlas." $DebugFile
 		exit 1
 	endif
 

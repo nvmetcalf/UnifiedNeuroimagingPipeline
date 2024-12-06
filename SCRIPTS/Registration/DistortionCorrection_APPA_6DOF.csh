@@ -53,7 +53,13 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		
 	endif
 	
-	set TopupConfig = $PP_SCRIPTS/HCP/global/config/b02b0.cnf
+	set NumSlices = `fslinfo ${SubjectHome}/dicom/$DTI[1] | grep -w dim3 | awk '{print$2}'`
+	
+	if(`echo $NumSlices | awk '{print($1%2)}'`) then	#odd num slices
+		set TopupConfig = $PP_SCRIPTS/HCP/global/config/b02b0_noresample.cnf
+	else
+		set TopupConfig = $PP_SCRIPTS/HCP/global/config/b02b0.cnf
+	endif
 	
 	#need to register all the maps to a common space...
 	#find the one with the highest resolution and that becomes the target
@@ -89,15 +95,18 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 	${FSLDIR}/bin/fslmerge -t imain $sefm_list
 	if($status) exit 1
 	
+	fslmaths imain -Tmean se_ref
+	if($status) exit 1
+	
 	set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
 	
 	foreach direction($peds)
 		
 		#register the spin echo maps to the reference image being distorted
-		flirt -in $sefm_list[1] -ref ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -omat "imain_on_b0_${direction}.mat" -dof 6 -interp spline -cost mutualinfo
+		flirt -in se_ref -ref ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -omat "imain_on_b0_${direction}.mat" -dof 6
 		if($status) exit 1
 		
-		flirt -in imain -ref ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -out imain_on_b0_${direction}.nii.gz -init "imain_on_b0_${direction}.mat" -interp spline -applyxfm
+		flirt -in imain -ref ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -out imain_on_b0_${direction}.nii.gz -init "imain_on_b0_${direction}.mat" -applyxfm
 		if($status) exit 1
 		
 		#compute field map in reference image space

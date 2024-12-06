@@ -3,9 +3,14 @@
 source $1
 source $2
 
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
+
 set FM_Suffix = $3
 
-set AtlasName = `basename $target`
+set AtlasName = $target:t
 
 set dwell = ($4)
 set ped = ($5)

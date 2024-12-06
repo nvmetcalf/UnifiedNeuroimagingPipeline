@@ -13,9 +13,14 @@ if (! -e $2) then
 	exit 1
 endif
 
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
+
 set SubjectHome = $cwd
 
-set AtlasName = `basename $target`
+set AtlasName = $target:t
 
 rm -rf ${SubjectHome}/Anatomical/Volume/ASL_ref ${SubjectHome}/ASL ${SubjectHome}/ASL/Movement
 mkdir ${SubjectHome}/ASL

@@ -14,7 +14,12 @@ if (! -e $2) then
 endif
 
 set SubjectHome = $cwd
-set AtlasName = `basename $target`
+set AtlasName = $target:t
+
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
 
 if(! $?tse ) then
 	decho "Warning: The tse variable does not exist in $1. It denotes a T2 image you are wanting to register, but is not required." $DebugFile

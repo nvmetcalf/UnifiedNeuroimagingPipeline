@@ -14,7 +14,12 @@ if (! -e $2) then
 endif
 
 set SubjectHome = $cwd
-set AtlasName = `basename $target`
+set AtlasName = $target:t
+
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
 
 if(! $?tse ) then
 	decho "Warning: The tse variable does not exist in $1. It denotes a T2 image you are wanting to register, but is not required." $DebugFile
@@ -31,37 +36,37 @@ pushd ${SubjectHome}/Anatomical/Volume/T2
 		#register all the T1's to the first one and average
 		set Target_T2 = $tse[1]
 		set T2_List = ()
-		
+
 		foreach T2($tse)
 			flirt -in ${SubjectHome}/dicom/$T2 -ref ${SubjectHome}/dicom/$Target_T2 -out $T2:r:r_${Target_T2} -dof 6 -interp spline
 			if($status) then
 				decho "Unable to register $T2 to $Target_T2" $DebugFile
 				exit 1
 			endif
-			
+
 			set T2_List = ($T2_List $T2:r:r_${Target_T2})
 		end
-	
+
 		fslmerge -t T2_stack $T2_List
 		if($status) then
 			decho "Unable to stack registered T2's" $DebugFile
 			exit 1
 		endif
-		
+
 		fslmaths T2_stack -Tmean $patid"_T2_temp"
 		if($status) then
 			decho "Unable to average registered T2 stack." $DebugFile
 			exit 1
 		endif
-		
+
 		rm $T2_List T2_stack.nii.gz
-		
+
 		niftigz_4dfp -4 $patid"_T2_temp" $patid"_T2_temp"
-		
+
 		if($status) exit 1
-		
+
 		rm $patid"_T2_temp"
-		
+
 	else if( -e $SubjectHome/dicom/$tse[1]) then
 		if($tse[1]:e == "gz") then
 			$RELEASE/niftigz_4dfp -4 $SubjectHome/dicom/$tse[1] $patid"_T2_temp"
@@ -98,18 +103,21 @@ pushd ${SubjectHome}/Anatomical/Volume/T2
 
 	niftigz_4dfp -n $InputAnat ${patid}"_T2"
 	if($status) exit 1
-	
+
 	rm *_temp.* *T.*
-	
+
 	bet ${patid}"_T2" ${patid}"_T2_brain" -m -R -f 0.3
 	if($status) exit
-	
+
 	#extract the brain from the T1
  	fast -b -B -I 10 -l 10 -g -t 2 ${patid}_T2_brain.nii.gz
  	if($status) then
  		decho "Failed to complete bias correction on T2."
  		exit 1
  	endif
+
+ 	fslmaths ${patid}"_T2" -div ${patid}_T2_brain_bias ${patid}"_T2"
+ 	if($status) exit 1
  	
 	$FSLBIN/flirt -in ${patid}"_T2" -ref ../T1/${patid}_T1 -omat ${patid}_T2_to_${patid}_T1.mat -dof 6 -interp spline
 	if($status) then
@@ -121,32 +129,32 @@ pushd ${SubjectHome}/Anatomical/Volume/T2
 	if($MaximumRegDisplacement != 0) then
 		flirt -in ../T1/${patid}_T1 -ref ${patid}"_T2" -omat ${patid}"_T2"_to_${patid}_T1_rev.mat -dof 6
 		if($status) exit 1
-		
+
 		set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}"_T2" ../T1/${patid}_T1 ${patid}_T2_to_${patid}_T1.mat ${patid}"_T2"_to_${patid}_T1_rev.mat 0 50 0`
-		
+
 		decho "2 way registration displacement: $Displacement" registration_displacement.txt
-		
+
 		if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}"_T2" ../T1/${patid}_T1 ${patid}_T2_to_${patid}_T1.mat ${patid}"_T2"_to_${patid}_T1_rev.mat 0 50 0 $MaximumRegDisplacement`) then
 			decho "	Error: Registration from T2 to T1 and T1 to T2 has a displacement of "$Displacement
 			exit 1
 		endif
 	endif
-	
-	flirt -in ${patid}"_T2" -ref ../T1/${patid}_T1_brain_restore.nii.gz -out ${patid}_T2_to_${patid}_T1 -init ${patid}_T2_to_${patid}_T1.mat -applyxfm 
+
+	flirt -in ${patid}"_T2" -ref ../T1/${patid}_T1_brain_restore.nii.gz -out ${patid}_T2_to_${patid}_T1 -init ${patid}_T2_to_${patid}_T1.mat -applyxfm
 	if($status) exit 1
-	
+
 	#combine T2 -> T1 -> Atlas if we specified a target atlas
 	if($target != "") then
 		convert_xfm -omat ${patid}_T2_to_${AtlasName}.mat -concat ../T1/${patid}_T1_to_${AtlasName}.mat ${patid}_T2_to_${patid}_T1.mat
 		if($status) exit 1
-		
-		flirt -in ${patid}"_T2" -ref $target -out ${patid}_T2_111 -init ${patid}_T2_to_${AtlasName}.mat -applyxfm -interp spline 
+
+		flirt -in ${patid}"_T2" -ref $target -out ${patid}_T2_111 -init ${patid}_T2_to_${AtlasName}.mat -applyxfm -interp spline
 		if($status) exit 1
 
-		flirt -in ${patid}_T2_111 -ref $target -out ${patid}_T2_${FinalResTrailer} -applyisoxfm $FinalResolution -interp spline 
+		flirt -in ${patid}_T2_111 -ref $target -out ${patid}_T2_${FinalResTrailer} -applyisoxfm $FinalResolution -interp spline
 		if($status) exit 1
 	endif
-	
+
 popd
 
 exit 0

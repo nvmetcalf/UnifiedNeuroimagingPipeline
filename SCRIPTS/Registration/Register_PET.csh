@@ -312,29 +312,29 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 		flirt -in ${patid}_${Modality} -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1 -out ${patid}_${Modality}_to_${TargetPatid}_T1 -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm #-interp nearestneighbour
 		if($status) exit 1
 		
-		set SmoothingFWHM = 1
-		if($Modality == "FDG") then
-			set SmoothingSigma = `echo $FDG_Smoothing | awk '{print($1/2.3548);}'`
-		else if($Modality == "H2O") then
-			set SmoothingSigma = `echo $H2O_Smoothing | awk '{print($1/2.3548);}'`
-		else if($Modality == "CO") then
-			set SmoothingSigma = `echo $CO_Smoothing | awk '{print($1/2.3548);}'`
-		else if($Modality == "O2") then
-			set SmoothingSigma = `echo $O2_Smoothing | awk '{print($1/2.3548);}'`
-		else if($Modality == "PIB") then
-			set SmoothingSigma = `echo $PIB_Smoothing | awk '{print($1/2.3548);}'`
-		else if($Modality == "TAU") then
-			set SmoothingSigma = `echo $TAU_Smoothing | awk '{print($1/2.3548);}'`
-		else if($Modality == "FBX") then
-			set SmoothingSigma = `echo $FBX_Smoothing | awk '{print($1/2.3548);}'`
-		else
-			set SmoothingSigma = "0"
-		endif
-		
-		if($SmoothingSigma != "0") then
-			fslmaths ${patid}_${Modality}_to_${TargetPatid}_T1 -kernel gauss $SmoothingSigma -fmean ${patid}_${Modality}_to_${TargetPatid}_T1
-			if($status) exit 1
-		endif
+# 		set SmoothingFWHM = 1
+# 		if($Modality == "FDG") then
+# 			set SmoothingSigma = `echo $FDG_Smoothing | awk '{print($1/2.3548);}'`
+# 		else if($Modality == "H2O") then
+# 			set SmoothingSigma = `echo $H2O_Smoothing | awk '{print($1/2.3548);}'`
+# 		else if($Modality == "CO") then
+# 			set SmoothingSigma = `echo $CO_Smoothing | awk '{print($1/2.3548);}'`
+# 		else if($Modality == "O2") then
+# 			set SmoothingSigma = `echo $O2_Smoothing | awk '{print($1/2.3548);}'`
+# 		else if($Modality == "PIB") then
+# 			set SmoothingSigma = `echo $PIB_Smoothing | awk '{print($1/2.3548);}'`
+# 		else if($Modality == "TAU") then
+# 			set SmoothingSigma = `echo $TAU_Smoothing | awk '{print($1/2.3548);}'`
+# 		else if($Modality == "FBX") then
+# 			set SmoothingSigma = `echo $FBX_Smoothing | awk '{print($1/2.3548);}'`
+# 		else
+# 			set SmoothingSigma = "0"
+# 		endif
+# 		
+# 		if($SmoothingSigma != "0") then
+# 			fslmaths ${patid}_${Modality}_to_${TargetPatid}_T1 -kernel gauss $SmoothingSigma -fmean ${patid}_${Modality}_to_${TargetPatid}_T1
+# 			if($status) exit 1
+# 		endif
 	cd ..
 
 end

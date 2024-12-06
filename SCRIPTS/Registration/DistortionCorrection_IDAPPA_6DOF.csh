@@ -67,8 +67,13 @@ endif
 		exit 1
 	endif
 	
-	set TopupConfig = $PP_SCRIPTS/HCP/global/config/b02b0.cnf
+	set NumSlices = `fslinfo ${SubjectHome}/dicom/$DTI[1] | grep -w dim3 | awk '{print$2}'`
 	
+	if(`echo $NumSlices | awk '{print($1%2)}'`) then	#odd num slices
+		set TopupConfig = $PP_SCRIPTS/HCP/global/config/b02b0_noresample.cnf
+	else
+		set TopupConfig = $PP_SCRIPTS/HCP/global/config/b02b0.cnf
+	endif
 	#need to register all the maps to a common space...
 	#find the one with the highest resolution and that becomes the target
 	@ curr_max = 0

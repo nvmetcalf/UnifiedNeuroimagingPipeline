@@ -20,8 +20,13 @@ if(! $?day1_path || ! $?day1_patid) then
 	set day1_patid = ""
 endif
 
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
+
 if($target != "") then
-	set AtlasName = `basename $target`
+	set AtlasName = $target:t
 	set RegTarget = $target
 else
 	if($day1_patid != "" || $day1_path != "") then
@@ -109,11 +114,17 @@ while($#ASL > $Run)
 			
 			set out_trailer = ""
 		else
+			if($ASl_Reg_Target == "T1") then	#add on the reg target to T1 matrix.
+				set postmat = ""
+			else
+				set postmat = "--postmat=${SubjectHome}/Anatomical/Volume/${ASL_Reg_Target}/${patid}_${ASL_Reg_Target}_to_${patid}_T1.mat "
+			endif
+				
 			if($ASL_FieldMapping == "6dof" || $ASL_FieldMapping == "none" || $ASL_FieldMapping == "") then
 				#just has a affine transform to the T1
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			else
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}_warp.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}_warp.nii.gz $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			endif
 			if($status) exit 1
 			

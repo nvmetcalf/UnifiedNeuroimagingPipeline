@@ -3,9 +3,14 @@
 source $1
 source $2
 
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
+
 set FM_Suffix = $3
 
-set AtlasName = `basename $target`
+set AtlasName = $target:t
 
 set ped = ($4)
 
@@ -50,9 +55,9 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 				decho "2 way registration displacement: $Displacement" registration_displacement.txt
 				
 				if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_distorted_${direction}${image} ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_unwarped_${direction}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat 0 50 0 $MaximumRegDisplacement`) then
-					decho "	Error: Registration from $FM_Suffix $direction to $Reg_Target and $Reg_Target to $FM_Suffix $direction has a displacement of "$Displacement
+					decho "	Error: Registration from $FM_Suffix $direction to $Reg_Target and $Reg_Target to $FM_Suffix $direction has a displacement of "$Displacement $DebugFile
 				else
-					decho "	Found stable registration."
+					decho "	Found stable registration." $DebugFile
 					set HasGoodReg = 1
 					break
 				endif
@@ -60,7 +65,7 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 			endif
 		end
 		if($HasGoodReg == 0) then
-			decho "Couldn't find a stable registration."
+			decho "Couldn't find a stable registration." $DebugFile
 			exit 1
 		endif
 	end

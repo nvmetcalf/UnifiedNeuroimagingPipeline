@@ -5,7 +5,7 @@ source $2
 
 set FM_Suffix = $3
 
-set AtlasName = `basename $target`
+set AtlasName = $target:t
 
 set dwell = ($4)
 set ped = ($5)
@@ -56,8 +56,14 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		
 	endif
 	
-	set TopupConfig = $PP_SCRIPTS/HCP/global/config/b02b0.cnf
-		
+	set NumSlices = `fslinfo ${SubjectHome}/dicom/$DTI[1] | grep -w dim3 | awk '{print$2}'`
+	
+	if(`echo $NumSlices | awk '{print($1%2)}'`) then	#odd num slices
+		set TopupConfig = $PP_SCRIPTS/HCP/global/config/b02b0_noresample.cnf
+	else
+		set TopupConfig = $PP_SCRIPTS/HCP/global/config/b02b0.cnf
+	endif
+	
 	#need to register all the maps to a common space...
 	#find the one with the highest resolution and that becomes the target
 	@ curr_max = 0

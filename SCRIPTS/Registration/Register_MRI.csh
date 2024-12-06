@@ -19,6 +19,11 @@ endif
 source $1
 source $2
 
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
+
 if(! $?day1_patid) set day1_patid = ""
 if(! $?day1_path) set day1_path = ""
 

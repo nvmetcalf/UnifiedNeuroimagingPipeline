@@ -13,8 +13,13 @@ if (! -e $2) then
 	exit 1
 endif
 
+if(! $?DebugFile) then
+	set DebugFile = ${cwd}/$0:t
+	ftouch $DebugFile
+endif
+
 set SubjectHome = $cwd
-set AtlasName = `basename $target`
+set AtlasName = $target:t
 
 if(! $?flair ) then
 	decho "Warning: The flair variable does not exist in $1. It denotes a FLAIR image you are wanting to register, but is not required." $DebugFile
