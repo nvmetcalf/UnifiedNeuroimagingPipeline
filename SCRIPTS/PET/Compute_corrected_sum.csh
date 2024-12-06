@@ -187,7 +187,7 @@ else if($SumMethod == 3) then
 		
 		@ i++
 	end
-else if($SumMethod == 4)
+else if($SumMethod == 4) then
 	#use the offset from the duration variable, create the midpoint, compute the decay factor?
 
 else if($SumMethod == 5) then

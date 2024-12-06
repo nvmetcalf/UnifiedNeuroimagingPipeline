@@ -4,7 +4,18 @@ source $1
 source $2
 
 set SubjectHome = $cwd
-if(! -e ${SubjectHome}/Masks/FreesurferMasks/aparc+aseg_bin.nii.gz) then
+
+if($?day1_patid) then
+	set target = $day1_patid
+	set target_path = $day1_path
+	set target_patid = $day1_patid
+else
+	set target = $patid
+	set target_path = $SubjectHome
+	set target_patid = $patid
+endif
+
+if(! -e ${target_path}/Masks/FreesurferMasks/aparc+aseg_bin.nii.gz) then
 	echo "Cannot find registration from T1 to Orig in Masks/FreesurferMasks."
 	exit 1
 endif
@@ -15,39 +26,39 @@ pushd PET/Volume
 
 	set modes_available = ()
 		
-	if($?FDG && -e ${patid}_FDG_on_orig.nii.gz) then
+	if($?FDG && -e ${SubjectHome}/Anatomical/Volume/FDG/${patid}_FDG_to_${target_patid}_T1.nii.gz) then
 		set modes_available = ($modes_available FDG)
 	endif
 		
-	if($?O2 && -e ${patid}_O2_on_orig.nii.gz) then
+	if($?O2 && -e ${SubjectHome}/Anatomical/Volume/O2/${patid}_O2_to_${target_patid}_T1.nii.gz) then
 		set modes_available = ($modes_available O2)
 	endif
 		
-	if($?CO && -e ${patid}_CO_on_orig.nii.gz) then
+	if($?CO && -e ${SubjectHome}/Anatomical/Volume/CO/${patid}_CO_to_${target_patid}_T1.nii.gz) then
 		set modes_available = ($modes_available CO)
 	endif
 		
-	if($?H2O && -e ${patid}_H2O_on_orig.nii.gz) then
+	if($?H2O && -e ${SubjectHome}/Anatomical/Volume/H2O/${patid}_H2O_to_${target_patid}_T1.nii.gz) then
 		set modes_available = ($modes_available H2O)
 	endif
 	
-	if($?PIB && -e ${patid}_PIB_on_orig.nii.gz) then
+	if($?PIB && -e ${SubjectHome}/Anatomical/Volume/PIB/${patid}_PIB_to_${target_patid}_T1.nii.gz) then
 		set modes_available = ($modes_available PIB)
 	endif
 	
-	if($?TAU && -e ${patid}_TAU_on_orig.nii.gz) then
+	if($?TAU && -e ${SubjectHome}/Anatomical/Volume/TAU/${patid}_TAU_to_${target_patid}_T1.nii.gz) then
 		set modes_available = ($modes_available TAU)
 	endif
 	
-	if($?FBX && -e ${patid}_FBX_on_orig.nii.gz) then
+	if($?FBX && -e ${SubjectHome}/Anatomical/Volume/FBX/${patid}_FBX_to_${target_patid}_T1.nii.gz) then
 		set modes_available = ($modes_available FBX)
 	endif
 	
 	foreach mode ($modes_available)
-		set norm = `fslstats ${patid}_${mode}_on_orig -k ${SubjectHome}/Masks/FreesurferMasks/aparc+aseg_bin.nii.gz -M`
+		set norm = `fslstats ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode}_to_${target_patid}_T1 -k ${target_path}/Masks/${target_patid}_used_voxels_T1.nii.gz -M`
 		if ($status) exit $status
 		
-		fslmaths ${patid}_${mode}_on_orig -div $norm ${patid}_${mode}_on_orig_norm
+		fslmaths ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode}_to_${target_patid}_T1 -div $norm ${patid}_${mode}_on_T1_norm
 		if ($status) exit $status
 	end
 popd
