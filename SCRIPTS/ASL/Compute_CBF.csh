@@ -54,8 +54,7 @@ pushd ASL/Volume
 		else
 			goto NEXT_RUN
 		endif
-		
-		
+			
 		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));compute_CBF( '*_asl${i}_upck_xr3d_dc_atl.nii.gz', 'asl${i}_*.fd','${Trailer}', $ASL_PLD[$i], $T1b, $pCASL, $ASL_TI1[$i], $ASL_TR[$i], '$BrainMask', $FD_Threshold);end;exit"
 		
 		if($PrevSeq != $Trailer) then
