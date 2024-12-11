@@ -79,7 +79,7 @@ set no_init = 0
 set StudyList = ($1)
 
 if($#argv > 1) then
-	
+
 	@ i = 2
 	@ k = 2 #value of the option i is at
 	while($i <= ${#argv})
@@ -139,11 +139,11 @@ if(! -d ${Destination}) then
 
 	if($Create == "yes" || $Create == "y" || $Create == "Y") then
 		decho "Creating Study file structure."
-		
+
 		if(! -e ${Destination}) then
 			mkdir ${Destination}
 			chmod -Rf 775 $Destination
-			
+
 			decho "	Making Project Directory" $DebugFile
 		endif
 
@@ -152,7 +152,7 @@ if(! -d ${Destination}) then
 			mkdir ${SCRATCH}/${1}
 			chmod -Rf 775 ${SCRATCH}/${1}
 		endif
-		
+
 		if(! -e ${Destination}/Participants) then
 			decho "	Making Participants Directory" $DebugFile
 			mkdir ${Destination}/Participants
@@ -191,10 +191,10 @@ if(-e ${Destination}/Pending_PI_Review) then
 else
 	set ProcessingFolder = "InProcess"
 endif
-	
+
 #see if we need to configure the study
 if(! -e ${Destination}/Study.cfg) then
-	decho "This study appears to not be configured yet. Please enter the configuration informations as prompted." 
+	decho "This study appears to not be configured yet. Please enter the configuration informations as prompted."
 	decho ""
 
 	config_study ${1}
@@ -211,13 +211,13 @@ pushd $Destination
 popd
 
 foreach Study($StudyList)
-	
+
 	if(-e ${Study}/derivatives || -e ${Study}/rawdata) then
 		pushd ${Study}/rawdata
 	else
 		pushd ${Study}
 	endif
-	
+
 	set Source = ${cwd}
 
 	if(${Source} == ${Destination} && $#argv == 1) then
@@ -231,22 +231,26 @@ foreach Study($StudyList)
 
 	foreach Subject($SubjectList)
 		if(! -e $Subject) continue
-		
+
 		decho "Found $Subject in $Study..." $DebugFile
-		
+
 		pushd $Subject
-			
+
 			if(! $?UsingSesList) set SessionList = (`ls`)
-			
+
 			foreach Session($SessionList)
-			
+
 				set SubjectID = `basename $Subject`_`basename $Session`
-				
+
 				if(! -e $Session) then
 					echo "$Session does not exist for $Subject. Skipping..."
 					continue
 				endif
-				
+
+				if(-f $Session) then
+					echo "	$Session is not a session. Skipping..."
+					continue
+				endif
 				pushd $Session
 					@ Exists = 0
 
@@ -264,12 +268,12 @@ foreach Study($StudyList)
 						mkdir ${Destination}/${ProcessingFolder}/${SubjectID}/dicom
 
 						decho $cwd
-							
+
 						set ImageFileList = (`find . -type f -name "*.nii*"`)
 						set JsonFileList = (`find . -type f -name "*.json"`)
 						set bvecFileList = (`find . -type f -name "*.bvec"`)
 						set bvalFileList = (`find . -type f -name "*.bval"`)
-						
+
 						if($#ImageFileList == 0 || $#JsonFileList == 0 || $force) then
 							#make a pseudo bids structure
 							decho "No BIDS nifti or json files found. Attempting to find dicoms and create pseudo BIDS structure." $DebugFile
@@ -277,20 +281,20 @@ foreach Study($StudyList)
 							mkdir DICOMS
 							mv * DICOMS
 							rm -rf BIDS
-							
+
 							set ItemList = (`find . -type l`)
-							
+
 							if($#ItemList == 0) then
 								set ItemList = (`find . -type f`)
 							endif
-							
+
 							mkdir $SubjectID
-							
+
 							foreach Item($ItemList)
 								ln -s ${cwd}/$Item $SubjectID/`basename $Item`
-								
+
 							end
-							
+
 							mkdir BIDS
 							$RELEASE/dcm2niix -o BIDS -z y -v y -ba n $SubjectID >! BIDS_Conversion.log
 							if($status) then
@@ -298,10 +302,10 @@ foreach Study($StudyList)
 								$RELEASE/dcm2niix -o BIDS -z n -v 1 -ba n $SubjectID >! BIDS_Conversion.log
 								if($status) then
 									decho "dcm2niix failed again. You will need to do a manual BIDS conversion using some other means."  $DebugFile
-									
-								endif	
+
+								endif
 							endif
-							
+
 							cd BIDS
 								rm -r *_i?????.* *T1w*_e?.* *T2w*_e?.* *_setter_*
 								foreach file(*.*)
@@ -310,43 +314,43 @@ foreach Study($StudyList)
 										mv "${file}" "${stripped}"
 									endif
 								end
-								
+
 							cd ..
-							
+
 							rm -r $SubjectID
 							decho $cwd
 							set ImageFileList = (`find . -type f -name "*.nii*"`)
 							set JsonFileList = (`find . -type f -name "*.json"`)
 							set bvecFileList = (`find . -type f -name "*.bvec"`)
 							set bvalFileList = (`find . -type f -name "*.bval"`)
-							
+
 						endif
-						
+
 						if(($#ImageFileList > 0 && $#JsonFileList > 0) || $force) then
 							decho "Found nifti and json, assuming pseudo BIDS structure" $DebugFile
 
 							foreach File($ImageFileList)
-							
+
 								ln -s ${cwd}/$File ${Destination}/${ProcessingFolder}/${SubjectID}/dicom/`basename ${File}`
-							end	
-								
+							end
+
 							foreach File($JsonFileList)
 								ln -s ${cwd}/$File ${Destination}/${ProcessingFolder}/${SubjectID}/dicom/`basename ${File}`
 							end
-							
+
 							foreach File($bvecFileList)
 								ln -s ${cwd}/$File ${Destination}/${ProcessingFolder}/${SubjectID}/dicom/`basename ${File}`
 							end
-							
+
 							foreach File($bvalFileList)
 								ln -s ${cwd}/$File ${Destination}/${ProcessingFolder}/${SubjectID}/dicom/`basename ${File}`
 							end
-							
-						else 
+
+						else
 							decho "Unable to find BIDS compliant images and jsons" $DebugFile
 							decho "Undoing changes..." $DebugFile
 							rm -r ${Destination}/${ProcessingFolder}/${SubjectID}
-							
+
 						endif
 
 						if($TargetAtlas != "-1" && ! $no_init) then
