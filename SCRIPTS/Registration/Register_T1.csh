@@ -133,8 +133,22 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
  	cp ${patid}_T1.nii.gz ${patid}_T1_native.nii.gz
  	if($status) exit 1
 
- 	fslmaths ${patid}_T1.nii.gz -div ${patid}_T1_brain_bias.nii.gz ${patid}_T1.nii.gz
+	niftigz_4dfp -4 ${patid}_T1 ${patid}_T1
+	if($status) exit 1
+
+	niftigz_4dfp -4 ${patid}_T1_brain_restore ${patid}_T1_brain_restore
+	if($status) exit 1
+
+	extend_fast_4dfp -G ${patid}_T1 ${patid}_T1_brain_restore ${patid}_T1_bias
+	if($status) exit 1
+
+	niftigz_4dfp -n ${patid}_T1_bias ${patid}_T1_bias
+	if($status) exit 1
+
+ 	fslmaths ${patid}_T1.nii.gz -mul ${patid}_T1_bias.nii.gz ${patid}_T1.nii.gz
  	if($status) exit 1
+
+	rm *.4dfp.*
 
  	set BC_min_max = (`fslstats ${patid}_T1_brain_restore.nii.gz -n -R`)
  	if($BC_min_max[2] == 0) then
@@ -170,7 +184,7 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
 		#see if we want to check how far a voxel displaces
 		if($MaximumRegDisplacement != 0) then
 
-			flirt -in ${target}_brain -ref ${patid}_T1_brain_restore.nii.gz -omat ${AtlasName}_to_${patid}_T1_rev.mat -cost mutualinfo -searchcost mutualinfo
+			flirt -in ${target}_brain -ref ${patid}_T1_brain_restore.nii.gz -omat ${AtlasName}_to_${patid}_T1_rev.mat
 			if($status) exit 1
 
 			set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_T1_brain_restore ${target} ${patid}_T1_to_${AtlasName}.mat ${AtlasName}_to_${patid}_T1_rev.mat 0 50 0`

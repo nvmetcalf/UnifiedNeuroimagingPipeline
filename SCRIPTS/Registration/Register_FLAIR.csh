@@ -109,16 +109,36 @@ pushd $SubjectHome/Anatomical/Volume/FLAIR
 	bet ${patid}"_FLAIR" ${patid}"_FLAIR_brain" -R -f 0.3
 	if($status) exit
 
-	#extract the brain from the T1
- 	fast -B -b -I 10 -l 10 -g -t 2 ${patid}_FLAIR_brain.nii.gz
+	cp ${patid}_FLAIR.nii.gz ${patid}_FLAIR_native.nii.gz
+ 	if($status) exit 1
+
+ 	#extract the brain from the T1
+ 	fast -b -B -I 10 -l 10 -g -t 2 ${patid}_FLAIR_brain.nii.gz
  	if($status) then
  		decho "Failed to complete bias correction on FLAIR."
  		exit 1
  	endif
 
+	niftigz_4dfp -4 ${patid}_FLAIR ${patid}_FLAIR
+	if($status) exit 1
+
+	niftigz_4dfp -4 ${patid}_FLAIR_brain_restore ${patid}_FLAIR_brain_restore
+	if($status) exit 1
+
+	extend_fast_4dfp -G ${patid}_FLAIR ${patid}_FLAIR_brain_restore ${patid}_FLAIR_bias
+	if($status) exit 1
+
+	niftigz_4dfp -n ${patid}_FLAIR_bias ${patid}_FLAIR_bias
+	if($status) exit 1
+
+ 	fslmaths ${patid}_FLAIR.nii.gz -mul ${patid}_FLAIR_bias.nii.gz ${patid}_FLAIR.nii.gz
+ 	if($status) exit 1
+
+	rm *.4dfp.*
+
  	fslmaths ${patid}"_FLAIR" -div ${patid}_FLAIR_brain_bias ${patid}"_FLAIR"
  	if($status) exit 1
- 	
+
 	$FSLBIN/flirt -in ${patid}"_FLAIR" -ref ../T1/${patid}_T1.nii.gz -omat ${patid}_FLAIR_to_${patid}_T1.mat -out ${patid}_FLAIR_to_${patid}_T1 -dof 6 -interp spline
 	if($status) then
 		decho "Failed to linearly register FLAIR to T1" $DebugFile
@@ -127,7 +147,7 @@ pushd $SubjectHome/Anatomical/Volume/FLAIR
 
 	#see if we want to check how far a voxel displaces
 	if($MaximumRegDisplacement != 0) then
-		flirt -in ../T1/${patid}_T1 -ref ${patid}"_FLAIR" -omat ${patid}"_FLAIR"_to_${patid}_T1_rev.mat -dof 6 -cost mutualinfo -searchcost mutualinfo
+		flirt -in ../T1/${patid}_T1 -ref ${patid}"_FLAIR" -omat ${patid}"_FLAIR"_to_${patid}_T1_rev.mat -dof 6
 		if($status) exit 1
 
 		set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}"_FLAIR" ../T1/${patid}_T1 ${patid}"_FLAIR"_to_${patid}_T1.mat ${patid}"_FLAIR"_to_${patid}_T1_rev.mat 0 50 0`

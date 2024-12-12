@@ -109,16 +109,33 @@ pushd ${SubjectHome}/Anatomical/Volume/T2
 	bet ${patid}"_T2" ${patid}"_T2_brain" -m -R -f 0.3
 	if($status) exit
 
-	#extract the brain from the T1
+	#extract the brain from the T2
  	fast -b -B -I 10 -l 10 -g -t 2 ${patid}_T2_brain.nii.gz
  	if($status) then
  		decho "Failed to complete bias correction on T2."
  		exit 1
  	endif
 
- 	fslmaths ${patid}"_T2" -div ${patid}_T2_brain_bias ${patid}"_T2"
+ 	cp ${patid}_T2.nii.gz ${patid}_T2_native.nii.gz
  	if($status) exit 1
- 	
+
+	niftigz_4dfp -4 ${patid}_T2 ${patid}_T2
+	if($status) exit 1
+
+	niftigz_4dfp -4 ${patid}_T2_brain_restore ${patid}_T2_brain_restore
+	if($status) exit 1
+
+	extend_fast_4dfp -G ${patid}_T2 ${patid}_T2_brain_restore ${patid}_T2_bias
+	if($status) exit 1
+
+	niftigz_4dfp -n ${patid}_T2_bias ${patid}_T2_bias
+	if($status) exit 1
+
+ 	fslmaths ${patid}_T2.nii.gz -mul ${patid}_T2_bias.nii.gz ${patid}_T2.nii.gz
+ 	if($status) exit 1
+
+	rm *.4dfp.*
+
 	$FSLBIN/flirt -in ${patid}"_T2" -ref ../T1/${patid}_T1 -omat ${patid}_T2_to_${patid}_T1.mat -dof 6 -interp spline
 	if($status) then
 		decho "Failed to linearly register T2 to T1"
