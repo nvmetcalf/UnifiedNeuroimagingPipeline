@@ -1,5 +1,5 @@
 #!/bin/csh
-
+set echo
 #this will propagate a set of subjects to the designated location
 if(${#argv} < 1) then
 	echo "************************************************"
@@ -282,18 +282,9 @@ foreach Study($StudyList)
 							mv * DICOMS
 							rm -rf BIDS
 
-							set ItemList = (`find . -type l`)
-
-							if($#ItemList == 0) then
-								set ItemList = (`find . -type f`)
-							endif
-
 							mkdir $SubjectID
 
-							foreach Item($ItemList)
-								ln -s ${cwd}/$Item $SubjectID/`basename $Item`
-
-							end
+							find ${cwd}/DICOMS -type f -exec ln -s {} $SubjectID/ \;
 
 							mkdir BIDS
 							$RELEASE/dcm2niix -o BIDS -z y -v y -ba n $SubjectID >! BIDS_Conversion.log
