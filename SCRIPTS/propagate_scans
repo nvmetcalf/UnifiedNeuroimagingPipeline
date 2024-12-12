@@ -1,5 +1,5 @@
 #!/bin/csh
-set echo
+
 #this will propagate a set of subjects to the designated location
 if(${#argv} < 1) then
 	echo "************************************************"
