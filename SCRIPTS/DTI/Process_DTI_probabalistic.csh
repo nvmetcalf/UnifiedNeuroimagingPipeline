@@ -175,10 +175,10 @@ pushd $ScratchFolder/${patid}/DTI_temp
 		@ RunStart = 0
 		@ i = 1
 		while($i <= $#DTI)
-			@ RunLength = `fslinfo ${SubjectHome}/dicom/$DTI[$i] | grep -w dim4 | awk '{print $2}'` - 1
-			@ RunEnd = $RunStart + $RunLength
+			@ RunLength = `fslinfo ${SubjectHome}/dicom/$DTI[$i] | grep -w dim4 | awk '{print $2}'`
+			@ RunEnd = $RunStart + $RunLength - 1
 			if($DTI_ped[$i] == $ped) then
-				@ vol = $RunStart + 1
+				@ vol = $RunStart
 				#find and pull out the b0's for this run
 				while($vol <= $RunEnd)
 					if($Bvals[$vol] == "0") then
@@ -259,6 +259,7 @@ pushd $ScratchFolder/${patid}/DTI_temp
 		if ($status) exit $status
 
 		rm DTI_ref_stack.nii.gz
+
  	popd
 
  	SPLIT:
@@ -321,12 +322,6 @@ pushd $ScratchFolder/${patid}/DTI_temp
 		#apply the current direction eddy + movement with the warp to the registration target and output in target final resolution space
 		applywarp --ref=${RegTarget}_${FinalResTrailer} --premat=DTI_dir_${curr_dir}_ec_mv.mat --warp=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_${curr_ped}_to_${AtlasName}_warp --in=DTI_dir_${curr_dir} --out=DTI_dir_${curr_dir}_on_${RegTarget:t}_${FinalResolution} --interp=spline
 		if ($status) exit $status
-
-		#convertwarp -o DTI_dir_${curr_dir}_ec_dc_warp -r DTI_dir_${curr_dir} --premat=DTI_dir_${curr_dir}_ec_mv.mat --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_unwarped_$DTI_ped[$CurrentRun]_warp.nii.gz --warp2 ${SubjectHome}/Anatomical/Volume/${DTI_Reg_Target}/${patid}_${DTI_Reg_Target}_warpfield_111.nii.gz -o DTI_dir_${curr_dir}_ec_dc_warp  # --postmat=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_unwarped_$DTI_ped[$CurrentRun]_to_${patid}_${DTI_Reg_Target}.mat
-		#if($status) exit 1
-
-		#applywarp -i DTI_dir_${curr_dir} -r ${SubjectHome}/Anatomical/Volume/${DTI_Reg_Target}/${patid}_${DTI_Reg_Target} -o DTI_dir_${curr_dir}_ec_dc -w DTI_dir_${curr_dir}_ec_dc_warp
-		#if($status) exit 1
 
 		set DTI_dirs_images = ($DTI_dirs_images DTI_dir_${curr_dir}_on_${RegTarget:t}_${FinalResolution})
 
