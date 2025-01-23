@@ -114,7 +114,7 @@ while($#ASL > $Run)
 			
 			set out_trailer = ""
 		else
-			if($ASl_Reg_Target == "T1") then	#add on the reg target to T1 matrix.
+			if($ASL_Reg_Target == "T1") then	#add on the reg target to T1 matrix.
 				set postmat = ""
 			else
 				set postmat = "--postmat=${SubjectHome}/Anatomical/Volume/${ASL_Reg_Target}/${patid}_${ASL_Reg_Target}_to_${patid}_T1.mat "
