@@ -245,7 +245,7 @@ while($PatientIndex <= $#PatientList)
 			end
 			decho "==========================" ${DEBUG_FILE}
 		endif
-
+		source $ProcessingParamsFile
 		#############################
 		##
 		## Performs basic checks to make sure
@@ -253,14 +253,14 @@ while($PatientIndex <= $#PatientList)
 		## params file
 		##
 		#############################
-
-		$PP_SCRIPTS/Utilities/check_params.csh $ParamsFile $ProcessingParamsFile
-		if($status && ! $?SkipParamsCheck) then
-			decho "		-=ERROR: $Patient params file is invalid!" ${DEBUG_FILE}
-			set ProcessingError = 1
-			goto NEXT_SUBJECT
+		if(! $?SkipParamsCheck) then
+			$PP_SCRIPTS/Utilities/check_params.csh $ParamsFile $ProcessingParamsFile
+			if($status) then
+				decho "		-=ERROR: $Patient params file is invalid!" ${DEBUG_FILE}
+				set ProcessingError = 1
+				goto NEXT_SUBJECT
+			endif
 		endif
-
 		#forces the stdout. This will allow all terminal outputs to go to the execution logs automagically
 		echo "set echo" >> $ProcessingParamsFile
 
