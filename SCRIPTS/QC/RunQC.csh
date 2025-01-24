@@ -97,6 +97,18 @@ else if($?FCProcIndex && $?FC_Parcellation) then
 	popd
 endif
 
+#generate TSNR map for the BOLD
+if(-e ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz) then
+	fslmaths ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz -Tmean ${SubjectHome}/QC/Tmean
+	if($status) exit 1
+
+	fslmaths ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz -Tstd ${SubjectHome}/QC/Tstd
+	if($status) exit 1
+
+	fslmaths ${SubjectHome}/QC/Tmean -div ${SubjectHome}/QC/Tmean ${SubjectHome}/QC/Tsnr
+	if($status) exit 1
+endif
+
 #generate homotopic fc qc
 #goto SKIP_LAG
 if( -e ${SubjectHome}/Masks/${patid}_${MaskTrailer}.R.${LowResMesh}k.func.gii && ! -e ${SubjectHome}/Masks/${patid}_${MaskTrailer}.R.${LowResMesh}k.func.gii) then
