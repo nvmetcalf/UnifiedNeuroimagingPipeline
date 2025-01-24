@@ -1,0 +1,128 @@
+{
+    "numeric":{
+        "DTI_TE":{
+            "min": 1,
+            "max": 150
+        },
+        "ASL_TE":{
+            "min": 1,
+            "max": 100
+        },
+        "ASL_TI1":{
+            "min": 0,
+            "max": 2 
+        },
+        "ASL_PLD":{
+            "min": 0.5,
+            "max": 3
+        },
+        "ASL_TR":{
+            "min": 0,
+            "max": 10
+        },
+        "BOLD_TR":{
+            "min": 0.5,
+            "max": 3.5 
+        },
+        "BOLD_TE":{
+            "min": 1,
+            "max": 100
+        },
+        "delta":{
+            "min": 0,
+            "max": 3
+        },
+        "BOLD_dwell":{
+            "min": 0.0001,
+            "max": 0.0009
+        },
+        "BOLD_delta":{
+            "min": 0,
+            "max": 3 
+        },
+        "ASL_dwell":{
+            "min": 0.0000000001,
+            "max": 0.01 
+        },
+        "ASL_delta":{
+            "min": 0,
+            "max": 3
+        },
+        "DTI_dwell":{
+            "min": 0.0000000001,
+            "max": 0.1
+        },
+        "DTI_delta":{
+            "min": 0,
+            "max": 3
+        },
+        "FDG_Duration":{
+            "min": 300,
+            "max": 1500
+        },
+        "FDG_Smoothing":{
+            "min": 1,
+            "max": 8
+        },
+        "O2_Duration":{
+            "min": 0,
+            "max": 100
+        },
+        "O2_Smoothing":{
+            "min": 1,
+            "max": 8
+        },
+        "CO_Duration":{
+            "min": 0,
+            "max": 100
+        },
+        "CO_Smoothing":{
+            "min": 1,
+            "max": 8
+        },
+        "H2O_Duration":{
+            "min": 0,
+            "max": 100
+        },
+        "H2O_Smoothing":{
+            "min": 1,
+            "max": 8
+        },
+        "PIB_Duration":{
+            "min": 0,
+            "max": 100
+        },
+        "PIB_Smoothing":{
+            "min": 1,
+            "max": 8
+        },
+        "TAU_Duration":{
+            "min": 0,
+            "max": 100
+        },
+        "TAU_Smoothing":{
+            "min": 1,
+            "max": 8
+        },
+        "FBX_Duration":{
+            "min": 0,
+            "max": 100
+        },
+        "FBX_Smoothing":{
+            "min": 1,
+            "max": 8
+        }
+    },
+    "Allowed_Dicom_Scan_Extensions": [
+        "nii.gz",
+        "nii"
+    ],
+    "Folder_Structure": {
+        "Required": [
+            "dicom"
+        ],
+        "Recommended": [
+            "Freesurfer"
+        ]
+    }
+}
