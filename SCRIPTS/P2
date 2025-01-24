@@ -255,7 +255,7 @@ while($PatientIndex <= $#PatientList)
 		#############################
 
 		$PP_SCRIPTS/Utilities/check_params.csh $ParamsFile $ProcessingParamsFile
-		if($status) then
+		if($status && ! $?SkipParamsCheck) then
 			decho "		-=ERROR: $Patient params file is invalid!" ${DEBUG_FILE}
 			set ProcessingError = 1
 			goto NEXT_SUBJECT
