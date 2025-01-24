@@ -105,7 +105,7 @@ if(-e ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.g
 	fslmaths ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz -Tstd ${SubjectHome}/QC/Tstd
 	if($status) exit 1
 
-	fslmaths ${SubjectHome}/QC/Tmean -div ${SubjectHome}/QC/Tmean ${SubjectHome}/QC/Tsnr
+	fslmaths ${SubjectHome}/QC/Tmean -div ${SubjectHome}/QC/Tstd ${SubjectHome}/QC/Tsnr
 	if($status) exit 1
 endif
 
