@@ -53,9 +53,9 @@ if($status) exit 1
 
 pushd Masks
 	if($NonLinear && -e ${patid}_${MaskTrailer}_fnirt.nii.gz) then
-		$PP_SCRIPTS/Surface/volume_to_surface.csh ${patid}_${MaskTrailer}_fnirt.nii.gz ${SubjectHome}/Anatomical/Surface/${AtlasName}_${LowResMesh}k ${patid}_${MaskTrailer}_fnirt ${LowResMesh}
+		$PP_SCRIPTS/Surface/volume_to_surface.csh ${patid}_${MaskTrailer}_fnirt.nii.gz ${SubjectHome}/Anatomical/Surface/${AtlasName}_${LowResMesh}k ${patid}_${MaskTrailer}_fnirt ${LowResMesh} enclosing midthickness
 	else if( -e ${patid}_${MaskTrailer}.nii.gz) then
-		$PP_SCRIPTS/Surface/volume_to_surface.csh ${patid}_${MaskTrailer}.nii.gz ${SubjectHome}/Anatomical/Surface/${AtlasName}_${LowResMesh}k ${patid}_${MaskTrailer} ${LowResMesh}
+		$PP_SCRIPTS/Surface/volume_to_surface.csh ${patid}_${MaskTrailer}.nii.gz ${SubjectHome}/Anatomical/Surface/${AtlasName}_${LowResMesh}k ${patid}_${MaskTrailer} ${LowResMesh} enclosing midthickness
 	endif
 popd
 
