@@ -1,5 +1,12 @@
 Initial readme. Will be updated.
 
+If you use this pipeline, please use the following citation:
+
+M.S. Goyal, T. Blazey, N.V. Metcalf, M.P. McAvoy, J.F. Strain, M. Rahmani, T.J. Durbin, C. Xiong, T.L. Benzinger, J.C. Morris, M.E. Raichle, A.G. Vlassenko, Brain aerobic glycolysis and resilience in Alzheimer disease, Proc. Natl. Acad. Sci. U.S.A.
+120 (7) e2212256120,
+https://doi.org/10.1073/pnas.2212256120 (2023).
+
+
 You will need the following package:
 https://wustl.box.com/s/8yc08ju7hz0cj3j8gvubppomddd81aaq
 
