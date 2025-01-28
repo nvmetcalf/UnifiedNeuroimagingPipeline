@@ -25,6 +25,13 @@ if($?DVAR_Threshold && $DVAR_Threshold != 0) then
 else
 	set DVAR_File = "[]"
 endif
+
+if($target != "") then
+	set AtlasName = `basename $target`
+else
+	set AtlasName = T1
+endif
+
 #goto NOISE
 
 #do movement QC
@@ -98,16 +105,24 @@ else if($?FCProcIndex && $?FC_Parcellation) then
 endif
 
 #generate TSNR map for the BOLD
-if(-e ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz) then
-	fslmaths ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz -Tmean ${SubjectHome}/QC/Tmean
-	if($status) exit 1
+pushd ${SubjectHome}/QC
+	if(-e ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz) then
+		fslmaths ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz -Tmean ${SubjectHome}/QC/tmean
+		if($status) exit 1
 
-	fslmaths ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz -Tstd ${SubjectHome}/QC/Tstd
-	if($status) exit 1
+		fslmaths ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz -Tstd ${SubjectHome}/QC/tstd
+		if($status) exit 1
 
-	fslmaths ${SubjectHome}/QC/Tmean -div ${SubjectHome}/QC/Tstd ${SubjectHome}/QC/Tsnr
-	if($status) exit 1
-endif
+		fslmaths ${SubjectHome}/QC/tmean -div ${SubjectHome}/QC/tstd ${SubjectHome}/QC/tSNR
+		if($status) exit 1
+
+		if($NonLinear && -e ${SubjectHome}/Anatomical/Surface/${AtlasName}_${LowResMesh}k) then
+			$PP_SCRIPTS/Surface/volume_to_surface.csh tSNR.nii.gz ${SubjectHome}/Anatomical/Surface/${AtlasName}_${LowResMesh}k tSNR_fnirt ${LowResMesh} enclosing midthickness
+		else if( -e ${SubjectHome}/Anatomical/Surface/${AtlasName}_${LowResMesh}k) then
+			$PP_SCRIPTS/Surface/volume_to_surface.csh tSNR.nii.gz ${SubjectHome}/Anatomical/Surface/${AtlasName}_${LowResMesh}k tSNR ${LowResMesh} enclosing midthickness
+		endif
+	endif
+popd
 
 #generate homotopic fc qc
 #goto SKIP_LAG
@@ -188,8 +203,8 @@ endif
 SKIP_LAG:
 pushd QC
 	#project the SD to the surface
-	$PP_SCRIPTS/Surface/volume_to_surface.csh ${SubjectHome}/Anatomical/Surface/RibbonVolumeToSurfaceMapping/std.nii.gz ${SubjectHome}/Anatomical/Surface/`basename ${target}`_${LowResMesh}k ${patid}_SD ${LowResMesh}
-	$PP_SCRIPTS/Surface/volume_to_surface.csh ${SubjectHome}/Anatomical/Surface/RibbonVolumeToSurfaceMapping/cov.nii.gz ${SubjectHome}/Anatomical/Surface/`basename ${target}`_${LowResMesh}k ${patid}_CoV ${LowResMesh}
+	$PP_SCRIPTS/Surface/volume_to_surface.csh ${SubjectHome}/Anatomical/Surface/RibbonVolumeToSurfaceMapping/std.nii.gz ${SubjectHome}/Anatomical/Surface/`basename ${target}`_${LowResMesh}k ${patid}_SD ${LowResMesh} enclosing midthickness
+	$PP_SCRIPTS/Surface/volume_to_surface.csh ${SubjectHome}/Anatomical/Surface/RibbonVolumeToSurfaceMapping/cov.nii.gz ${SubjectHome}/Anatomical/Surface/`basename ${target}`_${LowResMesh}k ${patid}_CoV ${LowResMesh} enclosing midthickness
 popd
 NOISE:
 pushd QC
