@@ -108,7 +108,14 @@ pushd $ScratchFolder/${patid}
 
 				niftigz_4dfp -4 bold${Run}_upck bold${Run}_upck
 				if($status) exit 1
-
+			else if($RunNORDIC && $?NORDIC_BOLD_NoiseVol) then
+	                        niftigz_4dfp -n bold${Run}_upck bold${Run}_upck
+	                        if($status) exit 1
+	
+	                        matlab -nodesktop -nosplash -r "addpath(genpath('${PP_SCRIPTS}/spm12'));addpath(genpath('${PP_SCRIPTS}/matlab_scripts')); addpath(genpath('$FREESURFER_HOME/matlab')) ;ARG.noise_volume_last=${NORDIC_BOLD_NoiseVol}; NIFTI_NORDIC_V2('bold${Run}_upck.nii.gz','bold${Run}_upck.nii.gz','bold${Run}_upck.nii.gz',ARG);exit" || exit $status
+	
+	                        niftigz_4dfp -4 bold${Run}_upck bold${Run}_upck
+	                        if($status) exit 1
 			else if($RunNORDIC) then
 				niftigz_4dfp -n bold${Run}_upck bold${Run}_upck
 				if($status) exit 1
