@@ -19,3 +19,26 @@ You will also need to download freesurfer and acquire a free license for it. Any
 Your freesurfer and FSL install does not need to be in any particular place, but the PipelineEnvironment.csh script will need to be updated to point to the location of where each is installed. 
 
 Lastly, you will need to update PipelineEnvironment.csh (generally just the top section variables) to set the full paths to the place where the pipeline is living (include the UnifiedNeuroimagingPipeline) and where you want temporary files stored/written.
+
+Super brief pipeline setup:
+
+1) Edit PipelineEnvironment.csh/sh
+
+2) Create the following folders at the same level of SCRIPTS:
+    Scans
+    Projects
+
+3) within Scans, create a folder for your projects (these names are going to be the name for the project when you propagate to Projects)
+4) Within each project, create a folder for each participant (like with BIDS)
+5) Within each participant, create a folder for each session.
+6) Within each session, put the dicoms/nifti+jsons
+7) run:
+8)   propagate_scans <project name>
+9)    you do not include the <>, just the folder name of the project in Scans
+10) if the project hasn't been configured, you will be prompted to configure the project level parameters.
+11) Each participant + session will be linked into the InProcess folder of Projects/<project name>, dicoms will be converted to nifti+jsons, parameters will be attempted to be detected automatically.
+12) Goto Projects/<project name>/Inprocess and within each folder will be a file with <participant name>_<session ID>.params. Open this text file and make sure the file names and parameters are correct.
+13) Run:
+      P2 "list of folders" -reg
+      This will perform the registrations + movement alignments of the sequences in the params file of each folder. Run P2 without arguements to see all operations available.
+14) If all goes well, you will have registered data. Note, DTI has it's own commandline directive (-DTIp).
