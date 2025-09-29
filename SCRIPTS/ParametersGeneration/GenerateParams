@@ -1,0 +1,160 @@
+#!/bin/csh
+
+set Patient = $cwd:t
+
+if( ! -e Logs) mkdir Logs
+
+#load the configuration file
+if(-e ${PP_SCRIPTS}/Config/P1.cfg) then
+	source ${PP_SCRIPTS}/Config/P1.cfg
+else
+	echo "Cannot open P1 configuration. Ensure your login files are setup correctly."
+	exit 1
+endif
+
+if(! -e ../../Study.cfg) then
+	echo "Could not find a Study.cfg for the current study."
+	exit 1
+endif
+
+source ../../Study.cfg
+
+if(-e ${Patient}.params) then
+	mv ${Patient}.params ${Patient}.params.bak
+endif
+
+touch ${Patient}.params
+
+
+##############################################
+## FILL OUT KNOWN VARIABLES IN THE PARAMS FILE
+##############################################
+
+echo "Filling out known parameters for "${Patient}
+
+echo " " >> ${Patient}.params
+echo "##############" >> ${Patient}.params
+echo "# Automatically inserted variables from P1" >> ${Patient}.params
+echo "##############" >> ${Patient}.params
+echo " " >> ${Patient}.params
+echo "#####################" >> ${Patient}.params
+echo "## " >> ${Patient}.params
+echo "## Scan information. Be sure to double check" >> ${Patient}.params
+echo "## as the script may have missed them" >>${Patient}.params
+echo "##" >> ${Patient}.params
+echo "#####################" >> ${Patient}.params
+
+####################
+##
+## Figure out what scans do what
+##
+####################
+
+#need to figure out the dcm root now though and save it for later
+
+set dcmroot = $Patient
+echo "dcmroot is ${dcmroot}"
+
+echo "" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+echo "#		Anatomical" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+
+##################################
+## Find T1w images
+##################################
+$PP_SCRIPTS/ParametersGeneration/Detect_T1.csh ${Patient}.params
+
+##################################
+## Find the T2
+##################################
+$PP_SCRIPTS/ParametersGeneration/Detect_T2.csh ${Patient}.params
+
+##################################
+## Find the FLAIR
+##################################
+$PP_SCRIPTS/ParametersGeneration/Detect_FLAIR.csh ${Patient}.params
+
+##################################
+## Find the SWI
+##################################
+echo "" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+echo "#		SWI" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+$PP_SCRIPTS/ParametersGeneration/Detect_SWI.csh ${Patient}.params
+
+##################################
+## Find the ASE
+##################################
+echo "" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+echo "#		    ASE" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+$PP_SCRIPTS/ParametersGeneration/Detect_ASE.csh ${Patient}.params
+
+
+##################################
+## Find the DTI
+##################################
+echo "" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+echo "#		    DTI" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+$PP_SCRIPTS/ParametersGeneration/Detect_DTI.csh ${Patient}.params
+
+##################################
+## Find the ASL
+##################################
+echo "" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+echo "#		    ASL" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+$PP_SCRIPTS/ParametersGeneration/Detect_ASL.csh ${Patient}.params
+
+
+##################################
+## Find the BOLD scan numbers
+##################################
+echo "" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+echo "#	  	   BOLD" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+$PP_SCRIPTS/ParametersGeneration/Detect_BOLD.csh ${Patient}.params
+
+##################################
+## Find the PET
+##################################
+
+echo "" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+echo "#	  PET Images" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+
+echo "#set XXX_Target = (T1 FDG O2)	: Chain of registration images for the modality. First entry is the final target. In this case, register the )2 -> FDG -> T1" >> ${Patient}.params
+echo "#set XXX_Duration = (60)	: Set the time around peak/midpoint to use for modality average or range of time to use. Depends on sum method and is always in seconds." >> ${Patient}.params
+echo "#set XXX_SumMethod = 5	: How to sum the frames. 1) Peak, 2) duration from end, 3) Timeframe 4) mid point+/- range, not implemented 5) average all frames" >> ${Patient}.params
+echo "#set XXX_Smoothing = 2	: smoothing amount in mm to help registration" >> ${Patient}.params
+echo "#set XXX_FrameAlign = 0	: attempt to align all the volume to the last frame. Can help or hurt depending on tracer."  >> ${Patient}.params
+echo "#set XXX_RegMethod = corratio	: What cost function to use for registrations. Can be:  normmi corratio mutualinfo normcorr leastsq" >> ${Patient}.params
+echo "# if Smoothing and RegMethod do not generate a good registration, other smoothing levels and methods will be automatically attempted." >> ${Patient}.params
+echo "set PET_FinalResolution = 1	#Set the final isotropic resolution in target space of the PET imagery. Set to 0 to keep it in T1 native space." >> ${Patient}.params
+
+$PP_SCRIPTS/ParametersGeneration/Detect_PET.csh ${Patient}.params
+
+##################################
+## That's all the scans
+##################################
+
+## Location variables
+
+echo "" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+echo "#Paths and namings" >> ${Patient}.params
+echo "############################" >> ${Patient}.params
+echo "set dcmroot = ${dcmroot}" >> ${Patient}.params
+echo "set patid = "`basename $cwd` >> ${Patient}.params
+echo "#set day1_path = "\$cwd:h"/"\${patid} "	#full path to the first session. If you cd to this path, you should see the Anatomical folder of the first session." >> ${Patient}.params
+
+rm -f dump temp
+exit 0

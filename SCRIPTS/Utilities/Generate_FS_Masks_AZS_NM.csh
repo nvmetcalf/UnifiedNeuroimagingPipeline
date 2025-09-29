@@ -44,15 +44,14 @@ source $2
 
 set SubjectHome = $cwd
 
-if(! $?FinalResolution) then
-	set FinalResolution = 3
+set FinalResolutions = (`grep _FinalResolution $1 | awk '{print $4}' | sort -u`)
+
+if(! $?day1_path) then
+	set day1_path = ""
+	set day1_patid = ""
+else
+	set day1_patid = $day1_path:t
 endif
-
-set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
-
-
-if (! ${?day1_patid}) set day1_patid = ""
-if (! ${?day1_path}) set day1_path = ""
 
 if($target != "") then
 	set AtlasName = `basename $target`
@@ -67,11 +66,11 @@ endif
 if ($day1_patid != "" || $day1_path != "") then
 	set WarpField = ${day1_path}/Anatomical/Volume/T1/${day1_patid}"_T1_warpfield_111.nii.gz"
 	set OrigToATL_mat = ${day1_path}/Masks/FreesurferMasks/${day1_patid}_orig_to_${AtlasName}.mat
-	set FSdir = ${day1_path}/Freesurfer
+	set FSdir = ${day1_path}/Freesurfer/${FreesurferVersionToUse}
 else
 	set WarpField = ${SubjectHome}/Anatomical/Volume/T1/${patid}"_T1_warpfield_111.nii.gz"
 	set OrigToATL_mat = ${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${AtlasName}.mat
-	set FSdir = ${SubjectHome}/Freesurfer
+	set FSdir = ${SubjectHome}/Freesurfer/${FreesurferVersionToUse}
 endif
 
 echo "patid	=" $patid
@@ -113,143 +112,153 @@ if( ! -e $OrigToATL_mat) then
 	exit 1
 endif
 
-########################
-# apply t4 to aseg image
-########################
-echo "Transforming aparc+aseg into atlas space."
-
 rm -rf $ScratchFolder/${patid}/FS_Masks_temp
 mkdir $ScratchFolder/$patid/FS_Masks_temp
 pushd $ScratchFolder/$patid/FS_Masks_temp
 
-	#figure out which used_voxels mask we should use
-	if($NonLinear) then
-		set UsedVoxelsMask = ${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz
-	else 
-		set UsedVoxelsMask = ${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz
-	endif
+	#go through the final resolutions, generating masks
+	foreach res($FinalResolutions)
 
-	echo "UsedVoxelsMask = $UsedVoxelsMask"
-	if(! -e $UsedVoxelsMask) then
-		decho "Could not find $UsedVoxelsMask. Unable to continue." $DebugFile
-		exit 1
-	endif
+		set FinalResolution = $res
+		set FinalResTrailer = ${res}${res}${res}
 
-	#DO SOMETHING THAT WILL ALLOW MULTISESSION DATA TO MAKE THEIR OWN MASKS AND MASK BY CURRENT PATHOLOGY
-	if($day1_path == "") then
-		$FREESURFER_HOME/bin/mri_convert -it mgz -ot nii $FSdir/mri/aparc+aseg.mgz ${patid}_aparc+aseg.nii
-		if ($status) exit $status
-	else
-		$FREESURFER_HOME/bin/mri_convert -it mgz -ot nii ${day1_path}/Freesurfer/mri/aparc+aseg.mgz ${patid}_aparc+aseg.nii
-		if ($status) exit $status
-	endif
+		########################
+		# apply t4 to aseg image
+		########################
+		echo "Transforming aparc+aseg into atlas space."
 
-	#if we are using non-linear registration, apply the warpfield to the aparc+aseg
-	#this will ensure that all masks derived from the aparc+aseg are also non-linearly
-	#warped to the atlas like the BOLD has been.
-	if(! $NonLinear && $target != "") then
-		flirt -in ${patid}_aparc+aseg.nii -ref $UsedVoxelsMask -init ${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${AtlasName}.mat -applyxfm -interp nearestneighbour -out ${patid}_aparc+aseg_on_${AtlasName}
+
+
+		#figure out which used_voxels mask we should use
+		if($NonLinear) then
+			set UsedVoxelsMask = ${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz
+		else
+			set UsedVoxelsMask = ${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz
+		endif
+
+		echo "UsedVoxelsMask = $UsedVoxelsMask"
+		if(! -e $UsedVoxelsMask) then
+			decho "Could not find $UsedVoxelsMask. Unable to continue." $DebugFile
+			exit 1
+		endif
+
+		#DO SOMETHING THAT WILL ALLOW MULTISESSION DATA TO MAKE THEIR OWN MASKS AND MASK BY CURRENT PATHOLOGY
+		if($day1_path == "") then
+			$FREESURFER_HOME/bin/mri_convert -it mgz -ot nii $FSdir/mri/aparc+aseg.mgz ${patid}_aparc+aseg.nii
+			if ($status) exit $status
+		else
+			$FREESURFER_HOME/bin/mri_convert -it mgz -ot nii ${day1_path}/Freesurfer/mri/aparc+aseg.mgz ${patid}_aparc+aseg.nii
+			if ($status) exit $status
+		endif
+
+		#if we are using non-linear registration, apply the warpfield to the aparc+aseg
+		#this will ensure that all masks derived from the aparc+aseg are also non-linearly
+		#warped to the atlas like the BOLD has been.
+		if(! $NonLinear && $target != "") then
+			flirt -in ${patid}_aparc+aseg.nii -ref $UsedVoxelsMask -init ${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${AtlasName}.mat -applyxfm -interp nearestneighbour -out ${patid}_aparc+aseg_on_${AtlasName}
+			if($status) exit 1
+
+			set asegimg = ${patid}_aparc+aseg_on_${AtlasName}_${FinalResTrailer}
+		else if($NonLinear && $target != "") then
+			set asegimg = ${patid}_aparc+aseg_on_${AtlasName}_fnirt_${FinalResTrailer}
+
+			$FSLBIN/applywarp -i ${patid}_aparc+aseg -o ${asegimg} -r $UsedVoxelsMask -w ${WarpField} --interp=nn --premat=${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${patid}_T1.mat
+			if($status) exit 1
+		else
+			set asegimg = ${patid}_aparc+aseg_on_${AtlasName}_${FinalResTrailer}
+			flirt -in ${patid}_aparc+aseg.nii -ref $UsedVoxelsMask -init ${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${patid}_T1.mat -applyxfm -interp nearestneighbour -out ${patid}_aparc+aseg_on_${AtlasName}
+			if($status) exit 1
+
+			flirt -in ${patid}_aparc+aseg_on_${AtlasName} -ref ${patid}_aparc+aseg_on_${AtlasName} -out ${patid}_aparc+aseg_on_${AtlasName}_${FinalResTrailer} -applyisoxfm $FinalResolution -interp nearestneighbour
+			if($status) exit 1
+		endif
+
+		cp $asegimg.nii.gz ${SubjectHome}/Masks/FreesurferMasks/
 		if($status) exit 1
-		
-		set asegimg = ${patid}_aparc+aseg_on_${AtlasName}_${FinalResTrailer}
-	else if($NonLinear && $target != "") then
-		set asegimg = ${patid}_aparc+aseg_on_${AtlasName}_fnirt_${FinalResTrailer}
-	
-		$FSLBIN/applywarp -i ${patid}_aparc+aseg -o ${asegimg} -r $UsedVoxelsMask -w ${WarpField} --interp=nn --premat=${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${patid}_T1.mat
-		if($status) exit 1
-	else
-		set asegimg = ${patid}_aparc+aseg_on_${AtlasName}_${FinalResTrailer}
-		flirt -in ${patid}_aparc+aseg.nii -ref $UsedVoxelsMask -init ${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${patid}_T1.mat -applyxfm -interp nearestneighbour -out ${patid}_aparc+aseg_on_${AtlasName}
-		if($status) exit 1
-		
-		flirt -in ${patid}_aparc+aseg_on_${AtlasName} -ref ${patid}_aparc+aseg_on_${AtlasName} -out ${patid}_aparc+aseg_on_${AtlasName}_${FinalResTrailer} -applyisoxfm $FinalResolution -interp nearestneighbour
-		if($status) exit 1
-	endif
 
-	cp $asegimg.nii.gz ${SubjectHome}/Masks/FreesurferMasks/
-	if($status) exit 1
-	
-	CREATE_MASKS:
-	################
-	# create WB mask
-	################
-	if (! -d aseg_split) mkdir aseg_split
-	if ($status) exit $status
-
-	fslmaths $asegimg -bin ${SubjectHome}/Masks/FreesurferMasks/${patid}_FSWB_on_${AtlasName}_${FinalResTrailer}.nii.gz
-	if($status) exit 1
-		
-	###########################
-	# initialize ROI list files
-	###########################
-	ftouch $GMasegnames
-	ftouch $WMasegnames
-	ftouch $CSFsegnames
-
-	########################
-	# build grey matter mask
-	########################
-	echo "building grey matter mask"
-
-	#create the base image
-	fslmaths ${asegimg} -mul 0 ${patid}_GM_on_${AtlasName}.nii.gz
-	if($status) exit 1
-	
-	foreach r ( $GMkeeprgns )
-		fslmaths ${asegimg} -thr $r -uthr $r -bin ${r}
+		CREATE_MASKS:
+		################
+		# create WB mask
+		################
+		if (! -d aseg_split) mkdir aseg_split
 		if ($status) exit $status
 
-		fslmaths ${patid}_GM_on_${AtlasName} -add ${r}.nii.gz -bin ${patid}_GM_on_${AtlasName}.nii.gz
+		fslmaths $asegimg -bin ${SubjectHome}/Masks/FreesurferMasks/${patid}_FSWB_on_${AtlasName}_${FinalResTrailer}.nii.gz
+		if($status) exit 1
+
+		###########################
+		# initialize ROI list files
+		###########################
+		ftouch $GMasegnames
+		ftouch $WMasegnames
+		ftouch $CSFsegnames
+
+		########################
+		# build grey matter mask
+		########################
+		echo "building grey matter mask"
+
+		#create the base image
+		fslmaths ${asegimg} -mul 0 ${patid}_GM_on_${AtlasName}.nii.gz
+		if($status) exit 1
+
+		foreach r ( $GMkeeprgns )
+			fslmaths ${asegimg} -thr $r -uthr $r -bin ${r}
+			if ($status) exit $status
+
+			fslmaths ${patid}_GM_on_${AtlasName} -add ${r}.nii.gz -bin ${patid}_GM_on_${AtlasName}.nii.gz
+			if ($status) exit $status
+		end
+
+		fslmaths ${asegimg} -thr 1000 -uthr 2999 -bin ${asegimg}_ctx
 		if ($status) exit $status
+
+		#fslmaths ${patid}_GM_on_${AtlasName} -add ${asegimg}_ctx -bin -mul -1 -add 1 ${SubjectHome}/Masks/FreesurferMasks/${patid}_GM_on_${AtlasName}_${FinalResTrailer}.nii.gz
+		fslmaths ${patid}_GM_on_${AtlasName} -add ${asegimg}_ctx -bin ${SubjectHome}/Masks/FreesurferMasks/${patid}_GM_on_${AtlasName}_${FinalResTrailer}.nii.gz
+		if ($status) exit $status
+
+		###############
+		# build WM mask
+		###############
+		echo "building white matter mask"
+
+		#make a blank image that we can add voxels to
+		fslmaths ${asegimg} -mul 0 ${patid}_WM_on_${AtlasName}.nii.gz
+		if($status) exit 1
+
+		foreach r ( $WMkeeprgns )
+			fslmaths ${asegimg} -thr $r -uthr $r -bin $r
+			if($status) exit 1
+
+			fslmaths ${patid}_WM_on_${AtlasName} -add ${r}.nii.gz -bin ${patid}_WM_on_${AtlasName}.nii.gz
+			if ($status) exit $status
+		end
+
+		fslmaths ${patid}_WM_on_${AtlasName} -bin ${SubjectHome}/Masks/FreesurferMasks/${patid}_WM_on_${AtlasName}_${FinalResTrailer}
+		if($status) exit 1
+
+		################
+		# build CSF mask
+		################
+		echo "building csf mask"
+		fslmaths ${asegimg} -mul 0 ${patid}_CSF_on_${AtlasName}.nii.gz
+		if($status) exit 1
+
+		foreach r ( $CSFeeprgns )
+	#
+			fslmaths ${asegimg} -thr $r -uthr $r -bin $r
+			if($status) exit 1
+
+			fslmaths ${patid}_CSF_on_${AtlasName} -add ${r}.nii.gz -bin ${patid}_CSF_on_${AtlasName}.nii.gz
+			if ($status) exit $status
+
+		end
+
+		#remove all gray matter voxels from the CSF mask
+		fslmaths ${patid}_CSF_on_${AtlasName} -bin ${SubjectHome}/Masks/FreesurferMasks/${patid}_CSF_on_${AtlasName}_${FinalResTrailer}
+		if($status) exit 1
+
 	end
-	
-	fslmaths ${asegimg} -thr 1000 -uthr 2999 -bin ${asegimg}_ctx
-	if ($status) exit $status
-
-	fslmaths ${patid}_GM_on_${AtlasName} -add ${asegimg}_ctx -bin -mul -1 -add 1 ${SubjectHome}/Masks/FreesurferMasks/${patid}_GM_on_${AtlasName}_${FinalResTrailer}.nii.gz
-	if ($status) exit $status
-
-	###############
-	# build WM mask
-	###############
-	echo "building white matter mask"
-
-	#make a blank image that we can add voxels to
-	fslmaths ${asegimg} -mul 0 ${patid}_WM_on_${AtlasName}.nii.gz
-	if($status) exit 1
-	
-	foreach r ( $WMkeeprgns )
-		fslmaths ${asegimg} -thr $r -uthr $r -bin $r
-		if($status) exit 1
-		
- 		fslmaths ${patid}_WM_on_${AtlasName} -add ${r}.nii.gz -bin ${patid}_WM_on_${AtlasName}.nii.gz
-		if ($status) exit $status
-	end
-	
-	fslmaths ${patid}_WM_on_${AtlasName} -bin ${SubjectHome}/Masks/FreesurferMasks/${patid}_WM_on_${AtlasName}_${FinalResTrailer}
-	if($status) exit 1
-	
-	################
-	# build CSF mask
-	################
-	echo "building csf mask"
-	fslmaths ${asegimg} -mul 0 ${patid}_CSF_on_${AtlasName}.nii.gz
-	if($status) exit 1
-	
-	foreach r ( $CSFeeprgns )
-#
-		fslmaths ${asegimg} -thr $r -uthr $r -bin $r
-		if($status) exit 1
-		
- 		fslmaths ${patid}_CSF_on_${AtlasName} -add ${r}.nii.gz -bin ${patid}_CSF_on_${AtlasName}.nii.gz
-		if ($status) exit $status
-
-	end
-	
-	#remove all gray matter voxels from the CSF mask
-	fslmaths ${patid}_CSF_on_${AtlasName} -bin ${SubjectHome}/Masks/FreesurferMasks/${patid}_CSF_on_${AtlasName}_${FinalResTrailer}
-	if($status) exit 1
-	
 popd
 
 echo $program sucessfully completed

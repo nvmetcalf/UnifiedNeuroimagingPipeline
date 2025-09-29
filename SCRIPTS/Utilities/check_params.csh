@@ -10,9 +10,11 @@ set SyntaxStrictness = 0
 #source the processing params
 source $2
 
+if($?SkipSyntaxCheck) exit 0
+
     $PP_SCRIPTS/CheckSyntax $1 $SyntaxVerbosity $SyntaxStrictness
     if($status) then
-        
+
         decho "Error checking syntax for subject parameters." ${DebugFile}
         set Error = 1
         goto ERROR
@@ -52,20 +54,15 @@ source $2
 
 	#Check for anatomicals
 	ANATOMY_CHECK:
-	if(! $?mprs && (! $?day1_path || ! $?day1_patid) && ! -e Freesurfer/mri/orig.mgz) then
+	if(! $?T1 && (! $?day1_path) && ! -e Freesurfer/${FreesurferVersionToUse}/mri/orig.mgz) then
 		set Error = 1
 		decho "$patid - no anatomical images detected, nor a day1 session! Unable to perform transformations." ${DebugFile}
 	endif
 
 	MULTIDAY_CHECK:
 
-	if($?day1_path && ! $?day1_patid) then
-		set Error = 1
-		decho "$patid - day1_path set, but day1_patid is not set in params file!" ${DebugFile}
-	else if(! $?day1_path && $?day1_patid) then
-		set Error = 1
-		decho "$patid - day1_path is not set, but day1_patid is set in params file!" ${DebugFile}
-	else if($?day1_path && $?day1_patid) then
+	if($?day1_path) then
+		set day1_patid = $day1_path:t
 		if(! -e ${day1_path}/Anatomical/Volume/T1/${day1_patid}_T1.nii.gz && ! -e ${day1_path}/Anatomical/Volume/T1/${day1_patid}_T1.nii) then
 			set Error = 1
 			decho "$patid - day1 subject appears to not actually be a day1 session. Day 1 doesn't have a T1. Check the day1 params file." ${DebugFile}
@@ -76,7 +73,7 @@ source $2
 			decho "$patid - day1_patid equals the same subject as itself!" ${DebugFile}
 		endif
 	endif
-	
+
 	ERROR:
 	if($?Error) then
 		echo "${RED_B}There were one or more errors for subject ${patid}.${LF}${NORMAL}"

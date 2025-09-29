@@ -18,7 +18,7 @@ set BOLD_image = $3
 
 set SubjectHome = $cwd
 
-decho "		Generating dvar vals..." ${DebugFile}
+decho "		Generating dvar vals..." 
 
 if(! $?PercentFramesRemaining) then
 	set PercentFramesRemaining = 0
@@ -41,13 +41,11 @@ endif
 if( ! -e QC) mkdir QC
 
 if(! $?RunIndex || ! $?BOLD) then
-	decho "No BOLD data available, skipping temporal mask computation." ${DebugFile}
+	decho "No BOLD data available, skipping temporal mask computation."
 	exit 0
 endif
 
-if(! $?FinalResolution) then
-	set FinalResolution = 3
-endif
+set FinalResolution = $BOLD_FinalResolution
 
 set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
 
@@ -93,7 +91,7 @@ pushd $ScratchFolder/${patid}
 		decho "Unknown DVAR threshold method $DVAR_Threshold_Type ."
 		exit 1
 	endif
-	
+
 	$PP_SCRIPTS/Utilities/run_dvar_4dfp temp.conc -mdfndm -n${skip} ${DVAR_Threshold_Method}
 	if($status) exit 1
 

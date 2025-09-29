@@ -1,0 +1,15 @@
+#!/bin/csh
+
+set ped = `echo $1 | sed 's/"//g'`
+
+if($ped == "j-" || $ped == "y-" || $ped == "-y") then
+	echo "-y"
+else if($ped == "j" || $ped == "y") then
+	echo "y"
+else if($ped == "i" || $ped == "x") then
+	echo "x"
+else if($ped == "-i" || $ped == "-x" || $ped == "x-") then
+	echo "-x"
+else
+	echo "U"
+endif

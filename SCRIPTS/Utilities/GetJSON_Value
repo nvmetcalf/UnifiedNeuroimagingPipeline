@@ -1,0 +1,6 @@
+#!/bin/csh
+
+set JSON_file = $1
+set Field = $2
+
+echo `grep \"$Field\" ${JSON_file} | cut -d: -f2 | cut -d, -f1 | cut -d\" -f2`
