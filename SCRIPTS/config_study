@@ -21,7 +21,7 @@ if( ! -e $PP_SCRIPTS/Config/P1.cfg) then
 endif
 
 source $PP_SCRIPTS/Config/P1.cfg
-
+source $PP_SCRIPTS/Config/P2.cfg
 
 set FinishedConfig = 0
 set MenuOption = 0
@@ -59,10 +59,12 @@ set SurfSmoothingFWHM = 0
 set StudyGroup = `groups | awk '{print $1}'`
 set FinalResolution = 3
 set RegisterEcho = 1
-set MaximumRegDisplacement = 4
+set MaximumRegDisplacement = 0
 set MovementLowpass = 2
 set MaxNumRegressors = 25
 set RunNORDIC = 1
+
+set FreesurferVersionToUse = "$FreesurferCommands[1]"
 
 set ProcessUserScript = ""
 
@@ -112,12 +114,12 @@ while(! $FinishedConfig)
 			echo "26. Surface Smoothing ( Current: $SurfSmoothingFWHM mm fwhm)"
 			echo "27. Set Study user group ( Current: $StudyGroup )"
 			echo "28. Set script to run after processing commands. ( Current: $ProcessUserScript )"
-			echo "29. Final Voxel Dimensions ( Current: $FinalResolution)"
-			echo "30. Echo To Register (Current: ${RegisterEcho})"
-			echo "31. Maximum 2 way registration displacement error ( Current: $MaximumRegDisplacement )"
-			echo "32. Movement Lowpass method ( Current: $MovementLowpass )"
-			echo "33. Maximum Number of Regresor Components (Current: $MaxNumRegressors)"
-			echo "34. Perform NORDIC denoising ( Current: $RunNORDIC )"
+			echo "29. Echo To Register (Current: ${RegisterEcho})"
+			echo "30. Maximum 2 way registration displacement error ( Current: $MaximumRegDisplacement )"
+			echo "31. Movement Lowpass method ( Current: $MovementLowpass )"
+			echo "32. Maximum Number of Regresor Components (Current: $MaxNumRegressors)"
+			echo "33. Perform NORDIC denoising ( Current: $RunNORDIC )"
+			echo "34. Freesurfer to use (Current: $FreesurferVersionToUse)"
 			echo ""
 			echo "To save the current study parameters and exit this menu, type 'finished'"
 			set MenuOption = $<
@@ -136,7 +138,7 @@ while(! $FinishedConfig)
 			end
 
 			set TargetAtlas = $<
-			
+
 			if($TargetAtlas == 0) then
 				set NonLinear = 0
 			endif
@@ -357,25 +359,18 @@ while(! $FinishedConfig)
 			set MenuOption = 0
 			breaksw
 		case 29:
-			echo "Set the dimensions for the final EPI (BOLD) isotropic resolution in mm^3."
-			echo "	NOTE: Setting to 0 will keep BOLD in its native space."
-			set FinalResolution = $<
-
-			set MenuOption = 0
-			breaksw
-		case 30:
 			echo "Set the echo to use for registration."
 			echo "	NOTE: only applies to Multiecho Datasets!"
 			set RegisterEcho = $<
 
 			set MenuOption = 0
 			breaksw
-		case 31:
-			echo "Set the maximum displacement error in mm for any registration. Set to 0 to disable."
+		case 30:
+			echo "Set the maximum displacement error in mm for any registration. Set to 0 to to automatically compute (1.25 * largest source voxel dimension)"
 			set MaximumRegDisplacement = $<
 			set MenuOption = 0
 			breaksw
-		case 32:
+		case 31:
 			echo "Set movement parameter to lowpass:"
 			echo "	0. All paramters"
 			echo "	1. X translation"
@@ -384,23 +379,23 @@ while(! $FinishedConfig)
 			echo "	4. X rotation"
 			echo "	5. Y rotation"
 			echo "	6. Z rotation"
-			
+
 			set MovementLowpass = $<
-			if($MovementLowpass <= 6 && $MovementLowpass >= 0) then	
+			if($MovementLowpass <= 6 && $MovementLowpass >= 0) then
 				set MenuOption = 0
 			endif
-			
+
 			breaksw
-		case 33:
+		case 32:
 			echo "Set maximum number of regressor components to use in denoising: "
 
-			
+
 			set MaxNumRegressors = $<
-			if($MaxNumRegressors > 0) then	
+			if($MaxNumRegressors > 0) then
 				set MenuOption = 0
 			endif
 			breaksw
-		case 34:
+		case 33:
 			echo "Use NORDIC denoising (1 = yes, 0 = no): "
 
 			if($RunNORDIC == 0) then
@@ -409,7 +404,28 @@ while(! $FinishedConfig)
 				set RunNORDIC = 0
 			endif
 			set MenuOption = 0
-			
+
+			breaksw
+		case 34:
+			echo "Select an installed freesurfer version:"
+
+			@ i = 1
+			@ k = 1
+			while($i <= $#FreesurferCommands)
+				echo "$k : $FreesurferCommands[$i]"
+				@ i = $i + 2
+				@ k++
+			end
+
+			set entry = $<
+
+			if($entry >= 1 && $entry <= `echo $#FreesurferCommands | awk '{print($1/2)}'`) then
+
+				set version = `echo $entry | awk '{print($1*2 - 1)}'`
+				echo $version
+				set FreesurferVersionToUse = $FreesurferCommands[$version]
+				set MenuOption = 0
+			endif
 			breaksw
 		case finished:
 			if(-e $StudyConfig) rm -rf $StudyConfig
@@ -462,6 +478,7 @@ while(! $FinishedConfig)
 			echo "set MovementLowpass = ${MovementLowpass} " >> $StudyConfig
 			echo "set MaxNumRegressors = ${MaxNumRegressors} " >> $StudyConfig
 			echo "set RunNORDIC = ${RunNORDIC} " >> $StudyConfig
+			echo "set FreesurferVersionToUse = ${FreesurferVersionToUse}" >> $StudyConfig
 			set FinishedConfig = 1
 			breaksw
 		default:

@@ -131,6 +131,7 @@ while($CurrServer <= $#ServerList)
 		chmod 755 queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
 		echo "#\!/bin/csh" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
 		echo "source ~/.login" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
+		echo "source $PIPELINE_HOME/PipelineEnvironment.csh/PipelineEnvironment.csh" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
 		echo "set echo" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
 		echo "pushd $cwd" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
 		echo "P2 '$SubList' $command" >> queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh
@@ -140,7 +141,7 @@ while($CurrServer <= $#ServerList)
 		chmod 755 server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
 		echo "#\!/bin/csh" >> server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
 		echo "cd $cwd" >> server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
-		echo "ssh -X ${User}@${ServerList[$CurrServer]} ${cwd}/queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh" >> server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
+		echo "ssh -Y ${User}@${ServerList[$CurrServer]} ${cwd}/queue_${ServerList[$CurrServer]}_${CurrStart}_to_${CurrEnd}.csh" >> server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh
 		
 		echo "konsole -e $cwd/server_logon_${ServerList[$CurrServer]}_${QueuesStarted}.csh"
 		

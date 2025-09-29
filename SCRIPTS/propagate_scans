@@ -282,30 +282,12 @@ foreach Study($StudyList)
 							mv * DICOMS
 							rm -rf BIDS
 
-							mkdir $SubjectID
-
-							find ${cwd}/DICOMS -type f -exec ln -s {} $SubjectID/ \;
-
-							mkdir BIDS
-							$RELEASE/dcm2niix -o BIDS -z y -v y -ba n $SubjectID >! BIDS_Conversion.log
-							if($status) then
-								decho "BIDS conversion failed. Attempting without compression..." $DebugFile
-								$RELEASE/dcm2niix -o BIDS -z n -v 1 -ba n $SubjectID >! BIDS_Conversion.log
-								if($status) then
-									decho "dcm2niix failed again. You will need to do a manual BIDS conversion using some other means."  $DebugFile
-
-								endif
-							endif
+							$PP_SCRIPTS/python3/dump_tags/sort_and_dump.csh DICOMS BIDS
 
 							cd BIDS
-								rm -r *_i?????.* *T1w*_e?.* *T2w*_e?.* *_setter_*
-								foreach file(*.*)
-									set stripped = `echo "$file" | sed 's/\[//g' | sed 's/\]//g' | sed 's/(//g' | sed 's/)//g'`
-									if("$stripped" != "$file") then
-										mv "${file}" "${stripped}"
-									endif
+								foreach remove("_i?????." "T1w*_e?." "T2w*_e?." "_setter_")
+									find . -name "*${remove}*" -exec rm {} \;
 								end
-
 							cd ..
 
 							rm -r $SubjectID

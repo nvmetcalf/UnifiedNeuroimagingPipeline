@@ -138,7 +138,7 @@ foreach Patient(${PatientList})
 
 	if(! -e Logs) mkdir Logs
 
-	$PP_SCRIPTS/GenerateParams
+	$PP_SCRIPTS/ParametersGeneration/GenerateParams
 	if($status) then
 		decho "Unable to generate params!" ${DEBUG_FILE}
 		exit 1

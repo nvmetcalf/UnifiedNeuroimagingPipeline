@@ -159,8 +159,6 @@ while($PatientIndex <= $#PatientList)
 
 		cat ../../Study.cfg >> $ProcessingParamsFile
 		echo "" >> $ProcessingParamsFile	#safety line feed in case Study.cfg was edited improperly
-		#output the current pipeline path and revision
-		svn info $PP_SCRIPTS | sed 's/^/#/' >> $ProcessingParamsFile
 
 		cp $ProcessingParamsFile PrevParams/
 
@@ -208,9 +206,9 @@ while($PatientIndex <= $#PatientList)
 						set HasValue = $PipelineOverrides[$value]
 						set ParamOutput = ($PipelineOverrides[$variable])
 
-                                                if( $HasValue != "0") then
-						      @ i++
-                                                      set ParamOutput = ($ParamOutput " = "$argv[$i])
+                              if( $HasValue != "0") then
+						     @ i++
+                                   set ParamOutput = ($ParamOutput " = "$argv[$i])
 						endif
 
 						echo "$ParamOutput" >> $ProcessingParamsFile
@@ -255,7 +253,6 @@ while($PatientIndex <= $#PatientList)
 		##
 		#############################
 
-
 		if(! $?SkipParamsCheck) then
 			$PP_SCRIPTS/Utilities/check_params.csh $ParamsFile $ProcessingParamsFile
 			if($status) then
@@ -265,6 +262,26 @@ while($PatientIndex <= $#PatientList)
 			endif
 		endif
 
+		if(! -e ${PP_SCRIPTS}/FreesurferVersions/${FreesurferVersionToUse}) then
+			echo "Could not find the requested freesurfer version in ${PP_SCRIPTS}/FreesurferVersions"
+			echo "	Install freesurfer in ${PP_SCRIPTS}/FreesurferVersions and set "
+			echo "	FreesurferVersionToUse to the folder you put freesurfer in."
+			echo "	ex. set FreesurferVersionToUse ${PP_SCRIPTS}/FreesurferVersions/fs_7_3_2"
+			exit 1
+		endif
+
+		decho "Sourcing freesurfer environment in ${PP_SCRIPTS}/FreesurferVersions/${FreesurferVersionToUse} ..."
+
+		setenv FREESURFER_HOME ${PP_SCRIPTS}/FreesurferVersions/${FreesurferVersionToUse}
+		setenv FSLDIR ${PP_SCRIPTS}/fsl
+		setenv FSL_DIR $FSLDIR
+
+		#setup the freesurfer environment
+		source ${FREESURFER_HOME}/SetUpFreeSurfer.csh
+		setenv TEMPDIR $SCRATCH
+
+		echo "Recon-all located at: "`which recon-all`
+		
 		#forces the stdout. This will allow all terminal outputs to go to the execution logs automagically
 		echo "set echo" >> $ProcessingParamsFile
 
