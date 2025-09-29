@@ -1,0 +1,95 @@
+%% Subroutine for ASE pipeline
+%% AnLab 2025/02/10
+
+
+addpath('/data/nil-bluearc/vlassenko/Pipeline/Projects/ASE_Test/Participants/ASE_scripts/OEF_Calculation_AnLab/ASE_AnLab/NIFTI_yasheng');
+
+dir_image    = '/data/nil-bluearc/vlassenko/Pipeline/Projects/ASE_Test/Participants/sub-500552A_ses-032125';
+dir_ase      = sprintf('%s/ASE',            dir_image);
+dir_original = sprintf('%s/Original',       dir_ase);
+dir_mc       = sprintf('%s/MC_ASE',         dir_ase);
+dir_working  = sprintf('%s/MC_ASE_working', dir_ase);
+dir_smoothing= sprintf('%s/smoothing',      dir_mc);
+
+if ~exist(dir_mc)
+    mkdir(dir_mc);
+    mkdir(dir_working);
+    mkdir(dir_smoothing);
+end;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+names_all = sprintf('%s/*_ase_1.nii.gz', dir_original);
+names_all = dir(names_all);
+nums_all = length(names_all);
+
+num_echoes_total = 2;
+num_echoes_used = 2;
+
+maxTau = inf;
+tauThresh1 = 0.015;
+tauThresh2 = 0.03;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% calcualte ase
+
+for i=1:nums_all,
+   nnn = names_all(i).name;
+   nnn = strrep(nnn, '_ase_1.nii.gz', '');
+
+   name1_orig     = sprintf('%s/%s_ase_1.nii.gz', dir_original, nnn);
+   name2_orig     = sprintf('%s/%s_ase_2.nii.gz', dir_original, nnn);
+   name3_orig     = sprintf('%s/%s_ase_3.nii.gz', dir_original, nnn);
+   name_para_orig = sprintf('%s/%s_ase_para.dat', dir_original, nnn);
+   
+   if ~exist(name1_orig) | ~exist(name2_orig) | (~exist(name3_orig) & num_echoes_total == 3)% | ~exist(name_para_orig)
+      continue;
+   end;
+   
+   name_oef = sprintf('%s/%s_OEF.nii.gz', dir_ase, nnn);
+
+   if exist(name_oef) 
+      continue;
+   end;
+
+   nii = load_untouch_nii(name1_orig);
+   [dimx, dimy, dimz, dimt] = size(nii.img);
+   
+   if dimt == 98
+      num_frames   =  98;
+      num_zshimming = 8;
+   elseif dimt == 90
+      num_frames    = 90;
+      num_zshimming = 0;
+   else
+      fprintf('%s num_frames %d not supported!\n', nnn, dimt);
+      continue;
+   end;   
+
+   hct = get_hematocrit(nnn, dir_ase);
+   fprintf('%s %f\n', nnn, hct);
+   
+   if hct<0
+      %fprintf('%s %f\n', nnn, hct);
+      continue;
+   end;
+
+   
+ASE_Scans = { '/data/nil-bluearc/vlassenko/Pipeline/Projects/ASE_Test/Participants/sub-500552A_ses-032125/dicom/sub-500552A_ses-032125_a_ep2d_ase_vtzRG_XA30A_2e_Ph_20250321103246_30.nii.gz' ,'/data/nil-bluearc/vlassenko/Pipeline/Projects/ASE_Test/Participants/sub-500552A_ses-032125/dicom/sub-500552A_ses-032125_a_ep2d_ase_vtzRG_XA30A_2e_Ph_20250321103246_32_e2.nii.gz' };
+
+DicomDir = [];
+
+if(length(ASE_Scans) == 2)
+    [DTE, TE1, TE2, TE3, ZMoment1, ZMoment2, ZMoment3, B0] = getASEParameters_2echoes_json(DicomDir, ASE_Scans{1}, ASE_Scans{2});
+else
+    [DTE, TE1, TE2, TE3, ZMoment1, ZMoment2, ZMoment3, B0] = getASEParameters_2echoes_json(DicomDir, ASE_Scans{1}, ASE_Scans{2}, ASE_Scans{3});
+end
+
+save_ase_para(DTE, TE1, TE2, TE3, ZMoment1, ZMoment2, ZMoment3, B0, name_para_orig);
+
+   run_process_ase_1_mc(dir_ase, nnn, num_echoes_total, num_zshimming);
+   run_process_ase_2_prepare0(dir_ase, nnn);
+   run_process_ase_3_smoothing_ase(dir_ase, nnn, num_echoes_total, num_frames);
+   run_process_ase_4_cal_ase(dir_ase, nnn, num_echoes_used, num_frames, num_zshimming, maxTau, tauThresh1, tauThresh2);
+
+   clear nnn;
+end;
