@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -vx
 
 set -e
 echo -e "\n START: FS2CaretConvertRegisterNonlinear"
@@ -9,7 +9,7 @@ Subject="$2"
 T1wFolder="$StudyFolder/$3"
 AtlasSpaceFolder="$StudyFolder/$4"
 NativeFolder="$5"
-FreeSurferFolder="$FSOUT/$6"
+FreeSurferFolder="$6"
 FreeSurferInput="$7"
 T1wImage="$8"
 T2wImage="$9"
@@ -91,16 +91,16 @@ echo "0 0 0 1" >> "$FreeSurferFolder"/mri/c_ras.mat
 for Image in wmparc aparc.a2009s+aseg aparc+aseg ; do
 echo "$FSBIN/mri_convert -rt nearest -rl "$T1wFolder"/"$T1wImage".nii.gz "$FreeSurferFolder"/mri/"$Image".mgz "$T1wFolder"/"$Image"_1mm.nii.gz"
   $FSBIN/mri_convert -rt nearest -rl "$T1wFolder"/"$T1wImage".nii.gz "$FreeSurferFolder"/mri/"$Image".mgz "$T1wFolder"/"$Image"_1mm.nii.gz
-  
+
   echo "applywarp --rel --interp=nn -i "$T1wFolder"/"$Image"_1mm.nii.gz -r "$T1wFolder"/"$AtlasSpaceT1wImage" --premat=$FSLDIR/etc/flirtsch/ident.mat"
   applywarp --rel --interp=nn -i "$T1wFolder"/"$Image"_1mm.nii.gz -r "$T1wFolder"/"$AtlasSpaceT1wImage" --premat=$FSLDIR/etc/flirtsch/ident.mat -o "$T1wFolder"/"$Image".nii.gz
-  
+
   echo "applywarp --rel --interp=nn -i "$T1wFolder"/"$Image"_1mm.nii.gz -r "$T1wFolder"/"$AtlasSpaceT1wImage" -w "$AtlasTransform" -o "$T1wFolder"/"$Image".nii.gz"
   applywarp --rel --interp=nn -i "$T1wFolder"/"$Image"_1mm.nii.gz -r "$T1wFolder"/"$AtlasSpaceT1wImage" -w "$AtlasTransform" -o "$T1wFolder"/"$Image".nii.gz
-  
+
   echo "${CARET7DIR}/wb_command -volume-label-import "$T1wFolder"/"$Image".nii.gz "$FreeSurferLabels" "$T1wFolder"/"$Image".nii.gz -drop-unused-labels"
   ${CARET7DIR}/wb_command -volume-label-import "$T1wFolder"/"$Image".nii.gz "$FreeSurferLabels" "$T1wFolder"/"$Image".nii.gz -drop-unused-labels
-  
+
   echo "${CARET7DIR}/wb_command -volume-label-import "$T1wFolder"/"$Image".nii.gz "$FreeSurferLabels" "$T1wFolder"/"$Image".nii.gz -drop-unused-labels"
   ${CARET7DIR}/wb_command -volume-label-import "$T1wFolder"/"$Image".nii.gz "$FreeSurferLabels" "$T1wFolder"/"$Image".nii.gz -drop-unused-labels
 done
@@ -183,7 +183,7 @@ for Hemisphere in L R ; do
     echo mris_convert "$FreeSurferFolder"/surf/"$hemisphere"h."$Surface" "$T1wFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$Surface".native.surf.gii
 
     mris_convert "$FreeSurferFolder"/surf/"$hemisphere"h."$Surface" "$T1wFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$Surface".native.surf.gii
-   
+
 
     echo "$T1wFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$Surface".native.surf.gii
 
@@ -198,7 +198,7 @@ for Hemisphere in L R ; do
     echo ${CARET7DIR}/wb_command -add-to-spec-file "$T1wFolder"/"$NativeFolder"/"$Subject".native.wb.spec $Structure "$T1wFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$Surface".native.surf.gii
     ${CARET7DIR}/wb_command -add-to-spec-file "$T1wFolder"/"$NativeFolder"/"$Subject".native.wb.spec $Structure "$T1wFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$Surface".native.surf.gii
 
-    
+
     echo ${CARET7DIR}/wb_command -surface-apply-warpfield "$T1wFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$Surface".native.surf.gii "$InverseAtlasTransform".nii.gz "$AtlasSpaceFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$Surface".native.surf.gii -fnirt "$AtlasTransform".nii.gz
     ${CARET7DIR}/wb_command -surface-apply-warpfield "$T1wFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$Surface".native.surf.gii "$InverseAtlasTransform".nii.gz "$AtlasSpaceFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$Surface".native.surf.gii -fnirt "$AtlasTransform".nii.gz
 
@@ -251,6 +251,12 @@ fi
     wbname=`echo $Map | cut -d "@" -f 2`
     mapname=`echo $Map | cut -d "@" -f 3`
     mris_convert -c "$FreeSurferFolder"/surf/"$hemisphere"h."$fsname" "$FreeSurferFolder"/surf/"$hemisphere"h.white "$AtlasSpaceFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$wbname".native.shape.gii
+
+    #not sure why, but sometimes freesurfer prepends the hemisphere to the output file of mris_convert -c
+    #rename it if that is the case...
+    if [ -f "$AtlasSpaceFolder"/"$NativeFolder"/"$hemisphere"h."$Subject"."$Hemisphere"."$wbname".native.shape.gii ]; then
+		mv "$AtlasSpaceFolder"/"$NativeFolder"/"$hemisphere"h."$Subject"."$Hemisphere"."$wbname".native.shape.gii "$AtlasSpaceFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$wbname".native.shape.gii
+	fi
     ${CARET7DIR}/wb_command -set-structure "$AtlasSpaceFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$wbname".native.shape.gii ${Structure}
     ${CARET7DIR}/wb_command -metric-math "var * -1" "$AtlasSpaceFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$wbname".native.shape.gii -var var "$AtlasSpaceFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$wbname".native.shape.gii
     ${CARET7DIR}/wb_command -set-map-name "$AtlasSpaceFolder"/"$NativeFolder"/"$Subject"."$Hemisphere"."$wbname".native.shape.gii 1 "$Subject"_"$Hemisphere"_"$mapname"

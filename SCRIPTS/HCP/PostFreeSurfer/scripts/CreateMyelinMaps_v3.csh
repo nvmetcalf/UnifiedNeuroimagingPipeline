@@ -40,7 +40,7 @@ else
 endif
 
 set AtlasFolder = ${AtlasName}_${LowResMesh}k
-set TargetDir = `dirname $target`
+#set TargetDir = `dirname $target`
 
 # if(-e $target_t1 && -e $target_t2) then
 # 	#calibrate the T1 and T2
