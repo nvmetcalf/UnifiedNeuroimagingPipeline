@@ -1,5 +1,15 @@
 #!/bin/csh
 
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 setenv MKL_THREADING_LAYER GNU
 setenv OMP_NUM_THREADS 6
 
@@ -7,22 +17,24 @@ source $1
 source $2
 
 if(! $?DTI) then
-	echo "ERROR: No DTI scans set in params file."
+	echo "ERROR: No DTI variable set in params file."
 	exit 1
 endif
 
-if(! $?DebugFile) then
-	set DebugFile = ${cwd}/$0:t
-	ftouch $DebugFile
+if($#DTI == 0) then
+	echo "ERROR: No DTI scans set in DTI variable of params file."
+	exit 1
 endif
 
 set SubjectHome = $cwd
 
 set peds = (`echo $DTI_ped | tr " " "\n" | sort | uniq`)
 
-if(! $?day1_path || ! $?day1_patid) then
+if(! $?day1_path) then
 	set day1_path = ""
 	set day1_patid = ""
+else
+	set day1_patid = $day1_path:t
 endif
 
 if($target != "") then
@@ -38,8 +50,10 @@ else
 	endif
 endif
 
-if(! $?FinalResolution) then
+if(! $?DTI_FinalResolution) then
 	set FinalResolution = 3
+else
+	set FinalResolution = $DTI_FinalResolution
 endif
 
 set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
