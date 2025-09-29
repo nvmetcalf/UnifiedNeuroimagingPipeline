@@ -31,6 +31,8 @@ set DoVolumeBPSS = 1
 set options = ""
 set VolSmoothingFWHM = 0
 
+set Residual_Trailer = ""
+
 #Source the params file. These settings will be overridden by [options]
 set prmfile = $1
 if (! -e $prmfile) then
@@ -71,9 +73,7 @@ while($i <= $#argv)
 	@ i++
 end
 
-if(! $?FinalResolution) then
-	set FinalResolution = 3
-endif
+set FinalResolution = $BOLD_FinalResolution
 
 set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
 
@@ -131,7 +131,7 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 
 	ftouch rsfMRI_preproc.lst
 	if($status) exit 1
-	
+
 	foreach Run($FCProcIndex)
 		echo bold${Run}/bold${Run}_upck_faln_dbnd_xr3d_dc_atl.4dfp.img >> rsfMRI_preproc.lst
 	end
@@ -162,7 +162,7 @@ decho "Using format: $format" $DebugFile
 # run Generate_FS_Masks
 #######################
 EXTRACT_FS:
-if(! -e ${SubjectHome}/Masks/${patid}_used_voxels.nii.gz) then 
+if(! -e ${SubjectHome}/Masks/${patid}_used_voxels.nii.gz) then
 	decho "Unable to find ${SubjectHome}/Masks/${patid}_used_voxels.nii.gz! This is generated during atlas registration, so atlas registration may have failed." $DebugFile
 	exit 1
 endif
@@ -186,36 +186,75 @@ if($status) exit 1
 MOVEMENT:
 if(${ComputeMOVERegressor}) then
 	$PP_SCRIPTS/fMRI/Compute_Movement_Regressor.csh $prmfile $options
+	if($status) exit 1
+
+	if($Residual_Trailer != "") then
+		set Residual_Trailer = `echo ${Residual_Trailer}_mov`
+	else
+		set Residual_Trailer = "mov"
+	endif
 endif
-if($status) exit 1
 
 BANDPASS:
 $PP_SCRIPTS/fMRI/Compute_SpectralFiltering.csh $prmfile $options
 if($status) exit 1
 
-GSR:
-if(${ComputeWBRegressor}) then
-	$PP_SCRIPTS/fMRI/Compute_GlobalSignalRegressor.csh $prmfile $options
-endif
-if($status) exit 1
-
 CSF:
 if(${ComputeEACSFRegressor}) then
 	$PP_SCRIPTS/fMRI/Compute_eaCSF_Regressor.csh $prmfile $options
+	if($status) exit 1
+
+	if($Residual_Trailer != "") then
+		set Residual_Trailer = `echo ${Residual_Trailer}_eacsf`
+	else
+		set Residual_Trailer = "eacsf"
+	endif
 endif
-if($status) exit 1
+
 
 VENTRICLE:
 if(${ComputeVENT}) then
 	$PP_SCRIPTS/fMRI/Compute_Ventricle_Regressor.csh $prmfile $options
+	if($status) exit 1
+
+	if($Residual_Trailer != "") then
+		set Residual_Trailer = `echo ${Residual_Trailer}_vent`
+	else
+		set Residual_Trailer = "vent"
+	endif
 endif
-if($status) exit 1
+
 
 WM:
 if(${ComputeWM}) then
 	$PP_SCRIPTS/fMRI/Compute_WhiteMatter_Regressor.csh $prmfile $options
+	if($status) exit 1
+
+	if($Residual_Trailer != "") then
+		set Residual_Trailer = `echo ${Residual_Trailer}_wm`
+	else
+		set Residual_Trailer = "wm"
+	endif
 endif
-if($status) exit 1
+
+
+GSR:
+if(${ComputeWBRegressor}) then
+	$PP_SCRIPTS/fMRI/Compute_GlobalSignalRegressor.csh $prmfile $options
+	if($status) exit 1
+
+	if($Residual_Trailer != "") then
+		set Residual_Trailer = `echo ${Residual_Trailer}_gs`
+	else
+		set Residual_Trailer = "gs"
+	endif
+endif
+
+if($Residual_Trailer != "") then
+	set Residual_Trailer = `echo ${Residual_Trailer}_resid`
+else
+	set Residual_Trailer = "resid"
+endif
 
 ####################################
 # paste nuisance regressors together and compute SVD
@@ -233,9 +272,9 @@ if($DoVolumeRegression) then
 	decho "Performing Volume Linear Regression of Nuissance Regressors - NOT WELL TESTED!" $DebugFile
 
 	pushd $ScratchFolder/${patid}/BOLD_temp
-		
-		
-		if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz) then
+
+
+		if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_${Residual_Trailer}.nii.gz) then
 			set DVAR_Threshold = 0
 			decho "WARNING: Disabling DVAR threshold as denoised timeseries does not exist!"
 		endif
@@ -250,16 +289,16 @@ if($DoVolumeRegression) then
 			decho "Unknown combination of format criteria. Iterative rsfMRI processing not possible." ${DebugFile}
 			exit 1
 		endif
-	
 
-		glm_4dfp $format ${SubjectHome}/Functional/Regressors/${patid}_all_regressors.dat ${concroot}_uout_bpss.conc -rresid -o
+
+		glm_4dfp $format ${SubjectHome}/Functional/Regressors/${patid}_all_regressors.dat ${concroot}_uout_bpss.conc -r${Residual_Trailer} -o
 		#fsl_glm -i ${SubjectHome}/Functional/Volume/`basename ${concroot}`.nii.gz -o $glm_out
 		if ($status) then
 			decho "Failed to perform linear regression of nuissance regressors!" $DebugFile
 			exit 1
 		endif
-		conc2nifti ${concroot}_uout_bpss_resid.conc
-		gzip -fc ${concroot}_uout_bpss_resid.nii > ${SubjectHome}/Functional/Volume/`basename ${concroot}`_uout_bpss_resid.nii.gz
+		conc2nifti ${concroot}_uout_bpss_${Residual_Trailer}.conc
+		gzip -fc ${concroot}_uout_bpss_${Residual_Trailer}.nii > ${SubjectHome}/Functional/Volume/`basename ${concroot}`_uout_bpss_${Residual_Trailer}.nii.gz
 		if($status) exit 1
 		#mv ${concroot}_uout_bpss_resid.nii.gz ${SubjectHome}/Functional/Volume/`basename ${concroot}`_uout_bpss_resid.nii.gz
 	popd
@@ -269,15 +308,15 @@ endif
 if($VolSmoothingFWHM != "0") then
 
 	if(! -e $SmoothTS ) then
-		set SmoothTS = ${SubjectHome}/Functional/Volume/`basename ${concroot}`_uout_bpss_resid
+		set SmoothTS = ${SubjectHome}/Functional/Volume/`basename ${concroot}`_uout_bpss_${Residual_Trailer}
 		decho "Residual timeseries does not exist. Assuming user wants to smooth denoised data." $DebugFile
 	endif
 
 	decho "Smoothing functional BOLD volumes: $VolSmoothingFWHM mm FWHM" $DebugFile
-	
+
 	set SmoothingSigma = `echo $VolSmoothingFWHM | awk '{print($1/2.3548);}'`
 	pushd ${SubjectHome}/Functional/Volume/
-	
+
  		#smooth the bold, 0ing voxels outside the mask
  		fslmaths $SmoothTS -kernel gauss $SmoothingSigma -fmean $SmoothTS:r:r"_sm${VolSmoothingFWHM}"
  		if($status) exit 1
@@ -290,7 +329,7 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 	find . -name "*_uout_bpss.4dfp.*" -exec rm {} \;
 popd
 
-#clean up 4dfp files 
+#clean up 4dfp files
 pushd Masks/FreesurferMasks
 	rm -f *.4dfp.* ${SubjectHome}/Functional/Volume/*dfnd.4dfp.*
 popd

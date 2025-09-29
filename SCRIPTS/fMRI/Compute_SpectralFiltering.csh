@@ -1,5 +1,15 @@
 #!/bin/csh
 
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
 
@@ -24,8 +34,8 @@ else
 	decho "Unknown combination of format criteria. Iterative rsfMRI processing not possible." ${DebugFile}
 	exit 1
 endif
-	
-	
+
+
 pushd $ScratchFolder/${patid}/BOLD_temp
 	decho "		Performing temporal bandpass filtering..." $DebugFile
 
@@ -37,22 +47,24 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 	#bandpass_4dfp ${concroot}_uout_resid.conc $BOLD_TR -bh.1 -oh2 -EB -f$format
 	#set High_Sigma = `echo $HighFrequency $BOLD_TR | awk '{print((1/$1)/$2)}'`
 	#set Low_Sigma = `echo $LowFrequency $BOLD_TR | awk '{print((1/$1)/$2)}'`
-			
+
 	#fslmaths $glm_out -bptf $High_Sigma $Low_Sigma ${SubjectHome}/Functional/Volume/${glm_out}
 	if ($status) then
 		decho "			FAILED! bandpass_4dfp could not filter signal from ${concroot}_uout_resid_bpss.conc using a TR_vol of $TR_vol: $status" $DebugFile
 		exit $status
 	endif
 
+	cp ${concroot}_uout_bpss.conc ${concroot}_uout_bpssl${LowFrequency}h${HighFrequency}.conc
+
 	conc2nifti ${concroot}_uout_bpss.conc
 	if($status) exit 1
-	
-	gzip -f ${concroot}_uout_bpss.nii 
+
+	gzip -f ${concroot}_uout_bpss.nii
 	if($status) exit 1
-	
+
 	mv ${concroot}_uout_bpss.nii.gz ${SubjectHome}/Functional/Volume/`basename ${concroot}`_uout_bpss.nii.gz
 	if($status) exit 1
-	
+
 popd
 
 exit 0

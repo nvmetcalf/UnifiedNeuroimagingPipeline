@@ -1,5 +1,15 @@
 #!/bin/csh
 
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
 
@@ -25,12 +35,15 @@ else
 	decho "Unknown combination of format criteria. Iterative rsfMRI processing not possible." ${DebugFile}
 	exit 1
 endif
-	
-	
+
+
 pushd ${SubjectHome}/Functional/Regressors
 	#############################################################
 	# make the whole brain regressor including the 1st derivative
 	#############################################################
+
+	niftigz_4dfp -n ${SubjectHome}/Masks/FreesurferMasks/${patid}_WholeBrain_mask ${SubjectHome}/Functional/Regressors/${patid}_WholeBrain_mask
+	if($status) exit 1
 
 	qnt_4dfp -s -d -F$format ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_WholeBrain_mask \
 		| awk '$1!~/#/{printf("%10.4f%10.4f\n", $2, $3)}' >! ${patid}_WholeBrain_regressor_dt.dat

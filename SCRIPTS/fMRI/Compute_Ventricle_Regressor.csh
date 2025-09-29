@@ -1,5 +1,15 @@
 #!/bin/csh
 
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
 
@@ -20,9 +30,19 @@ else
 	endif
 endif
 
-if(! $?FinalResolution) then
-	set FinalResolution = 3
+if(! $?CSF_sd1t) then
+	set CSF_sd1t    = 25            # threshold for CSF voxels in sd1 image
 endif
+
+if(! $?CSF_lcube) then
+	set CSF_lcube   = 3             # cube dimension (in voxels) used by qntv_4dfp
+endif
+
+if(! $?CSF_svdt) then
+	set CSF_svdt    = .2            # limit regressor covariance condition number to (1./{})^2
+endif
+
+set FinalResolution = $BOLD_FinalResolution
 
 set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
 @ nframe  = `wc ${SubjectHome}/Functional/TemporalMask/rsfMRI_tmask.txt | awk '{print $2}'`
@@ -43,7 +63,7 @@ else
 	decho "Unknown combination of format criteria. Iterative rsfMRI processing not possible." ${DebugFile}
 	exit 1
 endif
-	
+
 
 ###########################
 # make ventricle regressors
@@ -52,40 +72,40 @@ endif
 pushd ${SubjectHome}/Masks/FreesurferMasks
 	fslmaths ${SubjectHome}/Masks/FreesurferMasks/${patid}_CSF_on_${AtlasName}_${FinalResTrailer} ${SubjectHome}/Masks/FreesurferMasks/${patid}_CSF_on_${AtlasName}_${FinalResTrailer}
 	if($status) exit 1
-	
+
 	niftigz_4dfp -4 ${SubjectHome}/Masks/FreesurferMasks/${patid}_CSF_on_${AtlasName}_${FinalResTrailer} temp
 	if($status) exit 1
-	
+
 	cluster_4dfp temp -n15
 	if($status) exit 1
-	
-	maskimg_4dfp temp_clus ${concroot}_dfnd ${patid}_Ventricle_mask
+
+	maskimg_4dfp temp_clus ${concroot}_dfnd ${SubjectHome}/Functional/Regressors/${patid}_Ventricle_mask
 	if($status) exit 1
-	
-	niftigz_4dfp -n ${patid}_Ventricle_mask ${patid}_Ventricle_mask
+
+	niftigz_4dfp -n ${SubjectHome}/Functional/Regressors/${patid}_Ventricle_mask ${SubjectHome}/Functional/Regressors/${patid}_Ventricle_mask
 	if($status) exit 1
-	
+
 	rm temp*
 popd
 
 pushd ${SubjectHome}/Functional/Regressors
 	@ n = `echo $CSF_lcube | awk '{print int($1^3/2)}'`	# minimum cube defined voxel count is 1/2 total
-	qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_Ventricle_mask -F$format -l$CSF_lcube -t$CSF_svdt -n$n -D -O4 -o${patid}_Ventricle_regressors.dat
+	qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Functional/Regressors/${patid}_Ventricle_mask -F$format -l$CSF_lcube -t$CSF_svdt -n$n -D -O4 -o${patid}_Ventricle_regressors.dat
 	if ($status) then
 
 		#fall back on the atlas segmentation if possible
 		#if(-e ${target}_CS_erode_on_${AtlasName}_${FinalResTrailer}_clus.4dfp.img) then
 		if(-e ${target}_CSF_${FinalResTrailer}.nii.gz || -e ${target}_CSF_${FinalResTrailer}.nii) then
 			decho "Segmented Ventricle mask has no voxels (probably unusually small ventricles). Using Atlas segmentation." $DebugFile
-				
+
 			if( -e ${target}_CSF_${FinalResTrailer}.nii.gz) then
 				niftigz_4dfp -4 ${target}_CSF_${FinalResTrailer}.nii.gz ${AtlasName}_CSF_${FinalResTrailer}
 			else
 				nifti_4dfp -4 ${target}_CSF_${FinalResTrailer}.nii ${AtlasName}_CSF_${FinalResTrailer}
 			endif
-			
+
 			if($status) exit 1
-				
+
 			maskimg_4dfp ${AtlasName}_CSF_${FinalResTrailer} ${concroot}_dfnd ${SubjectHome}/Masks/FreesurferMasks/${patid}_Ventricle_mask
 			if($status) then
 				decho "Could not mask atlas Ventricle segmentation by subjects dfnd." $DebugFile
@@ -93,7 +113,7 @@ pushd ${SubjectHome}/Functional/Regressors
 			endif
 
 			qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_Ventricle_mask -F$format -l$CSF_lcube -t$CSF_svdt -n1 -D -O4 -o${patid}_Ventricle_regressors.dat
-			if($status != 0) then #still no dice...somehow...
+			if($status != 0) then #still no dice...somehow... yes, that is a pun
 				decho "unable to compute ventricle regressors using atlas segmentation" $DebugFile
 				exit 1
 			endif
@@ -108,7 +128,7 @@ pushd ${SubjectHome}/Functional/Regressors
 		decho "${patid}_mov_regressors.dat ${patid}_Ventricle_regressors.dat length mismatch" $DebugFile
 		exit 1
 	endif
-
+	rm *.4dfp.*
 popd
 
 exit 0

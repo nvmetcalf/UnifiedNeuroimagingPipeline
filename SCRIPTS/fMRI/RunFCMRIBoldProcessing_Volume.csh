@@ -1,5 +1,15 @@
 #!/bin/csh
 
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 #run the volume fcmri preprocessing
 
 set ParamsFile = $1
@@ -21,17 +31,16 @@ endif
 if(! $?day1_path) then
 	set day1_path = ""
 	set day1_patid = ""
+else
+	set day1_patid = $day1_path:t
 endif
 
-if(! -e ${SubjectHome}/Freesurfer/mri/aparc+aseg.mgz && $day1_path == "") then
+if(! -e ${SubjectHome}/Freesurfer/${FreesurferVersionToUse}/mri/aparc+aseg.mgz && $day1_path == "") then
 	decho "ERROR - aparc+aseg.mgz not found for subject $patid. Freesurfer needs to be completed first." ${DebugFile}
 	exit 1
-else if($day1_path != "" && ! -e $day1_path/Freesurfer/mri/aparc+aseg.mgz) then
+else if($day1_path != "" && ! -e $day1_path/Freesurfer/${FreesurferVersionToUse}/mri/aparc+aseg.mgz) then
 	decho "ERROR - aparc+aseg.mgz not found for subject $day1_patid ($day1_path/Freesurfer/mri). Freesurfer needs to be completed first on the first session." $DebugFile
 endif
-
-echo "Clearing out rsfMRI results..."
-rm ${SubjectHome}/Functional/Volume/*rsfMRI*
 
 echo "Running fcMRI preprocessing..."
 
@@ -76,7 +85,7 @@ endif
 #	Iterative Regression. This basically just runs fcMRI preproc using a format
 #################
 if($UseIterativeRegression && $DoVolumeRegression) then
-	
+
 	if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz) then
 		decho "ERROR:denoised timeseries does not exist!"
 		exit 1
@@ -94,8 +103,7 @@ if($UseIterativeRegression && $DoVolumeRegression) then
 		decho "Unknown combination of format criteria. Iterative rsfMRI processing not possible." ${DebugFile}
 		exit 1
 	endif
-		
-
+	
 	$PP_SCRIPTS/fMRI/FcMRI_preprocessing.csh $ParamsFile -options $ProcessingParams -format $format
 	if($status) then
 		exit 1
