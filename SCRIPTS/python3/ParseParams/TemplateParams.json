@@ -3,6 +3,7 @@
         "ws"         :"([\\s]*)",
         "fnnq"       :"([/a-zA-Z0-9_\\.\\{\\}\\[\\]\\(\\)\\-:\\$\\*\\+\\%]+)",
         "dec"        :"((-?\\d+(\\.\\d+)?)|(\\.\\d+)?)",
+        "res"        :"(0|1|2|3)",
         "n"          :"(([1-9]\\d*))",
         "n0"         :"((0|[1-9]\\d*))",
         "dir"        :"(-?[xyz])",
@@ -43,28 +44,63 @@
             "${ws}set${ws}target${ws}=${ws}${fn}${ws}(${cm})?": "check_target"
         },
         "Anatomical":{
-            "${ws}set${ws}tse${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
-            "${ws}set${ws}flair${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
-            "${ws}set${ws}mprs${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
-            "${ws}set${ws}SWI${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files"
+            "${ws}set${ws}T1${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
+            "${ws}set${ws}T2${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
+            "${ws}set${ws}FLAIR${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files"
+        },
+        "SWI":{
+            "${ws}set${ws}SWI${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
+            "${ws}set${ws}SWI_Target${ws}=${ws}${tar}?${ws}(${cm})?":"none",
+            "${ws}set${ws}SWI_CostFunction${ws}=${ws}${rcfun}?${ws}(${cm})?":"none"
+        },
+        "ASE":{
+            "${ws}set${ws}ASE${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
+            "${ws}set${ws}ASE_TE${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASE_HCT${ws}=${ws}${dec}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASE_HGB${ws}=${ws}${dec}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASE_SaO2${ws}=${ws}${dec}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASE_dwell${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASE_ped${ws}=${ws}${dirl}?${ws}(${cm})?":"none",
+            "${ws}set${ws}ASE_fm${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
+            "${ws}set${ws}ASE_FieldMapping${ws}=${ws}${opts}?${ws}(${cm})?":"check_ASE_field_map_type",
+            "${ws}set${ws}ASE_delta${ws}=${ws}${dec}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASE_Reg_Target${ws}=${ws}${tar}?${ws}(${cm})?":"none",
+            "${ws}set${ws}ASE_CostFunction${ws}=${ws}${rcfun}?${ws}(${cm})?":"none",
+            "${ws}set${ws}ASE_FinalResolution${ws}=${ws}${res}?${ws}(${cm})?":"none"
         },
         "DTI":{
             "${ws}set${ws}DTI${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
-            "${ws}set${ws}DWI${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
-            "${ws}set${ws}DTI_TE${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries"
+            "${ws}set${ws}DTI_TE${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}DTI_CostFunction${ws}=${ws}${rcfun}?${ws}(${cm})?":"none",
+            "${ws}set${ws}DTI_FinalResolution${ws}=${ws}${res}?${ws}(${cm})?":"none",
+            "${ws}set${ws}DTI_dwell${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}DTI_ped${ws}=${ws}${dirl}?${ws}(${cm})?":"none",
+            "${ws}set${ws}DTI_fm${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
+            "${ws}set${ws}DTI_FieldMapping${ws}=${ws}${opts}?${ws}(${cm})?":"check_DTI_field_map_type",
+            "${ws}set${ws}DTI_delta${ws}=${ws}${dec}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}DTI_Reg_Target${ws}=${ws}${tar}?${ws}(${cm})?":"none"
         },
         "ASL":{
-           "${ws}set${ws}ASL${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
+            "${ws}set${ws}ASL${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
             "${ws}set${ws}ASL_TE${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
             "${ws}set${ws}ASL_PLD${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASL_RPTS${ws}=${ws}${n0l}?${ws}(${cm})?":"none",
+            "${ws}set${ws}ASL_LC_CL${ws}=${ws}${n0l}?${ws}(${cm})?":"none",
             "${ws}set${ws}ASL_TI1${ws}=${ws}${decl}?${ws}(${cm})?":"check_asl_time_inversion",
-            "${ws}set${ws}ASL_TR${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries"
+            "${ws}set${ws}ASL_TR${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASL_dwell${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASL_ped${ws}=${ws}${dirl}?${ws}(${cm})?":"none",
+            "${ws}set${ws}ASL_fm${ws}=${ws}${fnl}?${ws}(${cm})?":"check_ASL_field_maps",
+            "${ws}set${ws}ASL_FieldMapping${ws}=${ws}${opts}${ws}(${cm})?":"check_ASL_field_map_type",
+            "${ws}set${ws}ASL_delta${ws}=${ws}${dec}?${ws}(${cm})?":"check_boundaries",
+            "${ws}set${ws}ASL_Reg_Target${ws}=${ws}${tar}${ws}(${cm})?":"none",
+            "${ws}set${ws}ASL_CostFunction${ws}=${ws}${rcfun}?${ws}(${cm})?":"none",
+            "${ws}set${ws}ASL_FinalResolution${ws}=${ws}${res}?${ws}(${cm})?":"none"
         },
         "BOLD":{
             "${ws}set${ws}BOLD${ws}=${ws}${fnl}?${ws}(${cm})?":"check_consistent_multiband",
             "${ws}set${ws}RunIndex${ws}=${ws}${n0l}?${ws}(${cm})?":"none",
             "${ws}set${ws}FCProcIndex${ws}=${ws}${n0l}?${ws}(${cm})?":"none",
-            
             "${ws}set${ws}BOLD_SIO${ws}=${ws}${n0lcs}?${ws}(${cm})?":"none",
             "${ws}set${ws}BOLD_TR${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
             "${ws}set${ws}BOLD_TE${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
@@ -73,11 +109,6 @@
             "${ws}set${ws}ME_ScanSets${ws}=${ws}${sscsdecl}${ws}(${cm})?":"none",
             "${ws}@${ws}skip${ws}=${ws}${n0}${ws}(${cm})?":"none",
             "${ws}set${ws}BOLD_MB_Factor${ws}=${ws}${n0}${ws}(${cm})?":"none",
-
-            "${ws}set${ws}NORDIC_BOLD${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
-            "${ws}set${ws}NORDIC_BOLD_NoiseVol${ws}=${ws}${dec}${ws}(${cm})?":"none"
-        },
-        "FM&Reg":{
             "${ws}set${ws}BOLD_dwell${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
             "${ws}set${ws}BOLD_ped${ws}=${ws}${dirl}?${ws}(${cm})?":"none",
             "${ws}set${ws}BOLD_ped${ws}=${ws}${dir}?${ws}(${cm})?":"none",
@@ -85,24 +116,15 @@
             "${ws}set${ws}BOLD_FieldMapping${ws}=${ws}${opts}${ws}(${cm})?":"check_BOLD_field_map_type",
             "${ws}set${ws}BOLD_delta${ws}=${ws}${dec}?${ws}(${cm})?":"check_boundaries",
             "${ws}set${ws}BOLD_Reg_Target${ws}=${ws}${tar}${ws}(${cm})?":"none",
+            "${ws}set${ws}BOLD_CostFunction${ws}=${ws}${rcfun}?${ws}(${cm})?":"none",
+            "${ws}set${ws}BOLD_FinalResolution${ws}=${ws}${res}?${ws}(${cm})?":"none",
 
-            "${ws}set${ws}ASL_dwell${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
-            "${ws}set${ws}ASL_ped${ws}=${ws}${dirl}?${ws}(${cm})?":"none",
-            "${ws}set${ws}ASL_ped${ws}=${ws}${dir}?${ws}(${cm})?":"none",
-            "${ws}set${ws}ASL_fm${ws}=${ws}${fnl}?${ws}(${cm})?":"check_ASL_field_maps",
-            "${ws}set${ws}ASL_FieldMapping${ws}=${ws}${opts}${ws}(${cm})?":"check_ASL_field_map_type",
-            "${ws}set${ws}ASL_delta${ws}=${ws}${dec}?${ws}(${cm})?":"check_boundaries",
-            "${ws}set${ws}ASL_Reg_Target${ws}=${ws}${tar}${ws}(${cm})?":"none",
-            
-            "${ws}set${ws}DTI_dwell${ws}=${ws}${decl}?${ws}(${cm})?":"check_boundaries",
-            "${ws}set${ws}DTI_ped${ws}=${ws}${dirl}?${ws}(${cm})?":"none",
-            "${ws}set${ws}DTI_ped${ws}=${ws}${dir}?${ws}(${cm})?":"none",
-            "${ws}set${ws}DTI_fm${ws}=${ws}${fnl}?${ws}(${cm})?":"check_DTI_field_maps",
-            "${ws}set${ws}DTI_FieldMapping${ws}=${ws}${opts}${ws}(${cm})?":"check_DTI_field_map_type",
-            "${ws}set${ws}DTI_delta${ws}=${ws}${dec}?${ws}(${cm})?":"check_boundaries",
-            "${ws}set${ws}DTI_Reg_Target${ws}=${ws}${tar}${ws}(${cm})?":"none"
+            "${ws}set${ws}NORDIC_BOLD${ws}=${ws}${fnl}?${ws}(${cm})?":"check_dicom_files",
+            "${ws}set${ws}NORDIC_BOLD_NoiseVol${ws}=${ws}${dec}${ws}(${cm})?":"none"
         },
         "PET":{ 
+            "${ws}set${ws}PET_FinalResolution${ws}=${ws}${res}?${ws}(${cm})?":"none",
+
             "${ws}set${ws}FDG${ws}=${ws}${fnl}?${ws}(${cm})?":"check_fdg_dicom_files",
             "${ws}set${ws}FDG_Target${ws}=${ws}${fnl}${ws}(${cm})?":"none",
             "${ws}set${ws}FDG_Duration${ws}=${ws}(${rngl}|${decl})?${ws}(${cm})?":"none",

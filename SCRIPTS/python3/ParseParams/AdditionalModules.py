@@ -17,11 +17,12 @@
 #
 # Written by Pete Canfield: Nov-2023
 #
-# Last updated: 3/12/2024
+# Last updated: 1/24/2025
 #
 ## ---------------------------------------------------------------------------------------------------------
 
 import os
+import re
 import json
 import math
 import subprocess
@@ -34,11 +35,7 @@ def check_boundaries(regex_match, this):
     parameter = regex_match.string.split()[1]
     
     #Extract the values.
-    values = []
-    if regex_match.group(7) == None: 
-        values.append(float(regex_match.group(5)))
-    else:
-        values = [float(i) for i in regex_match.group(7).split()]
+    values = [float(value) for value in re.findall(r"-?\d*\.\d+", regex_match.string)]
 
     #Now make sure its in the specified range.
     regex_match_all = True 
@@ -48,8 +45,9 @@ def check_boundaries(regex_match, this):
         if not ((value > minimum and value < maximum) or (math.isclose(value,minimum,abs_tol=1e-10) or math.isclose(value,maximum,abs_tol=1e-10))):
             print('Parameter not in range [%f,%f] specified in boundry file' % (minimum, maximum)) 
             regex_match_all = False
+            
             break
-
+    
     return 0 if regex_match_all else 10
 
 
@@ -324,6 +322,9 @@ def check_BOLD_field_map_type(regex_match, this):
 def check_ASL_field_map_type(regex_match, this):
     return check_field_map_type(regex_match, this, 'ASL')
 
+def check_ASE_field_map_type(regex_match, this):
+    return check_field_map_type(regex_match, this, 'ASE')
+
 def check_DTI_field_map_type(regex_match, this):
     return check_field_map_type(regex_match, this, 'DTI')
 
@@ -344,7 +345,17 @@ def check_consistent_multiband(regex_match, this):
         #Try to get the multiband acceleration factors.
         
         try:
-            json_fname = os.path.join('dicom', fname.split('.')[0] + '.json')
+            #First find the nifti extension and replace it with the json extension.
+            json_fname = ''
+            for extension in this.boundary_data['Allowed_Dicom_Scan_Extensions']:
+                if fname.endswith(extension):
+                    #Chop off the extension and the last '.' and add the '.json' extension.
+                    json_basename = fname[:-(len(extension) + 1)] + '.json'
+                    json_fname = os.path.join('dicom', json_basename)
+                    break
+            
+            if len(json_fname) == 0:
+                continue
 
             try: 
                 header_data = json.load(open(json_fname))

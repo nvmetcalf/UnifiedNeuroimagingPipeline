@@ -222,7 +222,6 @@ class ParseParams():
         except FileNotFoundError:
             self.ecode = 3 
             return
-        
 
         #Lets add the cwd and cwd:h variables into the match map.
         self.match_map['cwd:h'] = os.path.dirname(os.getcwd())
@@ -231,9 +230,11 @@ class ParseParams():
         self.__build_match_map()
 
         #Now lets go back through and expand out each line.
+        #Replace found shell variables (cwd and cwd:h). Can be denoted by $var or ${var}.
         for index, line in enumerate(self._file_data):
             for to_expand in self.match_map:
                 line = line.replace(f'${{to_expand}}', self.match_map[to_expand])
+                line = line.replace(f'${to_expand}', self.match_map[to_expand])
 
             self._file_data[index] = line
 
