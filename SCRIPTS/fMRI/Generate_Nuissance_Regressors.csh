@@ -74,7 +74,9 @@ pushd ${SubjectHome}/Functional/Regressors
 			exit 1
 		endif
 		@ n = `wc $task_regressor | awk '{print $1}'`
-		@ nframe = `wc ${patid}_all_regressors.dat | awk '{print $1}'`
+		#test against the tmask length as you should be using the whole task timeseries for this
+		#and it is agnostic to the processing done (i.e. may not have done band pass filtering)
+		@ nframe = `wc ${SubjectHome}/Functional/TemporalMask.tmask.txt | awk '{print $2}'`
 		
 		if ($n != $nframe) then
 
