@@ -1,5 +1,15 @@
 #!/bin/csh
 
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
 
@@ -49,7 +59,7 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 	set num_unique_sefm = (`echo $all_sefm | tr " " "\n" | sort -u`)
 
 	if($#num_unique_sefm < 2) then
-		echo "Not enough unique phase encoding directions to perform topup..."
+		echo "SCRIPT: $0 : 00003 : Not enough unique phase encoding directions to perform topup..."
 		echo "Set directions: $all_sefm"
 		exit 1
 
@@ -128,20 +138,23 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		epi_reg --echospacing=$dwell[1] --fmap=${cwd}/fmap_rads_${direction}.nii.gz --fmapmag=${cwd}/fmap_mag_${direction}.nii.gz --fmapmagbrain=${cwd}/fmap_mag_${direction}_brain.nii.gz --pedir=$direction --epi=${cwd}/${patid}_${FM_Suffix}_ref_distorted_${direction} --t1=${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} --t1brain=${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target}_brain_restore.nii.gz --out=${cwd}/${patid}_${FM_Suffix}_ref_unwarped_${direction} --noclean
 		if($status) exit 1
 
-		#see if we want to check how far a voxel displaces
-		if($MaximumRegDisplacement != 0) then
-			flirt -in ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} -ref ${patid}_${FM_Suffix}_ref_unwarped_${direction} -omat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat -dof 6 #-cost mutualinfo -searchcost mutualinfo
-			if($status) exit 1
+		if($MaximumRegDisplacement == 0) then
+			#see if we want to check how far a voxel displaces
+			set MaximumRegDisplacement = `fslinfo ${cwd}/${patid}_${FM_Suffix}_ref_distorted_${direction}.nii.gz | grep pixdim | awk '{print $2 * 1.25}' | sort -u | tail -1`
+		endif
 
-			set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_unwarped_${direction} ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_unwarped_${direction}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat 0 50 0`
+		flirt -in ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} -ref ${patid}_${FM_Suffix}_ref_unwarped_${direction} -omat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat -dof 6 #-cost mutualinfo -searchcost mutualinfo
+		if($status) exit 1
 
-			decho "2 way registration displacement: $Displacement" registration_displacement.txt
+		set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_unwarped_${direction} ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_unwarped_${direction}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat 0 50 0`
+
+		decho "2 way registration displacement: $Displacement" registration_displacement.txt
 
 			if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_unwarped_${direction} ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_unwarped_${direction}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat 0 50 0 $MaximumRegDisplacement`) then
-				decho "	Error: Registration from $FM_Suffix $direction to $Reg_Target and $Reg_Target to $FM_Suffix $direction has a displacement of "$Displacement
-				exit 1
-			endif
+			echo "SCRIPT: $0 : 00004 : 	Error: Registration from $FM_Suffix $direction to $Reg_Target and $Reg_Target to $FM_Suffix $direction has a displacement of "$Displacement
+			exit 1
 		endif
+
 
 		convertwarp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}/${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz -r ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}/${patid}_${FM_Suffix}_ref_unwarped_${direction}.mat
 		if($status) exit 1

@@ -1,28 +1,28 @@
 #!/bin/csh
 
+if($#argv != 2) then
+	echo "SCRIPT: $0 : 00000 : incorrect number of arguments"
+	exit 1
+endif
+
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
-
-if (! -e $1) then
-	echo "$1 not found!"
-	exit 1
-endif
-
-if (! -e $2) then
-	echo "$2 not found!"
-	exit 1
-endif
 
 set SubjectHome = $cwd
 
 if(! $?day1_path || ! $?day1_patid) then
 	set day1_path = ""
 	set day1_patid = ""
-endif
-
-if(! $?DebugFile) then
-	set DebugFile = ${cwd}/$0:t
-	ftouch $DebugFile
 endif
 
 if($target != "") then
@@ -37,28 +37,22 @@ else
 		set RegTarget = ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1
 	endif
 endif
-if(! $?FinalResolution) then
+
+if(! $?ASL_FinalResolution) then
 	set FinalResolution = 3
+else
+	set FinalResolution = $ASL_FinalResolution
 endif
 
-if(! $?ASL_Reg_Target && $?tse) then
-	set ASL_Reg_Target = T2
-else if(! $?ASL_Reg_Target) then
-	set ASL_Reg_Target = T1
+if($FinalResolution == "0") then
+	set FinalResTrailer = ""
+else
+	set FinalResTrailer = "_${FinalResolution}${FinalResolution}${FinalResolution}"
 endif
-
-if(! $?ASL_fm && $?fm) then
-	set ASL_fm = $fm
-else if(! $?ASL_fm) then
-	set ASL_fm = ""
-endif
-
-set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
-			
 ASL_REGISTER:
 
 if(! -e ${SubjectHome}/ASL/Movement) then
-	decho "Unable to perform ASL registration as frame alignment failed." $DebugFile
+	echo "SCRIPT: $0 : 00003 : Unable to perform ASL registration as frame alignment failed."
 	exit 1
 endif
 
@@ -77,13 +71,16 @@ while($#ASL > $Run)
 
 		niftigz_4dfp -n ${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]} ${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}
 		if($status) exit 1
-		
+
 		#this script computes the registration from epi/asl -> T1 as well as doing the field map generation and distortion correction
 		pushd $SubjectHome
-			$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 asl${Run} $ASL_dwell[$Run] "${ASL_ped[$Run]}" "$ASL_fm" "$ASL_FieldMapping" "$ASL_Reg_Target" $ASL_delta
-			if($status) exit 1
+			$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 asl${Run} $ASL_dwell[$Run] "${ASL_ped[$Run]}" "$ASL_fm" "$ASL_FieldMapping" "$ASL_Reg_Target" $ASL_delta $ASL_CostFunction
+			if($status) then
+				echo "SCRIPT: $0 : 00004 : unable to compute distortion corrected registration."
+				exit 1
+			endif
 		popd
-	
+
 		if($day1_path == "" || $day1_patid == "") then
 			set Target_Path = ${SubjectHome}/Anatomical/Volume
 			set Target_Patid = ${patid}
@@ -91,27 +88,27 @@ while($#ASL > $Run)
 			set Target_Path = ${day1_path}/Anatomical/Volume
 			set Target_Patid = ${day1_patid}
 		endif
-		
-		if($NonLinear) then	
+
+		if($NonLinear) then
 			if($ASL_FieldMapping == "6dof" || $ASL_FieldMapping == "none" || $ASL_FieldMapping == "") then
 				#just has a affine transform to the T1
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat --warp2=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat --warp2=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			else
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}_warp.nii.gz --warp2=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}_warp.nii.gz --warp2=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			endif
-			
+
 			if($status) exit 1
 			set out_trailer = "_fnirt"
-			
+
 		else if($target != "" && ! $NonLinear) then
 			if($ASL_FieldMapping == "6dof" || $ASL_FieldMapping == "none" || $ASL_FieldMapping == "") then
 				#just has a affine transform to the T1 -> atlas
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat --postmat=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat --postmat=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			else
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}_warp.nii.gz --postmat=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}_warp.nii.gz --postmat=${Target_Path}/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			endif
 			if($status) exit 1
-			
+
 			set out_trailer = ""
 		else
 			if($ASL_Reg_Target == "T1") then	#add on the reg target to T1 matrix.
@@ -119,25 +116,25 @@ while($#ASL > $Run)
 			else
 				set postmat = "--postmat=${SubjectHome}/Anatomical/Volume/${ASL_Reg_Target}/${patid}_${ASL_Reg_Target}_to_${patid}_T1.mat "
 			endif
-				
+
 			if($ASL_FieldMapping == "6dof" || $ASL_FieldMapping == "none" || $ASL_FieldMapping == "") then
 				#just has a affine transform to the T1
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}.mat $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			else
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}_warp.nii.gz $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_unwarped_${ASL_ped[$Run]}_warp.nii.gz $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
 			endif
 			if($status) exit 1
-			
+
 			set out_trailer = ""
 		endif
 
 		echo $cwd
-		
+
 		set Warpfield = ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
-		set WarpReference = ${RegTarget}_${FinalResTrailer}
-		$FSLBIN/applywarp -i ${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]} -r ${WarpReference} -w ${Warpfield} -o ${patid}_asl${Run}_ref_${ASL_ped[${Run}]}_${FinalResTrailer}${out_trailer} --interp=spline
+		set WarpReference = ${RegTarget}${FinalResTrailer}
+		applywarp -i ${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]} -r ${WarpReference} -w ${Warpfield} -o ${patid}_asl${Run}_ref_${ASL_ped[${Run}]}${FinalResTrailer}${out_trailer} --interp=spline
 		if ($status) exit $status
-		
+
 		#clean up files
 		rm ${patid}_*.4dfp.* `basename $ASL_Reg_Target`
 	popd
@@ -152,9 +149,9 @@ pushd $ScratchFolder/${patid}/ASL_temp
 	@ Run = 0
 	while($#ASL > $Run)
 		@ Run++
-		
+
 		set Warpfield = ${SubjectHome}/Anatomical/Volume/FieldMapping_asl${Run}/${patid}_asl${Run}_ref_distorted_${ASL_ped[$Run]}_to_${AtlasName}_warp
-		
+
 		pushd asl${Run}
 
 			######################################################################
@@ -167,7 +164,7 @@ pushd $ScratchFolder/${patid}/ASL_temp
 			$FSLDIR/bin/fslsplit $epi $epi -t
 
 			set FrameOrder = ()
-			
+
 			@ i = 0; echo | awk '{printf ("Resampling frame:")}'
 			@ NumVols = `fslval $epi dim4`
 			while ( $i <  $NumVols)
@@ -194,26 +191,26 @@ pushd $ScratchFolder/${patid}/ASL_temp
 				#apply the movement correction and linear atlas registration
 				#combine the movement correction, distortion correction, and linear atlas warp
 
-				$FSLBIN/applywarp --ref=${WarpReference} --premat=${epi}_tmp.mat --warp=${Warpfield} --in=${epi}${padded} --out=${epi}_on_${RegTarget:t}${padded}_${FinalResolution} --interp=spline
+				applywarp --ref=${WarpReference} --premat=${epi}_tmp.mat --warp=${Warpfield} --in=${epi}${padded} --out=${epi}_on_${RegTarget:t}${padded}_${FinalResolution} --interp=spline
 				if ($status) exit $status
 				set FrameOrder = ($FrameOrder ${epi}_on_${RegTarget:t}${padded}_${FinalResolution})
-				
+
 				rm -f movement_dist_linatl_nonlin_warp.nii*
 
 				#smooth the M0/PD image by 5mm
 				if($j == 1) then
 					#sigma is 2.12332257516562 for 5mm
-# 					
+#
 					fslmaths ${epi}_on_${RegTarget:t}${padded}_${FinalResolution} -kernel gauss 2.12332257516562 -fmean ${epi}_on_${RegTarget:t}${padded}_${FinalResolution}
 					if($status) exit 1
-					
+
 				endif
 				@ i++		# next frame
 			end
 		################################################################
 		# merge the split volumes and then do 4d intensity normalization
 		################################################################
-			$FSLBIN/fslmerge -t ${epi}_xr3d_dc_atl $FrameOrder
+			fslmerge -t ${epi}_xr3d_dc_atl $FrameOrder
 			if ($status) exit $status
 
 		#####################################################
@@ -246,5 +243,5 @@ pushd $ScratchFolder/${patid}/ASL_temp
 popd
 
 #Skip for now
-$PP_SCRIPTS/ASL/Compute_CBF.csh $1 $2 $cwd
+$PP_SCRIPTS/ASL/Compute_CBF_Tyler.csh $1 $2 $cwd
 exit 0

@@ -1,24 +1,30 @@
 #!/bin/csh
 
+if($#argv != 2) then
+	echo "SCRIPT: $0 : 00000 : incorrect number of arguments"
+	exit 1
+endif
+
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
 source $1
 source $2
-
-if (! -e $1) then
-	echo "$1 not found!"
-	exit 1
-endif
-
-if (! -e $2) then
-	echo "$2 not found!"
-	exit 1
-endif
 
 set SubjectHome = $cwd
 
 
-if(! $?day1_path || ! $?day1_patid) then
+if(! $?day1_path) then
 	set day1_path = ""
 	set day1_patid = ""
+else
+	set day1_patid = $day1_path:t
 endif
 
 if($target != "") then
@@ -34,11 +40,17 @@ else
 	endif
 endif
 
-if(! $?FinalResolution) then
+if(! $?BOLD_FinalResolution) then
 	set FinalResolution = 3
+else
+	set FinalResolution = $BOLD_FinalResolution
 endif
 
-set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
+if($FinalResolution == "0") then
+	set FinalResTrailer = ""
+else
+	set FinalResTrailer = "_${FinalResolution}${FinalResolution}${FinalResolution}"
+endif
 
 if(! $?RegisterEcho) then
 	set RegisterEcho = 1
@@ -86,10 +98,10 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 			if($status) exit 1
 
 			if($target != "") then
-				convertwarp -r ${target}_${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+				convertwarp -r ${target}${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				if($status) exit 1
 			else
-				convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+				convertwarp -r ${RegTarget}${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				if($status) exit 1
 			endif
 
@@ -103,8 +115,11 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 	else
 		#this is a first session or a single session
 		pushd $SubjectHome
-			$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 "BOLD" "$BOLD_dwell" "$BOLD_ped" "$BOLD_fm" "$BOLD_FieldMapping" "$BOLD_Reg_Target" $BOLD_delta "$BOLD"
-			if($status) exit 1
+			$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 "BOLD" "$BOLD_dwell" "$BOLD_ped" "$BOLD_fm" "$BOLD_FieldMapping" "$BOLD_Reg_Target" $BOLD_delta "$BOLD" $BOLD_CostFunction
+			if($status) then
+				echo "SCRIPT: $0 : 00003 : unable to compute distortion corrected registration."
+				exit 1
+			endif
 		popd
 
 		foreach direction($peds)
@@ -112,18 +127,18 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 			if($NonLinear) then
 				if($BOLD_FieldMapping == "6dof" || $BOLD_FieldMapping == "none" || $BOLD_FieldMapping == "") then
 					#just has a affine transform to the T1
-					convertwarp -r ${target}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}.mat -w ${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+					convertwarp -r ${target}${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}.mat -w ${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				else
-					convertwarp -r ${target}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz --warp2=${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+					convertwarp -r ${target}${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz --warp2=${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				endif
 
 				set out_trailer = "_fnirt"
 			else if($target != "") then
 				if($BOLD_FieldMapping == "6dof" || $BOLD_FieldMapping == "none" || $BOLD_FieldMapping == "") then
 					#just has a affine transform to the T1 -> atlas
-					convertwarp -r ${target}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}.mat --postmat=${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+					convertwarp -r ${target}${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}.mat --postmat=${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				else
-					convertwarp -r ${target}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz --postmat=${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+					convertwarp -r ${target}${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz --postmat=${SubjectHome}/Anatomical/Volume/${BOLD_Reg_Target}/${patid}_${BOLD_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				endif
 
 				set out_trailer = ""
@@ -136,9 +151,9 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 
 				if($BOLD_FieldMapping == "6dof" || $BOLD_FieldMapping == "none" || $BOLD_FieldMapping == "") then
 					#just has a affine transform to the T1
-					convertwarp -r ${RegTarget} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}.mat $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+					convertwarp -r ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1 --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}.mat $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				else
-					convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+					convertwarp -r ${RegTarget}${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_unwarped_${direction}_warp.nii.gz $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
 				endif
 				set out_trailer = ""
 			endif
@@ -148,20 +163,22 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 	set dirs_to_merge = ()
 	#create a test of the BOLD_ref warp for QC
 	foreach direction($peds)
-		$FSLBIN/applywarp -i ${patid}_BOLD_ref_distorted_${direction} -r ${RegTarget}_${FinalResTrailer} -w ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${patid}_BOLD_ref_${direction}_${FinalResTrailer}${out_trailer} --interp=spline
-		if ($status) exit $status
-
-		set dirs_to_merge = ($dirs_to_merge ${patid}_BOLD_ref_${direction}_${FinalResTrailer}${out_trailer})
+		applywarp -i ${patid}_BOLD_ref_distorted_${direction} -r ${RegTarget}${FinalResTrailer} -w ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${patid}_BOLD_ref_${direction}${FinalResTrailer}${out_trailer} --interp=spline
+		if ($status) then
+			echo "SCRIPT: $0 : 00004 : unable to transform $direction."
+			exit $status
+		endif
+		set dirs_to_merge = ($dirs_to_merge ${patid}_BOLD_ref_${direction}${FinalResTrailer}${out_trailer})
 	end
 
 	if($#dirs_to_merge) then
 		fslmerge -t all_dirs ${dirs_to_merge}
 		if ($status) exit $status
 
-		fslmaths all_dirs -Tmean ${patid}_BOLD_ref_${FinalResTrailer}${out_trailer}.nii.gz
+		fslmaths all_dirs -Tmean ${patid}_BOLD_ref${FinalResTrailer}${out_trailer}.nii.gz
 		if ($status) exit $status
 	else
-		cp $dirs_to_merge ${patid}_BOLD_ref_${FinalResTrailer}${out_trailer}.nii.gz
+		cp $dirs_to_merge ${patid}_BOLD_ref${FinalResTrailer}${out_trailer}.nii.gz
 		if ($status) exit $status
 	endif
 
@@ -238,15 +255,17 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 				gunzip -f ${epi}$padded.nii.gz
 
 				$RELEASE/aff_conv xf $epi $epi ${epi}_tmp_t4 ${epi}$padded ${epi}$padded ${epi}_tmp.mat
-				if ($status) exit $status
-
+				if ($status) then
+					echo "SCRIPT: $0 : 00005 : unable to convert t4 matrix to fsl matrix."
+					exit $status
+				endif
 				#######################################
 				# apply all transformations in one step
 				#######################################
 
 				#premat is the xr3d -> boldref -> t1
 				#warp is the t1 -> nonlinear atlas warp
-				$FSLBIN/applywarp --ref=${RegTarget}_${FinalResTrailer} --premat=${epi}_tmp.mat --warp=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${BOLD_ped[$Run]}_to_${AtlasName}_warp --in=${epi}$padded --out=${epi}_on_${RegTarget:t}${padded}_${FinalResolution} --interp=spline
+				applywarp --ref=${RegTarget}${FinalResTrailer} --premat=${epi}_tmp.mat --warp=${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${BOLD_ped[$Run]}_to_${AtlasName}_warp --in=${epi}$padded --out=${epi}_on_${RegTarget:t}${padded}_${FinalResolution} --interp=spline
 				if ($status) exit $status
 
 				set FrameOrder = ($FrameOrder ${epi}_on_${RegTarget:t}${padded}_${FinalResolution})
@@ -258,7 +277,7 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 		################################################################
 		# merge the split volumes and then do 4d intensity normalization
 		################################################################
-			$FSLBIN/fslmerge -t ${epi}_xr3d_dc_atl.nii.gz $FrameOrder
+			fslmerge -t ${epi}_xr3d_dc_atl.nii.gz $FrameOrder
 			if ($status) exit $status
 
 			niftigz_4dfp -4 ${epi}_xr3d_dc_atl ${epi}_xr3d_dc_atl
@@ -356,9 +375,11 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 
 	if(! -e ${SubjectHome}/Functional/Volume) mkdir ${SubjectHome}/Functional/Volume
 
-	$FSLBIN/fslmerge -t ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz $FileList
-	if($status) exit 1
-
+	fslmerge -t ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz $FileList
+	if($status) then
+		echo "SCRIPT: $0 : 00006 : unable to merge runs."
+		exit 1
+	endif
 	$RELEASE/conc_4dfp ${patid}_upck_faln_dbnd_xr3d_dc_atl.conc -l${patid}_upck_faln_dbnd_xr3d_dc_atl.lst
 	if ($status) exit $status
 

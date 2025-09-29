@@ -1,5 +1,20 @@
 #!/bin/csh
 
+if($#argv != 2) then
+	echo "SCRIPT: $0 : 00000 : incorrect number of arguments"
+	exit 1
+endif
+
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
 
@@ -18,7 +33,7 @@ mkdir ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 
 set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
-		
+
 		if(! $?day1_path || ! $?day1_patid) then
 			set Target_Path = ${SubjectHome}/Anatomical/Volume
 			set Target_Patid = ${patid}
@@ -26,15 +41,15 @@ set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
 			set Target_Path = ${day1_path}/Anatomical/Volume
 			set Target_Patid = ${day1_patid}
 		endif
-		
+
 		set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
-		
+
 		foreach direction($peds)
 			epi_reg --epi=../${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} --t1=${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} --t1brain=${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target}_brain.nii.gz --out=${patid}_${FM_Suffix}_ref_unwarped_${direction} --noclean
 			if($status) exit 1
 		end
 	endif
-	
+
 popd
 
 exit 0

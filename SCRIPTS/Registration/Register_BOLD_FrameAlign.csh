@@ -1,22 +1,22 @@
 #!/bin/csh
 
+if($#argv != 2) then
+	echo "SCRIPT: $0 : 00000 : incorrect number of arguments"
+	exit 1
+endif
+
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
-
-if (! -e $1) then
-	echo "$1 not found!"
-	exit 1
-endif
-
-if (! -e $2) then
-	echo "$2 not found!"
-	exit 1
-endif
-
-if(! $?DebugFile) then
-	set DebugFile = ${cwd}/$0:t
-	ftouch $DebugFile
-endif
 
 set SubjectHome = $cwd
 
@@ -46,6 +46,39 @@ if(! -e $SubjectHome/Functional/Movement) then
 	mkdir -p $SubjectHome/Functional/Movement
 endif
 
+if(! $?ME_ScanSets) then
+	set ME_ScanSets = ()
+endif
+
+################################
+# fcMRI preprocessing parameters
+################################
+if(! $?anat_avet) then
+	set anat_avet   = 50            # threshold for anat_ave format
+endif
+
+#set default parameters if they haven't been set yet
+if(! $?BoldDirName) set BoldDirName = "bold"
+
+#goto SKIP_CLEAN
+decho "Removing any existing Anatomical Processing"
+#rm -fr Anatomical/Volume/*
+
+#removes the bold folders and links
+if($?RunIndex && -e $ScratchFolder/${patid}) then
+	decho "Removing any existing BOLD processing for bolds $RunIndex."
+	rm -rf Functional/Volume/*
+endif
+
+if($?ScratchFolder && -e $ScratchFolder/${patid}) then
+	decho "Using Scratch Space. Cleaning old results (if any)."
+	pushd $ScratchFolder/${patid}
+		rm -rf ${BoldDirName}*
+	popd
+endif
+
+rm -rf ${BoldDirName}*
+
 if(! -e $ScratchFolder/${patid}) mkdir -p $ScratchFolder/${patid}
 
 pushd $ScratchFolder/${patid}
@@ -74,7 +107,7 @@ pushd $ScratchFolder/${patid}
 
 			else
 				#BOLD is in a 2D mosaic, break it into 3D volumes
-				decho "RAW data is not BIDS or file ( $SubjectHome/dicom/$BOLD[$Run] ) does not exist." $DebugFile
+				decho "RAW data is not BIDS or file ( $SubjectHome/dicom/$BOLD[$Run] ) does not exist."
 
 				$RELEASE/dcm_to_4dfp -q -b bold${Run} $SubjectHome/dicom/$dcmroot.$BOLD[$Run].*
 				if($status) exit $status
@@ -98,7 +131,7 @@ pushd $ScratchFolder/${patid}
 
 				#sanity check to make sure every echo/run has a matching nordic phase
 				if($#BOLD != $#NORDIC_BOLD) then
-					decho "Number of BOLD runs and number of NORDIC phase images are not the same." $DebugFile
+					decho "Number of BOLD runs and number of NORDIC phase images are not the same."
 					exit 1
 				endif
 				niftigz_4dfp -n bold${Run}_upck bold${Run}_upck
@@ -108,14 +141,7 @@ pushd $ScratchFolder/${patid}
 
 				niftigz_4dfp -4 bold${Run}_upck bold${Run}_upck
 				if($status) exit 1
-			else if($RunNORDIC && $?NORDIC_BOLD_NoiseVol) then
-	                        niftigz_4dfp -n bold${Run}_upck bold${Run}_upck
-	                        if($status) exit 1
-	
-	                        matlab -nodesktop -nosplash -r "addpath(genpath('${PP_SCRIPTS}/spm12'));addpath(genpath('${PP_SCRIPTS}/matlab_scripts')); addpath(genpath('$FREESURFER_HOME/matlab')) ;ARG.noise_volume_last=${NORDIC_BOLD_NoiseVol}; NIFTI_NORDIC_V2('bold${Run}_upck.nii.gz','bold${Run}_upck.nii.gz','bold${Run}_upck.nii.gz',ARG);exit" || exit $status
-	
-	                        niftigz_4dfp -4 bold${Run}_upck bold${Run}_upck
-	                        if($status) exit 1
+
 			else if($RunNORDIC) then
 				niftigz_4dfp -n bold${Run}_upck bold${Run}_upck
 				if($status) exit 1
@@ -125,7 +151,7 @@ pushd $ScratchFolder/${patid}
 				niftigz_4dfp -4 bold${Run}_upck bold${Run}_upck
 				if($status) exit 1
 			else
-				decho "Using original BOLD timeseries." $DebugFile
+				decho "Using original BOLD timeseries."
 			endif
 
 			switch(`grep orientation bold${Run}_upck.4dfp.ifh | awk '{print$3}'`)
@@ -159,13 +185,13 @@ pushd $ScratchFolder/${patid}
 			$RELEASE/frame_align_4dfp bold${Run}_upck $skip -TR_vol $BOLD_TR -d $epidir $interleave $MB
 
 			if($status) then
-				decho "Unable to perform within-run frame alignment/slice timing correction." ${DebugFile}
+				echo "SCRIPT: $0 : 00003 : $2 Unable to perform within-run frame alignment/slice timing correction." ${DebugFile}
 				exit 1
 			endif
 
 			$RELEASE/deband_4dfp -n$skip bold${Run}_upck_faln
 			if($status) then
-				decho "Unable to perform debanding." ${DebugFile}
+				echo "SCRIPT: $0 : 00004 : $2 Unable to perform debanding." ${DebugFile}
 				exit 1
 			endif
 
@@ -179,7 +205,7 @@ pushd $ScratchFolder/${patid}
 	end
 
 	set xr3d_Runs = ()
-	if($?ME_ScanSets) then
+	if($#ME_ScanSets > 0) then
 		if (! $?ME_reg) @ ME_reg = 0
 
 		@ k = 1
@@ -258,7 +284,7 @@ pushd $ScratchFolder/${patid}
 	#the first echo for each ME run
  	$RELEASE/cross_realign3d_4dfp -n$skip -qv0 -l$patid"_xr3d.lst"
  	if($status) then
- 		decho "Unable to perform across run realignment." ${DebugFile}
+ 		echo "SCRIPT: $0 : 00005 : $2 Unable to perform across run realignment." ${DebugFile}
  		exit 1
  	endif
 
@@ -283,8 +309,8 @@ pushd $ScratchFolder/${patid}
 	# make EPI first frame (Anatomical) image
 	######################################
 	foreach ped($peds)
-		decho $patid"_func_vols_${ped}.lst" $DebugFile
-		cat $patid"_func_vols_${ped}.lst" >> $DebugFile
+		decho $patid"_func_vols_${ped}.lst"
+		cat $patid"_func_vols_${ped}.lst"
 
 		#######################################
 		# make func_vols_ave using actmapf_4dfp
@@ -331,7 +357,7 @@ pushd $ScratchFolder/${patid}
 
 		niftigz_4dfp -n ${patid}_func_vols_${ped}_ave $SubjectHome/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_distorted_${ped}
 		if($status) then
-			decho "Could not generate BOLD anatomy reference for phase encoding direction ${ped}." $DebugFile
+			echo "SCRIPT: $0 : 00006 : $2 Could not generate BOLD anatomy reference for phase encoding direction ${ped}."
 			exit 1
 		endif
 	end

@@ -1,22 +1,23 @@
 #!/bin/csh
 
+if($#argv != 2) then
+	echo "SCRIPT: $0 : 00000 : incorrect number of arguments"
+	exit 1
+endif
+
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
 
-if (! -e $1) then
-	echo "$1 not found!"
-	exit 1
-endif
-
-if (! -e $2) then
-	echo "$2 not found!"
-	exit 1
-endif
-
-if(! $?DebugFile) then
-	set DebugFile = ${cwd}/$0:t
-	ftouch $DebugFile
-endif
 
 set SubjectHome = $cwd
 
@@ -41,7 +42,7 @@ pushd $ScratchFolder/${patid}
 
 	ftouch $patid"_xr3d".lst
 	ftouch $patid"_anat".lst
-	
+
 	@ Run = 0
 	while($#ASL > $Run)	#these are labels if nifti and numbers if dicom
 		@ Run++
@@ -60,7 +61,7 @@ pushd $ScratchFolder/${patid}
 
 				$RELEASE/unpack_4dfp asl${Run} asl${Run}_upck -nx$asl_nx -ny$asl_ny -V
 				if($status) then
-					decho "could not unpack asl"
+					echo "SCRIPT: $0 : 00003 : could not unpack asl"
 					exit 1
 				endif
 			endif
@@ -80,33 +81,26 @@ pushd $ScratchFolder/${patid}
 					if($status) exit 1
 					breaksw
 				default:
-					echo "ERROR: UNKNOWN ASL ORIENTATION!!!"
+					echo "SCRIPT: $0 : 00004 : ERROR: UNKNOWN ASL ORIENTATION!!!"
 					exit 1
 					breaksw
 			endsw
-			
-			ASL_FRAME_ALIGN:
-			#apparetnly this forces some unknown internal computations that wrecks asl data
-# 			$RELEASE/frame_align_4dfp asl${Run}_upck 0
-# 			if($status) then
-# 				decho "Unable to perform within-run frame alignment/slice timing correction." ${DebugFile}
-# 				exit 1
-# 			endif
 
+			ASL_FRAME_ALIGN:
 			#add this asl run to the list to be included in cross run alignment and anat_ave
 			echo asl${Run}/asl${Run}_upck >>		../$patid"_xr3d".lst
 			echo asl${Run}/asl${Run}_upck_xr3d >>	../$patid"_anat".lst
-			
+
 			$RELEASE/cross_realign3d_4dfp -n1 -r3 -f -Zcq -v0 asl${Run}_upck
 			if($status) then
-				decho "Unable to perform run realignment." ${DebugFile}
+				echo "SCRIPT: $0 : 00005 : Unable to perform run realignment." ${DebugFile}
 				exit 1
 			endif
 
 		cd ..
 	end
 
-	
+
 	cat $patid"_xr3d".lst
 
 	@ Run = 0
@@ -114,21 +108,37 @@ pushd $ScratchFolder/${patid}
 	#outputs the ddat files with the acquisition direction (linear y translation) low passed (<0.1hz)
 		@ Run++
 		pushd asl$Run
-			$RELEASE/mat2dat asl${Run}_upck_xr3d.mat -RD -n0
+			$RELEASE/mat2dat asl${Run}_upck_xr3d.mat -RD -n0 -l${MovementLowpass} TR_vol=$ASL_TR[$Run]
 			if($status) exit 1
-			
+
 			mv *"_xr3d".*dat *"_xr3d.mat" *"xr3d.fd" ${SubjectHome}/ASL/Movement
 			pushd ${SubjectHome}/ASL/Movement
 				$PP_SCRIPTS/Utilities/compute_fd.csh asl${Run}_upck_xr3d.ddat $BrainRadius 0 0 $FD_Threshold
 				if($status) then
-					decho "	Could not compute fd on resting state BOLD data set." $DebugFile
+					echo "SCRIPT: $0 : 00006 : 	Could not compute fd on ASL data set." $DebugFile
 					exit 1
 				endif
+				#we want to denote pairs. so starting at the end, set the previous value to the same as the current frame, then skip the previous frame.
+				set bin_fd = (`cat asl${Run}_upck_xr3d.ddat.fd.sfbin`)
+
+				@ i = $#bin_fd
+
+				while($i > 0)
+					@ k = $i - 1
+					set bin_fd[$k] = $bin_fd[$i]
+					@ i = $i - 2
+				end
+
+				ftouch asl${Run}_upck_xr3d.ddat.fd.sfbin
+
+				foreach frame($bin_fd)
+					echo $frame >> asl${Run}_upck_xr3d.ddat.fd.sfbin
+				end
 			popd
-			
+
 		popd
 	end
-	
+
 popd
 
 exit 0

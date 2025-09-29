@@ -1,9 +1,28 @@
 #!/bin/csh
 
+if($#argv != 2) then
+	echo "SCRIPT: $0 : 00000 : incorrect number of arguments"
+	exit 1
+endif
+
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
-set echo
+
 set SubjectHome = $cwd
+
+if($?PET_FinalResolution) then
+	set PET_FinalResolution = 1
+endif
 
 if(! -e Anatomical/Volume) mkdir -p Anatomical/Volume
 
@@ -14,15 +33,15 @@ cd PET/Volume
 	#register within modality images together and average
 	#register each average to the T1 via some registration chain set in the params file
 	#register each scan within a modality to itself and average
-	foreach Modality(FDG H2O CO O2 PIB TAU FBX)		
+	foreach Modality(FDG H2O CO O2 PIB TAU FBX)
 		#get a list of all the files in this modality
 		set Files = (`ls ${Modality}_*_sum_deco.nii.gz`)
-		
+
 		echo "Found Images for ${Modality}:" $Files
 		if($#Files == 0) then
 			continue
 		endif
-		
+
 		rm -r ${SubjectHome}/Anatomical/Volume/${Modality}
 		mkdir ${SubjectHome}/Anatomical/Volume/${Modality}
 		if($#Files > 1) then
@@ -31,17 +50,17 @@ cd PET/Volume
 			while($i <= $#Files)
 				flirt -in $Files[$i] -ref $Files[1] -out $Files[$i]:r:r"_reg.nii.gz" -dof 6 #-interp nearestneighbour
 				if($status) exit 1
-				
+
 				@ i++
 			end
-			
+
 			#take the within modality registratio target and everything registered to it and stack them.
 			fslmerge -t temp $Files[1] `ls ${Modality}_*_sum_deco_reg.nii.gz`
 			if($status) exit 1
-			
+
 			fslmaths temp -Tmean ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz"
 			if($status) exit 1
-			
+
 			rm temp.*
 		else
 			#for consistency copy the averages to anatomical.
@@ -56,11 +75,11 @@ echo "Computing registrations for all PET modalities..."
 cd ${SubjectHome}/Anatomical/Volume
 foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 	if(! -e $Modality) continue
-	
+
 	cd $Modality
-	
+
 		@ CostIndex = 1
-		
+
 		while($CostIndex <= $#Costs)
 			if($Modality == "FDG") then
 				set PET_RegMethod = $FDG_RegMethod
@@ -77,14 +96,14 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 			else if($Modality == "FBX") then
 				set PET_RegMethod = $FBX_RegMethod
 			endif
-		
+
 			if($Costs[$CostIndex] == $PET_RegMethod) then
 				break;
 			endif
-			
+
 			@ CostIndex++
 		end
-		
+
 		if($Modality == "FDG") then
 			set RegChain = ($FDG_Target FDG)
 		else if($Modality == "H2O") then
@@ -103,7 +122,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 			echo "Unknown modality $Modality"
 			exit 1
 		endif
-			
+
 		set SmoothingFWHM = 3
 		if($Modality == "FDG") then
 			@ SmoothingFWHM = $FDG_Smoothing
@@ -127,47 +146,47 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 			@ SmoothingFWHM = $FBX_Smoothing
 			set PET_RegMethod = $FBX_RegMethod
 		endif
-		
+
 		@ i = $#RegChain
-			
+
 		set RegistrationMats = ()
 		while($i > 1)
 			@ j = $i - 1
-				
+
 			set NextLevel = 0
-			
+
 			set FoundParameters = 0
-			
+
 			#remember these for when we update the params file
 			set StartingSmoothinhFWHM = $SmoothingFWHM
 			set StartingRegMethod = $PET_RegMethod
-			
+
 			if(! -e ${SubjectHome}/Anatomical/Volume/$RegChain[$j]/${patid}_$RegChain[$j].nii.gz && $?day1_path ) then
 				set TargetHome = $day1_path
-				set TargetPatid = $day1_patid
+				set TargetPatid = $day1_path:t
 			else
 				set TargetHome = $SubjectHome
 				set TargetPatid = $patid
 			endif
-				
+
 			while(! $FoundParameters)
-			
+
 				if(! -e ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j]".mat") then
 					#do the forward registration
 					set SmoothingSigma = `echo $SmoothingFWHM | awk '{print($1/2.3548);}'`
-					
+
 					#smooth the image to help with registration
 					fslmaths ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] -kernel gauss $SmoothingSigma -fmean ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}
 					if($status) exit 1
-									
+
 					set TargetSmoothingFWHM = "1"
-					
+
 					if( ! $?PET_RegMethod) then
 						set PET_RegMethod = corratio
 					endif
-					
+
 					set Method = "-searchcost $PET_RegMethod -cost $PET_RegMethod"
-					
+
 					if($RegChain[$j] == "FDG") then
 						set TargetSmoothingFWHM = $FDG_Smoothing
 					else if($RegChain[$j] == "H2O") then
@@ -184,69 +203,69 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 						set TargetSmoothingFWHM = $FBX_Smoothing
 					endif
 					set TargetSmoothingSigma = `echo $SmoothingFWHM | awk '{print($1/2.3548);}'`
-					
+
 					if(! -e ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}.nii.gz) then
-						
+
 						fslmaths ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] -kernel gauss $TargetSmoothingSigma -fmean ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}
 						if($status) exit 1
 					endif
-					
+
 					flirt -in ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} -ref ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} -out ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j] -omat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j]".mat" -dof 6 $Method #-coarsesearch 30 -finesearch 9 #-interp nearestneighbour
 					if($status) exit 1
-					
+
 					#see if we want to check how far a voxel displaces
 					if($MaximumRegDisplacement != 0) then
 						#do the backwards registration
-						
+
 						flirt -in ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} -ref ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm${SmoothingFWHM}" -omat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" -dof 6 $Method #-coarsesearch 30 -finesearch 9 #-interp nearestneighbour
 						if($status) exit 1
-						
+
 						set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j].mat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" 0 50 0`
 						decho "2 way registration displacement: $Displacement" ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${patid}_$RegChain[$j]_displacement.txt
-						
+
 						if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j].mat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" 0 50 0 $MaximumRegDisplacement`) then
 							decho "	Registration from $RegChain[$i] to $RegChain[$j] and $RegChain[$j] to $RegChain[$i] has a displacement of "$Displacement
 							decho "		Trying with masking..."
-							
+
 							if(! -e ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain.nii.gz) then
 								bet ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain -f 0.5 -R
 								if($status) exit 1
-								
+
 								fslmaths ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} -thr `fslstats ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain -P 50` ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain
 								if($status) exit 1
 							endif
-							
+
 							if(! -e ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain.nii.gz) then
 								bet ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain -f 0.5 -R
 								if($status) exit 1
-								
+
 								fslmaths ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} -thr `fslstats ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain -P 50` ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain
 								if($status) exit 1
-								
+
 							endif
-							
+
 							set TargetBrain = ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain
-							
+
 							flirt -in ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain -ref $TargetBrain -out ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j] -omat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j]".mat" -dof 6 $Method #-coarsesearch 30 -finesearch 9 #-interp nearestneighbour
 							if($status) exit 1
-							
+
 							flirt -in $TargetBrain -ref ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm${SmoothingFWHM}"_brain -omat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" -dof 6 $Method #-coarsesearch 30 -finesearch 9 #-interp nearestneighbour
 							if($status) exit 1
-							
+
 							set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j].mat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" 0 50 0`
 							decho "Brain Masked 2 way registration displacement: $Displacement" ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${patid}_$RegChain[$j]_displacement.txt
-							
+
 							if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j].mat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" 0 50 0 $MaximumRegDisplacement`) then
 								decho "	Error: Registration from $RegChain[$i] to $RegChain[$j] and $RegChain[$j] to $RegChain[$i] has a displacement of "$Displacement
 								set NextLevel = 1
 							endif
 						endif
-						
+
 					endif
 					rm ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]_sm${SmoothingFWHM}.nii*
-					
+
 				endif
-				
+
 				if($NextLevel) then
 					#since the registration failed, see if we can increase the smoothing
 					#if not, reset the smoothing and try the next cost function
@@ -271,22 +290,22 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 					#we succeeded in a good registration, update the params file
 					set FoundParameters = 1
 					decho "Found good registration parameters: $SmoothingFWHM mm and $PET_RegMethod cost. Updating params file."
-			
+
 					cat ${SubjectHome}/$1 | sed 's/set '$RegChain[$i]'_Smoothing = '$StartingSmoothinhFWHM'/set '$RegChain[$i]'_Smoothing = '$SmoothingFWHM'/g' >! temp
 					cat temp | sed 's/set '$RegChain[$i]'_RegMethod = '$StartingRegMethod'/set '$RegChain[$i]'_RegMethod = '$PET_RegMethod'/g' >! ${SubjectHome}/$1
-					
+
 					#build the list of matrices we will need
 					set RegistrationMats = ($RegistrationMats ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j]".mat")
 					@ i--
 				endif
 			end
 		end
-		
+
 		#set the final T1 target to what the day1 target is
 		if($?day1_path) then
-			set TargetPatid = $day1_patid
+			set TargetPatid = $day1_path:t
 		endif
-		
+
 		if($#RegistrationMats > 1) then
 			#create out one step resample matrix from the list
 			@ i = 1
@@ -297,21 +316,21 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 				else
 					set AtoB = curr_reg.mat
 				endif
-				
+
 				set BtoC = $RegistrationMats[$j]
 				convert_xfm -omat temp.mat -concat $BtoC $AtoB
 				if($status) exit 1
-				
+
 				mv temp.mat curr_reg.mat
 				@ i++
 			end
-		
+
 			mv curr_reg.mat ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat
 		endif
-		
-		flirt -in ${patid}_${Modality} -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1 -out ${patid}_${Modality}_to_${TargetPatid}_T1 -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm #-interp nearestneighbour
+
+		flirt -in ${patid}_${Modality} -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1 -out ${patid}_${Modality}_to_${TargetPatid}_T1 -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm -applyisoxfm $PET_FinalResolution #-interp nearestneighbour
 		if($status) exit 1
-		
+
 # 		set SmoothingFWHM = 1
 # 		if($Modality == "FDG") then
 # 			set SmoothingSigma = `echo $FDG_Smoothing | awk '{print($1/2.3548);}'`
@@ -330,7 +349,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 # 		else
 # 			set SmoothingSigma = "0"
 # 		endif
-# 		
+#
 # 		if($SmoothingSigma != "0") then
 # 			fslmaths ${patid}_${Modality}_to_${TargetPatid}_T1 -kernel gauss $SmoothingSigma -fmean ${patid}_${Modality}_to_${TargetPatid}_T1
 # 			if($status) exit 1
