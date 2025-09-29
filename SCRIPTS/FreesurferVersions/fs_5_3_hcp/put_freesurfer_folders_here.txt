@@ -1,0 +1,10 @@
+Put the freesurfer folders and files in this folder for the given version.
+
+You should have folders such as: mri, scripts, surf, etc.
+
+If you have freesurfer installed physically somewhere else, then make links to its folders here.
+
+Command to do that would look something like, assuming you are running it from inside this folder:
+
+ln -s <full path to where your freesurfer is installed>/* .
+
