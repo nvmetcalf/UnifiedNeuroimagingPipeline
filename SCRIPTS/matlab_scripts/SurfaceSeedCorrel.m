@@ -215,10 +215,11 @@ function [SeedCorrMatrix Seed_TC_Var SeedVertexCount SeedVertexCountIgnored Seed
     
     SeedCorrMatrix = NaN(length(RegionList), length(RegionList));
          
-    AuxMask = ones(length(raw_cii.brainstructure),1);
+   
     
     %put together the auxillary masks if one or both are specified
     if(exist('LeftHemiSphereAuxMask') && exist('RightHemiSphereAuxMask'))
+         AuxMask = ones(length(raw_cii.brainstructure),1);
         disp('Reading Auxillary Mask...'); 
         
         %see if there is a left hemisphere aux mask and mask by the
@@ -252,11 +253,11 @@ function [SeedCorrMatrix Seed_TC_Var SeedVertexCount SeedVertexCountIgnored Seed
         else
             AuxMask = AuxMask(raw_cii.brainstructure(1:length(AuxMask)) ~= -1);
         end
+        
+        %mask
+        Cifti_ROI = cast(Cifti_ROI, 'uint16') .* cast(AuxMask(1:length(Cifti_ROI)),'uint16');
     end
    
-    %mask
-    Cifti_ROI = cast(Cifti_ROI, 'uint16') .* cast(AuxMask(1:length(Cifti_ROI)),'uint16');
-    
     %row = time
     %column = vertex
     %extract the cortical datapoints

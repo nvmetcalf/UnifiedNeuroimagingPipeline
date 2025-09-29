@@ -1,5 +1,5 @@
 
-function [MeanCBF SdCBF NumPairs Pairwise_FD] = compute_CBF( ASL_SearchTerm, ASL_FD_SearchTerm, Trailer, PLD, T1b, pCASL, TI1, TR, BrainMask, FD_Thresh)
+function [MeanCBF SdCBF NumPairs Pairwise_FD] = compute_CBF( ASL_SearchTerm, ASL_FD_SearchTerm, Trailer, PLD, T1b, pCASL, TI1, TR, BrainMask, FD_Thresh, LC_CL)
 %     ASL_SearchTerm = '*_asl*_atl.nii.gz'
 %     PLD = [1 1.3 1.6 1.9 2.2 2.5]
 %     T1b = 1.6
@@ -13,6 +13,10 @@ function [MeanCBF SdCBF NumPairs Pairwise_FD] = compute_CBF( ASL_SearchTerm, ASL
         FD_Thresh = 0.5
     end
     
+    if(~exist('LC_CL'))
+        LC_CL = 1;
+    end
+
     %==========================================================================
     %find all asl sequences
 
@@ -44,7 +48,7 @@ function [MeanCBF SdCBF NumPairs Pairwise_FD] = compute_CBF( ASL_SearchTerm, ASL
         FD = importdata(FD_files{i});
         
         if(pCASL == 1) %pCASL GRASE
-            [asl_out.vol asl_sd_out.vol NumPairs Pairwise_FD Mo] = cbf_3d_pcasl(ASL.vol, brainmask.vol, PostLabelingDelay, T1b, FD, FD_Thresh);
+            [asl_out.vol asl_sd_out.vol NumPairs Pairwise_FD Mo] = cbf_3d_pcasl(ASL.vol, brainmask.vol, PostLabelingDelay, T1b, FD, FD_Thresh, LC_CL);
         elseif(pCASL == 2) %pCASL 2D
             [asl_out.vol asl_sd_out.vol NumPairs Pairwise_FD Mo] = cbf_pcasl(ASL.vol, brainmask.vol, PostLabelingDelay, T1b, FD, FD_Thresh);
         else

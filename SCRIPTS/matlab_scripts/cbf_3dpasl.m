@@ -1,5 +1,5 @@
 
-function [CBF CBF_by_Pair numPair Mo]=cbf_pasl(rawData, Mo, PLD_json, T1b, TR, FD_tmask, LC_CL, CBF_OutfileName)
+function [CBF CBF_by_Pair numPair Mo]=cbf_3dpasl(rawData, Mo_Filename, PLD_json, T1b, TR, FD_tmask, LC_CL, CBF_OutfileName)
 
 % Calculate CBF for 3D pCASL
 % CBF data are calculated according to the formula from
@@ -21,31 +21,24 @@ function [CBF CBF_by_Pair numPair Mo]=cbf_pasl(rawData, Mo, PLD_json, T1b, TR, F
 
 if T1b == 0
 	disp('Use default blood T1...');
-	disp('T1b = 1.490 sec');
-	T1b = 1.490; % T1 of blood (sec)
+	disp('T1b = 1.6 sec');
+	T1b = 1.6; % T1 of blood (sec)
 end
 
 % The following parameters are hard coded using parameters from
 % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5964483/
 
-lambda = 0.9; % blood/tissue water partition coefficient (g/mL)
-alp = 0.95; % label efficiency
+lambda = 0.9; % blood/tissue water partition coefficient (mL/g)
+alp = 0.85; % label efficiency
 
 ASL = load_nifti(rawData)
 
-Mo_image = load_nifti(Mo); % equilibrium magnetization of brain
+Mo_image = load_nifti(Mo_Filename); % equilibrium magnetization of brain
 Mo = Mo_image.vol;
 
 FD = importdata(FD_tmask);
 
 JSON = load_json(PLD_json);
-
-%Mo(brainMask == 0 | isnan(brainMask)) = 0;
-
-if(TR < 5)
-    %scale the Mo as the TR is less than 5s
-    Mo = Mo * (1/(1 - exp(-TR/1.3)));
-end
 
 [xSize,ySize,zSize,tSize] = size(ASL.vol);
 
@@ -61,44 +54,50 @@ CBF_by_Pair = zeros(xSize,ySize,zSize,numPair);
 control = zeros(xSize,ySize,zSize);
 label = zeros(xSize,ySize,zSize);
 
-UsedPairs = 0
-for ii = 1:2:tSize
+UsedPairs = 0;
+
+TI = JSON.InversionTime;
+TI1 = JSON.BolusDuration;
+
+CBF_by_Pair = [];
+for ii = 1:2:tSize-1
     
      if(~(FD(ii) & FD(ii+1)))
         continue;
      end
     
     
-    SliceTime = (TR - JSON.TI1(ii) - JSON.PostLabelingDelay(ii))/zSize;
+    k = alp * lambda;
+    
     %compute the cbf by pair - this is noisy... probably
-    scale_factors = 6000*lambda;
   
     if(LC_CL)   %0 = control then label, 1 = label then control
-        control = squeeze(rawPcasl(:,:,:,ii+1));
-        label = squeeze(rawPcasl(:,:,:,ii));
+        control = squeeze(ASL.vol(:,:,:,ii+1));
+        label = squeeze(ASL.vol(:,:,:,ii));
     else
-        control = squeeze(rawPcasl(:,:,:,ii));
-        label = squeeze(rawPcasl(:,:,:,ii+1));
+        control = squeeze(ASL.vol(:,:,:,ii));
+        label = squeeze(ASL.vol(:,:,:,ii+1));
     end
     
-    c_min_l = control - label;
+    delM = control - label;
     
-    UsedPairs = UsedPairs + 1;
+    % Now calculate CBF
+    %CBF_by_Pair = cat(4, CBF_by_Pair, (k * delM * 6000 * 0.8) ./ (Mo * T1b * PLD));
+    CBF_by_Pair = cat(4, CBF_by_Pair, ((lambda .* delM) ./ (2 * Mo * alp * TI1 .* exp(-TI/T1b))));
     
-    % Now calculate CBF- this is from the FSL group
-    for j = 1:zSize
-        exponent = exp((JSON.PostLabelingDelay(ii) + (j*SliceTime))/T1b);
-    
-        CBF_by_Pair(:,:,j,UsedPairs) =(scale_factors * c_min_l(:,:,j) * exponent)./(2*alp*TI1*Mo(:,:,j));
-    end
+%     for j = 1:zSize
+%         exponent = exp((JSON.PostLabelingDelay(ii) + (j*SliceTime))/T1b);
+%     
+%         CBF_by_Pair(:,:,j,UsedPairs) =(scale_factors * c_min_l(:,:,j) * exponent)./(2*alp*TI1*Mo(:,:,j));
+%     end
 end
 
-CBF(isnan(CBF) | isinf(CBF)) = 0;
+CBF(isnan(CBF_by_Pair) | isinf(CBF_by_Pair)) = 0;
 % a = (lambda*deltaM);
 % b = (2*alp*Mo*0.700*exp(-1.800/1.664));
 % CBF = a./b;
 
-Mo.vol = mean(CBF(:,:,:,1:UsedPairs),4);
-save_nifti(Mo, CBF_OutfileName);
+Mo_image.vol = mean(CBF_by_Pair,4);
+save_nifti(Mo_image, CBF_OutfileName);
 
 end

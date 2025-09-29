@@ -1,5 +1,5 @@
 
-function [CBF CBF_by_Pair numPair Pairwise_FD Mo]=cbf_3d_pcasl(rawPcasl, brainMask, w, T1b, FD, FD_Thresh)
+function [CBF CBF_by_Pair numPair Mo]=cbf_3d_pcasl(rawPcasl, Mo, PLD_json, T1b, FD_tmask, LC_CL, CBF_OutputFilename)
 
 % Calculate CBF for 3D pCASL
 % CBF data are calculated according to the formula from
@@ -21,17 +21,13 @@ function [CBF CBF_by_Pair numPair Pairwise_FD Mo]=cbf_3d_pcasl(rawPcasl, brainMa
 
 % Default values for w and t1b
 
-if w == 0
-	disp('Use default PLD...');
-	disp('w = 1.2 sec');
-	w = 1.2; % PLD (sec)
-end
-
 if T1b == 0
 	disp('Use default blood T1...');
 	disp('T1b = 1.490 sec');
 	T1b = 1.490; % T1 of blood (sec)
 end
+
+JSON = load_json(PLD_json);
 
 % The following parameters are hard coded using parameters from
 % Wang et al. (2012)
@@ -41,47 +37,58 @@ alp = 0.8; % label efficiency
 R1a = 1/T1b; % blood R1
 
 % Calculate deltaM
-rawPcasl = double(rawPcasl);
-brainMask = double(brainMask);
-Mo = squeeze(rawPcasl(:,:,:,1)); % equilibrium magnetization of brain
-%Mo = Mo .* brainMask;
-[xSize,ySize,zSize,tSize] = size(rawPcasl);
+ASL = load_nifti(rawData)
+
+Mo_image = load_nifti(Mo); % equilibrium magnetization of brain
+Mo = squeeze(Mo_image.vol(:,:,:));
+
+[xSize,ySize,zSize,tSize] = size(ASL.vol);
+
 deltaM = zeros(xSize,ySize,zSize);
-numPair = tSize/2 - 1;
 
-CBF_by_Pair = zeros(xSize,ySize,zSize,numPair);
-Pairwise_FD = [];
-
-exp1 = exp(-w*R1a);
-exp2 = exp(-(t+w)*R1a);
-
-for ii = 2:numPair+1
-    Pairwise_FD = vertcat(Pairwise_FD, FD(ii));
+if(mod(tSize,2))
+   error('Uneven number of frames.'); 
+end
+numPair = tSize/2;
     
-    if(FD(2*ii) > FD_Thresh)
-        disp([num2str(2*ii) ' : ' num2str(FD(2*ii))]);
-        numPair = numPair - 1;
-        
+CBF_by_Pair = zeros(xSize,ySize,zSize,numPair);
+
+FD = importdata(FD_tmask);
+
+Pair = 1;
+for ii = 1:2:tSize
+
+    if(~(FD(ii) & FD(ii+1)))
         continue;
     end
     
-    control = squeeze(rawPcasl(:,:,:,2*ii));
-    label = squeeze(rawPcasl(:,:,:,2*ii-1));
- 
-%    control = squeeze(rawPcasl(:,:,:,2*ii-1));
-%    label = squeeze(rawPcasl(:,:,:,2*ii));
+    if(LC_CL)   %0 = control then label, 1 = label then control
+        control = squeeze(ASL.vol(:,:,:,ii+1));
+        label = squeeze(ASL.vol(:,:,:,ii));
+    else
+        control = squeeze(ASL.vol(:,:,:,ii));
+        label = squeeze(ASL.vol(:,:,:,ii+1));
+    end
     
     deltaM = deltaM + control - label;
     
     %compute the cbf by pair - this is noisy... probably
-    CBF_by_Pair(:,:,:,ii-1) = 60*100*lambda*(control - label)*R1a ./ (2*alp*Mo* (exp1 - exp2) + eps);
+    exp1 = exp(-JSON.PostLabelingDelay(ii)*R1a);
+    exp2 = exp(-(t+JSON.PostLabelingDelay(ii))*R1a);
+    CBF_by_Pair(:,:,:,Pair) = 60*100*lambda*(control - label)*R1a ./ (2*alp*Mo* (exp1 - exp2) + eps);
+    Pair = Pair + 1;
 end
-deltaM = deltaM / numPair;
+
+deltaM = deltaM/Pair;
 %deltaM(find(deltaM<0)) = 0;
 deltaM = deltaM .* brainMask;
 
-CBF_by_Pair(CBF_by_Pair == 0) = NaN;
+CBF_by_Pair(isnan(CBF_by_Pair) | isinf(CBF_by_Pair)) = 0;
 
 % Now calculate CBF 
-CBF = 60*100*lambda*deltaM*R1a ./ (2*alp*Mo* (exp1 - exp2) + eps);
+CBF = mean(CBF_by_Pair(:,:,:,1:Pair), 4);
 
+Mo.vol = CBF;
+
+save_nifti(Mo, CBF_OutputFilename);
+end

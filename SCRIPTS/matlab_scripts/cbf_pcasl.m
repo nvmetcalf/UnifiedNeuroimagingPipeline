@@ -1,5 +1,5 @@
 
-function [CBF CBF_by_Pair numPair Pairwise_FD Mo]=cbf_pcasl(rawPcasl, brainMask, w, T1b, FD, FD_Thresh)
+function [CBF CBF_by_Pair numPair Pairwise_FD Mo]=cbf_pcasl(rawPcasl, brainMask, PLD_Json, T1b, FD, FD_Thresh)
 
 % Calculate CBF for 2D pCASL
 % CBF data are calculated according to the formula from
@@ -20,12 +20,6 @@ function [CBF CBF_by_Pair numPair Pairwise_FD Mo]=cbf_pcasl(rawPcasl, brainMask,
 
 % Default values for w and t1b
 
-if w == 0
-	disp('Use default PLD...');
-	disp('w = 1.2 sec');
-	w = 1.2; % PLD (sec)
-end
-
 if T1b == 0
 	disp('Use default blood T1...');
 	disp('T1b = 1.490 sec');
@@ -33,7 +27,13 @@ if T1b == 0
 end
 
 t = 1; % bolus time (msec)
-PLD = w; % (PLD in msec)
+
+PLDs = load_json(PLD_json); %in ms
+
+%scale PLDs to ms if necessary
+if(PLDs.PostLabelingDelay(1) < 100)
+   PLDs.PostLabelingDelay = PLDsPostLabelingDelay .* 1000; 
+end
 lambda = 0.9; % whole brain blood/tissue water partition coefficient (g/mL)
 alp = 0.86; % label efficiency
 
@@ -75,7 +75,7 @@ for ii = 2:numPair
     
     %compute the cbf by pair - this is noisy... probably
     %CBF_by_Pair(:,:,:,ii-1) = 60*100*lambda*(control - label)*R1a ./ (2*alp*Mo* (exp1 - exp2) + eps);
-    CBF_by_Pair(:,ii) = (6000 * lambda * (control - label) * (exp(PLD/T1b)))./(2 * alp * T1b * Mo * (1 - exp(-t/T1b)));
+    CBF_by_Pair(:,ii) = (6000 * lambda * (control - label) * (exp(PLDs.PostLabelingDelay(ii)/T1b)))./(2 * alp * T1b * Mo * (1 - exp(-t/T1b)));
 end
 deltaM = deltaM ./ numPair;
 %deltaM(find(deltaM<0)) = 0;
