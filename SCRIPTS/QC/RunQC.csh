@@ -11,7 +11,11 @@ if(! -e QC) mkdir QC
 
 set SubjectHome = $cwd
 
-set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
+if(! $?BOLD_FinalResolution) then
+	set FinalResTrailer = 2
+else
+	set FinalResTrailer = $BOLD_FinalResolution
+endif
 
 #set the temporal mask folder
 if($?FD_Threshold && $FD_Threshold != 0) then
@@ -40,7 +44,7 @@ if( $?RunIndex) then
 		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));addpath(genpath('${PP_SCRIPTS}/QC'));DoMovementQC;end;exit"
 		mv *.pdf ${SubjectHome}/QC
 	popd
-	
+
 	if($DVAR_Threshold != 0 && $FD_Threshold == 0) then
 		set RunCondensedFormat = `cat ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_dvar.format`
 		set RSCondensedFormat = `cat ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_bpss_resid_dvar.format`
@@ -55,7 +59,7 @@ if( $?RunIndex) then
 		decho "Unknown combination of format criteria. No format Generated." ${DebugFile}
 		exit 1
 	endif
-	
+
 	$RELEASE/format2lst `echo $RunCondensedFormat` | awk -f $PP_SCRIPTS/frame_count.awk >! ${SubjectHome}/QC/${patid}_BOLD_frame_count.txt
 
 	#compute how many frames we have remaining for each run we will be processing
@@ -68,7 +72,7 @@ if( $?RunIndex) then
 	foreach Run($RunIndex)
 		@ RunLength = `wc ${SubjectHome}/Functional/Movement/bold${Run}_upck_faln_dbnd_xr3d.ddat.fd | cut -d" " -f2`
 		@ EndingFrame = $StartingFrame + $RunLength
-		
+
 		head -${EndingFrame} temp_expanded.format | tail -${RunLength} | awk -v TR=$BOLD_TR -f $PP_SCRIPTS/Utilities/frame_count.awk >! frame_count.tmp
 
 		#report the thing...
@@ -77,7 +81,7 @@ if( $?RunIndex) then
 		#prepare for next run
 		@ StartingFrame = $EndingFrame + 1
 	end
-	
+
 	#extract rms movement
 	ftouch ${SubjectHome}/QC/RMS_movements.txt
 	@ i = 1
@@ -85,7 +89,7 @@ if( $?RunIndex) then
 		tail -1 ${SubjectHome}/Functional/Movement/bold${i}_upck_faln_dbnd_xr3d.ddat >> ${SubjectHome}/QC/RMS_movements.txt
 		@ i++
 	end
-	
+
 else
 	echo "BOLD realignment not computed. Skipping movement plots."
 endif
@@ -210,25 +214,25 @@ NOISE:
 pushd QC
 	#compute the sd before and after denoising
 	if(! -e $ScratchFolder/${patid}/BOLD_temp) mkdir -p $ScratchFolder/${patid}/BOLD_temp
-	
+
 	niftigz_4dfp -4 ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl $ScratchFolder/${patid}/BOLD_temp/${patid}_upck_faln_dbnd_xr3d_dc_atl
-	
+
 	var_4dfp -sf`cat ../Functional/TemporalMask/${patid}_rsfMRI_fd.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_upck_faln_dbnd_xr3d_dc_atl
 	niftigz_4dfp -n $ScratchFolder/${patid}/BOLD_temp/${patid}_upck_faln_dbnd_xr3d_dc_atl_sd1 ${patid}_rsfMRI_sd
-	
+
 	niftigz_4dfp -4 ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_resid
-	
+
 	var_4dfp -sf`cat ../Functional/TemporalMask/${patid}_rsfMRI_fd.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_resid
 	niftigz_4dfp -n $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_resid_sd1 ${patid}_rsfMRI_uout_bpss_resid_sd
-	
+
 	niftigz_4dfp -4 ../Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz ${patid}_used_voxels_fnirt_${FinalResTrailer}
 	ftouch fMRI_denoising.txt
-	
+
 	echo "Atlas Aligned resting state fMRI within brain sd: "`fslstats ${patid}_rsfMRI_sd -k ../Masks/${patid}_used_voxels_fnirt_${FinalResTrailer} -m` >> fMRI_denoising.txt
 	echo "Denoised resting state fMRI within brain sd: "`fslstats ${patid}_rsfMRI_uout_bpss_resid_sd -k ../Masks/${patid}_used_voxels_fnirt_${FinalResTrailer} -m` >> fMRI_denoising.txt
 
 	$PP_SCRIPTS/Utilities/Compute_SNR.csh ${patid}_rsfMRI.nii.gz
-	
+
 	rm ${patid}_used_voxels_fnirt_${FinalResTrailer}.*
 popd
 
