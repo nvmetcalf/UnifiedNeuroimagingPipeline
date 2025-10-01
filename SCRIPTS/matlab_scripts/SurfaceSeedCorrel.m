@@ -325,7 +325,7 @@ function [SeedCorrMatrix Seed_TC_Var SeedVertexCount SeedVertexCountIgnored Seed
         
         % find the first right hemisphere vertex
         LH_Start = 1;
-        RH_End = length(all_brainstructure);
+        RH_End = length(all_brainstructure( all_brainstructure < 3));
         
         for i = 1:RH_End
             if(all_brainstructure(i) == 2)
