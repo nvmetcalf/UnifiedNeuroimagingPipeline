@@ -22,23 +22,30 @@ Lastly, you will need to update PipelineEnvironment.csh (generally just the top 
 
 Super brief pipeline setup:
 
-1) Edit PipelineEnvironment.csh/sh
+1) Edit PipelineEnvironment.csh
+2)     Install Freesurfer into one of the following (or make your own if you want):
+       SCRIPTS/FreesurferVersion/fs_5_3_hcp : freesurfer 5.3 hcp.
+       SCRIPTS/FreesurferVersion/fs_7_3_2 : freesurfer 7.3.2.
+       SCRIPTS/FreesurferVersion/fs_7_4_1 : freesurfer 7.4.1.
 
-2) Create the following folders at the same level of SCRIPTS:
+    You need to put the folders in the freesurfer folder in one of those folders.
+3)    Make sure you have a MATLAB_DIR folder set in your environment. We have a login script that sets it based on the system we log into.
+4)    install fsl ,be sure to update the PipelineEnvironment.csh if you put it somewhere other than SCRIPTS
+5) Create the following folders at the same level of SCRIPTS:
     Scans
     Projects
 
-3) within Scans, create a folder for your projects (these names are going to be the name for the project when you propagate to Projects)
-4) Within each project, create a folder for each participant (like with BIDS)
-5) Within each participant, create a folder for each session.
-6) Within each session, put the dicoms/nifti+jsons
-7) run:
-8)   propagate_scans <project name>
-9)    you do not include the <>, just the folder name of the project in Scans
-10) if the project hasn't been configured, you will be prompted to configure the project level parameters.
-11) Each participant + session will be linked into the InProcess folder of Projects/<project name>, dicoms will be converted to nifti+jsons, parameters will be attempted to be detected automatically.
-12) Goto Projects/<project name>/Inprocess and within each folder will be a file with <participant name>_<session ID>.params. Open this text file and make sure the file names and parameters are correct.
-13) Run:
+6) within Scans, create a folder for your projects (these names are going to be the name for the project when you propagate to Projects)
+7) Within each project, create a folder for each participant (like with BIDS)
+8) Within each participant, create a folder for each session.
+9) Within each session, put the dicoms/nifti+jsons (dicoms is ideal as the pipeline will extract ALL the tags from each dicom and put them in the jsons).
+10) run:
+11)   propagate_scans <project name>
+12)    you do not include the <>, just the folder name of the project in Scans
+13) if the project hasn't been configured, you will be prompted to configure the project level parameters.
+14) Each participant + session will be linked into the InProcess folder of Projects/<project name>, dicoms will be converted to nifti+jsons, parameters will be attempted to be detected automatically.
+15) Goto Projects/<project name>/Inprocess and within each folder will be a file with <participant name>_<session ID>.params. Open this text file and make sure the file names and parameters are correct.
+16) Run:
       P2 "list of folders" -reg
       This will perform the registrations + movement alignments of the sequences in the params file of each folder. Run P2 without arguements to see all operations available.
-14) If all goes well, you will have registered data. Note, DTI has it's own commandline directive (-DTIp).
+17) If all goes well, you will have registered data. Note, DTI has it's own commandline directive (-DTIp).
