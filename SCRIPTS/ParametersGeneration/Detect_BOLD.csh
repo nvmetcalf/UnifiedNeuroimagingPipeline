@@ -24,6 +24,8 @@ if(! $?DICOM_Dir) then
 	set DICOM_Dir = dicom
 endif
 
+source $output_params_file
+
 set Scan = (`$PP_SCRIPTS/Utilities/detect_scan.csh "$BOLD_List" "$BOLD_Exclude_List" ${DICOM_Dir}`)
 
 ##################################
@@ -424,7 +426,13 @@ if($#Scan > 1) then
 	echo "set BOLD_FieldMapping = "\"${fm_method}\""# gre: gradient echo fieldmapping; appa: ap pa spin echo field mapping using bbr; appa_6dof: ap pa field mapping using 6 dof registration; id_appa_6dof: ap pa field mapping using 6 dof registration and deriving distortion from opposing phase encoded images. Does not rely on seperate field maps;  synth: compute field mapping and use 6dof registration; 6dof: no field mapping, use 6dof registration; none: no field mapping, use bbr registration" >> $output_params_file
 	#need to be auto calculated in the future
 	echo "set BOLD_delta = ${delta}	#time between echos for the field map magnitude images" >> $output_params_file
-	echo "set BOLD_Reg_Target = T1	#Set the anatomical image to register metric modalities to (T1/T2/FLAIR)." >> $output_params_file
+
+	if($?T2) then
+		echo "set BOLD_Reg_Target = T2	#Set the anatomical image to register metric modalities to (T1/T2/FLAIR)." >> $output_params_file
+	else
+		echo "set BOLD_Reg_Target = T1	#Set the anatomical image to register metric modalities to (T1/T2/FLAIR)." >> $output_params_file
+	endif
+
 	echo "set BOLD_CostFunction = corratio	#Cost function to use to register BOLD to target. flirt uses this.." >> $output_params_file
 	echo "set BOLD_FinalResolution = 2	#set the final isotropic resolution of the BOLD data. Set to 0 to keep in native target space." >> $output_params_file
 else if($#Scan == 0 && $?BOLD_dwell && $?BOLD_PED) then

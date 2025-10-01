@@ -23,6 +23,8 @@ if(! $?DICOM_Dir) then
 	set DICOM_Dir = dicom
 endif
 
+source $output_params_file
+
 set Scan = (`$PP_SCRIPTS/Utilities/detect_scan.csh "$ASE_List" "$ASE_Exclude_List" ${DICOM_Dir}`)
 
 if($#Scan > 0) then
@@ -112,7 +114,12 @@ if($#Scan > 1) then
 		echo "set ASE_fm = ("${Scan}")		# ASE field mapping Images" >> $output_params_file
 		echo "set ASE_FieldMapping = "\"${fm_method}\""# gre: gradient echo fieldmapping; appa: ap pa spin echo field mapping using bbr; appa_6dof: ap pa field mapping using 6 dof registration; id_appa_6dof: ap pa field mapping using 6 dof registration and deriving distortion from opposing phase encoded images. Does not rely on seperate field maps; synth: compute field mapping and use 6dof registration; 6dof: no field mapping, use 6dof registration; none: no field mapping, use bbr registration" >> $output_params_file
 		echo "set ASE_delta = ${delta}	#time between echos for the field map magnitude images" >> $output_params_file
-		echo "set ASE_Reg_Target = T1	#Set the anatomical image to register metric modalities to (T1/T2/FLAIR)." >> $output_params_file
+
+		if($?T2) then
+			echo "set ASE_Reg_Target = T2	#Set the anatomical image to register metric modalities to (T1/T2/FLAIR)." >> $output_params_file
+		else
+			echo "set ASE_Reg_Target = T1	#Set the anatomical image to register metric modalities to (T1/T2/FLAIR)." >> $output_params_file
+		endif
 		echo "set ASE_CostFunction = mutualinfo	#Cost function to use for registering ASE to target. Used by flirt." >> $output_params_file
 		echo "set ASE_FinalResolution = 2	#set the final isotropic resolution of the ASE data. Set to 0 to keep in native target space." >> $output_params_file
 	endif
