@@ -351,8 +351,7 @@ function [SeedCorrMatrix Seed_TC_Var SeedVertexCount SeedVertexCountIgnored Seed
                 GiftiOutFile = ['region_' num2str(i)];
             end
             
-            Vertices = Cifti_ROI;
-            Vertices(Vertices ~= RegionList(i)) = 0;
+            Vertices = find(Cifti_ROI(:,1) == RegionList(i));
             
             disp(sprintf('Generating Surface Correlation map for region %s.', GiftiOutFile));
             %compute the correlation of the region to every other vertex
@@ -367,13 +366,10 @@ function [SeedCorrMatrix Seed_TC_Var SeedVertexCount SeedVertexCountIgnored Seed
             %gifti file. Since gifti has all vertices, we must go through
             %and assign the defined vertices a correlation value;
             LeftHemisphere_SurfaceMap = CiftiToGiftiAtlas( SurfaceMap(brainstructure == 1), LH_Defined_Vertices);
+            
             RightHemisphere_SurfaceMap = CiftiToGiftiAtlas( SurfaceMap(brainstructure == 2), RH_Defined_Vertices);
             
-            LeftHemisphere_ROI = CiftiToGiftiAtlas( Vertices(brainstructure == 1), LH_Defined_Vertices);
-            RightHemisphere_ROI = CiftiToGiftiAtlas( Vertices(brainstructure == 2), RH_Defined_Vertices);
-            
             save_gii([GiftiOutFile '_surface_map'], SurfaceSpace, LeftHemisphere_SurfaceMap, RightHemisphere_SurfaceMap);
-            save_gii([GiftiOutFile '_region'], SurfaceSpace, LeftHemisphere_ROI, RightHemisphere_ROI);
         end
     end
     
