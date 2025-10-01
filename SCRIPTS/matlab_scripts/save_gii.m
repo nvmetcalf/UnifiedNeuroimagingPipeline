@@ -29,6 +29,9 @@ end
 if(length(varargin) == 3)
     Path = varargin(3);
 else
+    if(isempty(getenv('PP_SCRIPTS')))
+       error('PP_SCRIPTS environment variable has not been set! Cannot find Gifti templates.'); 
+    end
     Path = [getenv('PP_SCRIPTS') '/GiiTemplates'];
 end
 
