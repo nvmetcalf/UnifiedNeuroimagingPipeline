@@ -42,7 +42,7 @@ foreach json_file ($json_list:q)
     if ( -d "$link_folder" ) then
         $FSL_BIN/python3 $PP_SCRIPTS/python3/dump_tags/dump_tags.py "$link_folder" "$json_file" \
             --skip_keys "ReferencedImageSequence" "SourceImageSequence" "[CSAImageHeaderInfo]"  \
-                        "[CSASeriesHeaderInfo]"  \
+                        "[CSASeriesHeaderInfo]" "DecayFactor" "FrameReferenceTime"\
             -o
         if ( $status ) then
             decho "Could not dump tags for ${json_file}."

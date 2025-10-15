@@ -5,8 +5,6 @@ import sys
 import pydicom
 import json
 
-import pdb
-
 CAST_TABLE = {
     pydicom.Dataset : str
 }
@@ -23,12 +21,13 @@ def cast_header_value(value):
 def extract_dicom_tags(dcm_paths: list) -> dict:
     found_tags = {}
     for dcm_path in dcm_paths:
-        
+            
         try:
             dcm_header = pydicom.dcmread(dcm_path, stop_before_pixels=True)
             acquisition = int(dcm_header[ACQUISITION_NUMBER].value)
         except: 
             continue
+        
         
         found_tags[acquisition] = {}
         acq = found_tags[acquisition]
@@ -44,6 +43,7 @@ def extract_dicom_tags(dcm_paths: list) -> dict:
             
             #Add the value to the acq dict.
             acq[name] = value
+
     
     #Now sort the found_tags dictionary by aqcuisision number.
     found_tags = dict(sorted(found_tags.items()))
@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     skip_keys = args.skip_keys
-
+    
     with open(args.json_path, 'r') as read_file:
         json_data = json.load(read_file)
         
