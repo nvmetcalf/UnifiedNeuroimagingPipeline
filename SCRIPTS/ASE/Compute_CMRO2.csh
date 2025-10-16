@@ -54,11 +54,12 @@ pushd ASE/Volume
 
 	set patid_root = $patid
 	echo $patid_root
-
-	#CAO2 = (Hgb x 1.34 * SaO2) + (0.003 * 100)
+	#units are ml/min/100g
+	#CAO2 = ((Hgb x 1.34 * SaO2) + (0.003 * 100))/100
 	#SaO2 = (O2hb/(O2hb + Hb)) * 100
 	#SaO2 is a percentage, needs converting to the decimal form
-	set cao2 = `echo $ASE_HGB $ASE_SaO2 | awk '{print(($1 * ($2 * 0.01) * 1.34) + (0.003 * 100))}'`
+	#PaO2 assumed to be 90 for adults
+	set cao2 = `echo $ASE_HGB $ASE_SaO2 | awk '{print((($1 * ($2 * 0.01) * 1.34) + (0.003 * 90))/100s)}'`
 
 	echo "CaO2: $cao2"
 
