@@ -1,7 +1,25 @@
 #!/bin/csh
 
+if($#argv != 2) then
+	echo "SCRIPT: $0 : 00000 : incorrect number of arguments"
+	exit 1
+endif
+
+if(! -e $1) then
+	echo "SCRIPT: $0 : 00001 : $1 does not exist"
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "SCRIPT: $0 : 00002 : $2 does not exist"
+	exit 1
+endif
+
 source $1
 source $2
+
+#need this to know what freesurfer script to run.
+source $PP_SCRIPTS/Config/P2.cfg
 
 set SubjectHome = $cwd
 
@@ -10,75 +28,41 @@ if(! $?skip_recon) then
 endif
 
 if($skip_recon) then
-	decho "-no_recon set, skipping recon all" $DebugFile
+	echo "-no_recon set, skipping recon all"
 	exit 0
 endif
 
-if($?day1_path || $?day1_patid) then
-	decho "sessions is not a first session, skipping recon-all" $DebugFile
+if($?day1_path) then
+	decho "sessions is not a first session, skipping recon-all"
 	exit 0
 endif
 
-if(`tail -1 ${SubjectHome}/Freesurfer/scripts/recon-all.log | grep "without error"` != "") then
-	decho "recon-all has already been completed" $DebugFile
+if(! $?FreesurferVersionToUse) then
+	set FreesurferVersionToUse = "fs7_4_1"
+endif
+
+if(`tail -1 ${SubjectHome}/Freesurfer/${FreesurferVersionToUse}/scripts/recon-all.log | grep "without error"` != "") then
+	echo "recon-all has already been completed"
 	exit 0
 endif
 
-decho "recon-all WILL be run." $DebugFile
+echo "recon-all WILL be run."
 
-if(! $?mprs) then
-	decho "No mprs variable found in params. Cannot run Freesurfer." $DebugFile
-	exit 1
-endif
+@ i = 1
 
-if(! -e ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1.nii.gz) then
-	decho "${SubjectHome}/Anatomical/Volume/T1/${patid}_T1.nii.gz does not exist!" $DebugFile
-	exit 1
-else
-	set T1 = "${SubjectHome}/Anatomical/Volume/T1/${patid}_T1.nii.gz"
-endif
+while($i <= $#FreesurferCommands)
+	if($FreesurferVersionToUse == $FreesurferCommands[$i]) then
+		@ k = $i + 1
 
-if($?tse && ! -e ${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_to_${patid}_T1.nii.gz) then
-	decho "tse set in params file, but ${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_to_${patid}_T1.nii.gz does not exist." $DebugFile
-	exit 1
-else if(-e ${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_to_${patid}_T1.nii.gz) then
-	set T2_args = "-T2 ${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_to_${patid}_T1.nii.gz -T2pial"
-else 
-	set T2_args = ""
-endif
+		echo "Using script: $FreesurferCommands[$k]"
+		$FreesurferCommands[$k] $1 $2
+		if($status) then
+			echo "SCRIPT: $0 : 00003 : Freesurfer processing failed ($FreesurferCommands[$k])."
+			exit 1
+		endif
+		break
+	endif
+	@ i = $i + 2
+end
 
-decho "Running recon-all (check back in 24 hours)..." ${DebugFile}
-decho "SUBJECTS_DIR = $SUBJECTS_DIR/Freesurfer" $DebugFile
-	
-setenv SUBJECTS_DIR $SubjectHome	#strip the end off so we store freesurfer in the participants folder
-rm -rf ${SUBJECTS_DIR}/Freesurfer
- 
-recon-all -all -sd $SubjectHome -s Freesurfer -i $T1 ${T2_args}
-if($status) then
-	decho "		FAILED! ${patid} failed freesurfer phase 1 segmentation." ${DebugFile}
-	exit 1
-endif
-
-
-
-decho "performing sub region segmentations..." $DebugFile
-segment_subregions thalamus --cross Freesurfer --sd $SubjectHome
-if($status) then
-	decho "		FAILED! ${patid} failed to segment thalamus." $DebugFile
-	exit 1
-endif
-
-segment_subregions hippo-amygdala --cross Freesurfer --sd $SubjectHome
-if($status) then
-	decho "		FAILED! ${patid} failed to segment hippo-amygdala" $DebugFile
-	exit 1
-endif
-
-segment_subregions brainstem --cross Freesurfer --sd $SubjectHome
-if($status) then
-	decho "		FAILED! ${patid} failed to segment brainstem" $DebugFile
-	exit 1
-endif
-
-rm fsaverage
 exit 0
