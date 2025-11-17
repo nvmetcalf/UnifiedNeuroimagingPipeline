@@ -118,7 +118,7 @@ pushd ${SubjectHome}/Anatomical/Volume/ASE_ref
 
 	set Warpfield = ${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
 	set WarpReference = ${RegTarget}_${FinalResTrailer}
-	applywarp -i ${patid}_ASE_ref_distorted_${ASE_ped[$Run]} -r ${WarpReference} -w ${Warpfield} -o ${patid}_ASE_ref_${ASE_ped[${Run}]}_${FinalResTrailer}${out_trailer} --interp=spline
+	applywarp -i ${patid}_ASE_ref_distorted_${ASE_ped[$Run]} -r ${WarpReference} -w ${Warpfield} -o ${patid}_ASE_ref_${ASE_ped[${Run}]}_${FinalResTrailer} --interp=spline
 	if($status) then
 		echo "SCRIPT: $0 : 00006 : failed to apply warp to reference image."
 		exit 1
