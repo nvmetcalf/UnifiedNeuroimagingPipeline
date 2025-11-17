@@ -1,6 +1,7 @@
 #!/bin/csh
 
+#currently only grabs a single value from a tag
 set JSON_file = $1
 set Field = $2
 
-echo `grep \"$Field\" ${JSON_file} | cut -d: -f2 | cut -d, -f1 | cut -d\" -f2`
+echo `grep \"$Field\" ${JSON_file} | sed 's/://' | cut -d" " -f2 | cut -d, -f1 | sed 's/"//g'`

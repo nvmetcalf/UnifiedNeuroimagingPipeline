@@ -1,4 +1,4 @@
-#!/bin/csh 
+#!/bin/csh
 
 set DDAT_file = $1
 set HeadRadius = $2
@@ -12,12 +12,39 @@ if(! -e $DDAT_file) then
 endif
 
 @ ddat_length = `wc $DDAT_file | awk '{print $1}'`
-@ ddat_start = $ddat_length - 8
-@ ddat_end = $ddat_length - 5
+
+if($DDAT_file:e == "ddat") then
+	@ ddat_start = $ddat_length - 8
+	@ ddat_end = $ddat_length - 5
+	set order = 1	#translation then rotation
+else
+	@ ddat_start = $ddat_length
+	@ ddat_end = $ddat_length
+	set order = 0 	#rotation then translation
+endif
 
 #compute fd
-head -$ddat_end $DDAT_file | tail -$ddat_start | awk -v pi=3.14159 -v radius=$HeadRadius 'function abs(x){return(x < 0.0 ? -x : x);}{print(abs($2) + abs($3) + abs($4) + abs((pi/180) * $5 * radius) + abs((pi/180) * $6 * radius) + abs((pi/180) * $7 * radius));}' >! $DDAT_file".fd"
-
+if($order) then
+	head -$ddat_end $DDAT_file | tail -$ddat_start | awk -v pi=3.14159 -v radius=$HeadRadius 'function abs(x){return(x < 0.0 ? -x : x);}{print(abs($2) + abs($3) + abs($4) + abs((pi/180) * $5 * radius) + abs((pi/180) * $6 * radius) + abs((pi/180) * $7 * radius));}' >! $DDAT_file".fd"
+else
+	#need to make a derivative of the .par
+	ftouch $DDAT_file:r".dpar"
+	@ i = 1
+	set previous_row = (0 0 0 0 0 0)
+	while($i <= $ddat_length)
+		set curr_row = (`head -$i $DDAT_file | tail -1`)
+		set difference = (0 0 0 0 0 0)
+		@ j = 1
+		while($j <= 6)
+			set difference[$j] = `echo $curr_row[$j] $previous_row[$j] | awk '{print($1 - $2)}'`
+			@ j++
+		end
+		echo $difference >> $DDAT_file:r".dpar"
+		set previous_row = ($curr_row)
+		@ i++
+	end
+	head -$ddat_end $DDAT_file:r".dpar" | tail -$ddat_start | awk -v pi=3.14159 -v radius=$HeadRadius 'function abs(x){return(x < 0.0 ? -x : x);}{print(abs($4) + abs($5) + abs($6) + abs((pi/180) * $1 * radius) + abs((pi/180) * $2 * radius) + abs((pi/180) * $3 * radius));}' >! $DDAT_file".fd"
+endif
 #compute the at moment fd format
 cat $DDAT_file".fd" | awk -v thresh=$FD_thresh '{if($1 > thresh){print("0");}else{print("1");}}' >! temp
 
