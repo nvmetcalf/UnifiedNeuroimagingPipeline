@@ -135,7 +135,7 @@ pushd $ScratchFolder/${patid}/ASE_temp
 	@ Run = 1
 	while($Run <= $#ASE)
 
-		set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
+		set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE_ref/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
 
 		pushd ase${Run}
 
