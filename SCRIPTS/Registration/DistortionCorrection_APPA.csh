@@ -22,6 +22,11 @@ set ped = ($5)
 set fm = ($6)
 set Reg_Target = $7
 
+if($Reg_Target != T1) then
+	echo "BBR cannot be performed without the target being T1."
+	exit 1
+endif
+
 set SubjectHome = $cwd
 
 rm -rf ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}

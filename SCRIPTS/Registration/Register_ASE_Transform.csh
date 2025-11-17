@@ -221,7 +221,7 @@ pushd $ScratchFolder/${patid}/ASE_temp
 				#apply the movement correction and linear atlas registration
 				#combine the movement correction, distortion correction, and linear atlas warp
 
-				applywarp --ref=${WarpReference} --premat=${epi}_tmp.mat --warp=${Warpfield} --in=${epi}${padded} --out=${epi}_on_${RegTarget:t}${padded}${FinalResolution} --interp=spline
+				applywarp --ref=${WarpReference} --premat=${epi}_tmp.mat --warp=${Warpfield} --in=${epi}${padded} --out=${epi}_on_${RegTarget:t}${padded}${FinalResolution} #--interp=spline
 				if($status) then
 					echo "SCRIPT: $0 : 00007 : failed to apply frame wise onestep resample warp to $epi."
 					exit 1

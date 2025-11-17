@@ -28,6 +28,11 @@ set delta = $8
 
 set SubjectHome = $cwd
 
+if($Reg_Target != T1) then
+	echo "BBR cannot be performed without the target being T1."
+	exit 1
+endif
+
 rm -rf ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 mkdir ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}

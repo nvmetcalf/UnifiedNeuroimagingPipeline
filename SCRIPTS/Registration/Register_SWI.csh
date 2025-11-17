@@ -110,7 +110,7 @@ pushd ${SubjectHome}/Anatomical/Volume/SWI
 			set SWI_List = ()
 
 			foreach SWI($SWI)
-				flirt -in ${SubjectHome}/dicom/$SWI -ref ${SubjectHome}/dicom/$Target_SWI -out $SWI:r:r_${Target_SWI} -dof 6 -interp spline -cost mutualinfo -searchcost mutualinfo
+				flirt -in ${SubjectHome}/dicom/$SWI -ref ${SubjectHome}/dicom/$Target_SWI -out $SWI:r:r_${Target_SWI} -dof 6 -cost mutualinfo -searchcost mutualinfo #-interp spline
 				if($status) then
 					echo "SCRIPT: $0 : 00004 : Unable to register $SWI to $Target_SWI"
 					exit 1
@@ -189,14 +189,14 @@ pushd ${SubjectHome}/Anatomical/Volume/SWI
 		convert_xfm -omat ${patid}_SWI_to_${AtlasName}.mat -concat ../${SWI_Target}/${patid}_${SWI_Target}_to_${AtlasName}.mat ${patid}_SWI_to_${patid}_${SWI_Target}.mat
 		if($status) exit 1
 
-		flirt -in ${patid}"_SWI" -ref $target -out ${patid}_SWI_111 -init ${patid}_SWI_to_${AtlasName}.mat -applyxfm -interp spline
+		flirt -in ${patid}"_SWI" -ref $target -out ${patid}_SWI_111 -init ${patid}_SWI_to_${AtlasName}.mat -applyxfm #-interp spline
 		if($status) exit 1
 
 		foreach res($FinalResolutions)
 			if($res == 0) then
 				continue
 			endif
-			flirt -in ${patid}_SWI_111 -ref $target -out ${patid}_SWI_${res}${res}${res} -applyisoxfm ${res} -interp spline
+			flirt -in ${patid}_SWI_111 -ref $target -out ${patid}_SWI_${res}${res}${res} -applyisoxfm ${res} #-interp spline
 			if($status) exit 1
 		end
 	else
@@ -204,11 +204,10 @@ pushd ${SubjectHome}/Anatomical/Volume/SWI
 			if($res == 0) then
 				continue
 			endif
-			flirt -in ${patid}"_SWI" -ref ../$SWI_Target/${patid}_${SWI_Target} -init ${patid}_SWI_to_${patid}_${SWI_Target}.mat -interp spline -applyisoxfm $res -out ${patid}"_SWI_"${res}${res}${res}
+			flirt -in ${patid}"_SWI" -ref ../$SWI_Target/${patid}_${SWI_Target} -init ${patid}_SWI_to_${patid}_${SWI_Target}.mat -applyisoxfm $res -out ${patid}"_SWI_"${res}${res}${res} #-interp spline
 			if($status) exit 1
 		end
 	endif
-
 popd
 
 exit 0

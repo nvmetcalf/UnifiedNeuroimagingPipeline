@@ -33,7 +33,7 @@ pushd ${SubjectHome}/Anatomical/Volume/SWI
 		if($status) exit 1
 
 		foreach res(111 222 333)
-			applywarp -i ${patid}_SWI -r ${target}_${res}${res}${res} -o ${patid}"_SWI_${res}${res}${res}_fnirt.nii.gz" -w ${patid}_SWI_warpfield_111 --interp=spline
+			applywarp -i ${patid}_SWI -r ${target}_${res}${res}${res} -o ${patid}"_SWI_${res}${res}${res}_fnirt.nii.gz" -w ${patid}_SWI_warpfield_111 #--interp=spline
 			if($status) exit 1
 		end
 	else

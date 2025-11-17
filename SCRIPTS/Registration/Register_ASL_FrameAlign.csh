@@ -24,6 +24,7 @@ set SubjectHome = $cwd
 set AtlasName = $target:t
 
 rm -rf ${SubjectHome}/Anatomical/Volume/ASL_ref ${SubjectHome}/ASL ${SubjectHome}/ASL/Movement
+mkdir ${SubjectHome}/Anatomical/Volume/ASL_ref
 mkdir ${SubjectHome}/ASL
 mkdir ${SubjectHome}/ASL/Movement
 
@@ -41,7 +42,6 @@ pushd $ScratchFolder/${patid}
 	cd ASL_temp
 
 	ftouch $patid"_xr3d".lst
-	ftouch $patid"_anat".lst
 
 	@ Run = 0
 	while($#ASL > $Run)	#these are labels if nifti and numbers if dicom
@@ -89,18 +89,14 @@ pushd $ScratchFolder/${patid}
 			ASL_FRAME_ALIGN:
 			#add this asl run to the list to be included in cross run alignment and anat_ave
 			echo asl${Run}/asl${Run}_upck >>		../$patid"_xr3d".lst
-			echo asl${Run}/asl${Run}_upck_xr3d >>	../$patid"_anat".lst
-
-			$RELEASE/cross_realign3d_4dfp -n1 -r3 -f -Zcq -v0 asl${Run}_upck
-			if($status) then
-				echo "SCRIPT: $0 : 00005 : Unable to perform run realignment." ${DebugFile}
-				exit 1
-			endif
-
 		cd ..
 	end
 
-
+	$RELEASE/cross_realign3d_4dfp -n1 -r3 -f -Zcq -v0 -l$patid"_xr3d.lst"
+	if($status) then
+		echo "SCRIPT: $0 : 00005 : Unable to perform run realignment." ${DebugFile}
+		exit 1
+	endif
 	cat $patid"_xr3d".lst
 
 	@ Run = 0
@@ -108,6 +104,11 @@ pushd $ScratchFolder/${patid}
 	#outputs the ddat files with the acquisition direction (linear y translation) low passed (<0.1hz)
 		@ Run++
 		pushd asl$Run
+
+			#convert the realign ASL to nifti
+			niftigz_4dfp -n asl${Run}_upck_xr3d asl${Run}_upck_xr3d
+			if($status) exit 1
+
 			$RELEASE/mat2dat asl${Run}_upck_xr3d.mat -RD -n0 -l${MovementLowpass} TR_vol=$ASL_TR[$Run]
 			if($status) exit 1
 
@@ -139,6 +140,30 @@ pushd $ScratchFolder/${patid}
 		popd
 	end
 
+	#get a list of uniq phase encoding directions so we can properly register things
+	set peds = (`echo $ASL_ped | tr " " "\n" | sort | uniq`)
+
+	foreach ped($peds)
+		set PED_Image_Stack = ()
+
+		@ i = 1
+		while($i <= $#ASL_ped)
+			if("$ped" == "$ASL_ped[$i]") then
+
+				set PED_Image_Stack = ($PED_Image_Stack asl${i}/asl${i}_upck_xr3d)
+			endif
+			@ i++
+		end
+
+		fslmerge -t PED_${ped}_XR3D_STACK $PED_Image_Stack
+		if($status) exit 1
+
+		fslmaths PED_${ped}_XR3D_STACK -Tmean $SubjectHome/Anatomical/Volume/ASL_ref/${patid}_ASL_ref_distorted_${ped}
+		if($status) then
+			echo "SCRIPT: $0 : 00006 : $2 Could not generate ASL anatomy reference for phase encoding direction ${ped}."
+			exit 1
+		endif
+	end
 popd
 
 exit 0

@@ -126,6 +126,7 @@ endif
 
 	set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
 
+	#do distortion correction and unwarp the images
 	foreach direction($peds)
 
 		#register the spin echo maps to the reference image being distorted
@@ -136,20 +137,20 @@ endif
 		if($status) exit 1
 
 		#compute field map in reference image space
-		${FSLDIR}/bin/topup --verbose --imain=imain_on_b0_${direction}.nii.gz --datain=datain.txt --config=${TopupConfig} --out=topupfield_${direction} --fout=${patid}_${FM_Suffix}_ref_unwarped_warpcoef_${direction}.nii.gz --iout=imain_dc_${direction}.nii.gz
+		${FSLDIR}/bin/topup --verbose --imain=imain_on_b0_${direction}.nii.gz --datain=datain.txt --config=${TopupConfig} --out=topupfield_${direction} --fout=${patid}_${FM_Suffix}_ref_unwarped_warpcoef_${direction}.nii.gz --iout=imain_dc_${direction}.nii.gz --jacout=${patid}_${FM_Suffix}_ref_unwarped_jacobian_${direction}.nii.gz
 		if($status) exit 1
 
-		#create the magnitude image by averaging the images used in topup
-		fslmaths imain_dc_${direction}.nii.gz -Tmean ImageStackap_mag_${direction}
-		if($status) exit 1
+# 		#create the magnitude image by averaging the images used in topup
+# 		fslmaths imain_dc_${direction}.nii.gz -Tmean ImageStackap_mag_${direction}
+# 		if($status) exit 1
 
 		#convert the HZ field map to a rad/s field map by multiplying by 2pi
-		fslmaths ${patid}_${FM_Suffix}_ref_unwarped_warpcoef_${direction}.nii.gz -mul 6.2831853 ImageStackap_rads_${direction}.nii.gz
-		if($status) exit 1
+ 		fslmaths ${patid}_${FM_Suffix}_ref_unwarped_warpcoef_${direction}.nii.gz -mul 6.2831853 ${patid}_${FM_Suffix}_ref_unwarped_warpcoef_${direction}_rads
+ 		if($status) exit 1
 
 		#extact the brain from the magnitude image
-		bet ImageStackap_mag_${direction} ImageStackap_mag_${direction}_brain -f 0.2
-		if($status) exit 1
+# 		bet ImageStackap_mag_${direction} ImageStackap_mag_${direction}_brain -f 0.2
+# 		if($status) exit 1
 
 		if(! $?day1_path || ! $?day1_patid) then
 			set Target_Path = ${SubjectHome}/Anatomical/Volume
@@ -169,7 +170,10 @@ endif
 			set fugue_dir = "x"
 		endif
 
-		fugue --loadfmap=ImageStackap_rads_${direction} --dwell=$dwell[1] --unwarpdir=$fugue_dir --saveshift=${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} --unwarp=${patid}_${FM_Suffix}_ref_distorted_${direction}_unwarped_fugue --in=${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction}
+		bet ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} ${patid}_${FM_Suffix}_ref_distorted_${direction}_brain -f 0.3 -m -R
+		if($status) exit 1
+
+		fugue --loadfmap=${patid}_${FM_Suffix}_ref_unwarped_warpcoef_${direction}_rads --dwell=$dwell[1] --unwarpdir=$fugue_dir --saveshift=${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} --unwarp=${patid}_${FM_Suffix}_ref_distorted_${direction}_unwarped_fugue --in=${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} --mask=${patid}_${FM_Suffix}_ref_distorted_${direction}_brain_mask
 		if($status) exit 1
 
 		convertwarp -r ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -o ${patid}_${FM_Suffix}_ref_unwarp_${direction}.nii.gz -s ${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} -d $fugue_dir # --postmat=${patid}_${FM_Suffix}_ref_distorted_to_${patid}_T1.mat
@@ -180,7 +184,24 @@ endif
 
 		bet ${patid}_${FM_Suffix}_ref_unwarped_${direction} ${patid}_${FM_Suffix}_ref_unwarped_${direction}_brain -R -f 0.3
 		if($status) exit 1
+	end
 
+	#make the reference images and do registrations
+	set Ref_STACK = ()
+
+	foreach direction($peds)
+		set Ref_STACK = ($Ref_STACK ${patid}_${FM_Suffix}_ref_unwarped_${direction})
+	end
+
+	fslmerge -t Ref_STACK $Ref_STACK
+	if($status) exit 1
+
+	fslmaths Ref_STACK -Tmean ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
+	if($status) exit 1
+
+	rm Ref_STACK.*
+
+	foreach direction($peds)
 		flirt -in ${patid}_${FM_Suffix}_ref_unwarped_${direction} -ref ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} -omat ${patid}_${FM_Suffix}_ref_unwarped_${direction}_to_${Target_Patid}_${Reg_Target}.mat -out ${patid}_${FM_Suffix}_ref_unwarped_${direction}_to_${Target_Patid}_${Reg_Target} -dof 6 -cost $CostFunction -searchcost $CostFunction
 		if($status) exit 1
 

@@ -149,6 +149,24 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		fugue -i ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} --loadfmap=fmap_rads_on_${patid}_${FM_Suffix}_ref_distorted_${direction} --dwell=$dwell[1] --unwarpdir=$fugue_dir --saveshift=${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} -u ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp
 		if($status) exit 1
 
+	end
+
+	#make the reference image
+	set Ref_STACK = ()
+
+	foreach direction($peds)
+		set Ref_STACK = ($Ref_STACK ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
+	end
+
+	fslmerge -t Ref_STACK $Ref_STACK
+	if($status) exit 1
+
+	fslmaths Ref_STACK -Tmean ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
+	if($status) exit 1
+
+	rm Ref_STACK.*
+
+	foreach direction($peds)
 		flirt -in ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp -ref ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target} -out ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_to_${patid}_${Reg_Target} -omat ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat -dof 6 -cost $CostFunction -searchcost $CostFunction
 		if($status) exit 1
 

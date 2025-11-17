@@ -95,7 +95,24 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 
 			convertwarp -r $struct -o ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz -s ${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} -d $fugue_dir --postmat=${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat
 			if($status) exit 1
+		end
 
+		#make the reference image
+		set Ref_STACK = ()
+
+		foreach direction($peds)
+			set Ref_STACK = ($Ref_STACK ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
+		end
+
+		fslmerge -t Ref_STACK $Ref_STACK
+		if($status) exit 1
+
+		fslmaths Ref_STACK -Tmean ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
+		if($status) exit 1
+
+		rm Ref_STACK.*
+
+		foreach direction($peds)
  			flirt -in ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} -ref ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp -omat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat -dof 6 # -cost mutualinfo -searchcost mutualinfo
  			if($status) exit 1
 

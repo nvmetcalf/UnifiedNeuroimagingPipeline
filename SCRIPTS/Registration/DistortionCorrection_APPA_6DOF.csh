@@ -127,7 +127,7 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		if($status) exit 1
 
 		#compute field map in reference image space
-		${FSLDIR}/bin/topup --verbose --imain=imain_on_b0_${direction}.nii.gz --datain=datain.txt --config=${TopupConfig} --out=topupfield_${direction} --fout=${patid}_${FM_Suffix}_ref_unwarped_warpcoef_${direction}.nii.gz --iout=imain_dc_${direction}.nii.gz
+		${FSLDIR}/bin/topup --verbose --imain=imain_on_b0_${direction}.nii.gz --datain=datain.txt --config=${TopupConfig} --out=topupfield_${direction} --fout=${patid}_${FM_Suffix}_ref_unwarped_warpcoef_${direction}.nii.gz --iout=imain_dc_${direction}.nii.gz --jacout=${patid}_${FM_Suffix}_ref_unwarped_jacobian_${direction}.nii.gz
 		if($status) exit 1
 
 		#create the magnitude image by averaging the AP and PA images
@@ -160,7 +160,10 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 			set fugue_dir = "x"
 		endif
 
-		fugue --loadfmap=fmap_rads_${direction} --dwell=$dwell[1] --unwarpdir=$fugue_dir --saveshift=${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} --unwarp=${patid}_${FM_Suffix}_ref_distorted_${direction}_unwarped_fugue --in=${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction}
+		bet ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} ${patid}_${FM_Suffix}_ref_distorted_${direction}_brain -f 0.3 -m -R
+		if($status) exit 1
+
+		fugue --loadfmap=fmap_rads_${direction} --dwell=$dwell[1] --unwarpdir=$fugue_dir --saveshift=${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} --unwarp=${patid}_${FM_Suffix}_ref_distorted_${direction}_unwarped_fugue --in=${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction}  --mask=${patid}_${FM_Suffix}_ref_distorted_${direction}_brain_mask
 		if($status) exit 1
 
 		convertwarp -r ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -o ${patid}_${FM_Suffix}_ref_unwarp_${direction}.nii.gz -s ${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} -d $fugue_dir # --postmat=${patid}_${FM_Suffix}_ref_distorted_to_${patid}_T1.mat
@@ -168,6 +171,24 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 
 		applywarp -i ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -r ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -w ${patid}_${FM_Suffix}_ref_unwarp_${direction}.nii.gz -o ${patid}_${FM_Suffix}_ref_unwarped_${direction} --interp=spline
 		if($status) exit 1
+	end
+
+	#make the reference image
+	set Ref_STACK = ()
+
+	foreach direction($peds)
+		set Ref_STACK = ($Ref_STACK ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
+	end
+
+	fslmerge -t Ref_STACK $Ref_STACK
+	if($status) exit 1
+
+	fslmaths Ref_STACK -Tmean ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
+	if($status) exit 1
+
+	rm Ref_STACK.*
+
+	foreach direction($peds)
 
 		bet ${patid}_${FM_Suffix}_ref_unwarped_${direction} ${patid}_${FM_Suffix}_ref_unwarped_${direction}_brain -R -f 0.3
 		if($status) exit 1

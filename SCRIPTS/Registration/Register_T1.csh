@@ -29,7 +29,7 @@ else if(! $?T1) then
 endif
 
 if(! $?bet_f ) then
-	set bet_f = 0.3
+	set bet_f = 0.2
 endif
 
 set FinalResolutions = (`grep _FinalResolution $1 | awk '{print $4}' | sort -u`)
@@ -207,7 +207,7 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
 			endif
 			break
 		end
-		
+
 		flirt -in ${patid}_T1.nii.gz -ref ${target} -init ${patid}_T1_to_${AtlasName}.mat -applyxfm -out ${patid}_T1_111.nii -interp spline
 		if($status) exit 1
 

@@ -49,7 +49,22 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		set Target_Patid = ${day1_patid}
 	endif
 
+	#make the reference image
+	set Ref_STACK = ()
 
+	foreach direction($peds)
+		set Ref_STACK = ($Ref_STACK ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
+	end
+
+	fslmerge -t Ref_STACK $Ref_STACK
+	if($status) exit 1
+
+	fslmaths Ref_STACK -Tmean ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
+	if($status) exit 1
+
+	rm Ref_STACK.*
+
+	#do registrations
 	foreach direction($peds)
 		cp ../${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction}.nii.gz .
 		if($status) exit 1
@@ -86,6 +101,10 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 			decho "Couldn't find a stable registration." $DebugFile
 			exit 1
 		endif
+
+		#for convention purposes, treat the naming as if distortion correction happened. Though this is just a 6dof warp from the image to the target.
+		convertwarp -r ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} --midmat=${patid}_${FM_Suffix}_ref_unwarped_${direction}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}/${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz
+		if($status) exit 1
 	end
 popd
 exit 0

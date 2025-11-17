@@ -36,16 +36,16 @@ else
 	set FinalResTrailer = _${PET_FinalResolution}${PET_FinalResolution}${PET_FinalResolution}
 endif
 
-if(! -e ${target_path}/Masks/FreesurferMasks/${target_patid}_T1${FinalResTrailer}_to_${target_patid}_orig.mat && ! -e ${target_path}/Masks/FreesurferMasks/${target_patid}_orig_to_${target_patid}_T1${FinalResTrailer}.mat) then
+if(! -e ${target_path}/Masks/FreesurferMasks/${target_patid}_T1_to_${target_patid}_orig.mat && ! -e ${target_path}/Masks/FreesurferMasks/${target_patid}_orig_to_${target_patid}_T1.mat) then
 	echo "Cannot find registration from T1 to Orig in Masks/FreesurferMasks."
 	echo "Computing UsedVoxels Masks and transforms..."
 	$PP_SCRIPTS/Utilities/Generate_UsedVoxels_Masks.csh $1 $2
 	if($status) exit 1
 
-else if(! -e ${target_path}/Masks/FreesurferMasks/${target_patid}_T1${FinalResTrailer}_to_${target_patid}_orig.mat && -e ${target_path}/Masks/FreesurferMasks/${target_patid}_orig_to_${target_patid}_T1${FinalResTrailer}.mat) then
+else if(! -e ${target_path}/Masks/FreesurferMasks/${target_patid}_T1_to_${target_patid}_orig.mat && -e ${target_path}/Masks/FreesurferMasks/${target_patid}_orig_to_${target_patid}_T1.mat) then
 	echo "Inverting orig to T1 matrix."
 
-	convert_xfm -omat ${target_path}/Masks/FreesurferMasks/${target_patid}_T1${FinalResTrailer}_to_${target_patid}_orig.mat -inverse ${target_path}/Masks/FreesurferMasks/${target_patid}_orig_to_${target_patid}_T1${FinalResTrailer}.mat
+	convert_xfm -omat ${target_path}/Masks/FreesurferMasks/${target_patid}_T1_to_${target_patid}_orig.mat -inverse ${target_path}/Masks/FreesurferMasks/${target_patid}_orig_to_${target_patid}_T1.mat
 	if($status) exit 1
 endif
 
@@ -99,7 +99,7 @@ pushd PET/Volume
 	endif
 
 	foreach mode($modes_available)
-		flirt -in ${patid}_${mode}_on_T1${FinalResTrailer}*.nii.gz -ref ${target_path}/Masks/FreesurferMasks/${target_patid}_orig -out ${patid}_${mode}_on_orig -init ${target_path}/Masks/FreesurferMasks/${target_patid}_T1${FinalResTrailer}_to_${target_patid}_orig.mat -applyxfm
+		flirt -in ${patid}_${mode}_on_T1${FinalResTrailer}*.nii.gz -ref ${target_path}/Masks/FreesurferMasks/${target_patid}_orig -out ${patid}_${mode}_on_orig -init ${target_path}/Masks/FreesurferMasks/${target_patid}_T1_to_${target_patid}_orig.mat -applyxfm
 		if($status) exit 1
 	end
 popd

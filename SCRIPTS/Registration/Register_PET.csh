@@ -24,6 +24,16 @@ if($?PET_FinalResolution) then
 	set PET_FinalResolution = 1
 endif
 
+if(! $?MaximumRegDisplacement) then
+	set MaximumRegDisplacement = 0
+endif
+
+if($PET_FinalResolution == 0) then
+	set FinalResTrailer = ""
+else
+	set FinalResTrailer = _${PET_FinalResolution}${PET_FinalResolution}${PET_FinalResolution}
+endif
+
 if(! -e Anatomical/Volume) mkdir -p Anatomical/Volume
 
 set Costs = (corratio normmi mutualinfo normcorr leastsq)
@@ -213,6 +223,10 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 					flirt -in ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} -ref ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} -out ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j] -omat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j]".mat" -dof 6 $Method #-coarsesearch 30 -finesearch 9 #-interp nearestneighbour
 					if($status) exit 1
 
+					if($MaximumRegDisplacement == 0) then
+						set MaximumRegDisplacement = `fslinfo ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} | grep pixdim | awk '{print $2 * 1.25}' | sort -u | tail -1`
+					endif
+
 					#see if we want to check how far a voxel displaces
 					if($MaximumRegDisplacement != 0) then
 						#do the backwards registration
@@ -328,7 +342,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 			mv curr_reg.mat ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat
 		endif
 
-		flirt -in ${patid}_${Modality} -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1 -out ${patid}_${Modality}_to_${TargetPatid}_T1 -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm -applyisoxfm $PET_FinalResolution #-interp nearestneighbour
+		flirt -in ${patid}_${Modality} -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out ${patid}_${Modality}_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm  #-interp nearestneighbour
 		if($status) exit 1
 
 # 		set SmoothingFWHM = 1
