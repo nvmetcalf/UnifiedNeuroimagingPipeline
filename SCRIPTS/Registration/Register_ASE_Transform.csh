@@ -107,56 +107,12 @@ pushd ${SubjectHome}/Anatomical/Volume/ASE_ref
 
 	#this script computes the registration from epi/ase -> T1 as well as doing the field map generation and distortion correction
 	pushd $SubjectHome
-		$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 ASE $ASE_dwell[$Run] "${ASE_ped[$Run]}" "$ASE_fm" "$ASE_FieldMapping" "$ASE_Reg_Target" $ASE_delta "none" $ASE_CostFunction
+		$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 -fm_suffix "ASL" -dwell "$ASE_dwell" -ped "$ASE_ped" -fm "$ASE_fm" -fm_method "$ASE_FieldMapping" -target "$ASE_Reg_Target" -delta "$ASE_delta" -images "$ASE" -reg_method $ASE_CostFunction -final_res $ASE_FinalResolution
 		if($status) then
 			echo "SCRIPT: $0 : 00005 : cannot compute distortion corrected registration."
 			exit 1
 		endif
 	popd
-
-	if($day1_path == "" || $day1_patid == "") then
-		set Target_Path = ${SubjectHome}/Anatomical/Volume
-		set Target_Patid = ${patid}
-	else
-		set Target_Path = ${day1_path}/Anatomical/Volume
-		set Target_Patid = ${day1_patid}
-	endif
-
-	if($NonLinear) then
-		if($ASE_FieldMapping == "6dof" || $ASE_FieldMapping == "none" || $ASE_FieldMapping == "") then
-			#just has a affine transform to the T1
-			convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_unwarped_${ASE_ped[$Run]}.mat --warp2=${Target_Path}/${ASE_Reg_Target}/${Target_Patid}_${ASE_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
-		else
-			convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_unwarped_${ASE_ped[$Run]}_warp.nii.gz --warp2=${Target_Path}/${ASE_Reg_Target}/${Target_Patid}_${ASE_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
-		endif
-
-		if($status) exit 1
-		set out_trailer = "_fnirt"
-
-	else if($target != "" && ! $NonLinear) then
-		if($ASE_FieldMapping == "6dof" || $ASE_FieldMapping == "none" || $ASE_FieldMapping == "") then
-			#just has a affine transform to the T1 -> atlas
-			convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_unwarped_${ASE_ped[$Run]}.mat --postmat=${Target_Path}/${ASE_Reg_Target}/${Target_Patid}_${ASE_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
-		else
-			convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_unwarped_${ASE_ped[$Run]}_warp.nii.gz --postmat=${Target_Path}/${ASE_Reg_Target}/${Target_Patid}_${ASE_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
-		endif
-		if($status) exit 1
-		set out_trailer = ""
-	else
-		if($ASE_Reg_Target == "T1") then	#add on the reg target to T1 matrix.
-			set postmat = ""
-		else
-			set postmat = "--postmat=${SubjectHome}/Anatomical/Volume/${ASE_Reg_Target}/${patid}_${ASE_Reg_Target}_to_${patid}_T1.mat "
-		endif
-		if($ASE_FieldMapping == "6dof" || $ASE_FieldMapping == "none" || $ASE_FieldMapping == "") then
-			#just has a affine transform to the T1
-			convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_unwarped_${ASE_ped[$Run]}.mat $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
-		else
-			convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_unwarped_${ASE_ped[$Run]}_warp.nii.gz $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
-		endif
-		if($status) exit 1
-		set out_trailer = ""
-	endif
 
 	echo $cwd
 
@@ -179,7 +135,7 @@ pushd $ScratchFolder/${patid}/ASE_temp
 	@ Run = 1
 	while($Run <= $#ASE)
 
-		set Warpfield = ${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
+		set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
 
 		pushd ase${Run}
 
