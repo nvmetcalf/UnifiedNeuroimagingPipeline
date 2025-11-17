@@ -37,17 +37,34 @@ else
 	set day1_patid = $day1_path:t
 endif
 
-if($target != "") then
-	set AtlasName = `basename $target`
-	set RegTarget = $target
-else
-	if($day1_patid != "" || $day1_path != "") then
-		set AtlasName = ${day1_patid}_T1
-		set RegTarget = ${day1_path}/Anatomical/Volume/T1/${day1_patid}_T1
+# if($target != "") then
+# 	set AtlasName = `basename $target`
+# 	set target_path = $target
+# else
+# 	if($day1_patid != "" || $day1_path != "") then
+# 		set AtlasName = ${day1_patid}_T1
+# 		set target_path = ${day1_path}/Anatomical/Volume/T1/${day1_patid}_T1
+# 	else
+# 		set AtlasName = ${patid}_T1
+# 		set target_path = ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1
+# 	endif
+# endif
+
+if($target == "") then
+	if($DTI_Reg_Target == DTI_ref) then
+		set AtlasName = DTI_ref
+		set target_path = ${SubjectHome}/Anatomical/Volume/DTI_ref/${patid}_${AtlasName}
 	else
 		set AtlasName = ${patid}_T1
-		set RegTarget = ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1
+		set target_path = ${SubjectHome}/Anatomical/Volume/T1/${AtlasName}
 	endif
+else
+	set AtlasName = $target:t
+	set target_path = $target
+endif
+
+if(! $?BrainRadius) then
+	set BrainRadius = 50
 endif
 
 if(! $?DTI_FinalResolution) then
@@ -56,7 +73,11 @@ else
 	set FinalResolution = $DTI_FinalResolution
 endif
 
-set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
+if($DTI_Reg_Target == DTI_ref) then
+	set FinalResTrailer = ""
+else
+	set FinalResTrailer = "_${FinalResolution}${FinalResolution}${FinalResolution}"
+endif
 
 if(! -e DTI) then
 	mkdir DTI
@@ -155,8 +176,15 @@ pushd $ScratchFolder/${patid}/DTI_temp
 	if($status) exit 1
 
 	#computer movement correction
-	mcflirt -in DTI_concat_ec.nii.gz -cost normmi -refvol 0 -mats -report
+	mcflirt -in DTI_concat_ec.nii.gz -cost normmi -refvol 0 -mats -report -plots -stats -nn_final
 	if($status) exit 1
+
+	$PP_SCRIPTS/Utilities/compute_fd.csh DTI_concat_ec_mcf.par $BrainRadius 0 1 $FD_Threshold
+	if($status) exit 1
+
+	#copy over the movement stuff to DTI folder
+
+	cp DTI_concat_ec_mcf.par* ${SubjectHome}/DTI/
 
 	fslmaths DTI_concat_ec_mcf.nii.gz -Tmean bias_ref
 	if($status) exit 1
@@ -219,76 +247,14 @@ pushd $ScratchFolder/${patid}/DTI_temp
 
 	#generate the distortion correction transform
 	pushd $SubjectHome
- 		$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 "DTI" "$DTI_dwell" "$DTI_ped" "$DTI_fm" "$DTI_FieldMapping" "$DTI_Reg_Target" "$DTI_delta" "$DTI"
+ 		$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 -fm_suffix "DTI" -dwell "$DTI_dwell" -ped "$DTI_ped" -fm "$DTI_fm" -fm_method "$DTI_FieldMapping" -target "$DTI_Reg_Target" -delta "$DTI_delta" -images "$DTI" -reg_method $DTI_CostFunction
  		if($status) exit 1
-
-
- 		set ref_images = ()
- 		foreach direction($peds)
-
-			if($NonLinear) then
-				if($DTI_FieldMapping == "6dof" || $DTI_FieldMapping == "none" || $DTI_FieldMapping == "") then
-					#just has a affine transform to the T1
-					convertwarp -r ${target}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_unwarped_${direction}.mat -w ${SubjectHome}/Anatomical/Volume/${DTI_Reg_Target}/${patid}_${DTI_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_${direction}_to_${AtlasName}_warp
-				else
-					convertwarp -r ${target}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_unwarped_${direction}_warp.nii.gz --warp2=${SubjectHome}/Anatomical/Volume/${DTI_Reg_Target}/${patid}_${DTI_Reg_Target}_warpfield_111.nii.gz -o ${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_${direction}_to_${AtlasName}_warp
-				endif
-
-				set out_trailer = "_fnirt"
-			else if($target != "") then
-				if($DTI_FieldMapping == "6dof" || $DTI_FieldMapping == "none" || $DTI_FieldMapping == "") then
-					#just has a affine transform to the T1 -> atlas
-					convertwarp -r ${target}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_unwarped_${direction}.mat --postmat=${SubjectHome}/Anatomical/Volume/${DTI_Reg_Target}/${patid}_${DTI_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_${direction}_to_${AtlasName}_warp
-				else
-					convertwarp -r ${target}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_unwarped_${direction}_warp.nii.gz --postmat=${SubjectHome}/Anatomical/Volume/${DTI_Reg_Target}/${patid}_${DTI_Reg_Target}_to_${AtlasName}.mat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_${direction}_to_${AtlasName}_warp
-				endif
-
-				set out_trailer = ""
-			else
-				if($DTI_Reg_Target == "T1") then	#add on the reg target to T1 matrix.
-					set postmat = ""
-				else
-					set postmat = "--postmat=${SubjectHome}/Anatomical/Volume/${DTI_Reg_Target}/${patid}_${DTI_Reg_Target}_to_${patid}_T1.mat "
-				endif
-
-				if($DTI_FieldMapping == "6dof" || $DTI_FieldMapping == "none" || $DTI_FieldMapping == "") then
-					#just has a affine transform to the T1
-					convertwarp -r ${RegTarget}_${FinalResTrailer} --premat=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_unwarped_${direction}.mat $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_${direction}_to_${AtlasName}_warp
-				else
-					convertwarp -r ${RegTarget}_${FinalResTrailer} --warp1=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_unwarped_${direction}_warp.nii.gz $postmat -o ${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_${direction}_to_${AtlasName}_warp
-				endif
-				set out_trailer = ""
-			endif
-
-			applywarp -i ${SubjectHome}/Anatomical/Volume/DTI_ref/${patid}_DTI_ref_distorted_${direction} -r ${RegTarget}_${FinalResTrailer} -w ${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/DTI_ref/${patid}_DTI_ref_${direction}_${FinalResTrailer}${out_trailer}
-			if($status) exit 1
-
-			set ref_images = ($ref_images ${SubjectHome}/Anatomical/Volume/DTI_ref/${patid}_DTI_ref_${direction}_${FinalResTrailer}${out_trailer})
-		end
-
-		fslmerge -t DTI_ref_stack $ref_images
-		if($status) exit 1
-
-		fslmaths DTI_ref_stack -Tmean ${SubjectHome}/Anatomical/Volume/DTI_ref/${patid}_DTI_ref_${FinalResTrailer}${out_trailer}.nii.gz
-		if ($status) exit $status
-
-		rm DTI_ref_stack.nii.gz
-
  	popd
 
  	SPLIT:
 
- 	#this section is confusing. Needs simplification somehow
- 	#For each volume in the concat timeseries, we need need to find the phase encoding
- 	#direction to find the correct shift warp to the target to apply
- 	#since the runs are concatenated in the same order as the run order, we
- 	#go from concat volume 1 and run 1 volume 1 and progress through each volume applying
- 	#the appropriate transforms for a one step resample of the raw data.
- 	#One we reach the end of a runs volumes, we increment to the next run.
- 	#the run is needed for getting the phase encoding.
+ 	# perform the one step resample by combining all transforms.
 
- 	#this can be made easier to wrap ones head around by just referencing the
- 	#
 	set Num_dirs = `fslinfo DTI_concat | grep dim4 | head -1 | awk '{print $2}'`
 
 	echo "Number of directions: $Num_dirs"
@@ -334,10 +300,10 @@ pushd $ScratchFolder/${patid}/DTI_temp
 		if($status) exit 1
 
 		#apply the current direction eddy + movement with the warp to the registration target and output in target final resolution space
-		applywarp --ref=${RegTarget}_${FinalResTrailer} --premat=DTI_dir_${curr_dir}_ec_mv.mat --warp=${SubjectHome}/Anatomical/Volume/FieldMapping_DTI/${patid}_DTI_ref_${curr_ped}_to_${AtlasName}_warp --in=DTI_dir_${curr_dir} --out=DTI_dir_${curr_dir}_on_${RegTarget:t}_${FinalResolution} --interp=spline
+		applywarp --ref=${target_path}${FinalResTrailer} --premat=DTI_dir_${curr_dir}_ec_mv.mat --warp=${SubjectHome}/Anatomical/Volume/DTI_ref/${patid}_DTI_ref_${curr_ped}_to_${AtlasName}_warp --in=DTI_dir_${curr_dir} --out=DTI_dir_${curr_dir}_on_${target_path:t}${FinalResolution} # --interp=spline
 		if ($status) exit $status
 
-		set DTI_dirs_images = ($DTI_dirs_images DTI_dir_${curr_dir}_on_${RegTarget:t}_${FinalResolution})
+		set DTI_dirs_images = ($DTI_dirs_images DTI_dir_${curr_dir}_on_${target_path:t}${FinalResolution})
 
 		@ i++
 	end
@@ -347,6 +313,8 @@ pushd $ScratchFolder/${patid}/DTI_temp
 
 	fslroi DTI_concat_ec_dc b0 0 1
 	if($status) exit 1
+
+	rm DTI_dir_${curr_dir}_on*
 
 	bet b0 b0_brain -m -f 0.35 -R
 	if($status) exit 1
