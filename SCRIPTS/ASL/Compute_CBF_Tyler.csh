@@ -237,12 +237,12 @@ else if($#UniquePLDs == 1) then
 	set AcquisitionType = `grep "MRAcquisitionType" ${SubjectHome}/dicom/$ASL[1]:r:r".json" | cut -d":" -f2 | cut -d\" -f2 | head -1`
 	if(`echo $ASL[1] | grep pasl` != "" && $AcquisitionType == "2D") then
 
-		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${FREESURFER_HOME}/matlab'));addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));cbf_pasl('ASL_STACK.nii.gz', 'M0.nii.gz', 'ASL_STACK.json', $T1b, $ASL_TR[1], 'ASL_FD.tmask', $ASL_LC_CL, '${patid}_pASL');end;exit"
+		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${FREESURFER_HOME}/matlab'));addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));cbf_pasl('ASL_STACK.nii.gz', 'M0.nii.gz', 'ASL_STACK.json', $T1b, $ASL_TR[1], 'ASL_FD.tmask', $ASL_LC_CL, '${patid}_pASL_cbf.nii.gz');end;exit"
 
 	else if(`echo $ASL[1] | grep pasl` != "" && $AcquisitionType == "3D") then
 		echo "3D pASL detected. Sequence not supported."
 	else
-		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${FREESURFER_HOME}/matlab'));addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));cbf_3d_pcasl('ASL_STACK.nii.gz', 'M0.nii.gz', 'ASL_STACK.json', $T1b, 'ASL_FD.tmask', $ASL_LC_CL, '${patid}_pASL');end;exit"
+		matlab -nodesktop -nosplash -softwareopengl -r "try;addpath(genpath('${FREESURFER_HOME}/matlab'));addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));cbf_3d_pcasl('ASL_STACK.nii.gz', 'M0.nii.gz', 'ASL_STACK.json', $T1b, 'ASL_FD.tmask', $ASL_LC_CL, '${patid}_pCASL_cbf.nii.gz');end;exit"
 	endif
 
 endif
