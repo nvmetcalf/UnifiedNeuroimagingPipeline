@@ -32,12 +32,12 @@ if(-e ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_111.nii.gz && ! $?day1_pat
 	rm -f ${SubjectHome}/QC/temp.txt
 	if($NonLinear) then
 		#MPR->NonLinAtl ETA
-		matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}.nii.gz', '${target}_brain_mask.nii.gz', '${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_111_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
+		matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}.nii.gz', '${target}_brain_mask.nii.gz', '${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_fnirt_111.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_111.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		echo "Non-Linearly Aligned T1 ->"`basename $target`" : "`cat ${SubjectHome}/QC/temp.txt` >> QC/ETA.txt
 	endif
 	rm -f ${SubjectHome}/QC/temp.txt
 	#linear mpr -> atl
-	matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}.nii.gz', '${target}_brain_mask.nii.gz', '${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_111.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
+	matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}.nii.gz', '${target}_brain_mask.nii.gz', '${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_111.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_111.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 	echo "Linearly Aligned T1 ->"`basename $target`" : "`cat ${SubjectHome}/QC/temp.txt` >> QC/ETA.txt
 endif
 
@@ -46,7 +46,7 @@ if(-e ${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_111.nii.gz && ! $?day1_pat
 	rm -f ${SubjectHome}/QC/temp.txt
 	
 	if($NonLinear) then
-		matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_111_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt.nii.gz', '${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_111_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
+		matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_fnirt_111.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt.nii.gz', '${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_fnirt_111.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_111.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		echo "Non-Linearly Aligned T2 -> T1 : "`cat ${SubjectHome}/QC/temp.txt` >> QC/ETA.txt
 	endif
 	
@@ -59,7 +59,7 @@ if(-e ${SubjectHome}/Anatomical/Volume/FLAIR/${patid}_FLAIR_111.nii.gz && ! $?da
 	rm -f ${SubjectHome}/QC/temp.txt
 	#flair to T1
 	if($NonLinear) then
-		matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_111_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt.nii.gz', '${SubjectHome}/Anatomical/Volume/FLAIR/${patid}_FLAIR_111_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
+		matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_fnirt_111.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_111.nii.gz', '${SubjectHome}/Anatomical/Volume/FLAIR/${patid}_FLAIR_fnirt_111.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_111.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		echo "Non-Linearly Aligned FLAIR -> T1 : "`cat ${SubjectHome}/QC/temp.txt` >> QC/ETA.txt
 	endif
 	
@@ -72,7 +72,7 @@ if($?BOLD) then
 	rm -f ${SubjectHome}/QC/temp.txt
 	if($?day1_patid) then
 		if($NonLinear) then
-			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${day1_path}/Anatomical/Volume/BOLD_ref/${day1_patid}_BOLD_ref_${FinalResTrailer}_fnirt.nii.gz', '${day1_path}/Masks/${day1_patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_${FinalResTrailer}_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
+			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${day1_path}/Anatomical/Volume/BOLD_ref/${day1_patid}_BOLD_ref_fnirt_${FinalResTrailer}.nii.gz', '${day1_path}/Masks/${day1_patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		else
 			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${day1_path}/Anatomical/Volume/BOLD_ref/${day1_patid}_BOLD_ref_${FinalResTrailer}.nii.gz', '${day1_path}/Masks/${day1_patid}_used_voxels_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		endif
@@ -83,7 +83,7 @@ if($?BOLD) then
 		#this will work on crossday too. For multisession beyond the 1st, this reflects
 		#Session N -> Session 1 -> Session 1 Distortion correction -> Session 1 T2 -> Session 1 MPR -> atl
 		if($NonLinear) then
-			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_${FinalResTrailer}_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
+			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		else
 			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		endif
@@ -91,7 +91,7 @@ if($?BOLD) then
 		
 		#compute the similarity between the final bold and the target anatomical image
 		if($NonLinear) then
-			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_${FinalResTrailer}_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_${FinalResTrailer}_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
+			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		else
 			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		endif
@@ -113,7 +113,7 @@ if($?ASL) then
 	while($i <= $#ASL)
 		rm -f ${SubjectHome}/QC/temp.txt
 		if($NonLinear) then
-			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/asl${i}_ref/${patid}_asl${i}_ref_${ASL_ped[$i]}_${FinalResTrailer}_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
+			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/asl${i}_ref/${patid}_asl${i}_ref_${ASL_ped[$i]}_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		else
 			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/asl${i}_ref/${patid}_asl${i}_ref_${ASL_ped[$i]}_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		endif
@@ -121,7 +121,7 @@ if($?ASL) then
 		
 		#compute the similarity between the final bold and the target anatomical image
 		if($NonLinear) then
-			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_${FinalResTrailer}_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/asl${i}_ref/${patid}_asl${i}_ref_${ASL_ped[$i]}_${FinalResTrailer}_fnirt.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
+			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/asl${i}_ref/${patid}_asl${i}_ref_${ASL_ped[$i]}_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		else
 			matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));ComputeAnatomicalVolumeCorrelation('${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/asl${i}_ref/${patid}_asl${i}_ref_${ASL_ped[$i]}_${FinalResTrailer}.nii.gz', '${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz', '${SubjectHome}/QC/temp.txt');end;exit"
 		endif
@@ -136,9 +136,9 @@ rm -f QC/temp.txt
 if($?mprs && ! $?day1_patid) then
 	pushd QC
 		#generate the structural ETA image
-		echo matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));addpath(genpath('${PP_SCRIPTS}/SurfacePipeline/QC_scripts'));ComputeStructuralETA('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_${FinalResTrailer}_fnirt.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', [3 3 3]);end;exit"
+		echo matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));addpath(genpath('${PP_SCRIPTS}/SurfacePipeline/QC_scripts'));ComputeStructuralETA('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_fnirt_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', [3 3 3]);end;exit"
 		
-		matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));addpath(genpath('${PP_SCRIPTS}/SurfacePipeline/QC_scripts'));ComputeStructuralETA('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_${FinalResTrailer}_fnirt.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', [3 3 3]);end;exit"
+		matlab -nodesktop -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));addpath(genpath('${PP_SCRIPTS}/SurfacePipeline/QC_scripts'));ComputeStructuralETA('${target}_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', '${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_fnirt_${FinalResTrailer}.nii.gz', '${target}_brain_mask_${FinalResTrailer}.nii.gz', [3 3 3]);end;exit"
 
 		$PP_SCRIPTS/QC/VolumeRegQC/gen_StructuralETAscenes.sh $SubjectFolderHome $patid $cwd
 		$PP_SCRIPTS/QC/VolumeRegQC/capture_StructuralETAscenes.sh $cwd $patid $cwd 1920 1080

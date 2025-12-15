@@ -25,7 +25,7 @@ else
 endif
 
 if($?DVAR_Threshold && $DVAR_Threshold != 0) then
-	set DVAR_File = "'${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_uout_bpss_resid.dvar'"
+	set DVAR_File = "'${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_uout_bpss_mov_eacsf_vent_wm_gs_resid.nii.gz.dvar'"
 else
 	set DVAR_File = "[]"
 endif
@@ -100,11 +100,11 @@ $PP_SCRIPTS/QC/VolumeRegQC/ComputeVolumeRegQC.csh $Params $ProcessingParameters
 #generate gray plots
 if($?FCProcIndex && -e ${SubjectHome}/Anatomical/Surface/RibbonVolumeToSurfaceMapping/ribbon_only.nii.gz) then
 	pushd QC
-		matlab -nodesktop -softwareopengl -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));addpath(genpath('${PP_SCRIPTS}/QC'));VolumeGrayPlotQC('$patid','${SubjectHome}/Functional/TemporalMask/rsfMRI_tmask.txt','${SubjectHome}/Functional/TemporalMask/run_boundaries_tmask.txt','${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz','${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz','${SubjectHome}/Anatomical/Surface/RibbonVolumeToSurfaceMapping/ribbon_only.nii.gz',${BOLD_TR},$FD_File,$DVAR_File);end;exit"
+		matlab -nodesktop -softwareopengl -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));addpath(genpath('${PP_SCRIPTS}/QC'));VolumeGrayPlotQC('$patid','${SubjectHome}/Functional/TemporalMask/rsfMRI_tmask.txt','${SubjectHome}/Functional/TemporalMask/run_boundaries_tmask.txt','${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_mov_eacsf_vent_wm_gs_resid.nii.gz.nii.gz','${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz','${SubjectHome}/Anatomical/Surface/RibbonVolumeToSurfaceMapping/ribbon_only.nii.gz',${BOLD_TR},$FD_File,$DVAR_File);end;exit"
 	popd
 else if($?FCProcIndex && $?FC_Parcellation) then
 	pushd QC
-		matlab -nodesktop -softwareopengl -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));addpath(genpath('${PP_SCRIPTS}/QC'));VolumeGrayPlotQC('$patid','${SubjectHome}/Functional/TemporalMask/rsfMRI_tmask.txt','${SubjectHome}/Functional/TemporalMask/run_boundaries_tmask.txt','${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz','${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz','${FC_Parcellation}',${BOLD_TR},$FD_File,$DVAR_File);end;exit"
+		matlab -nodesktop -softwareopengl -nosplash -r "try;addpath(genpath('${PP_SCRIPTS}/matlab_scripts'));addpath(genpath('${PP_SCRIPTS}/QC'));VolumeGrayPlotQC('$patid','${SubjectHome}/Functional/TemporalMask/rsfMRI_tmask.txt','${SubjectHome}/Functional/TemporalMask/run_boundaries_tmask.txt','${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_mov_eacsf_vent_wm_gs_resid.nii.gz.nii.gz','${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl.nii.gz','${FC_Parcellation}',${BOLD_TR},$FD_File,$DVAR_File);end;exit"
 	popd
 endif
 
@@ -220,16 +220,16 @@ pushd QC
 	var_4dfp -sf`cat ../Functional/TemporalMask/${patid}_rsfMRI_fd.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_upck_faln_dbnd_xr3d_dc_atl
 	niftigz_4dfp -n $ScratchFolder/${patid}/BOLD_temp/${patid}_upck_faln_dbnd_xr3d_dc_atl_sd1 ${patid}_rsfMRI_sd
 
-	niftigz_4dfp -4 ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_resid
+	niftigz_4dfp -4 ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_mov_eacsf_vent_wm_gs_resid.nii.gz $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_mov_eacsf_vent_wm_gs_resid.nii.gz
 
-	var_4dfp -sf`cat ../Functional/TemporalMask/${patid}_rsfMRI_fd.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_resid
-	niftigz_4dfp -n $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_resid_sd1 ${patid}_rsfMRI_uout_bpss_resid_sd
+	var_4dfp -sf`cat ../Functional/TemporalMask/${patid}_rsfMRI_fd.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_mov_eacsf_vent_wm_gs_resid.nii.gz
+	niftigz_4dfp -n $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_mov_eacsf_vent_wm_gs_resid.nii.gz_sd1 ${patid}_rsfMRI_uout_bpss_mov_eacsf_vent_wm_gs_resid.nii.gz_sd
 
 	niftigz_4dfp -4 ../Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz ${patid}_used_voxels_fnirt_${FinalResTrailer}
 	ftouch fMRI_denoising.txt
 
 	echo "Atlas Aligned resting state fMRI within brain sd: "`fslstats ${patid}_rsfMRI_sd -k ../Masks/${patid}_used_voxels_fnirt_${FinalResTrailer} -m` >> fMRI_denoising.txt
-	echo "Denoised resting state fMRI within brain sd: "`fslstats ${patid}_rsfMRI_uout_bpss_resid_sd -k ../Masks/${patid}_used_voxels_fnirt_${FinalResTrailer} -m` >> fMRI_denoising.txt
+	echo "Denoised resting state fMRI within brain sd: "`fslstats ${patid}_rsfMRI_uout_bpss_mov_eacsf_vent_wm_gs_resid.nii.gz_sd -k ../Masks/${patid}_used_voxels_fnirt_${FinalResTrailer} -m` >> fMRI_denoising.txt
 
 	$PP_SCRIPTS/Utilities/Compute_SNR.csh ${patid}_rsfMRI.nii.gz
 
