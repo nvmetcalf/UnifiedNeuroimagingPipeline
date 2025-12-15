@@ -64,11 +64,11 @@ else
 endif
 
 if ($day1_patid != "" || $day1_path != "") then
-	set WarpField = ${day1_path}/Anatomical/Volume/T1/${day1_patid}"_T1_warpfield_111.nii.gz"
+	set WarpField = ${day1_path}/Anatomical/Volume/T1/${day1_patid}"_T1_to_${AtlasName}_warpfield_111.nii.gz"
 	set OrigToATL_mat = ${day1_path}/Masks/FreesurferMasks/${day1_patid}_orig_to_${AtlasName}.mat
 	set FSdir = ${day1_path}/Freesurfer/${FreesurferVersionToUse}
 else
-	set WarpField = ${SubjectHome}/Anatomical/Volume/T1/${patid}"_T1_warpfield_111.nii.gz"
+	set WarpField = ${SubjectHome}/Anatomical/Volume/T1/${patid}"_T1_to_${AtlasName}_warpfield_111.nii.gz"
 	set OrigToATL_mat = ${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${AtlasName}.mat
 	set FSdir = ${SubjectHome}/Freesurfer/${FreesurferVersionToUse}
 endif
@@ -162,7 +162,7 @@ pushd $ScratchFolder/$patid/FS_Masks_temp
 		else if($NonLinear && $target != "") then
 			set asegimg = ${patid}_aparc+aseg_on_${AtlasName}_fnirt_${FinalResTrailer}
 
-			$FSLBIN/applywarp -i ${patid}_aparc+aseg -o ${asegimg} -r $UsedVoxelsMask -w ${WarpField} --interp=nn --premat=${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${patid}_T1.mat
+			applywarp -i ${patid}_aparc+aseg -o ${asegimg} -r $UsedVoxelsMask -w ${WarpField} --interp=nn --premat=${SubjectHome}/Masks/FreesurferMasks/${patid}_orig_to_${patid}_T1.mat
 			if($status) exit 1
 		else
 			set asegimg = ${patid}_aparc+aseg_on_${AtlasName}_${FinalResTrailer}
