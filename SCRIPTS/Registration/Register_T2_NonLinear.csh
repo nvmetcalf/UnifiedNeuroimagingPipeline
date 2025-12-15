@@ -35,19 +35,19 @@ echo "Detected the following final resolutions: $FinalResolutions"
 pushd ${SubjectHome}/Anatomical/Volume/T2
 
 	if($NonLinear) then
-		convertwarp -r $target -o ${patid}_T2_warpfield_111 -m ${patid}_T2_to_${patid}_T1.mat -w ../T1/${patid}_T1_warpfield_111
+		convertwarp -r $target -o ${patid}_T2_to_${AtlasName}_warpfield_111.nii.gz -m ${patid}_T2_to_${patid}_T1.mat -w ../T1/${patid}_T1_to_${AtlasName}_warpfield_111.nii.gz
 		if($status) then
 			echo "SCRIPT: $0 : 00003 : unable to combine T1 to target warp with T2 -> t1 transform."
 			exit 1
 		endif
 
-		applywarp -i ${patid}"_T2" -r $target -o ${patid}_T2_111_fnirt -w ${patid}_T2_warpfield_111 --interp=spline
+		applywarp -i ${patid}"_T2" -r $target -o ${patid}_T2_fnirt_111 -w ${patid}_T2_to_${AtlasName}_warpfield_111.nii.gz --interp=spline
 		if($status) then
 			echo "SCRIPT: $0 : 00004 : unable to warp T2 to target."
 			exit 1
 		endif
 		foreach res($FinalResolutions)
-			applywarp -i ${patid}_T2 -r ${target}_${res}${res}${res} -o ${patid}"_T2_${res}${res}${res}_fnirt.nii.gz" -w ${patid}_T2_warpfield_111 --interp=spline
+			applywarp -i ${patid}_T2 -r ${target}_${res}${res}${res} -o ${patid}_T2_fnirt_${res}${res}${res}.nii.gz -w ${patid}_T2_to_${AtlasName}_warpfield_111.nii.gz --interp=spline
 			if($status) then
 				echo "SCRIPT: $0 : 00005 : unable to warp and resample T2 to target."
 				exit 1

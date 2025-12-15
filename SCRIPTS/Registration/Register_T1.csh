@@ -60,56 +60,27 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
 			exit 1
 		endif
 
-		fslmaths T1_stack -Tmean $patid"_T1_temp"
+		fslmaths T1_stack -Tmean $patid"_T1"
 		if($status) then
 			echo "SCRIPT: $0 : 00005 : Unable to average registered T1 stack."
 			exit 1
 		endif
 
+		set T1_image = $patid"_T1.nii.gz"
+
 		rm $T1_List T1_stack.nii.gz
-
-		niftigz_4dfp -4 $patid"_T1_temp" $patid"_T1_temp"
-
 		if($status) exit 1
 
 		rm $patid"_T1_temp"
 
-	else if( -e $SubjectHome/dicom/$T1[1]) then
-		if($T1[1]:e == "gz") then
-			$RELEASE/niftigz_4dfp -4 $SubjectHome/dicom/$T1[1] $patid"_T1_temp"
-		else
-			$RELEASE/nifti_4dfp -4 $SubjectHome/dicom/$T1[1] $patid"_T1_temp"
-		endif
+ 	else if( -e $SubjectHome/dicom/$T1[1]) then
+		set T1_image = $SubjectHome/dicom/$T1[1]
 	else
-		$RELEASE/dcm_to_4dfp -b $patid"_T1_temp" $SubjectHome/dicom/$dcmroot.$T1[$#T1].*
+		echo "Cannot find T1 image."
+		exit 1
 	endif
-	if ($status) exit $status
 
-	switch(`grep orientation ${patid}_T1_temp.4dfp.ifh | awk '{print$3}'`)
-		case 2:
-			echo "T1 already transverse"
-			set InputAnat = $patid"_T1_temp"
-			breaksw
-		case 3:
-			echo "T1 is coronal, transforming to transverse."
-			$RELEASE/C2T_4dfp ${patid}_T1_temp ${patid}_T1T
-			if($status) exit 1
-			set InputAnat = $patid"_T1T"
-			breaksw
-		case 4:
-			echo "T1 is sagital, transforming to transverse."
-			$RELEASE/S2T_4dfp ${patid}_T1_temp ${patid}_T1T
-			if($status) exit 1
-			set InputAnat = $patid"_T1T"
-			breaksw
-		default:
-			echo "SCRIPT: $0 : 00006 : ERROR: UNKNOWN T1 ORIENTATION"
-			exit 1
-			breaksw
-	endsw
-
-	#convert 4dfp to nifti
-	$RELEASE/niftigz_4dfp -n $InputAnat ${patid}_T1
+	fslreorient2std $T1_image ${patid}_T1
 	if($status) exit 1
 
 	rm *_temp.* *T.*

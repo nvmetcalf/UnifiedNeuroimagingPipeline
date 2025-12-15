@@ -32,14 +32,14 @@ echo "Detected the following final resolutions: $FinalResolutions"
 pushd $SubjectHome/Anatomical/Volume/FLAIR
 
 	if($NonLinear) then
-		convertwarp -r $target -o ${patid}_FLAIR_warpfield_111 -m ${patid}_FLAIR_to_${patid}_T1.mat -w ../T1/${patid}_T1_warpfield_111
+		convertwarp -r $target -o ${patid}_FLAIR_to_${AtlasName}_warpfield_111.nii.gz -m ${patid}_FLAIR_to_${patid}_T1.mat -w ../T1/${patid}_T1_to_${AtlasName}_warpfield_111.nii.gz
 		if($status) exit 1
 
-		applywarp -i ${patid}_FLAIR -r $target -o ${patid}_FLAIR_111_fnirt -w  ${patid}_FLAIR_warpfield_111 --interp=spline
+		applywarp -i ${patid}_FLAIR -r $target -o ${patid}_FLAIR_fnirt_111 -w  ${patid}_FLAIR_to_${AtlasName}_warpfield_111.nii.gz --interp=spline
 		if($status) exit 1
 
 		foreach res($FinalResolutions)
-			applywarp -i ${patid}_FLAIR -r ${target}_${res}${res}${res} -o ${patid}"_FLAIR_${res}${res}${res}_fnirt.nii.gz" -w ${patid}_FLAIR_warpfield_111 --interp=spline
+			applywarp -i ${patid}_FLAIR -r ${target}_${res}${res}${res} -o ${patid}_FLAIR_fnirt_${res}${res}${res}.nii.gz -w ${patid}_FLAIR_to_${AtlasName}_warpfield_111.nii.gz --interp=spline
 			if($status) exit 1
 		end
 	else

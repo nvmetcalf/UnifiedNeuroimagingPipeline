@@ -50,7 +50,7 @@ foreach direction($peds)
 	#this is the transform to go from the initial target to the T1.
 	# Only needed if the T1 is not the Reg Target and the target is
 	# not itself (usually only DTI does this).
-	if($Reg_Target != T1 && $Reg_Target != ${FM_Suffix}_ref) then
+	if($Reg_Target != T1 && $Reg_Target != ${FM_Suffix}_ref && ! -e ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_to_${AtlasName}_warpfield_111.nii.gz) then
 		if(! -e ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_to_${patid}_T1.mat) then
 			#don't have a way to get to the T1
 			echo " Need to compute registration from $Reg_Target to T1 or some other taget to complete final warp."
@@ -62,8 +62,8 @@ foreach direction($peds)
 
 	#this is the nonlinear warp from undistorted space to the target atlas
 	#this will only exist if you have NonLinear = 1
-	if(-e ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_to_${AtlasName}_warpfield${FinalResTrailer}.nii.gz) then
-		set warp2 = "--warp2=${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${AtlasName}_warpfield${FinalResTrailer}.nii.gz"
+	if(-e ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_to_${AtlasName}_warpfield_111.nii.gz) then
+		set warp2 = "--warp2=${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_to_${AtlasName}_warpfield_111.nii.gz"
 		set out_trailer = "_fnirt"
 	endif
 
@@ -78,16 +78,16 @@ foreach direction($peds)
 	applywarp -i ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} \
 			-r ${target_path}${FinalResTrailer} \
 			-w ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_${direction}_to_${AtlasName}_warp \
-			-o ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_${direction}${FinalResTrailer}${out_trailer}
+			-o ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_${direction}${out_trailer}${FinalResTrailer}
 	if($status) exit 1
 
-	set ref_images = ($ref_images ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_${direction}${FinalResTrailer}${out_trailer})
+	set ref_images = ($ref_images ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_${direction}${out_trailer}${FinalResTrailer})
 end
 
 fslmerge -t ${FM_Suffix}_ref_stack $ref_images
 if($status) exit 1
 
-fslmaths ${FM_Suffix}_ref_stack -Tmean ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref${FinalResTrailer}${out_trailer}.nii.gz
+fslmaths ${FM_Suffix}_ref_stack -Tmean ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref${out_trailer}${FinalResTrailer}.nii.gz
 if ($status) exit 1
 
 rm ${FM_Suffix}_ref_stack.nii.gz

@@ -68,13 +68,22 @@ cd PET/Volume
 			fslmerge -t temp $Files[1] `ls ${Modality}_*_sum_deco_reg.nii.gz`
 			if($status) exit 1
 
-			fslmaths temp -Tmean ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz"
+			fslmaths temp -Tmean Mean_${Modality}
 			if($status) exit 1
 
+			fslreorient2std Mean_${Modality} ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz"
+			if($status) exit 1
+
+			flirt -in ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -ref ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -out ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -applyisoxfm 1
+			if($status) exit 1
 			rm temp.*
 		else
 			#for consistency copy the averages to anatomical.
-			cp $Files ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz"
+			fslreorient2std $Files ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz"
+			if($status) exit 1
+
+			flirt -in ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -ref ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -out ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -applyisoxfm 1
+			if($status) exit 1
 		endif
 	end
 cd ../..
@@ -215,7 +224,6 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 					set TargetSmoothingSigma = `echo $SmoothingFWHM | awk '{print($1/2.3548);}'`
 
 					if(! -e ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}.nii.gz) then
-
 						fslmaths ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] -kernel gauss $TargetSmoothingSigma -fmean ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}
 						if($status) exit 1
 					endif
@@ -245,7 +253,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 								bet ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain -f 0.5 -R
 								if($status) exit 1
 
-								fslmaths ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} -thr `fslstats ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain -P 50` ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain
+								fslmaths ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} -thr `fslstats ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain -P 35` ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain
 								if($status) exit 1
 							endif
 
@@ -253,9 +261,10 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 								bet ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain -f 0.5 -R
 								if($status) exit 1
 
-								fslmaths ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} -thr `fslstats ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain -P 50` ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain
-								if($status) exit 1
-
+								if($RegChain[$j] != "T1") then
+									fslmaths ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} -thr `fslstats ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain -P 35` ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain
+									if($status) exit 1
+								endif
 							endif
 
 							set TargetBrain = ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain
@@ -344,30 +353,6 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 
 		flirt -in ${patid}_${Modality} -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out ${patid}_${Modality}_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm  #-interp nearestneighbour
 		if($status) exit 1
-
-# 		set SmoothingFWHM = 1
-# 		if($Modality == "FDG") then
-# 			set SmoothingSigma = `echo $FDG_Smoothing | awk '{print($1/2.3548);}'`
-# 		else if($Modality == "H2O") then
-# 			set SmoothingSigma = `echo $H2O_Smoothing | awk '{print($1/2.3548);}'`
-# 		else if($Modality == "CO") then
-# 			set SmoothingSigma = `echo $CO_Smoothing | awk '{print($1/2.3548);}'`
-# 		else if($Modality == "O2") then
-# 			set SmoothingSigma = `echo $O2_Smoothing | awk '{print($1/2.3548);}'`
-# 		else if($Modality == "PIB") then
-# 			set SmoothingSigma = `echo $PIB_Smoothing | awk '{print($1/2.3548);}'`
-# 		else if($Modality == "TAU") then
-# 			set SmoothingSigma = `echo $TAU_Smoothing | awk '{print($1/2.3548);}'`
-# 		else if($Modality == "FBX") then
-# 			set SmoothingSigma = `echo $FBX_Smoothing | awk '{print($1/2.3548);}'`
-# 		else
-# 			set SmoothingSigma = "0"
-# 		endif
-#
-# 		if($SmoothingSigma != "0") then
-# 			fslmaths ${patid}_${Modality}_to_${TargetPatid}_T1 -kernel gauss $SmoothingSigma -fmean ${patid}_${Modality}_to_${TargetPatid}_T1
-# 			if($status) exit 1
-# 		endif
 	cd ..
 
 end

@@ -45,27 +45,27 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
 		exit 1
 	endif
 
-	$FSL_BIN/fnirt --in=${patid}"_T1_brain" --ref=${target} --refmask=${target}_brain_mask --inmask=${patid}"_T1_brain_mask" --jout=${cwd}/$patid"_jacobiantransform.nii.gz" --fout=${cwd}/$patid"_T1_warpfield_111.nii.gz" --aff=${patid}_T1_to_${AtlasName}.mat --cout=${cwd}/$patid"_T1_coeffield_111.nii.gz" --config=${target}.cnf
+	$FSL_BIN/fnirt --in=${patid}"_T1_brain" --ref=${target} --refmask=${target}_brain_mask --inmask=${patid}"_T1_brain_mask" --jout=${cwd}/$patid"_jacobiantransform.nii.gz" --fout=${cwd}/$patid"_T1_to_${AtlasName}_warpfield_111.nii.gz" --aff=${patid}_T1_to_${AtlasName}.mat --cout=${cwd}/$patid"_T1_to_${AtlasName}_coeffield_111.nii.gz" --config=${target}.cnf
 	if($status) then
 		echo "SCRIPT: $0 : 00004 : Failed to compute non-linear transform for linearly aligned T1 to atlas."
 		exit 1
 	endif
 
 	foreach res($FinalResolutions)
-		applywarp -i ${patid}"_T1.nii.gz" -r ${target}_${res}${res}${res} -o ${patid}"_T1_${res}${res}${res}_fnirt.nii.gz" -w $patid"_T1_warpfield_111.nii.gz" --interp=spline
+		applywarp -i ${patid}"_T1.nii.gz" -r ${target}_${res}${res}${res} -o ${patid}"_T1_fnirt_${res}${res}${res}.nii.gz" -w $patid"_T1_to_${AtlasName}_warpfield_111.nii.gz" --interp=spline
 		if($status) exit 1
 	end
 
 	#fnirt the pathology mask
 	if(-e $SubjectHome/Masks/${patid}_${MaskTrailer}.nii.gz || -e $SubjectHome/Masks/${patid}_${MaskTrailer}.nii) then
-		$FSL_BIN/applywarp -i $SubjectHome/Masks/${patid}_${MaskTrailer} -r $target -w $patid"_T1_warpfield_111" -o $SubjectHome/Masks/${patid}_${MaskTrailer}"_fnirt.nii.gz" --interp=nn
+		applywarp -i $SubjectHome/Masks/${patid}_${MaskTrailer} -r $target -w $patid"_T1_to_${AtlasName}_warpfield_111.nii.gz" -o $SubjectHome/Masks/${patid}_fnirt_${MaskTrailer}".nii.gz" --interp=nn
 		if($status) exit 1
 	endif
 
-	$FSL_BIN/invwarp -w $patid"_T1_warpfield_111.nii.gz" -o ${patid}"_T1_invwarpfield_111.nii.gz" -r ${patid}"_T1"
+	invwarp -w $patid"_T1_to_${AtlasName}_warpfield_111.nii.gz" -o ${patid}"_T1_to_${AtlasName}_invwarpfield_111.nii.gz" -r ${patid}"_T1"
 	if($status) exit 1
 
-	$FSL_BIN/invwarp -w ${cwd}/$patid"_T1_coeffield_111.nii.gz"  -o ${patid}"_T1_invcoeffield_111.nii.gz" -r ${patid}"_T1"
+	invwarp -w ${cwd}/$patid"_T1_to_${AtlasName}_coeffield_111.nii.gz"  -o ${patid}"_T1_to_${AtlasName}_invcoeffield_111.nii.gz" -r ${patid}"_T1"
 	if($status) exit 1
 
 	rm -f *.4dfp.*

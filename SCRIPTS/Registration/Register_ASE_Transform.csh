@@ -107,7 +107,7 @@ pushd ${SubjectHome}/Anatomical/Volume/ASE_ref
 
 	#this script computes the registration from epi/ase -> T1 as well as doing the field map generation and distortion correction
 	pushd $SubjectHome
-		$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 -fm_suffix "ASL" -dwell "$ASE_dwell" -ped "$ASE_ped" -fm "$ASE_fm" -fm_method "$ASE_FieldMapping" -target "$ASE_Reg_Target" -delta "$ASE_delta" -images "$ASE" -reg_method $ASE_CostFunction -final_res $ASE_FinalResolution
+		$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 -fm_suffix "ASE" -dwell "$ASE_dwell" -ped "$ASE_ped" -fm "$ASE_fm" -fm_method "$ASE_FieldMapping" -target "$ASE_Reg_Target" -delta "$ASE_delta" -images "$ASE" -reg_method $ASE_CostFunction -final_res $ASE_FinalResolution
 		if($status) then
 			echo "SCRIPT: $0 : 00005 : cannot compute distortion corrected registration."
 			exit 1
@@ -116,7 +116,7 @@ pushd ${SubjectHome}/Anatomical/Volume/ASE_ref
 
 	echo $cwd
 
-	set Warpfield = ${SubjectHome}/Anatomical/Volume/FieldMapping_ASE/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
+	set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE_ref/${patid}_ASE_ref_-y_to_${AtlasName}_warp
 	set WarpReference = ${RegTarget}_${FinalResTrailer}
 	applywarp -i ${patid}_ASE_ref_distorted_${ASE_ped[$Run]} -r ${WarpReference} -w ${Warpfield} -o ${patid}_ASE_ref_${ASE_ped[${Run}]}_${FinalResTrailer} --interp=spline
 	if($status) then
@@ -135,7 +135,7 @@ pushd $ScratchFolder/${patid}/ASE_temp
 	@ Run = 1
 	while($Run <= $#ASE)
 
-		set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE_ref/${patid}_ASE_ref_distorted_${ASE_ped[$Run]}_to_${AtlasName}_warp
+		set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE_ref/${patid}_ASE_ref_-y_to_${AtlasName}_warp
 
 		pushd ase${Run}
 
