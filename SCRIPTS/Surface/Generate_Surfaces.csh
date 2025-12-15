@@ -22,18 +22,20 @@ endif
 
 set SubjectHome = $cwd
 
-if($NonLinear) then
-	set NonLinAtlasTransform = ${SubjectHome}/Anatomical/Volume/T1/${patid}"_T1_warpfield_111.nii.gz"
-	set NonLinInverseAtlasTransform =  ${SubjectHome}/Anatomical/Volume/T1/${patid}"_T1_invwarpfield_111.nii.gz"
-else
-	set NonLinAtlasTransform = "zero"
-	set NonLinInverseAtlasTransform = "zero"
-endif
 
 if($target != "") then
 	set AtlasName = $target:t
 else
 	set AtlasName = T1
+endif
+
+
+if($NonLinear) then
+	set NonLinAtlasTransform = ${SubjectHome}/Anatomical/Volume/T1/${patid}"_T1_to_${AtlasName}_warpfield_111.nii.gz"
+	set NonLinInverseAtlasTransform =  ${SubjectHome}/Anatomical/Volume/T1/${patid}"_T1_to_${AtlasName}_invwarpfield_111.nii.gz"
+else
+	set NonLinAtlasTransform = "zero"
+	set NonLinInverseAtlasTransform = "zero"
 endif
 
 set AtlasSpaceFolder="Anatomical/Surface"
@@ -205,7 +207,7 @@ pushd $AtlasSpaceFolder
 		wb_command -add-to-spec-file ${SubjectHome}/$AtlasSpaceFolder/${AtlasName}_${LowResMesh}k/"$patid"."$LowResMesh"k.${AtlasName}.LR.wb.spec INVALID ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_111.nii.gz
 
 		if( $NonLinear) then
-			wb_command -add-to-spec-file ${SubjectHome}/$AtlasSpaceFolder/${AtlasName}_${LowResMesh}k/"$patid"."$LowResMesh"k.${AtlasName}.LR.wb.spec INVALID ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_111_fnirt.nii.gz
+			wb_command -add-to-spec-file ${SubjectHome}/$AtlasSpaceFolder/${AtlasName}_${LowResMesh}k/"$patid"."$LowResMesh"k.${AtlasName}.LR.wb.spec INVALID ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1_fnirt_111.nii.gz
 		endif
 
 		#add t2w to the spec file if it exists
@@ -213,8 +215,8 @@ pushd $AtlasSpaceFolder
 			wb_command -add-to-spec-file ${SubjectHome}/${AtlasSpaceFolder}/${AtlasName}_${LowResMesh}k/"$patid"."$LowResMesh"k.${AtlasName}.LR.wb.spec INVALID $SubjectHome/Anatomical/Volume/T2/${patid}_T2_111.nii.gz
 		endif
 
-		if( -e ${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_111_fnirt.nii.gz) then
-			wb_command -add-to-spec-file ${SubjectHome}/${AtlasSpaceFolder}/${AtlasName}_${LowResMesh}k/"$patid"."$LowResMesh"k.${AtlasName}.LR.wb.spec INVALID ${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_111_fnirt.nii.gz
+		if( -e ${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_fnirt_111.nii.gz) then
+			wb_command -add-to-spec-file ${SubjectHome}/${AtlasSpaceFolder}/${AtlasName}_${LowResMesh}k/"$patid"."$LowResMesh"k.${AtlasName}.LR.wb.spec INVALID ${SubjectHome}/Anatomical/Volume/T2/${patid}_T2_fnirt_111.nii.gz
 		endif
 
 		#add flair to the spec file if it exists
@@ -222,8 +224,8 @@ pushd $AtlasSpaceFolder
 			wb_command -add-to-spec-file ${SubjectHome}/${AtlasSpaceFolder}/$AtlasSpaceFolder/${AtlasName}_${LowResMesh}k/"$patid"."$LowResMesh"k.${AtlasName}.LR.wb.spec INVALID ${SubjectHome}/Anatomical/Volume/FLAIR/${patid}_FLAIR_111.nii.gz
 		endif
 
-		if( -e ${SubjectHome}/Anatomical/Volume/FLAIR/${patid}_FLAIR_111_fnirt.nii.gz) then
-			wb_command -add-to-spec-file ${SubjectHome}/${AtlasSpaceFolder}/${AtlasName}_${LowResMesh}k/"$patid"."$LowResMesh"k.${AtlasName}.LR.wb.spec INVALID ${SubjectHome}/Anatomical/Volume/FLAIR/${patid}_FLAIR_111_fnirt.nii.gz
+		if( -e ${SubjectHome}/Anatomical/Volume/FLAIR/${patid}_FLAIR_fnirt_111.nii.gz) then
+			wb_command -add-to-spec-file ${SubjectHome}/${AtlasSpaceFolder}/${AtlasName}_${LowResMesh}k/"$patid"."$LowResMesh"k.${AtlasName}.LR.wb.spec INVALID ${SubjectHome}/Anatomical/Volume/FLAIR/${patid}_FLAIR_fnirt_111.nii.gz
 		endif
 
 		#include the target for reference and visual QC

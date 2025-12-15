@@ -119,7 +119,7 @@ pushd $AtlasSpaceFolder
 
 	rm ${SubjectHome}/Functional/Volume/$fcFileName:t"_SBRef.nii.gz"
 	if($NonLinear) then
-		ln -s ${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_${FinalResTrailer}_fnirt.nii.gz ${SubjectHome}/Functional/Volume/$fcFileName:t"_SBRef.nii.gz"
+		ln -s ${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_fnirt_${FinalResTrailer}.nii.gz ${SubjectHome}/Functional/Volume/$fcFileName:t"_SBRef.nii.gz"
 		if($status) exit 1
 	else
 		ln -s ${SubjectHome}/Anatomical/Volume/BOLD_ref/${patid}_BOLD_ref_${FinalResTrailer}.nii.gz ${SubjectHome}/Functional/Volume/$fcFileName:t"_SBRef.nii.gz"
