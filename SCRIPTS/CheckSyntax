@@ -11,7 +11,7 @@ endif
 #Expects arguments in this order: subject parameter file path, syntax verbosity number, syntax strictness number
 set AbsPath = `readlink -f ${1}`
 
-set PythonBin = ${FSL_BIN}/python3
+set PythonBin = ${FSLBIN}/python3
 
 #Run dos2unix on the file to strip any windows characters which might be there for some reason.
 dos2unix $AbsPath -o -s -F
