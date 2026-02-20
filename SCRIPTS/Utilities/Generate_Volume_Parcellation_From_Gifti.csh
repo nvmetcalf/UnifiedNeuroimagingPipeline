@@ -1,5 +1,4 @@
 #!/bin/csh
-set echo
 
 source $1
 source $2
@@ -122,3 +121,4 @@ pushd PET/Parcellations/$ParcellationName
 	cp $Parcellation_ctab $ParcellationName"_gtm.ctab"
 
 popd
+exit 0

@@ -4,4 +4,4 @@
 set JSON_file = $1
 set Field = $2
 
-echo `grep \"$Field\" ${JSON_file} | sed 's/://' | cut -d" " -f2 | cut -d, -f1 | sed 's/"//g'`
+echo `grep \"$Field\" ${JSON_file} | sed 's/:/,/' | cut -d"," -f2 | sed 's/"//g'`
