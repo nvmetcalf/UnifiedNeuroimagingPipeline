@@ -45,7 +45,7 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
 		exit 1
 	endif
 	#--refmask=${target}_brain_mask --inmask=${patid}"_T1_brain_mask"
-	$FSL_BIN/fnirt --in=${patid}"_T1" --ref=${target} --jout=${cwd}/$patid"_jacobiantransform.nii.gz" --fout=${cwd}/$patid"_T1_to_${AtlasName}_warpfield_111.nii.gz" --aff=${patid}_T1_to_${AtlasName}.mat --cout=${cwd}/$patid"_T1_to_${AtlasName}_coeffield_111.nii.gz" --config=${target}.cnf
+	fnirt --in=${patid}"_T1" --ref=${target} --jout=${cwd}/$patid"_jacobiantransform.nii.gz" --fout=${cwd}/$patid"_T1_to_${AtlasName}_warpfield_111.nii.gz" --aff=${patid}_T1_to_${AtlasName}.mat --cout=${cwd}/$patid"_T1_to_${AtlasName}_coeffield_111.nii.gz" --config=${target}.cnf
 	if($status) then
 		echo "SCRIPT: $0 : 00004 : Failed to compute non-linear transform for linearly aligned T1 to atlas."
 		exit 1
