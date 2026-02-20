@@ -29,7 +29,7 @@ else if(! $?T1) then
 endif
 
 if(! $?bet_f ) then
-	set bet_f = 0.2
+	set bet_f = 0.3
 endif
 
 set FinalResolutions = (`grep _FinalResolution $1 | awk '{print $4}' | sort -u`)
@@ -73,8 +73,25 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
 
 		rm $patid"_T1_temp"
 
- 	else if( -e $SubjectHome/dicom/$T1[1]) then
-		set T1_image = $SubjectHome/dicom/$T1[1]
+ 	else if($#T1 == 1 && `echo $T1 | cut -d_ -f1` != "fs") then
+		if(! -e $SubjectHome/dicom/$T1[1]) then
+			echo "$SubjectHome/dicom/$T1[1] does not exist! Cannot continue."
+			exit 1
+		else
+			set T1_image = $SubjectHome/dicom/$T1[1]
+		endif
+	else if($#T1 == 1 && `echo $T1 | cut -d_ -f1` == "fs") then
+		set FS_image_to_use = `echo $T1 | cut -d_ -f2`
+		if(! -e ${SubjectHome}/Freesurfer/${FreesurferVersionToUse}/mri/${FS_image_to_use}.mgz) then
+			echo "fs set in T1 variable. but could not find: ${FS_image_to_use}.mgz."
+			exit 1
+		endif
+
+		echo "fs set in T1 variable. Found ${FS_image_to_use} in freesurfer ${FreesurferVersionToUse}. Using that."
+		mri_convert ${SubjectHome}/Freesurfer/${FreesurferVersionToUse}/mri/${FS_image_to_use}.mgz ${SubjectHome}/Freesurfer/${FreesurferVersionToUse}/mri/${FS_image_to_use}.nii.gz
+		if($status) exit 1
+
+		set T1_image = ${SubjectHome}/Freesurfer/${FreesurferVersionToUse}/mri/${FS_image_to_use}.nii.gz
 	else
 		echo "Cannot find T1 image."
 		exit 1
@@ -85,13 +102,13 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
 
 	rm *_temp.* *T.*
 
+ 	#extract the brain from the T1
 	bet ${patid}"_T1" ${patid}"_T1_brain" -R -B -f $bet_f
 	if($status) then
 		echo "SCRIPT: $0 : 00007 : Failed to extract T1 brain from T1 anatomy."
 		exit 1
 	endif
 
- 	#extract the brain from the T1
  	fast -t 1 -n 3 -H 0.1 -I 4 -l 20.0 -g -b -B ${patid}_T1_brain.nii.gz
  	if($status) then
  		echo "SCRIPT: $0 : 00008 : Failed to complete bias correction on T1."

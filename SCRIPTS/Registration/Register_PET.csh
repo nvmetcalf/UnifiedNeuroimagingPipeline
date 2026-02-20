@@ -330,7 +330,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 		endif
 
 		if($#RegistrationMats > 1) then
-			#create out one step resample matrix from the list
+			#create our one step resample matrix from the list
 			@ i = 1
 			while($i < $#RegistrationMats)
 				@ j = $i + 1

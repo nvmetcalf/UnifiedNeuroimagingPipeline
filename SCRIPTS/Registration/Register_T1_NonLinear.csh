@@ -44,8 +44,8 @@ pushd ${SubjectHome}/Anatomical/Volume/T1
 		echo "SCRIPT: $0 : 00003 : Unable to perform non-linear alignment as the target (${target}) does not exist in nifti format."
 		exit 1
 	endif
-
-	$FSL_BIN/fnirt --in=${patid}"_T1_brain" --ref=${target} --refmask=${target}_brain_mask --inmask=${patid}"_T1_brain_mask" --jout=${cwd}/$patid"_jacobiantransform.nii.gz" --fout=${cwd}/$patid"_T1_to_${AtlasName}_warpfield_111.nii.gz" --aff=${patid}_T1_to_${AtlasName}.mat --cout=${cwd}/$patid"_T1_to_${AtlasName}_coeffield_111.nii.gz" --config=${target}.cnf
+	#--refmask=${target}_brain_mask --inmask=${patid}"_T1_brain_mask"
+	$FSL_BIN/fnirt --in=${patid}"_T1" --ref=${target} --jout=${cwd}/$patid"_jacobiantransform.nii.gz" --fout=${cwd}/$patid"_T1_to_${AtlasName}_warpfield_111.nii.gz" --aff=${patid}_T1_to_${AtlasName}.mat --cout=${cwd}/$patid"_T1_to_${AtlasName}_coeffield_111.nii.gz" --config=${target}.cnf
 	if($status) then
 		echo "SCRIPT: $0 : 00004 : Failed to compute non-linear transform for linearly aligned T1 to atlas."
 		exit 1
