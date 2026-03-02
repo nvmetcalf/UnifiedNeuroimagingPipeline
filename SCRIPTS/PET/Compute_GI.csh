@@ -48,6 +48,8 @@ pushd PET/Volume
 		gi_4dfp ${patid}_OM_on_T1${FinalResTrailer} ${patid}_FDG_on_T1${FinalResTrailer}_norm used_voxels ${patid}_GI_on_T1${FinalResTrailer} -n1 -g0.44
 		if ($status) exit 1
 
+		#maybe do FDG - (CMRO2/6). FDG needs to be converted to CMRglu... which we can't do...
+		
 		niftigz_4dfp -n ${patid}_GI_on_T1${FinalResTrailer} ${SubjectHome}/PET/Volume/${patid}_GI_on_T1${FinalResTrailer}
 		if($status) exit 1
 

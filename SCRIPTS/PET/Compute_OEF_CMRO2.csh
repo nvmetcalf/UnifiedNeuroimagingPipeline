@@ -40,6 +40,14 @@ pushd ${ScratchFolder}/${patid}/PET_temp
 	niftigz_4dfp -4 ${SubjectHome}/Masks/${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz used_voxels_T1${FinalResTrailer}
 	if($status) exit 1
 
+# 	trio2oem_4dfp is to create OEF and CMRO2 images based on the model
+#               [OO]  := m1[HO] + m2[OC];
+#               OEF   := ([OO]-m2[OC])/(m1[HO]/0.4);
+#               CMRO2 := [OO] - m2[OC];
+#               where [OO] := oxygen
+#                     [OH] := water
+#                     [OC] := carbon monoxide
+
 	trio2oem_4dfp ${patid}_O2_on_T1${FinalResTrailer}_norm ${patid}_H2O_on_T1${FinalResTrailer}_norm ${patid}_CO_on_T1${FinalResTrailer}_norm used_voxels_T1${FinalResTrailer} ${patid}_CMRO2_on_T1${FinalResTrailer} ${patid}_OEF_on_T1${FinalResTrailer} -u
 	if ($status) exit $status
 
