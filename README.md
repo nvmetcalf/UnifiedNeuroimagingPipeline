@@ -10,6 +10,8 @@ https://doi.org/10.1073/pnas.2212256120 (2023).
 You will need the following package:
 https://wustl.box.com/s/8yc08ju7hz0cj3j8gvubppomddd81aaq
 
+If you are missing libraries on your RedHat compatible system and cannot install them youtself, you can download the following package (https://wustl.box.com/s/1pyyapgwrdjmtdgvy8vf8v3t9xcf03tc). You would extract the package somewhere, then add the folder to your LD_LIBRARY_PATH.
+
 Extract it into the UnifiedNeuroimagingPipeline folder as is. It should add REFDIR to ATLAS, fslview, ROBEX, ANTs, and Synb0-DSCO folders to SCRIPTS, and empty Scans and Projects folders to the UnifiedNeuroimagingPipeline folder.
 
 You will also need to run the fslinstaller.py script using python in the SCRIPTS folder to install FSL (some functionality in the pipeline is linked to the python distro in FSL). By default, it will want to install into SCRIPTS.
