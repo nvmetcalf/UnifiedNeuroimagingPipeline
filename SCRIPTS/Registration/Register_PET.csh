@@ -351,7 +351,16 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 			mv curr_reg.mat ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat
 		endif
 
-		flirt -in ${patid}_${Modality} -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out ${patid}_${Modality}_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm  #-interp nearestneighbour
+		flirt -in ${patid}_${Modality} -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out ${patid}_${Modality}_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm -setbackground 0 #-interp nearestneighbour
+		if($status) exit 1
+
+		fslmaths ${patid}_${Modality} -mul 0 -add 1 ${patid}_${Modality}_defined_voxels
+		if($status) exit 1
+
+		flirt -in ${patid}_${Modality}_defined_voxels -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out ${patid}_${Modality}_defined_voxels_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm -setbackground 0 -interp nearestneighbour
+		if($status) exit 1
+
+		flirt -in ${patid}_${Modality}_defined_voxels -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out ${patid}_${Modality}_defined_voxels_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}_to_${TargetPatid}_T1.mat -applyxfm -setbackground 0 -interp nearestneighbour
 		if($status) exit 1
 	cd ..
 

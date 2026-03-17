@@ -52,7 +52,7 @@ if($day1_patid != "" || $day1_path != "") then
 		echo "SCRIPT: $0 : 00004 : Unable to prepare the current session as a multisession."
 		exit 1
 	endif
-	goto BOLD_PROC
+	goto SKIP_RECON
 endif
 
 ANATOMICAL:
