@@ -27,6 +27,10 @@ else
 	set AtlasName = ${patid}_T1
 endif
 
+if(! $?PET_FinalResolution) then
+	set PET_FinalResolution = 1
+endif
+
 set FinalResTrailer = _${PET_FinalResolution}${PET_FinalResolution}${PET_FinalResolution}
 
 if(! $?day1_path) then
@@ -50,8 +54,9 @@ if(-e ${SubjectHome}/Anatomical/Volume/O2/${patid}_O2.nii.gz) set Modalities = (
 pushd Masks
 	rm -rf PET_Masks
 	mkdir PET_Masks
-
-	cp ${patid}_used_voxels_T1${FinalResTrailer}.nii.gz ${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz
+	
+	fslmaths ${TargetHome}/Masks/${TargetPatid}_used_voxels_T1${FinalResTrailer}.nii.gz -dilD ${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz
+	if($status) exit 1
 
 	#take the base images, binarize, transform, multiply against each other, save the result
 	foreach mode($Modalities)
