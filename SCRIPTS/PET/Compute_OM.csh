@@ -23,7 +23,7 @@ endif
 
 pushd PET/Volume
 
-	if(! -e ${patid}_O2_on_T1${FinalResTrailer}_norm.nii.gz || ! -e ${patid}_H2O_on_T1${FinalResTrailer}_norm.nii.gz || ! -e ${patid}_CO_on_T1${FinalResTrailer}_norm.nii.gz || ~ -e ${SubjectHome}/Masks/${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz) then
+	if(! -e ${patid}_O2_on_T1${FinalResTrailer}_norm.nii.gz || ! -e ${patid}_H2O_on_T1${FinalResTrailer}_norm.nii.gz || ! -e ${patid}_CO_on_T1${FinalResTrailer}_norm.nii.gz || ! -e ${SubjectHome}/Masks/${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz) then
 		echo "Cannot compute OM as one or more of the following are missing: O2, H2O, CO, mask"
 		exit 0
 	endif
