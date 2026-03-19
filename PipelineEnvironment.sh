@@ -31,10 +31,10 @@ export SCRATCH=/data/vglab/data2/temp
 export PROJECTS_DIR="Projects"
 
 #path to 711-2* atlases
-export REFDIR=/data/nil-bluearc/vlassenko/Pipeline/ATLAS/REFDIR
+export REFDIR=${PROJECTS_HOME}/ATLAS/REFDIR
 
 #Path to the Processing Pipeline Scripts
-export PP_SCRIPTS=/data/nil-bluearc/vlassenko/Pipeline/SCRIPTS
+export PP_SCRIPTS=${PROJECTS_HOME}/SCRIPTS
 
 #set where workbench is installed. At one time it was called caret, history is fun.
 #adjudicate between debian and rhel versions of workbench.
