@@ -67,12 +67,12 @@ export FSLDIR=${PP_SCRIPTS}/fsl
 export FSL_DIR=$FSLDIR
 
 #setup the freesurfer environment
-source ${FREESURFER_HOME}/SetUpFreeSurfer.csh
+source ${FREESURFER_HOME}/SetUpFreeSurfer.sh
 export TEMPDIR=$SCRATCH
 
 #path to where FSL is installed - installer is included in the pipeline
 
-source ${FSLDIR}/etc/fslconf/fsl.csh
+source ${FSLDIR}/etc/fslconf/fsl.sh
 
 # Set up specific environment variables for the HCP Pipeline
 export HCPPIPEDIR=${PP_SCRIPTS}/HCP
