@@ -46,6 +46,10 @@ else
 	export CARET7DIR=${PP_SCRIPTS}/workbench/rhel/bin_rh_linux64
 endif
 
+#Path to shared libraries that the pipelines programs need. Mostly
+#4dfp stuff and old fslview
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PP_SCRIPTS/libs
+
 #path to the nil 4dfp programs/scripts
 export RELEASE=${PP_SCRIPTS}/lin64-tools
 
