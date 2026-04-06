@@ -15,5 +15,5 @@ set Output =  `grep \"$Field\" ${JSON_file} | sed 's/:/,/' | cut -d"," -f2 | sed
 if(`echo $Output | grep "\["` == "") then
 	echo `grep \"$Field\" ${JSON_file} | sed 's/:/,/' | cut -d"," -f2 | sed 's/"//g'`
 else
-	cat $JSON_file | sed 's/:/ /g' | awk -v field=$2 'BEGIN{output = 0;}{if($1 == "],") output = 0; if(output) print($1); if($1 == "\""field"\"") output = 1;}' | sed 's/\"//g' | sed 's/,//g'
+	cat $JSON_file | sed 's/:/ /g' | awk -v field=$2 'BEGIN{output = 0;}{if($1 == "],") output = 0; if(output) print($1); if($2 == "],") output = 0; if($1 == "\""field"\"") output = 1;}' | sed 's/\"//g' | sed 's/,//g'
 endif
