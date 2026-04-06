@@ -1,8 +1,13 @@
 #!/bin/csh
 
-set output_params_file = $1
+set output_params_file = ${1}
 
-if(! -e $output_params_file || $#argv < 1) then
+if($#argv < 1) then
+	echo "you must specify a file to output to."
+	exit 1
+endif
+
+if( ! -e $output_params_file || $#argv < 1) then
 	echo "$output_params_file file cannot be found or wasn't specified."
 	exit 1
 endif
@@ -105,140 +110,47 @@ if($#GoodScans > 0) then
 
 	#check the BOLD to see if it is MultiEcho
 	if($IsMultiecho) then
+		#get the TE's for all the echo's
+		set BOLD_TE = (`$PP_SCRIPTS/Utilities/GetJSON_Value $BOLD_json "EchoTime" | sort -nu | awk '{printf("%s ", $1)}'`)
 
-		set ME_ScanSets = ()
-		set BOLD_TE = ()
 		set BOLD_ORDER = ()
 		@ i = 1
 		set ScanOrder = ($GoodScans)
 
-		#go through each bold run and put the TE  and run in order from lowest echo to highest
-
+		#go through each bold run
+		#get the echo number for each set of echos
+		#index the ME run sets based on the echo numbers
+		set ME_ScanSets = ()
+		set ME_SetOrder = ($BOLD_TE)
+		set BoldIndices = ()
+		@ j = 1
+		@ Curr_Scan_Set = 1
 		while($i <= $#ScanOrder)
-			@ lowest_te = 10000
-			@ lowest_te_index = 1
-			@ j = 1
-			while($j <= $#ScanOrder)
+			set Curr_BOLD_scan = $ScanOrder[$i]
+			set Curr_BOLD_json = `echo $Curr_BOLD_scan:r:r | sed 's/\"//g'`".json"
+			set echo_number = `$PP_SCRIPTS/Utilities/GetJSON_Value dicom/$Curr_BOLD_json "EchoNumber"`
 
-				if($ScanOrder[$j] != "") then
-					set BOLD_Scan = `echo ${DICOM_Dir}/$ScanOrder[$j] | sed -r 's/"//g'`
-					set BOLD_Scan = $BOLD_Scan:r:r".json"
+			set ME_SetOrder[$echo_number] = $i
 
-					set curr_te = `$PP_SCRIPTS/Utilities/GetJSON_Value $BOLD_Scan EchoTime | awk '{print $1 * 1000}'`
-
-					if(`echo $curr_te $lowest_te | awk '{if($1 < $2) print 1}'`) then
-						set lowest_te = $curr_te
-						@ lowest_te_index = $j
-					endif
-				endif
-				@ j++
-			end
-
-			set BOLD_ORDER =($BOLD_ORDER $ScanOrder[$lowest_te_index])
-			set BOLD_TE = ($BOLD_TE $lowest_te)
-			set ScanOrder[$lowest_te_index] = ""
-
-			@ i++
-		end
-
-		#trim off duplicate echos
-		set BOLD_TE = (`echo $BOLD_TE | sed 's/ /\n/g' | uniq`)
-
-		echo $BOLD_TE
-
-		set ME_ScanIndices = (`echo $BOLD_ORDER | sed -r 's/ /\n/g' | grep _e | grep .nii | sed -r 's/_/\t/g' | awk '{print $(NF-1)}'`)
-		echo $ME_ScanIndices
-		rm -f temp
-		touch temp
-		foreach Run($ME_ScanIndices)
-			echo $Run >> temp
-		end
-
-		sort temp | uniq
-
-		set ME_ScanIndices = (`sort temp | uniq | awk '{printf $1" "}'`)
-
-		rm temp
-
-		@ i = 1
-		@ Assignment = 1
-		while($i <= $#ME_ScanIndices)
-			set ME_SetLength = ""
-			@ j = 1
-			while($j <= $#BOLD_TE)
-				set ME_SetLength = `echo $ME_SetLength$Assignment`
-
-				if($j < $#BOLD_TE) then
-					set ME_SetLength = `echo $ME_SetLength","`
-				endif
-				@ j++
-				@ Assignment++
-			end
-			set ME_ScanSets = ($ME_ScanSets $ME_SetLength)
+			if( $j >= $#BOLD_TE) then
+                                #make the bold echo set  comma delimited for la$
+                                set ME_ScanSets = ($ME_ScanSets `echo $ME_SetOrder | sed 's/ /,/g'`)
+				echo $ME_ScanSets
+				#index eac hscan set as a single bold run, cause they are.
+				set BoldIndices = ($BoldIndices $Curr_Scan_Set)
+                                @ Curr_Scan_Set++
+				set ME_SetOrder = ($BOLD_TE)
+				@ j = 0
+                        endif
+			@ j++
 			@ i++
 		end
 
 		echo $ME_ScanSets
-
-		set ME_ScanSets_Reordered = ()
-		#now reorder the ME_ScanSets by TE
-		foreach ME($ME_ScanSets)
-
-			set curr_me_indices = (`echo $ME | sed -r 's/,/ /g'`)
-
-			#read each json and do like before where we found all the TE's
-			set ScanOrder = ()
-			echo $#GoodScans
-
-			foreach SetScan($curr_me_indices)
-				set ScanOrder = ($ScanOrder $GoodScans[$SetScan])
-			end
-
-			@ i = 1
-			set SET_ORDER = ()
-			while($i <= $#ScanOrder)
-
-				@ lowest_te = 1000
-				@ lowest_te_index = 1
-				@ j = 1
-				while($j <= $#ScanOrder)
-
-					if($ScanOrder[$j] != "") then
-						set BOLD_Scan = `echo ${DICOM_Dir}/$ScanOrder[$j] | sed -r 's/"//g'`
-						set BOLD_Scan = $BOLD_Scan:r:r".json"
-
-						set curr_te = `$PP_SCRIPTS/Utilities/GetJSON_Value $BOLD_Scan EchoTime | awk '{print $1 * 1000}'`
-
-						if(`echo $curr_te $lowest_te | awk '{if($1 < $2) print 1}'`) then
-							set lowest_te = $curr_te
-							@ lowest_te_index = $j
-						endif
-					endif
-					@ j++
-				end
-
-				set SET_ORDER = ($SET_ORDER$curr_me_indices[$lowest_te_index]",")
-				set ScanOrder[$lowest_te_index] = ""
-
-				@ i++
-			end
-
-			set ME_ScanSets_Reordered = ($ME_ScanSets_Reordered $SET_ORDER)
-		end
-
-		set RegisterEcho = `echo $#SET_ORDER | awk '{printf("%3.0f",$1/2)}'`
-
-		echo $ME_ScanSets_Reordered
-		set ME_ScanSets = ($ME_ScanSets_Reordered)
-		echo $ME_ScanSets
-
-		set ME_SetIndices = ()
-		@ i = 1
-		while($i <= $#ME_ScanSets)
-			set ME_SetIndices = ($ME_SetIndices $i)
-			@ i++
-		end
-
+		echo $BoldIndices
+		#use the middle echo as the echo for making BOLD ref
+		set RegisterEcho = `echo $#BOLD_TE | awk '{printf("%i",int($1/2)+1)}'`
+		echo $RegisterEcho
 	else
 		set BOLD_TE = `$PP_SCRIPTS/Utilities/GetJSON_Value $BOLD_json EchoTime`
 	endif
@@ -247,7 +159,7 @@ if($#GoodScans > 0) then
 	echo "set RunIndex = ("$BoldIndices")		# BOLD RunID" >> $output_params_file
 
 	if($?ME_ScanSets) then
-		echo "set FCProcIndex = ("$ME_SetIndices")		# Multiecho Set ID's to functionally preprocess" >> $output_params_file
+		echo "set FCProcIndex = ("$BoldIndices")		# Multiecho Set ID's to functionally preprocess" >> $output_params_file
 	else
 		echo "set FCProcIndex = ("$BoldIndices")		# BOLD RunID's to functionally preprocess" >> $output_params_file
 	endif
