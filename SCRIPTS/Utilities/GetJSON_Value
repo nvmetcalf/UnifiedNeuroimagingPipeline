@@ -1,7 +1,19 @@
 #!/bin/csh
 
+if(! -e $1) then
+	echo "$1 does not exist."
+	exit 1
+endif
+
 #currently only grabs a single value from a tag
 set JSON_file = $1
 set Field = $2
 
-echo `grep \"$Field\" ${JSON_file} | sed 's/:/,/' | cut -d"," -f2 | sed 's/"//g'`
+set Output =  `grep \"$Field\" ${JSON_file} | sed 's/:/,/' | cut -d"," -f2 | sed 's/"//g'`
+
+#check to see if this is a set
+if(`echo $Output | grep "\["` == "") then
+	echo `grep \"$Field\" ${JSON_file} | sed 's/:/,/' | cut -d"," -f2 | sed 's/"//g'`
+else
+	cat $JSON_file | awk 'BEGIN{output = 0;}{if($1 == "],") output = 0; if(output) print($1); if($1 == "\"EchoTime\":") output = 1;}' | sed 's/\"//g' | sed 's/,//g'
+endif
