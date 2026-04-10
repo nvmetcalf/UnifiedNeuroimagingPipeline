@@ -1,5 +1,5 @@
 #!/bin/csh
-set echo
+
 source $PP_SCRIPTS/Config/PET_Isotopes.cfg
 
 if ($#argv < 7) then
@@ -111,21 +111,15 @@ endif
 fslmaths ${Output}_mcflirt_meanvol -thr 0 -kernel gauss 1.274 -fmean ${Output}_mcflirt_meanvol_sm3
 if($status) exit 1
 
-niftigz_4dfp -4 ${Output}_mcflirt ${Output}_mcflirt
-if($status) exit 1
-
 #extract the frames we will be working with and their timings
-#correct for decay
+#assumes the scanner decay corrected already
 #fslroi starts from 0 not 1, so the code looks a bit weird
 @ i = 0
 while($i < $EndFrame && $EndFrame > 1)
 	#set frame to the nominal frame name (makes sense to humans)
 	@ frame = $i + 1
 
-	sum_pet_4dfp_v2 ${Output}_mcflirt $PET_Timings $frame $frame -h$HalfLife ${Output}"_frame_"$frame"_deco"
-	if($status) exit 1
-
-	niftigz_4dfp -n ${Output}"_frame_"$frame"_deco" ${Output}"_frame_"$frame"_deco"
+	fslroi ${Output}_mcflirt ${Output}_mcflirt_frame_$frame $i 1
 	if($status) exit 1
 
 	#we want to skip the header line of the frame timings, so gotta go +2 from i
@@ -134,8 +128,8 @@ while($i < $EndFrame && $EndFrame > 1)
 	set Duration = `head -$frame $PET_Timings | tail -1 | awk '{print($3)}'`
 	set FrameStart = `head -$frame $PET_Timings | tail -1 | awk '{print($2)}'`
 
-	set FrameMean = `fslstats ${Output}"_frame_"$frame"_deco" -m`
-
+	set FrameMean = `fslstats ${Output}_mcflirt_frame_${frame} -m`
+	
 	echo "----------------------------------"
 	echo "$FrameStart	$FrameMean	$Duration	$frame" >> $global_prm
 	echo "$FrameStart	$FrameMean">>$global_dat
@@ -222,13 +216,27 @@ if($SumStartFrame <= 0) then
 	set SumStartFrame = 1
 endif
 
-echo "Start Frame: $SumStartFrame"
-echo "End Frame: $SumEndFrame"
+ftouch FramesUsed.txt
+echo "Path: ${cwd}/${Output}_mcflirt.par.fd" >> FramesUsed.txt
+echo "Start Frame: $SumStartFrame" >> FramesUsed.txt
+echo "End Frame: $SumEndFrame" >> FramesUsed.txt
 
-sum_pet_4dfp_v2 ${Output}_mcflirt $PET_Timings $SumStartFrame $SumEndFrame -h$HalfLife ${UseFirstFrameDecay} ${Output}"_sum_deco"
+
+#collect the frames we want to use to average
+@ i = $SumStartFrame
+set FrameList = ()
+while($i <= $EndFrame)
+	@ frame = $i
+	set FrameList = ($FrameList ${Output}_mcflirt_frame_$frame)
+	@ i++
+end
+
+#put them into a single file
+fslmerge -t ${Output}_mcflirt_sum_frames $FrameList
 if($status) exit 1
 
-niftigz_4dfp -n ${Output}"_sum_deco" ${Output}"_sum_deco"
+#average the frames and set them as sum'd and decay corrected (should have been done on scanner)
+fslmaths ${Output}_mcflirt_sum_frames -Tmean ${Output}"_sum_deco"
 if($status) exit 1
 
 END:
