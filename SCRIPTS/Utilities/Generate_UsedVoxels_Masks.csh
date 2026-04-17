@@ -139,9 +139,9 @@ pushd ${SubjectHome}/Masks/FreesurferMasks
 
 	#see if we can apply a non linear warp
 	if($day1_path != "") then
-		set warp = ${day1_path}/Anatomical/Volume/T1/$day1_patid"_T1_warpfield_111.nii.gz"
+		set warp = ${day1_path}/Anatomical/Volume/T1/$day1_patid"_T1_to_${AtlasName}_warpfield_111.nii.gz"
 	else
-		set warp = ${SubjectHome}/Anatomical/Volume/T1/$patid"_T1_warpfield_111.nii.gz"
+		set warp = ${SubjectHome}/Anatomical/Volume/T1/$patid"_T1_to_${AtlasName}_warpfield_111.nii.gz"
 	endif
 
 	if($NonLinear && -e $warp) then
@@ -162,6 +162,9 @@ pushd ${SubjectHome}/Masks/FreesurferMasks
 				exit 1
 			endif
 		end
+	else if($NonLinear && ! -e $warp) then
+		echo "SCRIPTS: $0 : 00015 : Non Linear registration requested, but $warp does not exist."
+		exit 1
 	endif
 
 popd
