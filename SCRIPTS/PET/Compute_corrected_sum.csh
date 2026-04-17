@@ -222,8 +222,11 @@ if($SumStartFrame <= 0) then
 	set SumStartFrame = 1
 endif
 
-echo "Start Frame: $SumStartFrame"
-echo "End Frame: $SumEndFrame"
+ftouch FramesUsed.txt
+echo "Path: ${cwd}/${Output}_mcflirt.par.fd" >> FramesUsed.txt
+echo "Start Frame: $SumStartFrame" >> FramesUsed.txt
+echo "End Frame: $SumEndFrame" >> FramesUsed.txt
+
 
 sum_pet_4dfp_v2 ${Output}_mcflirt $PET_Timings $SumStartFrame $SumEndFrame -h$HalfLife ${UseFirstFrameDecay} ${Output}"_sum_deco"
 if($status) exit 1
