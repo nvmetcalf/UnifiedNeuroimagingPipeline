@@ -53,8 +53,8 @@ if($#Scan > 0) then
 	echo "set FDG_Target = (T1)" >> $output_params_file
 	echo "set FDG_Duration = ($FramesUsed)" >> $output_params_file
 	echo "set FDG_SumMethod = 2" >> $output_params_file
-	echo "set FDG_Smoothing = 2" >> $output_params_file
-	echo "set FDG_FrameAlign = 0"  >> $output_params_file
+	echo "set FDG_Smoothing = 1" >> $output_params_file
+	echo "set FDG_FrameAlign = 1"  >> $output_params_file
 	echo "set FDG_RegMethod = corratio" >> $output_params_file
 else
 	echo "set FDG = ()	#FDG timeseries" >> $output_params_file
@@ -62,7 +62,7 @@ else
 	echo "#set FDG_Duration = (1200)" >> $output_params_file
 	echo "#set FDG_SumMethod = 2" >> $output_params_file
 	echo "#set FDG_Smoothing = 1" >> $output_params_file
-	echo "#set FDG_FrameAlign = 0"  >> $output_params_file
+	echo "#set FDG_FrameAlign = 1"  >> $output_params_file
 	echo "#set FDG_RegMethod = corratio" >> $output_params_file
 endif
 
@@ -96,16 +96,16 @@ if($#Scan > 0) then
 	echo "set O2_Target = (T1 FDG)" >> $output_params_file
 	echo "set O2_Duration = ($FramesUsed)" >> $output_params_file
 	echo "set O2_SumMethod = 1" >> $output_params_file
-	echo "set O2_Smoothing = 2" >> $output_params_file
-	echo "set O2_FrameAlign = 0"  >> $output_params_file
+	echo "set O2_Smoothing = 1" >> $output_params_file
+	echo "set O2_FrameAlign = 1"  >> $output_params_file
 	echo "set O2_RegMethod = corratio" >> $output_params_file
 else
 	echo "set O2 = ()	#O2 timeseries" >> $output_params_file
 	echo "#set O2_Target = (T1 FDG)" >> $output_params_file
 	echo "#set O2_Duration = (60)" >> $output_params_file
 	echo "#set O2_SumMethod = 1" >> $output_params_file
-	echo "#set O2_Smoothing = 2" >> $output_params_file
-	echo "#set O2_FrameAlign = 0"  >> $output_params_file
+	echo "#set O2_Smoothing = 1" >> $output_params_file
+	echo "#set O2_FrameAlign = 1"  >> $output_params_file
 	echo "#set O2_RegMethod = corratio" >> $output_params_file
 endif
 
@@ -139,16 +139,16 @@ if($#Scan > 0) then
 	echo "set CO_Target = (T1 FDG O2)" >> $output_params_file
 	echo "set CO_Duration = ($FramesUsed)" >> $output_params_file
 	echo "set CO_SumMethod = 5" >> $output_params_file
-	echo "set CO_Smoothing = 2" >> $output_params_file
-	echo "set CO_FrameAlign = 0"  >> $output_params_file
+	echo "set CO_Smoothing = 1" >> $output_params_file
+	echo "set CO_FrameAlign = 1"  >> $output_params_file
 	echo "set CO_RegMethod = corratio" >> $output_params_file
 else
 	echo "set CO = ()	#CO timeseries" >> $output_params_file
 	echo "#set CO_Target = (T1 FDG)" >> $output_params_file
 	echo "#set CO_Duration = (60)" >> $output_params_file
 	echo "#set CO_SumMethod = 5" >> $output_params_file
-	echo "#set CO_Smoothing = 2" >> $output_params_file
-	echo "#set CO_FrameAlign = 0"  >> $output_params_file
+	echo "#set CO_Smoothing = 1" >> $output_params_file
+	echo "#set CO_FrameAlign = 1"  >> $output_params_file
 	echo "#set CO_RegMethod = corratio" >> $output_params_file
 endif
 
@@ -182,16 +182,16 @@ if($#Scan > 0) then
 	echo "set H2O_Target = (T1 FDG)" >> $output_params_file
 	echo "set H2O_Duration = ($FramesUsed)" >> $output_params_file
 	echo "set H2O_SumMethod = 1" >> $output_params_file
-	echo "set H2O_Smoothing = 2" >> $output_params_file
-	echo "set H2O_FrameAlign = 0"  >> $output_params_file
+	echo "set H2O_Smoothing = 1" >> $output_params_file
+	echo "set H2O_FrameAlign = 1"  >> $output_params_file
 	echo "set H2O_RegMethod = corratio" >> $output_params_file
 else
 	echo "set H2O = ()	#H2O timeseries" >> $output_params_file
 	echo "#set H2O_Target = (T1 FDG)" >> $output_params_file
 	echo "#set H2O_Duration = (60)" >> $output_params_file
 	echo "#set H2O_SumMethod = 1" >> $output_params_file
-	echo "#set H2O_Smoothing = 2" >> $output_params_file
-	echo "#set H2O_FrameAlign = 0"  >> $output_params_file
+	echo "#set H2O_Smoothing = 1" >> $output_params_file
+	echo "#set H2O_FrameAlign = 1"  >> $output_params_file
 	echo "#set H2O_RegMethod = corratio" >> $output_params_file
 endif
 
@@ -225,16 +225,16 @@ if($#Scan > 0) then
 	echo "set PIB_Target = (T1)" >> $output_params_file
 	echo "set PIB_Duration = ($FramesUsed)" >> $output_params_file
 	echo "set PIB_SumMethod = 3" >> $output_params_file
-	echo "set PIB_Smoothing = 2" >> $output_params_file
-	echo "set PIB_FrameAlign = 0"  >> $output_params_file
+	echo "set PIB_Smoothing = 1" >> $output_params_file
+	echo "set PIB_FrameAlign = 1"  >> $output_params_file
 	echo "set PIB_RegMethod = corratio" >> $output_params_file
 else
 	echo "set PIB = ()	#PIB timeseries" >> $output_params_file
 	echo "#set PIB_Target = (T1)" >> $output_params_file
 	echo "#set PIB_Duration = (2400-3600)" >> $output_params_file
 	echo "#set PIB_SumMethod = 3" >> $output_params_file
-	echo "#set PIB_Smoothing = 2" >> $output_params_file
-	echo "#set PIB_FrameAlign = 0"  >> $output_params_file
+	echo "#set PIB_Smoothing = 1" >> $output_params_file
+	echo "#set PIB_FrameAlign = 1"  >> $output_params_file
 	echo "#set PIB_RegMethod = corratio" >> $output_params_file
 endif
 
@@ -268,16 +268,16 @@ if($#Scan > 0) then
 	echo "set TAU_Target = (T1)" >> $output_params_file
 	echo "set TAU_Duration = ($FramesUsed)" >> $output_params_file
 	echo "set TAU_SumMethod = 3" >> $output_params_file
-	echo "set TAU_Smoothing = 2" >> $output_params_file
-	echo "set TAU_FrameAlign = 0"  >> $output_params_file
+	echo "set TAU_Smoothing = 1" >> $output_params_file
+	echo "set TAU_FrameAlign = 1"  >> $output_params_file
 	echo "set TAU_RegMethod = corratio" >> $output_params_file
 else
 	echo "set TAU = ()	#TAU timeseries" >> $output_params_file
 	echo "#set TAU_Target = (T1)" >> $output_params_file
 	echo "#set TAU_Duration = (4800-6000)" >> $output_params_file
 	echo "#set TAU_SumMethod = 3" >> $output_params_file
-	echo "#set TAU_Smoothing = 2" >> $output_params_file
-	echo "#set TAU_FrameAlign = 0"  >> $output_params_file
+	echo "#set TAU_Smoothing = 1" >> $output_params_file
+	echo "#set TAU_FrameAlign = 1"  >> $output_params_file
 	echo "#set TAU_RegMethod = corratio" >> $output_params_file
 endif
 
@@ -311,15 +311,15 @@ if($#Scan > 0) then
 	echo "set FBX_Target = (T1)" >> $output_params_file
 	echo "set FBX_Duration = ($FramesUsed)" >> $output_params_file
 	echo "set FBX_SumMethod = 3" >> $output_params_file
-	echo "set FBX_Smoothing = 2" >> $output_params_file
-	echo "set FBX_FrameAlign = 0"  >> $output_params_file
+	echo "set FBX_Smoothing = 1" >> $output_params_file
+	echo "set FBX_FrameAlign = 1"  >> $output_params_file
 	echo "set FBX_RegMethod = corratio" >> $output_params_file
 else
 	echo "set FBX = ()	#FBX timeseries" >> $output_params_file
 	echo "#set FBX_Target = (T1)" >> $output_params_file
 	echo "#set FBX_Duration = (4800-6000)" >> $output_params_file
 	echo "#set FBX_SumMethod = 3" >> $output_params_file
-	echo "#set FBX_Smoothing = 2" >> $output_params_file
-	echo "#set FBX_FrameAlign = 0"  >> $output_params_file
+	echo "#set FBX_Smoothing = 1" >> $output_params_file
+	echo "#set FBX_FrameAlign = 1"  >> $output_params_file
 	echo "#set FBX_RegMethod = corratio" >> $output_params_file
 endif
