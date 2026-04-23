@@ -251,6 +251,7 @@ foreach Study($StudyList)
 					echo "	$Session is not a session. Skipping..."
 					continue
 				endif
+				
 				pushd $Session
 					@ Exists = 0
 
@@ -283,7 +284,14 @@ foreach Study($StudyList)
 							rm -rf BIDS
 
 							$PP_SCRIPTS/python3/dump_tags/sort_and_dump.csh DICOMS BIDS
-
+							if(! -e BIDS) then 
+								echo "couldn't create BIDS structure. "
+								decho "Undoing changes..." $DebugFile
+								rm -rf ${Destination}/${ProcessingFolder}/${SubjectID}
+								popd
+								continue
+							endif
+							
 							cd BIDS
 								foreach remove("_i?????." "T1w*_e?." "T2w*_e?." "_setter_")
 									find . -name "*${remove}*" -exec rm {} \;
@@ -322,8 +330,8 @@ foreach Study($StudyList)
 						else
 							decho "Unable to find BIDS compliant images and jsons" $DebugFile
 							decho "Undoing changes..." $DebugFile
-							rm -r ${Destination}/${ProcessingFolder}/${SubjectID}
-
+							rm -rf ${Destination}/${ProcessingFolder}/${SubjectID}
+							
 						endif
 
 						if($TargetAtlas != "-1" && ! $no_init) then
