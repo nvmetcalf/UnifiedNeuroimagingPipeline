@@ -53,16 +53,7 @@ if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz
 	decho "WARNING: Disabling DVAR threshold as denoised timeseries does not exist!"
 endif
 
-if($DVAR_Threshold != 0 && $FD_Threshold == 0) then
-	set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_dvar.format
-else if($DVAR_Threshold == 0 && $FD_Threshold != 0) then
-	set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_fd.format
-else if($DVAR_Threshold != 0 && $FD_Threshold != 0) then
-	set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_uout_bpss_resid_dvar_fd.format
-else
-	decho "Unknown combination of format criteria. Iterative rsfMRI processing not possible." ${DebugFile}
-	exit 1
-endif
+set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 
 ####################
 # make WhiteMatter regressors

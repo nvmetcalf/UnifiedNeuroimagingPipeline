@@ -92,17 +92,7 @@ if($UseIterativeRegression && $DoVolumeRegression) then
 	endif
 
 	#need to add the flag for a format
-
-	if($DVAR_Threshold != 0 && $FD_Threshold == 0) then
-		set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_dvar.format
-	else if($DVAR_Threshold == 0 && $FD_Threshold != 0) then
-		set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_fd.format
-	else if($DVAR_Threshold != 0 && $FD_Threshold != 0) then
-		set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_uout_bpss_resid_dvar_fd.format
-	else
-		decho "Unknown combination of format criteria. Iterative rsfMRI processing not possible." ${DebugFile}
-		exit 1
-	endif
+	set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 	
 	$PP_SCRIPTS/fMRI/FcMRI_preprocessing.csh $ParamsFile -options $ProcessingParams -format $format
 	if($status) then
