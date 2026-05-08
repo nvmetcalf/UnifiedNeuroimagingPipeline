@@ -51,6 +51,13 @@ if(-e ${SubjectHome}/Anatomical/Volume/H2O/${patid}_H2O.nii.gz) set Modalities =
 if(-e ${SubjectHome}/Anatomical/Volume/CO/${patid}_CO.nii.gz) set Modalities = ($Modalities CO)
 if(-e ${SubjectHome}/Anatomical/Volume/O2/${patid}_O2.nii.gz) set Modalities = ($Modalities O2)
 
+if(! -e ${TargetHome}/Masks/FreesurferMasks/${TargetPatid}_T1_to_${TargetPatid}_orig.mat && ! -e ${TargetHome}/Masks/FreesurferMasks/${TargetPatid}_orig_to_${TargetPatid}_T1.mat) then
+	echo "Cannot find registration from T1 to Orig in Masks/FreesurferMasks."
+	echo "Computing UsedVoxels Masks and transforms..."
+	$PP_SCRIPTS/Utilities/Generate_UsedVoxels_Masks.csh $1 $2
+	if($status) exit 1
+endif
+
 pushd Masks
 	rm -rf PET_Masks
 	mkdir PET_Masks

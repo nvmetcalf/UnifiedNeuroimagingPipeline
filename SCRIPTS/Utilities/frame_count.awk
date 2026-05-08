@@ -4,10 +4,10 @@ BEGIN {
 }
 
 {
-	if($0 == "x") FramesRemoved +=1;
-	if($0 == "+") FramesKept +=1;
+	if($1 == "0") FramesRemoved +=1;
+	if($1 == "1") FramesKept +=1;
 }
 
 END {
-	printf("%i\t%i\t%3.0f\t%i",FramesRemoved,FramesKept,(FramesKept/(FramesKept+FramesRemoved)) * 100,FramesKept*TR);	
+	printf("%s,%i,%i,%3.0f,%i\n",RunIndex,FramesRemoved,FramesKept,(FramesKept/(FramesKept+FramesRemoved)) * 100,FramesKept*TR);	
 }

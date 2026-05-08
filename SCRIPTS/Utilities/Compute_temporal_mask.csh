@@ -179,7 +179,7 @@ else
 endif
 
 decho "Generating DVAR values for resting state runs."
-$PP_SCRIPTS/Utilities/compute_dvar_by_run.csh $1 $2 "rsfMRI_uout_bpss_${Residual_Trailer}"
+$PP_SCRIPTS/Utilities/compute_dvar_by_run.csh $1 $2 "upck_faln_dbnd_xr3d_dc_atl_uout_bpss_${Residual_Trailer}"
 if($status && $DVAR_Threshold != "0") then
 	echo "SCRIPT: $0 : 00008 : 	ERROR: Could not compute dvar on resting state BOLD data set. Be sure to enable volume regression and debanding."
 	exit 1
@@ -201,65 +201,15 @@ if($status) then
 	exit 1
 endif
 
-pushd QC
-	if($DVAR_Threshold != 0 && $FD_Threshold == 0) then
-		set RunCondensedFormat = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_dvar.format
-		set RSCondensedFormat = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_uout_bpss_${Residual_Trailer}_dvar.format
-
-	else if($DVAR_Threshold == 0 && $FD_Threshold != 0) then
-		#for the pre-denoised data, using dvar is useless as all the data will be censored. So we just use the FD format.
-		set RunCondensedFormat = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_fd.format
-		set RSCondensedFormat = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_fd.format
-	else if($DVAR_Threshold != 0 && $FD_Threshold != 0) then
-		set RunCondensedFormat = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_fd.format
-		set RSCondensedFormat = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_uout_bpss_${Residual_Trailer}_dvar_fd.format
-	else
-		echo "SCRIPT: $0 : 00011 : Unknown combination of format criteria. No format Generated."
-		exit 1
-	endif
-
-	echo "BOLD Format being used: $RunCondensedFormat"
-	echo "fMRI Format being used: $RSCondensedFormat"
-
-	$RELEASE/format2lst `echo $RunCondensedFormat` | awk -f $PP_SCRIPTS/Utilities/frame_count.awk >! ${SubjectHome}/QC/${patid}_BOLD_frame_count.txt
-
-	#compute how many frames we have remaining for each run we will be processing
-	@ StartingFrame = 1
-	@ EndingFrame = 1
-
-	$RELEASE/format2lst `echo $RunCondensedFormat` >! temp_expanded.format
-
-	ftouch ${SubjectHome}/Functional/Movement/${patid}_all_bold_runs.fd
-
-	if(! -e ${SubjectHome}/QC) then
-		mkdir ${SubjectHome}/QC
-	endif
-
-	echo "Run#\t#BadFrames\t#GoodFrames\t%Remaining\tSecondsRemaing" >! ${SubjectHome}/QC/${patid}_BOLD_frame_count_by_run.txt
-	foreach BOLD($RunIndex)
-		@ RunLength = `wc ${SubjectHome}/Functional/Movement/bold${BOLD}_upck_faln_dbnd_xr3d.ddat.fd | cut -d" " -f2`
-		@ EndingFrame = $StartingFrame + $RunLength
-
-		head -${EndingFrame} temp_expanded.format | tail -${RunLength} | awk -v TR=$BOLD_TR -f $PP_SCRIPTS/Utilities/frame_count.awk >! frame_count.tmp
-
-		#report the thing...
-		echo "${BOLD}	"`cat frame_count.tmp` >> ${SubjectHome}/QC/${patid}_BOLD_frame_count_by_run.txt
-
-		#prepare for next run
-		@ StartingFrame = $EndingFrame + 1
-
-		cat ${SubjectHome}/Functional/Movement/bold${BOLD}_upck_faln_dbnd_xr3d.ddat.fd >> ${SubjectHome}/Functional/Movement/${patid}_all_bold_runs.fd
-	end
-
-	rm -f temp_expanded.format frame_count.tmp
-popd
+$PP_SCRIPTS/QC/MRI/Run_fMRI_Movement_QC.csh $1 $2
 
 ##########################################################################
 # write out the tmask.txt
 ##########################################################################
 #the format that reflects the good frames and the bad after all thresholding (FD, DVAR, and Remaining Frames per run).
 echo "Writing tmask.txt"
-$RELEASE/format2lst $RunCondensedFormat | awk '{if($1 == "x") printf("0\t"); else printf("1\t");}' >! ${SubjectHome}/Functional/TemporalMask/tmask.txt
-$RELEASE/format2lst $RSCondensedFormat | awk '{if($1 == "x") printf("0\t"); else printf("1\t");}' >! ${SubjectHome}/Functional/TemporalMask/rsfMRI_tmask.txt
+$RELEASE/format2lst ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format | awk '{if($1 == "x") printf("0\t"); else printf("1\t");}' >! ${SubjectHome}/Functional/TemporalMask/tmask.txt
+echo "Writing rsfMRI_tmask.txt"
+$RELEASE/format2lst ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_combined.format | awk '{if($1 == "x") printf("0\t"); else printf("1\t");}' >! ${SubjectHome}/Functional/TemporalMask/rsfMRI_tmask.txt
 
 exit 0

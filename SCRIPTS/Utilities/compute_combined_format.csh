@@ -17,14 +17,9 @@ set SubjectHome = $3
 set DVAR_Trailer = $4
 set FD_Trailer = $5
 
-if($DVAR_Threshold != 0 && ! -e ${SubjectHome}/Functional/Volume/${patid}_${DVAR_Trailer}.nii.gz) then
-	decho "	WARNING: BOLD has not been denoised yet, only able to generate FD based temporal mask. Use iterative regression to also use DVAR temporal mask."
-	exit 0
-endif
-
 #go through each runs generated format(s) and clear out
 #frames of runs that are more than X% bad (set in study.cfg)
-if($DVAR_Threshold != 0 && $FD_Threshold != 0) then
+if($DVAR_Threshold != 0 && $FD_Threshold != 0 && -e ${SubjectHome}/Functional/Volume/${patid}_${DVAR_Trailer}.nii.gz) then
 	echo " Computing DVAR and FD format..."
 	#if we are combining the two types, then we need to compute the format
 	#for both at the same time (sadly)
@@ -48,13 +43,15 @@ if($DVAR_Threshold != 0 && $FD_Threshold != 0) then
 
 	set RunCondensedFormat = `condense $format`
 
-	echo $RunCondensedFormat >! ${SubjectHome}/Functional/TemporalMask/${patid}_${DVAR_Trailer}_dvar_fd.format
-
+	echo $RunCondensedFormat >! ${SubjectHome}/Functional/TemporalMask/${patid}_${FD_Trailer}_combined.format
+	
 	rm ${SubjectHome}/Functional/Movement/temp_dvar_fd_combined ${SubjectHome}/Functional/Movement/temp_dvar_fd
 else
-	decho "Only one type of thresholding specified, no combination necessary." ${DebugFile}
+	decho "Only one type of thresholding specified or BOLD has not been denoised yet, no combination necessary. Using FD format as the combined format." ${DebugFile}
+	cp ${SubjectHome}/Functional/TemporalMask/${patid}_${FD_Trailer}_fd.format ${SubjectHome}/Functional/TemporalMask/${patid}_${FD_Trailer}_combined.format
 	exit 0
 endif
 
-
+format2lst ${SubjectHome}/Functional/TemporalMask/${patid}_${FD_Trailer}_combined.format | awk '{if($1 == "x") print("0"); else print("1");}' >! ${SubjectHome}/Functional/TemporalMask/${patid}_${FD_Trailer}_combined.sfbin
+if($status) exit 1
 exit 0

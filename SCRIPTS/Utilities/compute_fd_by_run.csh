@@ -70,12 +70,10 @@ if(! $?FD_Echo_Threshold) set FD_Echo_Threshold = 0.1
 if (-e Functional/Movement) then
 	pushd Functional/Movement	#into movement
 		ftouch ${patid}_all_bold_runs.fd
-		set DDATList = ()
+
 		set FormatList = ()
 		#compute the FD for all runs
 		foreach DDAT($RunsToUse)
-
-			set DDATList = `echo ${DDATList}" "bold${DDAT}${ddat_Trailer}`
 
 			$PP_SCRIPTS/Utilities/compute_fd.csh ${cwd}/bold${DDAT}${ddat_Trailer} $BrainRadius $skip 1 $FD_Threshold
 			if($status) then
@@ -96,11 +94,15 @@ if (-e Functional/Movement) then
 		cat ${SubjectHome}/Functional/TemporalMask/${patid}_${Trailer}_fd.format_expanded
 
 		$RELEASE/condense `cat ${SubjectHome}/Functional/TemporalMask/${patid}_${Trailer}_fd.format_expanded` >! ${SubjectHome}/Functional/TemporalMask/${patid}_${Trailer}_fd.format
+		
+		format2lst ${SubjectHome}/Functional/TemporalMask/${patid}_${Trailer}_fd.format | awk '{if($1 == "x") print("0"); else print("1");}' >! ${SubjectHome}/Functional/TemporalMask/${patid}_${Trailer}_fd.sfbin
+		
 		if(`wc ${SubjectHome}/Functional/TemporalMask/${patid}_${Trailer}_fd.format_expanded | awk '{print $3}'` < 10) then
 			echo "SCRIPT: $0 : 00005 : 				FAILED! ${patid}.dvals in the movement folder is not long enough."
 			exit 1
 		endif
-
+		#move the masks to TemporalMask
+		mv *sfbin* *tmask* ${SubjectHome}/Functional/TemporalMask/
 	popd
 endif
 
