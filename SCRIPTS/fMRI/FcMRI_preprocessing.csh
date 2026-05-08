@@ -162,14 +162,15 @@ decho "Using format: $format" $DebugFile
 # run Generate_FS_Masks
 #######################
 EXTRACT_FS:
+#check to see if we have generated the used voxels masks, do it if we haven't somehow
 if(! -e ${SubjectHome}/Masks/${patid}_used_voxels.nii.gz) then
-	decho "Unable to find ${SubjectHome}/Masks/${patid}_used_voxels.nii.gz! This is generated during atlas registration, so atlas registration may have failed." $DebugFile
-	exit 1
+	$PP_SCRIPTS/Utilities/Generate_UsedVoxels_Masks.csh $prmfile $options
+	if($status) exit 1
 endif
 
 if($NonLinear && ! -e ${SubjectHome}/Masks/${patid}_used_voxels_fnirt.nii.gz) then
-	decho "Unable to find ${SubjectHome}/Masks/${patid}_used_voxels_fnirt.nii.gz! This is generated during atlas registration if non linear registration is requested, so atlas registration may have failed." $DebugFile
-	exit 1
+	$PP_SCRIPTS/Utilities/Generate_UsedVoxels_Masks.csh $prmfile $options
+	if($status) exit 1
 endif
 
 $PP_SCRIPTS/Utilities/Generate_FS_Masks_AZS_NM.csh $prmfile $options
