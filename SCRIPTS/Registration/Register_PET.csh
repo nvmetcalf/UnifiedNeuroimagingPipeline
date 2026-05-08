@@ -34,6 +34,10 @@ else
 	set FinalResTrailer = _${PET_FinalResolution}${PET_FinalResolution}${PET_FinalResolution}
 endif
 
+if(! $?ForcePET_Reg) then
+	set ForcePET_Reg = 0
+endif
+
 if(! -e Anatomical/Volume) mkdir -p Anatomical/Volume
 
 set Costs = (corratio normmi mutualinfo normcorr leastsq)
@@ -74,7 +78,7 @@ cd PET/Volume
 			fslreorient2std Mean_${Modality} ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz"
 			if($status) exit 1
 
-			flirt -in ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -ref ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -out ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -applyisoxfm 1
+			#flirt -in ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -ref ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -out ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -applyisoxfm 1
 			if($status) exit 1
 			rm temp.*
 		else
@@ -82,13 +86,13 @@ cd PET/Volume
 			fslreorient2std $Files ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz"
 			if($status) exit 1
 
-			flirt -in ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -ref ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -out ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -applyisoxfm 1
+			#flirt -in ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -ref ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -out ${SubjectHome}/Anatomical/Volume/${Modality}/${patid}_${Modality}".nii.gz" -applyisoxfm 1
 			if($status) exit 1
 		endif
 	end
 cd ../..
 
-
+set echo
 echo "Computing registrations for all PET modalities..."
 #for each modality that exists, iterate through the registration chain for it, computing them as needed
 cd ${SubjectHome}/Anatomical/Volume
@@ -188,9 +192,23 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 				set TargetPatid = $patid
 			endif
 
+			#check that we have the same resolutions for the current source and target volumes
+			if( ! $ForcePET_Reg && $RegChain[$j] != "T1") then
+				set SourceResolution = (`fslinfo ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] | grep -w pixdim1` `fslinfo ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] | grep -w pixdim2` `fslinfo ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] | grep -w pixdim3`)
+				set TargetResolution = (`fslinfo ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] | grep -w pixdim1` `fslinfo ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] | grep -w pixdim2`  `fslinfo ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] | grep -w pixdim3`)
+				
+				if($SourceResolution[1] != $TargetResolution[1] || $SourceResolution[2] != $TargetResolution[2] || $SourceResolution[3] != $TargetResolution[3]) then
+					echo "${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] and ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] have differing resolutions. Put set ForcePET_Reg = 1 into the processing params files to override this failure condition. Keep in mind, the per pixel SNR will be different by some amount."
+					exit 1
+				endif
+			else if($RegChain[$j] != "T1") then
+				echo "WARNING: ForcePET_Reg is set to 1. If volumes have different resolutions, they will be registered anyhow."
+			endif
+			
 			while(! $FoundParameters)
 
 				if(! -e ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j]".mat") then
+				
 					#do the forward registration
 					set SmoothingSigma = `echo $SmoothingFWHM | awk '{print($1/2.3548);}'`
 
@@ -232,7 +250,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 					if($status) exit 1
 
 					if($MaximumRegDisplacement == 0) then
-						set MaximumRegDisplacement = `fslinfo ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} | grep pixdim | awk '{print $2 * 1.25}' | sort -u | tail -1`
+						set MaximumRegDisplacement = `fslinfo ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} | grep pixdim | awk '{print $2 * 1.5}' | sort -u | tail -1`
 					endif
 
 					#see if we want to check how far a voxel displaces
@@ -243,7 +261,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 						if($status) exit 1
 
 						set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j].mat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" 0 50 0`
-						decho "2 way registration displacement: $Displacement" ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${patid}_$RegChain[$j]_displacement.txt
+						decho "2 way registration displacement: $Displacement" ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j]_displacement.txt
 
 						if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j].mat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" 0 50 0 $MaximumRegDisplacement`) then
 							decho "	Registration from $RegChain[$i] to $RegChain[$j] and $RegChain[$j] to $RegChain[$i] has a displacement of "$Displacement
@@ -276,7 +294,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 							if($status) exit 1
 
 							set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j].mat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" 0 50 0`
-							decho "Brain Masked 2 way registration displacement: $Displacement" ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${patid}_$RegChain[$j]_displacement.txt
+							decho "Brain Masked 2 way registration displacement: $Displacement" ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j]_displacement.txt
 
 							if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j] ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_to_"${TargetPatid}_$RegChain[$j].mat ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${TargetPatid}_$RegChain[$j]"_to_"${patid}_$RegChain[$i]"_rev.mat" 0 50 0 $MaximumRegDisplacement`) then
 								decho "	Error: Registration from $RegChain[$i] to $RegChain[$j] and $RegChain[$j] to $RegChain[$i] has a displacement of "$Displacement

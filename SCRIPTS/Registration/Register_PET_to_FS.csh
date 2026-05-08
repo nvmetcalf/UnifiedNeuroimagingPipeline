@@ -41,14 +41,12 @@ if(! -e ${target_path}/Masks/FreesurferMasks/${target_patid}_T1_to_${target_pati
 	echo "Computing UsedVoxels Masks and transforms..."
 	$PP_SCRIPTS/Utilities/Generate_UsedVoxels_Masks.csh $1 $2
 	if($status) exit 1
-
-else if(! -e ${target_path}/Masks/FreesurferMasks/${target_patid}_T1_to_${target_patid}_orig.mat && -e ${target_path}/Masks/FreesurferMasks/${target_patid}_orig_to_${target_patid}_T1.mat) then
-	echo "Inverting orig to T1 matrix."
-
-	convert_xfm -omat ${target_path}/Masks/FreesurferMasks/${target_patid}_T1_to_${target_patid}_orig.mat -inverse ${target_path}/Masks/FreesurferMasks/${target_patid}_orig_to_${target_patid}_T1.mat
-	if($status) exit 1
 endif
 
+echo "Inverting orig to T1 matrix."
+convert_xfm -omat ${target_path}/Masks/FreesurferMasks/${target_patid}_T1_to_${target_patid}_orig.mat -inverse ${target_path}/Masks/FreesurferMasks/${target_patid}_orig_to_${target_patid}_T1.mat
+if($status) exit 1
+	
 set modes_available = ()
 
 pushd PET/Volume
