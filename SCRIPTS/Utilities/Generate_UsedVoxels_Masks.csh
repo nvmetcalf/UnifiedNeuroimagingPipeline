@@ -64,19 +64,19 @@ pushd ${SubjectHome}/Masks/FreesurferMasks
 	$FREESURFER_HOME/bin/mri_convert -it mgz -ot nii ${FSdir}/mri/orig.mgz ${patid}_orig.nii
 	if ($status) then
 		echo "SCRIPT: $0 : 00004 : could not convert orig from mgz to nifti."
-		exit $status
+		exit 1
 	endif
 
 	flirt -in ${patid}_orig.nii -ref $T1 -omat ${patid}_orig_to_${patid}_T1.mat -out ${patid}_orig_to_${patid}_T1.nii.gz -interp spline -dof 6
 	if ($status) then
 		echo "SCRIPT: $0 : 00005 : could not register orig to T1."
-		exit $status
+		exit 1
 	endif
 
 	convert_xfm -omat ${patid}_T1_to_${patid}_orig.mat -inverse ${patid}_orig_to_${patid}_T1.mat
 	if ($status) then
 		echo "SCRIPT: $0 : 00005.1 : could not invert T1 mat to orig mat."
-		exit $status
+		exit 1
 	endif
 	
 	$FREESURFER_HOME/bin/mri_convert ${FSdir}/mri/"aparc+aseg.mgz" "aparc+aseg.nii.gz"
