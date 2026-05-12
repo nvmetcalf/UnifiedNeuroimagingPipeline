@@ -145,9 +145,9 @@ pushd ${SubjectHome}/Masks/FreesurferMasks
 
 	#see if we can apply a non linear warp
 	if($day1_path != "") then
-		set warp = ${day1_path}/Anatomical/Volume/T1/$day1_patid"_T1_warpfield_111.nii.gz"
+		set warp = ${day1_path}/Anatomical/Volume/T1/$day1_patid"_T1_to_${AtlasName}_warpfield_111.nii.gz"
 	else
-		set warp = ${SubjectHome}/Anatomical/Volume/T1/$patid"_T1_warpfield_111.nii.gz"
+		set warp = ${SubjectHome}/Anatomical/Volume/T1/$patid"_T1_to_${AtlasName}_warpfield_111.nii.gzz"
 	endif
 
 	if($NonLinear && -e $warp) then
