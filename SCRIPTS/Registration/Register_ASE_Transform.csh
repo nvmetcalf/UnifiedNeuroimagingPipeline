@@ -116,7 +116,7 @@ pushd ${SubjectHome}/Anatomical/Volume/ASE_ref
 
 	echo $cwd
 
-	set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE_ref/${patid}_ASE_ref_-y_to_${AtlasName}_warp
+	set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE_ref/${patid}_ASE_ref_${ASE_ped[$Run]}_to_${AtlasName}_warp
 	set WarpReference = ${RegTarget}_${FinalResTrailer}
 	applywarp -i ${patid}_ASE_ref_distorted_${ASE_ped[$Run]} -r ${WarpReference} -w ${Warpfield} -o ${patid}_ASE_ref_${ASE_ped[${Run}]}_${FinalResTrailer} --interp=spline
 	if($status) then
@@ -135,7 +135,7 @@ pushd $ScratchFolder/${patid}/ASE_temp
 	@ Run = 1
 	while($Run <= $#ASE)
 
-		set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE_ref/${patid}_ASE_ref_-y_to_${AtlasName}_warp
+		set Warpfield = ${SubjectHome}/Anatomical/Volume/ASE_ref/${patid}_ASE_ref_${ASE_ped[$Run]}_to_${AtlasName}_warp
 
 		pushd ase${Run}
 

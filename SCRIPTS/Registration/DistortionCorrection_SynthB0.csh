@@ -36,12 +36,12 @@ pushd $SynthB0_Path
 	if($status) exit 1
 popd
 
-if(! $?day1_path || ! $?day1_patid) then
+if(! $?day1_path) then
 	set Target_Path = ${SubjectHome}/Anatomical/Volume
 	set Target_Patid = ${patid}
 else
 	set Target_Path = ${day1_path}/Anatomical/Volume
-	set Target_Patid = ${day1_patid}
+	set Target_Patid = $day1_path:t
 endif
 
 rm -rf ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}

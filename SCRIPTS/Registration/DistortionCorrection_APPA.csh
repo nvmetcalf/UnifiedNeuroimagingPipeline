@@ -112,6 +112,9 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 	${FSLDIR}/bin/fslmerge -t imain $sefm_list
 	if($status) exit 1
 
+     #path to this sessions images
+	set Source_Path = ${SubjectHome}/Anatomical/Volume
+
 	set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
 	foreach direction($peds)
 
@@ -130,13 +133,13 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		bet fmap_mag_${direction} fmap_mag_${direction}_brain -f 0.2
 		if($status) exit 1
 
-		if(! $?day1_path || ! $?day1_patid) then
-			set Target_Path = ${SubjectHome}/Anatomical/Volume
-			set Target_Patid = ${patid}
-		else
-			set Target_Path = ${day1_path}/Anatomical/Volume
-			set Target_Patid = ${day1_patid}
-		endif
+		if(! $?day1_path) then
+			 set Target_Path = ${SubjectHome}/Anatomical/Volume
+			 set Target_Patid = ${patid}
+		  else
+			 set Target_Path = ${day1_path}/Anatomical/Volume
+			 set Target_Patid = $day1_path:t
+		  endif
 
 		#needed to do bbr registration with epi
 		cp ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction}.nii* .

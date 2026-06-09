@@ -113,11 +113,23 @@ FREESURFER:
 ###########################
 $PP_SCRIPTS/RunFreesurfer.csh $1 $2
 if($status) then
-	echo "SCRIPT: $0 : 00005 : Freesurfer failed to complete. Check Freesurfer/${FreesurferVersion}/scripts/recon-all.log."
+	echo "SCRIPT: $0 : 00005 : Freesurfer failed to complete. Check Freesurfer/${FreesurferVersionToUse}/scripts/recon-all.log."
 	exit 1
 endif
 
 SKIP_RECON:
+
+###########################
+#	Create brain masks
+###########################
+$PP_SCRIPTS/Utilities/Generate_UsedVoxels_Masks.csh $1 $2
+if($status) then
+	echo "SCRIPT: $0 : 00013 : Unable to generate UsedVoxels Masks."
+	exit 1
+endif
+
+SKIP_MASK_GEN:
+
 #convert the dwi to diffusion - or try
 if(! $?DWI) then
 	echo "Unable to find DWI in params file, skipping."
@@ -157,17 +169,6 @@ if($status && ! $ContinueRegFail) then
 endif
 
 SKIP_ASE:
-
-###########################
-#	Create brain masks
-###########################
-$PP_SCRIPTS/Utilities/Generate_UsedVoxels_Masks.csh $1 $2
-if($status) then
-	echo "SCRIPT: $0 : 00013 : Unable to generate UsedVoxels Masks."
-	exit 1
-endif
-
-SKIP_MASK_GEN:
 
 ###########################
 #	BOLD alignment and registration

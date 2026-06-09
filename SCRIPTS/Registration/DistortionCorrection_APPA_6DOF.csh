@@ -117,6 +117,9 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 
 	set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
 
+	#path to this sessions images
+	set Source_Path = ${SubjectHome}/Anatomical/Volume
+
 	foreach direction($peds)
 
 		#register the spin echo maps to the reference image being distorted
@@ -142,13 +145,13 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		bet fmap_mag_${direction} fmap_mag_${direction}_brain -f 0.2
 		if($status) exit 1
 
-		if(! $?day1_path || ! $?day1_patid) then
-			set Target_Path = ${SubjectHome}/Anatomical/Volume
-			set Target_Patid = ${patid}
-		else
-			set Target_Path = ${day1_path}/Anatomical/Volume
-			set Target_Patid = ${day1_patid}
-		endif
+		if(! $?day1_path) then
+		  set Target_Path = ${SubjectHome}/Anatomical/Volume
+		  set Target_Patid = ${patid}
+	   else
+		  set Target_Path = ${day1_path}/Anatomical/Volume
+		  set Target_Patid = $day1_path:t
+	   endif
 
 		if($direction == "-y") then
 			set fugue_dir = "y-"
@@ -173,17 +176,18 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		if($status) exit 1
 	end
 
+
 	#make the reference image
 	set Ref_STACK = ()
 
 	foreach direction($peds)
-		set Ref_STACK = ($Ref_STACK ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
+		set Ref_STACK = ($Ref_STACK ${Source_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
 	end
 
 	fslmerge -t Ref_STACK $Ref_STACK
 	if($status) exit 1
 
-	fslmaths Ref_STACK -Tmean ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
+	fslmaths Ref_STACK -Tmean ${Source_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
 	if($status) exit 1
 
 	rm Ref_STACK.*

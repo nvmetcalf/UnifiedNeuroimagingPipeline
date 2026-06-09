@@ -198,7 +198,7 @@ else if($FieldMapping == "synth" && $?dwell && $?ped && $?Reg_Target) then
 		exit 1
 	endif
 
-else if($FieldMapping == "6dof" && $?dwell && $?ped && $?Reg_Target && $?RegMethod) then
+else if($FieldMapping == "6dof" && $?ped && $?Reg_Target && $?RegMethod) then
 	$PP_SCRIPTS/Registration/Register_6DOF.csh $1 $2 $FM_Suffix "$ped" $Reg_Target $RegMethod
 	if($status) then
 		echo "SCRIPT: $0 : 00010 : failed 6dof registration."

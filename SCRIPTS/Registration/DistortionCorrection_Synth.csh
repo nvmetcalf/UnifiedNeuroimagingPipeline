@@ -32,33 +32,34 @@ rm -rf ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 mkdir ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 
+	   set Source_Path = ${SubjectHome}/Anatomical/Volume
 		if(! $?day1_path || ! $?day1_patid) then
 			set Target_Path = ${SubjectHome}/Anatomical/Volume
 			set Target_Patid = ${patid}
 		else
 			set Target_Path = ${day1_path}/Anatomical/Volume
-			set Target_Patid = ${day1_patid}
+			set Target_Patid = $day1_path:t
 		endif
 
 		set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
 
 		foreach direction($peds)
 
-			set anat = ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction}	# first frame of first BOLD run in group
+			set anat = ${Source_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction}	# first frame of first BOLD run in group
 
 			bet $anat ${anat}_brain -f 0.2 -m
 			if($status) exit 1
 
-			niftigz_4dfp -4 ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction}
+			niftigz_4dfp -4 ${Source_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction}
 			if($status) exit 1
 
 			niftigz_4dfp -4 ${anat}_brain_mask ${anat}_brain_mask
 			if($status) exit 1
 
-			niftigz_4dfp -4 ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target}_brain_mask ${patid}_${Reg_Target}_brain_mask
+			niftigz_4dfp -4 ${Source_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target}_brain_mask ${patid}_${Reg_Target}_brain_mask
 			if($status) exit 1
 
-			niftigz_4dfp -4 ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${Reg_Target}
+			niftigz_4dfp -4 ${Source_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${Reg_Target}
 			if($status) exit 1
 
 			set struct = $cwd/${patid}_${Reg_Target}
@@ -101,13 +102,13 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		set Ref_STACK = ()
 
 		foreach direction($peds)
-			set Ref_STACK = ($Ref_STACK ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
+			set Ref_STACK = ($Ref_STACK ${Source_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
 		end
 
 		fslmerge -t Ref_STACK $Ref_STACK
 		if($status) exit 1
 
-		fslmaths Ref_STACK -Tmean ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
+		fslmaths Ref_STACK -Tmean ${Source_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
 		if($status) exit 1
 
 		rm Ref_STACK.*

@@ -41,25 +41,29 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 
 	set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
 
-	if(! $?day1_path || ! $?day1_patid) then
+     #path to this sessions images
+	set Source_Path = ${SubjectHome}/Anatomical/Volume
+
+	#path to the target session images (can be the same)
+	if(! $?day1_path) then
 		set Target_Path = ${SubjectHome}/Anatomical/Volume
 		set Target_Patid = ${patid}
 	else
 		set Target_Path = ${day1_path}/Anatomical/Volume
-		set Target_Patid = ${day1_patid}
+		set Target_Patid = $day1_path:t
 	endif
 
-	#make the reference image
+	#make this sessions reference image
 	set Ref_STACK = ()
 
 	foreach direction($peds)
-		set Ref_STACK = ($Ref_STACK ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
+		set Ref_STACK = ($Ref_STACK ${Source_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction})
 	end
 
 	fslmerge -t Ref_STACK $Ref_STACK
 	if($status) exit 1
 
-	fslmaths Ref_STACK -Tmean ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
+	fslmaths Ref_STACK -Tmean ${Source_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
 	if($status) exit 1
 
 	rm Ref_STACK.*

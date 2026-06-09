@@ -152,13 +152,13 @@ endif
 # 		bet ImageStackap_mag_${direction} ImageStackap_mag_${direction}_brain -f 0.2
 # 		if($status) exit 1
 
-		if(! $?day1_path || ! $?day1_patid) then
-			set Target_Path = ${SubjectHome}/Anatomical/Volume
-			set Target_Patid = ${patid}
-		else
-			set Target_Path = ${day1_path}/Anatomical/Volume
-			set Target_Patid = ${day1_patid}
-		endif
+		  if(! $?day1_path) then
+			 set Target_Path = ${SubjectHome}/Anatomical/Volume
+			 set Target_Patid = ${patid}
+		  else
+			 set Target_Path = ${day1_path}/Anatomical/Volume
+			 set Target_Patid = $day1_path:t
+		  endif
 
 		if($direction == "-y") then
 			set fugue_dir = "y-"
@@ -189,6 +189,9 @@ endif
 	#make the reference images and do registrations
 	set Ref_STACK = ()
 
+	#path to this sessions images
+	set Source_Path = ${SubjectHome}/Anatomical/Volume
+
 	foreach direction($peds)
 		set Ref_STACK = ($Ref_STACK ${patid}_${FM_Suffix}_ref_unwarped_${direction})
 	end
@@ -196,7 +199,7 @@ endif
 	fslmerge -t Ref_STACK $Ref_STACK
 	if($status) exit 1
 
-	fslmaths Ref_STACK -Tmean ${Target_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
+	fslmaths Ref_STACK -Tmean ${Source_Path}/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref
 	if($status) exit 1
 
 	rm Ref_STACK.*

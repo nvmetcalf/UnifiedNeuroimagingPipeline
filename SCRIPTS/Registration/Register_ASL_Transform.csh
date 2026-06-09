@@ -31,13 +31,15 @@ if($target != "") then
 	set AtlasName = $target:t
 	set RegTarget = $target
 else
-	if($day1_patid != "" || $day1_path != "") then
-		set AtlasName = ${day1_patid}_T1
-		set RegTarget = ${day1_path}/Anatomical/Volume/T1/${day1_patid}_T1
-	else
-		set AtlasName = ${patid}_T1
-		set RegTarget = ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1
-	endif
+	if($day1_path == "") then
+	   set Target_Path = ${SubjectHome}/Anatomical/Volume
+	   set Target_Patid = ${patid}
+    else
+	   set Target_Path = ${day1_path}/Anatomical/Volume
+	   set Target_Patid = $day1_path:t
+    endif
+    set AtlasName = ${Target_Patid}_T1
+    set RegTarget = $Target_Path/${ASL_Reg_Target}/${Target_Patid}_${ASL_Reg_Target}
 endif
 
 if(! $?ASL_FinalResolution) then
@@ -124,13 +126,13 @@ pushd $ScratchFolder/${patid}/ASL_temp
 				rm -f movement_dist_linatl_nonlin_warp.nii*
 
 				#smooth the M0/PD image by 5mm
-				if($j == 1) then
-					#sigma is 2.12332257516562 for 5mm
-#
-					fslmaths ${epi}_on_${AtlasName}${padded}_${FinalResolution} -kernel gauss 2.12332257516562 -fmean ${epi}_on_${AtlasName}${padded}_${FinalResolution}
-					if($status) exit 1
-
-				endif
+# 				if($j == 1) then
+# 					#sigma is 2.12332257516562 for 5mm
+# #
+# 					fslmaths ${epi}_on_${AtlasName}${padded}_${FinalResolution} -kernel gauss 2.12332257516562 -fmean ${epi}_on_${AtlasName}${padded}_${FinalResolution}
+# 					if($status) exit 1
+# 
+# 				endif
 				@ i++		# next frame
 			end
 		################################################################

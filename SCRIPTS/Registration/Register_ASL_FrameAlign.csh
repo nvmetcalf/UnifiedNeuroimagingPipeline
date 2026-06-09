@@ -126,6 +126,10 @@ pushd $ScratchFolder/${patid}
 
 				while($i > 0)
 					@ k = $i - 1
+					if($k == 0) then
+						break
+					endif
+					
 					set bin_fd[$k] = $bin_fd[$i]
 					@ i = $i - 2
 				end
