@@ -1,5 +1,15 @@
 #!/bin/csh
 
+if(! -e $1) then
+	echo "participant params not found."
+	exit 1
+endif
+
+if(! -e $2) then
+	echo "processing params not found."
+	exit 1
+endif
+
 source $1
 source $2
 
@@ -174,7 +184,16 @@ ftouch ASL_FD.tmask
 while($i <= $#ASL)
 	#if there are M0's detected, we need to remove them from all the timeseries
 	if($#MOs > 0) then
-		set num_frames = `wc ${SubjectHome}/ASL/Movement/asl${i}_upck_xr3d.ddat.fd.sfbin | awk '{print($1 - 2)}'`
+		#detect if we are working with an even or odd number of frames. 
+		#Even = drop M0 and dummy. Usually only Danny Wang's sequence.
+		#Odd  = drop just M0 as there isn't a dummy.
+		if(`wc ${SubjectHome}/ASL/Movement/asl${i}_upck_xr3d.ddat.fd.sfbin | awk '{print($1%2)}'` == "0") then
+			#even
+			set num_frames = `wc ${SubjectHome}/ASL/Movement/asl${i}_upck_xr3d.ddat.fd.sfbin | awk '{print($1 - 2)}'`
+		else
+			#not even :D
+			set num_frames = `wc ${SubjectHome}/ASL/Movement/asl${i}_upck_xr3d.ddat.fd.sfbin | awk '{print($1 - 1)}'`
+		endif
 		cat ${SubjectHome}/ASL/Movement/asl${i}_upck_xr3d.ddat.fd.sfbin | tail -$num_frames >> ASL_FD.tmask
 	else
 		cat ${SubjectHome}/ASL/Movement/asl${i}_upck_xr3d.ddat.fd.sfbin >> ASL_FD.tmask
