@@ -130,11 +130,11 @@ pushd $ScratchFolder/$patid/FS_Masks_temp
 
 
 		#figure out which used_voxels mask we should use
-		if($NonLinear) then
-			set UsedVoxelsMask = ${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz
-		else
+#		if($NonLinear) then
+#			set UsedVoxelsMask = ${SubjectHome}/Masks/${patid}_used_voxels_fnirt_${FinalResTrailer}.nii.gz
+#		else
 			set UsedVoxelsMask = ${SubjectHome}/Masks/${patid}_used_voxels_${FinalResTrailer}.nii.gz
-		endif
+#		endif
 
 		echo "UsedVoxelsMask = $UsedVoxelsMask"
 		if(! -e $UsedVoxelsMask) then

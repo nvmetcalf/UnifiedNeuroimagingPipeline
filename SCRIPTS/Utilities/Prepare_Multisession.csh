@@ -25,7 +25,10 @@ if(! -e ${day1_path}/Freesurfer) then
 	exit 1
 endif
 
-rm -f Freesurfer
+#should be a link, so remove it if it's there...
+rm Freesurfer
+
+#should blast a real folder...
 ln -sf ${day1_path}/Freesurfer .
 
 #generate all the masks we will need to start things off
