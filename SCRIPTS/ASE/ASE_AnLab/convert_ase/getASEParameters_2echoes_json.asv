@@ -55,12 +55,8 @@ end
 Echo_Jsons = [];
 Echo_Jsons.ImageComments = [];
 Echo_Jsons.EchoNumber = [];
-Echo_Jsons.EchoTime = [];
-Echo_Jsons.SoftwareVersions = [];
-Echo_Jsons.TransmitterFrequency = []
-Echo_Jsons.ImagingFrequency = [];
+Echo_Jsons.SoftwareVersion = [];
 
-EchoNum = 1
 for i = length(varargin)/2+1:length(varargin)
     json = load_json(varargin{i});
 
@@ -70,14 +66,10 @@ for i = length(varargin)/2+1:length(varargin)
         json.ImageComments = struct2cell(json.ImageComments);
     end
 
-    %Echo_Jsons = json;
-    Echo_Jsons(EchoNum).ImageComments = json.ImageComments;
-    Echo_Jsons(EchoNum).SoftwareVersions = json.SoftwareVersions;
-    Echo_Jsons(EchoNum).EchoTime = json.EchoTime;
-    Echo_Jsons(EchoNum).EchoNumber = EchoNum;
-    Echo_Jsons(EchoNum).TransmitterFrequency = json.TransmitterFrequency;
-    Echo_Jsons(EchoNum).ImagingFrequency = json.ImagingFrequency;
-    EchoNum = EchoNum + 1;
+    Echo_Jsons = json;
+    Echo_Jsons.ImageComments = json.ImageComments;
+    Echo_Jsons.SoftwareVersion = json.SoftwareVersion;
+    Echo_Jsons.EchoNumber = 1;
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,15 +116,11 @@ for(k=1:length(varargin)/2)
             b0(k,i) = str2num(info.TransmitterFrequency)/42.576;
             
         else
-            TE(k,i) = info.EchoTime;
-            b0(k,i) = info.ImagingFrequency/42.576;
+            TE(k,i) = str2num(info.EchoTime);
+            b0(k,i) = str2num(info.ImagingFrequency)/42.576;
         end
         
         if(~isempty(strfind(SoftwareVersion,'syngo MR XA')) && length(a) == 8)
-            a2=char(a(3));
-            a3=char(a(4));
-            a7=char(a(8));
-        elseif(~isempty(strfind(SoftwareVersion,'MR XB')))
             a2=char(a(3));
             a3=char(a(4));
             a7=char(a(8));

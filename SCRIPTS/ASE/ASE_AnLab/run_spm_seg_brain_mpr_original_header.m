@@ -4,7 +4,7 @@
 function run_spm_seg_brain_mpr_original_header(name_mpr)
 
 %please update this with where spm12b is installed on your machine
-spm_path_hard = '/data/nil-bluearc/vlassenko/Pipeline/SCRIPTS/spm12';
+spm_path_hard = [getenv('PP_SCRIPTS') '/spm12'];
 
 spm('defaults', 'FMRI');
 

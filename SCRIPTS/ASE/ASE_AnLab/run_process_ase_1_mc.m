@@ -37,7 +37,7 @@ function run_process_ase_1_mc(name_dir_ase, nnn, numEcho, numZshimming)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     for indEcho = 1:numEcho
-        name_in = sprintf('%s/%s_ase%d_upck_xr3d_dc_atl.nii.gz', name_dir_ase, nnn, indEcho);
+        name_in = sprintf('%s/%s_ase_e%d_upck_xr3d_dc_atl.nii.gz', name_dir_ase, nnn, indEcho);
 
         %%%concatenate
     

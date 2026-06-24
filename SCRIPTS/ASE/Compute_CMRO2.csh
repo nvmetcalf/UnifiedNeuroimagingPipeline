@@ -17,8 +17,6 @@ set echo
 
 set SubjectHome = $cwd
 
-set AtlasName = `basename $target`
-
 if(! $?day1_path) then
 	set day1_path = ""
 	set day1_patid = ""
@@ -26,10 +24,17 @@ else
 	set day1_patid = $day1_path:t
 endif
 
-set out_trailer = ""
-
-if(! $?RegisterEcho) then
-	set RegisterEcho = 1
+if($target != "") then
+	set AtlasName = `basename $target`
+	set RegTarget = $target
+else
+	if($day1_patid != "" || $day1_path != "") then
+		set AtlasName = ${day1_patid}_T1
+		set RegTarget = ${day1_path}/Anatomical/Volume/T1/${day1_patid}_T1
+	else
+		set AtlasName = ${patid}_T1
+		set RegTarget = ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1
+	endif
 endif
 
 set Reg_Target = $ASE_Reg_Target
@@ -55,11 +60,24 @@ pushd ASE/Volume
 	set patid_root = $patid
 	echo $patid_root
 	#units are ml/min/100g
-	#CAO2 = ((Hgb x 1.34 * SaO2) + (0.003 * 100))/100
+	#CAO2 = ((Hgb x 1.34 * SaO2/100) + (0.003 * 100))/100
 	#SaO2 = (O2hb/(O2hb + Hb)) * 100
 	#SaO2 is a percentage, needs converting to the decimal form
 	#PaO2 assumed to be 90 for adults
-	set cao2 = `echo $ASE_HGB $ASE_SaO2 | awk '{print((($1 * ($2 * 0.01) * 1.34) + (0.003 * 90))/100s)}'`
+	#	PaO2 may be better to do 100 - (Age-40 if >= 40)
+	# if have SpO2, then can do: PaO2 = K * (SpO2/(1-SpO2))
+	# assume K to be 100 mmHg
+	#PaO2 can also be PAO2 (partial aceolar pressure of oxygen in the body) which is closely related:
+	#	PAO2 = FIO2 * (Pb - PH2O) - (PaCO2/R)
+	#	FIO2 = 0.21 for room air
+	#	Pb = barimetric pressure at altitude
+	#	PH2O = 47mmHg at body temp
+	#	R = 0.8 is a respiratory quotient
+
+	#because the PaO2 component is trivially small and this is an estimate of CMRO2
+	#we will drop that term: CAO2 = Hgb x 1.34 * (SaO2/100) = mL O2/dL
+	#need to divide by 100 to make it mL 02/mL
+	set cao2 = `echo $ASE_HGB $ASE_SaO2 | awk '{print(($1 * ($2/100) * 1.34)/100)}'`
 
 	echo "CaO2: $cao2"
 

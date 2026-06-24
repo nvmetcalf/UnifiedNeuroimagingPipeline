@@ -4,7 +4,7 @@
 
 function run_process_ase_2_prepare0(name_dir_ase, nnn);
 
-    name_in = sprintf('%s/%s_ase1_upck_xr3d_dc_atl.nii.gz', name_dir_ase, nnn);
+    name_in = sprintf('%s/%s_ase_e1_upck_xr3d_dc_atl.nii.gz', name_dir_ase, nnn);
     name_splitted = sprintf('%s/%s_ase_1_splitted', name_dir_ase, nnn);
 
     name_out_0 = sprintf('%s/%s_ase_0.nii.gz', name_dir_ase, nnn);
