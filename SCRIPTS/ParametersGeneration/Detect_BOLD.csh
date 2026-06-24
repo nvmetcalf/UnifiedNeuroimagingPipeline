@@ -111,7 +111,19 @@ if($#GoodScans > 0) then
 	#check the BOLD to see if it is MultiEcho
 	if($IsMultiecho) then
 		#get the TE's for all the echo's
-		set BOLD_TE = (`$PP_SCRIPTS/Utilities/GetJSON_Value $BOLD_json "EchoTime" | sort -nu | awk '{printf("%s ", $1)}'`)
+		echo "detecting all TE's"
+		set BOLD_TE = ()
+		#build the list of TE's
+		set All_BOLD_TE = ()
+		foreach bold($GoodScans)
+			set json = `echo $bold:r:r | sed 's/\"//g'`.json
+			set All_BOLD_TE = ($All_BOLD_TE `$PP_SCRIPTS/Utilities/GetJSON_Value dicom/$json "EchoTime" | awk '{if($1 < 1) print($1 * 1000); else print($1)}'`)
+
+			# | sort -nu | awk '{printf("%s ", $1)}'`)
+		end
+		
+		set BOLD_TE = (`echo $All_BOLD_TE | fmt -1 | sort -nu | awk '{printf("%s ", $1)}'`)
+		echo $BOLD_TE
 
 		set BOLD_ORDER = ()
 		@ i = 1
@@ -119,7 +131,7 @@ if($#GoodScans > 0) then
 
 		#go through each bold run
 		#get the echo number for each set of echos
-		#index the ME run sets based on the echo numbers
+			#index the ME run sets based on the echo numbers
 		set ME_ScanSets = ()
 		set ME_SetOrder = ($BOLD_TE)
 		set BoldIndices = ()
@@ -131,7 +143,7 @@ if($#GoodScans > 0) then
 			set echo_number = `$PP_SCRIPTS/Utilities/GetJSON_Value dicom/$Curr_BOLD_json "EchoNumber"`
 
 			set ME_SetOrder[$echo_number] = $i
-
+			
 			if( $j >= $#BOLD_TE) then
                                 #make the bold echo set  comma delimited for la$
                                 set ME_ScanSets = ($ME_ScanSets `echo $ME_SetOrder | sed 's/ /,/g'`)
@@ -152,7 +164,7 @@ if($#GoodScans > 0) then
 		set RegisterEcho = `echo $#BOLD_TE | awk '{printf("%i",int($1/2)+1)}'`
 		echo $RegisterEcho
 	else
-		set BOLD_TE = `$PP_SCRIPTS/Utilities/GetJSON_Value $BOLD_json EchoTime`
+		set BOLD_TE = `$PP_SCRIPTS/Utilities/GetJSON_Value $BOLD_json EchoTime | awk '{if($1 < 1) print($1 * 1000); else print($1)}'`
 	endif
 
 	echo "set BOLD = ($GoodScans)		# filenames of the bold runs" >> $output_params_file
