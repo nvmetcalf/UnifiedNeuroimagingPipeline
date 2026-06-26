@@ -1,3 +1,5 @@
+import src.DataModels.Arguments as ARGS
+
 import src.ProcessManager as pm
 import src.DataModels.Definitions as Definitions
 import src.Utils.Checks as Checks
@@ -11,69 +13,73 @@ if __name__ == '__main__':
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
     #This is a hidden argument which is used by project manager to get relative paths to work.
-    parser.add_argument('--execution_path',
-                        required = False,
-                        help = argparse.SUPPRESS,
-                        type = str,
-                        default = '')     
+    # Common Arguments
+    parser.add_argument(
+        ARGS.ARGS['COMMON']['EXEC_PATH']['NAME'],
+        required=False,
+        help=argparse.SUPPRESS,
+        type=str,
+        default=ARGS.ARGS['COMMON']['EXEC_PATH']['DEFAULT'])
 
-    parser.add_argument('--num_cores',
-                        required = False,
-                        help = 'The amount of cores to use for processing.',
-                        default = 1,
-                        type=int)
-    
-    parser.add_argument('--log_file',
-                        required = False,
-                        help = 'Specify the log file to write processing information to.',
-                        default = 'run.log',
-                        type = str)     
+    parser.add_argument(
+        ARGS.ARGS['COMMON']['LOG']['NAME'],
+        required=False,
+        help=ARGS.ARGS['COMMON']['LOG']['DESC'],
+        type=str,
+        default=ARGS.ARGS['COMMON']['LOG']['DEFAULT'])
 
-    require_data_file  = False
+    # RUN Specific Arguments
+    parser.add_argument(
+        ARGS.ARGS['RUN']['NUM_CORES']['NAME'],
+        required=False,
+        help=ARGS.ARGS['RUN']['NUM_CORES']['DESC'],
+        default=ARGS.ARGS['RUN']['NUM_CORES']['DEFAULT'],
+        type=int)
 
-    pp_scripts_path = os.path.expandvars('$PP_SCRIPTS')
     
     procs = parser.add_argument_group('Processing operations')
     #Processing Options
-    procs.add_argument('--run_processing_command',
-                        required = False,
-                        help = 'Specify what processing command to run',
-                        type = str,
-                        default = None)     
+    procs.add_argument(
+        ARGS.ARGS['RUN']['RUN_PROCESSING_COMMAND']['NAME'],
+        required=False,
+        help=ARGS.ARGS['RUN']['RUN_PROCESSING_COMMAND']['DESC'],
+        type=str)
 
-    procs.add_argument('--run_in_data_paths',
-                        required = False,
-                        help='Run the current command at the location of every specified data path',
-                        action = 'store_true')
+    procs.add_argument(
+        ARGS.ARGS['RUN']['RUN_IN_DATA_PATHS']['NAME'],
+        required=False,
+        help=ARGS.ARGS['RUN']['RUN_IN_DATA_PATHS']['DESC'],
+        action='store_true')
 
-    procs.add_argument('--run_in_processing_dir',
-                       required = False,
-                       help = f'Run the current command at the location specied in the processing dir for this path. For instance the path /A/B/C/sub-aaaa_ses-bbbbb would execute in the directory /A/B/C/.',
-                       action = 'store_true'
-                       )
+    procs.add_argument(
+        ARGS.ARGS['RUN']['RUN_IN_PROCESSING_DIR']['NAME'],
+        required=False,
+        help=ARGS.ARGS['RUN']['RUN_IN_PROCESSING_DIR']['DESC'],
+        action='store_true')
 
-    
-    procs.add_argument('--list_valid_commands',
-                        required = False,
-                        help = 'Lists commands that can be executed.',
-                        action = 'store_true')
+    procs.add_argument(
+        ARGS.ARGS['RUN']['LIST_VALID_COMMANDS']['NAME'],
+        required=False,
+        help=ARGS.ARGS['RUN']['LIST_VALID_COMMANDS']['DESC'],
+        action='store_true')
     
     placeholders = parser.add_argument_group('placeholder arguments', description = 'The arguments here perform an action and replace the result of that action in place of the argument.')
 
     placeholder_argument_mapping = {
-        '--find_sub'     : f'@{chr(pm.ProcessingState.FIND_SUB)}@',
-        '--find_ses'     : f'@{chr(pm.ProcessingState.FIND_SES)}@',
-        '--find_alias'   : f'@{chr(pm.ProcessingState.FIND_ALIAS)}@',
-        '--find_params'  : f'@{chr(pm.ProcessingState.FIND_PARAMS)}@',
-        '--use_basename' : f'@{chr(pm.ProcessingState.PATH_ARG)}@'
+        ARGS.ARGS['RUN']['FIND_SUB']['NAME']: f'@{chr(pm.ProcessingState.FIND_SUB)}@',
+        ARGS.ARGS['RUN']['FIND_SES']['NAME']: f'@{chr(pm.ProcessingState.FIND_SES)}@',
+        ARGS.ARGS['RUN']['FIND_ALIAS']['NAME']: f'@{chr(pm.ProcessingState.FIND_ALIAS)}@',
+        ARGS.ARGS['RUN']['FIND_PARAMS']['NAME']: f'@{chr(pm.ProcessingState.FIND_PARAMS)}@',
+        ARGS.ARGS['RUN']['USE_BASENAME']['NAME']: f'@{chr(pm.ProcessingState.PATH_ARG)}@'
     }
 
-    placeholder_help_messages = ('Extract the subject id (format: sub_xxxxx) from the file path and use it in place of this argument.',
-                                 'Extract the session id (format: -ses_yyyyy) from the file path and use it in place of this argument.',
-                                 'Find the project alias from the given file path and use it in place of this argument.',
-                                 'Will replace this argument with the ".params" file found at the execution path for this commnad.',
-                                 'Use the specified data path as a parameter for the execution command.')
-    
+    placeholder_help_messages = [
+        ARGS.ARGS['RUN']['FIND_SUB']['DESC'],
+        ARGS.ARGS['RUN']['FIND_SES']['DESC'],
+        ARGS.ARGS['RUN']['FIND_ALIAS']['DESC'],
+        ARGS.ARGS['RUN']['FIND_PARAMS']['DESC'],
+        ARGS.ARGS['RUN']['USE_BASENAME']['DESC']
+    ]
 
     for arg, desc in zip(placeholder_argument_mapping.keys() ,placeholder_help_messages):
         placeholders.add_argument(arg,
@@ -81,65 +87,73 @@ if __name__ == '__main__':
                                 help = desc,
                                 action = 'store_true')
 
+    pp_scripts_path = os.path.expandvars('$PP_SCRIPTS')
+    require_data_file  = False
 
-
-    if '--args_in_csv' in sys.argv:
+    if ARGS.ARGS['RUN']['ARGS_IN_CSV']['NAME'] in sys.argv:
         require_data_file = True
 
-    if '--execution_arguments_column' in sys.argv:
+    if ARGS.ARGS['COMMON']['EXEC_ARGS']['NAME'] in sys.argv:
+        require_data_file = True
+    
+    if ARGS.ARGS['COMMON']['EXEC_STATUS']['NAME'] in sys.argv:
         require_data_file = True
 
     #General Settings
     settings = parser.add_argument_group('settings')
 
-    settings.add_argument('--data_paths',
-                        required = False,
-                        help = 'specify data paths of interest.',
-                        type = str,
-                        nargs = '+',
-                        default = None)     
-    
-    settings.add_argument('--data_file',
-                        required = require_data_file,
-                        help = 'Specify a csv file which contains the data paths of interest.',
-                        type = str,
-                        default = None)     
-    
-    settings.add_argument('--data_path_column',
-                        required = False,
-                        help = 'Specify the data column to extract data paths from.',
-                        default = Definitions.DATA_PATH,
-                        type = str) 
-    
-    settings.add_argument('--args_in_csv',
-                        required = False,
-                        help = 'Look at data_file for execution arguments.',
-                        action = 'store_true')
+    settings.add_argument(
+        ARGS.ARGS['COMMON']['DATA_PATH']['NAME'],
+        required=False,
+        help=ARGS.ARGS['COMMON']['DATA_PATH']['DESC'],
+        type=str,
+        nargs='+',
+        default=None)
 
-    settings.add_argument('--exec_arguments_column',
-                        required = False,
-                        help = 'Specify the data column which contains specific command execution arguments.',
-                        default = Definitions.EXEC_ARGS,
-                        type = str) 
+    settings.add_argument(
+        ARGS.ARGS['COMMON']['DATA_FILE']['NAME'],
+        required=require_data_file,
+        help=ARGS.ARGS['COMMON']['DATA_FILE']['DESC'],
+        type=str)    
 
-    settings.add_argument('--exec_status_column',
-                        required = False,
-                        help = 'Specify the data column which contains the execution status.',
-                        default = Definitions.EXEC_STATUS,
-                        type = str)
+    settings.add_argument(
+        ARGS.ARGS['RUN']['ARGS_IN_CSV']['NAME'],
+        required=False,
+        help=ARGS.ARGS['RUN']['ARGS_IN_CSV']['DESC'],
+        action='store_true')
+    
+    settings.add_argument(
+        ARGS.ARGS['RUN']['DATA_PATH_COL']['NAME'],
+        required=False,
+        help=ARGS.ARGS['RUN']['DATA_PATH_COL']['DESC'],
+        type=str,
+        default=ARGS.ARGS['RUN']['DATA_PATH_COL']['DEFAULT'])    
 
-    settings.add_argument('--exec_on_match',
-                        help = 'Only process this row in the data file if the execution status matches this value.',
-                        type = str,
-                        default = None)
-                         
+    settings.add_argument(
+        ARGS.ARGS['COMMON']['EXEC_ARGS']['NAME'],
+        required=False,
+        help=ARGS.ARGS['COMMON']['EXEC_ARGS']['DESC'],
+        default=ARGS.ARGS['COMMON']['EXEC_ARGS']['DEFAULT'],
+        type=str)
+
+    settings.add_argument(
+        ARGS.ARGS['COMMON']['EXEC_STATUS']['NAME'],
+        required=False,
+        help=ARGS.ARGS['COMMON']['EXEC_STATUS']['DESC'],
+        default=ARGS.ARGS['COMMON']['EXEC_STATUS']['DEFAULT'],
+        type=str)
+
+    settings.add_argument(
+        ARGS.ARGS['RUN']['EXEC_ON_MATCH']['NAME'],
+        help=ARGS.ARGS['RUN']['EXEC_ON_MATCH']['DESC'],
+        type=str,
+        default=None)
 
     args, unknown = parser.parse_known_args() 
+    os.chdir(getattr(args, ARGS.strip_flag(ARGS.ARGS['COMMON']['EXEC_PATH']['NAME'])))
+    log_file = Checks.expand_data_path(getattr(args, ARGS.strip_flag(ARGS.ARGS['COMMON']['LOG']['NAME'])), 
+                                       getattr(args, ARGS.strip_flag(ARGS.ARGS['COMMON']['EXEC_PATH']['NAME'])))
 
-    os.chdir(args.execution_path)
-
-    #Set the data path based on whichever was specified.
-    log_file = Checks.expand_data_path(args.log_file, args.execution_path)
     
     #Compile all the unspecified commands together with positional arguments to get all the arguments
     #to pass through with the script. Collect the recognized arguments in order.
@@ -152,17 +166,18 @@ if __name__ == '__main__':
     
     #Create the ProcessManager instance.
     process_manager = pm.ProcessManager(log_file, 
-                                        args.num_cores,
+                                        getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['NUM_CORES']['NAME'])),
                                         placeholder_argument_mapping)
 
     #Check that if a command is specified that it is valid.
-    if args.run_processing_command and not args.run_processing_command in process_manager.executables:
+    processing_command = getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['RUN_PROCESSING_COMMAND']['NAME']))
+    if (processing_command and not processing_command in process_manager.executables):
         print(f'The command {Definitions.COLORS["RED"]}{args.command}{Definitions.COLORS["RESET"]} is not a valid executable found in PP_SCRIPTS.')
         process_manager.list_executables()
         print('Run again with a valid command.')
         sys.exit(1)
 
-    if args.list_valid_commands:
+    if getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['LIST_VALID_COMMANDS']['NAME'])):
         process_manager.list_executables()
 
     #Set the processing state so the process manager knows what its doing.
@@ -170,38 +185,36 @@ if __name__ == '__main__':
     for flag in placeholder_argument_mapping:
         if flag in sys.argv:
             state |= ord(placeholder_argument_mapping[flag][1])
-    
     process_manager.add_execution_state(state)
-    if args.run_in_data_paths:
+
+    if getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['RUN_IN_DATA_PATHS']['NAME'])):
         process_manager.add_execution_state(pm.ProcessingState.SWITCH_PATH)
-    if args.run_in_processing_dir:
+
+    if getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['RUN_IN_PROCESSING_DIR']['NAME'])):
         process_manager.add_execution_state(pm.ProcessingState.SWITCH_TO_INPROCESS)
 
-    if args.run_processing_command:
+    if getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['RUN_PROCESSING_COMMAND']['NAME'])):
         data_source = None
 
-        if args.data_file:
+        if getattr(args, ARGS.strip_flag(ARGS.ARGS['COMMON']['DATA_FILE']['NAME'])):
             data_source = Checks.expand_data_path(args.data_file, args.execution_path)
        
-        if args.data_paths:
+        if getattr(args, ARGS.strip_flag(ARGS.ARGS['COMMON']['DATA_PATH']['NAME'])):
             data_source = [ Checks.expand_data_path(path, args.execution_path) for path in args.data_paths ]
-
-        
 
         #If the args are explicitly in the csv, then switch the pass_through data to be the name of the
         #csv we want to extract the args from. If they specified additionally in the command line. Pass 
         #those through. Finally if no args are specified then we done want to pass anything through (None).
-        if args.args_in_csv:
+        if getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['ARGS_IN_CSV']['NAME'])):
             pass_through = data_source
+
         if pass_through == []:
             pass_through = None
 
-
-        process_manager.execute_command(args.run_processing_command,
+        process_manager.execute_command(getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['RUN_PROCESSING_COMMAND']['NAME'])),
                                         data_source,
-                                        args.data_path_column,
+                                        getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['DATA_PATH_COL']['NAME'])),
                                         pass_through,
-                                        args.exec_arguments_column,
-                                        args.exec_status_column,
-                                        args.exec_on_match)
-
+                                        getattr(args, ARGS.strip_flag(ARGS.ARGS['COMMON']['EXEC_ARGS']['NAME'])),
+                                        getattr(args, ARGS.strip_flag(ARGS.ARGS['COMMON']['EXEC_STATUS']['NAME'])),
+                                        getattr(args, ARGS.strip_flag(ARGS.ARGS['RUN']['EXEC_ON_MATCH']['NAME'])))

@@ -1,0 +1,8 @@
+{
+  "query_name": "subject_accession",
+  "query_elemens": [
+    "xnat:subjectData/SUBJECT_ID",
+    "xnat:subjectData/SUBJECT_LABEL"
+  ],
+  "root_element": "xnat:subjectData"
+}

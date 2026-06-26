@@ -2,8 +2,7 @@ from bson.objectid import ObjectId
 import numpy
 import os
 
-MAXIMUM_SEARCH_DEPTH = 100
-
+import src.DataModels.ColumnNames as ColumnNames 
 
 def compile_regex() -> dict:
     regex_patterns  = { 
@@ -94,11 +93,13 @@ MISSING_BY_TYPE = {
     list          : [],
     dict          : {},
     ObjectId      : ObjectId(),
-    numpy.float64 : 0
+    numpy.float64 : 0,
+    float         : 0
 }
 
+MODEL_NAME = 'MODEL_NAME'
 DICOM_TAGS = {
-    'MODEL_NAME'       : ['ManufacturersModelName', 'ManufacturerModelName'],
+    MODEL_NAME         : ['ManufacturersModelName', 'ManufacturerModelName'],
     'ACQUISITION_TIME' : ['AcquisitionDateTime'],
     'SOFTWARE_VERSION' : ['SoftwareVersions'],
 }
@@ -128,33 +129,26 @@ FS_VERSION_TAGS       = 'Freesurfer_Version_Tags'
 PROJECT_ID            = 'XNAT_ID'
 
 #Subject specific definitions
-MAP_ID                = 'participant_id'
-SUBJECT_ACCESSION     = 'subject_accession'
-SESSION_ACCESSION     = 'session_accession'
-FS_ACCESSION          = 'fs_accession'
 LONGITUDINAL          = 'Longitudinal'
 DUPLICATES            = 'Duplicates'
 SESSION_DATA          = 'Session_Data'
 EXPANDED_SESSIONS     = 'Expanded_Sessions'
+SUBJECTS              = 'Subjects'
 
 #Session specific definitions
-SESSION_ID            = 'session_id'
 FS_VERSION            = 'fs_version'
+FS_DATA               = 'DATA'
+FS_VERSION_TAG        = 'version'
 SCANNER               = 'scanner'
 PIPELINE_VERSION      = 'pipeline'
 SOFTWARE_VERSION      = 'software_version'
 DATE_COLLECTED        = 'aquisition_date'
 PROC_STATUS           = 'processing_status'
-DATA_PATH             = 'data_path'
-EXEC_ARGS             = 'execution_arguments'
-EXEC_STATUS           = 'status'
 PROJ_ALIAS            = 'project_alias'
 MODS_COLLECTED        = 'modalities_collected'
 SCAN_SOURCE           = 'scan_source'
 DICOM_LIST            = 'dicom_list'
 UNLINKED_DICOM_LIST   = 'unlinked_source_files'
-PET_ID                = 'pet_id'
-PET_ACCESSION         = 'pet_accession'
 
 #File structure definitions
 RAW_DATA     = 'rawdata'
@@ -172,59 +166,30 @@ PROJECTS_HOME        = os.environ.get('PROJECTS_HOME')
 PROJECTS_DIR         = os.environ.get('PROJECTS_DIR')
 SCANS_DIR            = 'Scans'
 DEFAULT_DOWNLOAD_DIR = 'download_cache'
+DICOM_DIR            = 'dicom'
 
 #XNAT Data mappings.
 XNAT_UNIFICATION_MAPPINGS = {
     'SUBJECT_MAPPINGS' : {
-        MAP_ID            : ['subject_label'],
-        SUBJECT_ACCESSION : ['subjectid']
+        ColumnNames.PARTICIPANT_ID    : ['subject_label'],
+        ColumnNames.SUBJECT_ACCESSION : ['subjectid']
     },
     'MR_MAPPINGS' : {
-        MAP_ID            : ['xnat_subjectdata_subject_label', 'label'],
-        SUBJECT_ACCESSION : ['xnat_subjectdata_subjectid', 'subject_id'],
-        SESSION_ID        : ['label'],
-        SESSION_ACCESSION : ['session_id']
-    },
-    'FS_MAPPINGS' : {
-        SUBJECT_ACCESSION : ['subject_id'],
-        SESSION_ACCESSION : ['session_id'],
-        FS_ACCESSION      : ['label', 'expt_id']
+        ColumnNames.PARTICIPANT_ID    : ['xnat_subjectdata_subject_label'],
+        ColumnNames.SUBJECT_ACCESSION : ['xnat_subjectdata_subjectid', 'subject_id'],
+        ColumnNames.SESSION_ID        : ['label'],
+        ColumnNames.SESSION_ACCESSION : ['session_id']
     },
     'PET_MAPPINGS' : {
-        MAP_ID            : ['xnat_subjectdata_subject_label'],
-        SUBJECT_ACCESSION : ['xnat_subjectdata_subjectid', 'subject_id'],
-        PET_ID            : ['label'],
-        PET_ACCESSION     : ['session_id']
+        ColumnNames.PARTICIPANT_ID    : ['xnat_subjectdata_subject_label'],
+        ColumnNames.SUBJECT_ACCESSION : ['xnat_subjectdata_subjectid', 'subject_id'],
+        ColumnNames.SESSION_ID        : ['label'],
+        ColumnNames.SESSION_ACCESSION : ['session_id']
+    },
+    'FS_MAPPINGS' : {
+        ColumnNames.SUBJECT_ACCESSION : ['subject_id'],
+        ColumnNames.SESSION_ACCESSION : ['session_id'],
+        ColumnNames.FS_ACCESSION      : ['label', 'expt_id']
     }
 }
 
-#Analysis Definitions.
-ANALYSIS = 'Analysis'
-BOLD_BPASS_SMOOTHING = 'BOLD_bpass_smoothing'
-BOLD_RESID_SMOOTHING = 'BOLD_resid_smoothing'
-BOLD_MEANS           = 'BOLD_network_means'
-BOLD_MB_FACTOR = 'bold_multiband_factor'
-
-ANALYSIS_FILE_TYPES = {
-    'BOLD' : ['seed_corr']
-}
-ANALYSIS_FILE_EXTENSIONS = {
-    'BOLD' : ['.mat']
-}
-MEAN_NETWORKS = {
-    'Unassigned' : range(0, 25),
-    'SM'         : range(25, 55),
-    'SM_lat'     : range(55, 60),
-    'CO'         : range(60, 74),
-    'AUD'        : range(74, 87),
-    'DMN'        : range(87, 144),
-    'MEM'        : range(144, 149),
-    'VIS'        : range(149, 180),
-    'FP'         : range(180, 205),
-    'SAL'        : range(205, 223),
-    'SUBCort'    : range(223, 251),
-    'VAN'        : range(251, 260),
-    'DAN'        : range(260, 271),
-    'CEREB'      : range(271, 298)
-}
-NETWORK_MEANS = 'Network_Means'

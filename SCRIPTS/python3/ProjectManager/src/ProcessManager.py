@@ -1,15 +1,20 @@
+from enum import IntFlag
 import multiprocessing
 import subprocess
 import os
+from csv import DictReader
+
 import src.DataModels.Definitions as Definitions
-import src.Utils.ParseCSV as ParseCSV
-from enum import IntFlag
+import src.Utils.Logger as Logger
 
 #Defines the different processing states which can be set.
 #Regular just means execute the command normally,
 #Switch path means switch the command execution directly.
 #Finally PATH_ARG means use the path as an execution argument.
 class ProcessingState(IntFlag):
+    '''A class defining different values for processing states. States are stored as binary flags.
+    '''
+
     REGULAR              = 0 
     SWITCH_PATH          = 1
     PATH_ARG             = 1 << 1 
@@ -20,26 +25,26 @@ class ProcessingState(IntFlag):
     FIND_ALIAS           = 1 << 6
 
 
-class ProcessManager(object):
+class ProcessManager(Logger.Logger):
     def __init__(self, log_file: str, num_cores: int, placeholder_argument_mapping: dict) -> None:
         
+        super().__init__(log_file)
+
         #First check if PP_SCRIPTS is in the environment variables and in path.
         pp_scripts_dir = os.environ.get('PP_SCRIPTS')
         if not pp_scripts_dir:
-            print(f'The environment variable PP_SCRIPTS is not set, please ensure your environment variables are set correctly.')
+            self.log('The environment variable PP_SCRIPTS is not set, please ensure your environment variables are set correctly.')
             raise RuntimeError
 
         path_dirs = os.environ.get('PATH', '').split(os.pathsep)
         if not pp_scripts_dir in path_dirs:
-            print(f'PP_SCRIPTS: {pp_scripts_dir} is not $path, please ensure your environment variables are set correctly.')
+            self.log(f'PP_SCRIPTS: {pp_scripts_dir} is not $path, please ensure your environment variables are set correctly.')
             raise RuntimeError
 
         self.__num_cores = num_cores
-        self.__log_file = log_file
         self.proc_command = ''
         self.arg_list = []
         self.processing_state = ProcessingState.REGULAR
-        self.__exec_on_match = None
 
         self.manager = multiprocessing.Manager()
         self.successes = self.manager.list()
@@ -152,7 +157,7 @@ class ProcessManager(object):
         f.write('\n\n')
 
         #Now append the successes and failures to each list.
-        print(f'Batch {batch_number} completed running "{cmd_str}" on data source {current_iter + 1}/{total_work}.')
+        self.log(f'Batch {batch_number} completed running "{cmd_str}" on data source {current_iter + 1}/{total_work}.')
         if result.returncode != 0:
             self.failures.append(cmd_str)
             return
@@ -161,80 +166,65 @@ class ProcessManager(object):
     
     def __run_process(self, batch_number: int, batch_by_data_paths: bool) -> None:
         #Create the log_file for this batch.
-        file_path    = os.path.dirname(self.__log_file)
-        log_name     = os.path.basename(self.__log_file)
+        file_path    = os.path.dirname(self._log_path)
+        log_name     = os.path.basename(self._log_path)
         split = os.path.splitext(log_name)
         fname = f'{split[0]}_{self.proc_command}_batch_{batch_number}{split[1]}'
         fpath = os.path.join(file_path, fname)
-        
-        f = None
-        try:
-            f = open(fpath, 'w')
-        except:
-            return
-        
-        #Now we have the log file open for writting.
-        f.write(f'Created log file {fname}.\n')
 
-        if batch_by_data_paths:
-            #Check the indicies of the processing paths.
-            if batch_number >= self.__num_cores or self.__num_cores < 1: 
-                return
-
-            
-            n_data_paths = len(self.paths)
-            left_over = n_data_paths % self.__num_cores
-            base_size = n_data_paths // self.__num_cores
-            
-            
-            #Check if we need to shift the start index to account for extra work that has already
-            #been accumulated.
-            #Calculate the start and stop indexes.
-            start_index = base_size * batch_number
-
-            if batch_number != 0:
-                start_index += batch_number if batch_number < left_over else left_over
-            
-            end_index = start_index + base_size
-            
-            if batch_number < left_over:
-                end_index += 1
-            
-            print(f'Batch {batch_number} processing data slice [{start_index},{end_index - 1}].')
+        with open(fpath, 'w') as f:
         
-        
-            #Now access the correct data paths for this batch.
-            data_paths = self.paths[start_index : end_index]
-            args_slice = self.arg_list[start_index : end_index]
-            for index,args_path in enumerate(zip(args_slice, data_paths)):
-                args, path = args_path
-                cmd_str = f'{self.proc_command} {args}'
-                cmd_str = self.__parse_cmd_string(cmd_str, path) 
+            #Now we have the log file open for writting.
+            f.write(f'Created log file {fname}.\n')
+
+            if batch_by_data_paths:
+                #Check the indicies of the processing paths.
+                if batch_number >= self.__num_cores or self.__num_cores < 1: 
+                    return
+
+                n_data_paths = len(self.paths)
+                left_over = n_data_paths % self.__num_cores
+                base_size = n_data_paths // self.__num_cores
                 
-                #Check if we need to change the path because of the processing state.
-                if self.processing_state & ProcessingState.SWITCH_PATH:
-                    os.chdir(path) #Paths must be absolute
+                #Check if we need to shift the start index to account for extra work that has already
+                #been accumulated.
+                #Calculate the start and stop indexes.
+                start_index = base_size * batch_number
 
-                if self.processing_state & ProcessingState.SWITCH_TO_INPROCESS:
-                    split_path = path.split('/')
-                    if len(split_path) > 1:
-                        os.chdir('/'.join(split_path[:-1]))
+                if batch_number != 0:
+                    start_index += batch_number if batch_number < left_over else left_over
+                
+                end_index = start_index + base_size
+                
+                if batch_number < left_over:
+                    end_index += 1
+                
+                self.log(f'Batch {batch_number} processing data slice [{start_index},{end_index - 1}].')
+            
+                #Now access the correct data paths for this batch.
+                data_paths = self.paths[start_index : end_index]
+                args_slice = self.arg_list[start_index : end_index]
+                for index,args_path in enumerate(zip(args_slice, data_paths)):
+                    args, path = args_path
+                    cmd_str = f'{self.proc_command} {args}'
+                    cmd_str = self.__parse_cmd_string(cmd_str, path) 
+                    
+                    #Check if we need to change the path because of the processing state.
+                    if self.processing_state & ProcessingState.SWITCH_PATH:
+                        os.chdir(path) #Paths must be absolute
 
+                    if self.processing_state & ProcessingState.SWITCH_TO_INPROCESS:
+                        split_path = path.split('/')
+                        if len(split_path) > 1:
+                            os.chdir('/'.join(split_path[:-1]))
 
-
-
-
-
-                self.__run_and_dump(f, cmd_str, batch_number, index, len(data_paths))
-
-        else:     
-            #If we are not batching based on the execution locations then all we need to do is spawn the
-            #subprocess for this command.
-            cmd_str = f'{self.proc_command} {self.arg_list[batch_number]}'
-            cmd_str = self.__parse_cmd_string(cmd_str, '') #Data paths are not relevant in this situation.
-            self.__run_and_dump(f, cmd_str, batch_number, 0, 1) 
-       
-        f.close()
+                    self.__run_and_dump(f, cmd_str, batch_number, index, len(data_paths))
+            else:     
+                #If we are not batching based on the execution locations then all we need to do is spawn the
+                #subprocess for this command.
+                cmd_str = f'{self.proc_command} {self.arg_list[batch_number]}'
+                cmd_str = self.__parse_cmd_string(cmd_str, '') #Data paths are not relevant in this situation.
+                self.__run_and_dump(f, cmd_str, batch_number, 0, 1) 
     
     def __dispatch_jobs(self) -> None:
         #Check that the argument list is the same length as the data paths and that the processing command has been
@@ -246,18 +236,12 @@ class ProcessManager(object):
 
         current_dir = os.getcwd()
         processes = []
-        
-        f = None
-        try:
-            f = open(self.__log_file, 'w')
-        except:
-            return
-        
-        f.write(f'Created log file {os.path.basename(self.__log_file)}, executing the job {self.proc_command} in {self.__num_cores} processes.\n')
+
+        self.log(f'Executing the job {self.proc_command} in {self.__num_cores} processes.\n')
 
         for batch_number in range(self.__num_cores):
             p = multiprocessing.Process(target = self.__run_process, args = [batch_number, run_data_paths])
-            f.write(f'Dispatching batch {batch_number}...\n')
+            self.log(f'Dispatching batch {batch_number}...\n')
             processes.append(p)
             p.start()
 
@@ -265,13 +249,13 @@ class ProcessManager(object):
         for p in processes:
             p.join()
 
-        f.write(f'All jobs complete.\n')
-        f.write(f'\nThe following completed {self.proc_command} with exit status 0:\n')
+        self.log('All jobs complete.\n')
+        self.log(f'\nThe following completed {self.proc_command} with exit status 0:\n')
         for path in self.successes:
-            f.write(f'{path}\n')
-        f.write(f'\nThe following completed {self.proc_command} with non-zero exit status:\n')
+            self.log(f'{path}\n')
+        self.log(f'\nThe following completed {self.proc_command} with non-zero exit status:\n')
         for path in self.failures:
-            f.write(f'{path}\n')
+            self.log(f'{path}\n')
         
         #Switch the working directory back to where we started.
         os.chdir(current_dir)
@@ -296,40 +280,46 @@ class ProcessManager(object):
                         args_data_column   : str  | None,
                         exec_status_column : str,
                         exec_on_match      : str  | None):
-
+        
         if data_source and type(data_source) == str:
-            csv_parser = ParseCSV.ParseCSV(data_source, match_col = exec_status_column, match_str = exec_on_match)
-            
-            if data_column == None:
-                print(f'The data column has not been specified but the data source {data_source} is assumed to be a csv.')
-                print('Cannot extract data from csv file.')
-                raise RuntimeError
+            self.paths    = []
+            self.arg_list = []
 
-            self.paths = csv_parser.get_column_as_list(data_column)
-
+            with open(data_source, 'r') as file:
+                csv_parser = DictReader(file)
             
+                if data_column == None:
+                    self.log(f'The data column has not been specified but the data source {data_source} is assumed to be a csv.')
+                    self.log('Cannot extract data from csv file.')
+                    raise RuntimeError
+                
+                #Additionally if args_spec is a string then we are extrating from a csv.
+                if args_data_column == None:
+                    self.log('Cannot extract arguments from {args_spec} if the argument data column is not specified.')
+                    raise RuntimeError 
+                
+
+                for row in csv_parser:
+                    
+                    if exec_on_match != None and row[exec_status_column] != exec_on_match:
+                        continue
+
+                    self.paths.append(row[data_column])
+                    self.arg_list.append(row[args_data_column].strip())
 
             #Test if the number of cores is greater than or equal to the number of jobs. If it is
             #then adjust it so that we dont try to run on too many cores.
             amount_of_work = len(self.paths)
             #First check if there are no data paths, if so then we should say something to avoid not being able to figure out what is wrong.
-            
             if amount_of_work == 0:
-                print(f'It appers that no data paths were found under the column "{data_column}" which satisfy the specified requirements. Exiting...')
+                self.log(f'It appers that no data paths were found under the column "{data_column}" which satisfy the specified requirements. Exiting...')
                 return
 
             if self.__num_cores > amount_of_work:
-                print(f'The number of cores set {self.__num_cores} is greater than the number of jobs to process {amount_of_work}.')
-                print('Adjusting the number of cores to match the number of jobs.')
+                self.log(f'The number of cores set {self.__num_cores} is greater than the number of jobs to process {amount_of_work}.')
+                self.log('Adjusting the number of cores to match the number of jobs.')
                 self.__num_cores = amount_of_work
             
-            #Additionally if args_spec is a string then we are extrating from a csv.
-            if args_data_column == None:
-                print('Cannot extract arguments from {args_spec} if the argument data column is not specified.')
-                raise RuntimeError 
-            
-            #Lets get all the argument column info and split it up and add it to args
-            self.arg_list = [ arg.strip() for arg in csv_parser.get_column_as_list(args_data_column) ]
             
             #Replace placeholder arguments.
             for index in range(len(self.arg_list)): 
@@ -356,10 +346,9 @@ class ProcessManager(object):
         #Now lets attempt to split up the work based on the number of execution_paths. If execution_paths is None, then the command will only be 
         #executed on a single thread once.
         if self.paths == None and self.__num_cores > 1:
-            print(f'No execution paths have been specified thus the workload for {command} cannot be distributed.')
-            print(f'Adjusting the number of cores from {self.__num_cores} to 1.')
+            self.log(f'No execution paths have been specified thus the workload for {command} cannot be distributed.')
+            self.log(f'Adjusting the number of cores from {self.__num_cores} to 1.')
             self.__num_cores = 1
 
         #Now lets dispatch the jobs.
         self.__dispatch_jobs()
-                

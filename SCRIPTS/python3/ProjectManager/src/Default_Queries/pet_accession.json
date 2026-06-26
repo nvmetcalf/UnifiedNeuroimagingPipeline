@@ -1,0 +1,11 @@
+{
+  "query_name": "pet_accession",
+  "query_elemens": [
+    "xnat:petSessionData/SUBJECT_ID",
+    "xnat:petSessionData/SUBJECT_LABEL",
+    "xnat:petSessionData/SESSION_ID",
+    "fs:fsData/EXPT_ID",
+    "xnat:petSessionData/LABEL"
+  ],
+  "root_element": "xnat:petSessionData"
+}

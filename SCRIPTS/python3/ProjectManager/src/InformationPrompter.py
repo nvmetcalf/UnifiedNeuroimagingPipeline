@@ -1,7 +1,7 @@
-from bson.objectid import ObjectId
 import copy
 
 import src.DataModels.Definitions as Definitions
+import src.DataModels.ColumnNames as ColumnNames 
 
 #Subject could not be type hinted due to circular imports. the subject_object is a Subject.
 class SubjectInformationPrompter(object):
@@ -15,8 +15,8 @@ class SubjectInformationPrompter(object):
         }
 
         #Lets figure out which fields are available.
-        #Fill in the MAP_ID
-        map_id = self.__subject.data[Definitions.MAP_ID]
+        #Fill in the PARTICIPANT_ID
+        map_id = self.__subject.data[ColumnNames.PARTICIPANT_ID]
         if map_id == Definitions.MISSING_BY_TYPE[type(map_id)]:
             print(f'The map ID could not be resolved for subject, cannot prompt information')
             return
@@ -35,7 +35,7 @@ class SubjectInformationPrompter(object):
         #and data that is not filled out (no_data)
         for session_uid in self.__subject.sessions:
             session_object = self.__subject.sessions[session_uid]
-            session_id = session_object.data[Definitions.SESSION_ID]
+            session_id = session_object.data[ColumnNames.SESSION_ID]
             
             if session_id in self.__session_ids:
                 #Look for any other potential duplicate sessions and get the last one.
@@ -58,7 +58,7 @@ class SubjectInformationPrompter(object):
 
             for session_key in session_object.data:
                 #Skip over the session id because we already have that.
-                if session_key == Definitions.SESSION_ID:
+                if session_key == ColumnNames.SESSION_ID:
                     continue
 
                 #Skip _id because that shouldnt be modifiable
@@ -122,7 +122,7 @@ class SubjectInformationPrompter(object):
             print(f'The second group ({Definitions.COLORS["RED"]}red{Definitions.COLORS["RESET"]}) is data that could not be determined automatically')
         
         #Print out the subject and its map ID.
-        print(f'{highlight_fields}{Definitions.COLORS["BOLD"]}Subject: {self.__subject.data[Definitions.MAP_ID]}{Definitions.COLORS["RESET"]}')
+        print(f'{highlight_fields}{Definitions.COLORS["BOLD"]}Subject: {self.__subject.data[Definitions.PARTICIPANT_ID]}{Definitions.COLORS["RESET"]}')
         print(f'{highlight_fields}{Definitions.COLORS["BOLD"]}Subject Accession: {self.__subject.data[Definitions.SUBJECT_ACCESSION]}{Definitions.COLORS["RESET"]}')
         
         sessions_to_print = []
@@ -245,7 +245,7 @@ class SubjectInformationPrompter(object):
         return modified_data
     
     def print_merge_conflict_prompt(self, conflicting_keys: list, conflicting_data:dict) -> None:
-        print(f'------------------------- Subject {self.__subject.data[Definitions.MAP_ID]} Merge Issue -------------------------')
+        print(f'------------------------- Subject {self.__subject.data[ColumnNames.PARTICIPANT_ID]} Merge Issue -------------------------')
         print(f'It appears that the current subject could not automatically merge because the existing')
         print(f'data and the incoming data both seem plausable. Please choose the desired data you want to keep to continue.')
         print(f'The current data is shown in {Definitions.COLORS["GREEN"]}green{Definitions.COLORS["RESET"]} and the incoming data is showin in {Definitions.COLORS["RED"]}red{Definitions.COLORS["RESET"]}.')
@@ -378,20 +378,20 @@ class SessionInformationPrompter(object):
             #Done let the _id or session_id fields be modifiable.
             if field == '_id':
                 continue
-            if field == Definitions.SESSION_ID:
+            if field == ColumnNames.SESSION_ID:
                 continue
 
             self.session_fields.append(field)
 
     def print_session(self, highlight_fields='') -> None:
-        print(f'Session: {Definitions.COLORS["CYAN"]}{self.__session.data[Definitions.SESSION_ID]}{Definitions.COLORS["RESET"]}')
+        print(f'Session: {Definitions.COLORS["CYAN"]}{self.__session.data[ColumnNames.SESSION_ID]}{Definitions.COLORS["RESET"]}')
 
         for field in self.session_fields:
             print(f'\t{highlight_fields}{field}{Definitions.COLORS["RESET"]}: {self.__session.data[field]}')
 
 
     def print_merge_conflict_prompt(self, conflicting_keys: list, conflicting_data:dict) -> None:
-        print(f'------------------------- Session {self.__session.data[Definitions.SESSION_ID]} Merge Issue -------------------------')
+        print(f'------------------------- Session {self.__session.data[ColumnNames.SESSION_ID]} Merge Issue -------------------------')
         print(f'It appears that the current session could not automatically merge because the existing')
         print(f'data and the incoming data both seem plausable. Please choose the desired data you want to keep to continue.')
         print(f'The current data is shown in {Definitions.COLORS["GREEN"]}green{Definitions.COLORS["RESET"]} and the incoming data is showin in {Definitions.COLORS["RED"]}red{Definitions.COLORS["RESET"]}.')

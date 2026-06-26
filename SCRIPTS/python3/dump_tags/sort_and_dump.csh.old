@@ -64,7 +64,8 @@ foreach type (*)
 
         #move all nifti/jsons out
         foreach series ($series:q)
-            find $series -maxdepth 1 -type f \( -name '*.json' -o -name '*.nii.gz' -o -name '*.nii' -o -name '*.bval' -o -name '*.bvec' \) -exec mv {} . \;
+            find $series -maxdepth 1 -type f -name '*.json' -exec mv {} . \;
+            find $series -maxdepth 1 -type f -name '*.nii.gz' -exec mv {} . \;
             rm -r -f $series
         end
     cd ..

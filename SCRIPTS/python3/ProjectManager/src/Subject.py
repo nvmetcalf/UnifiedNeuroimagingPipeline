@@ -8,8 +8,12 @@ import src.Session as Session
 import src.InformationPrompter as IP 
 import src.DataModels.SubjectData as SubjectData
 import src.DataModels.Definitions as Definitions
+import src.DataModels.ColumnNames as ColumnNames
+import src.DataModels.AnalysisDefinitions as AnalysisDefinitions
+
 import src.Utils.CustomFlatten as CustomFlatten
 import src.DataExtraction as DataExtractor
+import src.Utils.Logger as Logger
 
 #This function will see if two session names could potentially match each other. This is because in the software
 #pipeline session names can be condensed by exluding the underscores. For example a session named "aaa_bbb_ccc"
@@ -63,39 +67,46 @@ class Subject(object):
     def __init__(self, 
                  projects_data: dict, 
                  database: pymongo.database.Database, 
-                 parent_project: str) -> None:
+                 parent_project: str,
+                 logger: Logger,
+                 adjoin_data = {}) -> None:
 
         self.__database      = database
         self.__projects_data = projects_data
+        self.__logger        = logger
         self.parent_project = parent_project
+
         self.data = {}
+        self.adjoin_data = {}
 
         #These are objects which correspond to individual sessions. the key value pairs are ObjectId:session_object
         self.sessions = {} 
+
         self.__cols_to_remove = [
             Definitions.DUPLICATES,
             '_id',
             f'{Definitions.SESSION_DATA}._id'
         ]
-
-        
-        
     
     #Creates a shallow copy of the subject object. 
     def __copy__(self):
-        subject_copy = Subject(self.__projects_data, self.__database, self.parent_project) 
-
+        subject_copy = Subject(self.__projects_data, self.__database, self.parent_project, self.__logger) 
         subject_copy.data = copy.deepcopy(self.data)
+
         for session_uid in self.sessions:
             subject_copy.sessions[session_uid] = copy.copy(self.sessions[session_uid])
         
         return subject_copy
 
-    def __load_sessions(self, extend_data: bool) -> None:
+    def __load_documents(self, extend_data: bool) -> None:
         for uid in self.data[Definitions.SESSION_DATA]:
             #Load in the session objects
-
-            self.sessions[uid] = Session.Session( self.__database[Definitions.SESSIONS],uid=uid, load_extended_data = extend_data)
+            self.sessions[uid] = Session.Session(self.__database[Definitions.SESSIONS],
+                                                 self.__database[AnalysisDefinitions.ANALYSIS],
+                                                 self.__logger,
+                                                 uid=uid, 
+                                                 load_extended_data = extend_data,
+                                                 )
     
     #A helper function to remove a session both from the database and internally in the data structure.
     #returns if a session was removed or not.
@@ -104,13 +115,13 @@ class Subject(object):
         if session_object.fs_existance():
             return 
 
-        print(f'Could not find session data at {session_object.get_data_path()}, removing...')
+        self.__logger.log(f'Could not find session data at {session_object.get_data_path()}, removing...')
         
         session_object.remove()
         del self.sessions[session_uid]
         
         
-        self.__database[self.parent_project].update_one({Definitions.MAP_ID : map_id},
+        self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : map_id},
                                             {'$pull'  : {Definitions.SESSION_DATA: session_uid}})
 
         #Now we need to remove it from the duplicates and/or the longitunidal data as well.
@@ -122,7 +133,7 @@ class Subject(object):
             del long[session_uid]
             
             #Remove the session from the longitudinal object in the database.
-            self.__database[self.parent_project].update_one({Definitions.MAP_ID : map_id},
+            self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : map_id},
                                                 {'$unset'  : {f'{Definitions.LONGITUDINAL}.{session_uid}': 1}})
             skip_child_search = True
         
@@ -135,34 +146,34 @@ class Subject(object):
                     
                     #Check if we deleted all the children
                     if long[parent_uid] == []:
-                        self.__database[self.parent_project].update_one({Definitions.MAP_ID : map_id},
+                        self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : map_id},
                                                             {'$unset'  : {f'{Definitions.LONGITUDINAL}.{parent_uid}': 1}})
                         break
                     
                     #Otherwise just delete the single element.
-                    self.__database[self.parent_project].update_one({Definitions.MAP_ID : map_id},
+                    self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : map_id},
                                                         {'$pull'  : {f'{Definitions.LONGITUDINAL}.{parent_uid}': session_uid}})
-        
-    #This is used to make the modalities list more readable in a csv format when
-    #using json normalize. Basically just splits the list into a bunch of T/F variables
-    #for if that modaility was collected or not.
-    def __format_modalities_list(self, session_data: dict) -> None:
-        mods_collected = session_data[Definitions.MODS_COLLECTED]
-        del session_data[Definitions.MODS_COLLECTED]
-
-        #Now lets create bools for everything collected.
-        all_modalities = Definitions.REGEX_RULES["MODALITIES"].keys()
-        for modality in all_modalities:
-            if modality in mods_collected:
-                session_data[modality] = mods_collected[modality]
+    
+    def __create_session2analysis_path_map(self, analysis_sources: set) -> dict:
+        sesID2analysis= {}
+        for path in analysis_sources:
+            ses_id = DataExtractor.guess_session_id_from_analysis_path(path)
+            if ses_id == '':
                 continue
             
-            session_data[modality] = 0
-    
+            if not ses_id in sesID2analysis:
+                sesID2analysis[ses_id] = {path}
+                continue
+
+            sesID2analysis[ses_id].add(path)
+
+        return sesID2analysis
+
+
     def __create_subject(self, 
                          map_id: str, 
                          data_sources: list, 
-                         analysis_sources: list,
+                         analysis_sources: set,
                          subject_metadata: dict,
                          cnda_id = '') -> None:
 
@@ -173,18 +184,24 @@ class Subject(object):
             self.data[key] = subject_metadata[key]
         
         potential_duplicates = {}
+        
+        #Organize the analysis files.
+        sesID2analysis = self.__create_session2analysis_path_map(analysis_sources)
 
         #Now lets create all the Sessions from the data sources.
         for data_source in data_sources:
             
-            extractor = DataExtractor.DataExtractor(self.__projects_data, data_source)
+            extractor = DataExtractor.DataExtractor(self.__projects_data, data_source, self.__logger)
 
-            session_data = extractor.generate_session_data(analysis_sources) 
+            session_data = extractor.generate_session_data() 
             if session_data == {}:
                 continue
             
             #This line will create the session object because it does not exist in the database.
-            session_object = Session.Session(self.__database[Definitions.SESSIONS], uid = None)
+            session_object = Session.Session(self.__database[Definitions.SESSIONS],
+                                             self.__database[AnalysisDefinitions.ANALYSIS],
+                                             self.__logger, 
+                                             uid = None)
 
             #Finally update the data. We shouldnt have to force update anything because this data
             #is new.
@@ -192,6 +209,11 @@ class Subject(object):
 
             #Add it to the sessions this object manages.
             self.sessions[session_object.get_uid()] = session_object
+
+            #Now go through the analysis files and add them to the session.
+            session_id = session_object.data[ColumnNames.SESSION_ID]
+            if session_id in sesID2analysis:
+                session_object.set_analysis_paths(sesID2analysis[session_id])
             
             #Now update the duplicate map.
             metadata_source_path = extractor.get_metadata_source_directory()
@@ -214,21 +236,41 @@ class Subject(object):
             self.data[Definitions.DUPLICATES].append(duplicate_list)
 
         #Now that the object has been populated internally. Lets update the data in the actual database.
-        print(f'Creating subject {map_id}')
+        self.__logger.log(f'Creating subject {map_id}')
         self.data[Definitions.SESSION_DATA] = list(self.sessions.keys())
-        self.__database[self.parent_project].update_one({Definitions.MAP_ID : map_id},
+        self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : map_id},
                                             {'$set'   : self.data},
                                             upsert = True)
 
-    def __set_all_sessions_value(self, key: str, value) -> None:
-        for session_uid in self.sessions:
+    def __set_all_sessions_value(self, uids: list, key: str, value) -> None:
+        for session_uid in uids:
             self.sessions[session_uid].update({key: value}, force_update = True)
-    
+
+    def __add_adjoined_data(self, report_dict: dict) -> None:
+        #If no adjoin data was set do nothing
+        if self.adjoin_data == {}:
+            return
+        
+        #Otherwise we need to add the data that exists for this subject.
+        for key in self.adjoin_data:
+            if key == Definitions.SESSION_DATA:
+                #Go ahead and add all the relevant data to the report
+                for data in report_dict[Definitions.SESSION_DATA].values():
+                    accession = data[ColumnNames.SESSION_ACCESSION]
+                    if accession in self.adjoin_data[Definitions.SESSION_DATA]:
+                        data.update(self.adjoin_data[Definitions.SESSION_DATA][accession])
+                continue
+
+            #Finally just update the data for every other key.
+            report_dict[key] = self.adjoin_data[key] 
+
+    def set_adjoined_data(self, adjoined_data: dict) -> None:
+        self.adjoin_data = adjoined_data
 
     #Must be called after a subject is created.
     def set_cnda_id(self, cnda_id: str) -> None:
-        self.data[Definitions.SUBJECT_ACCESSION] = cnda_id
-        self.__database[self.parent_project].update_one({Definitions.MAP_ID : self.data[Definitions.MAP_ID]},
+        self.data[ColumnNames.SUBJECT_ACCESSION] = cnda_id
+        self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : self.data[ColumnNames.PARTICIPANT_ID]},
                                             {'$set'   : self.data},
                                             upsert = True)
 
@@ -259,17 +301,17 @@ class Subject(object):
     
         #Check if the data has been populated:
         if self.data == {}:
-            print('The subject has not been loaded. Cannot perform an internal update')
+            self.__logger.log('The subject has not been loaded. Cannot perform an internal update')
             return
 
         if new_data == {}:
             return
 
-        print(f'Updating subject {self.data[Definitions.MAP_ID]}')
+        self.__logger.log(f'Updating subject {self.data[ColumnNames.PARTICIPANT_ID]}')
         
         #Update MAP_ID
         #Now that the object has been populated internally. Lets update the data in the actual database.
-        self.__database[self.parent_project].update_one({Definitions.MAP_ID : self.data[Definitions.MAP_ID]},
+        self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : self.data[ColumnNames.PARTICIPANT_ID]},
                                             {'$set'   : self.data},
                                             upsert = True)
         
@@ -284,7 +326,7 @@ class Subject(object):
     def update(self, 
                map_id: str,
                data_sources: list, 
-               analysis_sources: list,
+               analysis_sources: set,
                subject_metadata: dict, 
                force_update: bool,
                cnda_accession = '') -> None:
@@ -298,7 +340,7 @@ class Subject(object):
             #The subject does not exist, therefore we need to create it and add it to the DB.
             self.__create_subject(map_id, data_sources, analysis_sources, subject_metadata, cnda_accession)
 
-        #Finally we should update the accession information for this subject.
+        #Now we should update the accession information for this subject.
         self.update_duplicate_accession(force_update)
 
     def update_metadata(self, metadata: dict, force_update) -> None:
@@ -312,7 +354,6 @@ class Subject(object):
         #   1) If force_update is true then use the metadata version.
         #   2) If force_udpate is false then prompt the user that there is conflicting information
         #      and ask them what info they want to keep.
-        
         #First start by setting the data_to_update to be a copy of the internal data we already have.
         data_to_update     = {}
         conflicting_fields = {} 
@@ -368,23 +409,23 @@ class Subject(object):
             return
 
         #We just need to update it.
-        self.__database[self.parent_project].update_one({Definitions.MAP_ID : self.data[Definitions.MAP_ID]},
+        self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : self.data[ColumnNames.PARTICIPANT_ID]},
                                                         {'$set'   : self.data},
                                                         upsert = True)
 
     def update_duplicate_accession(self, force_update: bool) -> None:
-        subject_ip = IP.SubjectInformationPrompter(self)
-
         #Populate the duplicate list.
         for dup_list in self.data[Definitions.DUPLICATES]:
             found_values = {
-                Definitions.SESSION_ACCESSION : [],
-                Definitions.FS_ACCESSION      : []
+                ColumnNames.SESSION_ACCESSION : [],
+                ColumnNames.FS_ACCESSION      : []
             }
+
             duplicate_session_id_list = []
             for duplicate_uid in dup_list:
                 session_object = self.sessions[duplicate_uid]
-                duplicate_session_id_list.append(session_object.data[Definitions.SESSION_ID])
+                duplicate_session_id_list.append(session_object.data[ColumnNames.SESSION_ID])
+
                 for key in found_values:
                     if session_object.data[key] != Definitions.MISSING_BY_TYPE[type(session_object.data[key])]:
                         found_values[key].append(session_object.data[key])
@@ -397,35 +438,43 @@ class Subject(object):
             
                 if len(unique_values) == 1 or force_update:
                     #propagate this value to every session.
-                    self.__set_all_sessions_value(key, next(iter(unique_values)))
+                    self.__set_all_sessions_value(dup_list, key, next(iter(unique_values)))
                     continue
 
                 #Otherwise we have multiple values and we want to choose.
+                subject_ip = IP.SubjectInformationPrompter(self)
                 prompt_info = f'Updating duplicate sessions: {duplicate_session_id_list}'
-                self.__set_all_sessions_value(key, subject_ip.choose_value(key, list(unique_values), additional_info = prompt_info))
+                self.__set_all_sessions_value(dup_list, 
+                                              key, 
+                                              subject_ip.choose_value(key, 
+                                                                      list(unique_values), 
+                                                                      additional_info = prompt_info))
 
     #The point of this function is to update as much relevant information from the file system as possible
     #given a list of data sources which pertain to the subject.
-    def update_from_fs(self, data_sources: list, analysis_sources: list, subject_metadata: dict, force_update: bool) -> None: 
+    def update_from_fs(self, data_sources: list, analysis_sources: set, subject_metadata: dict, force_update: bool) -> None: 
 
-        print(f'Updating subject {self.data[Definitions.MAP_ID]}')
+        self.__logger.log(f'Updating subject {self.data[ColumnNames.PARTICIPANT_ID]}')
 
         #update any additional metadata which may exist.
         for key in subject_metadata:
             self.data[key] = subject_metadata[key]
         
-        subject_id = self.data[Definitions.MAP_ID] 
+        subject_id = self.data[ColumnNames.PARTICIPANT_ID] 
         #Now that the object has been populated internally. Lets update the data in the actual database.
-        self.__database[self.parent_project].update_one({Definitions.MAP_ID : subject_id},
+        self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : subject_id},
                                             {'$set'   : self.data},
                                             upsert = True)
 
-        #Now build up a session_id reference table which relates the objectIds to the
-        #session ids for this session.
+        #Now build up a session_id reference table which relates the data paths to the
+        #uids for this session.
         data2uids = {}
         for uid in self.sessions:
-            data2uids[self.sessions[uid].data[Definitions.DATA_PATH]] = uid
+            ses = DataExtractor.guess_sess_id_from_path(self.sessions[uid].data[ColumnNames.DATA_PATH])
+            if ses == '':
+                continue
 
+            data2uids[ses] = uid
         #Now for each data source we need to update the particular session which corresponds
         #with this data also keep track of which ids were updated, we will check the remaining ones
         #which were neither created nor updated to check for existance.
@@ -433,22 +482,24 @@ class Subject(object):
         potential_duplicates = {}
         
         for data_source in data_sources:
-            extractor = DataExtractor.DataExtractor(self.__projects_data, data_source)
+            extractor = DataExtractor.DataExtractor(self.__projects_data, data_source, self.__logger)
             #Extract relevant information from the data paths.
-            session_data = extractor.generate_session_data(analysis_sources) 
+            session_data = extractor.generate_session_data() 
             if session_data == {}: 
-                print(f'Was not able to determine the session id from path {data_source}, skipping...')
+                self.__logger.log(f'Was not able to determine the session id from path {data_source}, skipping...')
                 continue
 
+            metadata_session_id = DataExtractor.guess_sess_id_from_path(session_data[ColumnNames.DATA_PATH])
+
             #If we get here then the session_id will be either updated or added.
-            updated_or_added_paths.add(session_data[Definitions.DATA_PATH])
+            updated_or_added_paths.add(metadata_session_id)
             
             #Now update the duplicate map.
             metadata_source_path = extractor.get_metadata_source_directory()
             
-            if session_data[Definitions.DATA_PATH] in data2uids:
+            if metadata_session_id in data2uids:
                 #Now lets update the sessions metadata and links.
-                session_object = self.sessions[data2uids[session_data[Definitions.DATA_PATH]]]
+                session_object = self.sessions[data2uids[metadata_session_id]]
                 session_object.update(session_data, force_update)
                 
                 #Now add it to the potential_duplicates
@@ -460,13 +511,17 @@ class Subject(object):
                 continue
 
             #Otherwise we need to create a new session object and add it ot the list.
-            session_object = Session.Session(self.__database[Definitions.SESSIONS], uid = None)
+            session_object = Session.Session(self.__database[Definitions.SESSIONS],
+                                             self.__database[AnalysisDefinitions.ANALYSIS],
+                                             self.__logger, 
+                                             uid = None)
+
             session_object.update(session_data,force_update = False)
             session_uid = session_object.get_uid()
             self.sessions[session_uid] = session_object
 
             #We also need to update that we added the a new session to the list.
-            self.__database[self.parent_project].update_one({Definitions.MAP_ID : self.data[Definitions.MAP_ID]},
+            self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : self.data[ColumnNames.PARTICIPANT_ID]},
                                                 {'$push'   : {Definitions.SESSION_DATA : session_uid}})
                 
             #Now add it to the potential_duplicates
@@ -518,14 +573,13 @@ class Subject(object):
             if not duplicates_added and not duplicates_removed:
                 self.data[Definitions.DUPLICATES].append(duplicate_list)
 
-
         #Now lets go through all the uids and figure out which ones havent been updated or added and check that they all still
         #exist.
         to_check = set(data2uids.keys()) - updated_or_added_paths
         #Now check all the session ids we didnt hit.
         for data_path in to_check:
             session_uid = data2uids[data_path]
-            self.__remove_session_if_not_on_fs(self.data[Definitions.MAP_ID], session_uid)
+            self.__remove_session_if_not_on_fs(self.data[ColumnNames.PARTICIPANT_ID], session_uid)
     
         #Now check that all the duplicates are still apart of the session list. If not we need to remove them. 
         duplicate_removal_indexes = [[] for i in range(len(self.data[Definitions.DUPLICATES]))]
@@ -548,32 +602,56 @@ class Subject(object):
             for index_to_remove in reversed(removal_group):
                 del self.data[Definitions.DUPLICATES][group_index][index_to_remove]
 
-        self.__database[self.parent_project].update_one({Definitions.MAP_ID : self.data[Definitions.MAP_ID]},
+        self.__database[self.parent_project].update_one({ColumnNames.PARTICIPANT_ID : self.data[ColumnNames.PARTICIPANT_ID]},
                                             {'$set' : {Definitions.DUPLICATES: self.data[Definitions.DUPLICATES]}})
                 
-   
+        #At this point all session and duplicate data for this session will have been created or updated. 
+        #This means that the remaining sessions are the only ones that exist. We now need to update the analysis
+        #paths that are are passed in here.
+        #Now go through the existing sessions (if they still exist) and update the analysis information.
+        sesID2analysis = self.__create_session2analysis_path_map(analysis_sources)
+
+        for session_object in self.sessions.values():
+            session_id = session_object.data[ColumnNames.SESSION_ID]
+                
+            #If the session wasnt hit then we need to have the session check analysis source existance.
+            if not session_id in sesID2analysis:
+                for analysis_object in session_object.analysis.values():
+                    analysis_object.check_fs_existance()
+                continue
+            
+            #Otherwise update it.
+            session_object.set_analysis_paths(sesID2analysis[session_id])
+
     #This session iterates through all the sessions that this subect owns currently in the database. 
     #If the sessions no longer exist then remove it from the database. If all the sessions were removed
     #Then delete this subject from the database.
     def check_fs_existance(self) -> None:
+
         #First check that the subject has been populated and the project has been set.
         if self.parent_project == '' or self.data == {}:
-            print(f'The current subject has not had any data populated, cannot check fs existance.')
+            self.__logger.log('The current subject has not had any data populated, cannot check fs existance.')
             return
         
         uids_to_check = list(self.sessions.keys()) #Copy this so we can iterate over these keys and delete them.
         for uid in uids_to_check:
-            self.__remove_session_if_not_on_fs(self.data[Definitions.MAP_ID], uid)
+            self.__remove_session_if_not_on_fs(self.data[ColumnNames.PARTICIPANT_ID], uid)
 
         #Now check if all the sessions were removed.
         if self.sessions == {}:
-            map_id = self.data[Definitions.MAP_ID]
-            print(f'All data for subject with MAP ID: {map_id} no longer exists, removing...')
+            map_id = self.data[ColumnNames.PARTICIPANT_ID]
+            self.__logger.log(f'All data for subject with MAP ID: {map_id} no longer exists, removing...')
             #Remove the subject from the database.
-            self.__database[self.parent_project].delete_one({Definitions.MAP_ID : map_id})
+            self.__database[self.parent_project].delete_one({ColumnNames.PARTICIPANT_ID : map_id})
 
             del self.data
             self.data = {}
+            return
+                
+        #Now check that the sessions exist.
+        for session_obj in self.sessions.values():
+            for analysis_obj in session_obj.analysis:
+                analysis_obj.check_fs_existance()
 
     #Load in subject data by uid.
     #Returns true if the subject was found and false otherwise.
@@ -590,11 +668,11 @@ class Subject(object):
 
         if loaded:
             #Load in session information.
-            self.__load_sessions(extend_data)
+            self.__load_documents(extend_data)
 
         return loaded
     
-    def load_by_uid(self,  uid: ObjectId, extend_data: bool) -> bool:
+    def load_by_uid(self, uid: ObjectId, extend_data: bool) -> bool:
         loaded = False 
         #To do this we have to search each collection until we find a resut that matches the given uid
         subject_data = self.__database[self.parent_project].find_one({'_id':uid})
@@ -605,32 +683,32 @@ class Subject(object):
 
         if loaded:
             #Load in session information.
-            self.__load_sessions(extend_data)
+            self.__load_documents(extend_data)
 
         return loaded
 
     def load_by_map_id(self, map_id: str, extend_data: bool) -> bool:
 
-        subject_data = self.__database[self.parent_project].find_one({Definitions.MAP_ID:map_id})
+        subject_data = self.__database[self.parent_project].find_one({ColumnNames.PARTICIPANT_ID:map_id})
 
         if subject_data == None:
             return False
 
         self.data = subject_data
         #Load in session information.
-        self.__load_sessions(extend_data)
+        self.__load_documents(extend_data)
         return True
     
     def load_by_cnda_id(self, cnda_id: str, extend_data: bool) -> bool:
 
-        subject_data = self.__database[self.parent_project].find_one({Definitions.SUBJECT_ACCESSION:cnda_id})
+        subject_data = self.__database[self.parent_project].find_one({ColumnNames.SUBJECT_ACCESSION:cnda_id})
 
         if subject_data == None:
             return False
 
         self.data = subject_data
         #Load in session information.
-        self.__load_sessions(extend_data)
+        self.__load_documents(extend_data)
         return True
     
     #This simply clears out the subject specific data. Good if you want to reuse the same subject object for multiple people
@@ -642,22 +720,6 @@ class Subject(object):
         self.data     = {}
         self.sessions = {}
     
-    #Returns the existing data. Formats the session object_ids so that they are represented as their session_ids instead.
-    def get_data(self) -> dict:
-        #Check if the data for this subject has been populated yet.
-        if self.data == {}:
-            return {}
-        
-        all_data = self.data.copy()
-        del all_data[Definitions.SESSION_DATA]
-        all_data[Definitions.SESSION_DATA] = []
-
-        #Now lets populate the Session_Data entry with the data from each session object.
-        for uid in self.sessions:
-            session_id = self.sessions[uid].data[Definitions.SESSION_ID]
-            all_data[Definitions.SESSION_DATA].append(session_id)
-        
-        return all_data
     
     #Return a Session object based on a session id.
     def get_session_by_session_id(self, session_id: str) -> Session.Session | None:
@@ -665,14 +727,35 @@ class Subject(object):
             return None
 
         for uid in self.sessions:
-            if self.sessions[uid].data[Definitions.SESSION_ID] == session_id:
+            if self.sessions[uid].data[ColumnNames.SESSION_ID] == session_id:
+                return self.sessions[uid] 
+        
+        return None
+    
+    #Return a Session object based on a session id.
+    def get_session_by_cnda_id(self, session_accession: str) -> Session.Session | None:
+        if self.data == {}:
+            return None
+
+        for uid in self.sessions:
+            if self.sessions[uid].data[ColumnNames.SESSION_ACCESSION] == session_accession:
                 return self.sessions[uid] 
         
         return None
 
+    def get_session_dict_by_session_id(self, session_id: str, fuzzy_match_level = 0) -> dict:
+        if self.data == {}:
+            return {}
+        
+        for uid in self.sessions:
+            sess_id_to_check = self.sessions[uid].data[ColumnNames.SESSION_ID]
+            if fuzzy_match_session_ids(sess_id_to_check, session_id, fuzzy_match_level):
+                return  self.sessions[uid].get_report_ready_data(include_analysis = False)
+        
+        return {}
     
-    #This function returns the expanded representation of its internal data. 
-    def get_expanded_data(self) -> dict:
+    #Returns the existing data. Formats the session object_ids so that they are represented as their session_ids instead.
+    def get_data(self, include_analysis = False) -> dict:
         #Check if the data for this subject has been populated yet.
         if self.data == {}:
             return {}
@@ -680,19 +763,19 @@ class Subject(object):
         all_data = self.data.copy()
         del all_data[Definitions.SESSION_DATA]
         all_data[Definitions.SESSION_DATA] = {}
-        
 
         #Now lets populate the Session_Data entry with the data from each session object.
-        for uid in self.sessions:
-            session_data = self.sessions[uid].data.copy()
-            session_data.update(self.sessions[uid].extended_data.copy())
-            
-            self.__format_modalities_list(session_data)
-            all_data[Definitions.SESSION_DATA][str(uid)] = session_data
-        
+        for uid, session_object in self.sessions.items():
+            all_data[Definitions.SESSION_DATA][str(uid)] = session_object.get_report_ready_data(
+                include_analysis 
+            )
+
+        #Now see if we can add the extended data.
+        self.__add_adjoined_data(all_data)
+
         return all_data
     
-    def get_expanded_duplicate_dataframe(self) -> pandas.DataFrame:
+    def get_duplicate_data(self, include_analysis = False) -> dict:
         if self.data == {}:
             return pandas.DataFrame()
         
@@ -701,35 +784,17 @@ class Subject(object):
         all_data[Definitions.SESSION_DATA] = {}
 
         for duplicate_group in self.data[Definitions.DUPLICATES]:
-            for session_uid in duplicate_group:
-                session_data = self.sessions[session_uid].data.copy()
-                session_data.update(self.sessions[session_uid].extended_data.copy())
-
-                self.__format_modalities_list(session_data)
-                all_data[Definitions.SESSION_DATA][str(session_uid)] = session_data
-
-        return CustomFlatten.dict_to_dataframe(all_data, exclude_columns = self.__cols_to_remove)
-
-    def get_expanded_dataframe(self) -> pandas.DataFrame:
-        return CustomFlatten.dict_to_dataframe(self.get_expanded_data(), exclude_columns = self.__cols_to_remove)
-
-    def get_session_dataframe_by_session_id(self, session_id: str, fuzzy_match_level: int) -> pandas.DataFrame:
-
-
-        if self.data == {}:
-            return pandas.DataFrame()
+            for uid in duplicate_group:
+                all_data[Definitions.SESSION_DATA][str(uid)] = self.sessions[uid].get_report_ready_data(
+                    include_analysis 
+                )
         
-        #Copy over the subject specific information
-        all_data = self.data.copy()
-        del all_data[Definitions.SESSION_DATA]
-        all_data[Definitions.SESSION_DATA] = {}
+        #Now see if we can add the extended data.
+        self.__add_adjoined_data(all_data)
+        return all_data
 
-        for uid in self.sessions:
-            sess_id_to_check = self.sessions[uid].data[Definitions.SESSION_ID]
-            if fuzzy_match_session_ids(sess_id_to_check, session_id, fuzzy_match_level):
-                
-                all_data[Definitions.SESSION_DATA][str(uid)] = self.sessions[uid].data
-                return CustomFlatten.dict_to_dataframe(all_data, exclude_columns = self.__cols_to_remove)
-        
-        #If we dont find it return an empty dataframe.
-        return pandas.DataFrame()
+    def get_duplicate_dataframe(self, include_analysis = False) -> pandas.DataFrame:
+        return CustomFlatten.dict_to_dataframe(self.get_duplicate_data(include_analysis), exclude_columns = self.__cols_to_remove)
+
+    def get_dataframe(self, include_analysis = False) -> pandas.DataFrame:
+        return CustomFlatten.dict_to_dataframe(self.get_data(include_analysis), exclude_columns = self.__cols_to_remove)

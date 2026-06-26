@@ -1,0 +1,11 @@
+{
+  "query_name": "mr_accession",
+  "query_elemens": [
+    "xnat:mrSessionData/SESSION_ID",
+    "xnat:mrSessionData/LABEL",
+    "xnat:mrSessionData/SUBJECT_ID",
+    "xnat:mrSessionData/SUBJECT_LABEL",
+    "fs:fsData/EXPT_ID"
+  ],
+  "root_element": "xnat:mrSessionData"
+}
