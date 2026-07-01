@@ -40,8 +40,15 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 	set all_sefm = ()
 	@ j = 1
 	while($j <= $#fm)
-		set TotalReadout = `cat ${SubjectHome}/dicom/$fm[$j]:r:r".json" | grep TotalReadoutTime | cut -d":" -f2 | cut -d"," -f1`
-		set curr_ped = `grep \"PhaseEncodingDirection\" ${SubjectHome}/dicom/$fm[$j]:r:r".json" | cut -d: -f2 | cut -d, -f1 | sed 's/\"//g'`
+		
+		if($fm[$j]:e == "gz") then
+			set json = ${SubjectHome}/dicom/$fm[$j]:r:r".json"
+		else
+			set json = ${SubjectHome}/dicom/$fm[$j]:r".json"
+		endif
+		set TotalReadout = `cat $json | grep TotalReadoutTime | cut -d":" -f2 | cut -d"," -f1`
+		
+		set curr_ped = `grep \"PhaseEncodingDirection\" $json | cut -d: -f2 | cut -d, -f1 | sed 's/\"//g'`
 
 		set all_sefm = ($all_sefm $curr_ped)
 

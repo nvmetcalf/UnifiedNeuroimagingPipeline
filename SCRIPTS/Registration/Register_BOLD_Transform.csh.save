@@ -124,7 +124,7 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 	endif
 
 # 	set dirs_to_merge = ()
- 	#create a test of the BOLD_ref warp for QC
+# 	#create a test of the BOLD_ref warp for QC
 # 	foreach direction($peds)
 # 		applywarp -i ${patid}_BOLD_ref_distorted_${direction} -r ${RegTarget}${FinalResTrailer} -w ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${patid}_BOLD_ref_${direction}${FinalResTrailer} --interp=spline
 # 		if ($status) then
@@ -133,7 +133,7 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 # 		endif
 # 		set dirs_to_merge = ($dirs_to_merge ${patid}_BOLD_ref_${direction}${FinalResTrailer})
 # 	end
-
+#
 # 	if($#dirs_to_merge) then
 # 		fslmerge -t all_dirs ${dirs_to_merge}
 # 		if ($status) exit $status
@@ -165,34 +165,34 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 
 			set FrameOrder = ()
 
-#			if($?ME_ScanSets) then
+			if($?ME_ScanSets) then
 				#find the first echo (used for xr3d)
 				# then set it as the xr3d target.
-#				@ k = 1
-#				set ME_echo = ()
-#				while ($k <= $#ME_ScanSets)
-#
-#					set ME_set = (`echo $ME_ScanSets[$k] | sed -r 's/,/ /g'`)
-#
+				@ k = 1
+				set ME_echo = ()
+				while ($k <= $#ME_ScanSets)
+
+					set ME_set = (`echo $ME_ScanSets[$k] | sed -r 's/,/ /g'`)
+
 					#search the current multi-echo set for the bold run we are on
-#					foreach Echo($ME_set)
-#						if($Echo == $Run) then	#found it, so use the first echo's xr3d
-#							set ME_echo = $k
-#							break
-#						endif
-#					end
-#
-#					if($#ME_echo > 0) then
-#						break
-#					endif
-#
-	#				@ k++
-	#			end
-	#			set target_epi = bold${k}_upck_faln_dbnd
-	#		else
+					foreach Echo($ME_set)
+						if($Echo == $Run) then	#found it, so use the first echo's xr3d
+							set ME_echo = $k
+							break
+						endif
+					end
+
+					if($#ME_echo > 0) then
+						break
+					endif
+
+					@ k++
+				end
+				set target_epi = bold${k}_upck_faln_dbnd
+			else
 				#non-multiecho
 				set target_epi = bold${Run}_upck_faln_dbnd
-	#		endif
+			endif
 			######################################################################
 			# get a nifti volume for each frame post frame alignment and debanding
 			######################################################################
@@ -257,58 +257,58 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 
 	#if we have multiecho data, we need to make a new combined bold run for
 	# each echo set
-#	if($?ME_ScanSets) then
-#		if (! ${?ME_reg}) @ ME_reg = 0
-#
-#		rm -r me_source_bold
-#		mkdir me_source_bold
-#
-#		#need to reset the runs we will be fully processing to the multiecho timeseries
-#		set RunIndex = ()
-#
-#		#need to remake this list
-#		rm $patid"_func_vols.lst"
-#		touch $patid"_func_vols.lst"
-#
-#		@ k = 1
-#		while ($k <= $#ME_ScanSets)
-#			rm -r me_$k
-#			mkdir me_$k
-#
-#			pushd me_$k
-#				#put together the runs for the current multiecho
-#				set curr_me_indices = (`echo $ME_ScanSets[$k] | sed -r 's/,/ /g'`)
-#
-#				set ScanList = ()
-#				foreach Index($curr_me_indices)
-#					set ScanList = ($ScanList $ScratchFolder/${patid}/BOLD_temp/bold${Index}/bold${Index}"_upck_faln_dbnd_xr3d_dc_atl.4dfp.img")
-#				end
-#
-#				echo	MEfmri_4dfp -E$#BOLD_TE -T $BOLD_TE $ScanList -r$ME_reg -obold${k}_upck_faln_dbnd_xr3d_dc_atl -e30
-#					MEfmri_4dfp -E$#BOLD_TE -T $BOLD_TE $ScanList -r$ME_reg -obold${k}_upck_faln_dbnd_xr3d_dc_atl -e30
-#					if ($status) exit $status
-#
-#				normalize_4dfp.csh bold${k}_upck_faln_dbnd_xr3d_dc_atl_Swgt -n4
-#				if ($status) exit $status
-#
-#				niftigz_4dfp -n bold${k}_upck_faln_dbnd_xr3d_dc_atl_Swgt_norm bold${k}_upck_faln_dbnd_xr3d_dc_atl
-#				if($status) exit 1
-#
-#				niftigz_4dfp -4 bold${k}_upck_faln_dbnd_xr3d_dc_atl bold${k}_upck_faln_dbnd_xr3d_dc_atl
-#				if($status) exit 1
-#			popd
-#
-#			#move the bolds used to make the single ME timeseries out of the way
-#			foreach Index($curr_me_indices)
-#				mv bold${Index} me_source_bold/
-#			end
-#
-#			mv me_$k bold$k
-#
-#			set RunIndex = ($RunIndex $k)
-#			@ k++
-#		end
-#	else
+	if($?ME_ScanSets) then
+		if (! ${?ME_reg}) @ ME_reg = 0
+
+		rm -r me_source_bold
+		mkdir me_source_bold
+
+		#need to reset the runs we will be fully processing to the multiecho timeseries
+		set RunIndex = ()
+
+		#need to remake this list
+		rm $patid"_func_vols.lst"
+		touch $patid"_func_vols.lst"
+
+		@ k = 1
+		while ($k <= $#ME_ScanSets)
+			rm -r me_$k
+			mkdir me_$k
+
+			pushd me_$k
+				#put together the runs for the current multiecho
+				set curr_me_indices = (`echo $ME_ScanSets[$k] | sed -r 's/,/ /g'`)
+
+				set ScanList = ()
+				foreach Index($curr_me_indices)
+					set ScanList = ($ScanList $ScratchFolder/${patid}/BOLD_temp/bold${Index}/bold${Index}"_upck_faln_dbnd_xr3d_dc_atl.4dfp.img")
+				end
+
+				echo	MEfmri_4dfp -E$#BOLD_TE -T $BOLD_TE $ScanList -r$ME_reg -obold${k}_upck_faln_dbnd_xr3d_dc_atl -e30
+					MEfmri_4dfp -E$#BOLD_TE -T $BOLD_TE $ScanList -r$ME_reg -obold${k}_upck_faln_dbnd_xr3d_dc_atl -e30
+					if ($status) exit $status
+
+				normalize_4dfp.csh bold${k}_upck_faln_dbnd_xr3d_dc_atl_Swgt -n4
+				if ($status) exit $status
+
+				niftigz_4dfp -n bold${k}_upck_faln_dbnd_xr3d_dc_atl_Swgt_norm bold${k}_upck_faln_dbnd_xr3d_dc_atl
+				if($status) exit 1
+
+				niftigz_4dfp -4 bold${k}_upck_faln_dbnd_xr3d_dc_atl bold${k}_upck_faln_dbnd_xr3d_dc_atl
+				if($status) exit 1
+			popd
+
+			#move the bolds used to make the single ME timeseries out of the way
+			foreach Index($curr_me_indices)
+				mv bold${Index} me_source_bold/
+			end
+
+			mv me_$k bold$k
+
+			set RunIndex = ($RunIndex $k)
+			@ k++
+		end
+	else
 		foreach Run($RunIndex)
 			cd bold$Run
 				$RELEASE/normalize_4dfp.csh bold${Run}_upck_faln_dbnd_xr3d_dc_atl -n4
@@ -321,7 +321,7 @@ pushd $ScratchFolder/${patid}/BOLD_temp
 				if($status) exit 1
 			cd ..
 		end
-#	endif
+	endif
 
 	####################################################################
 	# remake single resampled atlas space fMRI volumetric timeseries

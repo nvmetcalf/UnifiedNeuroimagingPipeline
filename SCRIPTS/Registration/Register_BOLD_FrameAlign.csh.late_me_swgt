@@ -50,9 +50,6 @@ if(! $?ME_ScanSets) then
 	set ME_ScanSets = ()
 endif
 
-if(! $?ME_reg) then
-	set ME_reg = 1	#weighted mean
-endif
 ################################
 # fcMRI preprocessing parameters
 ################################
@@ -94,18 +91,7 @@ pushd $ScratchFolder/${patid}
 	ftouch $patid"_xr3d".lst
 	ftouch $patid"_anat".lst
 
-	#if we are using multi-echo data, use the multi echo array instead of RunIndex
-
-	if($?ME_ScanSets) then
-		echo "Data is multiecho, using the multiecho set list for NORDIC."
-		set InitialBOLDs = (`echo $ME_ScanSets | sed 's/,/ /g'`)
-	else
-		echo "Data is single echo, using RunIndex list for NORDIC."
-		set InitialBOLDs = ($RunIndex)
-	endif
-	
-	#run covert data to 4dfp and run NORDIC if needed
-	foreach Run($InitialBOLDs)	#these are labels if nifti and numbers if dicom
+	foreach Run($RunIndex)	#these are labels if nifti and numbers if dicom
 
 		mkdir bold${Run}
 		cd bold${Run}
@@ -113,7 +99,7 @@ pushd $ScratchFolder/${patid}
 			if( -e $SubjectHome/dicom/$BOLD[$Run] || -e $SubjectHome/dicom/$BOLD[$Run]:r) then
 				if($BOLD[$Run]:e == "gz") then
 					$RELEASE/niftigz_4dfp -4 $SubjectHome/dicom/$BOLD[$Run] bold${Run}_upck -N
-			else
+				else
 					$RELEASE/nifti_4dfp -4 $SubjectHome/dicom/$BOLD[$Run] bold${Run}_upck -N
 				endif
 
@@ -167,95 +153,49 @@ pushd $ScratchFolder/${patid}
 			else
 				decho "Using original BOLD timeseries."
 			endif
-		cd ..
-	end
 
-	#if this is multiecho data, combine them into single runs
-	if($?ME_ScanSets) then
+			switch(`grep orientation bold${Run}_upck.4dfp.ifh | awk '{print$3}'`)
+				case 2:
+					echo "BOLD already transverse"
+					breaksw
+				case 3:
+					echo "BOLD is coronal, transforming to transverse."
+					$RELEASE/C2T_4dfp bold${Run}_upck bold${Run}_upck
+					if($status) exit 1
+					breaksw
+				case 4:
+					echo "BOLD is sagital, transforming to transverse."
+					$RELEASE/S2T_4dfp bold${Run}_upck bold${Run}_upck
+					if($status) exit 1
+					breaksw
+				default:
+					echo "ERROR: UNKNOWN BOLD ORIENTATION!!!"
+					exit 1
+					breaksw
+			endsw
 
-		mkdir me_scan_sets
-		@ i = 1
-
-		while($i <= $#ME_ScanSets)
-
-			#set Scan = $ME_ScanSet[$i]
-			#set EchoIndex = ($EchoIndex $i)
-
-			set scan_indices = `echo $ME_ScanSets[$i] | sed 's/,/ /g'`
-			set ScanList = ()
-			mkdir me_scan_${i}
-
-			foreach Scan($scan_indices)
-				set ScanList = ($ScanList bold${Scan}/bold${Scan}_upck.4dfp.img)
-			end
-
-			echo    MEfmri_4dfp -E$#BOLD_TE -T $BOLD_TE $ScanList -r$ME_reg -ome_scan_${i}/bold${i}_upck_ME -e30
-                        MEfmri_4dfp -E$#BOLD_TE -T $BOLD_TE $ScanList -r$ME_reg -ome_scan_${i}/bold${i}_upck_ME -e30
-			if($status) then
-				echo "SCRIPT: $0 : 00002.1 : $2 Unable to combine multi echo data set $Scan." ${DebugFile}
-	                        exit 1
+			if($BOLD_SIO != "") then
+				set interleave = "-seqstr $BOLD_SIO"
+			else if(`grep "matrix size \[3\]" bold${Run}_upck.4dfp.ifh | awk '{print($5%2)}'` == 1) then	#odd number of slices
+				set interleave = ""
+			else
+				set interleave = "-N"
 			endif
 
-			foreach bold($scan_indices)
-				mv bold${bold} me_scan_sets/
-			end
+			$RELEASE/frame_align_4dfp bold${Run}_upck $skip -TR_vol $BOLD_TR -d $epidir $interleave $MB
 
-			mv me_scan_${i} bold${i}
-			pushd bold${i}
-				cp -s bold${i}_upck_ME_Swgt.4dfp.img bold${i}_upck.4dfp.img
-				cp -s bold${i}_upck_ME_Swgt.4dfp.hdr bold${i}_upck.4dfp.hdr
-				cp -s bold${i}_upck_ME_Swgt.4dfp.ifh bold${i}_upck.4dfp.ifh
-				cp -s bold${i}_upck_ME_Swgt.4dfp.img.rec bold${i}_upck.4dfp.img.rec
-			popd
-
-			@ i++
-		end
-	endif
-
-	#we should now be back to single echo runs. Use RunIndex going forward.
-	#slice timing and frame alignment
-	foreach Run($RunIndex)
-		pushd bold${Run}
-		switch(`grep orientation bold${Run}_upck.4dfp.ifh | awk '{print$3}'`)
-			case 2:
-				echo "BOLD already transverse"
-				breaksw
-			case 3:
-				echo "BOLD is coronal, transforming to transverse."
-				$RELEASE/C2T_4dfp bold${Run}_upck bold${Run}_upck
-				if($status) exit 1
-				breaksw
-			case 4:
-				echo "BOLD is sagital, transforming to transverse."
-				$RELEASE/S2T_4dfp bold${Run}_upck bold${Run}_upck
-				if($status) exit 1
-				breaksw
-			default:
-				echo "ERROR: UNKNOWN BOLD ORIENTATION!!!"
+			if($status) then
+				echo "SCRIPT: $0 : 00003 : $2 Unable to perform within-run frame alignment/slice timing correction." ${DebugFile}
 				exit 1
-				breaksw
-		endsw
+			endif
 
-		if($BOLD_SIO != "") then
-			set interleave = "-seqstr $BOLD_SIO"
-		else if(`grep "matrix size \[3\]" bold${Run}_upck.4dfp.ifh | awk '{print($5%2)}'` == 1) then	#odd number of slices
-			set interleave = ""
-		else
-			set interleave = "-N"
-		endif
+			$RELEASE/deband_4dfp -n$skip bold${Run}_upck_faln
+			if($status) then
+				echo "SCRIPT: $0 : 00004 : $2 Unable to perform debanding." ${DebugFile}
+				exit 1
+			endif
 
-		$RELEASE/frame_align_4dfp bold${Run}_upck $skip -TR_vol $BOLD_TR -d $epidir $interleave $MB
-		if($status) then
-			echo "SCRIPT: $0 : 00003 : $2 Unable to perform within-run frame alignment/slice timing correction." ${DebugFile}
-			exit 1
-		endif
-
-		$RELEASE/deband_4dfp -n$skip bold${Run}_upck_faln
-		if($status) then
-			echo "SCRIPT: $0 : 00004 : $2 Unable to perform debanding." ${DebugFile}
-			exit 1
-		endif
-		popd
+		cd ..
 	end
 
 	#get a list of uniq phase encoding directions so we can properly register things
@@ -264,14 +204,37 @@ pushd $ScratchFolder/${patid}
 		ftouch $patid"_func_vols_${ped}.lst"
 	end
 
-	foreach Run($RunIndex)			#add this bold run to the list to be included in cross run alignment and anat_ave
-		echo bold${Run}/bold${Run}_upck_faln_dbnd >>		$patid"_xr3d.lst"
+	set xr3d_Runs = ()
+	if($#ME_ScanSets > 0) then
+		if (! $?ME_reg) @ ME_reg = 0
 
-		set scan_ped = $BOLD_ped[$Run]
-		echo bold${Run}/bold${Run}_upck_faln_dbnd_xr3d >>	$patid"_func_vols_${scan_ped}.lst"
-	end
+		@ k = 1
+		while ($k <= $#ME_ScanSets)
 
-	set xr3d_Runs = ($RunIndex)
+			set ME_set = (`echo $ME_ScanSets[$k] | sed -r 's/,/ /g'`)
+
+			echo $ME_set
+			echo $RegisterEcho
+
+			echo bold$ME_set[$RegisterEcho]/bold$ME_set[$RegisterEcho]_upck_faln_dbnd >>		$patid"_xr3d.lst"
+
+			set scan_ped = $BOLD_ped[$ME_set[$RegisterEcho]]
+			echo bold$ME_set[$RegisterEcho]/bold$ME_set[$RegisterEcho]_upck_faln_dbnd_xr3d >>	$patid"_func_vols_${scan_ped}.lst"
+			set xr3d_Runs = ($xr3d_Runs $ME_set[$RegisterEcho])
+			@ k++
+		end
+
+	else
+		foreach Run($RunIndex)
+			#add this bold run to the list to be included in cross run alignment and anat_ave
+			echo bold${Run}/bold${Run}_upck_faln_dbnd >>		$patid"_xr3d.lst"
+
+			set scan_ped = $BOLD_ped[$Run]
+			echo bold${Run}/bold${Run}_upck_faln_dbnd_xr3d >>	$patid"_func_vols_${scan_ped}.lst"
+		end
+
+		set xr3d_Runs = ($RunIndex)
+	endif
 
 	echo $xr3d_Runs
 
