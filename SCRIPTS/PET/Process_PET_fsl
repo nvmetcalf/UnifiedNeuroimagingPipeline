@@ -49,10 +49,10 @@ if($status) exit 1
 $PP_SCRIPTS/PET/Compute_OM.csh $1 $2
 if($status) exit 1
 
-$PP_SCRIPTS/PET/Compute_GI.csh $1 $2
+$PP_SCRIPTS/PET/Compute_OEF_CMRO2.csh $1 $2
 if($status) exit 1
 
-$PP_SCRIPTS/PET/Compute_OEF_CMRO2.csh $1 $2
+$PP_SCRIPTS/PET/Compute_GI.csh $1 $2
 if($status) exit 1
 
 $PP_SCRIPTS/PET/Run_gtmseg_recombine.csh $1 $2	#checked

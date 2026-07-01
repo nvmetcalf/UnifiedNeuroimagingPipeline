@@ -28,11 +28,6 @@ pushd PET/Volume
 		exit 0
 	endif
 
-	if(! -e ${target_path}/Masks/${target_patid}_used_voxels_T1${FinalResTrailer}.nii.gz) then
-		echo "Cannot compute OM as it seems freesurfer or compute sued voxel mask did not finish completely."
-		exit 0
-	endif
-
 	echo "Computing OM..."
 	pushd ${ScratchFolder}/${patid}/PET_temp
 		niftigz_4dfp -4 ${SubjectHome}/PET/Volume/${patid}_O2_on_T1${FinalResTrailer}_norm.nii.gz ${cwd}/${patid}_O2_on_T1${FinalResTrailer}_norm
@@ -47,13 +42,19 @@ pushd PET/Volume
 		niftigz_4dfp -4 ${SubjectHome}/Masks/${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz used_voxels
 		if($status) exit 1
 
-		oem_4dfp ${patid}_O2_on_T1${FinalResTrailer}_norm ${patid}_H2O_on_T1${FinalResTrailer}_norm ${patid}_CO_on_T1${FinalResTrailer}_norm used_voxels ${patid}_OM_on_T1${FinalResTrailer} ${patid}_OE_on_T1${FinalResTrailer} -n1 -g0.44
+		#recompute OM, but no smoothing on the CO after applying the coefficient before subtracting the the O2
+		set Coeffs = `trio2oem_4dfp ${patid}_O2_on_T1${FinalResTrailer}_norm ${patid}_H2O_on_T1${FinalResTrailer}_norm ${patid}_CO_on_T1${FinalResTrailer}_norm used_voxels OM_temp OE_temp -u | gawk '$1=="m1" {print $NF; getline; print $NF}'`
+		ftouch OM_CMRO2_OEF_Coeffs.csv
+		
+		echo "M1,$Coeffs[1]" >> OM_CMRO2_OEF_Coeffs.csv
+		echo "M2,$Coeffs[2]" >> OM_CMRO2_OEF_Coeffs.csv
+		
+		oem_4dfp ${patid}_O2_on_T1${FinalResTrailer}_norm ${patid}_H2O_on_T1${FinalResTrailer}_norm ${patid}_CO_on_T1${FinalResTrailer}_norm used_voxels ${patid}_OM_on_T1${FinalResTrailer} OE_temp -n1 # -g0.44
 		if ($status) exit 1
-
+				
+		rm *_temp.*
+		
 		niftigz_4dfp -n ${patid}_OM_on_T1${FinalResTrailer} ${patid}_OM_on_T1${FinalResTrailer}
-		if($status) exit 1
-
-		niftigz_4dfp -n ${patid}_OE_on_T1${FinalResTrailer} ${patid}_OE_on_T1${FinalResTrailer}
 		if($status) exit 1
 
 		mv ${patid}_OM_on_T1${FinalResTrailer}.nii.gz ${SubjectHome}/PET/Volume/
