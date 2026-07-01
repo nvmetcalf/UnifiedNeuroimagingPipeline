@@ -94,7 +94,9 @@ if($#GoodScans > 0) then
 		set json = `echo ${DICOM_Dir}/$GoodScans[$i]:r:r".json" | sed 's/\"//g'`
 
 		if(`grep \"EchoNumber\" $json` != "") then
-			echo "data is multiecho"
+			if($IsMultiecho == 0) then
+				echo "data is multiecho"
+			endif
 			set IsMultiecho = 1
 			set BOLD_json = $json
 		endif
@@ -177,6 +179,19 @@ if($#GoodScans > 0) then
 	endif
 
 	echo "BOLD Scans: "$GoodScans
+
+	#now that we have written out the GoodScans, replace it with the first scan of each multiecho set if we are using multi echo data.
+	if($?ME_ScanSets) then
+		set EchoExemplars = ()
+		foreach ME_Set($ME_ScanSets)
+			set SetIndices = (`echo $ME_Set | sed  's/,/ /g'`)
+			set ExemplarIndex = $SetIndices[1]
+			set EchoExemplars = ($EchoExemplars $GoodScans[$ExemplarIndex])
+		end
+		echo "Data is multiecho, using the following scans as each echo's exemplar: "
+		echo "$EchoExemplars"
+		set GoodScans = ($EchoExemplars)
+	endif
 
 	##################
 	# fcMRI parameters
