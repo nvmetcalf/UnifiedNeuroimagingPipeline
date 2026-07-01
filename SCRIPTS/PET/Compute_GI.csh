@@ -28,11 +28,6 @@ pushd PET/Volume
 		exit 0
 	endif
 
-	if(! -e ${target_path}/Masks/${target_patid}_used_voxels_T1${FinalResTrailer}.nii.gz) then
-		echo "Cannot compute OM as it seems freesurfer or compute sued voxel mask did not finish completely."
-		exit 0
-	endif
-
 	echo "Computing GI..."
 
 	pushd ${ScratchFolder}/${patid}/PET_temp
@@ -45,9 +40,14 @@ pushd PET/Volume
 		niftigz_4dfp -4 ${target_path}/Masks/${target_patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz ${cwd}/used_voxels
 		if($status) exit 1
 
-		gi_4dfp ${patid}_OM_on_T1${FinalResTrailer} ${patid}_FDG_on_T1${FinalResTrailer}_norm used_voxels ${patid}_GI_on_T1${FinalResTrailer} -n1 -g0.44
-		if ($status) exit 1
+		#compute GI without smoothing and CMRO2 as imput instead of OM
+		
+# 		gi_4dfp ${patid}_CMRO2_on_T1${FinalResTrailer} ${patid}_FDG_on_T1${FinalResTrailer}_norm used_voxels ${patid}_GI_on_T1${FinalResTrailer}_sm -n1 -g0.44
+# 		if ($status) exit 1
 
+		gi_4dfp ${patid}_CMRO2_on_T1${FinalResTrailer} ${patid}_FDG_on_T1${FinalResTrailer}_norm used_voxels ${patid}_GI_on_T1${FinalResTrailer} -n1
+		if ($status) exit 1
+		
 		#maybe do FDG - (CMRO2/6). FDG needs to be converted to CMRglu... which we can't do...
 		
 		niftigz_4dfp -n ${patid}_GI_on_T1${FinalResTrailer} ${SubjectHome}/PET/Volume/${patid}_GI_on_T1${FinalResTrailer}
