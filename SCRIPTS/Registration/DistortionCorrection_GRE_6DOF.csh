@@ -59,7 +59,7 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 
 		cd FieldMap_Mag
 
-			$FSLBIN/fslmerge -t fieldmap_mag.nii.gz ${SubjectHome}/dicom/$fm[1] ${SubjectHome}/dicom/$fm[2]
+			fslmerge -t fieldmap_mag.nii.gz ${SubjectHome}/dicom/$fm[1] ${SubjectHome}/dicom/$fm[2]
 			if($status) exit 1
 		cd ..
 
@@ -211,6 +211,16 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 				echo "SCRIPT: $0 : 00005 : 	Error: Registration from $FM_Suffix $direction to $Reg_Target and $Reg_Target to $FM_Suffix $direction has a displacement of "$Displacement
 				exit 1
 			endif
+		endif
+		
+		if($direction == "-y") then
+			set fugue_dir = "y-"
+		else if($direction == "y") then
+			set fugue_dir = "y"
+		else if($direction == "-x") then
+			set fugue_dir = "x-"
+		else if($direction == "x") then
+			set fugue_dir = "x"
 		endif
 
 		convertwarp -r ${Target_Path}/${Reg_Target}/${patid}_${Reg_Target} -o ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz -s ${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} -d $fugue_dir --postmat=${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat

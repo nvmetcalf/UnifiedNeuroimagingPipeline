@@ -232,7 +232,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 					if($status) exit 1
 
 					if($MaximumRegDisplacement == 0) then
-						set MaximumRegDisplacement = `fslinfo ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} | grep pixdim | awk '{print $2 * 1.25}' | sort -u | tail -1`
+						set MaximumRegDisplacement = `fslinfo ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} | grep pixdim | awk '{print $2 * 1.5}' | sort -u | tail -1`
 					endif
 
 					#see if we want to check how far a voxel displaces
