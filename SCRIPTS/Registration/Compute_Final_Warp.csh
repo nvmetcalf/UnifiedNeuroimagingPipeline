@@ -33,9 +33,9 @@ endif
 if($target == "") then
 	if($Reg_Target == ${FM_Suffix}_ref) then
 		set AtlasName = ${FM_Suffix}_ref
-		set target_image = ${Target_Path}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${AtlasName}
+		set target_image = ${Target_Path}/Anatomical/Volume/${FM_Suffix}_ref/${Target_Patid}_${AtlasName}
 	else
-		set AtlasName = ${patid}_T1
+		set AtlasName = ${Target_Patid}_T1
 		set target_image = ${Target_Path}/Anatomical/Volume/T1/${AtlasName}
 	endif
 else

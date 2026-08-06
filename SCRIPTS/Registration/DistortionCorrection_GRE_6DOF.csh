@@ -42,7 +42,7 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 
 	#use measured field maps
 
-	if(! $?day1_path || ! $?day1_patid) then
+	
 		rm -rf unwarp
 		if($status) then
 			echo "SCRIPT: $0 : 00003 : Could not create unwarp folder."
@@ -77,13 +77,12 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 		fsl_prepare_fieldmap SIEMENS FieldMap_Phase/fieldmap_phase.nii.gz fmap_mag_brain.nii.gz fmap_rads.nii.gz $delta
 		if($status) exit 1
 
+	if(! $?day1_path) then
 		set Target_Path = ${SubjectHome}/Anatomical/Volume
 		set Target_Patid = ${patid}
 	else
 		set Target_Path = ${day1_path}/Anatomical/Volume
 		set Target_Patid = $day1_path:t
-
-		ln -s ${Target_Path}/FieldMapping_${FM_Suffix}/FieldMap_Mag/fmap_mag_brain.nii.gz .
 	endif
 
 	set peds = (`echo $ped | tr " " "\n" | sort | uniq`)
@@ -170,7 +169,7 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 	rm Ref_STACK.*
 
 	foreach direction($peds)
-		flirt -in ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp -ref ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target} -out ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_to_${patid}_${Reg_Target} -omat ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat -dof 6 -cost $CostFunction -searchcost $CostFunction
+		flirt -in ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp -ref ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} -out ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_to_${patid}_${Reg_Target} -omat ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat -dof 6 -cost $CostFunction -searchcost $CostFunction
 		if($status) exit 1
 
 		#see if we want to check how far a voxel displaces
@@ -180,14 +179,14 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 
 		unset try_masking
 
-		flirt -in ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target} -ref ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp -omat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat -dof 6 -cost $CostFunction -searchcost $CostFunction
+		flirt -in ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} -ref ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp -omat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat -dof 6 -cost $CostFunction -searchcost $CostFunction
 		if($status) exit 1
 
-		set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat 0 50 0`
+		set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat 0 50 0`
 
 		decho "2 way registration displacement: $Displacement" registration_displacement.txt
 
-		if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat 0 50 0 $MaximumRegDisplacement`) then
+		if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat 0 50 0 $MaximumRegDisplacement`) then
 			decho "	Error: Registration from $FM_Suffix $direction to $Reg_Target and $Reg_Target to $FM_Suffix $direction has a displacement of "$Displacement
 			set try_masking = 1
 		endif
@@ -197,17 +196,17 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 			bet ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_brain -f 0.3
 			if($status) exit 1
 
-			flirt -in ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_brain -ref ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_brain -out ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_to_${patid}_${Reg_Target} -omat ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat -dof 6
+			flirt -in ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_brain -ref ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target}_brain -out ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_to_${patid}_${Reg_Target} -omat ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat -dof 6
 			if($status) exit 1
 
-			flirt -in ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_brain -ref ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_brain -omat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat -dof 6 #-cost mutualinfo
+			flirt -in ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target}_brain -ref ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_brain -omat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat -dof 6 #-cost mutualinfo
 			if($status) exit 1
 
-			set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_brain ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_brain ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat 0 50 0`
+			set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_brain ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target}_brain ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat 0 50 0`
 
 			decho "2 way registration displacement: $Displacement" registration_displacement.txt
 
-			if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_brain ${SubjectHome}/Anatomical/Volume/${Reg_Target}/${patid}_${Reg_Target}_brain ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat 0 50 0 $MaximumRegDisplacement`) then
+			if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_brain ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target}_brain ${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_distorted_${direction}_rev.mat 0 50 0 $MaximumRegDisplacement`) then
 				echo "SCRIPT: $0 : 00005 : 	Error: Registration from $FM_Suffix $direction to $Reg_Target and $Reg_Target to $FM_Suffix $direction has a displacement of "$Displacement
 				exit 1
 			endif
@@ -223,10 +222,10 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 			set fugue_dir = "x"
 		endif
 
-		convertwarp -r ${Target_Path}/${Reg_Target}/${patid}_${Reg_Target} -o ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz -s ${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} -d $fugue_dir --postmat=${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat
+		convertwarp -r ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} -o ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz -s ${patid}_${FM_Suffix}_ref_distorted_shiftmap_${direction} -d $fugue_dir --postmat=${patid}_${FM_Suffix}_ref_distorted_${direction}_to_${patid}_${Reg_Target}.mat
 		if($status) exit 1
 
-		applywarp -r ${Target_Path}/${Reg_Target}/${patid}_${Reg_Target} -i ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -w ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz -o ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_to_${patid}_${Reg_Target}
+		applywarp -r ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} -i ${SubjectHome}/Anatomical/Volume/${FM_Suffix}_ref/${patid}_${FM_Suffix}_ref_distorted_${direction} -w ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz -o ${patid}_${FM_Suffix}_ref_distorted_${direction}_uwrp_to_${patid}_${Reg_Target}
 		if($status) exit 1
 
 	end
