@@ -21,6 +21,13 @@ endif
 
 set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 
+set FormatOption = ""
+if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then
+	set FormatOption = "-f`cat $format`"
+else
+	set FormatOption = "-F$format"
+endif
+
 ############################################
 # make movement regressors for each BOLD run
 ############################################
@@ -57,7 +64,7 @@ pushd Functional/Movement
 	conc_4dfp ${patid}_upck_faln_dbnd_xr3d_dat -lmovement_reg_images.lst -w
 	if($status) exit 1
 
-	bandpass_4dfp ${patid}_upck_faln_dbnd_xr3d_dat.conc $BOLD_TR -bh${HighFrequency} -oh2 -bl${LowFrequency} ol2 -EM -F$format
+	bandpass_4dfp ${patid}_upck_faln_dbnd_xr3d_dat.conc $BOLD_TR -bh${HighFrequency} -oh2 -bl${LowFrequency} ol2 -EM $FormatOption
 	if($status) exit 1
 
 	4dfptoascii   ${patid}_upck_faln_dbnd_xr3d_dat.conc    $regr_output

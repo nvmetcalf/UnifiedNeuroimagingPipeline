@@ -43,24 +43,23 @@ if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz
 	decho "WARNING: Disabling DVAR threshold as denoised timeseries does not exist!"
 endif
 
-if($DVAR_Threshold != 0 && $FD_Threshold == 0) then
-	set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_dvar.format
-else if($DVAR_Threshold == 0 && $FD_Threshold != 0) then
-	set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_fd.format
-else if($DVAR_Threshold != 0 && $FD_Threshold != 0) then
-	set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_uout_bpss_resid_dvar_fd.format
-else
-	decho "Unknown combination of format criteria. Iterative rsfMRI processing not possible." ${DebugFile}
-	exit 1
-endif
+set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 
 pushd Functional/Volume
 
 	#########################
 	# make timeseries zero mean
 	#########################
-	var_4dfp -F$format -m $conc
-	if ($status) exit $status
+	
+	set FormatOption = ""
+	if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then
+		set FormatOption = "-f`cat $format`"
+	else
+		set FormatOption = "-F$format"
+	endif
+	
+	var_4dfp $FormatOption -m $conc
+	if ($status) exit 1
 
 	conc2nifti ${concroot}_uout.conc
 	if($status) exit 1
@@ -77,7 +76,7 @@ pushd Functional/Volume
 	##########################
 	COMPUTE_DEFINED:
 	pushd $ScratchFolder/${patid}/BOLD_temp/
-		compute_defined_4dfp -F$format ${concroot}.conc
+		compute_defined_4dfp $FormatOption ${concroot}.conc
 		if ($status) exit $status
 	popd
 
@@ -119,7 +118,7 @@ pushd Functional/Volume
 	#####################
 	# compute initial sd1
 	#####################
-	var_4dfp -s -F$format ${concroot}_uout.conc
+	var_4dfp -s $FormatOption ${concroot}_uout.conc
 	if($status) exit 1
 
 	ifh2hdr -r20 ${concroot}_uout_sd1

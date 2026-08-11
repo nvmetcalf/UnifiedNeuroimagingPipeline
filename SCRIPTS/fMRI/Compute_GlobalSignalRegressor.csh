@@ -27,7 +27,13 @@ endif
 
 set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 
-
+set FormatOption = ""
+if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then
+	set FormatOption = "-f`cat $format`"
+else
+	set FormatOption = "-F$format"
+endif
+	
 pushd ${SubjectHome}/Functional/Regressors
 	#############################################################
 	# make the whole brain regressor including the 1st derivative
@@ -36,7 +42,7 @@ pushd ${SubjectHome}/Functional/Regressors
 	niftigz_4dfp -n ${SubjectHome}/Masks/FreesurferMasks/${patid}_WholeBrain_mask ${SubjectHome}/Functional/Regressors/${patid}_WholeBrain_mask
 	if($status) exit 1
 
-	qnt_4dfp -s -d -F$format ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_WholeBrain_mask \
+	qnt_4dfp -s -d $FormatOption ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_WholeBrain_mask \
 		| awk '$1!~/#/{printf("%10.4f%10.4f\n", $2, $3)}' >! ${patid}_WholeBrain_regressor_dt.dat
 	@ n = `wc ${patid}_WholeBrain_regressor_dt.dat | awk '{print $1}'`
 	if ($n != $nframe) then

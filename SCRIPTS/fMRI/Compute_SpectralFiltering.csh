@@ -26,13 +26,20 @@ endif
 
 set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 
+set FormatOption = ""
+if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then
+	set FormatOption = "-f`cat $format`"
+else
+	set FormatOption = "-F$format"
+endif
+
 pushd $ScratchFolder/${patid}/BOLD_temp
 	decho "		Performing temporal bandpass filtering..." $DebugFile
 
 	if($LowFrequency == 0) then
-		bandpass_4dfp ${concroot}_uout.conc $BOLD_TR -bh${HighFrequency} -oh2 -EM -F$format
+		bandpass_4dfp ${concroot}_uout.conc $BOLD_TR -bh${HighFrequency} -oh2 -EM ${FormatOption}
 	else
-		bandpass_4dfp ${concroot}_uout.conc $BOLD_TR -bl${LowFrequency} -ol2 -bh${HighFrequency} -oh2 -EM -F$format
+		bandpass_4dfp ${concroot}_uout.conc $BOLD_TR -bl${LowFrequency} -ol2 -bh${HighFrequency} -oh2 -EM ${FormatOption}
 	endif
 	#bandpass_4dfp ${concroot}_uout_resid.conc $BOLD_TR -bh.1 -oh2 -EB -f$format
 	#set High_Sigma = `echo $HighFrequency $BOLD_TR | awk '{print((1/$1)/$2)}'`

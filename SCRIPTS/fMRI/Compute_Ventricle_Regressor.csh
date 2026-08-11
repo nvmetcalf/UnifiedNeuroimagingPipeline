@@ -55,6 +55,12 @@ endif
 
 set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 
+set FormatOption = ""
+if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then
+	set FormatOption = "-f`cat $format`"
+else
+	set FormatOption = "-F$format"
+endif
 
 ###########################
 # make ventricle regressors
@@ -81,7 +87,7 @@ popd
 
 pushd ${SubjectHome}/Functional/Regressors
 	@ n = `echo $CSF_lcube | awk '{print int($1^3/2)}'`	# minimum cube defined voxel count is 1/2 total
-	qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Functional/Regressors/${patid}_Ventricle_mask -F$format -l$CSF_lcube -t$CSF_svdt -n$n -D -O4 -o${patid}_Ventricle_regressors.dat
+	qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Functional/Regressors/${patid}_Ventricle_mask $FormatOption -l$CSF_lcube -t$CSF_svdt -n$n -D -O4 -o${patid}_Ventricle_regressors.dat
 	if ($status) then
 
 		#fall back on the atlas segmentation if possible
@@ -103,7 +109,7 @@ pushd ${SubjectHome}/Functional/Regressors
 				exit 1
 			endif
 
-			qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_Ventricle_mask -F$format -l$CSF_lcube -t$CSF_svdt -n1 -D -O4 -o${patid}_Ventricle_regressors.dat
+			qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_Ventricle_mask $FormatOption -l$CSF_lcube -t$CSF_svdt -n1 -D -O4 -o${patid}_Ventricle_regressors.dat
 			if($status != 0) then #still no dice...somehow... yes, that is a pun
 				decho "unable to compute ventricle regressors using atlas segmentation" $DebugFile
 				exit 1

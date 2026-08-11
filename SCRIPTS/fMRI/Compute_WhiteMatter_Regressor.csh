@@ -55,6 +55,13 @@ endif
 
 set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 
+set FormatOption = ""
+if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then
+	set FormatOption = "-f`cat $format`"
+else
+	set FormatOption = "-F$format"
+endif
+
 ####################
 # make WhiteMatter regressors
 ####################
@@ -79,7 +86,7 @@ popd
 
 pushd ${SubjectHome}/Functional/Regressors
 	@ n = `echo $WM_lcube | awk '{print int($1^3/2)}'`
-	qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Functional/Regressors/${patid}_WhiteMatter_mask -F$format -l$WM_lcube -t$WM_svdt -n$n -O4 -D -o${patid}_WhiteMatter_regressors.dat
+	qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Functional/Regressors/${patid}_WhiteMatter_mask $FormatOption -l$WM_lcube -t$WM_svdt -n$n -O4 -D -o${patid}_WhiteMatter_regressors.dat
 
 	@ n = `wc ${patid}_WhiteMatter_regressors.dat | awk '{print $1}'`
 

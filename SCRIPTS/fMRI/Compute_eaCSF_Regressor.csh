@@ -41,6 +41,12 @@ endif
 
 set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 
+set FormatOption = ""
+if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then
+	set FormatOption = "-f`cat $format`"
+else
+	set FormatOption = "-F$format"
+endif
 
 if($NonLinear) then
 	set mask_trailer = "_fnirt"
@@ -61,11 +67,11 @@ pushd ${SubjectHome}/Masks/FreesurferMasks
 	if($status) exit
 
 	#make a brain compliment so we don't accidentally include brain in the skull image
-	fslmaths ${SubjectHome}/Masks/${patid}_used_voxels${mask_trailer}_${FinalResTrailer} -mul -1 -add 1 brain_comp
+	fslmaths ${SubjectHome}/Masks/${patid}_used_voxels${mask_trailer}_${FinalResTrailer} -bin -mul -1 -add 1 brain_comp
 	if($status) exit 1
 
 	#dilate the skull, remove the brain, make a compliment so we can remove only known skull
-	fslmaths ${patid}_T1${mask_trailer}_${FinalResTrailer}_skull -dilD -mul brain_comp -mul -1 -add 1 skull_comp
+	fslmaths ${patid}_T1${mask_trailer}_${FinalResTrailer}_skull -dilD -mul brain_comp -mul -1 -add 1 -bin skull_comp
 	if($status) exit 1
 
 	#make the outside of brain without eyes mask
@@ -74,13 +80,19 @@ pushd ${SubjectHome}/Masks/FreesurferMasks
 		if($status) exit 1
 	else
 		#we are using native space, so need to make a version of the eyes mask in this persons space.
-		flirt -in $PIPELINE_HOME/ATLAS/MNI152/MNI152_T1_1mm_${FinalResTrailer}.nii.gz -ref $SubjectHome/Anatomical/Volume/T1/${patid}_T1_${FinalResTrailer} -omat eyes_to_T1.mat
+		flirt -in $SubjectHome/Anatomical/Volume/T1/${patid}_T1_${FinalResTrailer} -ref $PIPELINE_HOME/ATLAS/MNI152/MNI152_T1_1mm_${FinalResTrailer}.nii.gz -omat T1_to_eyes.mat -out T1_to_eyes.nii.gz
 		if($status) exit 1
 
-		flirt -in $PP_SCRIPTS/Masks/eyes_${FinalResTrailer}z -ref $SubjectHome/Anatomical/Volume/T1/${patid}_T1_${FinalResTrailer} -out eyes_${FinalResTrailer}z -interp nearestneighbour -applyxfm -init eyes_to_T1.mat
+		convert_xfm -omat eyes_to_T1.mat -inverse T1_to_eyes.mat
+		if($status) exit 1
+		
+		flirt -in $PP_SCRIPTS/Masks/eyes_${FinalResTrailer}z -ref $SubjectHome/Anatomical/Volume/T1/${patid}_T1_${FinalResTrailer} -out eyes_${FinalResTrailer}z -interp nearestneighbour -init eyes_to_T1.mat -applyxfm 
 		if($status) exit 1
 
-		fslmaths ${SubjectHome}/Masks/${patid}_used_voxels${mask_trailer}_${FinalResTrailer} -dilD -bin -mul "-1" -add 1 -mul eyes_${FinalResTrailer}z -mul ${concroot}_dfnd -mul skull_comp ${SubjectHome}/Functional/Regressors/${patid}_eaCSF_region
+		fslmaths eyes_${FinalResTrailer}z -bin eyes_${FinalResTrailer}z 
+		if($status) exit 1
+		
+		fslmaths ${SubjectHome}/Masks/${patid}_used_voxels${mask_trailer}_${FinalResTrailer} -bin -dilD -mul -1 -add 1 -mul eyes_${FinalResTrailer}z -mul ${concroot}_dfnd -mul skull_comp ${SubjectHome}/Functional/Regressors/${patid}_eaCSF_region
 		if($status) exit 1
 	endif
 
@@ -98,7 +110,7 @@ pushd ${SubjectHome}/Masks/FreesurferMasks
  	echo ""
  	echo "==========="
 
-	fslmaths ${concroot}_uout_bpss_sd -nan -thr $CSF_thr -bin -fillh26 -mul ${SubjectHome}/Functional/Regressors/${patid}_eaCSF_region ${SubjectHome}/Functional/Regressors/${patid}_eaCSF_mask
+	fslmaths ${concroot}_uout_bpss_sd -nan -thr $CSF_thr -bin -fillh26 -mul ${SubjectHome}/Functional/Regressors/${patid}_eaCSF_region -ero ${SubjectHome}/Functional/Regressors/${patid}_eaCSF_mask
 	if($status) exit 1
 
 	niftigz_4dfp -4 ${SubjectHome}/Functional/Regressors/${patid}_eaCSF_mask ${patid}_eaCSF_mask
@@ -108,11 +120,11 @@ popd
 pushd ${SubjectHome}/Functional/Regressors
 	# compute extra-axial CSF mask
 	@ n = `echo $CSF_lcube | awk '{print int($1^3/2)}'`	# minimum cube defined voxel count is 1/2 total
-	qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_eaCSF_mask -F$format -l$CSF_lcube -t$CSF_svdt -n1 -D -O4 -o${patid}_EACSF_regressors.dat
+	qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_eaCSF_mask $FormatOption -l$CSF_lcube -t$CSF_svdt -n1 -D -O4 -o${patid}_EACSF_regressors.dat
 	if ($status == 254) then
 
 		decho "computing CSF regressors with minimum ROI size 1" $DebugFile
-		qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_eaCSF_mask -F$format -l$CSF_lcube -t$CSF_svdt -n1  -D -O4 -o${patid}_eaCSF_regressors.dat
+		qntv_4dfp ${concroot}_uout_bpss.conc ${SubjectHome}/Masks/FreesurferMasks/${patid}_eaCSF_mask $FormatOption -l$CSF_lcube -t$CSF_svdt -n1  -D -O4 -o${patid}_eaCSF_regressors.dat
 		if ($status) then
 			echo "No extra axial CSF regressors identified."
 			exit 1
