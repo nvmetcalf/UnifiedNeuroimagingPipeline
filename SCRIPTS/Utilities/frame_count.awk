@@ -4,8 +4,8 @@ BEGIN {
 }
 
 {
-	if($0 == "x") FramesRemoved +=1;
-	if($0 == "+") FramesKept +=1;
+	if($0 == "0") FramesRemoved +=1;
+	if($0 == "1") FramesKept +=1;
 }
 
 END {
