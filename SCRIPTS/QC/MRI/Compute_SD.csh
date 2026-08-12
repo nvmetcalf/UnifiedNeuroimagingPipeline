@@ -12,11 +12,11 @@ set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
 if($target == "") then
 	set AtlasName = T1
 else
-	set Atlasname = $target:t
+	set AtlasName = $target:t
 endif
 
 if($NonLinear) then
-	set reg_trailer = "${reg_trailer}"
+	set reg_trailer = "_fnirt"
 else
 	set reg_trailer = ""
 endif
@@ -74,14 +74,14 @@ pushd QC
 	niftigz_4dfp -4 ${SubjectHome}/Functional/Volume/${patid}_upck_faln_dbnd_xr3d_dc_atl $ScratchFolder/${patid}/BOLD_temp/${patid}_upck_faln_dbnd_xr3d_dc_atl
 	if($status) exit 1
 	
-	var_4dfp -sf`cat ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_upck_faln_dbnd_xr3d_dc_atl
+	var_4dfp -sf`cat ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_combined.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_upck_faln_dbnd_xr3d_dc_atl
 	niftigz_4dfp -n $ScratchFolder/${patid}/BOLD_temp/${patid}_upck_faln_dbnd_xr3d_dc_atl_sd1 ${patid}_pre-denoising_SD
 	if($status) exit 1
 	
 	niftigz_4dfp -4 ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss.nii.gz $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss
 	if($status) exit 1
 	
-	var_4dfp -sf`cat ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss
+	var_4dfp -sf`cat ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_combined.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss
 	if($status) exit 1
 	
 	niftigz_4dfp -n $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_sd1 ${patid}_post-bpss_SD
@@ -90,7 +90,7 @@ pushd QC
 	niftigz_4dfp -4 ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_${Residual_Trailer}.nii.gz $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_${Residual_Trailer}
 	if($status) exit 1
 	
-	var_4dfp -sf`cat ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_${Residual_Trailer}
+	var_4dfp -sf`cat ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_combined.format` $ScratchFolder/${patid}/BOLD_temp/${patid}_rsfMRI_uout_bpss_${Residual_Trailer}
 	if($status) exit 1
 	
 	echo $cwd

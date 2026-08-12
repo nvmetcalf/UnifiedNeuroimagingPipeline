@@ -7,7 +7,7 @@ set SubjectHome = $cwd
 if($target == "") then
 	set AtlasName = T1
 else
-	set Atlasname = $target:t
+	set AtlasName = $target:t
 endif
 #generate TSNR map for the BOLD
 pushd ${SubjectHome}/QC

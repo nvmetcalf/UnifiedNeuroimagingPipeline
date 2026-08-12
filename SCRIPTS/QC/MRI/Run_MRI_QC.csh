@@ -13,8 +13,8 @@ if($status) exit 1
 $PP_SCRIPTS/QC/MRI/Compute_tSNR.csh $1 $2
 if($status) exit 1
 
-$PP_SCRIPTS/QC/MRI/Create_GrayPlots.csh $1 $2
-if($status) exit 1
+#$PP_SCRIPTS/QC/MRI/Create_GrayPlots.csh $1 $2
+#if($status) exit 1
 
 $PP_SCRIPTS/QC/MRI/Compute_Surface_Homotopic_Lag.csh $1 $2
 if($status) exit 1
