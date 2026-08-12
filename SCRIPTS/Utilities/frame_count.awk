@@ -9,5 +9,5 @@ BEGIN {
 }
 
 END {
-	printf("%i\t%i\t%3.0f\t%i\n",RunIndex,FramesRemoved,FramesKept,(FramesKept/(FramesKept+FramesRemoved)) * 100,FramesKept*TR);	
+	printf("%i\t%i\t%3.0f\t%i\t%i\n",RunIndex,FramesRemoved,FramesKept,(FramesKept/(FramesKept+FramesRemoved)) * 100,FramesKept*TR);	
 }
