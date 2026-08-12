@@ -39,7 +39,7 @@ if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz
 	decho "WARNING: Disabling DVAR threshold as denoised timeseries does not exist!"
 endif
 
-set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
+set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_combined.format
 
 set FormatOption = ""
 if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then

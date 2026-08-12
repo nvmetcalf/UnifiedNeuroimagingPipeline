@@ -19,14 +19,7 @@ if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz
 	decho "WARNING: Disabling DVAR threshold as denoised timeseries does not exist!"
 endif
 
-set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
-
-set FormatOption = ""
-if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then
-	set FormatOption = "-f`cat $format`"
-else
-	set FormatOption = "-F$format"
-endif
+set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_combined.format
 
 ############################################
 # make movement regressors for each BOLD run
@@ -44,16 +37,16 @@ pushd Functional/Movement
 
 	while ($k <= $#FCProcIndex)
 		set xr3d_mat = ""
-		if($?ME_ScanSets) then
+		#if($?ME_ScanSets) then
 
-			set Set_Indices = (`echo $ME_ScanSets[${FCProcIndex[$k]}] | sed -e 's/,/ /g'`)
-			echo $Set_Indices
+		#	set Set_Indices = (`echo $ME_ScanSets[${FCProcIndex[$k]}] | sed -e 's/,/ /g'`)
+		#	echo $Set_Indices
 
-			set xr3d_mat = bold$Set_Indices[$RegisterEcho]_upck_faln_dbnd_xr3d
+		#	set xr3d_mat = bold$Set_Indices[$RegisterEcho]_upck_faln_dbnd_xr3d
 
-		else
+		#else
 			set xr3d_mat = bold${FCProcIndex[$k]}_upck_faln_dbnd_xr3d
-		endif
+		#endif
 
 		set file = ${xr3d_mat}_dat
 		echo $file >> movement_reg_images.lst
@@ -64,7 +57,7 @@ pushd Functional/Movement
 	conc_4dfp ${patid}_upck_faln_dbnd_xr3d_dat -lmovement_reg_images.lst -w
 	if($status) exit 1
 
-	bandpass_4dfp ${patid}_upck_faln_dbnd_xr3d_dat.conc $BOLD_TR -bh${HighFrequency} -oh2 -bl${LowFrequency} ol2 -EM $FormatOption
+	bandpass_4dfp ${patid}_upck_faln_dbnd_xr3d_dat.conc $BOLD_TR -bh${HighFrequency} -oh2 -bl${LowFrequency} ol2 -EM -F$format
 	if($status) exit 1
 
 	4dfptoascii   ${patid}_upck_faln_dbnd_xr3d_dat.conc    $regr_output
