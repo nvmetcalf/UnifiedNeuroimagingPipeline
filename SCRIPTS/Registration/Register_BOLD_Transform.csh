@@ -85,34 +85,34 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 		endif
 	end
 
-	if($day1_patid != "" || $day1_path != "") then
-		#do cross day registration by registering to the first sessions BOLD reference
-
-		rm -r ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD
-		mkdir -p ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD
-
-		foreach direction($peds)
-			set BOLD_Target = $day1_path/Anatomical/Volume/BOLD_ref/${day1_patid}_BOLD_ref_distorted_${direction}
-
-			flirt -in ${patid}_BOLD_ref_distorted_${ped}.nii.gz -ref $BOLD_Target -out ${patid}_BOLD_ref_distorted_${ped}_to_${day1_patid}_BOLD_ref_distorted_${direction} -dof 6 -interp spline -omat ${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat
-			if($status) exit 1
-
-			if($target != "") then
-				convertwarp -r ${target}${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
-				if($status) exit 1
-			else
-				convertwarp -r ${RegTarget}${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
-				if($status) exit 1
-			endif
-
-		end
+# 	if($day1_patid != "" || $day1_path != "") then
+# 		#do cross day registration by registering to the first sessions BOLD reference
+# 
+# 		rm -r ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD
+# 		mkdir -p ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD
+# 
+# 		foreach direction($peds)
+# 			set BOLD_Target = $day1_path/Anatomical/Volume/BOLD_ref/${day1_patid}_BOLD_ref_distorted_${direction}
+# 
+# 			flirt -in ${patid}_BOLD_ref_distorted_${ped}.nii.gz -ref $BOLD_Target -out ${patid}_BOLD_ref_distorted_${ped}_to_${day1_patid}_BOLD_ref_distorted_${direction} -dof 6 -interp spline -omat ${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat
+# 			if($status) exit 1
+# 
+# 			if($target != "") then
+# 				convertwarp -r ${target}${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+# 				if($status) exit 1
+# 			else
+# 				convertwarp -r ${RegTarget}${FinalResTrailer} --premat=${patid}_BOLD_ref_distorted_to_${day1_patid}_BOLD_ref_distorted_${direction}.mat -w ${day1_path}/Anatomical/Volume/FieldMapping_BOLD/${day1_patid}_BOLD_ref_${direction}_to_${AtlasName}_warp -o ${SubjectHome}/Anatomical/Volume/FieldMapping_BOLD/${patid}_BOLD_ref_${direction}_to_${AtlasName}_warp
+# 				if($status) exit 1
+# 			endif
+# 
+# 		end
 #
 # 		if(`ls ${day1_path}/Anatomical/Volume/T1/*fnirt*` != "") then
 # 			set out_trailer = "_fnirt"
 # 		else
 # 			set out_trailer = ""
 # 		endif
-	else
+#	else
 		#this is a first session or a single session
 		pushd $SubjectHome
 			$PP_SCRIPTS/Registration/ComputeDistortionCorrection.csh $1 $2 -fm_suffix "BOLD" -dwell  "$BOLD_dwell" -ped "$BOLD_ped" -fm "$BOLD_fm" -fm_method "$BOLD_FieldMapping" -target "$BOLD_Reg_Target" -delta $BOLD_delta -images "$BOLD" -reg_method $BOLD_CostFunction -final_res $BOLD_FinalResolution
@@ -121,7 +121,7 @@ pushd ${SubjectHome}/Anatomical/Volume/BOLD_ref
 				exit 1
 			endif
 		popd
-	endif
+#	endif
 
 # 	set dirs_to_merge = ()
  	#create a test of the BOLD_ref warp for QC

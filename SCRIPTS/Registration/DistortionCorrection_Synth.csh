@@ -122,11 +122,11 @@ pushd ${SubjectHome}/Anatomical/Volume/FieldMapping_${FM_Suffix}
 				set MaximumRegDisplacement = `fslinfo ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target}.nii.gz | grep pixdim | awk '{print $2 * 1.25}' | sort -u | tail -1`
 			endif
 
-			set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh $anat ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat 0 50 0`
+			set Displacement = `$PP_SCRIPTS/Utilities/IsRegStable.csh $anat ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat 25 50 0`
 
  			decho "2 way registration displacement: $Displacement" registration_displacement.txt
 
- 			if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh $anat ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat 0 50 0 $MaximumRegDisplacement`) then
+ 			if(! `$PP_SCRIPTS/Utilities/IsRegStable.csh $anat ${Target_Path}/${Reg_Target}/${Target_Patid}_${Reg_Target} ${patid}_${FM_Suffix}_ref_unwarped_${direction}_warp.nii.gz ${Target_Patid}_${Reg_Target}_to_${patid}_${FM_Suffix}_ref_unwarped_${direction}_rev.mat 25 50 0 $MaximumRegDisplacement`) then
  				decho "	Error: Registration from $FM_Suffix $direction to $Reg_Target and $Reg_Target to $FM_Suffix $direction has a displacement of "$Displacement
  				exit 1
  			endif
