@@ -22,7 +22,7 @@ set SubjectHome = $cwd
 
 set AtlasName = $target:t
 
-if (! ${?interleave}) set interleave = ""
+if (! $?interleave) set interleave = ""
 if(! $?RunNORDIC) set RunNORDIC = 0
 
 if($?BOLD_MB_Factor) then
@@ -96,7 +96,7 @@ pushd $ScratchFolder/${patid}
 
 	#if we are using multi-echo data, use the multi echo array instead of RunIndex
 
-	if($?ME_ScanSets) then
+	if($#ME_ScanSets > 0) then
 		echo "Data is multiecho, using the multiecho set list for NORDIC."
 		set InitialBOLDs = (`echo $ME_ScanSets | sed 's/,/ /g'`)
 	else
@@ -171,7 +171,7 @@ pushd $ScratchFolder/${patid}
 	end
 
 	#if this is multiecho data, combine them into single runs
-	if($?ME_ScanSets) then
+	if($#ME_ScanSets > 0) then
 
 		mkdir me_scan_sets
 		@ i = 1
