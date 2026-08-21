@@ -23,7 +23,7 @@ if($?day1_path) then
 	set target_id = ${day1_path:t}
 	set target_path = ${day1_path}
 else
-	set target = ${patid}
+	set target_id = ${patid}
 	set target_path = $SubjectHome
 endif
 
@@ -84,3 +84,5 @@ foreach Tracer($TracersKnown)
 	echo "${Tracer},${displacement},${mean_wm_suvr},${mean_gm_suvr},${raw_x_dim},${raw_y_dim},${raw_z_dim},${mean_fd},${PVC_Available}" >> ${SubjectHome}/QC/PET_QC.csv
 	
 end
+
+
