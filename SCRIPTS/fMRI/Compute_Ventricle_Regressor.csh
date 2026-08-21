@@ -18,7 +18,7 @@ set conc	= $concroot.conc
 set SubjectHome = $cwd
 
 if (! ${?day1_patid}) set day1_patid = ""
-if (! ${?day1_path}) set day1_path = ""
+
 
 if($target != "") then
 	set AtlasName = `basename $target`
@@ -26,7 +26,7 @@ else
 	if($day1_path == "") then
 		set AtlasName = ${patid}_T1
 	else
-		set AtlasName = ${day1_patid}_T1
+		set AtlasName = ${day1_patid:t}_T1
 	endif
 endif
 
