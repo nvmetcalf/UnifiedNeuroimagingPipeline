@@ -21,12 +21,6 @@ else
 	set SubjectHome = $cwd
 endif
 
-if($target != "") then
-	set AtlasName = `basename $target`
-else
-	set AtlasName = ${patid}_T1
-endif
-
 if(! $?PET_FinalResolution) then
 	set PET_FinalResolution = 1
 endif
@@ -34,8 +28,6 @@ endif
 set FinalResTrailer = _${PET_FinalResolution}${PET_FinalResolution}${PET_FinalResolution}
 
 if(! $?day1_path) then
-	set day1_path = ""
-	set day1_patid = ""
 	set TargetPatid = $patid
 	set TargetHome = $SubjectHome
 else
@@ -70,7 +62,8 @@ pushd Masks
 		fslmaths ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode} -mul 0 -add 1 ${SubjectHome}/Masks/PET_Masks/${patid}_${mode}_defined_voxels
 		if($status) exit 1
 
-		flirt -in PET_Masks/${patid}_${mode}_defined_voxels -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out PET_Masks/${patid}_${mode}_defined_voxels_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode}_to_${TargetPatid}_T1.mat -applyxfm -setbackground 0 -interp nearestneighbour
+		#this pretends that the current session actually has the anatomical image. It doesn't need to, but the previous registration pretends it too. So for consistency, the transform uses the current session id.
+		flirt -in PET_Masks/${patid}_${mode}_defined_voxels -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out PET_Masks/${patid}_${mode}_defined_voxels_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode}_to_${patid}_T1.mat -applyxfm -setbackground 0 -interp nearestneighbour
 		if($status) exit 1
 
 		fslmaths ${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz -mul PET_Masks/${patid}_${mode}_defined_voxels_to_${TargetPatid}_T1${FinalResTrailer} -bin ${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz

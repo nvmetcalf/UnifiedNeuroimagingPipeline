@@ -143,13 +143,13 @@ pushd $ScratchFolder/$patid/FS_Masks_temp
 		endif
 
 		#DO SOMETHING THAT WILL ALLOW MULTISESSION DATA TO MAKE THEIR OWN MASKS AND MASK BY CURRENT PATHOLOGY
-		if($day1_path == "") then
+#		if($day1_path == "") then
 			$FREESURFER_HOME/bin/mri_convert -it mgz -ot nii $FSdir/mri/aparc+aseg.mgz ${patid}_aparc+aseg.nii
 			if ($status) exit $status
-		else
-			$FREESURFER_HOME/bin/mri_convert -it mgz -ot nii ${day1_path}/Freesurfer/mri/aparc+aseg.mgz ${patid}_aparc+aseg.nii
-			if ($status) exit $status
-		endif
+#		else
+#			$FREESURFER_HOME/bin/mri_convert -it mgz -ot nii ${day1_path}/Freesurfer/mri/aparc+aseg.mgz ${patid}_aparc+aseg.nii
+#			if ($status) exit $status
+#		endif
 
 		#if we are using non-linear registration, apply the warpfield to the aparc+aseg
 		#this will ensure that all masks derived from the aparc+aseg are also non-linearly
