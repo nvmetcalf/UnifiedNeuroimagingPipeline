@@ -5,6 +5,11 @@ source $2
 
 set SubjectHome = $cwd
 
+if(! -e ${SubjectHome}/PET/Volume) then
+	echo "Not PET available."
+	exit 0
+endif
+
 #run the PET QC metrics
 
 #extract the registration displacements
