@@ -22,6 +22,14 @@ set FinalResolution = $BOLD_FinalResolution
 
 set FinalResTrailer = "${FinalResolution}${FinalResolution}${FinalResolution}"
 
+if($?day1_path) then
+	set TargetPath = $day1_path
+	set TargetPatid = $day1_path:t
+else
+	set TargetPath = $SubjectHome
+	set TargetPatid = $patid
+endif
+
 if(! $?CSF_sd1t) then
 	set CSF_sd1t    = 25            # threshold for CSF voxels in sd1 image
 endif
@@ -39,7 +47,7 @@ if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz
 	decho "WARNING: Disabling DVAR threshold as denoised timeseries does not exist!"
 endif
 
-set format = ${SubjectHome}/Functional/TemporalMask/${patid}_rsfMRI_combined.format
+set format = ${SubjectHome}/Functional/TemporalMask/${patid}_upck_faln_dbnd_xr3d_dc_atl_combined.format
 
 set FormatOption = ""
 if(`format2lst $format | wc | awk '{print($1)}'` < `echo $format | wc | awk '{print($3)}'`) then
@@ -63,7 +71,7 @@ pushd ${SubjectHome}/Masks/FreesurferMasks
 	if($status) exit 1
 
 	#compute an approximate skull image to mask from the region.
-	bet ${SubjectHome}/Anatomical/Volume/T1/${patid}_T1${mask_trailer}_${FinalResTrailer} ${patid}_T1${mask_trailer}_${FinalResTrailer} -s -R
+	bet ${TargetPath}/Anatomical/Volume/T1/${TargetPatid}_T1${mask_trailer}_${FinalResTrailer} ${patid}_T1${mask_trailer}_${FinalResTrailer} -s -R
 	if($status) exit
 
 	#make a brain compliment so we don't accidentally include brain in the skull image
@@ -80,13 +88,13 @@ pushd ${SubjectHome}/Masks/FreesurferMasks
 		if($status) exit 1
 	else
 		#we are using native space, so need to make a version of the eyes mask in this persons space.
-		flirt -in $SubjectHome/Anatomical/Volume/T1/${patid}_T1_${FinalResTrailer} -ref $PIPELINE_HOME/ATLAS/MNI152/MNI152_T1_1mm_${FinalResTrailer}.nii.gz -omat T1_to_eyes.mat -out T1_to_eyes.nii.gz
+		flirt -in ${TargetPath}/Anatomical/Volume/T1/${TargetPatid}_T1_${FinalResTrailer} -ref $PIPELINE_HOME/ATLAS/MNI152/MNI152_T1_1mm_${FinalResTrailer}.nii.gz -omat T1_to_eyes.mat -out T1_to_eyes.nii.gz
 		if($status) exit 1
 
 		convert_xfm -omat eyes_to_T1.mat -inverse T1_to_eyes.mat
 		if($status) exit 1
 		
-		flirt -in $PP_SCRIPTS/Masks/eyes_${FinalResTrailer}z -ref $SubjectHome/Anatomical/Volume/T1/${patid}_T1_${FinalResTrailer} -out eyes_${FinalResTrailer}z -interp nearestneighbour -init eyes_to_T1.mat -applyxfm 
+		flirt -in $PP_SCRIPTS/Masks/eyes_${FinalResTrailer}z -ref $TargetPath/Anatomical/Volume/T1/${TargetPatid}_T1_${FinalResTrailer} -out eyes_${FinalResTrailer}z -interp nearestneighbour -init eyes_to_T1.mat -applyxfm 
 		if($status) exit 1
 
 		fslmaths eyes_${FinalResTrailer}z -bin eyes_${FinalResTrailer}z 
