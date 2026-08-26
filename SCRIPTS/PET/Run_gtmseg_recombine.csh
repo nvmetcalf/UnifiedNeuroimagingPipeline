@@ -4,7 +4,7 @@ source $1
 source $2
 
 set SubjectHome = $cwd
-if (! -e ${SubjectHome}/Freesurfer/mri/gtmseg.mgz) then
+if (! -e ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtmseg.mgz) then
 
 	if($?day1_path) then
 		ln -s ${day1_path}/Freesurfer .
@@ -26,28 +26,28 @@ else
 	echo "gtmseg found!"
 endif
 
-if(! -e $SubjectHome/PET/Parcellations) then
-	mkdir -p PET/Parcellations
+if(! -e $SubjectHome/PET/Parcellations/$FreesurferVersionToUse) then
+	mkdir -p PET/Parcellations/$FreesurferVersionToUse
 	if($status) exit 1
 endif
 
-pushd $SubjectHome/PET/Parcellations
+pushd $SubjectHome/PET/Parcellations/$FreesurferVersionToUse
 	rm gtmseg+wmparc.*
 	echo "replacing gtmseg white matter parcellation with freesurfers white matter parcellation."
 
-	python3 $PP_SCRIPTS/PET/python3/big_wmparc.py ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/wmparc.mgz ${SubjectHome}/PET/Parcellations/wmparc_big.mgz
+	python3 $PP_SCRIPTS/PET/python3/big_wmparc.py ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/wmparc.mgz ${SubjectHome}/PET/Parcellations/$FreesurferVersionToUse/wmparc_big.mgz
 	if($status) then
 		echo "python3/big_wmparc.py failed. Check to make sure you have the dependencies installed."
 		exit 1
 	endif
 
-	mri_vol2vol --mov ${SubjectHome}/PET/Parcellations/wmparc_big.mgz --lta-inv ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtmseg.lta --targ ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtmseg.mgz --o ${SubjectHome}/PET/Parcellations/wmparc_on_gtmseg.mgz --nearest
+	mri_vol2vol --mov ${SubjectHome}/PET/Parcellations/$FreesurferVersionToUse/wmparc_big.mgz --lta-inv ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtmseg.lta --targ ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtmseg.mgz --o ${SubjectHome}/PET/Parcellations/$FreesurferVersionToUse/wmparc_on_gtmseg.mgz --nearest
 	if($status) then
 		echo "mri_vol2vol failed to register the wmparc_big.mgz to gtmseg."
 		exit 1
 	endif
 
-	python3 $PP_SCRIPTS/PET/python3/add_wm.py ${SubjectHome}/PET/Parcellations/wmparc_on_gtmseg.mgz ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtmseg.mgz ${SubjectHome}/PET/Parcellations/gtmseg+wmparc.mgz
+	python3 $PP_SCRIPTS/PET/python3/add_wm.py ${SubjectHome}/PET/Parcellations/$FreesurferVersionToUse/wmparc_on_gtmseg.mgz ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtmseg.mgz ${SubjectHome}/PET/Parcellations/$FreesurferVersionToUse/gtmseg+wmparc.mgz
 	if($status) then
 		echo "python3/add_wm.py failed. Check to make sure you have the dependencies installed."
 		exit 1
@@ -69,7 +69,7 @@ pushd $SubjectHome/PET/Parcellations
 	lta_convert -inlta ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtmseg.lta -outlta ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtm_to_orig.lta --invert
 	if($status) exit 1
 
-	mri_vol2vol --mov ${SubjectHome}/PET/Parcellations/gtmseg+wmparc.mgz --lta-inv ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtm_to_orig.lta --targ ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/orig.mgz --o ${SubjectHome}/PET/Parcellations/gtmseg+wmparc_orig.nii.gz --nearest
+	mri_vol2vol --mov ${SubjectHome}/PET/Parcellations/$FreesurferVersionToUse/gtmseg+wmparc.mgz --lta-inv ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtm_to_orig.lta --targ ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/orig.mgz --o ${SubjectHome}/PET/Parcellations/$FreesurferVersionToUse/gtmseg+wmparc_orig.nii.gz --nearest
 	if($status) then
 		echo "mri_vol2vol failed to register the gtmseg+wmparc to orig."
 		exit 1

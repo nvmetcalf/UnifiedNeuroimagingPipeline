@@ -58,8 +58,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00004 : JSON for FDG does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f3`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | cut -d, -f3`)
 	endif
 
 	if(-e ${patid}_H2O_on_orig.nii.gz) then
@@ -70,7 +69,8 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00005 : JSON for H2O does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
+		
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
 
 	endif
 
@@ -82,7 +82,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00006 : JSON for O2 does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
 	endif
 
 	if(-e ${patid}_CO_on_orig.nii.gz) then	#also CBV
@@ -93,7 +93,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00007 : JSON for CO does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
 	endif
 
 	if(-e ${patid}_OM_on_orig.nii.gz) then	#also CMRO2
@@ -106,7 +106,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00008 : JSON for OM does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
 	endif
 
 	if(-e ${patid}_OE_on_orig.nii.gz) then
@@ -119,7 +119,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00009 : JSON for OE does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
 	endif
 
 	if(-e ${patid}_GI_on_orig.nii.gz) then
@@ -132,7 +132,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00010 : JSON for GI does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
 	endif
 
 	if(-e ${patid}_OEF_on_orig.nii.gz) then
@@ -145,7 +145,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00011 : JSON for OEF does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
 	endif
 
 	if(-e ${patid}_CMRO2_on_orig.nii.gz) then
@@ -158,7 +158,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00012 : JSON for CMRO2 does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
 	endif
 
 	if(-e ${patid}_PIB_on_orig.nii.gz) then
@@ -169,7 +169,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00013 : JSON for PIB does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f3`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f3`)
 
 	endif
 
@@ -181,7 +181,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00014 : JSON for TAU does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f5`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f5`)
 
 	endif
 
@@ -193,7 +193,7 @@ pushd PET/Volume
 			echo "SCRIPT: $0 : 00015 : JSON for FBX does not have a ManufacturersModelName tag. Cannot detect scanner point spread function."
 			exit 1
 		endif
-		set modes_fwhm = ($modes_fwhm `grep "$ScannerName" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
+		set modes_fwhm = ($modes_fwhm `grep -F "${ScannerName}" $PP_SCRIPTS/Config/scanner_psf_fwhm.csv | head -1 | cut -d, -f4`)
 
 	endif
 
