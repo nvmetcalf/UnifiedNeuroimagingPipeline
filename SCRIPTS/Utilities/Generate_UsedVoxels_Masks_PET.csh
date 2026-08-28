@@ -63,7 +63,7 @@ pushd Masks
 		if($status) exit 1
 
 		#this pretends that the current session actually has the anatomical image. It doesn't need to, but the previous registration pretends it too. So for consistency, the transform uses the current session id.
-		flirt -in PET_Masks/${patid}_${mode}_defined_voxels -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out PET_Masks/${patid}_${mode}_defined_voxels_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode}_to_${patid}_T1.mat -applyxfm -setbackground 0 -interp nearestneighbour
+		flirt -in PET_Masks/${patid}_${mode}_defined_voxels -ref ${TargetHome}/Anatomical/Volume/T1/${TargetPatid}_T1${FinalResTrailer} -out PET_Masks/${patid}_${mode}_defined_voxels_to_${TargetPatid}_T1${FinalResTrailer} -init ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode}_to_${TargetPatid}_T1.mat -applyxfm -setbackground 0 -interp nearestneighbour
 		if($status) exit 1
 
 		fslmaths ${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz -mul PET_Masks/${patid}_${mode}_defined_voxels_to_${TargetPatid}_T1${FinalResTrailer} -bin ${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz

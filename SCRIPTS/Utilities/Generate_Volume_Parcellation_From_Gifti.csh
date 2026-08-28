@@ -55,6 +55,8 @@ endif
  	set gtmseg = ${ParticipantsFolder}/PET/gtmseg+wmparc.mgz
  else if(-e ${SUBJECTS_DIR}/PET/gtmseg+wmparc.mgz) then
 	set gtmseg = ${SUBJECTS_DIR}/PET/gtmseg+wmparc.mgz
+else if(-e ${ParticipantsFolder}/PET/Parcellations/gtmseg+wmparc.mgz) then
+ 	set gtmseg = ${ParticipantsFolder}/PET/Parcellations/gtmseg+wmparc.mgz
 else if(-e ${ParticipantsFolder}/PET/Parcellations/${FreesurferVersionToUse}/gtmseg+wmparc.mgz) then
  	set gtmseg = ${ParticipantsFolder}/PET/Parcellations/${FreesurferVersionToUse}/gtmseg+wmparc.mgz
 else
