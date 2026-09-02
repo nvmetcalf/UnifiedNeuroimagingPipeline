@@ -12,15 +12,16 @@ cd $DicomDir
 	while($i <= $#ScansToCheckFor)
 		
 		foreach image(*.nii *.nii.gz)
-			set Radiopharmaceutical = `grep TracerName $image:r:r".json" | grep "$ScansToCheckFor[$i]" | awk '{print($2)}' | sed 's/\"//g' | sed 's/,//g'`
+			set Radiopharmaceutical = (`$PP_SCRIPTS/Utilities/GetJSON_Value $image:r:r".json" "TracerName"`)
 			
 			if($#Radiopharmaceutical != 0) goto DETECTED
 			
-			set Radiopharmaceutical = `grep Radiopharmaceutical $image:r:r".json" | grep "$ScansToCheckFor[$i]" | awk '{print($2)}' | sed 's/\"//g' | sed 's/,//g'`
-			if($#Radiopharmaceutical == 0) goto DETECTED
+			set Radiopharmaceutical = (`$PP_SCRIPTS/Utilities/GetJSON_Value $image:r:r".json" "Radiopharmaceutical"`)
 						
-			set Radiopharmaceutical = `grep ProcedureStepDescription $image:r:r".json" | grep "$ScansToCheckFor[$i]" | awk '{print($2)}' | sed 's/\"//g' | sed 's/,//g'`
+			if($#Radiopharmaceutical != 0) goto DETECTED
 						
+			set Radiopharmaceutical = (`$PP_SCRIPTS/Utilities/GetJSON_Value $image:r:r".json" "ProcedureStepDescription"`)
+
 			DETECTED:
 			
 			if($#Radiopharmaceutical != 0) then
