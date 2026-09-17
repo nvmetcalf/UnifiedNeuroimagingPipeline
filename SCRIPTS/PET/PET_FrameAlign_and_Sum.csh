@@ -149,7 +149,7 @@ pushd $ScratchDir
 		if ($status) exit $status
 
 		mv $PET_Modality[$i]_${i}/*imings.txt ${SubjectHome}/PET/Time_Decay
-		mv $PET_Modality[$i]_${i}/$PET_Modality[$i]_${i}_mcflirt*.par ${SubjectHome}/PET/Movement/$PET_Modality[$i]_${i}_mcflirt.par
+		mv $PET_Modality[$i]_${i}/$PET_Modality[$i]_${i}_mc*.par ${SubjectHome}/PET/Movement/$PET_Modality[$i]_${i}_mc.par
 		mv $PET_Modality[$i]_${i}/$PET_Modality[$i]_${i}"_sum_deco.nii.gz" ${SubjectHome}/PET/Volume/
 		#mv $PET_Modality[$i]_${i}/$PET_Modality[$i]_${i}"_mcflirt.nii.gz" ${SubjectHome}/PET/Volume/
 

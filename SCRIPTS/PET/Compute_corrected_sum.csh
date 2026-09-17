@@ -21,6 +21,13 @@ if ($#argv < 7) then
 endif
 
 set Image  = $1
+set Image_JSON = $Image:r:r".json"
+
+if(! -e $Image_JSON) then
+	echo "$image specified, but does not have a companion json $Image_JSON with it."
+	exit 1
+endif
+
 set DurationAfterPeak = $2
 set Isotope = $3
 set Output = $4
@@ -68,10 +75,10 @@ endif
 
 set EndFrame = `fslinfo $Image | grep dim4 | head -1 | awk '{print($2)}'`
 
-cat $Image:r:r".json" | awk 'BEGIN{Output = 0; }{if($1 == "\"DecayFactor\":") Output = 1;  if($1 == "\"FrameTimesStart\":" || $1 == "],") Output = 0; if(Output) print($1);}' | cut -d, -f1 >! DecayFactor
-cat $Image:r:r".json" | awk 'BEGIN{Output = 0; }{if($1 == "\"FrameTimesStart\":") Output = 1;  if($1 == "\"FrameDuration\":" || $1 == "],") Output = 0; if(Output) print($1);}' | cut -d, -f1 >! FrameTimesStart
-cat $Image:r:r".json" | awk 'BEGIN{Output = 0; }{if($1 == "\"FrameDuration\":") Output = 1;  if($1 == "\"FrameReferenceTime\":" || $1 == "],") Output = 0; if(Output) print($1);}' | cut -d, -f1 >! FrameDuration
-cat $Image:r:r".json" | awk 'BEGIN{Output = 0; }{if($1 == "\"FrameReferenceTime\":") Output = 1;  if($1 == "\"SliceThickness\":" || $1 == "],") Output = 0; if(Output) print($1);}' | cut -d, -f1 >! FrameReferenceTime
+cat $Image_JSON | awk 'BEGIN{Output = 0; }{if($1 == "\"DecayFactor\":") Output = 1;  if($1 == "\"FrameTimesStart\":" || $1 == "],") Output = 0; if(Output) print($1);}' | cut -d, -f1 >! DecayFactor
+cat $Image_JSON | awk 'BEGIN{Output = 0; }{if($1 == "\"FrameTimesStart\":") Output = 1;  if($1 == "\"FrameDuration\":" || $1 == "],") Output = 0; if(Output) print($1);}' | cut -d, -f1 >! FrameTimesStart
+cat $Image_JSON | awk 'BEGIN{Output = 0; }{if($1 == "\"FrameDuration\":") Output = 1;  if($1 == "\"FrameReferenceTime\":" || $1 == "],") Output = 0; if(Output) print($1);}' | cut -d, -f1 >! FrameDuration
+cat $Image_JSON | awk 'BEGIN{Output = 0; }{if($1 == "\"FrameReferenceTime\":") Output = 1;  if($1 == "\"SliceThickness\":" || $1 == "],") Output = 0; if(Output) print($1);}' | cut -d, -f1 >! FrameReferenceTime
 
 set PET_Timings = `basename $Image:r:r`"_PET_timings.txt"
 
@@ -94,24 +101,36 @@ echo $cwd
 @ TotalDuration = 0
 
 #register to the end frame volume as it's most brain like (starts counting from 0)
-if($DoFrameAlign) then
-	mcflirt -in $Image -out ${Output}_mcflirt -nn_final -mats -report -plots -stats -refvol `echo $EndFrame | awk '{print($1-1)}'`
+if($DoFrameAlign && `fslnvols $Image` > 1) then
+	rm -rf resolve_out
+	
+	$PP_SCRIPTS/Utilities/mat_resolve.csh $Image $Image_JSON resolve_out
+	#mcflirt -in $Image -out ${Output}_mc -nn_final -mats -report -plots -stats -refvol `echo $EndFrame | awk '{print($1-1)}'`
 	if($status) exit 1
 
-	$PP_SCRIPTS/Utilities/compute_fd.csh ${Output}_mcflirt.par $BrainRadius 0 1 $FD_Threshold
+	mv resolve_out/*_resolved.nii.gz ${Output}_mc.nii.gz
+	
+	fslmaths ${Output}_mc -Tmean ${Output}_mc_meanvol
+	if($status) exit 1
+	
+	#make a list of the final motion correction matrices
+	ls resolve_out/*_resolve/*_full_*resolved_full.mat >! All_Resolved_mats.txt
+	
+	python3 $PP_SCRIPTS/python3/mat_to_par.py --mat-list All_Resolved_mats.txt --output-par ${Output}_mc.par
+	if($status) exit 1
+	
+	#computes the differentiated motion parameters.
+	$PP_SCRIPTS/Utilities/compute_fd.csh ${Output}_mc.par $BrainRadius 0 1 $FD_Threshold
 	if($status) exit 1
 else
-	fslmaths $Image -Tmean ${Output}_mcflirt_meanvol
+	fslmaths $Image -Tmean ${Output}_mc_meanvol
 	if($status) exit 1
 
-	cp $Image ${Output}_mcflirt.nii.gz
+	cp $Image ${Output}_mc.nii.gz
 endif
 
 #make a brain mask
-fslmaths ${Output}_mcflirt_meanvol -thr 0 -kernel gauss 1.274 -fmean ${Output}_mcflirt_meanvol_sm3
-if($status) exit 1
-
-niftigz_4dfp -4 ${Output}_mcflirt ${Output}_mcflirt
+fslmaths ${Output}_mc_meanvol -thr 0 -kernel gauss 1.274 -fmean ${Output}_mc_meanvol_sm3
 if($status) exit 1
 
 #extract the frames we will be working with and their timings
@@ -122,10 +141,7 @@ while($i < $EndFrame && $EndFrame > 1)
 	#set frame to the nominal frame name (makes sense to humans)
 	@ frame = $i + 1
 
-	sum_pet_4dfp_v2 ${Output}_mcflirt $PET_Timings $frame $frame -h$HalfLife ${Output}"_frame_"$frame"_deco"
-	if($status) exit 1
-
-	niftigz_4dfp -n ${Output}"_frame_"$frame"_deco" ${Output}"_frame_"$frame"_deco"
+	$PP_SCRIPTS/PET/python3/sum_pet.py --input ${Output}_mc.nii.gz --metadata $Image_JSON --start-frame $frame --end-frame $frame --half-life $HalfLife --output ${Output}"_frame_"$frame"_deco.nii.gz"
 	if($status) exit 1
 
 	#we want to skip the header line of the frame timings, so gotta go +2 from i
@@ -205,7 +221,7 @@ else if($SumMethod == 4) then
 
 else if($SumMethod == 5) then
 	#just average it all together, which was done earlier.
-	cp ${Output}_mcflirt_meanvol.nii.gz ${Output}"_sum_deco.nii.gz"
+	cp ${Output}_mc_meanvol.nii.gz ${Output}"_sum_deco.nii.gz"
 	goto END
 else
 	echo "Unknown sum method."
@@ -222,25 +238,22 @@ if($SumStartFrame <= 0) then
 	set SumStartFrame = 1
 endif
 
-set MaxFrames = `fslinfo ${Output}_mcflirt | grep -w dim4 | awk '{print $2}'`
+set MaxFrames = `fslinfo ${Output}_mc | grep -w dim4 | awk '{print $2}'`
 if($SumEndFrame > $MaxFrames) then
 	set SumEndFrame = $MaxFrames
 endif
 
 ftouch FramesUsed.txt
-echo "Path: ${cwd}/${Output}_mcflirt.par.fd" >> FramesUsed.txt
+echo "Path: ${cwd}/${Output}_mc.par.fd" >> FramesUsed.txt
 echo "Start Frame: $SumStartFrame" >> FramesUsed.txt
 echo "End Frame: $SumEndFrame" >> FramesUsed.txt
 
-
-sum_pet_4dfp_v2 ${Output}_mcflirt $PET_Timings $SumStartFrame $SumEndFrame -h$HalfLife ${UseFirstFrameDecay} ${Output}"_sum_deco"
-if($status) exit 1
-
-niftigz_4dfp -n ${Output}"_sum_deco" ${Output}"_sum_deco"
+echo $cwd
+$PP_SCRIPTS/PET/python3/sum_pet.py --input ${Output}_mc.nii.gz --metadata $Image_JSON --start-frame $SumStartFrame --end-frame $SumEndFrame --half-life $HalfLife --output ${Output}"_sum_deco.nii.gz"
 if($status) exit 1
 
 END:
-rm -f *4dfp* *_frame_*
+rm -f *_frame_*
 
 cd ..
 
