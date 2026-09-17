@@ -142,7 +142,7 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 			exit 1
 		endif
 
-		set SmoothingFWHM = 3
+		
 		if($Modality == "FDG") then
 			@ SmoothingFWHM = $FDG_Smoothing
 			set PET_RegMethod = $FDG_RegMethod
@@ -164,6 +164,8 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 		else if($Modality == "FBX") then
 			@ SmoothingFWHM = $FBX_Smoothing
 			set PET_RegMethod = $FBX_RegMethod
+		else
+			@ SmoothingFWHM = 3
 		endif
 
 		@ i = $#RegChain
@@ -198,7 +200,6 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 					fslmaths ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i] -kernel gauss $SmoothingSigma -fmean ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}
 					if($status) exit 1
 
-					set TargetSmoothingFWHM = "1"
 
 					if( ! $?PET_RegMethod) then
 						set PET_RegMethod = corratio
@@ -220,7 +221,10 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 						set TargetSmoothingFWHM = $TAU_Smoothing
 					else if($RegChain[$j] == "FBX") then
 						set TargetSmoothingFWHM = $FBX_Smoothing
+					else
+						set TargetSmoothingFWHM = "1"
 					endif
+					
 					set TargetSmoothingSigma = `echo $SmoothingFWHM | awk '{print($1/2.3548);}'`
 
 					if(! -e ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}.nii.gz) then
@@ -250,7 +254,9 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 							decho "		Trying with masking..."
 
 							if(! -e ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain.nii.gz) then
-								bet ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain -f 0.5 -R
+								mri_synthstrip -i ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}.nii.gz -o ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain.nii.gz 
+								
+								#bet ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain -f 0.5 -R
 								if($status) exit 1
 
 								fslmaths ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM} -thr `fslstats ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain -P 35` ${SubjectHome}/Anatomical/Volume/$RegChain[$i]/${patid}_$RegChain[$i]"_sm"${SmoothingFWHM}_brain
@@ -258,13 +264,15 @@ foreach Modality(FDG H2O O2 CO PIB TAU FBX)
 							endif
 
 							if(! -e ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain.nii.gz) then
-								bet ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain -f 0.5 -R
+								mri_synthstrip -i ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}.nii.gz -o ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain.nii.gz
+								
+								#bet ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain -f 0.5 -R
 								if($status) exit 1
 
-								if($RegChain[$j] != "T1") then
-									fslmaths ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} -thr `fslstats ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain -P 35` ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain
-									if($status) exit 1
-								endif
+# 								if($RegChain[$j] != "T1") then
+# 									fslmaths ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM} -thr `fslstats ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain -P 35` ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain
+# 									if($status) exit 1
+# 								endif
 							endif
 
 							set TargetBrain = ${TargetHome}/Anatomical/Volume/$RegChain[$j]/${TargetPatid}_$RegChain[$j]"_sm"${TargetSmoothingFWHM}_brain
