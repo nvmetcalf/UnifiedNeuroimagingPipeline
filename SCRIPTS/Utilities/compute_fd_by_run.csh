@@ -66,6 +66,10 @@ endif
 
 if(! $?FD_Echo_Threshold) set FD_Echo_Threshold = 0.1
 
+if(! $?FD_ForwardFrame) then
+	set FD_ForwardFrame = 1
+endif
+
 #compute the FD for each run
 if (-e Functional/Movement) then
 	pushd Functional/Movement	#into movement
@@ -75,7 +79,7 @@ if (-e Functional/Movement) then
 		#compute the FD for all runs
 		foreach DDAT($RunsToUse)
 
-			$PP_SCRIPTS/Utilities/compute_fd.csh ${cwd}/bold${DDAT}${ddat_Trailer} $BrainRadius $skip 1 $FD_Threshold
+			$PP_SCRIPTS/Utilities/compute_fd.csh ${cwd}/bold${DDAT}${ddat_Trailer} $BrainRadius $skip ${FD_ForwardFrame} $FD_Threshold
 			if($status) then
 				echo "SCRIPT: $0 : 00004 : failed to compute fd."
 				exit 1

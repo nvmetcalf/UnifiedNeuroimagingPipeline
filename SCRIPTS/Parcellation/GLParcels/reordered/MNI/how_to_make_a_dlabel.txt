@@ -1,0 +1,7 @@
+#makes the label volume 
+wb_command -volume-label-import MNI152_T1_1mm_wmparc_222.nii.gz wmparc_labels.txt MNI152_T1_1mm_wmparc_222.nii.gz -discard-others
+
+#combines the left and right label gii and the volume label nifti into a dlabel. You have to specify the
+#volume twice as one is for the voxel region id's and the second is for the labels for those id's.
+#why it's like this, I don't know.
+wb_command -cifti-create-label GLParcels_324_reordered_w_SubCortical_222.32k.dlabel.nii -left-label ../GLParcels_324_reordered.L.32k.label.gii -right-label ../GLParcels_324_reordered.R.32k.label.gii -volume MNI152_T1_1mm_wmparc_222.nii.gz MNI152_T1_1mm_wmparc_222.nii.gz

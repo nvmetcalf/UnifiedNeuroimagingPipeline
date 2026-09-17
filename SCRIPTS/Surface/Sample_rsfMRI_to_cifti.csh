@@ -208,7 +208,7 @@ pushd $AtlasSpaceFolder
 			endif
 
 			if(-e `basename ${fcFileName}`"_sr.ctx.dtseries.nii") then
-				wb_command -cifti-smoothing `basename ${fcFileName}`"_sr.ctx.dtseries.nii" $Sigma $Sigma COLUMN `basename ${fcFileName}`"sr_sm${SurfSmoothingFWHM}.ctx.dtseries.nii" -left-surface ${SubjectHome}/$AtlasSpaceFolder/${AtlasName}_${LowResMesh}k/$patid.L.midthickness.${LowResMesh}k_fs_LR.surf.gii -right-surface ${SubjectHome}/${AtlasSpaceFolder}/${AtlasName}_${LowResMesh}k/$patid.R.midthickness.${LowResMesh}k_fs_LR.surf.gii
+				wb_command -cifti-smoothing `basename ${fcFileName}`"_sr.ctx.dtseries.nii" $Sigma $Sigma COLUMN `basename ${fcFileName}`"_sr_sm${SurfSmoothingFWHM}.ctx.dtseries.nii" -left-surface ${SubjectHome}/$AtlasSpaceFolder/${AtlasName}_${LowResMesh}k/$patid.L.midthickness.${LowResMesh}k_fs_LR.surf.gii -right-surface ${SubjectHome}/${AtlasSpaceFolder}/${AtlasName}_${LowResMesh}k/$patid.R.midthickness.${LowResMesh}k_fs_LR.surf.gii
 				if($status) then
 					echo "SCRIPT: $0 : 00010 : Failed to smooth ${fcFileName}.ctx.dtseries.nii" $DebugFile
 					exit 1
