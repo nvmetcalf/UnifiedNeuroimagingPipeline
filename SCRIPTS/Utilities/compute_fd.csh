@@ -1,5 +1,13 @@
 #!/bin/csh
 
+if($#argv < 5) then
+	echo "compute_fd.csh <motion parameters file/ddat> <head radius in mm> <skip frames> <forward flag> <FD_threshold>"
+	echo "if a ddat file is provided, skips computing the difference with previous frame."
+	echo "expects rotation in radians."
+	echo "columns 1-3 are xyz rotation, columns 4-6 are xyz translation"
+	exit 1
+endif
+
 set DDAT_file = $1
 set HeadRadius = $2
 set Skip = $3
@@ -35,7 +43,7 @@ else
 		set curr_row = (`head -$i $DDAT_file | tail -1`)
 		set difference = (0 0 0 0 0 0)
 		@ j = 1
-		while($j <= 6)
+		while($j <= 6 && $i > 1)
 			set difference[$j] = `echo $curr_row[$j] $previous_row[$j] | awk '{print($1 - $2)}'`
 			@ j++
 		end
@@ -43,7 +51,7 @@ else
 		set previous_row = ($curr_row)
 		@ i++
 	end
-	head -$ddat_end $DDAT_file:r".dpar" | tail -$ddat_start | awk -v pi=3.14159 -v radius=$HeadRadius 'function abs(x){return(x < 0.0 ? -x : x);}{print(abs($4) + abs($5) + abs($6) + abs((pi/180) * $1 * radius) + abs((pi/180) * $2 * radius) + abs((pi/180) * $3 * radius));}' >! $DDAT_file".fd"
+	head -$ddat_end $DDAT_file:r".dpar" | tail -$ddat_start | awk -v pi=3.14159 -v radius=$HeadRadius 'function abs(x){return(x < 0.0 ? -x : x);}{print(abs($4) + abs($5) + abs($6) + abs($1 * radius) + abs($2 * radius) + abs($3 * radius));}' >! $DDAT_file".fd"
 endif
 #compute the at moment fd format
 cat $DDAT_file".fd" | awk -v thresh=$FD_thresh '{if($1 > thresh){print("0");}else{print("1");}}' >! temp
