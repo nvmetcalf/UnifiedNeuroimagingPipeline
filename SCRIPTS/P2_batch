@@ -1,10 +1,11 @@
 #!/bin/csh
 
 if($#argv < 4) then
-	echo "P2_batch <compute 2 account> <ProjectID with Processing Folder> <Subject List> <Commandline flags>
+	echo "P2_batch <compute 2 account> <ProjectID with Processing Folder> <Subject List> <Commandline flags>"
 	echo "Project ID with processing folder means MRI/InProcess or MRI/Participants. It is where P2 will need to run from relative to the Projects Folder."
 	echo "Subject List is a double quote wrapped list"
 	echo "The command line directives are the things you want P2 to do, such as -reg -fMRI. It is double quote wrapped"
+	echo "there are two hidden directives. enter a number after the commandline flags to set the number of CPUs to use default is 1 and a number after that to set how many GB of memory to request"
 	exit 1
 endif
 
@@ -12,6 +13,16 @@ set ComputeAccount = $1
 set Project = $2
 set SubjectList = ($3)
 set Directives = ($4)
+set CPU_Count = $5
+set MEM = $6
+
+if($CPU_Count == "") then
+    set CPU_Count = 1
+endif
+
+if($MEM == "") then
+    set MEM = 16
+endif
 
 #pushd ${PROJECTS_HOME}/${PROJECTS_DIR}/$Project
 #@ i = 2
@@ -30,6 +41,9 @@ foreach subject($SubjectList)
 	cp ${PP_SCRIPTS}/P2_template.sbatch ~/P2_batch_jobs/P2_batch_${subject}.sbatch 
 	echo "#SBATCH -A ${ComputeAccount}" >> ~/P2_batch_jobs/P2_batch_${subject}.sbatch
 	echo "#SBATCH --job-name=P2_${subject}" >> ~/P2_batch_jobs/P2_batch_${subject}.sbatch
+	echo "#SBATCH --cpus-per-task=${CPU_Count}" >> ~/P2_batch_jobs/P2_batch_${subject}.sbatch
+	echo "#SBATCH --mem=${MEM}GB" >> ~/P2_batch_jobs/P2_batch_${subject}.sbatch
+	echo "source $PP_SCRIPTS/../PipelineEnvironment_omnibus.sh" >> ~/P2_batch_jobs/P2_batch_${subject}.sbatch
 	echo "pushd ${PROJECTS_HOME}/${PROJECTS_DIR}/$Project" >> ~/P2_batch_jobs/P2_batch_${subject}.sbatch
 	echo "P2 $subject $Directives" >> ~/P2_batch_jobs/P2_batch_${subject}.sbatch
 

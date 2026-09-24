@@ -4,12 +4,94 @@ import argparse
 import sys
 import pydicom
 import json
+import re
 
 CAST_TABLE = {
     pydicom.Dataset : str
 }
 
 ACQUISITION_NUMBER = (0x0020, 0x0012)
+
+#Attempt to parse nested dicom tag information.
+def try_parse_dicom_string(data_string: str):
+    #If it's not even a string, or doesn't contain a DICOM tag pattern (XXXX,XXXX) return.
+    if not isinstance(data_string, str) or not re.search(
+        r"\([0-9A-Fa-f]{4},[0-9A-Fa-f]{4}\)", data_string
+    ):
+        return data_string
+
+    result = {}
+    current_sequence = None
+    sequence_key = None
+
+    # Pattern for standard elements
+    pattern = re.compile(
+        r"^\s*\((?P<tag>[0-9A-Fa-f]{4},[0-9A-Fa-f]{4})\)\s*(?P<desc>.+?)\s+[A-Z]{2}:\s*'(?P<val>.*?)'"
+    )
+
+    try:
+        lines = data_string.split("\n")
+        parsed_at_least_one = False
+
+        for line in lines:
+            line = line.strip()
+
+            # Clean up outer brackets if they exist in the dump snippet
+            if line.startswith("[") and line.endswith("]"):
+                line = line[1:-1].strip()
+            elif line.startswith("["):
+                line = line[1:].strip()
+            elif line.endswith("]"):
+                line = line[:-1].strip()
+
+            if not line:
+                continue
+
+            # Check for sequence headers
+            if "item(s) ----" in line:
+                seq_match = re.match(
+                    r"\((?P<tag>[0-9A-Fa-f]{4},[0-9A-Fa-f]{4})\)\s*(?P<desc>.+?)\s+\d+ item",
+                    line,
+                )
+                if seq_match:
+                    sequence_key = f"{seq_match.group('tag')} - {seq_match.group('desc').strip()}"
+                    current_sequence = {}
+                    result[sequence_key] = current_sequence
+                    parsed_at_least_one = True
+                continue
+
+            if "---------" in line:
+                current_sequence = None
+                sequence_key = None
+                continue
+
+            # Match regular elements
+            match = pattern.match(line)
+            if match:
+                tag = match.group("tag")
+                desc = match.group("desc").strip()
+                val = match.group("val")
+
+                key_name = f"{tag} - {desc}"
+
+                if current_sequence is not None:
+                    current_sequence[key_name] = val
+                else:
+                    result[key_name] = val
+                parsed_at_least_one = True
+
+        # If the regex loop ran but didn't actually match any DICOM lines,
+        # it's not the right structure. Return original string.
+        if not parsed_at_least_one:
+            return data_string
+
+        # Return a Python dict/json structure ready for your nested master JSON
+        return result
+
+    except Exception:
+        # If anything unexpectedly explodes during parsing, fail softly
+        # and return the original raw string.
+        return data_string
 
 #Convert the given value to a json serializable type. Filter out pydicom types.
 def cast_header_value(value):
@@ -150,6 +232,10 @@ if __name__ == '__main__':
             del extracted_tags[key]
 
     json_data.update(extracted_tags)
+    
+    nested_data = {}
+    for key, value in json_data.items():
+        nested_data[key] = try_parse_dicom_string(value)
 
     with open(output_path, 'w') as write_file:
-        json.dump(json_data, write_file, indent='\t')
+        json.dump(nested_data, write_file, indent='\t')

@@ -273,8 +273,9 @@ while($PatientIndex <= $#PatientList)
 		decho "Sourcing freesurfer environment in ${PP_SCRIPTS}/FreesurferVersions/${FreesurferVersionToUse} ..."
 
 		setenv FREESURFER_HOME ${PP_SCRIPTS}/FreesurferVersions/${FreesurferVersionToUse}
-		setenv FSLDIR ${PP_SCRIPTS}/fsl
-		setenv FSL_DIR $FSLDIR
+		if(! $?FSL_DIR) then
+		  setenv FSL_DIR ${PP_SCRIPTS}/fsl
+	     endif
 
 		#setup the freesurfer environment
 		source ${FREESURFER_HOME}/SetUpFreeSurfer.csh
