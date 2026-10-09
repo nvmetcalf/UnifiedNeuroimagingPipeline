@@ -85,54 +85,8 @@ endif
 #	Iterative Regression. This basically just runs fcMRI preproc using a format
 #################
 if($UseIterativeRegression && $DoVolumeRegression) then
-    set Residual_Trailer = ""
-	if(${ComputeMOVERegressor}) then
-		if($Residual_Trailer != "") then
-			set Residual_Trailer = `echo ${Residual_Trailer}_mov`
-		else
-			set Residual_Trailer = "mov"
-		endif
-	endif
 
-
-	if(${ComputeEACSFRegressor}) then
-		if($Residual_Trailer != "") then
-			set Residual_Trailer = `echo ${Residual_Trailer}_eacsf`
-		else
-			set Residual_Trailer = "eacsf"
-		endif
-	endif
-
-	if(${ComputeVENT}) then
-		if($Residual_Trailer != "") then
-			set Residual_Trailer = `echo ${Residual_Trailer}_vent`
-		else
-			set Residual_Trailer = "vent"
-		endif
-	endif
-
-	if(${ComputeWM}) then
-		if($Residual_Trailer != "") then
-			set Residual_Trailer = `echo ${Residual_Trailer}_wm`
-		else
-			set Residual_Trailer = "wm"
-		endif
-	endif
-	if(${ComputeWBRegressor}) then
-		if($Residual_Trailer != "") then
-			set Residual_Trailer = `echo ${Residual_Trailer}_gs`
-		else
-			set Residual_Trailer = "gs"
-		endif
-	endif
-
-	if($Residual_Trailer != "") then
-		set Residual_Trailer = `echo ${Residual_Trailer}_resid`
-	else
-		set Residual_Trailer = "resid"
-	endif
-
-	if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_${Residual_Trailer}.nii.gz) then
+	if( ! -e ${SubjectHome}/Functional/Volume/${patid}_rsfMRI_uout_bpss_resid.nii.gz) then
 		decho "ERROR:denoised timeseries does not exist!"
 		exit 1
 	endif
