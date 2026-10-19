@@ -7,7 +7,7 @@ set SubjectHome = $cwd
 if (! -e ${SubjectHome}/Freesurfer/$FreesurferVersionToUse/mri/gtmseg.mgz) then
 
 	if($?day1_path) then
-		ln -s ${day1_path}/Freesurfer .
+		ln -sf ${day1_path}/Freesurfer .
 		if($status)then
 			echo "Could not find ${day1_path}/Freesurfer"
 			exit 1

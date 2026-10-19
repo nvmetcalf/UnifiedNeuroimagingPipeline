@@ -37,7 +37,7 @@ endif
 $PP_SCRIPTS/PET/PET_FrameAlign_and_Sum.csh $1 $2	#checked
 if($status) exit 1
 
-$PP_SCRIPTS/Registration/Register_PET.csh $1 $2	#checked
+$PP_SCRIPTS/Registration/Register_PET_resolve.csh $1 $2
 if($status) exit 1
 
 $PP_SCRIPTS/Utilities/Generate_UsedVoxels_Masks_PET.csh $1 $2

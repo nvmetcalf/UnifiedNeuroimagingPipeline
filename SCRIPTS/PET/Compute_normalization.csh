@@ -61,7 +61,7 @@ pushd PET/Volume
 	endif
 
 	foreach mode ($modes_available)
-		set norm = `fslstats ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode}_to_${target_patid}_T1${FinalResTrailer} -k ${target_path}/Masks/${target_patid}_used_voxels_T1${FinalResTrailer}.nii.gz -M`
+		set norm = `fslstats ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode}_to_${target_patid}_T1${FinalResTrailer} -k ${SubjectHome}/Masks/${patid}_used_voxels_T1${FinalResTrailer}_PET.nii.gz -M`
 		if ($status) exit $status
 
 		fslmaths ${SubjectHome}/Anatomical/Volume/${mode}/${patid}_${mode}_to_${target_patid}_T1${FinalResTrailer} -div $norm ${patid}_${mode}_on_T1${FinalResTrailer}_norm

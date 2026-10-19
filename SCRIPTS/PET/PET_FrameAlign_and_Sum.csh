@@ -23,7 +23,6 @@ if(! $?PIB) set PIB = ()
 if(! $?TAU) set TAU = ()
 
 pushd $ScratchDir
-	#convert the available PET nifti images to 4dfp
 	set PET_Images = ()
 	set PET_Durations = ()
 	set PET_Isotope = ()
@@ -148,7 +147,7 @@ pushd $ScratchDir
 		$PP_SCRIPTS/PET/Compute_corrected_sum.csh $PET_Images[$i] $DurationAfterPeak $PET_Isotope[$i] $PET_Modality[$i]_${i} $PET_FrameAlign[$i] $PET_SumMethod[$i] $FD_Threshold $BrainRadius
 		if ($status) exit $status
 
-		mv $PET_Modality[$i]_${i}/*imings.txt ${SubjectHome}/PET/Time_Decay
+		mv $PET_Modality[$i]_${i}/*Timings.txt ${SubjectHome}/PET/Time_Decay
 		mv $PET_Modality[$i]_${i}/$PET_Modality[$i]_${i}_mc*.par ${SubjectHome}/PET/Movement/$PET_Modality[$i]_${i}_mc.par
 		mv $PET_Modality[$i]_${i}/$PET_Modality[$i]_${i}"_sum_deco.nii.gz" ${SubjectHome}/PET/Volume/
 		#mv $PET_Modality[$i]_${i}/$PET_Modality[$i]_${i}"_mcflirt.nii.gz" ${SubjectHome}/PET/Volume/

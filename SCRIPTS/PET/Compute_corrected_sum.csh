@@ -73,6 +73,11 @@ if (! -e $Image) then
 	exit 1
 endif
 
+fslreorient2std $Image:r:r $Image:t:r:r".nii.gz"
+if($status) exit 1
+
+set Image = $Image:t:r:r".nii.gz"
+
 set EndFrame = `fslinfo $Image | grep dim4 | head -1 | awk '{print($2)}'`
 
 cat $Image_JSON | awk 'BEGIN{Output = 0; }{if($1 == "\"DecayFactor\":") Output = 1;  if($1 == "\"FrameTimesStart\":" || $1 == "],") Output = 0; if(Output) print($1);}' | cut -d, -f1 >! DecayFactor
