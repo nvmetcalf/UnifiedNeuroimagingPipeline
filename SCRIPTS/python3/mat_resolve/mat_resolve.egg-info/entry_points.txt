@@ -1,0 +1,3 @@
+[console_scripts]
+mat_resolve = mat_resolve.cli:main
+mat_resolve_pairwise = mat_resolve.pairwise_register:main

@@ -1,0 +1,2 @@
+[console_scripts]
+crop_img = crop_img.cli:main

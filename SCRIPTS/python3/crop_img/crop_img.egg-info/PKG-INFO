@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: crop_img
+Version: 0.1.0
+Summary: Crop a 4D NIfTI image to a 3D mask's bounding box, with FSL-compatible linear transforms between the cropped and uncropped spaces.
+Requires-Python: >=3.9
+Requires-Dist: numpy
+Requires-Dist: nibabel
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"

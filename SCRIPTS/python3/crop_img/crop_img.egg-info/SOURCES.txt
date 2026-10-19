@@ -1,0 +1,13 @@
+pyproject.toml
+crop_img/__init__.py
+crop_img/cli.py
+crop_img/core.py
+crop_img.egg-info/PKG-INFO
+crop_img.egg-info/SOURCES.txt
+crop_img.egg-info/dependency_links.txt
+crop_img.egg-info/entry_points.txt
+crop_img.egg-info/requires.txt
+crop_img.egg-info/top_level.txt
+tests/test_cli.py
+tests/test_core.py
+tests/test_flirt_roundtrip.py

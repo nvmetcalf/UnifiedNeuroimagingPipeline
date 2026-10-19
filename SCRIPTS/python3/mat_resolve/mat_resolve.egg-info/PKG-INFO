@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: mat_resolve
+Version: 0.1.0
+Summary: Average pairwise FSL rigid-body registration matrices to a common resolved space
+Requires-Python: >=3.9
+Requires-Dist: numpy>=1.24
+Requires-Dist: scipy>=1.10
+Requires-Dist: nibabel>=3.0
+Requires-Dist: Pillow>=9.0

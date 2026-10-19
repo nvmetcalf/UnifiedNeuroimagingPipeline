@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mat_resolve"
+version = "0.1.0"
+description = "Average pairwise FSL rigid-body registration matrices to a common resolved space"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "nibabel>=3.0",
+    "Pillow>=9.0",
+]
+
+[project.scripts]
+mat_resolve = "mat_resolve.cli:main"
+mat_resolve_pairwise = "mat_resolve.pairwise_register:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mat_resolve*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
