@@ -1,6 +1,5 @@
 #!/bin/csh
 
-set PythonBin = ${FSLBIN}/python3.11
 set ExecutionPath = ${PP_SCRIPTS}/python3/ProjectManager
 set Operations = ( "manage run download sync analyze" )
 
@@ -47,4 +46,4 @@ endif
 set ScriptPath = `readlink -f $0`
 set CurrentPath = $cwd
 cd `dirname ${ScriptPath}`
-eval "$PythonBin ${ExecutionPath}/${OperationTaken}.py --execution_path ${CurrentPath} ${OperationArguments}"
+eval "python3 ${ExecutionPath}/${OperationTaken}.py --execution_path ${CurrentPath} ${OperationArguments}"

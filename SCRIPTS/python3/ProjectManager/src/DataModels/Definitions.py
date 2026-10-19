@@ -162,7 +162,7 @@ LINKED       = 'is_linked'
 
 #UNP related variables.
 SCRATCH_DIR          = os.environ.get('SCRATCH')
-PROJECTS_HOME        = os.environ.get('PROJECTS_HOME')
+PROJECTS_HOME        = os.environ.get('PIPELINE_HOME')
 PROJECTS_DIR         = os.environ.get('PROJECTS_DIR')
 SCANS_DIR            = 'Scans'
 DEFAULT_DOWNLOAD_DIR = 'download_cache'
