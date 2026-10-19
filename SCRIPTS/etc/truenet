@@ -1,0 +1,4 @@
+#!/data/nil-bluearc/vlassenko/Pipeline/SCRIPTS/fsl/bin/python3
+# EASY-INSTALL-SCRIPT: 'truenet==1.0.1','truenet'
+__requires__ = 'truenet==1.0.1'
+__import__('pkg_resources').run_script('truenet==1.0.1', 'truenet')
