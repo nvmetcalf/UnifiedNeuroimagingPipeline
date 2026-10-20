@@ -2,6 +2,12 @@
 
 #see if two images register similarly to each other
 
+if($#argv < 7) then
+	echo "IsRegStable.csh <source image> <target image> <source to target .mat> <target to source .mat> X Y Z <max distance threshold>"
+	echo "if max distance threshold is not set, then this script outputs the distance in mm"
+	exit 1
+endif
+
 set SourceImage = $1
 set TargetImage = $2
 set SourceToTargetMat = $3
