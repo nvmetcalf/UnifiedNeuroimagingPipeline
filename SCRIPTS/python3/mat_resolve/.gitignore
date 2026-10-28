@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+src/
+.claude/settings.local.json
+.DS_Store
+.ipynb_checkpoints/
+
+
