@@ -27,6 +27,8 @@ pushd ${SubjectHome}/PET/Volume
 		exit 0
 	endif
 
+# Vaishnavi SN, Herscovitch P, Mintun MA, Raichle ME. Regional aerobic glycolysis in the human brain. Proc Natl Acad Sci U S A. 2010;107(41):17757-17762
+
 # 	trio2oem_4dfp is to create OEF and CMRO2 images based on the model
 #               [OO]  := m1[HO] + m2[OC];
 #               OEF   := ([OO]-m2[OC])/(m1[HO]/0.4);
