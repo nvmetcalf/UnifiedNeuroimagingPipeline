@@ -10,7 +10,7 @@
 setenv PROJECTS_DIR "Projects"
 
 #Path to the Processing Pipeline Scripts
-setenv PP_SCRIPTS ${PROJECTS_HOME}/SCRIPTS
+setenv PP_SCRIPTS ${PIPELINE_HOME}/SCRIPTS
 
 #set where workbench is installed. At one time it was called caret, history is fun.
 setenv CARET7DIR ${PP_SCRIPTS}/SurfacePipeline/caret7/bin_rh_linux64

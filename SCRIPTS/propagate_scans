@@ -48,10 +48,10 @@ if(${#argv} < 1) then
 endif
 
 
-set Destination = ${PROJECTS_HOME}/${PROJECTS_DIR}/${1}
+set Destination = ${PIPELINE_HOME}/${PROJECTS_DIR}/${1}
 
 #move to where the scans are - means we can run this from basically anywhere
-pushd ${PROJECTS_HOME}/Scans
+pushd ${PIPELINE_HOME}/Scans
 
 set DebugFile = $Destination/propagate_scans_`date | tr '[ ]' '[_]'`.txt
 
@@ -125,8 +125,8 @@ endif
 
 ## check the Scans folder to make sure the StudyList exists
 foreach Study($StudyList)
-	if(! -e ${PROJECTS_HOME}/Scans/$Study) then
-		echo "$Study does not exist in ${PROJECTS_HOME}/Scans..."
+	if(! -e ${PIPELINE_HOME}/Scans/$Study) then
+		echo "$Study does not exist in ${PIPELINE_HOME}/Scans..."
 		exit 1
 	endif
 end
@@ -222,7 +222,7 @@ foreach Study($StudyList)
 
 	if(${Source} == ${Destination} && $#argv == 1) then
 		decho "Warning: Source and Destination locations are the same. Moving to the Scans directory..." $DebugFile
-		cd ${PROJECTS_HOME}/Scans/${Study}
+		cd ${PIPELINE_HOME}/Scans/${Study}
 	endif
 
 	#cycle through all the folders in the Scan Study

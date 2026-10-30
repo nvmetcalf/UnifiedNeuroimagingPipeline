@@ -9,8 +9,8 @@ else
 	exit 1
 endif
 
-if(! $?PROJECTS_HOME) then
-	echo "PROJECTS_HOME environment variable not set in login shell. Unable to continue."
+if(! $?PIPELINE_HOME) then
+	echo "PIPELINE_HOME environment variable not set in login shell. Unable to continue."
 	exit 1
 endif
 
@@ -44,7 +44,7 @@ if($#argv < 1) then
 endif
 
 if(`basename $cwd` != "Participants" && `basename $cwd` != "InProcess" && `basename $cwd` != "Pending_PI_Review" && ${3} != "yes") then
-	echo "Please run Participants or InProcess within your study folder under $PROJECTS_HOME/${PROJECTS_DIR}"
+	echo "Please run Participants or InProcess within your study folder under $PIPELINE_HOME/${PROJECTS_DIR}"
 	exit 1
 endif
 

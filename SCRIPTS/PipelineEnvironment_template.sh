@@ -9,7 +9,7 @@
 export PROJECTS_DIR="Projects"
 
 #Path to the Processing Pipeline Scripts
-export PP_SCRIPTS=${PROJECTS_HOME}/SCRIPTS
+export PP_SCRIPTS=${PIPELINE_HOME}/SCRIPTS
 
 #set where workbench is installed. At one time it was called caret, history is fun.
 export CARET7DIR=${PP_SCRIPTS}/SurfacePipeline/caret7/bin_rh_linux64
