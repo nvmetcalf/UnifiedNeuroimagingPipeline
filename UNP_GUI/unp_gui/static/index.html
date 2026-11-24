@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>UNP GUI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css?v=20261015b">
+</head>
+<body>
+<header>
+  <div class="brand">UNP<span>GUI</span></div>
+  <label>Project
+    <select id="project"></select>
+  </label>
+  <button id="btn-new-project" class="ghost" title="Create a new project (Study.cfg) from a Scans folder">+ new</button>
+  <nav id="tabs">
+    <button data-tab="run" class="active">Run</button>
+    <button data-tab="status">Status</button>
+    <button data-tab="jobs">Jobs</button>
+    <button data-tab="qc">QC</button>
+    <button data-tab="pfm">PFM</button>
+    <button data-tab="study">Study.cfg</button>
+    <button data-tab="settings">Settings</button>
+  </nav>
+  <div class="spacer"></div>
+  <span id="fake-badge" class="badge warn hidden">FAKE SLURM</span>
+  <span id="ssh-badge" class="badge warn hidden" title="The ssh connection to the login node is not open. Restart start_unp_gui.sh and enter your password.">LOGIN-NODE SSH DOWN</span>
+  <span id="whoami" class="muted"></span>
+  <button id="btn-refresh" class="ghost" title="Refresh (r)">&#x21bb;</button>
+</header>
+
+<main>
+<!-- ============================ RUN ============================ -->
+<section id="tab-run" class="tab active">
+  <div class="cols">
+    <div class="col">
+      <h2>1. Subjects / sessions</h2>
+      <p class="hint">Paste one entry per line: <code>SP01</code> (all sessions), <code>SP01 Session01</code>,
+        <code>SP01_Session01</code>, or a path to an InProcess folder. <code>#</code> comments allowed.</p>
+      <textarea id="sublist" rows="8" placeholder="SP01_Session01&#10;SP01 Session02&#10;SP02"></textarea>
+      <div class="row">
+        <button id="btn-parse">Parse list</button>
+        <label class="file-btn">Load file…<input type="file" id="listfile"></label>
+        <button id="btn-pick" class="ghost">Pick from Scans ▾</button>
+        <button id="btn-clear-sel" class="ghost">Clear</button>
+      </div>
+      <div id="scan-picker" class="picker hidden"></div>
+      <div id="pairs-box">
+        <table id="pairs" class="compact">
+          <thead><tr><th></th><th>Subject</th><th>Session</th><th>InProcess id</th><th>Scans</th><th>Propagated</th><th title="For a later session of the same subject: the first session it is cross-day aligned to (sets day1_path in the params file; -reg then skips anatomical registration and prepares masks from day 1).">Day 1</th><th>Note</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div id="pairs-summary" class="muted"></div>
+        <div class="note">Day&nbsp;1: leave as <i>this session</i> for a subject's first session. For later sessions pick the first session — the job sets
+          <code>day1_path</code> in the params (after propagation, before P2) and <code>-reg</code> then only prepares day-1 masks for the session
+          instead of re-running anatomical registration/FreeSurfer. Later sessions need <code>-reg</code> once before <code>-BOLD</code>.</div>
+      </div>
+    </div>
+
+    <div class="col">
+      <h2>2. Steps</h2>
+      <div class="card">
+        <label class="chk big"><input type="checkbox" id="do-propagate"> <b>propagate_scans</b></label>
+        <div class="note indent" style="margin-top:0">link Scans → InProcess, convert dicoms to NIfTI, run P1 (auto-detect params)</div>
+        <div id="prop-opts" class="indent">
+          <label class="chk"><input type="checkbox" id="prop-force"> <code>-f</code> force re-propagation</label>
+          <label class="chk"><input type="checkbox" id="prop-noinit"> <code>-n</code> do not run P1</label>
+          <div class="note">P2 jobs will wait for the propagate job (<code>--dependency=afterok</code>).
+            After propagation, <b>check each <code>&lt;id&gt;.params</code></b> before running P2.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row between">
+          <b>P2 modules</b>
+          <span>
+            <button class="ghost small" id="preset-standard" title="standard: full registration (anatomy/FreeSurfer if needed, then BOLD), denoising, surface projection, QC">-reg -fMRI -surf -QC</button>
+            <button class="ghost small" id="preset-reg" title="re-run only the BOLD part of registration (when anatomy already succeeded)">-BOLD -fMRI -surf -QC</button>
+            <button class="ghost small" id="preset-none">none</button>
+          </span>
+        </div>
+        <div id="modules"></div>
+      </div>
+      <div class="card">
+        <div class="row between"><b>Overrides</b> <button class="ghost small" id="btn-add-override">+ add</button></div>
+        <div id="overrides"></div>
+        <div class="note">Overrides only apply to this run (e.g. <code>-FD 0.5</code>). Study-wide defaults live in Study.cfg.</div>
+      </div>
+      <div class="card">
+        <label class="chk"><input type="checkbox" id="clear-locks" checked> remove stale <code>.inprocess</code> locks before P2</label>
+        <label class="chk"><input type="checkbox" id="force-submit"> force (submit even if a GUI job is active for the subject)</label>
+      </div>
+    </div>
+
+    <div class="col">
+      <h2>3. Run on &amp; submit</h2>
+      <div class="card">
+        <label class="chk"><input type="radio" name="executor" value="slurm" checked> <b>Slurm</b> (sbatch, one job per session)</label>
+        <label class="chk"><input type="radio" name="executor" value="local"> <b>This node, in the background</b> (<span id="exec-host"></span>)</label>
+        <div id="local-opts" class="indent hidden">
+          <label class="chk"><input type="checkbox" id="local-serial" checked> one session at a time (recommended)</label>
+          <div class="note">Runs the same job script with <code>bash</code> on the node this GUI runs on, detached, so it keeps
+            going if you close the GUI — but it stops if this desktop / interactive session ends or hits its time limit.
+            Logs, status, cancel and e-mail work as for Slurm jobs. The Slurm resources below are ignored.</div>
+        </div>
+      </div>
+      <div class="card grid2">
+        <label>Partition <select id="s-partition"></select></label>
+        <label>CPUs <input id="s-cpus" type="number" min="1" max="64"></label>
+        <label>Memory <input id="s-mem" placeholder="64G"></label>
+        <label>Time <input id="s-time" placeholder="2-00:00:00"></label>
+        <label>Account <input id="s-account" placeholder="(optional)"></label>
+        <label>Notify e-mail (job summary) <input id="s-notify" placeholder="you@example.org"></label>
+        <label>Notify when <select id="s-notify-on"><option value="always">every job finishes</option><option value="fail">failures only</option><option value="never">never</option></select></label>
+        <label title="Slurm's own notifications (--mail-user/--mail-type); usually redundant with the summary e-mail">Slurm mail user <input id="s-mail" placeholder="(optional)"></label>
+        <label>Slurm mail type <input id="s-mailtype" placeholder="END,FAIL"></label>
+        <label>Propagate partition <select id="s-ppartition"></select></label>
+      </div>
+      <div class="note">One sbatch job per subject/session. P2 runs the selected modules in order and stops that subject at the first failing module.
+        Jobs are submitted through <code>sg &lt;group&gt;</code> with <code>umask 002</code> so outputs belong to the lab group.</div>
+      <div class="row">
+        <button id="btn-preview" class="ghost">Preview scripts</button>
+        <button id="btn-submit" class="primary">Submit jobs</button>
+      </div>
+      <pre id="submit-result" class="result hidden"></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ STATUS ============================ -->
+<section id="tab-status" class="tab">
+  <div class="row toolbar">
+    <input id="status-filter" placeholder="filter (id, state…)" >
+    <label class="chk"><input type="checkbox" id="status-only-scans"> only subjects present in Scans</label>
+    <span id="status-counts" class="muted"></span>
+    <div class="spacer"></div>
+    <button id="btn-select-status" class="ghost small">Send selected → Run tab</button>
+    <button id="btn-export-status" class="ghost small" title="writes Projects/&lt;project&gt;/Analysis/processing_status.csv (+ dated copy)">Save CSV to Analysis/</button>
+    <span class="legend">
+      <i class="st done"></i>done <i class="st failed"></i>failed <i class="st running"></i>running
+      <i class="st interrupted"></i>interrupted <i class="st none"></i>never
+    </span>
+  </div>
+  <div class="tablewrap">
+    <table id="status-table" class="compact status">
+      <thead></thead><tbody></tbody>
+    </table>
+  </div>
+  <p id="status-empty" class="muted hidden">No project selected or no subjects found.</p>
+</section>
+
+<!-- ============================ JOBS ============================ -->
+<section id="tab-jobs" class="tab">
+  <div class="row toolbar">
+    <label class="chk"><input type="checkbox" id="jobs-this-project" checked> only this project</label>
+    <label class="chk"><input type="checkbox" id="jobs-active-only"> active only</label>
+    <div class="spacer"></div>
+    <button id="btn-cancel-all" class="ghost small danger">Cancel all active (this project)</button>
+  </div>
+  <div class="tablewrap">
+    <table id="jobs-table" class="compact">
+      <thead><tr><th>Job</th><th>Subject</th><th>Kind / steps</th><th>State</th><th>Elapsed</th><th>Submitted</th><th>Exit</th><th>Reason</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <h3>Your Slurm queue (<code>squeue -u $USER</code>)</h3>
+  <div class="tablewrap">
+    <table id="queue-table" class="compact">
+      <thead><tr><th>Job</th><th>Name</th><th>State</th><th>Time</th><th>Partition</th><th>Reason</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================ QC ============================ -->
+<section id="tab-qc" class="tab">
+  <div class="row toolbar">
+    <span class="muted">Metrics from each subject's <code>QC/</code> folder (written by <code>-QC</code>). Click a row for plots and images.</span>
+    <span id="render-status" class="muted"></span>
+    <div class="spacer"></div>
+    <button id="btn-render-surf" class="ghost small" title="Render tSNR (0-130) and SD (0-12) onto the inflated surfaces with wb_command (writes QC/&lt;id&gt;_&lt;metric&gt;_surface.png)">Render surface images</button>
+    <label class="chk" title="skip sessions whose PNGs already exist and were rendered with the current palette range; untick to re-render all"><input type="checkbox" id="render-missing" checked> only missing</label>
+    <button id="btn-qc-report" class="primary small" title="Self-contained HTML with the summary table and the surface images, written to Projects/&lt;project&gt;/Analysis/">Build HTML report</button>
+    <button id="btn-export-qc" class="ghost small" title="writes Projects/&lt;project&gt;/Analysis/QC_summary.csv (+ dated copy)">Save CSV to Analysis/</button>
+  </div>
+  <div class="tablewrap">
+    <table id="qc-table" class="compact sortable">
+      <thead><tr id="qc-head"></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================ PFM ============================ -->
+<section id="tab-pfm" class="tab">
+  <div class="cols pfm-cols" style="grid-template-columns:1fr">
+    <div class="col">
+      <div class="row toolbar"><b>Sessions</b><label style="margin:0 8px">input timeseries <select id="tm-variant"></select></label><span id="tm-counts" class="muted"></span><div class="spacer"></div>
+        <button class="ghost small" id="tm-sel-ready">select all ready</button><button class="ghost small" id="tm-sel-none">none</button></div>
+      <div class="tablewrap">
+        <table id="tm-table" class="compact"><thead></thead><tbody></tbody></table>
+      </div>
+      <h3>Concatenated analyses (Participants/)</h3>
+      <div class="tablewrap"><table id="tm-concat" class="compact"><thead><tr><th></th><th>Name</th><th>Sessions</th><th>Frames kept</th><th>Results</th><th>Job</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="col">
+      <h2>Precision functional mapping</h2>
+      <div class="pfm-opts">
+      <div class="card grid2">
+        <label class="chk span2"><input type="radio" name="tm-mode" value="single" checked> one map per session</label>
+        <label class="chk span2"><input type="radio" name="tm-mode" value="concat"> concatenate the ticked sessions of each participant into one map</label>
+        <label class="span2">Network atlas <select id="tm-atlas"></select></label>
+        <label class="span2" title="Appended to the output names, e.g. _noGSR_sm2 → &lt;session&gt;_noGSR_sm2.dconn.nii, &lt;session&gt;_noGSR_sm2_TM_HCP18_*, Subcort/&lt;session&gt;_noGSR_sm2_TM_HCP18_WTA_* (concatenations: &lt;name&gt;_noGSR_sm2), so results from different inputs / smoothing can sit side by side. The session table shows the results with this suffix. Letters, digits, _ . - only; a leading _ is added if missing.">Output name suffix (optional) <input id="tm-suffix" placeholder="none, e.g. _noGSR_sm2"></label>
+        <div class="span2 row" style="gap:8px;align-items:center;margin-top:-4px"><button class="ghost small" id="tm-suffix-auto" title="Fill in from the input timeseries chosen above the table (uout_bpss_sr_noGSR_sm2 → _noGSR_sm2)">from input timeseries</button><span id="tm-suffix-note" class="muted" style="font-size:11px"></span></div>
+        <label class="span2" id="tm-name-wrap" style="display:none">Name of the concatenated analysis <input id="tm-name" placeholder="default: <Subject>_concat<N>"></label>
+      </div>
+      <div class="card grid2">
+        <b class="span2">Steps</b>
+        <label class="chk span2"><input type="checkbox" id="tm-step-concat" checked> 1 censor + concatenate → dconn</label>
+        <label class="chk span2"><input type="checkbox" id="tm-step-tm" checked> 2 template matching (cortex)</label>
+        <label class="chk span2"><input type="checkbox" id="tm-step-wta" checked> 3 subcortical winner-take-all</label>
+        <label class="chk span2" title="The _clean map = island removal + low-tSNR vertices set to 0 (global mean − 1.5 SD of tSNR over cortex; the networkseed seeds use 1 SD). The raw _assignments map is always saved unmasked. Needs QC/tSNR_fnirt or QC/*_CoV maps."><input type="checkbox" id="tm-tsnrmask" checked> mask low-tSNR cortical vertices in the clean map</label>
+        <label class="chk span2"><input type="checkbox" id="tm-rest"> rest frames only (rest_frames.txt AND pipeline tmask)</label>
+        <label>Extra FD cutoff (mm, optional) <input id="tm-fd" type="number" step="0.05" min="0" placeholder="pipeline tmask only"></label>
+        <label>wb_command memory limit (GB) <input id="tm-memlimit" type="number" min="1" value="16"></label>
+        <label class="chk span2"><input type="checkbox" id="tm-rerun"> rerun (replace existing results for this atlas / method)</label>
+      </div>
+      <div class="card grid2" id="tm-wta-card">
+        <label class="span2">Subcortical method <select id="tm-wta-method"></select></label>
+        <div class="note span2" id="tm-wta-desc"></div>
+        <label>Top % of cortical connections <input id="tm-top" type="number" min="1" max="100" value="10"></label>
+        <label title="Gaussian volume smoothing (sigma, mm) before the winner-take-all, for both methods: scoresmoothing smooths its enrichment scores, networkseed its seed-correlation maps. Same σ = comparable smoothing. 0 = off.">Smoothing σ (mm, 0 = off) <input id="tm-smooth" type="number" min="0" step="0.5" value="2"></label>
+        <label title="Cortical-leakage control (scoresmoothing only): for each subcortical voxel, cortical vertices closer than this (straight-line distance, mm, to the subject's midthickness surface) are left out of its ranking, so nearby cortex cannot win through signal blurring. 0 = off. Results are tagged _md<D> (e.g. top10pct_scoresmoothing_md20_cleaned), so runs with and without it sit side by side. networkseed has no distance exclusion.">Min distance to cortex (mm, 0 = off; scoresmoothing) <input id="tm-mindist" type="number" min="0" step="5" value="20"></label>
+        <label>Min cluster (mm³, 0 = no cleanup) <input id="tm-cleanup" type="number" min="0" value="40"></label>
+        <label class="chk span2" title="networkseed only. Normally each network's correlation map is divided by its maximum within each structure before the winner is picked, and some networks are excluded from some structures a priori. With this ticked the raw seed correlations compete directly and nothing is excluded (as in the Subcort_WTA/reliability analysis). Results are tagged _nonorm, so they sit beside the normalized ones."><input type="checkbox" id="tm-nonorm"> No network normalization (networkseed 'nonorm': raw correlations compete, no a-priori exclusions)</label>
+        <label class="span2">Network groups (MATLAB cell) <input id="tm-groups" placeholder="default for the method"></label>
+      </div>
+      <div class="card grid2">
+        <b class="span2">Slurm</b>
+        <label>Partition <input id="tm-partition"></label>
+        <label>CPUs <input id="tm-cpus" type="number" min="1"></label>
+        <label>Memory <input id="tm-mem"></label>
+        <label>Time <input id="tm-time"></label>
+      </div>
+      </div>
+      <div class="row">
+        <button id="btn-tm-preview" class="ghost">Preview scripts</button>
+        <button id="btn-tm-submit" class="primary">Submit PFM jobs</button>
+        <button id="btn-tm-render-sub" class="ghost" title="PNG of each subcortical WTA map over the MNI152 T1 (PFM_tools/scenes/subcort_template.scene), written next to the map in Subcort/. New WTA runs make it automatically.">Render subcortical images</button>
+        <button id="btn-tm-render" class="ghost" title="Render the cleaned cortical network maps of the ticked sessions / concatenated analyses onto the inflated surfaces">Render network maps</button>
+      </div>
+      <div class="note">Runs <code id="tm-script"></code> as one Slurm job per map. Single-session outputs:
+        <code>&lt;session&gt;/Functional/Surface/TemplateMatching/</code>, named <code>&lt;session&gt;&lt;suffix&gt;*</code> (sessions are <code>InProcess/&lt;id&gt;</code>, or finished
+        sessions in <code>Participants/&lt;id&gt;</code>). Concatenated: the series, dconn, mask and
+        <code>&lt;name&gt;_sessions.txt</code> (which sessions, in which order) in <code>Participants/&lt;Subject&gt;/</code>,
+        maps in <code>Participants/&lt;Subject&gt;/TemplateMatching/</code>, subcortical maps in <code>…/Subcort/</code>.
+        Atlases: every network <code>.dlabel.nii</code> in <code id="tm-parc-dir"></code> that template matching can use
+        (91,282 grayordinates, labels 1&ndash;18); the others are greyed out in the list. Each atlas has one shared group
+        template, built by the first job that needs it and never rebuilt.</div>
+      <pre id="tm-result" class="result hidden"></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ STUDY ============================ -->
+<section id="tab-study" class="tab">
+  <div class="row toolbar">
+    <span id="study-path" class="muted"></span>
+    <div class="spacer"></div>
+    <button id="btn-study-raw" class="ghost small">View raw</button>
+    <button id="btn-study-save" class="primary">Save Study.cfg</button>
+  </div>
+  <div id="study-missing" class="note warn hidden">This project has no <code>Study.cfg</code> yet. Fill in the values and save: the GUI will create
+    <code>Projects/&lt;project&gt;/{InProcess,Participants,Analysis,Excluded,logs}</code>, the scratch folder and the Study.cfg —
+    so that <code>propagate_scans</code> never drops into the interactive <code>config_study</code> menu inside a batch job.</div>
+  <div id="study-form" class="grid3"></div>
+  <pre id="study-raw" class="result hidden"></pre>
+</section>
+
+<!-- ============================ SETTINGS ============================ -->
+<section id="tab-settings" class="tab">
+  <div class="cols">
+    <div class="col">
+      <h2>Paths</h2>
+      <div class="card grid1">
+        <label>PROJECTS_HOME <input id="c-projects_home"></label>
+        <label>Environment script (bash, sourced by jobs) <input id="c-env_script"></label>
+        <label>Extra lines run in every job after sourcing the environment (one per line)
+          <textarea id="c-job_prologue" rows="3" placeholder="module load matlab/R2024a"></textarea></label>
+      </div>
+      <h2>Notifications</h2>
+      <div class="card grid1">
+        <label>Your e-mail for job summaries (personal: each lab member sets their own; editable per run on the Run tab)
+          <input id="c-notify_email" placeholder="you@example.org"></label>
+        <label>Send <select id="c-notify_on"><option value="always">always</option><option value="fail">failures only</option><option value="never">never</option></select></label>
+        <div class="note">P2 can additionally e-mail a per-subject success/failure report with the failing log's tail: set
+          <code>UserEmailAddress</code> in the project's Study.cfg (Study.cfg tab).</div>
+      </div>
+      <h2>Group / permissions</h2>
+      <div class="card grid1">
+        <label>Unix group for outputs <input id="c-study_group"></label>
+        <label class="chk"><input type="checkbox" id="c-use_sg"> submit via <code>sg &lt;group&gt; -c "sbatch …"</code></label>
+        <div id="env-info" class="note"></div>
+      </div>
+    </div>
+    <div class="col">
+      <h2>Slurm defaults</h2>
+      <div class="card grid2">
+        <label>Partition <input id="c-slurm.partition"></label>
+        <label>CPUs <input id="c-slurm.cpus_per_task" type="number"></label>
+        <label>Memory <input id="c-slurm.mem"></label>
+        <label>Time <input id="c-slurm.time"></label>
+        <label>Account <input id="c-slurm.account"></label>
+        <label>Mail user <input id="c-slurm.mail_user"></label>
+        <label>Mail type <input id="c-slurm.mail_type"></label>
+        <label>Propagate partition <input id="c-slurm.propagate_partition"></label>
+        <label>Propagate CPUs <input id="c-slurm.propagate_cpus" type="number"></label>
+        <label>Propagate mem <input id="c-slurm.propagate_mem"></label>
+        <label>Propagate time <input id="c-slurm.propagate_time"></label>
+        <label>Extra #SBATCH lines <textarea id="c-slurm.extra_sbatch" rows="2"></textarea></label>
+        <label>Slurm bin directory (e.g. <code>/usr/local/bin</code> on CentOS-7 nodes; empty = use PATH) <input id="c-slurm_bin_dir"></label>
+        <label>Login node for Slurm commands (BigPurple desktops cannot run sbatch; <code>start_unp_gui.sh</code> opens one ssh session to this host and reuses it)
+          <input id="c-slurm_ssh_host" placeholder="bigpurple.nyumc.org"></label>
+        <label>Slurm command prefix (leave empty normally; e.g. <code>ssh -o BatchMode=yes bigpurple-ln1</code> if sbatch cannot run on this node)
+          <input id="c-slurm_cmd_prefix" placeholder=""></label>
+        <label>Slurm bin dir (put first on PATH for sbatch/squeue/…; e.g. <code>/usr/local/bin</code> on CentOS 7 desktop nodes)
+          <input id="c-slurm_bin_dir" placeholder=""></label>
+      </div>
+      <h2>GUI</h2>
+      <div class="card grid2">
+        <label>Auto-refresh (s) <input id="c-refresh_seconds" type="number" min="10"></label>
+        <label>Extra FD thresholds for QC counts (mm, comma-separated) <input id="c-qc_extra_fd_thresholds" placeholder="0.3"></label>
+        <label class="chk"><input type="checkbox" id="c-fake_slurm"> fake Slurm (simulate jobs)</label>
+      </div>
+      <div class="row"><button id="btn-settings-save" class="primary">Save settings</button> <button id="btn-slurm-check" class="ghost">Test sbatch</button></div>
+      <pre id="partitions-info" class="result"></pre>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- subject drawer -->
+<aside id="drawer" class="hidden">
+  <div class="drawer-head">
+    <b id="drawer-title"></b>
+    <span id="drawer-sub" class="muted"></span>
+    <div class="spacer"></div>
+    <button class="ghost small" id="drawer-unlock">remove lock</button>
+    <button class="ghost small" id="drawer-torun">→ Run tab</button>
+    <button class="ghost" id="drawer-close">✕</button>
+  </div>
+  <nav class="subtabs">
+    <button data-sub="overview" class="active">Overview</button>
+    <button data-sub="logs">Logs</button>
+    <button data-sub="qc">QC</button>
+    <button data-sub="images">Images</button>
+    <button data-sub="params">params</button>
+  </nav>
+  <div class="drawer-body">
+    <div id="d-overview" class="sub active"></div>
+    <div id="d-logs" class="sub"></div>
+    <div id="d-qc" class="sub"></div>
+    <div id="d-images" class="sub"></div>
+    <div id="d-params" class="sub"></div>
+  </div>
+</aside>
+
+<div id="modal" class="hidden"><div class="modal-box"><div class="row between"><b id="modal-title"></b><button class="ghost" id="modal-close">✕</button></div><div id="modal-body"></div></div></div>
+<div id="toast" class="hidden"></div>
+
+<script src="app.js?v=20261015c"></script>
+</body>
+</html>
