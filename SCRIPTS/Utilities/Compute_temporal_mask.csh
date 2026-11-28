@@ -52,30 +52,30 @@ if( ! -e Functional/Movement) then
 	exit 1
 endif
 
-if($?ME_ScanSets) then
-	#grab the runs from the multiecho dataset we will consider
-	@ i = 1
-	set ME_RunsToUse = ()
-	while($i <= $#ME_ScanSets)
-		set ME_RunsToUse = ($ME_RunsToUse `echo $ME_ScanSets[$i] | cut -d, -f1`)
-		@ i++
-	end
-
-	set RunIndex = ($ME_RunsToUse)
-
-	@ i = 1
-	set ME_RunsToUse = ()
-	while($i <= $#FCProcIndex)
-		set ME_RunsToUse = ($ME_RunsToUse `echo $ME_ScanSets[$FCProcIndex[$i]] | cut -d, -f1`)
-		@ i++
-	end
-
-	set FCProcIndex = ($ME_RunsToUse)
-
-	echo "ME BOLD Runs to use: $RunIndex"
-	echo "ME Fc Runs to use: $FCProcIndex"
-
-endif
+# if($?ME_ScanSets) then
+# 	#grab the runs from the multiecho dataset we will consider
+# 	@ i = 1
+# 	set ME_RunsToUse = ()
+# 	while($i <= $#ME_ScanSets)
+# 		set ME_RunsToUse = ($ME_RunsToUse `echo $ME_ScanSets[$i] | cut -d, -f1`)
+# 		@ i++
+# 	end
+#
+# 	set RunIndex = ($ME_RunsToUse)
+#
+# 	@ i = 1
+# 	set ME_RunsToUse = ()
+# 	while($i <= $#FCProcIndex)
+# 		set ME_RunsToUse = ($ME_RunsToUse `echo $ME_ScanSets[$FCProcIndex[$i]] | cut -d, -f1`)
+# 		@ i++
+# 	end
+#
+# 	set FCProcIndex = ($ME_RunsToUse)
+#
+# 	echo "ME BOLD Runs to use: $RunIndex"
+# 	echo "ME Fc Runs to use: $FCProcIndex"
+#
+# endif
 
 set Residual_Trailer = ""
 if(${ComputeMOVERegressor}) then
